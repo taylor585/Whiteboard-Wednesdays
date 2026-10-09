@@ -1,6 +1,60 @@
 window.WW={
   "slides": [
     {
+      "id": "andromeda",
+      "title": "Match first. Rank next.",
+      "section": "00 / Why testing matters",
+      "kind": "andromeda",
+      "parts": [
+        "<p class=\"lead\">Andromeda helps Meta find relevant ads for each person.</p><div class=\"and-flow\"><div><small>THE POOL</small><h3>Millions of ads</h3></div><svg viewBox=\"0 0 60 24\" aria-hidden=\"true\"><path d=\"M2 12 H54 M44 3 L54 12 L44 21\"/></svg><div class=\"and-focus\"><small>ANDROMEDA</small><h3>A relevant shortlist</h3></div></div>",
+        "<div class=\"and-flow\"><div><small>THEN</small><h3>Ranking + auction</h3><p>Predicted outcomes, bid and ad quality.</p></div><svg viewBox=\"0 0 60 24\" aria-hidden=\"true\"><path d=\"M2 12 H54 M44 3 L54 12 L44 21\"/></svg><div><small>THE DELIVERY</small><h3>An ad for this person</h3></div></div>",
+        "<p class=\"hand statement\">Delivery is personalised.<br>It is not an equal test.</p>"
+      ],
+      "reveals": [
+        1,
+        2,
+        3
+      ],
+      "source": "Source: Meta Engineering, 2 December 2024. Simplified system diagram; no fixed two-ad rule.",
+      "note": "Andromeda performs retrieval, not the whole allocation process. Meta describes millions of candidates being reduced to a relevant shortlist, followed by ranking. Do not say CTR alone selects winners. Source: https://engineering.fb.com/2024/12/02/production-engineering/meta-andromeda-advantage-automation-next-gen-personalized-ads-retrieval-engine/"
+    },
+    {
+      "id": "uneven-delivery",
+      "title": "Two ads take the spend.",
+      "section": "00 / A fictional delivery snapshot",
+      "kind": "andromeda",
+      "parts": [
+        "<div class=\"and-legend\"><span><svg viewBox=\"0 0 60 24\" aria-hidden=\"true\"><path d=\"M2 12 H54 M44 3 L54 12 L44 21\"/></svg> Most delivery: Angles 6 + 5</span><span>Invented figures · one video-ad example</span></div><div class=\"and-table\" role=\"table\" aria-label=\"Fictional seven-ad delivery example\"><div class=\"and-row and-header\" role=\"row\"><span role=\"columnheader\">Ad angle</span><span role=\"columnheader\">Amount spent</span><span role=\"columnheader\">Impressions</span><span role=\"columnheader\">CTR (all)</span><span role=\"columnheader\">Unique link CTR</span><span role=\"columnheader\">CPM</span><span role=\"columnheader\">ThruPlays</span></div><div class=\"and-row and-pushed\" role=\"row\"><span role=\"cell\" data-label=\"Ad angle\">Angle 6 <svg viewBox=\"0 0 60 24\" aria-hidden=\"true\"><path d=\"M2 12 H54 M44 3 L54 12 L44 21\"/></svg></span><span role=\"cell\" data-label=\"Amount spent\">£700.00</span><span role=\"cell\" data-label=\"Impressions\">50,000</span><span role=\"cell\" data-label=\"CTR (all)\">4.00%</span><span role=\"cell\" data-label=\"Unique link CTR\">1.80%</span><span role=\"cell\" data-label=\"CPM\">£14.00</span><span role=\"cell\" data-label=\"ThruPlays\">12,000</span></div><div class=\"and-row and-pushed\" role=\"row\"><span role=\"cell\" data-label=\"Ad angle\">Angle 5 <svg viewBox=\"0 0 60 24\" aria-hidden=\"true\"><path d=\"M2 12 H54 M44 3 L54 12 L44 21\"/></svg></span><span role=\"cell\" data-label=\"Amount spent\">£548.00</span><span role=\"cell\" data-label=\"Impressions\">40,000</span><span role=\"cell\" data-label=\"CTR (all)\">3.50%</span><span role=\"cell\" data-label=\"Unique link CTR\">1.60%</span><span role=\"cell\" data-label=\"CPM\">£13.70</span><span role=\"cell\" data-label=\"ThruPlays\">8,800</span></div><div class=\"and-row \" role=\"row\"><span role=\"cell\" data-label=\"Ad angle\">Angle 7</span><span role=\"cell\" data-label=\"Amount spent\">£27.43</span><span role=\"cell\" data-label=\"Impressions\">1,400</span><span role=\"cell\" data-label=\"CTR (all)\">2.50%</span><span role=\"cell\" data-label=\"Unique link CTR\">1.04%</span><span role=\"cell\" data-label=\"CPM\">£19.59</span><span role=\"cell\" data-label=\"ThruPlays\">210</span></div><div class=\"and-row \" role=\"row\"><span role=\"cell\" data-label=\"Ad angle\">Angle 4</span><span role=\"cell\" data-label=\"Amount spent\">£17.43</span><span role=\"cell\" data-label=\"Impressions\">650</span><span role=\"cell\" data-label=\"CTR (all)\">2.46%</span><span role=\"cell\" data-label=\"Unique link CTR\">1.17%</span><span role=\"cell\" data-label=\"CPM\">£26.82</span><span role=\"cell\" data-label=\"ThruPlays\">90</span></div><div class=\"and-row \" role=\"row\"><span role=\"cell\" data-label=\"Ad angle\">Angle 3</span><span role=\"cell\" data-label=\"Amount spent\">£9.72</span><span role=\"cell\" data-label=\"Impressions\">120</span><span role=\"cell\" data-label=\"CTR (all)\">3.33%</span><span role=\"cell\" data-label=\"Unique link CTR\">1.82%</span><span role=\"cell\" data-label=\"CPM\">£81.00</span><span role=\"cell\" data-label=\"ThruPlays\">18</span></div><div class=\"and-row and-candidate\" role=\"row\"><span role=\"cell\" data-label=\"Ad angle\">Angle 2</span><span role=\"cell\" data-label=\"Amount spent\">£6.38</span><span role=\"cell\" data-label=\"Impressions\">83</span><span role=\"cell\" data-label=\"CTR (all)\">4.82%</span><span role=\"cell\" data-label=\"Unique link CTR\">3.75%</span><span role=\"cell\" data-label=\"CPM\">£76.87</span><span role=\"cell\" data-label=\"ThruPlays\">15</span></div><div class=\"and-row and-candidate\" role=\"row\"><span role=\"cell\" data-label=\"Ad angle\">Angle 1</span><span role=\"cell\" data-label=\"Amount spent\">£3.21</span><span role=\"cell\" data-label=\"Impressions\">54</span><span role=\"cell\" data-label=\"CTR (all)\">5.56%</span><span role=\"cell\" data-label=\"Unique link CTR\">4.00%</span><span role=\"cell\" data-label=\"CPM\">£59.44</span><span role=\"cell\" data-label=\"ThruPlays\">11</span></div></div>",
+        "<div class=\"and-callout\"><b>95% of spend. Two angles.</b><span>The bottom two reached only 83 and 54 impressions. What have we really learned?</span></div>",
+        "<p class=\"hand statement\">Potential winners can stay hidden.</p><p>Highlighted lower rows are candidates for a fair test, not proven winners.</p>"
+      ],
+      "reveals": [
+        1,
+        2,
+        3
+      ],
+      "source": "Illustrative figures, not account results. CPM = spend ÷ impressions × 1,000. Tiny samples are deliberately exaggerated.",
+      "note": "All rows are fictional video ads from the same example period. Arrow markers show delivery concentration, not an explanation of Meta’s internal scores. CTR (all) uses all clicks / impressions; unique link CTR uses unique link clickers / reach. Underlying reach: 45000, 36000, 1250, 600, 110, 80, 50. Unique link clickers: 810, 576, 13, 7, 2, 3, 2. All clicks: 2000, 1400, 35, 16, 4, 4, 3. ThruPlay counts are not comparable without exposure and video context. Extreme low-impression CPMs are intentional arithmetic, not typical benchmarks. No conversion outcomes have been supplied."
+    },
+    {
+      "id": "test-the-message",
+      "title": "Meta optimises for the event.",
+      "section": "00 / The result you ask for",
+      "kind": "andromeda",
+      "parts": [
+        "<p class=\"lead\">Equal spend across every ad is not the objective.</p><div class=\"and-flow\"><div><small>YOU CHOOSE</small><h3>A conversion event</h3><p>For example: a submitted lead form.</p></div><svg viewBox=\"0 0 60 24\" aria-hidden=\"true\"><path d=\"M2 12 H54 M44 3 L54 12 L44 21\"/></svg><div class=\"and-focus\"><small>META PREDICTS</small><h3>Who will complete it?</h3><p>Delivery can concentrate on the ads expected to produce that result.</p></div></div>",
+        "<div class=\"and-metrics\"><div><h3>The event fires.</h3><p>A lead or purchase appears in the results column.</p></div><div><h3>But who did you acquire?</h3><p>They might cancel after a month or request a refund.</p><small>Illustrative risks, not outcomes from the table.</small></div></div>",
+        "<div class=\"and-callout\"><b>A conversion is not the whole customer.</b><span>If the signal stops at the event, it may miss fit, retention and profit.</span></div><p><b>Define the buyer. Feed back quality.</b> Align the message and optimisation signals with the customers you want.</p>"
+      ],
+      "reveals": [
+        1,
+        2,
+        3
+      ],
+      "source": "Optimisation follows the selected performance goal, available signals and campaign constraints. Qualified-lead feedback can help align delivery with quality.",
+      "note": "Equal allocation is not the campaign goal. With a conversion-volume goal, Meta seeks the selected results within budget, bidding and delivery constraints; value goals differ. Predictions evolve during and after learning. Spend concentration can leave other angles under-tested, but this does not prove that every other ad is ignored until returns diminish, or that each ad triggers a complete learning restart. Avoid saying shortest time possible or Meta does not care: budget pacing, targeting, quality and optimisation signals also matter. Cancellation and refund examples are hypothetical. A recorded event need not establish ideal customer profile fit or retained revenue. Meta supports CRM feedback and conversion-leads optimisation to improve quality: https://www.facebookblueprint.com/student/path/253141-conversions-api-crm-lead-quality . Retained metric context: CTR (all) is all clicks / impressions; unique link CTR is unique link clickers / reach; CPM is spend / impressions × 1,000; ThruPlays are video-view events, not proof of customer quality. Transition to the original buyer research opening."
+    },
+    {
       "id": "opening",
       "section": "Our paid ads process",
       "title": "The buyer comes first.",

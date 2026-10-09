@@ -1,12 +1,12 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
 const {chromium}=require(process.env.PLAYWRIGHT_PATH||'playwright');
 const root=__dirname;
-const out=process.env.QA_OUTPUT||'/private/tmp';
+const out=process.env.QA_OUTPUT||(process.env.QA_OUTPUT||'/tmp');
 const context={window:{}};vm.runInNewContext(fs.readFileSync(root+'/dist/lge-content.js','utf8'),context);const deck=context.window.WW;let checks=0;
 function ok(v,label){assert(v,label);checks++}
 for(const s of deck.slides){ok(s.reveals.length===s.parts.length,s.id+' reveal mapping');ok(s.reveals.every((n,i)=>n===i+1),s.id+' contiguous');ok(s.note&&s.source,s.id+' sources');}
 const base=process.argv[2]||'http://127.0.0.1:8864/';
-(async()=>{const b=await chromium.launch({headless:true});const c=await b.newContext();if(process.env.SITE_QA_TOKEN)await c.route('**/*',async r=>{if(new URL(r.request().url()).origin===new URL(base).origin)await r.continue({headers:{...r.request().headers(),'OAI-Sites-Authorization':'Bearer '+process.env.SITE_QA_TOKEN}});else await r.continue()});const p=await c.newPage();p.setDefaultTimeout(12000);const errors=[];p.on('pageerror',e=>errors.push(e.message));
+(async()=>{const b=await chromium.launch({headless:true,...(process.env.CHROMIUM_PATH?{executablePath:process.env.CHROMIUM_PATH}:{}),args:['--no-sandbox']});const c=await b.newContext();if(process.env.SITE_QA_TOKEN)await c.route('**/*',async r=>{if(new URL(r.request().url()).origin===new URL(base).origin)await r.continue({headers:{...r.request().headers(),'OAI-Sites-Authorization':'Bearer '+process.env.SITE_QA_TOKEN}});else await r.continue()});const p=await c.newPage();p.setDefaultTimeout(12000);const errors=[];p.on('pageerror',e=>errors.push(e.message));
 const go=async(id)=>{await p.goto(base+'#/presentation/lead-gen-engine/slide/'+id);await p.locator('#player').waitFor({state:'visible'});await p.evaluate(()=>document.fonts.ready)};
 const shots=['poor-quality','shared-leads','our-offer','journey','brief-to-audience','four-outcomes','goals'];
 for(const w of [375,390,768,1280]){await p.setViewportSize({width:w,height:960});await p.goto(base);await p.locator('.deck-card').first().waitFor();ok(await p.locator('.deck-card').count()===2,'two genuine decks');for(const s of deck.slides){await go(s.id);await p.locator('#replay').click();for(let i=0;i<s.parts.length;i++){await p.locator('#next').click();ok(await p.locator('.part.revealed').count()===i+1,'reveal '+s.id);ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'overflow '+s.id+' '+w)}if(shots.includes(s.id)&&(w===1280||w===390)){await p.waitForTimeout(230);await p.screenshot({path:out+'/LGE Whiteboard '+s.id+' '+w+'.png',fullPage:true});}ok((await p.locator('#canvas h2').innerText())===s.title,'title');ok((await p.locator('#canvas').evaluate(el=>getComputedStyle(el).fontFamily)).includes('LGEInter'),'Inter body');}
