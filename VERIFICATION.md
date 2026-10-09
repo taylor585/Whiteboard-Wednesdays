@@ -1,3 +1,19 @@
+# Current release verification, 9 October 2026
+
+The paid ads deck contains 29 slides: three Andromeda opening slides followed by all 26 existing slides. Lead Gen Engine remains a separate real 29-slide deck. The historical one-deck statements below apply only to the old release.
+
+Local Chromium checks: `verify.cjs` passed 928 assertions, `verify-lge.cjs` passed 933 assertions, and `verify-lge-prompt.cjs` passed clipboard, navigation, reading and denied-copy checks at four widths. No runtime errors. Widths: 375, 390, 768, 1280px. Chapter checks now resolve stable IDs instead of obsolete indices. Reveal overflow checks were strengthened. Test-only fixtures are not in the production register.
+
+All 27 other dist files are byte-identical to Sites version 4 (c8ebd57e8d86314229e5513362d833ef3fafad6f). Only paid-ad content, its reading page and narrowly scoped CSS differ. All original slide objects and survey data are preserved. Official logos, research PDF, board, images, fonts, licences and all Lead Gen Engine files are unchanged. The full supplied SKILL.md is saved unchanged with SHA-256 928bbef357ad0cc8b2bd773460827a65abf107336fcef8f2d01d4ed466634d1a.
+
+Existing source and Sites current version were reconciled before release. Version 4 remains the rollback target: appgprj_6ac6451343708191b9bea328756578d7~appgver_90bbdeadf08481919836ad398a9d84ba. Access policy revision 1 remains custom, sole owner, no groups or external visitors.
+
+Hosted verification will be recorded after publication. These are Chromium checks, not physical Safari/iPhone tests. The separate PDF link and full-window fallback remain available.
+
+---
+
+# Historical record (7 October, not current release evidence)
+
 # Whiteboard Wednesdays verification
 
 ## Local verification, 7 October 2026
