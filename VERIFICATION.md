@@ -8,7 +8,11 @@ All 27 other dist files are byte-identical to Sites version 4 (c8ebd57e8d8631422
 
 Existing source and Sites current version were reconciled before release. Version 4 remains the rollback target: appgprj_6ac6451343708191b9bea328756578d7~appgver_90bbdeadf08481919836ad398a9d84ba. Access policy revision 1 remains custom, sole owner, no groups or external visitors.
 
-Hosted verification will be recorded after publication. These are Chromium checks, not physical Safari/iPhone tests. The separate PDF link and full-window fallback remain available.
+Published successfully as Sites version 5, source commit 6ea0fae85df87b10cc307e07fc96c55cdff68152, deployment appgdep_6ac8a3f5e7a08191951ff44de846b6a9. Native Sites save/deploy returned succeeded. The matching archive was produced with git archive from that exact pushed commit. The Sites workflow helper was unavailable in this environment; source was synchronised through the existing authenticated Sites Git remote, and the archive was supplied directly to the native publish tool.
+
+Hosted browser QA and deployed-byte comparison were attempted but blocked by the environment proxy (HTTP CONNECT 403; Chromium ERR_TUNNEL_CONNECTION_FAILED). No hosted assertion count, anonymous-access result, or served-byte identity is claimed for this release. This is an environment reachability failure, not a detected Site failure. Access was read back through Sites and remains unchanged.
+
+Captured 116 complete-slide screenshots after fonts and transitions settled, across all four widths. Inspected desktop and phone contact sheets and individual opening-slide renders. The native PDF preview is not certified by these screenshots; its separate-document fallback and embed navigation passed local checks. These are Chromium checks, not physical Safari/iPhone tests. The separate PDF link and full-window fallback remain available.
 
 ---
 
