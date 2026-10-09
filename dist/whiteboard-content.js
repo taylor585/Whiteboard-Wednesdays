@@ -38,21 +38,21 @@ window.WW={
     },
     {
       "id": "test-the-message",
-      "title": "Spend is not the verdict.",
-      "section": "00 / Find the message that converts",
+      "title": "Meta optimises for the event.",
+      "section": "00 / The result you ask for",
       "kind": "andromeda",
       "parts": [
-        "<div class=\"and-metrics\"><div><h3>Attention</h3><p><b>CTR (all)</b><br>Clicks of any kind.</p><p><b>ThruPlays</b><br>Video watched to the end, or at least 15 seconds for longer videos.</p></div><div><h3>Traffic + cost</h3><p><b>Unique link CTR</b><br>People who clicked a link ÷ people reached.</p><p><b>CPM</b><br>Cost of 1,000 impressions.</p></div></div>",
-        "<div class=\"and-callout\"><b>Useful clues. Incomplete evidence.</b><span>Strong click rates and cheap exposure can be encouraging. They do not establish qualified leads or sales.</span></div>",
-        "<p class=\"hand statement\">Give different messages a fair test.</p><p>Judge qualified outcomes against the campaign objective. A broadly clickable hook may miss the buyers you need.</p><p><b>Start with the buyer.</b> That is why our process begins with research.</p>"
+        "<p class=\"lead\">Equal spend across every ad is not the objective.</p><div class=\"and-flow\"><div><small>YOU CHOOSE</small><h3>A conversion event</h3><p>For example: a submitted lead form.</p></div><svg viewBox=\"0 0 60 24\" aria-hidden=\"true\"><path d=\"M2 12 H54 M44 3 L54 12 L44 21\"/></svg><div class=\"and-focus\"><small>META PREDICTS</small><h3>Who will complete it?</h3><p>Delivery can concentrate on the ads expected to produce that result.</p></div></div>",
+        "<div class=\"and-metrics\"><div><h3>The event fires.</h3><p>A lead or purchase appears in the results column.</p></div><div><h3>But who did you acquire?</h3><p>They might cancel after a month or request a refund.</p><small>Illustrative risks, not outcomes from the table.</small></div></div>",
+        "<div class=\"and-callout\"><b>A conversion is not the whole customer.</b><span>If the signal stops at the event, it may miss fit, retention and profit.</span></div><p><b>Define the buyer. Feed back quality.</b> Align the message and optimisation signals with the customers you want.</p>"
       ],
       "reveals": [
         1,
         2,
         3
       ],
-      "source": "Interpret metrics together, against the chosen objective. This example cannot identify a winning ad.",
-      "note": "Do not assert that most accounts hide their best ad: this example illustrates a possibility, not its frequency. More ThruPlays can simply reflect more delivery; lower CPM can buy lower-value exposure. Unique link CTR and CTR (all) have different denominators. Identify winners using adequate evidence on the desired business outcome; no invented conversion proof. Transition to the original opening, The buyer comes first."
+      "source": "Optimisation follows the selected performance goal, available signals and campaign constraints. Qualified-lead feedback can help align delivery with quality.",
+      "note": "Equal allocation is not the campaign goal. With a conversion-volume goal, Meta seeks the selected results within budget, bidding and delivery constraints; value goals differ. Predictions evolve during and after learning. Spend concentration can leave other angles under-tested, but this does not prove that every other ad is ignored until returns diminish, or that each ad triggers a complete learning restart. Avoid saying shortest time possible or Meta does not care: budget pacing, targeting, quality and optimisation signals also matter. Cancellation and refund examples are hypothetical. A recorded event need not establish ideal customer profile fit or retained revenue. Meta supports CRM feedback and conversion-leads optimisation to improve quality: https://www.facebookblueprint.com/student/path/253141-conversions-api-crm-lead-quality . Retained metric context: CTR (all) is all clicks / impressions; unique link CTR is unique link clickers / reach; CPM is spend / impressions × 1,000; ThruPlays are video-view events, not proof of customer quality. Transition to the original buyer research opening."
     },
     {
       "id": "opening",
