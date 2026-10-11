@@ -16,7 +16,7 @@ const marks=[[216,169,156,38],[385,169,97,38],[28,215,472,38]];
 const highlight=marks.map(([x,y,w,h],i)=>'<rect class="t-mark" style="--d:'+(i*120)+'ms" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="4"/>').join('');
 const arrow='<svg class="t-link" viewBox="0 0 64 24" aria-hidden="true"><path d="M2 12 H58 M48 3 L58 12 L48 21"/></svg>';
 
-const deck={slides:[
+let deck={slides:[
 {
  id:'trial-opening',title:'The buyer comes first.',section:'Trial 1 of 3 / Opening visual',kind:'t-open',reveals:[1,2,3],
  source:'Source: ICP-Research-Radar, Cadre Crew, report page 13, RED-008. Public r/MedSpa discussion.',
@@ -51,8 +51,12 @@ const deck={slides:[
 }
 ]};
 
-const register=[{id:'trial-calibration',title:'Calibration trial',description:'Three representative moments from Our paid ads process, rebuilt for the three-slide approval checkpoint. Not published.',cover:ad,source:'',reading:'?view=reading',brand:{name:'Pecuna Factorem',surface:'#ffffff',ink:'#1c1a17',accent:'#8b6002',font:'hand',logo:coin},sourceNote:'Calibration trial from the retained paid ads deck. Cadre Crew research and illustrative assets, not launched advertising.'}];
+let register=[{id:'trial-calibration',title:'Calibration trial',description:'Three representative moments from Our paid ads process, rebuilt for the three-slide approval checkpoint. Not published.',cover:ad,source:'',reading:'?view=reading',brand:{name:'Pecuna Factorem',surface:'#ffffff',ink:'#1c1a17',accent:'#8b6002',font:'hand',logo:coin},sourceNote:'Calibration trial from the retained paid ads deck. Cadre Crew research and illustrative assets, not launched advertising.'}];
 
+// TRIAL=devices builds the device-library trial from trial-devices.cjs with the same shell.
+const spec=process.env.TRIAL==='devices'?require('./trial-devices.cjs')({fs,path,uri,dist,assets,arrow}):null;
+if(spec){deck=spec.deck;register=spec.register;}
+const label={title:spec?spec.title:'Calibration Trial',artifactTitle:spec?spec.artifactTitle:'Paid Ads Calibration Trial',header:spec?spec.header:'CALIBRATION TRIAL · NOT PUBLISHED',eyebrow:spec?spec.eyebrow:'THREE-SLIDE APPROVAL CHECKPOINT',intro:spec?spec.intro:'Three moments from Our paid ads process, rebuilt for review before any wider change.',file:spec?spec.file:'whiteboard-trial-calibration.html'};
 const fonts={'ww-caveat.ttf':0,'ww-body.ttf':0,'ww-display.ttf':0,'ww-mono.ttf':0};
 let css=fs.readFileSync(dist('whiteboard.css'),'utf8');
 for(const f in fonts)css=css.replace('url('+f+')','url('+uri(dist(f),'font/ttf')+')');
@@ -83,13 +87,13 @@ const json=s=>JSON.stringify(s).replace(/</g,'\\u003c');
 const artifactDir=process.argv[2]==='--artifact'?process.argv[3]:null,artifact=!!artifactDir;
 const sourceLine=artifact?"window.__trialDeck=deck;register[0].source='trial-content.js';":"register[0].source=URL.createObjectURL(new Blob(['window.WW='+JSON.stringify(deck)+';'],{type:'text/javascript'}));";
 
-const html=`<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Calibration Trial</title><meta name="description" content="Whiteboard Wednesdays three-slide calibration trial. Not published.">
+const html=`<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${label.title}</title><meta name="description" content="Whiteboard Wednesdays three-slide calibration trial. Not published.">
 <!-- Fonts: Caveat, Instrument Sans, IBM Plex Mono and Fraunces under the SIL Open Font Licence 1.1. Licence texts: dist/ww-*-license.txt. -->
-<style>${css}${trialCss}</style></head><body>
+<style>${css}${trialCss}${spec?spec.css:''}</style></head><body>
 <a class="skip" href="#canvas">Skip to presentation</a>
-<header class="site-header"><a href="#/library" class="site-name">Whiteboard<br><b>Wednesdays</b><span class="micro">CALIBRATION TRIAL · NOT PUBLISHED</span></a><div class="header-actions"><button id="library-button">Library</button><button id="brand-button" hidden>Preview branding</button><button id="fullscreen" hidden>Present full screen</button></div></header>
+<header class="site-header"><a href="#/library" class="site-name">Whiteboard<br><b>Wednesdays</b><span class="micro">${label.header}</span></a><div class="header-actions"><button id="library-button">Library</button><button id="brand-button" hidden>Preview branding</button><button id="fullscreen" hidden>Present full screen</button></div></header>
 <div class="tabs-wrap"><nav id="presentation-tabs" role="tablist" aria-label="Presentations"></nav><span class="tabs-hint" hidden>Scroll for more →</span></div>
-<main><section id="library"><div class="library-heading"><div><div class="micro">THREE-SLIDE APPROVAL CHECKPOINT <span class="trial-flag">TRIAL</span></div><h1>Ideas worth<br><em>showing.</em></h1><p>Three moments from Our paid ads process, rebuilt for review before any wider change.</p></div><img data-asset="COIN" alt="Pecuna Factorem original coin"></div><div id="library-cards"></div></section>
+<main><section id="library"><div class="library-heading"><div><div class="micro">${label.eyebrow} <span class="trial-flag">TRIAL</span></div><h1>Ideas worth<br><em>showing.</em></h1><p>${label.intro}</p></div><img data-asset="COIN" alt="Pecuna Factorem original coin"></div><div id="library-cards"></div></section>
 <section id="player" hidden role="tabpanel"><div class="deck-head"><img id="deck-logo" alt=""><div><div id="brand-name" class="micro"></div><div id="deck-title" class="deck-title"></div><small id="brand-preview" hidden>Browser-only brand preview</small></div><button id="index-button">Chapters <span id="chapter-count"></span></button></div><article id="canvas" tabindex="-1" aria-label="Presentation slide"></article><div class="controls"><button id="back">← Back</button><button id="replay">Replay slide</button><button id="exit-presentation">Exit full screen</button><span id="progress" aria-live="polite"></span><button id="next" class="primary">Next reveal →</button></div><div class="under-controls"><span>Click empty slide space to reveal · ← → or Space</span><a id="reading-link">Complete reading view</a><button id="notes-button" aria-expanded="false">Source &amp; presenter notes</button></div><aside id="notes" hidden></aside></section>
 <section id="message" hidden role="status"><h1 id="message-title"></h1><p id="message-detail"></p><a href="#/library">Return to library</a></section></main>
 <dialog id="chapters"><div class="dialog-head"><h2>Chapters</h2><button data-close>Close</button></div><nav id="chapter-list" aria-label="Presentation chapters"></nav></dialog>
@@ -114,15 +118,16 @@ document.addEventListener('keydown',e=>{if(!reading.hidden)e.stopPropagation();}
 if(new URLSearchParams(location.search).get('view')==='reading')openReading();
 ${sourceLine}
 window.presentationRegister=register;
-if(!location.hash)history.replaceState(null,'','#/presentation/trial-calibration');
+if(!location.hash)history.replaceState(null,'','#/presentation/'+register[0].id);
 const viewer=document.createElement('script');viewer.textContent=document.getElementById('viewer-source').textContent.replace("logo:'ww-coin.svg'","logo:'"+urls.COIN+"'");document.body.append(viewer);
+${spec?spec.js:''}
 })();
 </script></body></html>`;
 if(artifact){
- const page=html.replace(/^<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">/,'').replace('<title>Calibration Trial</title>','<title>Paid Ads Calibration Trial</title>').replace('</head><body>','').replace(/<\/body><\/html>$/,'');
+ const page=html.replace(/^<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">/,'').replace('<title>'+label.title+'</title>','<title>'+label.artifactTitle+'</title>').replace('</head><body>','').replace(/<\/body><\/html>$/,'');
  fs.writeFileSync(path.join(artifactDir,'index.html'),page);fs.writeFileSync(path.join(artifactDir,'trial-content.js'),'window.WW=window.__trialDeck;delete window.__trialDeck;\n');
  console.log('Wrote artifact page to',artifactDir,(page.length/1e6).toFixed(2)+' MB');
 }else{
- fs.writeFileSync(path.join(__dirname,'whiteboard-trial-calibration.html'),html);
- console.log('Wrote whiteboard-trial-calibration.html',(html.length/1e6).toFixed(2)+' MB');
+ fs.writeFileSync(path.join(__dirname,label.file),html);
+ console.log('Wrote '+label.file,(html.length/1e6).toFixed(2)+' MB');
 }

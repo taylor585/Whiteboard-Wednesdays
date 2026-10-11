@@ -59,3 +59,46 @@ Not tested: physical iPhone or Safari, hosted delivery, or the live private site
 5. **Screenshot capture.** Full-page captures taken after clicking Next keep the scroll offset, so the sticky tabs bar overlays content. Proposed gate: scroll to the top before capturing.
 6. **Evidence visuals.** Section 5 assumes an image-generation tool, and none was available here. Proposed addition: an actual report-page crop with highlights placed from PDF word coordinates (`pdftotext -bbox`) is an approved evidence visual. On phones, crop to the quote column instead of scaling the full row down.
 7. **Viewer default logo.** `library.js` hard-codes `ww-coin.svg` relative to the page, so any page outside `dist` requests a missing file. Low priority for the live site. Note it for previews.
+
+# Device library trial, 11 October 2026
+
+`whiteboard-trial-devices.html` is a second unpublished trial with eight visual devices and four recording tools. Build it with `TRIAL=devices node build-trial-calibration.cjs`; the slide content lives in `trial-devices.cjs`. Like the calibration trial, it sits outside `dist` and reuses the shared viewer verbatim.
+
+## Devices, in story order
+
+| Slide | Device | Evidence rule applied |
+| --- | --- | --- |
+| The depth behind one line. | Animated counts | 222 comments and 90 records (report p. 5), 48 subreddits (p. 85), 154 pages (PDF). Final values show in the reading view and with reduced motion. |
+| Ten quotes. One scene. | Quote wall | RED-001 to RED-010, verbatim from pp. 12 to 13. The build checks each quote against the report text and fails if any differs. |
+| One line from 154 pages. | Zoom into the source | The real page 13, rendered at 300 dpi. Highlights are placed from PDF word coordinates. The 600ms camera move is a deliberate exception to the 200ms baseline. |
+| Keep their words. Add one. | Words that morph | Dropped words are struck through, kept words highlighted, and the added word "clinic?" is marked as ours. |
+| Every mark has a reason. | Marker annotations | Editable SVG strokes on the real ad. Every note reuses approved deck wording. |
+| See it where they scroll. | In-feed preview | Grey placeholder posts only. Labelled as a mock-up, not a platform interface. |
+| Tap the page. See why. | Tap the page | The hotspots are real buttons, so tapping never advances the slide. Each one maps a page element to its report objection and page. |
+| Give each asset a job. | Path animation | A marker travels each connector. Wording comes from the live campaign slide. |
+
+## Recording tools
+
+- **Spotlight (S):** dims the screen except around the pointer. Clicking still advances the slide.
+- **Pen (P), Clear (C):** strokes sit on a layer outside the slide, so drawing never triggers a reveal. Strokes clear when the slide changes.
+- **Presenter (V):** a panel with a timer, the current slide, the next reveal and the notes. A second window is offered where the browser allows one.
+- **Record cues (R):** logs the time of each reveal from the moment you press it, then produces a copyable cue list for Subi Shots post-production. Subi Shots itself was not run.
+
+## Verification
+
+`verify-devices.cjs` passed 327 Chromium checks with no runtime errors, both on the standalone file and on the private-page build. It covers:
+
+- every reveal of all 8 slides at 375, 390, 768 and 1280px, with no overflow
+- the expected image count on every slide
+- each device's behaviour
+- every tool at 1280 and 390px
+- reduced motion and the reading view (8 slides, 26 parts)
+
+Renders were inspected at desktop and phone width. This found and fixed four defects:
+
+- The wall's lifted quote overlapped its neighbours.
+- The annotation loop crossed the headline.
+- Hotspots covered page text.
+- The morph headline broke mid-word on phones.
+
+The calibration trial still passes its 250 checks after the shared builder change. Not tested: a physical iPhone or Safari, or hosted delivery.

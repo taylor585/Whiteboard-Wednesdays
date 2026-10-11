@@ -129,7 +129,8 @@ document.addEventListener('keydown',e=>{if(!reading.hidden)e.stopPropagation();}
 if(new URLSearchParams(location.search).get('view')==='reading')openReading();
 register[0].source=URL.createObjectURL(new Blob(['window.WW='+JSON.stringify(deck)+';'],{type:'text/javascript'}));
 window.presentationRegister=register;
-if(!location.hash)history.replaceState(null,'','#/presentation/trial-calibration');
+if(!location.hash)history.replaceState(null,'','#/presentation/'+register[0].id);
 const viewer=document.createElement('script');viewer.textContent=document.getElementById('viewer-source').textContent.replace("logo:'ww-coin.svg'","logo:'"+urls.COIN+"'");document.body.append(viewer);
+
 })();
 </script></body></html>
