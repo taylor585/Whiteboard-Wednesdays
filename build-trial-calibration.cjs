@@ -72,13 +72,16 @@ const trialCss=`
 .parts.t-flow{grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 64px}.t-flow .part{position:relative}.t-flow .part:nth-child(5){grid-column:1/-1;border-top:3px solid var(--accent);padding-top:6px}
 .t-flow .part>.t-link{position:absolute;left:-60px;top:62px}.t-step{border-top:3px solid var(--accent);padding-top:14px}.t-step h3{font-size:31px;margin:6px 0}.t-step p,.t-flow .part:first-child p{font-size:16px}
 .t-moment{margin:0 0 6px;aspect-ratio:1/0.72;overflow:hidden;position:relative;background:#2541e0}.t-moment img{position:absolute;width:125%;left:-14%;bottom:0;display:block}
-.reading-wrap{max-width:1180px;margin:auto;padding:24px 4vw 64px}.reading-slide{border-top:1px solid var(--line);padding:28px 0}.reading-slide h2{font:600 clamp(36px,4vw,56px)/1.08 var(--heading),cursive;margin:10px 0 24px}.reading-slide .note{background:var(--tint);padding:16px;font-size:14px;margin-top:24px}
+.tabs-wrap{top:env(safe-area-inset-top,0px)}body.reading-mode main,body.reading-mode .tabs-wrap,body.reading-mode .header-actions{display:none}.reading-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.reading-wrap{max-width:1180px;margin:auto;padding:24px 4vw 64px}.reading-slide{border-top:1px solid var(--line);padding:28px 0}.reading-slide h2{font:600 clamp(36px,4vw,56px)/1.08 var(--heading),cursive;margin:10px 0 24px}.reading-slide .note{background:var(--tint);padding:16px;font-size:14px;margin-top:24px}
 @media(max-width:900px){.parts.t-transform{display:flex;flex-direction:column;gap:24px}.t-transform .part:nth-child(3){display:block}.t-transform .part:nth-child(3)>.t-link{transform:rotate(90deg);margin:0 0 8px 4px;width:40px}.t-asset img{width:min(100%,460px)}.parts.t-flow{grid-template-columns:1fr 1fr}.t-flow .part:nth-child(3)>.t-link{display:none}}
 @media(max-width:640px){.parts.t-open,.parts.t-transform,.parts.t-flow{display:flex;flex-direction:column;gap:22px}.t-transform .part:nth-child(3){display:block}.t-link{transform:rotate(90deg);margin:0 0 6px 4px;width:40px}.t-flow .part>.t-link,.t-flow .part:nth-child(3)>.t-link{position:static;display:block}.t-map{grid-template-columns:1fr;gap:4px}.t-map .t-link{margin:2px 0 6px}.t-map b{font-size:36px;margin-bottom:10px}.t-page{padding:16px 14px}.t-crop-inner{width:208%}.t-moment{max-width:300px}}
 @media(prefers-reduced-motion:reduce){.revealed .t-link,.revealed .t-mark{animation:none}}
 `;
 const viewer=fs.readFileSync(dist('library.js'),'utf8');
 const json=s=>JSON.stringify(s).replace(/</g,'\\u003c');
+// --artifact DIR: page plus a same-origin content file, for viewers whose CSP blocks blob: scripts.
+const artifactDir=process.argv[2]==='--artifact'?process.argv[3]:null,artifact=!!artifactDir;
+const sourceLine=artifact?"window.__trialDeck=deck;register[0].source='trial-content.js';":"register[0].source=URL.createObjectURL(new Blob(['window.WW='+JSON.stringify(deck)+';'],{type:'text/javascript'}));";
 
 const html=`<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Calibration Trial</title><meta name="description" content="Whiteboard Wednesdays three-slide calibration trial. Not published.">
 <!-- Fonts: Caveat, Instrument Sans, IBM Plex Mono and Fraunces under the SIL Open Font Licence 1.1. Licence texts: dist/ww-*-license.txt. -->
@@ -91,6 +94,7 @@ const html=`<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta 
 <section id="message" hidden role="status"><h1 id="message-title"></h1><p id="message-detail"></p><a href="#/library">Return to library</a></section></main>
 <dialog id="chapters"><div class="dialog-head"><h2>Chapters</h2><button data-close>Close</button></div><nav id="chapter-list" aria-label="Presentation chapters"></nav></dialog>
 <dialog id="brand-dialog"><div class="dialog-head"><h2>Preview your brand.</h2><button data-close>Close</button></div><p>These changes apply only in this browser. They are never saved as published branding.</p><form id="brand-form"><label>Brand name<input name="name" maxlength="70"></label><label>Original logo<input type="file" name="logo" accept="image/png,image/jpeg,image/webp,image/svg+xml"></label><div class="colour-fields"><label>Background<input type="color" name="surface"></label><label>Text<input type="color" name="ink"></label><label>Accent<input type="color" name="accent"></label></div><label>Heading font<select name="font"><option value="hand">Caveat · whiteboard</option><option value="editorial">Fraunces · editorial</option><option value="clean">Instrument Sans · clean</option></select></label><p id="contrast-status" role="status"></p><button type="submit" class="primary">Apply browser preview</button><button type="button" id="reset-brand">Restore published brand</button></form></dialog>
+<section id="reading-view" class="reading-wrap" hidden aria-label="Complete reading view"></section>
 <div id="toast" hidden role="status"></div>
 <script id="viewer-source" type="text/plain">${viewer.replace(/<\/script/gi,'<\\/script')}</script>
 <script>
@@ -100,18 +104,25 @@ for(const k in assets){const [h,b]=assets[k].split(',');const bin=atob(b),u=new 
 const fill=v=>{let t=JSON.stringify(v);for(const k in urls)t=t.split('{{'+k+'}}').join(urls[k]);return JSON.parse(t);};
 const deck=fill(${json(deck)}),register=fill(${json(register)});
 document.querySelectorAll('[data-asset]').forEach(i=>i.src=urls[i.dataset.asset]);
-if(new URLSearchParams(location.search).get('view')==='reading'){
- const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
- document.title='Calibration Trial · Reading view';
- document.querySelector('.tabs-wrap').remove();document.querySelector('.header-actions').innerHTML='<a href="'+location.pathname+'#/presentation/trial-calibration">Open the presentation</a>';
- document.querySelector('main').outerHTML='<main class="reading-wrap"><div class="micro">COMPLETE READING VIEW · ALL REVEALS SHOWN</div>'+deck.slides.map((s,i)=>'<article class="reading-slide" id="'+s.id+'"><div class="micro">'+String(i+1).padStart(2,'0')+' · '+esc(s.section)+'</div><h2>'+esc(s.title)+'</h2><div class="parts '+s.kind+'">'+s.parts.map(p=>'<section class="part revealed">'+p+'</section>').join('')+'</div><p class="note">'+esc(s.note)+'</p></article>').join('')+'<p class="note">'+esc(register[0].sourceNote)+'</p></main>';
- return;
-}
-register[0].source=URL.createObjectURL(new Blob(['window.WW='+JSON.stringify(deck)+';'],{type:'text/javascript'}));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const reading=document.getElementById('reading-view');
+reading.innerHTML='<div class="reading-bar"><div class="micro">COMPLETE READING VIEW · ALL REVEALS SHOWN</div><button id="close-reading" class="primary">Back to the presentation</button></div>'+deck.slides.map((s,i)=>'<article class="reading-slide" id="read-'+s.id+'"><div class="micro">'+String(i+1).padStart(2,'0')+' · '+esc(s.section)+'</div><h2>'+esc(s.title)+'</h2><div class="parts '+s.kind+'">'+s.parts.map(p=>'<section class="part revealed">'+p+'</section>').join('')+'</div><p class="note">'+esc(s.source)+' '+esc(s.note)+'</p></article>').join('')+'<p class="note">'+esc(register[0].sourceNote)+'</p>';
+const openReading=()=>{document.body.classList.add('reading-mode');reading.hidden=false;scrollTo(0,0);document.getElementById('close-reading').focus();};
+document.getElementById('close-reading').onclick=()=>{document.body.classList.remove('reading-mode');reading.hidden=true;scrollTo(0,0);};
+document.addEventListener('click',e=>{if(e.target.closest('#reading-link')){e.preventDefault();openReading();}},true);
+document.addEventListener('keydown',e=>{if(!reading.hidden)e.stopPropagation();},true);
+if(new URLSearchParams(location.search).get('view')==='reading')openReading();
+${sourceLine}
 window.presentationRegister=register;
 if(!location.hash)history.replaceState(null,'','#/presentation/trial-calibration');
 const viewer=document.createElement('script');viewer.textContent=document.getElementById('viewer-source').textContent.replace("logo:'ww-coin.svg'","logo:'"+urls.COIN+"'");document.body.append(viewer);
 })();
 </script></body></html>`;
-fs.writeFileSync(path.join(__dirname,'whiteboard-trial-calibration.html'),html);
-console.log('Wrote whiteboard-trial-calibration.html',(html.length/1e6).toFixed(2)+' MB');
+if(artifact){
+ const page=html.replace(/^<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">/,'').replace('<title>Calibration Trial</title>','<title>Paid Ads Calibration Trial</title>').replace('</head><body>','').replace(/<\/body><\/html>$/,'');
+ fs.writeFileSync(path.join(artifactDir,'index.html'),page);fs.writeFileSync(path.join(artifactDir,'trial-content.js'),'window.WW=window.__trialDeck;delete window.__trialDeck;\n');
+ console.log('Wrote artifact page to',artifactDir,(page.length/1e6).toFixed(2)+' MB');
+}else{
+ fs.writeFileSync(path.join(__dirname,'whiteboard-trial-calibration.html'),html);
+ console.log('Wrote whiteboard-trial-calibration.html',(html.length/1e6).toFixed(2)+' MB');
+}
