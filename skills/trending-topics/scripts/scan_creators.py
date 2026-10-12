@@ -18,7 +18,7 @@ Writes:
   <out>/scan.md    in-window long-form uploads ranked, top outliers, failures and caveats
 
 Flags on each video: NEW (published inside --days), OUTLIER (ratio >= 2), HOT (top 10 by views
-per day among in-window uploads). A channel that fails is logged and the run continues.
+per day among in-window uploads, per tier). A channel that fails is logged and the run continues.
 Exit code: 0 if at least one core channel was scanned, 1 if every core channel failed.
 """
 import argparse
@@ -188,21 +188,26 @@ def fmt(n):
 def write_md(recs, days, out, now, include_shorts=False):
     rows = [(r, v) for r in recs for v in r['videos'] if v['in_window'] and (include_shorts or not v['short'])]
     rows.sort(key=lambda rv: (rv[1]['views_per_day'] or 0, rv[1]['outlier'] or 0), reverse=True)
-    for r, v in rows[:10]:
-        if v['views_per_day']:
-            v['flags'].append('HOT')
+    for tier in ('core', 'secondary'):
+        for r, v in [rv for rv in rows if rv[0]['tier'] == tier][:10]:
+            if v['views_per_day']:
+                v['flags'].append('HOT')
     L = [f'# Creator scan: last {days} days', '',
-         f'Run: {now:%Y-%m-%d %H:%M} UTC. Creators scanned: {sum(r["status"] != "failed" for r in recs)}/{len(recs)}.', '',
-         '## In-window long-form uploads (ranked by views per day, then outlier ratio)', '',
-         '| # | Creator | Tier | Title | Views | Views/day | Outlier | Age (days) | Flags | URL |',
-         '|---|---|---|---|---|---|---|---|---|---|']
-    for i, (r, v) in enumerate(rows, 1):
-        views = v['views_exact'] if v['views_exact'] is not None else v['views']
-        L.append(f"| {i} | {r['name']} | {r['tier']} | {v['title'].replace('|', '/')} | {fmt(views)} | "
-                 f"{fmt(v['views_per_day'])} | {v['outlier'] if v['outlier'] is not None else '?'} | "
-                 f"{v['age_days'] if v['age_days'] is not None else '?'} | {' '.join(v['flags'])} | {v['url']} |")
-    if not rows:
-        L.append('| - | none found | | | | | | | | |')
+         f'Run: {now:%Y-%m-%d %H:%M} UTC. Creators scanned: {sum(r["status"] != "failed" for r in recs)}/{len(recs)}.']
+    for tier, label in (('core', 'Core creators'), ('secondary', 'Secondary (app watchlist)')):
+        part = [rv for rv in rows if rv[0]['tier'] == tier]
+        if tier == 'secondary' and not part and not any(r['tier'] == 'secondary' for r in recs):
+            continue
+        L += ['', f'## {label}: in-window long-form uploads (ranked by views per day, then outlier ratio)', '',
+              '| # | Creator | Title | Views | Views/day | Outlier | Age (days) | Flags | URL |',
+              '|---|---|---|---|---|---|---|---|---|']
+        for i, (r, v) in enumerate(part, 1):
+            views = v['views_exact'] if v['views_exact'] is not None else v['views']
+            L.append(f"| {i} | {r['name']} | {v['title'].replace('|', '/')} | {fmt(views)} | "
+                     f"{fmt(v['views_per_day'])} | {v['outlier'] if v['outlier'] is not None else '?'} | "
+                     f"{v['age_days'] if v['age_days'] is not None else '?'} | {' '.join(v['flags'])} | {v['url']} |")
+        if not part:
+            L.append('| - | none found | | | | | | | |')
     outl = [(r, v) for r in recs for v in r['videos'] if v['outlier'] and v['outlier'] >= 2]
     outl.sort(key=lambda rv: rv[1]['outlier'], reverse=True)
     L += ['', f'## Outliers in the latest listed uploads (ratio 2 or more, any date)', '',
