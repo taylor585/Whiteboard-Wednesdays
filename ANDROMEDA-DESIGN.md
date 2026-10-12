@@ -1,6 +1,6 @@
 # Andromeda opening design draft
 
-Three new slides precede `opening`: `andromeda`, `uneven-delivery`, `test-the-message`. The original 26 slide objects and survey are unchanged. The reading view contains all 29 chapters. This is a design draft, not a deployed release.
+Three new slides precede `opening`: `andromeda`, `uneven-delivery`, `test-the-message`. The original 26 slide objects and survey are unchanged. The reading view contains all 29 chapters. These three slides were integrated into the full presentation and published as Sites version 5 on 9 October 2026. See VERIFICATION.md for current release evidence and hosted-check limitations.
 
 ## Evidence and interpretation
 
