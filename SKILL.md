@@ -1,6 +1,8 @@
 ---
 name: whiteboard-wednesdays
-description: Create, refine and publish evidence-led, image-led Whiteboard Wednesdays presentations with progressive whiteboard reveals, exact branding, readable mobile layouts and a shared presentation library. Use for new decks, presentation revisions, viewer or survey interaction repairs, visual storytelling and adding approved decks to the existing Whiteboard Wednesdays site. Do not use for ordinary website redesigns, generic document summaries or installing unrelated skills. Produce PowerPoint only when explicitly requested, explaining which web interactions cannot transfer.
+description: Create, refine and publish evidence-led, image-led Whiteboard Wednesdays presentations with progressive whiteboard reveals, a library of eight visual devices (animated counts, quote wall, zoom into the source, words that morph, marker annotations, in-feed preview, tap the page, path animation), recording tools (spotlight, pen, presenter view, recording cue list), exact branding, readable mobile layouts and a shared presentation library. Use for new decks, three-slide calibration trials, presentation revisions, making a deck more visual or varied, preparing a deck to record, viewer or survey interaction repairs and adding approved decks to the existing Whiteboard Wednesdays site, even when the user only says "make it pop" or "show me a trial". Do not use for ordinary website redesigns, generic document summaries or installing unrelated skills. Produce PowerPoint only when explicitly requested, explaining which web interactions cannot transfer.
+metadata:
+  version: "1.1"
 ---
 
 # Whiteboard Wednesdays
@@ -13,6 +15,8 @@ description: Create, refine and publish evidence-led, image-led Whiteboard Wedne
 - Read source material before writing. Exact quotations remain exact. Separate quotation, interpretation, adapted copy and illustrative output.
 - Use five explicit simplification passes and a three-slide visual approval checkpoint for a new deck or materially new direction. Existing approval covers the approved design, not arbitrary new designs.
 - Use finished, image-led examples with real readable copy. A description of an asset is not the asset. Do not substitute generic diagrams for requested generated images.
+- Vary the visual devices. No two consecutive slides use the same device, and a deck of three or more slides uses at least three different devices. Record any deliberate exception in the slide map. Variety keeps attention; repetition reads as a template.
+- Every device shows real, sourced content. A device explains; it never decorates. A count is a real figure, a wall holds real quotes, a highlight sits on words that are actually there.
 - Deliver a functional presentation with progressive reveals, source notes, reading view and mobile access. A localhost URL is never cross-device delivery.
 - Reuse the existing Whiteboard Wednesdays library when publishing a deck. Preserve unrelated decks, stable links and the current private audience.
 - Skill use does not authorise publication, spending, client contact or unrelated filesystem changes. Honour the current request and explicit folder permissions.
@@ -26,6 +30,7 @@ Choose the mode from the request:
 | Mode | Work | Do not do |
 | --- | --- | --- |
 | New presentation | Source analysis, story map, three-slide calibration, full approved deck, QA | Generate the full deck before calibration approval |
+| Calibration or device trial | Build a self-contained trial outside the static build, show it privately, stop for approval | Register the trial, publish it or overwrite the live deck |
 | Targeted revision | Inspect current source and rendered output, change the requested area, run regressions | Rewrite unrelated slides or reopen approved design choices |
 | Publish to library | Validate the selected deck, update its register entry, publish when authorised | Create another site for the deck |
 | Explain or plan | Show the requested explanation or plan | Mutate a site or install a skill without a change request |
@@ -33,7 +38,21 @@ Choose the mode from the request:
 
 Use existing chat decisions first. Establish the audience, the decision the presentation should support, source documents, brand, output destination, any slide limit and the extent of publishing authority. Ask only for material choices or missing evidence that cannot be recovered. Do not make the user repeat an existing brand pack or supply screenshots a browser can obtain.
 
-For an existing presentation, inspect its source, register, styles, asset files, notes and current live version. Identify the deploying source before editing. Preserve an approved original and a recoverable version. Do not use a historical screenshot or an older feature branch as authority over the current source.
+For an existing presentation, inspect its source, register, styles, asset files, notes and current live version. Preserve an approved original and a recoverable version. Do not use a historical screenshot or an older feature branch as authority over the current source.
+
+### Confirm the source of truth first
+
+The project has existed in more than one form: a buildless `dist` tree (the published Sites static directory) and, on at least one machine, a later Vinext tree with `package.json`, `app/route.ts` and `public/`. Before editing, establish which tree deploys:
+
+1. Read `.openai/hosting.json` for the project ID and static directory.
+2. Check the git remote, branch and latest commit, and whether the working tree is clean.
+3. Compare the register, viewer and deck package across any trees present.
+
+Record any divergence in plain words and edit only the deploying source. Never hand-edit generated output as though it were source, and never reset or commit someone else's uncommitted work wholesale.
+
+### Where trials live
+
+A calibration or device trial is a single self-contained HTML file outside the static build directory. It reuses the project's own viewer and styles verbatim, so its reveals, keyboard, notes and reduced motion are the real behaviour. It is never added to the register. Build it with `scripts/build-trial.cjs` (see section 6).
 
 ### Scope of the method
 
@@ -43,10 +62,11 @@ This skill contains the presentation production method. Specialist skills supply
 - `fable-website-funnel-design`: build or materially improve a landing page, app or funnel example. Apply its quality gate before presenting the example as finished.
 - `llm-image-creator`: generate the finished static or visual concept. Use the actual image-generation tool available in the environment and inspect its output.
 - `vision-board`: create a real animated campaign board with scenes, motion, triggers and decisions, rather than a screenshot labelled as a board.
+- `subi-shots`: edit a finished narrated recording. The recording cue list from section 5B is its input; this skill does not run the edit.
 - Sites: read its current instructions for source preparation, access, packaging and publication. Do not hardcode tool signatures or credentials into this skill.
 - Coding skill: use its applicable implementation and regression checks when changing the viewer or adding interaction.
 
-These are task-dependent dependencies, not a requirement to load every skill for every deck. Do not claim to have used a missing skill. If an unavailable dependency is essential to the requested example, state the limitation and resolve it before representing the output as compliant with that skill.
+These are task-dependent dependencies, not a requirement to load every skill for every deck. Reusing an approved asset does not require reloading the skill that made it. Do not claim to have used a skill that was not loaded. If an unavailable dependency is essential to the requested example, state the limitation and resolve it before representing the output as compliant with that skill.
 
 The Cadre paid ads presentation is the reference implementation, not the required subject of every deck. For training, strategy, product or other topics, retain the visual, evidence, branding, approval and navigation method while selecting examples relevant to that topic. Do not insert ICP research, advertising, qualification or marketing-skill explanations unless the brief needs them. Test optional demonstrations only when present.
 
@@ -68,6 +88,14 @@ Retain the original evidence IDs when they exist. Do not invent source labels th
 
 Use user-supplied investment and refinement history with attribution where necessary. Do not convert “thousands of pounds over two years” into an invented exact spend, output count or performance guarantee. A method can be sophisticated without claiming that it guarantees conversions.
 
+### Prove quotations and figures mechanically
+
+Reading a quote by eye is not proof. Put every quotation a deck shows through `verifyQuotes` in `scripts/source-tools.cjs`, so the build fails if one character differs from the PDF. It compares with whitespace removed (raw extraction can drop spaces) and every other character exact, including apostrophe and quotation-mark styles. Give every figure a page reference you have opened, such as "222 comments reviewed, report p. 5". A count without a page is not used.
+
+### Highlight the real page, not a retyped one
+
+When a slide shows a crop of the actual report page, place highlights from the PDF's own word coordinates with `findHighlights` in `scripts/source-tools.cjs`. Do not hand-place them. It returns rectangles in PDF points for exact phrases and trims trailing punctuation the phrase does not include. Draw them as an SVG overlay sharing the image's coordinate space, so they stay on the words at every width. On phones, crop to the quote column instead of scaling a full-width row into unreadable text.
+
 ### Demonstrate the report's depth
 
 When requested, follow the ICP introduction with a slide titled exactly `The live ICP-Research-Radar document`.
@@ -81,7 +109,7 @@ When requested, follow the ICP introduction with a slide titled exactly `The liv
 
 ## 3. Build the story before the artwork
 
-Write a slide map with stable slide ID, takeaway, visual device, source, reveal order, presenter note and any asset dependency. Keep this as working planning information, not audience-facing decoration.
+Write a slide map with stable slide ID, takeaway, device, source, reveal order, presenter note and any asset dependency. Keep this as working planning information, not audience-facing decoration.
 
 For each slide answer: “What will the viewer understand here that they did not understand before?” If the answer is merely “they will see another list”, redesign it around a relationship, example, contrast or consequence.
 
@@ -95,14 +123,29 @@ The three-to-five-word rule governs presentation headlines, not every artefact s
 
 Use the smallest effective number of slides. If the user's current limit is 12, honour it. If they explicitly allow more to show assets and methods properly, preserve that later instruction. Do not treat the 26-slide reference deck as a fixed count for future presentations.
 
+### A story order that works
+
+For an evidence-led process deck, this order moved from proof to persuasion without repeating a device:
+
+1. **Depth:** animated counts show how much research sits behind the deck.
+2. **Breadth:** a quote wall shows many real voices before one is chosen.
+3. **Focus:** zoom into the source moves from the whole page to the one line.
+4. **Transformation:** words that morph show what was kept and what was added.
+5. **Asset:** marker annotations explain the finished creative.
+6. **Context:** an in-feed preview shows it at the size buyers meet it.
+7. **Reasoning:** tap the page connects each page section to its objection.
+8. **Journey:** path animation follows one buyer across the assets.
+
+Use it as a starting point, not a template. Choose the device that teaches each slide.
+
 ### Five simplicity-stick passes
 
 Run these as separate passes over the slide map and again over rendered slides:
 
 1. **Meaning:** State the single takeaway in plain English. Remove competing claims and unexplained terminology.
 2. **Structure:** Reduce simultaneous items. Move secondary explanation into presenter notes or the next reveal without deleting required substance.
-3. **Visual:** Replace an explanatory paragraph with the actual asset, one image or the smallest useful diagram. Remove decorative boxes and redundant labels.
-4. **Sequence:** Reveal only the material needed now. Show the source, then its transformation, then the finished output or consequence. Ensure each reveal has a reason.
+3. **Visual:** Replace an explanatory paragraph with the actual asset, one image, the smallest useful diagram or the device that shows the idea. Remove decorative boxes and redundant labels.
+4. **Sequence:** Reveal only the material needed now. Show the source, then its transformation, then the finished output or consequence. Ensure each reveal has a reason. Check the variety rule across neighbouring slides.
 5. **Audience:** Read it as a first-time viewer at phone size. Shorten the headline, enlarge the important evidence and verify that no context, caveat or requested point was lost.
 
 Record what was simplified and what was deliberately retained. These are five editing passes, not five copies of “make it simpler”.
@@ -186,6 +229,36 @@ Inspect every generated image, not just the prompt. Check spelling, text at 200p
 
 Use generated assets in the slides and show them to the user. Do not deliver prompts instead of images unless prompts were requested. Do not generate a new logo or reproduce another creator's trademarked presentation branding. A reference creator informs storytelling principles; do not claim to know their software without evidence.
 
+When no image-generation tool is available, build from real material: page crops of the source, approved retained assets and crops of them. Say plainly that no new image was generated, and never present a reused asset as newly made.
+
+## 5A. Visual device library
+
+Eight devices are built, tested and ready in `scripts/device-kit.css` and `scripts/device-kit.js`. Read `references/device-library.md` before using one. It gives each device's job, markup, reveal pattern, motion, phone behaviour, evidence rule and tests.
+
+| Device (`kind`) | Job | Use when | Hard evidence rule |
+| --- | --- | --- | --- |
+| Animated counts (`d-counts`) | Show the depth behind a claim | Opening on research scale | Every number is real and carries its page reference |
+| Quote wall (`d-wall`) | Breadth before focus | Choosing one quote from many | Every quote verbatim and verified; label public discussion |
+| Zoom into the source (`d-zoom`) | Context, then the exact line | Proving a quote is real | The real page image; highlights from PDF coordinates |
+| Words that morph (`d-morph`) | What was kept, what was added | Turning a quote into a headline | Kept words exist in the quote; added words are marked as ours |
+| Marker annotations (`d-annot`) | Explain a finished asset | Teaching design or copy decisions | Annotate only what the asset actually does |
+| In-feed preview (`d-feed`) | Show real viewing size | Paid social or mobile assets | Placeholder posts carry no invented brands, text or metrics; label it a mock-up |
+| Tap the page (`d-tap`) | Connect page parts to buyer questions | Landing page or app reasoning | Each hotspot cites its objection and page; call it a proposed mapping |
+| Path animation (`d-path`) | Follow one buyer across assets | Campaign journey | Use the real assets; label illustrative campaigns |
+
+The kit works by reading the viewer's own `.part.revealed` state with CSS `:has()`, so a device never needs viewer changes. Each device keeps its full content visible in the reading view and under reduced motion.
+
+## 5B. Recording tools
+
+`scripts/device-kit.js` adds four tools for presenting and recording. They are for the presenter, never shown as slide content. Read `references/recording-tools.md` for behaviour, limits and tests.
+
+- **Spotlight (S):** dims the screen except around the pointer. Clicks still reach the slide.
+- **Pen (P) and Clear (C):** draws on a layer outside the slide, so a stroke never triggers a reveal. Strokes clear on slide change.
+- **Presenter (V):** a panel with a timer, the current slide and reveal, the next reveal and the notes. A second window is offered where the browser allows one; sandboxed viewers often block it, and the panel remains.
+- **Record cues (R):** logs the time of every reveal from the moment it is pressed and produces a copyable cue list for `subi-shots`. It does not record the screen or edit video.
+
+Turn the tools on with `tools: true` in a trial spec. Adding them to the live site's viewer is a separate change that needs the user's approval and a full regression run on every existing deck.
+
 ## 6. Three-slide calibration gate
 
 Before producing a new full deck, render three representative slides:
@@ -195,6 +268,10 @@ Before producing a new full deck, render three representative slides:
 3. A sequential explanation showing the intended reveal and motion behaviour.
 
 Use the proposed brand and actual or clearly labelled illustrative content. Show desktop and phone layouts, not only a large static canvas. Explain the three choices briefly, then wait for approval. Capture requested corrections before expanding the deck.
+
+Build the trial from a deck spec with `scripts/build-trial.cjs`. It embeds the viewer, fonts and images into one file, validates IDs, reveal groups, source lines and the variety rule, and refuses to write inside the static build directory. Verify it with `scripts/verify-trial.cjs`. A trial that has not passed its checks is not shown as finished.
+
+To let the user see a trial on their phone without publishing it, a private claude.ai page is an acceptable route. Build with `--artifact`, which writes the page and a same-origin `trial-content.js`, because those hosts block scripts created from blob URLs. The reading view opens within the page, because query-string links do not reach such pages. Never use the live site or a localhost link for this.
 
 Do not make the user reapprove an unchanged design for a small targeted revision. For the current paid ads deck, the retained approved whiteboard treatment is the baseline. The older Quiet Authority explorations are not permission to restore a design the user later rejected.
 
@@ -208,7 +285,7 @@ Show the source excerpt, the adapted hook and the finished branded creative. Inc
 
 Build the example using the relevant design skill, not a generic hero card. Show an actual rendered hero with an obvious headline, service mechanism and next action. Use meaningful imagery and the client's branding.
 
-Identify the top five objections from the supplied research and order them according to the prospect's decision path. Map each to the page section that answers it, the relevant fear/desire, supporting evidence and conversion action. Explain the intended visual attention flow. Do not claim measured eye tracking or maximum conversion without testing evidence.
+Identify the top five objections from the supplied research and order them according to the prospect's decision path. Map each to the page section that answers it, the relevant fear/desire, supporting evidence and conversion action. Explain the intended visual attention flow. Do not claim measured eye tracking or maximum conversion without testing evidence. The tap the page device is a strong way to show this mapping.
 
 Show desktop and mobile variants when explaining responsive design. If an app is demonstrated, show the relevant real state transitions, including loading, empty and error states where applicable. Label demonstrative controls when they do not perform a real external action.
 
@@ -247,9 +324,10 @@ Follow the explanation with a real working vision board when requested. Map sour
 Use explicit reveal groups instead of guessing from DOM position. A common pattern is top context, middle mechanism, bottom outcome. Another is source, adapted copy, finished asset. Use the pattern that teaches the slide, not one layout mechanically applied to every slide.
 
 - A click/tap on non-interactive canvas space advances one reveal, then advances the slide after its last reveal.
-- Buttons, links, input fields, selected text, embedded documents and demonstrations must not accidentally advance the slide.
+- Buttons, links, input fields, selected text, embedded documents and demonstrations must not accidentally advance the slide. Make interactive device parts real buttons for this reason.
 - Back reverses a reveal or returns to the previous slide. Replay resets the current slide. Chapter selection opens the named slide.
 - Use restrained fades, short positional reveals and connector drawing. The approved baseline is approximately 200ms, not long decorative motion.
+- Approved exceptions, each because the movement itself carries meaning: zoom into the source 600ms, in-feed scroll 700ms, count-up 800ms, morphing letters about 35ms apart, path marker about 700ms, marker strokes about 420ms. Do not lengthen other motion to match them.
 - Make connectors editable SVG or CSS primitives with clear endpoints. Do not use mismatched text glyphs or arrows disconnected from their boxes. Reserve image generation for illustrative content, not precise UI arrows.
 - Never hide required content permanently behind motion. Reduced-motion and complete reading views expose the full content.
 - On mobile, stack columns in story order and remove hidden reveal gaps. Do not scale a whole desktop canvas down into microscopic text.
@@ -257,7 +335,7 @@ Use explicit reveal groups instead of guessing from DOM position. A common patte
 - Fullscreen hides library chrome and keeps a visible exit control. Slide changes must not leave fullscreen. Exiting preserves slide and reveal position.
 - Where native fullscreen is unsupported, use a full-window presentation mode and state the distinction honestly.
 
-Check contrast on the actual rendered surfaces, including button labels, gold labels and highlights. Target at least 4.5:1 for body-size text and controls. Use visible focus indicators and touch targets at least 44px high. Do not use colour alone for qualification, active navigation or error states.
+Check contrast on the actual rendered surfaces, including button labels, gold labels and highlights. Target at least 4.5:1 for body-size text and controls. Use visible focus indicators and touch targets at least 44px high. Do not use colour alone for qualification, active navigation or error states. Place hotspot buttons in clear space so they never cover the words they explain.
 
 ## 9. Shared library implementation contract
 
@@ -291,7 +369,7 @@ The description and sourceNote here illustrate fields, not replacement copy. Use
 
 The current source file assigns `window.WW` to an object with `slides` and optional `survey`. The shared loader consumes and clears this global, serialising loads to prevent cross-deck races.
 
-Each slide contains `id`, `title`, `section`, `kind`, `parts`, `reveals` and `note`:
+Each slide contains `id`, `title`, `section`, `kind`, `parts`, `reveals`, `source` and `note`:
 
 ```javascript
 {
@@ -302,11 +380,16 @@ Each slide contains `id`, `title`, `section`, `kind`, `parts`, `reveals` and `no
     '<p>Show the source-led asset relationship here.</p>'
   ],
   reveals: [1, 2],
+  source: 'Source: ICP-Research-Radar, report page 13, RED-008.',
   note: 'Use the actual source reference and presenter explanation.'
 }
 ```
 
-This is a structural example only, not shippable slide copy. Replace illustrative HTML with finished content. `reveals` has exactly one positive integer per part, starting at 1 with contiguous groups. Several parts may share a group. Slide IDs are unique within the deck. The `kind` must have an existing layout or a deliberately added, tested layout. HTML is trusted, authored, source-controlled content; never insert raw report text or arbitrary user HTML without escaping/sanitisation.
+This is a structural example only, not shippable slide copy. Replace illustrative HTML with finished content. `reveals` has exactly one positive integer per part, starting at 1 with contiguous groups. Several parts may share a group. Slide IDs are unique within the deck. The `kind` must have an existing layout, a device from section 5A or a deliberately added, tested layout. HTML is trusted, authored, source-controlled content; never insert raw report text or arbitrary user HTML without escaping/sanitisation.
+
+`source` is the short line the audience sees under the slide. `note` is for the presenter only. The viewer prints `note` under the slide whenever `source` is missing, which puts presenter guidance in front of the audience, so always give both.
+
+The viewer's default brand logo is the relative path `ww-coin.svg`, which only resolves inside the static directory. A page served from anywhere else must substitute the logo path, as `build-trial.cjs` does.
 
 For the optional survey, inspect the current `questions` schema: each question has `id`, `question` and `options`; each option has `id`, `label` and `route`. Preserve the actual viewer's route semantics. It currently recognises `DQ` and `REVIEW`, with other approved options leading to provisional fit after completion. Do not invent a backend or transmit survey data.
 
@@ -358,13 +441,13 @@ Before editing, record hashes of untouched deck packages, assets and reading pag
 
 ## 11. Verification and regression gates
 
-Use actual current content, not only a toy slide. Reuse the retained `verify.cjs` harness when present, inspect its assumptions and extend it for changed behaviour. Historical test totals are not evidence for a new run.
+Use actual current content, not only a toy slide. Reuse the retained `verify.cjs` harness for the live decks and `scripts/verify-trial.cjs` for trials. Inspect their assumptions and extend them for changed behaviour. Historical test totals are not evidence for a new run. `references/qa-gates.md` holds the full checklist.
 
 ### Content and asset gate
 
 - Every requested point maps to a slide or visible example; asset/method pairs are in the intended order.
-- Source text and highlights match the actual report. Adapted copy is identified. Quotes are not testimonials unless they truly are.
-- Read every finished slide and example top to bottom. No internal build labels, unresolved placeholder copy, fake results or missing content.
+- Source text and highlights match the actual report, proven by the build-time quote check. Adapted copy is identified. Quotes are not testimonials unless they truly are.
+- Read every finished slide and example top to bottom. No internal build labels, unresolved placeholder copy, fake results or missing content. Presenter notes never appear on the slide.
 - Official logo is unchanged and crisp. Brand colours and font files match the approved profile; licences are retained.
 - Finished images are present, spelling checked and legible at thumbnail size. A broken or blank image is a defect, not a delivery caveat.
 - Emails/scripts/page examples are complete and readable, not thumbnails used to hide poor work.
@@ -372,11 +455,14 @@ Use actual current content, not only a toy slide. Reuse the retained `verify.cjs
 ### Responsive and interaction gate
 
 - Test at 375, 390, 768 and 1280px, including all slides and all reveal states. Assert no horizontal document overflow.
-- Inspect screenshots after fonts load and transitions finish. A screenshot captured at opacity below 1 cannot establish final contrast or readability.
+- Inspect screenshots after fonts load and transitions finish, scrolled to the top so sticky bars do not overlay content. A screenshot captured at opacity below 1 cannot establish final contrast or readability.
+- Assert the expected number of images on each slide and the absence of any asset-error fallback. The viewer replaces a broken image with an error paragraph, so "every image decoded" passes vacuously when there are no images left.
+- Scope test selectors to `#canvas`. The reading view repeats every part on the same page.
 - Test library, tabs, chapter selector, canvas click, keyboard, Back, Replay, notes and final-slide return.
 - Test direct slide links in a fresh context, refresh, browser Back/Forward, missing IDs and encoded IDs.
 - Test fullscreen entry, slide change and exit, preserving state; also test unsupported native fullscreen fallback.
-- Test reduced motion and complete reading view. Hidden controls must not remain focusable.
+- Test reduced motion and complete reading view, including its part count. Hidden controls must not remain focusable.
+- Test every device present with its own behaviour check, and every recording tool at desktop and phone width.
 - Exercise the actual PDF and campaign board, separate links, loading failure, retry, replay and media cleanup.
 - Exercise survey incomplete, passing, review and DQ outcomes.
 - Inject a second distinct fixture through the test harness only. Test independent answers, brands, preview settings and position. Verify it is absent from the production register and archive.
@@ -395,12 +481,12 @@ Distinguish emulated widths from real Safari/iPhone testing. If physical devices
 
 Return the actual viewable presentation first. For library publication, provide the live and direct deck links. Keep the status concise: verified complete, complete but unverified, and any not-started item required by the request. Do not claim that a planned skill was built or a saved source was deployed.
 
-When the user requests this skill itself, deliver the actual `SKILL.md` and a `.skill` archive containing `SKILL.md` at its root. Validate the installed file and inspect archive contents. A package is not proof of installation; verify the installed location separately and remind the user to restart Codex after an installed update.
+When the user requests this skill itself, deliver the actual `SKILL.md` and a `.skill` archive containing `SKILL.md` at its root, with `references/` and `scripts/` beside it. Validate the installed file and inspect archive contents. A package is not proof of installation; verify the installed location separately and remind the user to restart Codex after an installed update. When the installed copy is on a machine this session cannot reach, give the user the exact copy steps and the new SHA-256, and say that installation is theirs to complete.
 
 An explicit request for only `SKILL.md` takes precedence over the packaging default. Deliver that file without site changes. Creating or updating an installed skill follows the current request and environment instructions; do not claim installation when only a downloadable file was produced.
 
-Record newly observed defect classes in the project's regression checks. Do not rewrite production skills automatically merely because an example could be improved. Make changes within the user's authorisation, preserve working content and keep the portable package in sync with an installed update.
+Record newly observed defect classes in the project's regression checks and in `references/qa-gates.md`. Do not rewrite production skills automatically merely because an example could be improved. Make changes within the user's authorisation, preserve working content and keep the portable package in sync with an installed update.
 
 ## Reminder: enforce always
 
-One useful idea at a time. Read the source. Keep exact quotations distinct from adaptations. Use the official logo and approved brand. Run five simplicity passes. Obtain the three-slide checkpoint for a new direction. Show finished visual assets, not promises or prompts. Follow each asset with its method explanation when teaching the process. Keep mobile reading, reveals, source access and media cleanup functional. Reuse the existing library and preserve unrelated work and private access. Publish only within the current authorisation. Test the actual destination and state limitations honestly. Deliver the file or link the user asked for.
+One useful idea at a time. Read the source and prove every quotation. Keep exact quotations distinct from adaptations. Use the official logo and approved brand. Run five simplicity passes. Vary the devices and keep each one honest. Obtain the three-slide checkpoint for a new direction. Show finished visual assets, not promises or prompts. Follow each asset with its method explanation when teaching the process. Keep mobile reading, reveals, source access and media cleanup functional. Reuse the existing library and preserve unrelated work and private access. Publish only within the current authorisation. Test the actual destination and state limitations honestly. Deliver the file or link the user asked for.

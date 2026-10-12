@@ -1,6 +1,6 @@
 # Three-slide calibration trial, 11 October 2026
 
-`whiteboard-trial-calibration.html` is a self-contained, unpublished trial for the three-slide approval checkpoint. It sits outside `dist`, so it is not part of the Sites static build. The live deck, register, viewer, assets and skill are unchanged. Rebuild it with `node build-trial-calibration.cjs`. Open `?view=reading` on the same file for the complete reading view.
+`whiteboard-trial-calibration.html` is a self-contained, unpublished trial for the three-slide approval checkpoint. It sits outside `dist`, so it is not part of the Sites static build. The live deck, register, viewer, assets and skill are unchanged. Rebuild it with `node skill/scripts/build-trial.cjs trial-calibration.cjs` (originally built with `build-trial-calibration.cjs`, now replaced by the skill kit). Open `?view=reading` on the same file for the complete reading view.
 
 The trial reuses `dist/library.js`, `dist/whiteboard.css` and `dist/library.css` verbatim. There is one runtime substitution: the viewer's default `ww-coin.svg` path points at the same coin bytes inlined in the file. Fonts and images are the bundled originals. Font licences remain in `dist/ww-*-license.txt`.
 
@@ -62,7 +62,7 @@ Not tested: physical iPhone or Safari, hosted delivery, or the live private site
 
 # Device library trial, 11 October 2026
 
-`whiteboard-trial-devices.html` is a second unpublished trial with eight visual devices and four recording tools. Build it with `TRIAL=devices node build-trial-calibration.cjs`; the slide content lives in `trial-devices.cjs`. Like the calibration trial, it sits outside `dist` and reuses the shared viewer verbatim.
+`whiteboard-trial-devices.html` is a second unpublished trial with eight visual devices and four recording tools. Build it with `node skill/scripts/build-trial.cjs trial-devices.cjs`; the slide content lives in `trial-devices.cjs`. Like the calibration trial, it sits outside `dist` and reuses the shared viewer verbatim.
 
 ## Devices, in story order
 
