@@ -45,6 +45,7 @@ Open http://localhost:8864/#/library. The migration command uses local storage o
 - `youtube-api.mjs`: YouTube Data API adapter.
 - `db/schema.ts`, `drizzle/`: storage schema and migration.
 - `SKILL.md`: presentation authoring guidance.
+- `skills/trending-topics/`: the Trending Topics skill. Finds 5 weekly video topics from our recent Claude Code work and the creator list, then writes record-ready Trending Topic Briefs for the 3 chosen.
 
 `dist/` is generated build output. Do not edit it.
 
