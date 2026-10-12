@@ -25,6 +25,13 @@ Tools come from the claude-code-remote MCP server. Load them with ToolSearch if 
 4. **Recently built or updated skills.** Read the synced skills manifest (find it with `ls ~/.claude/skills/synced/*/manifest.json`). List skills whose `updatedAt` is inside the window. A newly built skill is a prime topic: it is real, demo-able and explainable line by line.
 5. **Our existing decks.** Read `public/presentations.js` (if the repo is present) so covered topics are not repeated.
 
+### Keeping it fast (learned on the first run)
+
+- Expect around 90 sessions in a fortnight. `list_sessions` and `list_events` results are often too large to return inline (68k to over 1M characters) and get saved to a file. Read that file with a short extractor script that pulls only the fields above; never print a whole result.
+- Most transcript events are tool calls. Filter to `kinds: ["user","assistant"]`, and read the latest one or two pages of each session first; that is usually where the outcome, numbers and lessons are.
+- Read about 10 sessions in depth. The rest come from metadata alone; mark those signals "metadata only".
+- Many sessions can be one client's build (one fortnight was about 60 sessions on one client app). Collapse them into one or two signals.
+
 ## Route 2: local transcripts (desktop CLI fallback)
 
 If the session tools are unavailable, read `~/.claude/projects/*/*.jsonl` files modified in the last 14 days (`find ~/.claude/projects -name '*.jsonl' -mtime -14`). Each line is a JSON event; read the user and assistant text only.
