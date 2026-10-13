@@ -5,3 +5,7 @@ window.presentationRegister=[{
 }];
 
 window.presentationRegister.push({"id": "lead-gen-engine", "title": "Lead Gen Engine Demo Walkthrough", "description": "Two specialist AI agents turn business context into a reasoned audience strategy and a separately validated result.", "cover": "lge-cover.svg", "source": "lge-content.js", "reading": "lge-reading.html", "brand": {"name": "Lead Gen Engine", "surface": "#F8F6F3", "ink": "#111827", "accent": "#D4A96A", "font": "lge", "logo": "lge-logo.svg"}, "sourceNote": "United Van Lines is a real business used in a fictional demonstration. The non-sharing offer was confirmed by Taylor Cunningham. No executed United audience, delivery or conversion results are claimed."});
+
+window.presentationRegister.push({id:'vision-boards',title:'Using AI vision boards to build apps',description:'Make the AI draw, animate and agree the app before it writes code: five ways AI builds go wrong, the fifteen-part vision board system, a live board for our own app and a client board walkthrough.',cover:'vb-cover.svg',source:'vb-content.js',reading:'vb-reading.html',
+ brand:{name:'Pecuna Factorem',surface:'#ffffff',ink:'#1c1a17',accent:'#8b6002',font:'hand',logo:'ww-coin.svg'},
+ sourceNote:'Based on the Vision Boards video plan and the Vision Board Studio skill, version 3. Quotations are verified against the skill. Kinfolk Clinics is a made-up client and its board was not run. Jarvis history is supplied project history, not independently verified. Live YouTube retrieval in the Video ideas screen is not yet connected.'});
