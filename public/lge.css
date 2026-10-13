@@ -25,3 +25,5 @@ html[data-deck-font="lge"] #player .source-note{font-size:12px;color:#475569;max
 
 /* Capability figures retain the approved brand and responsive type scale. */
 .lge-stat strong{display:block;font-size:clamp(64px,9vw,112px);line-height:1;color:#111827;font-weight:700;letter-spacing:-.05em;margin-bottom:20px}.lge-stat h3{font-size:26px}.lge-stat p{font-size:20px;line-height:1.5;max-width:640px}.lge-count-stage>.part:last-child:has(>.lge-caption){grid-column:1/-1}.lge-reading .lge-stat strong{font-size:64px}@media(max-width:640px){.lge-stat p{font-size:18px}}
+
+.lge-step p.lge-source-count{grid-column:2;margin-top:0;font-size:16px;line-height:1.6;color:#475569}.lge-source-count strong{color:#111827;font-size:22px}

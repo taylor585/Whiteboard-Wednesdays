@@ -54,15 +54,15 @@ window.WW={
       "section": "02 / The system",
       "kind": "lge-single lge-record-lines",
       "parts": [
-        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Audience Builder</h3><p>Turns a business brief into a reasoned audience strategy.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>Validation Agent</h3><p>Checks the resulting records through a separate quality process.</p></div></div>"
+        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Audience Builder</h3><p>Turns a business brief into a reasoned audience strategy.</p><p class=\"lge-source-count\"><strong>58</strong> core instruction lines<br><strong>259</strong> supporting helper-code lines</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>Validation Agent</h3><p>Checks the resulting records through a separate quality process.</p><p class=\"lge-source-count\"><strong>123</strong> core instruction lines<br><strong>18</strong> supporting helper-code lines</p></div></div>"
       ],
       "reveals": [
         1,
         2
       ],
-      "note": "Two distinct responsibilities. The builder makes and verifies audience decisions. The validator evaluates the downloaded records rather than trusting the build alone. Separate agents do not imply different data providers or independent external certification.",
-      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
+      "note": "Two distinct responsibilities. The builder makes and verifies audience decisions. The validator evaluates the downloaded records rather than trusting the build alone. Source audit on 13 October 2026: 58 physical lines in the core builder instruction file; 259 physical lines across its three B2C reference helpers (85 + 33 + 141). The validator has 123 physical core instruction lines and an 18-line bundled helper. Counts include comments and blank lines, exclude tests, configuration, linked instruction libraries, historical implementations and the AI platform itself. These are scoped source counts, not the entire executable agent or a measure of quality. The validation helper covers one part of the wider instructed process. Reference helpers remain subordinate to current policy. No code, criteria or operating instructions are shown.",
+      "source": "Installed B2C source audit, 13 October 2026. Instructions and helper code counted separately; not total platform code."
     },
     {
       "id": "journey",
@@ -318,19 +318,19 @@ window.WW={
     },
     {
       "id": "finish",
-      "title": "Built for better decisions",
+      "title": "Eight weeks of specialist development",
       "section": "06 / The business value",
-      "kind": "lge-split lge-close",
+      "kind": "lge-split lge-count-stage",
       "parts": [
-        "<div><h3>Specialist judgement, repeated consistently.</h3><p class=\"lge-lead\">Business context, evidence-led selection and a separate validation stage.</p></div>",
-        "<div><h3>A clear output for your team.</h3><p class=\"lge-lead\">An audience to review, documented outcomes and a non-sharing supply commitment.</p></div>"
+        "<div class=\"lge-stat\"><strong>160</strong><p class=\"lge-lead\">Estimated development hours<br>across both agents.</p></div>",
+        "<div><h3>Built, tested and refined.</h3><p class=\"lge-lead\">Specialist audience decisions and a separate validation process.</p><p class=\"lge-lead\">4 hours a day × 5 days a week<br>× 8 weeks = 160 hours.</p><p class=\"lge-caption\">Over eight weeks of development, using an eight-week estimate.</p></div>"
       ],
       "reveals": [
         1,
         2
       ],
-      "note": "Close on the value: less repetitive operator work, traceable audience decisions and consistent scrutiny of records. Avoid a guaranteed lead yield or conversion promise.",
-      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
+      "note": "Taylor reports that the two agents were developed over more than eight weeks, at roughly four hours per working day and five days per week. The eight-week calculation is 4 × 5 × 8 = 160 hours across BOTH agents combined. This is the owner’s development-effort estimate, not an independently verified timesheet, not 160 hours per agent, and not a measured audience-build runtime or speed comparison. The source counts on slide 4 are a current scoped snapshot, not a reconstruction of every line written during development. Close on the value: less repetitive operator work, traceable audience decisions and consistent scrutiny of records.",
+      "source": "Development time supplied by Taylor Cunningham. Approximate combined investment: 4 × 5 × 8 = 160 hours."
     },
     {
       "id": "now-lets-build",
