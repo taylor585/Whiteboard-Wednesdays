@@ -64,5 +64,5 @@ const css=`
 @media(prefers-reduced-motion:reduce){.revealed .t-mark{animation:none}}
 `;
 
-return {deck,register,css,tools:false,file:'whiteboard-trial-calibration.html',title:'Calibration Trial',artifactTitle:'Paid Ads Calibration Trial',header:'CALIBRATION TRIAL · NOT PUBLISHED',eyebrow:'THREE-SLIDE APPROVAL CHECKPOINT',intro:'Three moments from Our paid ads process, rebuilt for review before any wider change.'};
+return {deck,register,css,tools:false,file:'whiteboard-trial-calibration.html',brandProfile:'skill/examples/pecuna-brand.json',title:'Calibration Trial',artifactTitle:'Paid Ads Calibration Trial',header:'CALIBRATION TRIAL · NOT PUBLISHED',eyebrow:'THREE-SLIDE APPROVAL CHECKPOINT',intro:'Three moments from Our paid ads process, rebuilt for review before any wider change.'};
 };

@@ -1,4 +1,4 @@
-// Whiteboard Wednesdays source tools v1.1. Requires poppler-utils (pdftotext, pdfinfo).
+// Whiteboard Wednesdays source tools v2.0. Requires poppler-utils (pdftotext, pdfinfo).
 // verifyQuotes: fail the build if any quotation is not verbatim in the PDF.
 // findHighlights: highlight rectangles, in PDF points, for exact phrases on a page.
 // zoomVars: the inline style a .d-frame needs to zoom from a whole page into one region.
@@ -7,6 +7,16 @@ const {execFileSync}=require('node:child_process');
 // Raw extraction can drop inter-word spaces, so whitespace is removed on both sides. Every other character must match,
 // including apostrophe and quotation-mark styles. Hyphenated line breaks ("first-\nhand") compare equal to "first-hand".
 const squash=s=>s.replace(/\s+/g,'');
+// Per-quote result: [{id, ok, pages}] where pages lists every page containing the quote.
+function quoteReport(pdf,quotes,{first,last}={}){
+ const pageCount=+execFileSync('pdfinfo',[pdf]).toString().match(/Pages:\s+(\d+)/)[1];
+ const from=first||1,to=last||pageCount,pages=[];
+ const all=execFileSync('pdftotext',['-raw','-f',String(from),'-l',String(to),pdf,'-']).toString().split('\f');
+ all.forEach((t,i)=>pages.push({n:from+i,text:squash(t)}));
+ // A quote may run across a page break, so the joined text is checked as well.
+ const joined=pages.map(p=>p.text).join('');
+ return quotes.map(q=>{const t=squash(q.text);return {id:q.id,ok:joined.includes(t),pages:pages.filter(p=>p.text.includes(t)).map(p=>p.n)};});
+}
 function verifyQuotes(pdf,quotes,{first,last}={}){
  const args=['-raw'];if(first)args.push('-f',String(first));if(last)args.push('-l',String(last));
  const text=squash(execFileSync('pdftotext',[...args,pdf,'-']).toString());
@@ -58,4 +68,4 @@ function zoomVars(pageAspect,region,{desktop=.72,phone=.86}={}){
  return '--zw:'+d.w+';--zl:'+d.l+';--zto:'+d.to+';--pzw:'+p.w+';--pzl:'+p.l+';--pzto:'+p.to;
 }
 
-module.exports={verifyQuotes,findHighlights,zoomVars,pageWords};
+module.exports={verifyQuotes,quoteReport,findHighlights,zoomVars,pageWords};

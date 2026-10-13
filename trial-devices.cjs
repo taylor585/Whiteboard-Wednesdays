@@ -112,5 +112,5 @@ const deck={slides:[
 
 const register=[{id:'trial-devices',title:'Device library trial',description:'All eight visual devices and the recording tools, built on real content from Our paid ads process. Not published.',cover:ad,source:'',reading:'?view=reading',brand:{name:'Pecuna Factorem',surface:'#ffffff',ink:'#1c1a17',accent:'#8b6002',font:'hand',logo:coin},sourceNote:'Device trial from the retained paid ads deck. Cadre Crew research and illustrative assets, not launched advertising.'}];
 
-return {deck,register,tools:true,file:'whiteboard-trial-devices.html',title:'Device Library Trial',artifactTitle:'Whiteboard Device Library',header:'DEVICE LIBRARY TRIAL · NOT PUBLISHED',eyebrow:'EIGHT DEVICES · RECORDING TOOLS',intro:'Every visual device and recording tool, on real content from Our paid ads process.'};
+return {deck,register,tools:true,file:'whiteboard-trial-devices.html',brandProfile:'skill/examples/pecuna-brand.json',title:'Device Library Trial',artifactTitle:'Whiteboard Device Library',header:'DEVICE LIBRARY TRIAL · NOT PUBLISHED',eyebrow:'EIGHT DEVICES · RECORDING TOOLS',intro:'Every visual device and recording tool, on real content from Our paid ads process.'};
 };

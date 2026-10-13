@@ -17,6 +17,7 @@ The reference slides are in the device library trial. Its spec, `trial-devices.c
 7. Tap the page (`d-tap`)
 8. Path animation (`d-path`)
 9. Choosing and combining devices
+10. Variations
 
 ---
 
@@ -153,6 +154,24 @@ The reference slides are in the device library trial. Its spec, `trial-devices.c
 
 - Pick the device by the slide's single takeaway, not for novelty. If no device teaches it better than a plain image and headline, use the plain slide.
 - No two consecutive slides use the same `kind`, and a deck of three or more slides uses at least three. `build-trial.cjs` enforces both. List deliberate exceptions in the spec's `repeatAllowed`, with the reason in the slide map.
-- A reliable evidence-led order is counts, wall, zoom, morph, annotations, feed, tap, path. See SKILL.md section 3.
-- Approved motion exceptions to the 200ms baseline are listed in SKILL.md section 8. Do not stretch other motion.
+- A reliable evidence-led order is counts, wall, zoom, morph, annotations, feed, tap, path. See `story-structure.md`.
+- Approved motion exceptions to the 200ms baseline are listed in `motion-and-reveals.md`. Do not stretch other motion.
 - New devices follow the same pattern: scoped `.parts.d-*` styles, reveal state read with `:has()`, final content in the markup, a reduced-motion rule, a phone rule, an evidence rule and a test in `scripts/verify-trial.cjs`.
+
+## 10. Variations
+
+The same device can carry different content shapes. These keep a deck varied without inventing new code. Each still obeys its evidence rule.
+
+| Device | Variations |
+| --- | --- |
+| Animated counts | Two to four figures; a single large figure with its caveat; before and after figures from the same source and scope (never mixed scopes) |
+| Quote wall | Three columns of six quotes on a narrower theme; one wall per ICP; pick two quotes to contrast (two `.is-pick` cards need a wider surround and a phone test) |
+| Zoom into the source | Zoom to a table row, a chart label or a definition; a two-stop sequence on two slides (page, then section, then line) with a different device between them; zoom into a screenshot the user supplied, labelled as theirs |
+| Words that morph | Morph into an email subject line, a landing page headline or a hook; show two candidate headlines from the same quote, each marked as authored |
+| Marker annotations | Annotate a landing page, an email or a report page; circle plus arrow for one detail; underline sets for copy rhythm; up to eight marks |
+| In-feed preview | Story format (taller screen, adjust `--feed-shift`); two ads in one feed to compare thumb-stop clarity; the same ad at 200px beside the feed |
+| Tap the page | Tap an email to map paragraphs to persuasion techniques; tap an app screen to show state handling; tap a report page to map findings to assets |
+| Path animation | Two-step or four-step paths; a branching path for qualified versus nurture; the same buyer across ad, page, survey and email |
+
+When a variation needs new CSS, scope it to the deck's own spec CSS, add a phone rule and a reduced-motion rule, and test it.
+

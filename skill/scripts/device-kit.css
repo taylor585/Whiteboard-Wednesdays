@@ -1,4 +1,4 @@
-/* Whiteboard Wednesdays device kit v1.1.
+/* Whiteboard Wednesdays device kit v2.0.
    Loaded after dist/whiteboard.css and dist/library.css. Uses the viewer's tokens (--surface, --ink, --accent, --tint, --line, --muted)
    and fonts (WWHand, WWBody, WWMono). Every device is scoped to its own .parts.d-* kind; reveal state comes from the viewer's
    .part.revealed class, read with :has(). See references/device-library.md for the markup each device expects. */

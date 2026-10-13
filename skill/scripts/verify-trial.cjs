@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Whiteboard Wednesdays trial verifier v1.1 (Playwright + Chromium).
+// Whiteboard Wednesdays trial verifier v2.0 (Playwright + Chromium).
 // Usage: node verify-trial.cjs <deck-spec.cjs> <page-url> [--dist DIR]
 // Set PLAYWRIGHT_PATH if playwright is not resolvable, QA_OUTPUT for screenshots, CHROMIUM_PATH for a specific browser.
 // Covers: every reveal at 375/390/768/1280px with no horizontal overflow; expected images decoded (counted from the

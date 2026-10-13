@@ -1,4 +1,4 @@
-/* Whiteboard Wednesdays device kit v1.1: device runtime and recording tools.
+/* Whiteboard Wednesdays device kit v2.0: device runtime and recording tools.
    Call WWDeviceKit(deck) once, after dist/library.js has started, with the same deck object the viewer renders.
    It never edits the viewer: it watches #progress (the viewer's aria-live status) to learn the slide and reveal.
    Devices handled here: animated counts (.d-num) and tap-the-page hotspots (.d-hot). All other devices are pure CSS.
