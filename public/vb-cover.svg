@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-label="Vision Boards cover: three storyboard frames, one circled, above a timeline with a playhead and a decision checklist">
+<rect width="720" height="540" fill="#ffffff"/>
+<g fill="none" stroke="#1c1a17" stroke-width="4" stroke-linejoin="round">
+<rect x="60" y="70" width="180" height="128" rx="6"/><rect x="270" y="70" width="180" height="128" rx="6" fill="#f8f4ec"/><rect x="480" y="70" width="180" height="128" rx="6"/>
+</g>
+<g fill="none" stroke="#8b6002" stroke-width="5" stroke-linecap="round"><path d="M256 92 C300 44 436 46 466 104 C492 160 452 228 360 224 C266 220 236 168 250 120"/></g>
+<g stroke="#1c1a17" stroke-width="3" stroke-linecap="round" fill="none"><path d="M84 110h90M84 132h130M84 154h70"/><path d="M504 110h110M504 132h80"/><rect x="504" y="148" width="64" height="26" rx="4"/></g>
+<g fill="#1c1a17"><rect x="300" y="104" width="64" height="44" rx="4"/><rect x="374" y="104" width="52" height="20" rx="4" fill="#8b6002"/><rect x="374" y="130" width="52" height="18" rx="4" opacity=".35"/></g>
+<g stroke="#8b6002" stroke-width="4" fill="none" stroke-linecap="round"><path d="M244 134h22M454 134h22"/></g>
+<rect x="60" y="270" width="600" height="18" rx="9" fill="#f8f4ec" stroke="#1c1a17" stroke-width="3"/>
+<rect x="60" y="270" width="290" height="18" rx="9" fill="#f6df8c"/>
+<rect x="344" y="250" width="8" height="58" rx="4" fill="#8b6002"/>
+<g fill="none" stroke="#1c1a17" stroke-width="3"><rect x="60" y="350" width="26" height="26" rx="3"/><rect x="60" y="396" width="26" height="26" rx="3"/><rect x="60" y="442" width="26" height="26" rx="3" stroke="#8b6002"/></g>
+<g fill="#1c1a17" font-family="'IBM Plex Mono',ui-monospace,monospace" font-size="20" letter-spacing="1"><text x="104" y="371">D-01</text><text x="104" y="417">D-02</text><text x="104" y="463" fill="#8b6002">D-03</text></g>
+<g stroke="#1c1a17" stroke-width="3" stroke-linecap="round"><path d="M190 363h150M190 409h120M190 455h170"/></g>
+<text x="660" y="420" text-anchor="end" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#1c1a17">Draw it.</text>
+<text x="660" y="474" text-anchor="end" font-family="Georgia,serif" font-size="46" font-weight="700" fill="#8b6002">Then build it.</text>
+</svg>

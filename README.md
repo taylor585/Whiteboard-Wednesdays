@@ -18,7 +18,7 @@ Run from the repository root:
 python3 -m http.server 8862 --directory public
 ```
 
-Open http://localhost:8862/#/library on that same machine. This shows both presentations, the approved clean underline header, and the Video ideas layout. Live video retrieval and saved ideas require the full server below. No API key is needed for design work.
+Open http://localhost:8862/#/library on that same machine. This shows all four presentations, the approved clean underline header, and the Video ideas layout. Live video retrieval and saved ideas require the full server below. No API key is needed for design work.
 
 ## Full application
 
@@ -39,7 +39,8 @@ Open http://localhost:8864/#/library. The migration command uses local storage o
 - `public/library.css`, `public/library.js`: library styling, routing and presentation shell.
 - `public/video-ideas.css`, `public/video-ideas.js`: creator watchlist interface.
 - `public/presentations.js`: presentation register.
-- `public/whiteboard-content.js`, `public/lge-content.js`: existing presentation content.
+- `public/whiteboard-content.js`, `public/lge-content.js`, `public/vb-content.js`, `public/ah-content.js`: presentation content (paid ads, Lead Gen Engine, Vision Boards, AI Harnesses).
+- `public/vb.css`, `public/vb.js`, `public/ah.css`: slide styles and behaviour scoped to the Vision Boards (`vb-`) and AI Harnesses (`hc-`) decks.
 - `public/`: all retained images, fonts, licences, reading views and PDF assets.
 - `app/api/ideas/[[...path]]/route.ts`: server-side watchlist, refresh and saved ideas.
 - `youtube-api.mjs`: YouTube Data API adapter.
