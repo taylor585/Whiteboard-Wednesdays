@@ -1,0 +1,70 @@
+/* Whiteboard Wednesdays device kit v2.0.
+   Loaded after dist/whiteboard.css and dist/library.css. Uses the viewer's tokens (--surface, --ink, --accent, --tint, --line, --muted)
+   and fonts (WWHand, WWBody, WWMono). Every device is scoped to its own .parts.d-* kind; reveal state comes from the viewer's
+   .part.revealed class, read with :has(). See references/device-library.md for the markup each device expects. */
+
+/* Shared primitives: connector arrow, highlight sweep, trial flag, reading view. */
+.trial-flag{display:inline-block;font:11px WWMono;letter-spacing:1px;background:#f6df8c;color:#1c1a17;padding:4px 8px;margin-left:12px;vertical-align:middle}
+.t-link{display:block;width:56px;height:24px;flex:none;fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:90;stroke-dashoffset:0}
+.revealed .t-link{animation:t-draw 260ms ease-out}@keyframes t-draw{from{stroke-dashoffset:90}to{stroke-dashoffset:0}}
+@keyframes t-sweep{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.tabs-wrap{top:env(safe-area-inset-top,0px)}body.reading-mode main,body.reading-mode .tabs-wrap,body.reading-mode .header-actions{display:none}.reading-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.reading-wrap{max-width:1180px;margin:auto;padding:24px 4vw 64px}.reading-slide{border-top:1px solid var(--line);padding:28px 0}.reading-slide h2{font:600 clamp(36px,4vw,56px)/1.08 var(--heading),cursive;margin:10px 0 24px}.reading-slide .note{background:var(--tint);padding:16px;font-size:14px;margin-top:24px}
+#player{position:relative}
+
+/* 1. Animated counts: .parts.d-counts > .d-count > b.d-num[data-count]. */
+.parts.d-counts{grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 40px}.d-count{border-top:3px solid var(--accent);padding-top:10px}.d-num{display:block;font:600 clamp(64px,7vw,104px)/1 WWHand,cursive;color:var(--accent);font-variant-numeric:tabular-nums}.d-count p{font-size:18px;margin:8px 0 0}
+
+/* 2. Quote wall: .d-wall-grid > figure.d-q (one .is-pick), lifted on reveal 2. */
+.parts.d-wall{grid-template-columns:1fr}.d-wall-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px 22px}.d-q{margin:0;transform:rotate(var(--r,0deg));transition:opacity 300ms ease,transform 300ms ease}.d-q blockquote{font:italic 600 15px/1.42 WWBody,Arial,sans-serif;margin:0 0 6px}.d-q figcaption{font:11px WWMono,monospace;color:var(--muted)}
+.parts.d-wall:has(.part:nth-child(2).revealed) .d-q:not(.is-pick){opacity:.16}.parts.d-wall:has(.part:nth-child(2).revealed) .d-q.is-pick{transform:scale(1.32);position:relative;z-index:2;background:var(--surface);box-shadow:0 0 0 16px var(--surface),0 6px 28px 16px color-mix(in srgb,var(--ink) 10%,transparent)}
+.d-q:not(.is-pick) mark,.parts.d-wall:not(:has(.part:nth-child(2).revealed)) .is-pick mark{background:none;padding:0}.d-wall-cap{font-size:20px}
+
+/* 3. Zoom into the source: figure.d-frame (style from source-tools zoomVars) > .d-page > img + svg of .d-hl rects. */
+.parts.d-zoom{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px 48px}.d-zoom .part:first-child{grid-row:span 2}
+.d-frame{position:relative;aspect-ratio:1/.72;overflow:hidden;background:var(--tint);margin:0 0 8px}.d-page{position:absolute;top:0;height:100%;width:var(--zw);left:var(--zl);transform-origin:0 0;transition:transform 600ms cubic-bezier(.6,0,.2,1);box-shadow:0 2px 12px color-mix(in srgb,var(--ink) 18%,transparent)}.d-page img,.d-page svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.parts.d-zoom:has(.part:nth-child(2).revealed) .d-page{transform:var(--zto)}
+.d-hl{fill:#f6df8c;mix-blend-mode:multiply;transform-box:fill-box;transform-origin:left center;transform:scaleX(0)}.parts.d-zoom:has(.part:nth-child(2).revealed) .d-hl{animation:t-sweep 320ms ease-out both;animation-delay:calc(var(--d,0ms) + 620ms)}
+.d-zoom-cap{font:italic 600 22px/1.4 WWBody,Arial,sans-serif}
+
+/* 4. Words that morph: blockquote.d-quote of span.d-keep / span.d-drop; p.d-head of span.d-l letters inside .k (kept) and .a (added). */
+.parts.d-morph{grid-template-columns:1fr}.d-quote{font:italic 700 clamp(26px,3vw,40px)/1.4 WWBody,Arial,sans-serif;max-width:1000px}.d-quote span{transition:opacity 300ms ease,color 300ms ease}
+.parts.d-morph:has(.part:nth-child(2).revealed) .d-drop{opacity:.28;text-decoration:line-through;text-decoration-color:var(--accent)}.parts.d-morph:has(.part:nth-child(2).revealed) .d-keep{background:#f6df8c;color:#1c1a17;padding:0 4px}
+.d-head{font-size:clamp(52px,7vw,96px);line-height:1.05;margin:8px 0 12px}.d-head .k,.d-head .a{white-space:nowrap}.d-head .k{box-shadow:inset 0 -.18em 0 #f6df8c}.d-head .a{color:var(--accent);border-bottom:3px dashed var(--accent)}.d-l{display:inline-block}.revealed .d-l{animation:d-rise 260ms ease-out both;animation-delay:calc(var(--i) * 35ms)}@keyframes d-rise{from{opacity:0;transform:translateY(.35em)}to{opacity:1;transform:none}}
+.d-legend{display:flex;gap:24px;font-size:14px}.d-legend .k{box-shadow:inset 0 -.4em 0 #f6df8c}.d-legend .a{color:var(--accent);border-bottom:2px dashed var(--accent)}
+
+/* 5. Marker annotations: part 1 figure.d-ad > img + svg of g.d-a.d-aN; parts 2.. are .d-note entries. Up to 8 marks. */
+.parts.d-annot{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 48px}.d-annot .part:first-child{grid-row:span 1}.parts.d-annot:has(>.part:nth-child(3)):not(:has(>.part:nth-child(4)))>.part:first-child{grid-row:span 2}.parts.d-annot:has(>.part:nth-child(4)):not(:has(>.part:nth-child(5)))>.part:first-child{grid-row:span 3}.parts.d-annot:has(>.part:nth-child(5)):not(:has(>.part:nth-child(6)))>.part:first-child{grid-row:span 4}.parts.d-annot:has(>.part:nth-child(6)):not(:has(>.part:nth-child(7)))>.part:first-child{grid-row:span 5}.parts.d-annot:has(>.part:nth-child(7)):not(:has(>.part:nth-child(8)))>.part:first-child{grid-row:span 6}.parts.d-annot:has(>.part:nth-child(8)):not(:has(>.part:nth-child(9)))>.part:first-child{grid-row:span 7}.parts.d-annot:has(>.part:nth-child(9)):not(:has(>.part:nth-child(10)))>.part:first-child{grid-row:span 8}.d-ad{position:relative;margin:0;max-width:470px}.d-ad img,.d-ad svg{display:block;width:100%;height:auto}.d-ad svg{position:absolute;inset:0;height:100%}
+.d-a{opacity:0}.d-a path{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}.d-a .halo{stroke:#fff;stroke-width:20}.d-a .ink{stroke:#8b6002;stroke-width:9}.badge circle{fill:#8b6002;stroke:#fff;stroke-width:5}.badge text{font:600 46px WWHand,cursive;fill:#fff}
+.parts.d-annot:has(.part:nth-child(2).revealed) .d-a1,.parts.d-annot:has(.part:nth-child(3).revealed) .d-a2,.parts.d-annot:has(.part:nth-child(4).revealed) .d-a3,.parts.d-annot:has(.part:nth-child(5).revealed) .d-a4,.parts.d-annot:has(.part:nth-child(6).revealed) .d-a5,.parts.d-annot:has(.part:nth-child(7).revealed) .d-a6,.parts.d-annot:has(.part:nth-child(8).revealed) .d-a7,.parts.d-annot:has(.part:nth-child(9).revealed) .d-a8{opacity:1}
+.parts.d-annot:has(.part:nth-child(2).revealed) .d-a1 path,.parts.d-annot:has(.part:nth-child(3).revealed) .d-a2 path,.parts.d-annot:has(.part:nth-child(4).revealed) .d-a3 path,.parts.d-annot:has(.part:nth-child(5).revealed) .d-a4 path,.parts.d-annot:has(.part:nth-child(6).revealed) .d-a5 path,.parts.d-annot:has(.part:nth-child(7).revealed) .d-a6 path,.parts.d-annot:has(.part:nth-child(8).revealed) .d-a7 path,.parts.d-annot:has(.part:nth-child(9).revealed) .d-a8 path{animation:d-draw 420ms ease-out forwards}
+@keyframes d-draw{to{stroke-dashoffset:0}}
+.d-note{display:flex;gap:16px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px}.d-n{flex:none;width:40px;height:40px;border-radius:50%;background:var(--accent);color:var(--surface);display:grid;place-items:center;font:600 26px WWHand,cursive}.d-note h3{font-size:30px;margin:0 0 4px}.d-note p{margin:0;font-size:17px}
+
+/* 6. In-feed preview: .d-phone > .d-screen > .d-feed-inner of .d-post blocks; scrolls by --feed-shift on reveal 2. */
+.parts.d-feed{grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:24px 64px}.d-feed .part:first-child{grid-row:span 2}
+.d-phone{width:min(100%,336px);border:8px solid var(--ink);border-radius:34px;padding:8px;background:var(--ink)}.d-screen{height:560px;overflow:hidden;border-radius:24px;background:#f3f2f0}.d-feed-inner{padding:10px;display:grid;gap:12px;transition:transform 700ms cubic-bezier(.6,0,.2,1)}
+.parts.d-feed:has(.part:nth-child(2).revealed) .d-feed-inner{transform:translateY(var(--feed-shift,-252px))}
+.d-post{background:#fff;border-radius:10px;padding:10px;font-size:13px;line-height:1.35}.d-post p{margin:6px 0 8px}.d-post img{display:block;width:100%;height:auto}.d-post-head{display:flex;align-items:center;gap:8px}.d-post-head i{width:26px;height:26px;border-radius:50%;background:#d9d6d0}.d-post-head b{font-size:13px}.d-post-head em{font-style:normal;font-size:11px;color:#5c5750}.d-post-head span{width:90px;height:9px;border-radius:4px;background:#d9d6d0}
+.d-cta{margin-top:8px;padding:9px;text-align:center;font-weight:600;background:var(--cta,#2541e0);color:#fff;border-radius:6px}.d-ghost-lines span{display:block;height:8px;border-radius:4px;background:#e4e1dc;margin:10px 0}.d-ghost-lines span+span{width:60%}.d-ghost-img{height:170px;border-radius:6px;background:#e4e1dc}
+
+/* 7. Tap the page: .d-tapwrap > .d-tap-img (img + button.d-hot[data-h][data-p][data-s][data-label]) + .d-tap-panel. */
+.parts.d-tap{grid-template-columns:1fr}.d-tapwrap{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:32px;align-items:start}.d-tap-img{position:relative;border:1px solid var(--line)}.d-tap-img img{display:block;width:100%;height:auto}
+.d-hot{position:absolute;transform:translate(-50%,-50%);width:44px;height:44px;min-height:44px;padding:0;border-radius:50%;background:var(--accent);color:#fff;border:3px solid #fff;font:600 24px WWHand,cursive;box-shadow:0 2px 8px rgba(0,0,0,.25)}.d-hot:hover{background:var(--ink)}.d-hot[aria-pressed=true]{background:var(--ink);outline:3px solid #f6df8c}
+.d-tap-panel{border-left:3px solid var(--accent);padding-left:18px}.d-tap-panel h3{margin:6px 0}
+
+/* 8. Path animation: three or more parts; parts 2.. start with .d-wire (arrow + .d-dot). */
+.parts.d-path{grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 64px}.d-path .part{position:relative;border-top:3px solid var(--accent);padding-top:14px}.d-path h3{font-size:30px;margin:6px 0 10px}.d-path img{display:block;height:230px;width:100%;object-fit:contain;object-position:left top}.d-path p{font-size:16px}
+.d-wire{position:absolute;left:-60px;top:28px;width:56px;height:24px}.d-wire .t-link{transform:none;margin:0}.d-dot{position:absolute;left:0;top:7px;width:10px;height:10px;border-radius:50%;background:#f6df8c;border:2px solid var(--accent);opacity:0}.revealed .d-dot{animation:d-travel 700ms ease-in-out 120ms}@keyframes d-travel{0%{opacity:1;transform:translateX(0)}85%{opacity:1;transform:translateX(42px)}100%{opacity:0;transform:translateX(46px)}}
+.d-mail{background:var(--tint);padding:16px;height:230px}.d-mail small{margin:0;font:11px WWMono,monospace}.d-mail b{display:block;font-size:20px;margin:4px 0 12px}.d-mail p{font-size:17px}
+
+/* Recording tools (device-kit.js). */
+.d-tools{display:flex;flex-wrap:wrap;gap:6px}.d-tools button{font-size:13px;padding:8px 12px}.d-tools button[aria-pressed=true]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+#d-spot{position:fixed;inset:0;z-index:30;pointer-events:none;background:radial-gradient(circle at var(--x,50%) var(--y,50%),transparent 0,transparent 130px,rgba(28,26,23,.64) 172px)}
+#d-pen{position:absolute;z-index:31;touch-action:none;cursor:crosshair}
+.d-chip{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:34;display:flex;gap:10px;align-items:center;background:var(--ink);color:var(--surface);padding:8px 8px 8px 14px;border-radius:24px;font:12px WWMono,monospace}.d-chip button{min-height:36px;padding:6px 12px;font-size:12px}
+#d-presenter{position:fixed;top:0;right:0;bottom:0;width:min(400px,100%);z-index:33;background:var(--surface);border-left:1px solid var(--line);box-shadow:-8px 0 24px rgba(0,0,0,.12);padding:calc(18px + env(safe-area-inset-top,0px)) 20px 20px;overflow:auto;display:grid;gap:14px;align-content:start}
+#d-presenter h2{font:600 32px WWHand,cursive;margin:0}.d-timer{font:600 44px/1 WWMono,monospace;font-variant-numeric:tabular-nums}.d-row{display:flex;gap:8px;flex-wrap:wrap}.d-box{background:var(--tint);padding:12px;font-size:14px}.d-box b{display:block;font-size:16px}#d-cuelist{width:100%;min-height:150px;font:12px/1.5 WWMono,monospace;border:1px solid var(--line);padding:8px}
+
+@media(max-width:900px){.parts.d-counts{grid-template-columns:1fr 1fr}.d-wall-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.parts.d-zoom,.parts.d-annot,.parts.d-feed{display:flex;flex-direction:column;gap:22px}.d-tapwrap{grid-template-columns:1fr}.parts.d-path{grid-template-columns:1fr;gap:20px}.d-wire{position:static;transform:rotate(90deg);margin:0 0 8px 4px;width:40px}.d-path .part{border-top:0;padding-top:0}.d-path img,.d-mail{height:auto;max-height:260px}}
+@media(max-width:640px){.d-wall-grid{grid-template-columns:1fr 1fr;gap:14px}.parts.d-wall:has(.part:nth-child(2).revealed) .d-q.is-pick{transform:scale(1.06)}.parts.d-counts{display:grid;grid-template-columns:1fr 1fr}.d-frame{aspect-ratio:1/.86}.d-page{width:var(--pzw);left:var(--pzl)}.parts.d-zoom:has(.part:nth-child(2).revealed) .d-page{transform:var(--pzto)}.d-quote{font-size:24px}.d-head{font-size:50px}.d-note h3{font-size:26px}.d-tools button{font-size:12px;padding:8px 10px}}
+@media(prefers-reduced-motion:reduce){.d-page,.d-feed-inner,.d-q,.d-quote span{transition:none}.revealed .d-l,.revealed .d-dot,.revealed .t-link{animation:none}.d-dot{display:none}.parts.d-zoom .d-hl{animation:none!important;transform:none}.d-a path{animation:none!important;stroke-dashoffset:0}}

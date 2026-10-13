@@ -1,0 +1,22 @@
+{
+  "name": "whiteboard-wednesdays",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Evidence-led, image-led Whiteboard Wednesdays presentations: method, branding, layouts, devices, motion, recording tools, builder and checks.",
+  "scripts": {
+    "doctor": "node scripts/doctor.cjs",
+    "build": "node scripts/build-trial.cjs",
+    "verify": "node scripts/verify-trial.cjs",
+    "check-quotes": "node scripts/check-quotes.cjs",
+    "new-deck": "node scripts/new-deck.cjs",
+    "demo": "cd examples/cadre-crew && node ../../scripts/build-trial.cjs trial-calibration.cjs && node ../../scripts/build-trial.cjs trial-devices.cjs",
+    "test": "node tests/run-tests.cjs",
+    "package": "python3 scripts/package_skill.py"
+  },
+  "optionalDependencies": {
+    "playwright": "1.56.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
