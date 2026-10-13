@@ -64,6 +64,8 @@ const go=async(page,id)=>{await page.goto(base+'#/presentation/trial-devices/sli
   await page.keyboard.press('c');check(await ink()===0,'C clears the drawing '+width);
   await page.mouse.move(b.x+40,b.y+60);await page.mouse.down();await page.mouse.move(b.x+120,b.y+90,{steps:5});await page.mouse.up();
   await page.keyboard.press('ArrowRight');await page.keyboard.press('ArrowRight');await page.keyboard.press('ArrowRight');await page.waitForFunction(()=>location.hash.endsWith('device-morph'));
+  // The URL changes before the viewer redraws; wait for the new slide itself before checking the pen layer.
+  await page.waitForFunction(()=>document.querySelector('#canvas h2')?.textContent==='Keep their words. Add one.');
   check(await ink()===0,'drawing clears on slide change '+width);
   await page.locator('.d-chip [data-stop="pen"]').click();check(!(await page.locator('#d-pen').isVisible()),'chip stops pen '+width);
   await page.locator('#tool-presenter').click();check(await page.locator('#d-presenter').isVisible(),'presenter panel opens '+width);
