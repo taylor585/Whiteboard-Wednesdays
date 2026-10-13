@@ -13,8 +13,8 @@ window.WW={
         1,
         2
       ],
-      "note": "Open with poor-quality leads, one of the two problems Taylor identified. These are illustrative failure modes, not measured industry prevalence or a claim about every lead supplier. Lead Gen Engine quality means matching the agreed brief and passing the documented checks.",
-      "source": "Illustrative examples of a lead that does not fit."
+      "note": "Open with the commercial problem: a contact has value only when it fits the business. No industry-wide prevalence statistic is claimed.",
+      "source": "Lead Gen Engine service proposition supplied by the owner."
     },
     {
       "id": "shared-leads",
@@ -29,8 +29,8 @@ window.WW={
         1,
         2
       ],
-      "note": "Explain the second problem in ordinary language: a supplier sends the same lead to multiple buying businesses. The three branches are a teaching diagram, not an industry statistic. Do not claim all suppliers operate this way.",
-      "source": "Illustrative shared-lead model. No market-wide figures are claimed."
+      "note": "This diagram explains a shared-lead model. It is illustrative, not a claim about a named competitor.",
+      "source": "Lead Gen Engine service proposition supplied by the owner."
     },
     {
       "id": "our-offer",
@@ -45,217 +45,233 @@ window.WW={
         1,
         2
       ],
-      "note": "Taylor confirmed the offer on 7 October 2026: high-quality leads that are not shared. Present non-sharing as our supply commitment, not proof that nobody else can independently identify or contact the same person. The walkthrough demonstrates selection and validation; it does not audit an exclusivity allocation system or claim guaranteed enquiries, appointments or sales.",
-      "source": "Quality follows the agreed brief and checks. Our supplied leads are not shared with other buyers."
+      "note": "Our stated offer combines business-specific selection with a commitment not to share supplied leads with other buyers. Validation does not itself establish exclusivity or guarantee sales.",
+      "source": "Lead Gen Engine service proposition supplied by the owner."
     },
     {
       "id": "real-example",
-      "title": "A real business example",
-      "section": "03 / The demonstration",
-      "kind": "lge-split lge-example",
+      "title": "Two specialist AI agents",
+      "section": "02 / The system",
+      "kind": "lge-single lge-record-lines",
       "parts": [
-        "<div class=\"lge-company\"><svg class=\"lge-icon\" viewBox=\"0 0 80 80\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8 35L40 9l32 26M17 30v42h46V30M33 72V49h14v23\"/></svg><h3>United Van Lines</h3><p>Residential moving between US states.</p><a href=\"https://www.unitedvanlines.com/moving-services/long-distance\" target=\"_blank\" rel=\"noopener\">See the real service</a></div>",
-        "<p class=\"lge-statement\">One specific audience.</p><p class=\"lge-lead\">US homeowners showing recent interest in a move between states.</p><p class=\"lge-caption\">The company is real. The completed business brief is fictional.</p>"
+        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Audience Builder</h3><p>Turns a business brief into a reasoned audience strategy.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>Validation Agent</h3><p>Checks the resulting records through a separate quality process.</p></div></div>"
       ],
       "reveals": [
         1,
         2
       ],
-      "note": "United’s official service page describes interstate moving, packing and storage. This example narrows to US homeowners; it is not a claim that all United customers own homes. Explain that Alex Demo, prices, capacity and targets are invented for teaching. No United partnership or completed audience run is claimed.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "Two distinct responsibilities. The builder makes and verifies audience decisions. The validator evaluates the downloaded records rather than trusting the build alone. Separate agents do not imply different data providers or independent external certification.",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "id": "journey",
-      "title": "From brief to conversation",
-      "section": "03 / The demonstration",
+      "title": "One connected decision process",
+      "section": "02 / The system",
       "kind": "lge-steps lge-path",
       "parts": [
-        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Tell us who you want</h3><p>Complete the onboarding form.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>Find a matching audience</h3><p>Use the agreed service and location.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">03</span><div><h3>Download the results</h3><p>Check what the actual export contains.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">04</span><div><h3>Check every contact</h3><p>Keep, remove or hold for review.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">05</span><div><h3>Deliver the checked list</h3><p>Match the client, audience and tracker.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">06</span><div><h3>Confirm the real need</h3><p>A person checks the move and service fit.</p></div></div>"
+        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Understand the business</h3><p>Read the brief and identify what success means.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>Build the audience</h3><p>Choose the relevant data and verify the saved configuration.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">03</span><div><h3>Evaluate the records</h3><p>Apply the separate validation framework.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">04</span><div><h3>Present the evidence</h3><p>Return clear outcomes for human review.</p></div></div>"
       ],
       "reveals": [
         1,
         2,
         3,
-        4,
-        5,
-        6
+        4
       ],
-      "note": "Reveal each numbered step. Avoid suggesting that this is a fully autonomous one-click pipeline. The original research established an operator-guided workflow and identified older application defaults that need checking before a real run.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "The sophistication is in carrying the business requirement through every stage, with separate checks on the configuration and the actual output. Show the progression without opening operator screens.",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "id": "onboarding-start",
-      "title": "Your answers set the rules",
-      "section": "04 / Onboarding",
-      "kind": "lge-single lge-intake-slide",
+      "title": "The intelligence starts here",
+      "section": "03 / Audience Builder",
+      "kind": "lge-split lge-count-stage",
       "parts": [
-        "<p class=\"lge-lead\">Six sections set the rules. Open each to see our completed example.</p>",
-        "<details class=\"lge-intake\"><summary><span class=\"lge-num\">01</span>Your business</summary><div class=\"lge-intake-body\"><table><thead><tr><th>What the client completes</th><th>Completed demonstration answer</th></tr></thead><tbody><tr><th scope=\"row\">Business name</th><td>United Van Lines Demo</td></tr><tr><th scope=\"row\">Main contact</th><td>Alex Demo (fictional)</td></tr><tr><th scope=\"row\">Work email</th><td>demo@example.com (fictional)</td></tr><tr><th scope=\"row\">Industry / niche (ICP)</th><td>Residential interstate moving</td></tr><tr><th scope=\"row\">Website</th><td>https://www.unitedvanlines.com</td></tr><tr><th scope=\"row\">Sales team and capacity</th><td>DEMO: 2 coordinators; 5 surveys/day. Client supplies actual capacity.</td></tr></tbody></table><p>All applicable questions are required in the current form. Use a real authorised contact for real onboarding.</p></div></details>",
-        "<details class=\"lge-intake\"><summary><span class=\"lge-num\">02</span>Your offer</summary><div class=\"lge-intake-body\"><table><thead><tr><th>What the client completes</th><th>Completed demonstration answer</th></tr></thead><tbody><tr><th scope=\"row\">Service you want leads for</th><td>Residential interstate moving; packing and storage when needed.</td></tr><tr><th scope=\"row\">Typical customer price</th><td>DEMO: $7,500 planning value. Actual United price is quote-based.</td></tr><tr><th scope=\"row\">Currency</th><td>USD</td></tr><tr><th scope=\"row\">Typical profit per job</th><td>DEMO: $1,500 profit per job. Fictional value; client supplies actual.</td></tr></tbody></table><p>Price and profit above are fictional demo inputs. United uses a survey and customised quote.</p></div></details>",
-        "<details class=\"lge-intake\"><summary><span class=\"lge-num\">03</span>Audience location</summary><div class=\"lge-intake-body\"><table><thead><tr><th>What the client completes</th><th>Completed demonstration answer</th></tr></thead><tbody><tr><th scope=\"row\">Audience location</th><td>States</td></tr><tr><th scope=\"row\">US states</th><td>AL, AK, AZ, AR, CA, CO, CT, DE, DC, FL, GA, HI, ID, IL, IN, IA, KS, KY, LA, ME, MD, MA, MI, MN, MS, MO, MT, NE, NV, NH, NJ, NM, NY, NC, ND, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VT, VA, WA, WV, WI, WY</td></tr><tr><th scope=\"row\">Priority areas within the boundary</th><td>DEMO: no state prioritisation. Use the nationwide discovery scope.</td></tr><tr><th scope=\"row\">Locations to exclude</th><td>Non-US locations and US territories. Check serviceable lanes separately.</td></tr><tr><th scope=\"row\">Country</th><td>United States, set automatically when States is selected.</td></tr><tr><th scope=\"row\">Conditional location fields</th><td>Base address, radius and ZIP list: not applicable in States mode.</td></tr></tbody></table><p>Discovery location is the person&#x27;s location. It does not establish their moving destination.</p></div></details>",
-        "<details class=\"lge-intake\"><summary><span class=\"lge-num\">04</span>Your customers</summary><div class=\"lge-intake-body\"><table><thead><tr><th>What the client completes</th><th>Completed demonstration answer</th></tr></thead><tbody><tr><th scope=\"row\">Describe your ideal customer</th><td>Homeowner researching a residential move between US states.</td></tr><tr><th scope=\"row\">Customer type</th><td>B2C</td></tr><tr><th scope=\"row\">Eligible property types</th><td>DEMO: any owner-occupied residence. No property-size filter.</td></tr><tr><th scope=\"row\">Ownership requirement</th><td>Homeowners only</td></tr><tr><th scope=\"row\">Buying intent and service signals</th><td>Moving, relocation, pre-movers, residential moving and moving costs. Medium or High; today and yesterday.</td></tr><tr><th scope=\"row\">Who or what should we exclude?</th><td>Low intent, non-homeowners, non-US. Commercial moves, jobs and unrelated services; missing evidence held.</td></tr></tbody></table><p>Target industries and company sizes is conditional for B2B. It is not applicable to this B2C audience.</p></div></details>",
-        "<details class=\"lge-intake\"><summary><span class=\"lge-num\">05</span>Goals and delivery</summary><div class=\"lge-intake-body\"><table><thead><tr><th>What the client completes</th><th>Completed demonstration answer</th></tr></thead><tbody><tr><th scope=\"row\">Lead target and sales capacity</th><td>DEMO: select up to 50 accepted rows. 2 coordinators; 5 surveys/day. This is not a promised lead yield.</td></tr><tr><th scope=\"row\">What makes an appointment qualified?</th><td>Confirm homeowner, origin, destination, move date, service fit and decision-maker. Survey booked; held status tracked later.</td></tr><tr><th scope=\"row\">Current / intended CRM</th><td>Other DEMO: workbook and dashboard review.</td></tr><tr><th scope=\"row\">Portal access required</th><td>Yes (demo choice)</td></tr><tr><th scope=\"row\">Preferred contact channels</th><td>DEMO: human email or telephone only after permission review. No outreach in this demonstration.</td></tr><tr><th scope=\"row\">Anything else we should know?</th><td>Hypothetical example, no partnership. 12 checks; 30 delivery columns. No live submission or lead send.</td></tr></tbody></table><p>Contact preferences do not establish permission to contact individual records.</p></div></details>",
-        "<details class=\"lge-intake\"><summary><span class=\"lge-num\">06</span>Review and confirm</summary><div class=\"lge-intake-body\"><table><thead><tr><th>What the client completes</th><th>Completed demonstration answer</th></tr></thead><tbody><tr><th scope=\"row\">Review all provided answers</th><td>Review business, offer, location, customers, goals and delivery together.</td></tr><tr><th scope=\"row\">I have reviewed these details and am authorised to provide them.</th><td>UNCHECKED for this hypothetical demo. A real authorised client confirms it.</td></tr><tr><th scope=\"row\">Submit onboarding</th><td>Shown for explanation only. No United submission is made.</td></tr><tr><th scope=\"row\">Before a real application</th><td>Replace fictional contact and capacity. Supply actual margin, CRM, service lanes and an authorised confirmation.</td></tr></tbody></table><p>The completed example explains every field. It is not a valid authorised United application.</p></div></details>",
-        "<div class=\"lge-links\"><a href=\"https://leadgen-engine.netlify.app/prohub-intake.html\" target=\"_blank\" rel=\"noopener\">Open the actual onboarding form</a><a href=\"lge-onboarding.html\" target=\"_blank\" rel=\"noopener\">Read all completed answers together</a></div>"
-      ],
-      "reveals": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8
-      ],
-      "note": "The verified source is the actual Lead Gen Engine onboarding form, inspected in the earlier walkthrough on 5 October. A separate Google onboarding sheet was not located; do not call this a live Google Sheet. The companion completed example reproduces every applicable field and shows conditional questions as not applicable. Do not submit an application for United. All six original sections are available on this slide. Open the detail you are explaining; keep the rest closed. Business, prices, capacity, goals and authority remain exactly as shown in the completed fictional brief.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
-    },
-    {
-      "id": "customer",
-      "title": "One audience. Clear boundaries.",
-      "section": "04 / Onboarding · Your customers",
-      "kind": "lge-single lge-audience",
-      "parts": [
-        "<div class=\"lge-audience-hero\"><span class=\"lge-caption\">OUR DEMONSTRATION AUDIENCE</span><h3>Homeowners considering an interstate move</h3><p>All 50 US states and Washington, DC.</p></div>",
-        "<div class=\"lge-criteria\"><div><b>Homeowner</b><span>Yes</span></div><div><b>Interest</b><span>Medium or High</span></div><div><b>When</b><span>Today and yesterday</span></div></div>",
-        "<p class=\"lge-caption\">Exclude Low interest, non-homeowners and locations outside the agreed US scope. Commercial moves, jobs and unrelated services do not fit.</p>"
+        "<div class=\"lge-stat\"><strong>31</strong><h3>onboarding questions</h3><p>Across the complete form, plus an authorisation confirmation.</p></div>",
+        "<div class=\"lge-stat\"><strong>6</strong><h3>guided sections</h3><p>Business, offer, location, customers, delivery and review.</p></div>",
+        "<p class=\"lge-caption\">Questions vary with the answers. Some fields are optional or completed automatically.</p>"
       ],
       "reveals": [
         1,
         2,
         3
       ],
-      "note": "Topics include moving, relocation, pre-movers, residential moving and moving costs. The date window means the actual execution day and previous day. Missing evidence is held when policy requires it. B2B target industries and company sizes do not apply. Staff job titles remain eligible for this consumer audience. We use the person’s location to find this nationwide audience. Their moving destination and serviceable route still need confirming. The complete onboarding companion includes the full state-code list. Any owner-occupied residence; no property-size, state-priority, radius or ZIP restriction. No extra demographic or seniority filters.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "Count verified against the live onboarding schema on 13 October 2026: 32 client fields, comprising 31 information fields and one confirmation. This is the total schema, not 31 questions every client must answer. Conditional location and customer routes change what is shown.",
+      "source": "Current onboarding schema, verified 13 October 2026."
+    },
+    {
+      "id": "customer",
+      "title": "A richer business context",
+      "section": "03 / Audience Builder",
+      "kind": "lge-single lge-audience",
+      "parts": [
+        "<div class=\"lge-stat\"><strong>52</strong><h3>possible structured inputs</h3><p>32 client-side fields + 20 staff-side fields.</p></div>",
+        "<div class=\"lge-criteria\"><div><b>Business context</b><span>What you sell</span></div><div><b>Customer context</b><span>Who you serve</span></div><div><b>Operational context</b><span>What you can deliver</span></div></div>",
+        "<p class=\"lge-caption\">Available input capacity, not 52 mandatory answers or 52 targeting filters.</p>"
+      ],
+      "reveals": [
+        1,
+        2,
+        3
+      ],
+      "note": "The schema provides 52 possible fields across client intake and staff context. The agent uses applicable, supplied evidence and flags missing information. Do not claim every build reads 52 populated values or that each answer becomes a targeting restriction.",
+      "source": "Current onboarding schema: 32 client fields and 20 staff fields."
     },
     {
       "id": "brief-to-audience",
-      "title": "The brief becomes filters",
-      "section": "05 / Building the audience",
-      "kind": "lge-split",
+      "title": "A framework for decisions",
+      "section": "03 / Audience Builder",
+      "kind": "lge-single lge-record-lines",
       "parts": [
-        "<dl class=\"lge-fields\"><div><dt>Business</dt><dd>United Van Lines Demo</dd></div><div><dt>Service</dt><dd>Residential interstate moving</dd></div><div><dt>Location</dt><dd>All 50 US states and DC</dd></div><div><dt>Customer</dt><dd>Homeowners</dd></div><div><dt>Recent interest</dt><dd>Medium or High · today and yesterday</dd></div></dl>",
-        "<div class=\"lge-rule\"><h3>Look for moving interest.</h3><p>Moving, relocation and related topics are alternative signs of interest.</p></div><div class=\"lge-rule\"><h3>Keep the agreed fit.</h3><p>The person must also match the location, ownership and recent-interest rules.</p></div><details class=\"lge-topic-detail\"><summary>See the five moving topics</summary><p>Moving · Relocation · Pre-Movers · Residential Moving Services · Moving Costs And Logistics</p><p>Verify the live catalogue and credit cost before building.</p></details>"
+        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Interpret</h3><p>Understand the service, customer and commercial objective.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>Compare</h3><p>Review relevant prior runs and their recorded outcomes.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">03</span><div><h3>Select</h3><p>Choose a supported audience strategy for this brief.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">04</span><div><h3>Verify</h3><p>Check that the platform saved the intended configuration.</p></div></div>"
       ],
       "reveals": [
         1,
-        2
+        2,
+        3,
+        4
       ],
-      "note": "Keep the approved two-column design. Explain without database vocabulary first: any relevant moving topic can match, but all eligibility conditions must match. In the query, topics use OR and geography, homeowner, score and date criteria use AND. Retained catalogue examples: 2217 Moving Costs And Logistics; 8925 Residential Moving Services; 2274 Moving; 2275 Relocation; 6378 Pre-Movers. Recheck these live before execution. Save the audience name with LGE |, company, moving, US, exact dates and Med+. The old 4 to 5 October example is historical, not today’s date window. Do not silently widen dates to match an older export.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "This is an evidence-led decision framework. It distinguishes what the data supports from what needs human review, records the reasons for choices and preserves business constraints. It does not simply add every possible restriction.",
+      "source": "Audience Builder operating instructions and separate creation run log."
     },
     {
       "id": "signals",
-      "title": "Interest starts the conversation",
-      "section": "05 / Building the audience",
-      "kind": "lge-split lge-contrast",
+      "title": "A broad data toolkit",
+      "section": "03 / Audience Builder",
+      "kind": "lge-split lge-count-stage",
       "parts": [
-        "<svg class=\"lge-icon\" viewBox=\"0 0 80 80\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8 35L40 9l32 26M17 30v42h46V30M33 72V49h14v23\"/></svg><p class=\"lge-statement\"><span class=\"lge-marker\">Moving interest</span></p><p class=\"lge-lead\">DataMoon groups records using its moving-related topics and interest ratings.</p>",
-        "<p class=\"lge-statement\"><span class=\"lge-marker\">Actual need</span></p><p class=\"lge-lead\">The signal does not prove that someone has requested a quote or agreed to contact.</p>"
+        "<div class=\"lge-stat\"><strong>60</strong><h3>documented filter controls</h3><p>The recorded DataMoon interface exposes a broad configuration toolkit.</p></div>",
+        "<div><h3>Relevance is the decision.</h3><p class=\"lge-lead\">The agent assesses which available controls support this particular brief.</p></div>",
+        "<p class=\"lge-caption\">Catalogue recorded 15 September 2026. Available controls are rechecked when a build runs.</p>"
       ],
       "reveals": [
         1,
-        2
+        2,
+        3
       ],
-      "note": "Intent means a provider-classified interest signal. The provider’s underlying signal collection and scoring have not been independently audited here. Never present intent as an opt-in enquiry, verified moving plan or permission to contact. Quality checks and human qualification do different jobs.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "The retained DataMoon interface snapshot explicitly says Search 60 filters. This is a dated inventory, not a live claim about today’s exact catalogue size or a claim that 60 controls are used together. Explain the breadth of the choice without listing controls, combinations, operators or selected values.",
+      "source": "Recorded DataMoon interface, 15 September 2026; Audience Builder procedure."
     },
     {
       "id": "build-export",
-      "title": "Build, download and check",
-      "section": "05 / Building the audience",
-      "kind": "lge-steps",
+      "title": "Compress the manual work",
+      "section": "03 / Audience Builder",
+      "kind": "lge-split lge-contrast",
       "parts": [
-        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Save the agreed settings</h3><p>Read back the audience name and identifier.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>Wait for completion</h3><p>Only download the completed audience.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">03</span><div><h3>Inspect the actual file</h3><p>Check its dates, fields and record counts.</p></div></div>",
-        "<details class=\"lge-count-detail\"><summary>Why the counts can differ</summary><dl class=\"lge-fields\"><div><dt>Preview</dt><dd>An estimate before the build.</dd></div><div><dt>Completed audience</dt><dd>The provider’s completed count.</dd></div><div><dt>Exported rows</dt><dd>Records actually downloaded.</dd></div><div><dt>Distinct identifiers</dt><dd>Different source IDs in that file.</dd></div></dl></details>"
+        "<div><h3>Working manually</h3><p class=\"lge-lead\">Interpret the brief. Explore the controls. Revisit past work. Configure the audience. Recheck what was saved.</p></div>",
+        "<div><h3>With the agent</h3><p class=\"lge-lead\">One coordinated workflow handles those stages and returns the decisions for review.</p></div>",
+        "<p class=\"lge-caption\">Designed to reduce operator effort. End-to-end time still includes platform processing and review.</p>"
       ],
       "reveals": [
         1,
         2,
-        3,
-        4
+        3
       ],
-      "note": "Export means downloading the results as a file. Retain the original download, export run and file checksum. A checksum is a file fingerprint used to detect a changed file. Fix a mismatch between requested and exported dates explicitly. Lock the brief, field mapping, policy and validation date before checks. This United run has not been executed. These are different measures, so do not call them all leads or unique people. We have no United demo counts to display. The presentation explains where actual results would be checked; it does not invent them.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "The defensible speed story is automated coordination and fewer manual hand-offs. No controlled, like-for-like agent versus human timing benchmark was found in the reviewed evidence. Do not state seconds, hours saved or a speed multiplier. A future timing comparison must measure the same brief and separate active operator time from provider processing.",
+      "source": "Workflow comparison from the documented procedure; no measured timing claim."
     },
     {
       "id": "checks-1",
-      "title": "Check identity and location",
-      "section": "06 / Checking every contact · 1 to 4 of 12",
-      "kind": "lge-checks lge-check-grid",
+      "title": "The build checks itself",
+      "section": "03 / Audience Builder",
+      "kind": "lge-steps lge-path",
       "parts": [
-        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Personal LinkedIn link</h3><p>Check that the supplied link has the right personal-profile format.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>First and last name</h3><p>Both must contain meaningful names.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">03</span><div><h3>Personal location</h3><p>It must match the locations in the brief.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">04</span><div><h3>Personal email</h3><p>Check that the address has the required format.</p></div></div>"
+        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Inspect the plan</h3><p>Confirm the strategy matches the brief.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>Read back the result</h3><p>Verify the saved audience rather than assume settings persisted.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">03</span><div><h3>Keep the evidence</h3><p>Retain the audience identity and completion record.</p></div></div>"
       ],
       "reveals": [
         1,
         2,
-        3,
-        4
+        3
       ],
-      "note": "Source: the existing walkthrough’s strict validation policy 3.2.0, checks C01 to C04. Evaluate every independent check for every row. Format checks do not prove mailbox delivery, phone ownership or live profile verification. Company and job fields are completeness checks, not targeting of moving-company staff. For homeowner evidence, a contradictory row overrides a query assertion; exact-cohort query evidence can support an absent homeowner field under policy. Query score settings cannot replace missing row score evidence.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "The creation procedure requires inspection before execution and read-back afterwards. Existing run history helps avoid accidental duplicate builds. Uncertainty is reported instead of being turned into a success claim.",
+      "source": "Audience Builder verification and reconciliation procedure."
     },
     {
       "id": "checks-2",
-      "title": "Check the contact record",
-      "section": "06 / Checking every contact · 5 to 8 of 12",
-      "kind": "lge-single lge-record-lines",
+      "title": "One real business example",
+      "section": "04 / The demonstration",
+      "kind": "lge-split lge-example",
       "parts": [
-        "<div class=\"lge-step\"><span class=\"lge-num\">05</span><div><h3>Mobile number</h3><p>Check its international format: a plus sign and 8 to 15 digits.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">06</span><div><h3>Company name</h3><p>A meaningful company name must be present.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">07</span><div><h3>Job title</h3><p>A meaningful job title must be present. Staff is allowed.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">08</span><div><h3>Company website domain</h3><p>The company domain must be present.</p></div></div>"
+        "<div class=\"lge-company\"><h3>United Van Lines</h3><p class=\"lge-lead\">Residential interstate moving.</p></div>",
+        "<div><h3>The demonstration brief</h3><p class=\"lge-lead\">Find a relevant consumer audience for a moving business serving the US.</p></div>"
       ],
       "reveals": [
         1,
-        2,
-        3,
-        4
+        2
       ],
-      "note": "Source: the existing walkthrough’s strict validation policy 3.2.0, checks C05 to C08. Evaluate every independent check for every row. Format checks do not prove mailbox delivery, phone ownership or live profile verification. Company and job fields are completeness checks, not targeting of moving-company staff. For homeowner evidence, a contradictory row overrides a query assertion; exact-cohort query evidence can support an absent homeowner field under policy. Query score settings cannot replace missing row score evidence.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "United Van Lines is a real business used as an illustrative example. No affiliation, commission, executed audience results or company operating figures are claimed. Discuss the commercial objective without displaying the audience recipe.",
+      "source": "United Van Lines service example retained from the original walkthrough. Hypothetical brief."
     },
     {
       "id": "checks-3",
-      "title": "Check timing and fit",
-      "section": "06 / Checking every contact · 9 to 12 of 12",
-      "kind": "lge-checks lge-check-grid",
+      "title": "A separate quality layer",
+      "section": "05 / Validation Agent",
+      "kind": "lge-single lge-audience",
       "parts": [
-        "<div class=\"lge-step\"><span class=\"lge-num\">09</span><div><h3>Separate personal phone</h3><p>This source field must be populated; do not copy another field into it.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">10</span><div><h3>Record updated date</h3><p>Within 90 days of the fixed check date, with no future dates.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">11</span><div><h3>Homeowner evidence</h3><p>The evidence must support homeowner: Yes.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">12</span><div><h3>Interest rating</h3><p>The record must show Medium or High.</p></div></div>"
+        "<p class=\"lge-statement\">The export must earn its place.</p>",
+        "<div><h3>Agent two examines the actual records.</h3><p class=\"lge-lead\">It applies a consistent validation framework to the downloaded data, separately from audience creation.</p></div>"
       ],
       "reveals": [
         1,
-        2,
-        3,
-        4
+        2
       ],
-      "note": "Source: the existing walkthrough’s strict validation policy 3.2.0, checks C09 to C12. Evaluate every independent check for every row. Format checks do not prove mailbox delivery, phone ownership or live profile verification. Company and job fields are completeness checks, not targeting of moving-company staff. For homeowner evidence, a contradictory row overrides a query assertion; exact-cohort query evidence can support an absent homeowner field under policy. Query score settings cannot replace missing row score evidence.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "The validator checks what was actually downloaded. It does not accept a provider count or a saved audience setting as proof of record-level quality. The separate stage can identify differences between intended selection and the delivered file.",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "id": "four-outcomes",
-      "title": "Four clear outcomes",
-      "section": "06 / Checking every contact",
-      "kind": "lge-single lge-decisions",
+      "title": "Twelve checks. Every record.",
+      "section": "05 / Validation Agent",
+      "kind": "lge-split lge-count-stage",
       "parts": [
-        "<div class=\"lge-step\"><span class=\"lge-num\">1</span><div><h3>Already in the file?</h3><p>Remove the exact repeat.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">2</span><div><h3>Fails a rule?</h3><p>Leave it out. For example: Low interest.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">3</span><div><h3>Something is unclear?</h3><p>Set it aside. For example: no usable interest rating.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">4</span><div><h3>Passes every check?</h3><p>Keep it for the checked list.</p></div></div>"
+        "<div class=\"lge-stat\"><strong>12</strong><h3>defined validation checks</h3><p>Applied consistently across every populated source record.</p></div>",
+        "<div><h3>A documented decision</h3><p class=\"lge-lead\">Each record receives an outcome supported by the available evidence.</p></div>",
+        "<p class=\"lge-caption\">Checks assess the supplied data. Human qualification confirms the customer’s actual need.</p>"
+      ],
+      "reveals": [
+        1,
+        2,
+        3
+      ],
+      "note": "The current validator defines twelve checks. We disclose the breadth and consistent coverage without publishing the checklist, thresholds, field mapping or exception rules. A pass does not independently verify identity, contactability, permission or purchase intent.",
+      "source": "Current Validation Agent specification, version 3.2.0; criteria retained privately."
+    },
+    {
+      "id": "reconcile",
+      "title": "Refined against real exports",
+      "section": "05 / Validation Agent",
+      "kind": "lge-single lge-audience",
+      "parts": [
+        "<div class=\"lge-stat\"><strong>500</strong><h3>records in a historical regression</h3><p>An earlier validation policy was checked against a fixed export.</p></div>",
+        "<p class=\"lge-lead\">Documented results help refine the method and test whether changes behave as intended.</p>",
+        "<p class=\"lge-caption\">Historical policy test, 24 September 2026. Not a conversion study or a claim of 500 manual reviews.</p>"
+      ],
+      "reveals": [
+        1,
+        2,
+        3
+      ],
+      "note": "The retained validation log records a frozen 500-record membership regression for an earlier policy. This supports a history of record-based testing, not predictive sales quality or validation of the current policy on that same cohort. Do not substitute the suggested 200-contact manual-review claim, which was illustrative rather than evidenced.",
+      "source": "Historical validation regression recorded 24 September 2026."
+    },
+    {
+      "id": "delivery",
+      "title": "Every outcome stays visible",
+      "section": "05 / Validation Agent",
+      "kind": "lge-single lge-record-lines",
+      "parts": [
+        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Accepted</h3><p>Records that meet the agreed framework.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>Set aside</h3><p>Records requiring further evidence or review.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">03</span><div><h3>Excluded</h3><p>Records that do not meet the requirements.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">04</span><div><h3>Reconciled</h3><p>The full input is accounted for in the final report.</p></div></div>"
       ],
       "reveals": [
         1,
@@ -263,45 +279,13 @@ window.WW={
         3,
         4
       ],
-      "note": "Plain-English labels correspond to exact duplicates removed, excluded, held and accepted. Apply precedence in that order after evaluating all checks. Exact duplicate means all source values repeat, not merely a repeated person’s name or identifier. A measured failure takes precedence over unresolved evidence. This is not an appointment or consent check. These are illustrative rule paths, not actual United records. Low score is excluded. Unknown score is held if no measured failure exists. A missing signal cannot become a pass simply because the audience query requested Medium or High.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
-    },
-    {
-      "id": "reconcile",
-      "title": "Every record accounted for",
-      "section": "06 / Checking every contact",
-      "kind": "lge-single lge-accounting",
-      "parts": [
-        "<div class=\"lge-equation\"><strong>Original file</strong><div class=\"lge-counts\"><span>Kept</span><span>Left out</span><span>Held for review</span><span>Exact repeats removed</span></div></div>",
-        "<p class=\"lge-lead\">The four outcome counts must add up to the number of rows we started with.</p>"
-      ],
-      "reveals": [
-        1,
-        2
-      ],
-      "note": "Accepted + excluded + held + exact duplicates removed = input rows. Count final outcomes once each. Do not add failed-check totals together, because one record can fail more than one check. Show only actual counts after an authorised rehearsal.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
-    },
-    {
-      "id": "delivery",
-      "title": "A clean, correctly assigned list",
-      "section": "07 / Delivery",
-      "kind": "lge-split",
-      "parts": [
-        "<svg class=\"lge-icon\" viewBox=\"0 0 80 80\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 8h30l15 15v49H20zM50 8v17h15M30 38h25M30 49h25M30 60h15\"/></svg><p class=\"lge-statement\">Thirty consistent columns.</p><p class=\"lge-lead\">The same clean headings, in the same order, for every delivery.</p>",
-        "<dl class=\"lge-fields\"><div><dt>Keep the original values</dt><dd>Do not invent missing information.</dd></div><div><dt>Keep ZIPs and phones as text</dt><dd>Preserve leading zeroes and international prefixes.</dd></div><div><dt>Include Buyer and Industry</dt><dd>Use the approved buyer identity and the client’s service label.</dd></div></dl><a href=\"lge-reading.html#delivery-columns\" target=\"_blank\" rel=\"noopener\">View all 30 delivery columns</a><details class=\"lge-topic-detail\"><summary>Before any real delivery</summary><p>Match the correct client, named audience and delivery tracker using stable identities. Reconcile both contacts and counts.</p></details>"
-      ],
-      "reveals": [
-        1,
-        2
-      ],
-      "note": "The project instruction requires the 15 core fields plus 15 additional fields, listed in the complete reading view. LinkedIn must remain a usable personal profile link. Optional missing values remain blank. The source brief supplies Industry. The hypothetical company name is not an approved Lead Distro buyer mapping. No lead send is included. Reconcile the client vault, named audience and Leads Delivered Tracker using stable identifiers and batch identity. Vault means the client’s area in the dashboard. Do not put contacts in an unassigned audience or infer client identity from a company-name field. Do not register this fictional example as a real delivery.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "The report preserves the connection between input and outcome. The private audit holds detailed reasons. The presentation shows only aggregate outcomes; do not display personal records or the internal decision recipe.",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "id": "not-shared",
       "title": "One buyer. Your business.",
-      "section": "07 / Our supply commitment",
+      "section": "06 / The business value",
       "kind": "lge-split lge-connection",
       "parts": [
         "<div class=\"lge-exclusive\"><svg class=\"lge-icon\" viewBox=\"0 0 80 80\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 8h30l15 15v49H20zM50 8v17h15M30 38h25M30 49h25M30 60h15\"/></svg><span class=\"lge-connector-line\" aria-hidden=\"true\"></span><svg class=\"lge-icon\" viewBox=\"0 0 80 80\" aria-hidden=\"true\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8 35L40 9l32 26M17 30v42h46V30M33 72V49h14v23\"/></svg></div><div class=\"lge-exclusive-labels\"><b>Checked lead</b><b>Your business</b></div>",
@@ -311,58 +295,56 @@ window.WW={
         1,
         2
       ],
-      "note": "This non-sharing commitment was explicitly supplied by Taylor. The process demonstration does not itself prove a cross-client exclusivity control. Do not imply that removing exact duplicates in one file proves exclusivity, or that nobody else can independently find the person. The client allocation and commercial terms must honour the stated offer.",
-      "source": "Our supply commitment: we do not share these leads with other buyers."
+      "note": "Non-sharing is our supply commitment. It must be honoured through allocation and delivery practices; validation alone does not prove exclusivity. No claim that other suppliers cannot independently identify the same person.",
+      "source": "Lead Gen Engine non-sharing service proposition."
     },
     {
       "id": "human-conversation",
-      "title": "Confirm the actual move",
-      "section": "08 / Human qualification",
-      "kind": "lge-checks lge-questions",
+      "title": "Your team closes the loop",
+      "section": "06 / The business value",
+      "kind": "lge-steps lge-path",
       "parts": [
-        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Where are they moving?</h3><p>Confirm origin and destination.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>When do they need it?</h3><p>Confirm the moving date.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">03</span><div><h3>Can the company help?</h3><p>Confirm service fit, serviceable route and ownership.</p></div></div>",
-        "<div class=\"lge-step\"><span class=\"lge-num\">04</span><div><h3>Who decides?</h3><p>Confirm the decision-maker, then arrange the next step.</p></div></div>"
+        "<div class=\"lge-step\"><span class=\"lge-num\">01</span><div><h3>Confirm the need</h3><p>Have the real conversation.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">02</span><div><h3>Confirm the fit</h3><p>Check whether the business can help.</p></div></div>",
+        "<div class=\"lge-step\"><span class=\"lge-num\">03</span><div><h3>Agree the next step</h3><p>Move forward through the appropriate human-led process.</p></div></div>"
       ],
       "reveals": [
         1,
         2,
-        3,
-        4
+        3
       ],
-      "note": "A validated record is a candidate for follow-up, not an appointment. Use only authorised contact channels and destinations after permission review. Track enquiries, survey bookings, whether surveys were held and real outcomes. No outreach or booking is performed by this presentation.",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed."
+      "note": "The agents support audience selection and data validation. Human qualification establishes the actual opportunity. Do not present a validated record as a booked appointment or a sale.",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "id": "finish",
-      "title": "Better fit. Your opportunity.",
-      "section": "09 / The complete picture",
+      "title": "Built for better decisions",
+      "section": "06 / The business value",
       "kind": "lge-split lge-close",
       "parts": [
-        "<p class=\"lge-statement\">Quality starts with your brief.</p><p class=\"lge-lead\">A clear audience, checked contact records and human confirmation.</p>",
-        "<p class=\"lge-statement\">The delivery stays with you.</p><p class=\"lge-lead\">We do not share your supplied leads with other buyers.</p>"
+        "<div><h3>Specialist judgement, repeated consistently.</h3><p class=\"lge-lead\">Business context, evidence-led selection and a separate validation stage.</p></div>",
+        "<div><h3>A clear output for your team.</h3><p class=\"lge-lead\">An audience to review, documented outcomes and a non-sharing supply commitment.</p></div>"
       ],
       "reveals": [
         1,
         2
       ],
-      "note": "Close by connecting the two stated problems to the two offer elements. Do not guarantee conversion. The full instructional presentation is complete, but actual United audience creation, export, row validation and delivery have not been run. The viewer can open all completed onboarding answers and the full reading guide.",
-      "source": "Illustrative workflow plus Taylor’s stated non-sharing offer. No completed United campaign is claimed."
+      "note": "Close on the value: less repetitive operator work, traceable audience decisions and consistent scrutiny of records. Avoid a guaranteed lead yield or conversion promise.",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "id": "now-lets-build",
       "title": "Now let’s build.",
-      "section": "10 / Put it into practice",
+      "section": "07 / The demonstration",
       "kind": "lge-single",
       "parts": [
-        "<div class=\"lge-prompt-panel\"><div class=\"lge-prompt-top\"><p>Build the audience. Validate the real export.</p><button type=\"button\" class=\"primary\" data-copy-lge-prompt>Copy full prompt</button></div><label for=\"lge-build-prompt\">Your complete audience-build prompt</label><textarea id=\"lge-build-prompt\" readonly spellcheck=\"false\">Build and validate the United Van Lines demonstration audience from our Lead Gen Engine Demo Walkthrough.\n\nRun the actual connected DataMoon workflow and validate the downloaded records. Do not simulate a successful build or invent results. This is a demonstration using a real business and hypothetical onboarding answers, not work commissioned by United Van Lines.\n\n1. Load the right instructions and existing evidence\n\nUse the installed LGE B2C Audience Creation - Med+ skill, then the installed LGE B2C Strict Validation - Med+ skill. Read both actual skill files, their applicable implementation references, the Lead Gen Engine project instructions and the canonical audience-creation and validation logs before acting. Resolve moved paths to the existing canonical projects rather than creating competing logs or folders. Review relevant previous runs, including failures. Use the current explicit owner rules where older instructions conflict. In particular, Staff remain eligible and all twelve validation checks apply.\n\nThe presentation is at https://whiteboard-wednesdays.mantamarketingltd.chatgpt.site/#/presentation/lead-gen-engine/slide/poor-quality\nThe completed example is at https://whiteboard-wednesdays.mantamarketingltd.chatgpt.site/lge-onboarding.html\nThe actual onboarding form is at https://leadgen-engine.netlify.app/prohub-intake.html\nUse existing signed-in access. Do not submit the onboarding form on behalf of United.\n\n2. Use this exact demonstration brief\n\nBusiness: United Van Lines Demo.\nOfficial website: https://www.unitedvanlines.com\nService: residential interstate moving, with packing and storage when needed.\nIndustry label: Residential interstate moving.\nBuyer mode: B2C, meaning individual consumers, not moving companies or their owners.\nOne audience: US homeowners showing recent moving-related interest. Confirming a real interstate move belongs to later human qualification.\nPersonal geography: all 50 US states and Washington, DC. Exclude non-US locations and US territories. Do not use company location as a substitute. No state prioritisation, radius or ZIP restriction.\nHomeowner: Yes only. Any owner-occupied residence; no property-size restriction.\nInterest rating: Medium or High only. Exclude Low. Do not admit blank, NULL or unrecognised scores during audience creation.\nDate window: the execution day and previous day. Resolve and record the actual dates and the platform timezone. Do not reuse the historical October dates from the presentation or silently widen the window.\nMoving topics to check in the live catalogue: Moving, Relocation, Pre-Movers, Residential Moving Services, and Moving Costs And Logistics. Verify the actual topic labels and IDs before using them.\nExclude commercial-only moves, moving jobs and unrelated services where the live controls and source evidence support doing so. Clearly distinguish a native exclusion from a manual-review requirement. Do not invent evidence that someone has a booked move or requested a quote.\nNo extra age, gender, income, wealth, seniority or job-title targeting restrictions. Company and job fields required by validation are completeness checks, not the identity of the customer we are targeting.\n\nFictional onboarding details: Alex Demo; demo@example.com; 2 coordinators; capacity for 5 surveys a day; typical customer price $7,500 USD; typical profit $1,500 USD; Other CRM: workbook and dashboard review; portal requested in the example. These are teaching inputs, not United&#x27;s verified operating figures. Do not create an account, portal, partnership or real delivery from them.\nThe demonstration target is up to 50 accepted strict candidates, not 50 guaranteed leads, enquiries or appointments. Build one audience and report its actual size. If fewer records pass, report the shortfall without weakening any rule or starting extra builds to fill the target. Validate every populated row of the authorised export. If more than 50 pass, retain the full accepted audit and identify the first 50 in original source order as the demo subset, without claiming they are ranked by quality.\n\n3. Build one audience and prove the saved settings\n\nBefore changing anything, inspect existing audiences and in-progress runs so you can resume or reuse a matching demonstration audience rather than create duplicates. Preserve unrelated audiences and client data.\nRecord how every brief requirement maps to a native filter, approximation, manual review or unresolved requirement. Moving topics are alternatives within one OR group. Personal geography, homeowner, Medium/High score and the date window must all apply together with AND.\nInspect the generated query before building, including missing-value behaviour. Use an identifiable name beginning LGE | United Van Lines Demo and include the service, US scope, exact dates and Med+.\nInspect the displayed build/export credit cost first. Report the cost and available balance. Do not purchase credits, upgrade a plan, incur overage or accept an unknown charge. If the required spend is outside existing authorisation, show the exact cost and ask once before that charge while completing independent preparation.\nComplete the actual build, wait for the platform&#x27;s Completed status and read back the saved query for that same audience. Check that filters survived any Simple/Advanced switch. Save the official audience URL, ID, name, query receipt, dates and completion evidence. If a mandatory condition cannot be verified, report the specific blocked step rather than claim success.\n\n4. Export the same completed cohort\n\nExport and download the audience for this one demonstration run using Export Data, not a top-500 shortcut presented as the full source. Reuse a sufficient existing completed export only if its audience identity and exact date window match this run. Otherwise create a one-off export. Do not create or modify a recurring schedule; if the platform requires one, stop at that specific decision and explain it.\nWait for Completed, then preserve the original file unchanged in the existing project location. Record the export/run ID, completion time, filename, byte size, SHA-256, headers, populated rows and actual date window. Keep preview estimates, completed audience counts, exported rows and distinct source IDs separate. Explain any count or date discrepancy without replacing the cohort silently.\nKeep real contact details off the recording screen, public site and chat summary. Use aggregate results or redacted examples for the video. Store record-level evidence only in the private local outputs.\n\n5. Validate the real download against all twelve checks\n\nApply b2c-strict-homeowner@3.2.0 as described by the installed strict-validation skill. If the operative policy has changed, identify the difference before silently changing the demonstration criteria. Freeze the source hash, exact column mapping, geography and as-of date in Europe/London once before processing. Resolve ambiguous source columns rather than picking the one that passes.\n\nC01: a correctly formatted personal LinkedIn profile URL. This is a URL-format check only; do not browse or scrape profiles.\nC02: meaningful first and last names.\nC03: personal location within the agreed US states and DC scope.\nC04: a syntactically valid personal email, following the skill&#x27;s rules for multiple values. Do not describe syntax as verified deliverability.\nC05: a mobile number with a leading plus sign, followed by 8 to 15 digits and a nonzero first digit. Do not invent a country code.\nC06: a meaningful company name.\nC07: a meaningful job title. Staff are eligible; no seniority gate.\nC08: a meaningful company-domain field. No live DNS check is required.\nC09: the separate personal-phone source field is populated. Do not fill it from mobile or work phone; the numbers need not differ.\nC10: record last_updated is within the inclusive 90-day window ending on the fixed validation date. Reject missing, invalid and future dates; do not substitute email Last Seen.\nC11: homeowner is Y or Yes. Explicit non-Yes values fail. Unknown is held. If the row field is absent, only verified Y-only source-query evidence bound to this exact cohort may cover it; contradictory row evidence still fails.\nC12: row-level Score Category is Medium or High. Low fails. Missing, numeric-only, unfamiliar or unresolved categories are held according to the installed classifier. A saved query cannot replace missing row-level score evidence. Report any Low records that slipped through the creation query.\n\nEvaluate every independent check for every populated row, even when another check fails. Preserve all original fields and assign stable source-row IDs. Remove only exact duplicate source rows, keeping the first representative. Do not fuzzy-merge people. Hold unresolved identity conflicts.\nApply final bucket precedence: exact duplicate removed; excluded for a measured failure; held for unresolved evidence; otherwise accepted strict candidate. Record all failed checks even when a higher-priority bucket applies. Verify that input records equal duplicates removed plus excluded plus held plus accepted. Count completely blank separators separately. Zero accepted is a valid outcome.\nDo not promote a spreadsheet pass to verified identity, consent, contactability, an enquiry, a booked appointment or proven moving intent. Actual origin, destination, moving date, serviceable route, ownership and decision-making authority still need human confirmation.\n\n6. Save private outputs and return a recording-friendly result\n\nSave the untouched download, private all-row audit, accepted candidates, held rows, excluded rows, exact duplicates and a processing manifest in the existing project folders. Do not create new folders. Preserve original source values, source-row IDs and reasons in the audit.\nUse these exact clean headings in this exact order on the primary candidate sheet:\nBuyer, Industry, First name, Last name, City, ZIP, Personal email, Mobile, Company, Job title, LinkedIn URL, Personal phone, Address, State, Record updated, Age range, Gender, Married, Children, Household income, Net worth, Homeowner, Seniority, Department, Business email, Direct work phone, Company website, Company revenue, Employee count, Company industry.\nPopulate Industry from this brief as Residential interstate moving. An approved delivery Buyer identity has not been supplied; leave Buyer blank and explain that this is a private demonstration candidate workbook, not a delivery-ready import. Never infer Buyer from Company. Leave unavailable optional values blank. Keep ZIP and phone fields as text and preserve usable LinkedIn hyperlink targets. Put raw headings and validation codes only in the private audit.\nAppend the actual creation and validation outcomes to their separate canonical logs using their locking and read-back procedures. Keep personal data and secrets out of shared summary logs. Preserve concurrent history and record failures honestly.\nReturn the official audience link and verified status, saved filters, exact dates, actual costs where measured, source receipt, input count, four reconciled outcome counts, all twelve check totals, Low exclusions, unknown-score holds, any query/export discrepancies and links to the private output files. Provide a concise plain-English rundown suitable for recording, with redacted examples if needed.\n\nStop after audience creation, export and local validation. Do not contact anyone, send leads to Lead Distro, sync to advertising, activate a CRM, register a delivery, or create a recurring task. Here, live validation means running the validator on the real downloaded audience; it does not authorise a live lead transmission. The non-sharing offer is our supply commitment, not something that duplicate removal alone proves.\n</textarea><p class=\"lge-copy-status\" role=\"status\" aria-live=\"polite\">One click copies the whole prompt, including the text below the scroll.</p></div>"
+        "<div class=\"lge-prompt-panel\"><div class=\"lge-prompt-top\"><p>Start the two-agent demonstration.</p><button type=\"button\" class=\"primary\" data-copy-lge-prompt>Copy full prompt</button></div><label for=\"lge-build-prompt\">Demonstration instruction</label><textarea id=\"lge-build-prompt\" readonly spellcheck=\"false\">Run the Lead Gen Engine demonstration for the agreed United Van Lines example using our privately maintained Audience Builder and Validation Agent.\n\nUse the approved demonstration brief already held in the private Lead Gen Engine workspace. Read the current authorised instructions and relevant run history there. If that private material is unavailable, stop and report what is missing rather than reconstructing the method from this presentation.\n\nFirst, prepare and verify the audience through the Audience Builder. Then, within the authorised scope, pass the resulting export to the separate Validation Agent. Retain detailed operating decisions and record-level evidence privately.\n\nFor the recording, show only the high-level stages, verified status and aggregate outcomes. Do not show filter names, selected values, combinations, thresholds, queries, internal instructions, raw records or personal contact details. Keep the private operator screen outside the recorded view.\n\nReport actual completion and timings only when measured. Separate active operator time from platform processing. Do not simulate a successful build, invent results, weaken the method to hit a target or describe data validation as a confirmed customer enquiry.\n\nThis is a hypothetical demonstration involving a real company, not an engagement commissioned by United Van Lines. It does not authorise outreach, live lead delivery, new recurring schedules, credit purchases or charges outside existing approval. Stop after the authorised build, export and local validation, and return a concise, recording-friendly result.\n</textarea><p class=\"lge-copy-status\" role=\"status\" aria-live=\"polite\">One click copies the whole demonstration instruction.</p></div>"
       ],
       "reveals": [
         1
       ],
-      "note": "Copy the entire prompt and paste it into the working chat when ready to begin. This slide does not execute a build. The prompt covers the actual build, one-off export and twelve-check local validation; it does not authorise outreach or lead delivery. Fictional onboarding inputs remain labelled.",
-      "source": "United Van Lines demonstration brief. Live validation means checking the actual downloaded records."
+      "note": "This instruction invokes privately held agents and the private brief. It contains no audience recipe. It does not execute anything on this site. Present aggregate results only and keep operator screens outside the recording.",
+      "source": "Demonstration instruction; execution depends on authorised private agents and brief."
     }
   ],
   "aliases": {
