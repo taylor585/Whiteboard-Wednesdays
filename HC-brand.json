@@ -1,0 +1,15 @@
+{
+  "name": "Pecuna Factorem",
+  "surface": "#ffffff",
+  "ink": "#1c1a17",
+  "accent": "#8b6002",
+  "font": "hand",
+  "logo": "public/ww-coin.svg",
+  "confirmation": {
+    "confirmed": true,
+    "by": "user",
+    "at": "2026-10-13T10:05:00Z",
+    "evidence": "Asked in the Claude Code session on 13 October 2026 which brand the AI Harnesses deck should use; Taylor chose \"Pecuna Factorem (Recommended)\": white, ink #1C1A17, gold #8B6002, Caveat headings, the official coin.",
+    "decks": ["ai-harnesses"]
+  }
+}

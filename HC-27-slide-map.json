@@ -15,7 +15,7 @@
       "id": "cold-open",
       "takeaway": "Same model. Different result.",
       "device": "two-lane comparison",
-      "source": "Illustrative comparison of two runs. The checker line is real output from the skill’s check_constraints.py, shortened.",
+      "source": "Source: Illustrative comparison of two runs. The checker line is real output from the skill’s check_constraints.py, shortened.",
       "reveal_order": [
         1,
         2,
@@ -28,7 +28,7 @@
       "id": "five-failures",
       "takeaway": "Meet the five failures",
       "device": "character cards with animated counts",
-      "source": "Problem list P1 to P58 and the five characters: Trending Topic Brief, Act 1. Each problem is reverse-engineered from a named rule in the Harness Chassis Builder - No Schedules skill.",
+      "source": "Source: Problem list P1 to P58 and the five characters: Trending Topic Brief, Act 1. Each problem is reverse-engineered from a named rule in the Harness Chassis Builder - No Schedules skill.",
       "reveal_order": [
         1,
         2,
@@ -44,7 +44,7 @@
       "id": "interrupter",
       "takeaway": "The Interrupter",
       "device": "illustrative chat",
-      "source": "P1 to P9: Trending Topic Brief, Character 1. Chat messages are illustrative.",
+      "source": "Source: P1 to P9: Trending Topic Brief, Character 1. Chat messages are illustrative.",
       "reveal_order": [
         1,
         2,
@@ -57,7 +57,7 @@
       "id": "drifter",
       "takeaway": "The Drifter",
       "device": "three drifting pieces",
-      "source": "P10 to P18: Trending Topic Brief, Character 2. The three pieces are an illustrative drift, not output from a real run.",
+      "source": "Source: P10 to P18: Trending Topic Brief, Character 2. The three pieces are an illustrative drift, not output from a real run.",
       "reveal_order": [
         1,
         2,
@@ -71,7 +71,7 @@
       "id": "goldfish",
       "takeaway": "The Goldfish",
       "device": "memory strip",
-      "source": "P19 to P26: Trending Topic Brief, Character 3. Message numbers are illustrative.",
+      "source": "Source: P19 to P26: Trending Topic Brief, Character 3. Message numbers are illustrative.",
       "reveal_order": [
         1,
         2,
@@ -85,7 +85,7 @@
       "id": "bluffer",
       "takeaway": "The Bluffer",
       "device": "claim and receipts",
-      "source": "P27 to P41: Trending Topic Brief, Character 4. The rating example is the failing case in the skill’s ugc-script rubric. The chat bubble is illustrative.",
+      "source": "Source: P27 to P41: Trending Topic Brief, Character 4. The rating example is the failing case in the skill’s ugc-script rubric. The chat bubble is illustrative.",
       "reveal_order": [
         1,
         2,
@@ -98,7 +98,7 @@
       "id": "loose-cannon",
       "takeaway": "The Loose Cannon",
       "device": "failure sequence",
-      "source": "P42 to P53: Trending Topic Brief, Character 5. The send sequence illustrates P44.",
+      "source": "Source: P42 to P53: Trending Topic Brief, Character 5. The send sequence illustrates P44.",
       "reveal_order": [
         1,
         2,
@@ -111,7 +111,7 @@
       "id": "the-turn",
       "takeaway": "Engine and chassis",
       "device": "stage rail",
-      "source": "Harness Chassis Builder - No Schedules skill: “interview → contract → prepare runtime → execute → verify → checkpoint → report”.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill: “interview → contract → prepare runtime → execute → verify → checkpoint → report”.",
       "reveal_order": [
         1,
         2,
@@ -124,7 +124,7 @@
       "id": "when-to-use",
       "takeaway": "Harness the big jobs",
       "device": "job-size scale",
-      "source": "Harness Chassis Builder - No Schedules skill, §1 Entry and scope and MR-1.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §1 Entry and scope and MR-1.",
       "reveal_order": [
         1,
         2,
@@ -137,7 +137,7 @@
       "id": "kickoff",
       "takeaway": "Answers first, asks once",
       "device": "nine-box kickoff",
-      "source": "Harness Chassis Builder - No Schedules skill, §2 Kickoff: the nine questions.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §2 Kickoff: the nine questions.",
       "reveal_order": [
         1,
         2,
@@ -151,7 +151,7 @@
       "id": "five-locks",
       "takeaway": "Five locks, one bar",
       "device": "five padlocks",
-      "source": "Harness Chassis Builder - No Schedules skill, §2 Five lock questions.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §2 Five lock questions.",
       "reveal_order": [
         1,
         2,
@@ -167,7 +167,7 @@
       "id": "contract",
       "takeaway": "One page, activated once",
       "device": "contract page with stamp",
-      "source": "Harness Chassis Builder - No Schedules skill, §3 Work Contract template and §2 Activate once. The job name is illustrative.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §3 Work Contract template and §2 Activate once. The job name is illustrative.",
       "reveal_order": [
         1,
         2,
@@ -181,7 +181,7 @@
       "id": "decision-tiers",
       "takeaway": "Green, amber, red",
       "device": "traffic lights and ledger",
-      "source": "Harness Chassis Builder - No Schedules skill, §4 Decision tiers and blocker handling.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §4 Decision tiers and blocker handling.",
       "reveal_order": [
         1,
         2,
@@ -196,7 +196,7 @@
       "id": "memory-files",
       "takeaway": "Memory lives in files",
       "device": "file drawers and node wheel",
-      "source": "Harness Chassis Builder - No Schedules skill, §5 run files, §6 node cycle and Appendix H.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §5 run files, §6 node cycle and Appendix H.",
       "reveal_order": [
         1,
         2,
@@ -209,7 +209,7 @@
       "id": "done-gate",
       "takeaway": "A script decides done",
       "device": "real terminal output",
-      "source": "Real output from the skill’s scripts/check_constraints.py (Appendix I), run on 13 October 2026 against three two-row demonstration files.",
+      "source": "Source: Real output from the skill’s scripts/check_constraints.py (Appendix I), run on 13 October 2026 against three two-row demonstration files.",
       "reveal_order": [
         1,
         2,
@@ -223,7 +223,7 @@
       "id": "evaluator",
       "takeaway": "Never its own homework",
       "device": "worker and evaluator desks",
-      "source": "Harness Chassis Builder - No Schedules skill, MR-3, §6 step 4, Appendix C evaluator packet and Appendix D rubrics.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, MR-3, §6 step 4, Appendix C evaluator packet and Appendix D rubrics.",
       "reveal_order": [
         1,
         2,
@@ -237,7 +237,7 @@
       "id": "safety-rails",
       "takeaway": "Rails on both sides",
       "device": "road with guard rails",
-      "source": "Harness Chassis Builder - No Schedules skill, MR-5, MR-6, §1, §5, §7 and §8.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, MR-5, MR-6, §1, §5, §7 and §8.",
       "reveal_order": [
         1,
         2,
@@ -250,7 +250,7 @@
       "id": "loop-driver",
       "takeaway": "Keeps going until done",
       "device": "locked loop",
-      "source": "Harness Chassis Builder - No Schedules skill, MR-0, MR-5, §6 step 6 and Appendix E. The ralph-wiggum plugin is the one the skill names.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, MR-0, MR-5, §6 step 6 and Appendix E. The ralph-wiggum plugin is the one the skill names.",
       "reveal_order": [
         1,
         2,
@@ -264,7 +264,7 @@
       "id": "final-report",
       "takeaway": "Your decisions come first",
       "device": "report page",
-      "source": "Harness Chassis Builder - No Schedules skill, §9 Final and session report and §10.",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §9 Final and session report and §10.",
       "reveal_order": [
         1,
         2,
@@ -277,7 +277,7 @@
       "id": "mutsa-live",
       "takeaway": "Mutsa, built live",
       "device": "feature gate and run sheet",
-      "source": "Mutsa is a real client app build. Run sheet: Trending Topic Brief, Appendix A. No Mutsa features, data or results are shown here.",
+      "source": "Source: Mutsa is a real client app build. Run sheet: Trending Topic Brief, Appendix A. No Mutsa features, data or results are shown here.",
       "reveal_order": [
         1,
         2,
@@ -290,7 +290,7 @@
       "id": "mutsa-prompts",
       "takeaway": "The two prompts",
       "device": "exact prompts",
-      "source": "Prompts reproduced exactly from the Trending Topic Brief, Appendix A, steps 1, 5 and 7.",
+      "source": "Source: Prompts reproduced exactly from the Trending Topic Brief, Appendix A, steps 1, 5 and 7.",
       "reveal_order": [
         1,
         2,
@@ -303,7 +303,7 @@
       "id": "harbour-hearth",
       "takeaway": "Harbour & Hearth",
       "device": "campaign lanes to paused gate",
-      "source": "Harbour & Hearth, its founder and its collection are made up for this demonstration. Brief: Trending Topic Brief, Appendix B. Not run; no campaign exists.",
+      "source": "Source: Harbour & Hearth, its founder and its collection are made up for this demonstration. Brief: Trending Topic Brief, Appendix B. Not run; no campaign exists.",
       "reveal_order": [
         1,
         2,
@@ -316,7 +316,7 @@
       "id": "hh-locks",
       "takeaway": "Locks and bindings",
       "device": "locks and bindings table",
-      "source": "Trending Topic Brief, Appendix B: five locks, skill bindings, framing and decision tiers. Palette colours are named in the brief; swatch shades are illustrative.",
+      "source": "Source: Trending Topic Brief, Appendix B: five locks, skill bindings, framing and decision tiers. Palette colours are named in the brief; swatch shades are illustrative.",
       "reveal_order": [
         1,
         2,
@@ -329,7 +329,7 @@
       "id": "hh-constraints",
       "takeaway": "Seven rows to pass",
       "device": "constraint rows and gates",
-      "source": "Rows C-01 to C-07: Trending Topic Brief, Appendix B. Gates: Harness Chassis Builder - No Schedules skill, campaign-stage rubric.",
+      "source": "Source: Rows C-01 to C-07: Trending Topic Brief, Appendix B. Gates: Harness Chassis Builder - No Schedules skill, campaign-stage rubric.",
       "reveal_order": [
         1,
         2,
@@ -342,7 +342,7 @@
       "id": "proof",
       "takeaway": "Quality × Output",
       "device": "quality times output",
-      "source": "Quality and output factors: Trending Topic Brief, Act 3. Before and after figures are supplied by the presenter; none are claimed here.",
+      "source": "Source: Quality and output factors: Trending Topic Brief, Act 3. Before and after figures are supplied by the presenter; none are claimed here.",
       "reveal_order": [
         1,
         2,
@@ -355,7 +355,7 @@
       "id": "recap",
       "takeaway": "All five, crossed off",
       "device": "character cards crossed off",
-      "source": "Fixes mapped in the Trending Topic Brief, Act 1 “Fixed by” columns.",
+      "source": "Source: Fixes mapped in the Trending Topic Brief, Act 1 “Fixed by” columns.",
       "reveal_order": [
         1,
         2,
@@ -370,7 +370,7 @@
       "id": "close",
       "takeaway": "Get the checker",
       "device": "call to action",
-      "source": "Close and next video: Trending Topic Brief.",
+      "source": "Source: Close and next video: Trending Topic Brief.",
       "reveal_order": [
         1,
         2

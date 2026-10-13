@@ -1,5 +1,14 @@
 # AI Harnesses deck, 13 October 2026 (branch, not published)
 
+## End-to-end build with Whiteboard Wednesdays v2, 13 October 2026
+
+- Brand: Taylor confirmed Pecuna Factorem for `ai-harnesses` in the session; recorded in `HC-brand.json`. No recording tools, at Taylor's choice.
+- `hc-deck-spec.cjs` wraps the live package for the v2 builder. Its gates passed: confirmed brand, 4.5:1 contrast, unique IDs, contiguous reveals, every audience line starting "Source:", variety rule, no TODO placeholders. All 19 quotations re-proven against the harness skill.
+- v2 `verify-trial.cjs` on the private one-file preview (bundled viewer): 1487 checks, no runtime errors. The project's newer viewer needs the site's header elements, so the preview uses the skill's bundled viewer snapshot; the live library uses `public/library.js`.
+- Library suites after merging main: `verify-hc.cjs` 1264, `verify.cjs` 928, `verify-lge.cjs` 674, `verify-lge-prompt.cjs` and `verify-lge-condensed.cjs` passed.
+- Quality scorecard (self-assessed, not approval): evidence fidelity 5, clarity 4, visual craft 4, motion and reveals 4, phone readability 4, brand fidelity 5. Weighted 87/100, no dimension below 4. Visual craft is held at 4 because no image generation tool was available; visuals are HTML, CSS and SVG diagrams.
+- Not done: publication to the live Sites library (no Sites tool in this environment, and publication needs Taylor's go-ahead), hosted test, physical iPhone and Safari test.
+
 ## V1.1 build-out, approved by Taylor on 13 October 2026
 
 - Merged main (condensed 20-slide LGE deck, creator watchlist, PROCESS.md). `verify.cjs` keeps main's deck-card navigation plus a third tab arrow for the new deck.

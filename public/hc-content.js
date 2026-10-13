@@ -40,7 +40,7 @@ window.WW={slides:[
   '<p class="statement hc-punch">The difference isn’t the model. <span>It’s the harness.</span></p>'
  ],
  reveals:[1,2,3],
- source:'Illustrative comparison of two runs. The checker line is real output from the skill’s check_constraints.py, shortened.',
+ source:'Source: Illustrative comparison of two runs. The checker line is real output from the skill’s check_constraints.py, shortened.',
  note:'Hook, about 45 seconds. SAY: “Same model, same prompt, two completely different results. One drifts by piece ten, forgets your rules and tells you it’s finished when it isn’t. The other runs for hours and comes back with proof every requirement was met. The difference isn’t the model. It’s the harness.” SHOW after this slide: a finished run folder, a passing checker and the final report. The piece-by-piece lanes are a teaching illustration, not measured results.'
 },
 {
@@ -50,7 +50,7 @@ window.WW={slides:[
   '<div class="hc-counts"><div><span class="hc-count" style="--to:58"><span class="hc-sr">58</span></span><small>problems, each traced to a line in the skill</small></div><div><span class="hc-count" style="--to:5"><span class="hc-sr">5</span></span><small>characters you will recognise</small></div><div><span class="hc-count" style="--to:11"><span class="hc-sr">11</span></span><small>parts of the harness that fix them</small></div></div>'
  ],
  reveals:[1,2,3,4,5,6],
- source:'Problem list P1 to P58 and the five characters: Trending Topic Brief, Act 1. Each problem is reverse-engineered from a named rule in the '+SRC+'.',
+ source:'Source: Problem list P1 to P58 and the five characters: Trending Topic Brief, Act 1. Each problem is reverse-engineered from a named rule in the '+SRC+'.',
  note:'Stick the five characters up on the board first. Lead with The Interrupter, the one viewers feel most. P54 to P58 are bonus problems; use them only if time allows. Counts: 58 problems (P1 to P58), 5 characters, 11 system segments, all from the brief.'
 },
 {
@@ -61,7 +61,7 @@ window.WW={slides:[
   '<ul class="hc-problems"><li><b>P1</b>Asks what your brief already says</li><li><b>P4</b>“Shall I proceed?” again and again</li><li><b>P9</b>You keep typing “continue”</li></ul><details class="hc-more"><summary>Six more Interrupter problems</summary><ul class="hc-problems"><li><b>P2</b>Drip-feeds questions across hours</li><li><b>P3</b>Waits on you all lunch</li><li><b>P5</b>Re-asks for permission you gave</li><li><b>P6</b>Asks about trivia</li><li><b>P7</b>Hands you the first error</li><li><b>P8</b>One question freezes the whole job</li></ul></details>'
  ],
  reveals:[1,2,3],
- source:'P1 to P9: Trending Topic Brief, Character 1. Chat messages are illustrative.',
+ source:'Source: P1 to P9: Trending Topic Brief, Character 1. Chat messages are illustrative.',
  note:'This is the one to lead with. Each of P1 to P9 is fixed later: kickoff harvesting (Segment 2), Q8 owner decisions asked together, GREEN and AMBER tiers (Segment 5), the self-unblocking question, and the loop driver (Segment 10).'
 },
 {
@@ -73,7 +73,7 @@ window.WW={slides:[
   '<ul class="hc-problems"><li><b>P10</b>No named identity, so style wanders</li><li><b>P13</b>Piece 20 is lazier than piece 1</li><li><b>P14</b>“Make it on-brand” is not testable</li></ul><details class="hc-more"><summary>Six more Drifter problems</summary><ul class="hc-problems"><li><b>P11</b>Nothing says what stays identical</li><li><b>P12</b>Nothing says what must differ</li><li><b>P15</b>Uses your SOP once, then improvises</li><li><b>P16</b>No quality bar was ever set</li><li><b>P17</b>Old and new instructions fight</li><li><b>P18</b>Builds on the drifted work</li></ul></details>'
  ],
  reveals:[1,2,3,4],
- source:'P10 to P18: Trending Topic Brief, Character 2. The three pieces are an illustrative drift, not output from a real run.',
+ source:'Source: P10 to P18: Trending Topic Brief, Character 2. The three pieces are an illustrative drift, not output from a real run.',
  note:'Walk left to right: same job, three moments. Point at what changed: hook pattern, voice, terminology, invented claim. Then the causes. The fix is the five locks (Segment 3) and the contract re-read (Segment 6).'
 },
 {
@@ -85,7 +85,7 @@ window.WW={slides:[
   '<ul class="hc-problems"><li><b>P19</b>Forgets rules set at the start</li><li><b>P20</b>Rules vanish after compression</li><li><b>P22</b>New session, explain it all again</li></ul><details class="hc-more"><summary>Five more Goldfish problems</summary><ul class="hc-problems"><li><b>P21</b>Forgets to save its place</li><li><b>P23</b>Re-runs the interview</li><li><b>P24</b>After a crash, nobody knows where it got to</li><li><b>P25</b>Too much in its head at once</li><li><b>P26</b>Rewrites its own progress notes</li></ul></details>'
  ],
  reveals:[1,2,3,4],
- source:'P19 to P26: Trending Topic Brief, Character 3. Message numbers are illustrative.',
+ source:'Source: P19 to P26: Trending Topic Brief, Character 3. Message numbers are illustrative.',
  note:'Context rot in one picture: the rules lived only in the chat, and the chat was compressed. Fix: memory lives in files and the full contract is re-read at every node (Segment 6).'
 },
 {
@@ -96,7 +96,7 @@ window.WW={slides:[
   '<p class="statement">Without a harness, “done” is <span class="hc-hand-mark">an opinion</span>.</p>'
  ],
  reveals:[1,2,3],
- source:'P27 to P41: Trending Topic Brief, Character 4. The rating example is the failing case in the skill’s ugc-script rubric. The chat bubble is illustrative.',
+ source:'Source: P27 to P41: Trending Topic Brief, Character 4. The rating example is the failing case in the skill’s ugc-script rubric. The chat bubble is illustrative.',
  note:'Read the bubble in a confident voice, then reveal the receipts. Remaining Bluffer problems for the voice-over: P29 reviewer talked round by the transcript, P30 all praise, P31 same blind spots, P33 claims to have read a file it did not, P37 guesses as facts, P38 padded research, P40 no reason for a choice, P41 pretends to follow a process it lacks.'
 },
 {
@@ -107,7 +107,7 @@ window.WW={slides:[
   '<p class="hc-aside"><b>P53</b> Ad reporting with estimated spend, or a verdict on a one-day-old ad.</p>'
  ],
  reveals:[1,2,3],
- source:'P42 to P53: Trending Topic Brief, Character 5. The send sequence illustrates P44.',
+ source:'Source: P42 to P53: Trending Topic Brief, Character 5. The send sequence illustrates P44.',
  note:'P44 is the scary one: the crash happened after the action and before the record, so a naive restart repeats it. Also in this family: P45 retries the same failing step, P47 repair attempts go in circles, P51 helpers never saw the rules, P52 over-engineered setups.'
 },
 {
@@ -118,7 +118,7 @@ window.WW={slides:[
   quote('The plan says what we will do; the contract says what must stay true; the ledger says what we decided.','opening section')
  ],
  reveals:[1,2,3],
- source:SRC+': “interview → contract → prepare runtime → execute → verify → checkpoint → report”.',
+ source:'Source: '+SRC+': “interview → contract → prepare runtime → execute → verify → checkpoint → report”.',
  note:'About one minute. SAY: “Each of those five characters is a missing part. The model is the engine. The harness is the chassis.” Draw the seven stages left to right, then read the quote. Everything in Act 2 follows this run order.'
 },
 {
@@ -129,7 +129,7 @@ window.WW={slides:[
   quote('About ten messages is a heuristic, not a reason to impose process on a small task.','§1 Entry and scope')+cross('Bonus',['P55','P56','P58'])
  ],
  reveals:[1,2,3],
- source:SRC+', §1 Entry and scope and MR-1.',
+ source:'Source: '+SRC+', §1 Entry and scope and MR-1.',
  note:'In 5 to 10 words: harness the big, long jobs; skip it for quick ones. SAY: it is not for everything. One skill owns the whole job, so no hand-offs lose detail (P56), and upgrades only ever add rules, never quietly drop old ones (P55, MR-1).'
 },
 {
@@ -141,7 +141,7 @@ window.WW={slides:[
   quote('Harvest answers from the brief, assets and prior instructions before asking anything.','§2 Kickoff')+cross('The Interrupter',['P1','P2','P3'])
  ],
  reveals:[1,2,3,4],
- source:SRC+', §2 Kickoff: the nine questions.',
+ source:'Source: '+SRC+', §2 Kickoff: the nine questions.',
  note:'SAY: before asking anything it reads your brief, files and past instructions, answers nine questions itself, separates facts from guesses, and brings you only the real gaps, all at once. Question 8 lists every decision that would block the run, so nothing surfaces at 2am. DEMO: start a real job (10 UGC scripts) and show the nine answers appear, then the short batch of questions. Not used when resuming an ACTIVE contract.'
 },
 {
@@ -155,7 +155,7 @@ window.WW={slides:[
   quote('where would piece 20 be tempted to coast, and what quality floor must it still clear?','§2 Five lock questions')+'<p class="hc-rule"><span class="hc-v" data-verbatim>“On-brand” is not testable.</span> Every lock must be something a stranger could check.</p>'+cross('The Drifter',['P10','P11','P12','P13','P14'])
  ],
  reveals:[1,2,3,4,5,6],
- source:SRC+', §2 Five lock questions.',
+ source:'Source: '+SRC+', §2 Five lock questions.',
  note:'In 5 to 10 words: five locks keep piece twenty as good as piece one. Do not force a lock the job does not need: app screens may repeat, so set variety only where function warrants it, and research wants consistent evidence over variety. DEMO: the locks section of the contract from the kickoff job.'
 },
 {
@@ -167,7 +167,7 @@ window.WW={slides:[
   cross('The Interrupter and The Bluffer',['P4','P5','P15','P36','P42'])
  ],
  reveals:[1,2,3,4],
- source:SRC+', §3 Work Contract template and §2 Activate once. The job name is illustrative.',
+ source:'Source: '+SRC+', §3 Work Contract template and §2 Activate once. The job name is illustrative.',
  note:'In 5 to 10 words: one page that says what must stay true. One or two pages. ALWAYS and NEVER rules that can never invent claims. Every step names a skill or says none. A newer instruction from you updates the contract; an old contract never overrules you. DEMO: scroll the real contract: job and done, locks, framing, skill bindings, permissions.'
 },
 {
@@ -180,7 +180,7 @@ window.WW={slides:[
   quote('What can I verify or change within our permissions to fix this without bothering the owner?','§4 Blocker handling')+cross('The Interrupter',['P6','P7','P8'])+cross('The Bluffer and The Loose Cannon',['P40','P43','P45'])
  ],
  reveals:[1,2,3,4,5],
- source:SRC+', §4 Decision tiers and blocker handling.',
+ source:'Source: '+SRC+', §4 Decision tiers and blocker handling.',
  note:'In 5 to 10 words: Green, just do it. Amber, decide and log. Red, ask. When it hits a blocker it asks itself first. Only work that depends on a red decision waits; everything else carries on. Red is not a blanket rule: something you already approved does not need asking again. DEMO: type ledger mid-run and point at a REVIEW: yes.'
 },
 {
@@ -191,7 +191,7 @@ window.WW={slides:[
   '<p class="hc-say">Said out loud, every time: <q data-verbatim>Contract re-read; starting screen 4.</q></p>'+quote('The transcript summary is not the contract.','Appendix H, PreCompact hook')+cross('The Goldfish',['P19 to P26'])
  ],
  reveals:[1,2,3],
- source:SRC+', §5 run files, §6 node cycle and Appendix H.',
+ source:'Source: '+SRC+', §5 run files, §6 node cycle and Appendix H.',
  note:'In 5 to 10 words: rules and progress live in files, so nothing gets forgotten. Four run files plus the two v2 JSON files. Locked state is JSON because the skill notes the model is less likely to overwrite JSON than Markdown. Before compression, a PreCompact hook snapshots the run files automatically. DEMO: close the session mid-run, open a new one, type resume. It picks up at the exact next step with no questions.'
 },
 {
@@ -203,7 +203,7 @@ window.WW={slides:[
   quote('Done is a ledger state, not an opinion.','MR-2')+'<p class="statement">The AI can’t talk its way past a script.</p>'+cross('The Bluffer',['P27','P32','P39'])
  ],
  reveals:[1,2,3,4],
- source:'Real output from the skill’s scripts/check_constraints.py (Appendix I), run on 13 October 2026 against three two-row demonstration files.',
+ source:'Source: Real output from the skill’s scripts/check_constraints.py (Appendix I), run on 13 October 2026 against three two-row demonstration files.',
  note:'In 5 to 10 words: a script, not the AI, decides when it is finished. DEMO: run the checker three times live. 1, a row unverified. 2, the same row marked verified by “worker”: still blocked. 3, verified by the evaluator with evidence: passes. LINE: “The AI can’t talk its way past a script.” Qualities with no objective check (craft, storytelling) go to the evaluator instead.'
 },
 {
@@ -215,7 +215,7 @@ window.WW={slides:[
   quote('The screen looked polished, and that did not matter.','app-screen rubric, Example B')+cross('The Bluffer',['P28 to P31','P34','P35','P36','P38','P47'])
  ],
  reveals:[1,2,3,4],
- source:SRC+', MR-3, §6 step 4, Appendix C evaluator packet and Appendix D rubrics.',
+ source:'Source: '+SRC+', MR-3, §6 step 4, Appendix C evaluator packet and Appendix D rubrics.',
  note:'In 5 to 10 words: a separate AI marks the work, never its own homework. Fresh context, finished work only, problems before praise, hard pass marks. Four repair attempts, then flagged. Never a replacement for the worker’s own checks; it is in addition. DEMO: an evaluator verdict with a fail and its defect list, then the fix and the pass.'
 },
 {
@@ -226,7 +226,7 @@ window.WW={slides:[
   cross('The Loose Cannon',['P44','P46','P48','P49','P50','P51','P52'])
  ],
  reveals:[1,2,3],
- source:SRC+', MR-5, MR-6, §1, §5, §7 and §8.',
+ source:'Source: '+SRC+', MR-5, MR-6, §1, §5, §7 and §8.',
  note:'In 5 to 10 words: tests before building, never sends twice, caps the spend. On restart it checks what actually happened before retrying anything. The smoke test is for apps; scripts and research do not need one. Extra machinery must name the failure it fixes. DEMO (optional): a failing smoke test becoming the current job.'
 },
 {
@@ -238,7 +238,7 @@ window.WW={slides:[
   cross('The Interrupter and bonus',['P9','P54'])
  ],
  reveals:[1,2,3,4],
- source:SRC+', MR-0, MR-5, §6 step 6 and Appendix E. The ralph-wiggum plugin is the one the skill names.',
+ source:'Source: '+SRC+', MR-0, MR-5, §6 step 6 and Appendix E. The ralph-wiggum plugin is the one the skill names.',
  note:'In 5 to 10 words: it keeps working until the checker says done. Only after you have approved unattended running and the contract is active. Never without an iteration cap; never on a timer, schedule or interval. STORY: tell your real reason for the no-schedules rule here. Cancel with /cancel-ralph. Check the ralph-wiggum plugin is installed before demonstrating.'
 },
 {
@@ -249,7 +249,7 @@ window.WW={slides:[
   quote('Report states the actual completion status and leads with decisions to review.','§10 Acceptance check')+'<p class="hc-small">Unfinished? It is labelled a <b>checkpoint report</b>, never “complete”.</p>'+cross('Bonus',['P57'])
  ],
  reveals:[1,2,3],
- source:SRC+', §9 Final and session report and §10.',
+ source:'Source: '+SRC+', §9 Final and session report and §10.',
  note:'In 5 to 10 words: your decisions first, then proof everything was done. Five minutes tells you exactly what needs you and what was delivered. Also closes P39 and P40. DEMO: scroll a real final report.'
 },
 {
@@ -260,7 +260,7 @@ window.WW={slides:[
   quote('A failing smoke test becomes the current node; new features wait.','§6 step 2')+cross('Live',['P1','P2','P3','P27','P35','P48'])
  ],
  reveals:[1,2,3],
- source:'Mutsa is a real client app build. Run sheet: Trending Topic Brief, Appendix A. No Mutsa features, data or results are shown here.',
+ source:'Source: Mutsa is a real client app build. Run sheet: Trending Topic Brief, Appendix A. No Mutsa features, data or results are shown here.',
  note:'SAY: “This is Mutsa, a client app we’re building right now. I’m going to start a harness on it live, walk away, and we’ll come back later to see exactly how far it got and what it decided without me.” Keep personal or user data off screen. Point at each crossed-off problem on the board as it happens live. Cap is 40, matching the Appendix A loop command.'
 },
 {
@@ -271,7 +271,7 @@ window.WW={slides:[
   '<div class="hc-promptbox hc-checkin"><div class="micro">Step 7 · the check-in</div><pre>ledger\npython3 scripts/check_features.py harness/features.json\npython3 scripts/check_constraints.py harness/CONSTRAINTS.json</pre><p class="hc-small">Then show: features passing vs remaining, constraint rows verified vs not, every REVIEW: yes decision and the exact next action from PROGRESS.md.</p></div>'
  ],
  reveals:[1,2,3],
- source:'Prompts reproduced exactly from the Trending Topic Brief, Appendix A, steps 1, 5 and 7.',
+ source:'Source: Prompts reproduced exactly from the Trending Topic Brief, Appendix A, steps 1, 5 and 7.',
  note:'Paste these on camera. While it reads, say: “Watch: it’s answering its own questions from the repo first.” The loop prompt is your Appendix A wording. It leaves out the skill’s clause for open RED items (write the checkpoint report, then output CHASSIS DONE), so if a RED decision stays open the run will continue to its cap of 40; answer RED items promptly or add that clause. If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself.'
 },
 {
@@ -282,7 +282,7 @@ window.WW={slides:[
   '<div class="hc-flow"><div class="hc-evalgate">Evaluator gate</div>'+arrow.replace('hc-arrow','hc-arrow hc-down')+'<div class="hc-paused"><svg viewBox="0 0 48 56" aria-hidden="true"><path d="M14 24v-8a10 10 0 0 1 20 0v8"/><rect x="6" y="24" width="36" height="28" rx="4"/></svg><b>PAUSED, awaiting approval</b><span>Meta campaign staged. Nothing goes live without Ellie.</span></div></div>'
  ],
  reveals:[1,2,3],
- source:'Harbour & Hearth, its founder and its collection are made up for this demonstration. Brief: Trending Topic Brief, Appendix B. Not run; no campaign exists.',
+ source:'Source: Harbour & Hearth, its founder and its collection are made up for this demonstration. Brief: Trending Topic Brief, Appendix B. Not run; no campaign exists.',
  note:'Say on camera: “We’re not running this one, just to save credits. I’ll show you everything it would do.” Then: “Harbour & Hearth is a made-up brand, so I can show you the whole thing: every question it answers, every skill it uses and every check it has to pass.” Without a harness, piece 15 of a 15-piece campaign is worse than piece 1 and the claims drift.'
 },
 {
@@ -293,7 +293,7 @@ window.WW={slides:[
   '<div class="hc-framing"><p><b>ALWAYS</b> quote real buyer language.</p><p><b>NEVER</b> invent reviews, star ratings, “bestseller” or stock counts; activate any ad; report spend without a live read.</p><p><b>RED</b> Ellie decides discount size, budget, launch date and anything going live.</p></div>'
  ],
  reveals:[1,2,3],
- source:'Trending Topic Brief, Appendix B: five locks, skill bindings, framing and decision tiers. Palette colours are named in the brief; swatch shades are illustrative.',
+ source:'Source: Trending Topic Brief, Appendix B: five locks, skill bindings, framing and decision tiers. Palette colours are named in the brief; swatch shades are illustrative.',
  note:'Scroll Appendix B on screen alongside this slide. AMBER for this campaign: email order, which buyer quote leads which ad, page section order. GREEN: word choice inside the locks, image crops, section spacing.'
 },
 {
@@ -304,7 +304,7 @@ window.WW={slides:[
   quote('A worker statement is never evidence.','campaign-stage rubric')+cross('Example 2',['P10 to P14','P36','P42','P53'])
  ],
  reveals:[1,2,3],
- source:'Rows C-01 to C-07: Trending Topic Brief, Appendix B. Gates: '+SRC+', campaign-stage rubric.',
+ source:'Source: Rows C-01 to C-07: Trending Topic Brief, Appendix B. Gates: '+SRC+', campaign-stage rubric.',
  note:'Evaluator moments to describe: research, ten graded quotes each with a URL and date, or a shortfall ledger, no padding. Scripts: the ugc-script rubric fails a script on truthfulness alone (the rated 4.9 example). Staging: paused read-back, UTMs, no verdict under 72 hours, approval against exact ad IDs. LINE: “And that’s where we’d press go. We’re not running it today, just to save credits.”'
 },
 {
@@ -315,14 +315,14 @@ window.WW={slides:[
   '<table class="hc-table hc-numbers"><thead><tr><th></th><th>Pieces per day</th><th>Rounds of rework</th><th>Interruptions</th></tr></thead><tbody><tr><th>Before</th><td class="hc-fill"></td><td class="hc-fill"></td><td class="hc-fill"></td></tr><tr><th>After</th><td class="hc-fill"></td><td class="hc-fill"></td><td class="hc-fill"></td></tr></tbody></table><small>Taylor’s own before and after figures, written in on the board.</small>'
  ],
  reveals:[1,2,3],
- source:'Quality and output factors: Trending Topic Brief, Act 3. Before and after figures are supplied by the presenter; none are claimed here.',
+ source:'Source: Quality and output factors: Trending Topic Brief, Act 3. Before and after figures are supplied by the presenter; none are claimed here.',
  note:'About two minutes. Fill in your real before and after numbers before recording: pieces per day, rounds of rework, interruptions. The board leaves them blank on purpose so no figure is invented. The episode title promises 10x; only say it on this slide if your numbers support it.'
 },
 {
  id:'recap',title:'All five, crossed off',section:'06 / The proof',kind:'hc-cast',
  parts:cast.map(([name,svg],i)=>'<div class="hc-char hc-done">'+svg+'<h3><span class="hc-strike">'+name+'</span></h3><p>'+['Kickoff, tiers and the loop','Locks and the re-read','Files, not the chat','Checker and evaluator','Rails and caps'][i]+'</p></div>'),
  reveals:[1,2,3,4,5],
- source:'Fixes mapped in the Trending Topic Brief, Act 1 “Fixed by” columns.',
+ source:'Source: Fixes mapped in the Trending Topic Brief, Act 1 “Fixed by” columns.',
  note:'RECAP: cross out each character on the board as you name its fix. The Interrupter: kickoff, decision tiers and the loop driver. The Drifter: five locks and the contract re-read. The Goldfish: memory in files. The Bluffer: the checker and the evaluator. The Loose Cannon: safety rails and caps.'
 },
 {
@@ -332,7 +332,7 @@ window.WW={slides:[
   '<div class="hc-next"><div class="micro">Next week</div><h3>Vision Boards</h3><p>How we decide what to build before the harness builds it.</p></div>'
  ],
  reveals:[1,2],
- source:'Close and next video: Trending Topic Brief.',
+ source:'Source: Close and next video: Trending Topic Brief.',
  note:'About one minute. CTA: free download of the checker script, the one demonstrated on the done-gate slide. The brief also offered a starter contract as the alternative; swap it in here if you prefer. Next video: “Next week, Vision Boards: how we decide what to build before the harness builds it.”'
 }
 ]};
