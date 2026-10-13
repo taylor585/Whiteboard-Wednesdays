@@ -12,7 +12,7 @@ async function run(){
  const go=async(id)=>{await page.goto(base+'#/presentation/paid-ads-process/slide/'+id);await page.locator('#player').waitFor({state:'visible'});};
  for(const width of [375,390,768,1280]){
   await page.setViewportSize({width,height:900});await page.goto(base);await page.locator('.deck-card').first().waitFor();await page.evaluate(()=>document.fonts.ready);
-  check(await page.locator('.deck-card').count()===2,'two genuine library cards '+width);
+  check(await page.locator('.deck-card').count()===3,'three genuine library cards '+width);
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'library no overflow '+width);
   await page.screenshot({path:(process.env.QA_OUTPUT||'/tmp')+'/ww-library-'+width+'.png',fullPage:true});
   for(const s of deck.slides){
@@ -51,7 +51,7 @@ async function run(){
  await context.route('**/presentations.js',async r=>{const response=await r.fetch({headers:{...r.request().headers(),...(process.env.SITE_QA_TOKEN?{'OAI-Sites-Authorization':'Bearer '+process.env.SITE_QA_TOKEN}:{})}});const body=(await response.text())+"\nwindow.presentationRegister.push({...window.presentationRegister[0],id:'test-only',title:'Second test presentation',source:'test-only.js',brand:{...window.presentationRegister[0].brand,name:'Fictional QA brand',accent:'#174b67'}});";await r.fulfill({response,body});});
  await context.route('**/test-only.js',r=>r.fulfill({contentType:'text/javascript',body:'window.WW='+JSON.stringify(fixture)}));
  await page.goto(base);await page.locator('.deck-card').nth(1).waitFor();await page.locator('.deck-card a[href="#/presentation/paid-ads-process"]').click();await page.locator('#player').waitFor({state:'visible'});await page.locator('#next').click();
- const progress=await page.locator('#progress').textContent();await page.locator('#tab-paid-ads-process').focus();await page.keyboard.press('ArrowRight');await page.keyboard.press('ArrowRight');check(await page.locator('#progress').textContent()===progress,'tab arrows do not advance slide');await page.keyboard.press('Enter');await page.waitForURL('**/fixture');
+ const progress=await page.locator('#progress').textContent();await page.locator('#tab-paid-ads-process').focus();await page.keyboard.press('ArrowRight');await page.keyboard.press('ArrowRight');await page.keyboard.press('ArrowRight');check(await page.locator('#progress').textContent()===progress,'tab arrows do not advance slide');await page.keyboard.press('Enter');await page.waitForURL('**/fixture');
  const tabProgress=await page.locator('#progress').textContent();await page.keyboard.press('ArrowRight');check(await page.locator('#progress').textContent()===tabProgress,'tab focus preserved after activation');check(await page.locator('#tab-paid-ads-process').evaluate(e=>e===document.activeElement),'tab arrow after activation moves focus');
  check((await page.locator('#brand-name').textContent())==='Fictional QA brand','separate published branding');await page.locator('#next').click();await page.locator('#next').click();check(await page.locator('.survey-options input:checked').count()===0,'new deck survey empty');await page.locator('.survey-options input').first().check();
  await page.locator('#tab-paid-ads-process').click();await page.waitForURL('**/'+deck.slides[0].id);check(await page.locator('#progress').textContent()===progress,'deck reveal restored');check((await page.locator('#brand-name').textContent())==='Pecuna Factorem','original branding restored');
