@@ -29,3 +29,35 @@ html[data-deck-font="lge"] #player .source-note{font-size:12px;color:#475569;max
 .lge-step p.lge-source-count{grid-column:2;margin-top:0;font-size:16px;line-height:1.6;color:#475569}.lge-source-count strong{color:#111827;font-size:22px}
 
 .lge-demo-form{width:100%;min-width:0}.lge-form-section{margin:32px 0}.lge-form-section h3{padding-bottom:12px;border-bottom:2px solid #D4A96A}.lge-form-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px;margin:0}.lge-form-fields>div{padding:16px 0;border-bottom:1px solid #EDE7DD;min-width:0}.lge-form-fields dt{font-size:14px;line-height:1.5;color:#475569;margin-bottom:8px}.lge-form-fields dd{margin:0;font-size:19px;line-height:1.55;overflow-wrap:anywhere}@media(max-width:700px){.lge-form-fields{grid-template-columns:1fr}.lge-form-fields dd{font-size:18px}}
+
+/* V2 presentation polish, scoped to Lead Gen Engine. */
+.lge-illustration{display:block;width:min(100%,320px);height:150px;color:#111827;margin:0 0 24px}
+.parts.lge-agent-pair{align-items:start}
+.lge-agent-pair>.part:last-child,.lge-count-stage>.part:last-child,.lge-contrast>.part:last-child{grid-column:1/-1}
+.lge-agent-pair .lge-step{grid-template-columns:40px 1fr}
+.lge-agent-pair .lge-source-count{font-size:16px;line-height:1.65;margin-top:20px}
+.lge-agent-pair .lge-source-count strong{font-size:24px}
+.parts.lge-four-stage{grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+.lge-four-stage .lge-step{display:block;position:relative;border-top:0;padding-top:0}
+.lge-four-stage .lge-num{margin-bottom:24px}
+.lge-four-stage .part:not(:last-child) .lge-step:after{content:'→';position:absolute;top:0;left:65px;right:0;color:#475569;font-size:28px;border-bottom:2px solid #D4A96A;text-align:right;line-height:28px}
+.lge-four-stage h3{font-size:24px;line-height:1.25}
+.parts.lge-decision-map{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 56px}
+.lge-decision-map .lge-step{padding-top:24px}
+.lge-input-equation{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:8px 0 48px}
+.lge-input-equation>div{flex:1;min-width:0}
+.lge-input-equation strong{display:block;font-size:clamp(56px,7vw,96px);line-height:1.08;letter-spacing:-.045em;font-weight:700;font-variant-numeric:tabular-nums}
+.lge-input-equation span{display:block;font-size:20px;line-height:1.4;margin-top:12px}
+.lge-input-equation .lge-maths{font-size:40px;margin:0;color:#475569}
+.lge-equation-total{border-bottom:5px solid #D4A96A;padding-bottom:20px}
+.lge-manual-list{padding-left:28px;margin:24px 0 0;display:grid;gap:16px;font-size:24px;line-height:1.35}
+.lge-manual-list li{padding-left:12px}
+.lge-manual-list li::marker{color:#475569;font-size:16px;font-weight:600}
+.lge-check-matrix{display:grid;grid-template-columns:repeat(6,36px);gap:12px;margin-top:24px}
+.lge-check-matrix span{display:grid;place-items:center;width:36px;height:36px;border:1px solid #D4A96A;border-radius:50%;font-size:13px;font-variant-numeric:tabular-nums;color:#475569}
+.lge-illustration path,.lge-sharing path{stroke-dasharray:1000;stroke-dashoffset:0}
+.revealed .lge-illustration path,.revealed .lge-sharing path{animation:lge-draw-v2 420ms ease-out both}
+@keyframes lge-draw-v2{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}
+@media(max-width:1000px){.parts.lge-four-stage{grid-template-columns:repeat(2,minmax(0,1fr))}.lge-four-stage .part:nth-child(2) .lge-step:after{display:none}}
+@media(max-width:640px){.parts.lge-four-stage,.parts.lge-decision-map{grid-template-columns:1fr;gap:28px}.lge-four-stage .lge-step{display:grid;grid-template-columns:40px 1fr}.lge-four-stage .part .lge-step:after{display:none}.lge-illustration{height:128px;width:272px;margin-bottom:20px}.lge-input-equation{flex-wrap:wrap;gap:16px;margin-bottom:32px}.lge-input-equation>div{flex:1 1 30%}.lge-input-equation .lge-equation-total{flex-basis:100%;margin-top:8px}.lge-input-equation>.lge-maths:nth-child(4){display:none}.lge-input-equation strong{font-size:64px}.lge-input-equation span{font-size:18px}.lge-manual-list{font-size:22px;gap:12px}.lge-check-matrix{gap:10px}}
+@media(prefers-reduced-motion:reduce){.revealed .lge-illustration path,.revealed .lge-sharing path{animation:none}}
