@@ -1,3 +1,13 @@
+# AI Harnesses deck, 13 October 2026 (branch, not published)
+
+New third deck `ai-harnesses`, 27 slides, from Taylor's Trending Topic Brief and the Harness Chassis Builder - No Schedules skill. Added through `public/presentations.js` with the Pecuna Factorem brand profile, official `ww-coin.svg`, deck-scoped `hc.css`, cover `hc-cover.png` and reading page `hc-reading.html`. No other deck's content or assets changed. `index.html` gains one stylesheet link.
+
+- `build-hc-reading.cjs`: 19 verbatim quotations proven against the skill text (SHA-256 0b5b7e18ff4991dedafdf749995a41e42a040b18b51c7f7d5c50a3b307ca3996); unique stable IDs; contiguous reveal groups; source and note on every slide; no consecutive repeated device; no em or double dashes.
+- `verify-hc.cjs`: 1257 assertions passed in local Chromium against the static preview at 375, 390, 768 and 1280px. Every reveal of every slide, overflow, asset errors, notes kept off the slide, keyboard, canvas click, Back, text selection, reveal-linked device states, count-up end values, full-window mode, fresh direct links, refresh, Back/Forward, missing slide recovery, isolated state across decks, tab arrows, browser-only brand preview not persisting, reduced motion and the complete reading view. No runtime errors; the only filtered responses are `/api/ideas` 404s, which need the full server.
+- Regression: `verify.cjs` 928 checks, `verify-lge.cjs` 933 checks and `verify-lge-prompt.cjs` passed against the same preview. `verify.cjs` already timed out on unchanged main because the library page no longer shows tabs; its navigation now opens a deck before clicking tabs, and its arrow count covers the third tab. Deck-count assertions are now three.
+- Done-gate slide output is real output from the skill's `check_constraints.py` on three demonstration files.
+- Not done: full Vinext build, hosted test, physical iPhone/Safari test, independent reviewer, publication. No image generation tool was available; visuals are HTML, CSS and SVG diagrams, and the cover is a rendered HTML drawing.
+
 # Current release verification, 9 October 2026
 
 The paid ads deck contains 29 slides: three Andromeda opening slides followed by all 26 existing slides. Lead Gen Engine remains a separate real 29-slide deck. The historical one-deck statements below apply only to the old release.

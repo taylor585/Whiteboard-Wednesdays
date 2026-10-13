@@ -40,6 +40,7 @@ Open http://localhost:8864/#/library. The migration command uses local storage o
 - `public/video-ideas.css`, `public/video-ideas.js`: creator watchlist interface.
 - `public/presentations.js`: presentation register.
 - `public/whiteboard-content.js`, `public/lge-content.js`: existing presentation content.
+- `public/hc-content.js`, `public/hc.css`: AI Harnesses presentation and its deck-scoped styles. Rebuild `public/hc-reading.html` with `node build-hc-reading.cjs <path to the Harness Chassis Builder - No Schedules SKILL.md>`, which also proves every quotation against the skill.
 - `public/`: all retained images, fonts, licences, reading views and PDF assets.
 - `app/api/ideas/[[...path]]/route.ts`: server-side watchlist, refresh and saved ideas.
 - `youtube-api.mjs`: YouTube Data API adapter.
@@ -57,6 +58,8 @@ npm run build
 ```
 
 Check both navigation tabs and presentations at 375, 390, 768 and 1280 pixel widths after design edits.
+
+Browser suites run against the static preview: `node verify-hc.cjs http://127.0.0.1:8862/` for AI Harnesses. `verify.cjs`, `verify-lge.cjs` and `verify-lge-prompt.cjs` read `dist/`; point a temporary `dist` symlink at `public` to run them against the preview. Set `PLAYWRIGHT_PATH` if Playwright is installed globally.
 
 ## YouTube status and credentials
 

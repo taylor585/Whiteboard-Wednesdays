@@ -1,0 +1,29 @@
+// Validates the AI Harnesses deck and writes its complete reading page.
+// Usage: node build-hc-reading.cjs /path/to/harness-chassis-builder-no-schedules/SKILL.md
+const fs=require('fs'),vm=require('vm'),crypto=require('crypto');
+const root=__dirname+'/public/';
+const ctx={window:{}};vm.runInNewContext(fs.readFileSync(root+'hc-content.js','utf8'),ctx);
+const deck=ctx.window.WW,errors=[];
+const skillPath=process.argv[2];
+if(!skillPath)throw Error('Pass the path to the Harness Chassis Builder - No Schedules SKILL.md so quotations can be proven.');
+const skill=fs.readFileSync(skillPath,'utf8');
+const flat=s=>s.replace(/\s+/g,' ').trim();
+const decode=s=>s.replace(/<[^>]+>/g,'').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,'&');
+const ids=new Set();let quotes=0;
+deck.slides.forEach((s,i)=>{
+ if(ids.has(s.id))errors.push('duplicate id '+s.id);ids.add(s.id);
+ if(!/^[a-z0-9-]+$/.test(s.id))errors.push('unstable id '+s.id);
+ for(const k of ['id','title','section','kind','source','note'])if(!s[k])errors.push(s.id+' missing '+k);
+ if(s.reveals.length!==s.parts.length)errors.push(s.id+' reveal count');
+ const groups=[...new Set(s.reveals)].sort((a,b)=>a-b);if(groups[0]!==1||groups.some((g,j)=>g!==j+1))errors.push(s.id+' reveal groups not contiguous');
+ if(i&&deck.slides[i-1].kind===s.kind)errors.push(s.id+' repeats the previous device '+s.kind);
+ for(const p of s.parts)for(const m of p.matchAll(/data-verbatim>([\s\S]*?)<\/(?:blockquote|q|code|span)>/g)){quotes++;if(!flat(skill).includes(flat(decode(m[1]))))errors.push(s.id+' quotation not found in skill: '+decode(m[1]));}
+ if(/—|--/.test(s.title+s.source+s.note+s.parts.join('').replace(/--[a-z]/g,'')))errors.push(s.id+' contains an em dash or double dash');
+});
+if(new Set(deck.slides.map(s=>s.kind)).size<3)errors.push('fewer than three devices');
+if(errors.length){console.error(errors.join('\n'));process.exit(1);}
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const articles=deck.slides.map((s,i)=>'<article id="'+s.id+'"><div class="micro">'+String(i+1).padStart(2,'0')+' / '+esc(s.section)+'</div><h2>'+esc(s.title)+'</h2><div class="parts '+s.kind+'">'+s.parts.map(p=>'<section class="part">'+p+'</section>').join('')+'</div><p class="source-note">'+esc(s.source)+'</p><details><summary>Presenter notes</summary><p>'+esc(s.note)+'</p></details><p><a href="./#/presentation/ai-harnesses/slide/'+s.id+'">Open this slide in the presentation</a></p></article>').join('');
+const html='<!doctype html><html lang="en-GB" data-deck-font="hand"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>How AI Harnesses Can 10x Your Quality and Output</title><link rel="stylesheet" href="whiteboard.css"><link rel="stylesheet" href="hc.css"></head><body><main class="hc-reading"><header><img src="ww-coin.svg" alt="Pecuna Factorem official logo"><h1>How AI Harnesses Can 10x Your Quality and Output</h1></header><nav><a href="./#/presentation/ai-harnesses/slide/'+deck.slides[0].id+'">Open the presentation</a><a href="./#/library">Presentation library</a></nav>'+articles+'<article id="sources"><h2>Sources and status</h2><p>Method quotations are exact text from the Harness Chassis Builder - No Schedules skill (SKILL.md, SHA-256 '+crypto.createHash('sha256').update(skill).digest('hex')+'). The structure, problem list, examples and prompts come from Taylor’s Trending Topic Brief. Checker output on the done-gate slide is real output from the skill’s check_constraints.py. Chat messages, ledger entries, report entries and the evaluator verdict are illustrative. Harbour &amp; Hearth is a fictional brand and its harness was not run. No Mutsa features, data or results are shown. The skill cites Anthropic engineering posts and arXiv papers that have not been independently checked.</p></article></main></body></html>\n';
+fs.writeFileSync(root+'hc-reading.html',html);
+console.log(JSON.stringify({slides:deck.slides.length,parts:deck.slides.reduce((n,s)=>n+s.parts.length,0),verbatimQuotes:quotes,devices:new Set(deck.slides.map(s=>s.kind)).size}));
