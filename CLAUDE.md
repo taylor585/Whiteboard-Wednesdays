@@ -12,3 +12,4 @@ The shared GitHub repository is https://github.com/taylor585/Whiteboard-Wednesda
 The header uses plain text tabs and a thin dark underline, as selected on 12 October 2026. Do not restore the icon pills.
 The Video ideas integration awaits Google API approval and a server-side key. Do not claim live YouTube retrieval works until it is connected and tested.
 Design changes can be made without access to the private hosted app: run the public/ static preview or the full local server.
+The weekly production process (slides, recording, editing, posting) is in PROCESS.md. Plan the Topics screen around it.

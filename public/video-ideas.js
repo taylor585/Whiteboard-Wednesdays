@@ -65,7 +65,7 @@
   $('#ideas-search').addEventListener('input',render);
   $('#ideas-creator').addEventListener('change',render);
   $('#ideas-saved').addEventListener('change',render);
-  root.querySelectorAll('[data-ideas-days]').forEach(b=>b.addEventListener('click',()=>{days=Number(b.dataset.ideasDays);root.querySelectorAll('[data-ideas-days]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));render();}));
+  root.querySelectorAll('[data-ideas-days]').forEach(b=>b.addEventListener('click',()=>{days=Number(b.dataset.ideasDays);root.querySelectorAll('[data-ideas-days]').forEach(x=>x.setAttribute('aria-selected',String(x===b)));render();}));
   $('#ideas-results').addEventListener('click',async event=>{
     const button=event.target.closest('[data-save]'); if(!button) return;
     button.disabled=true; const id=button.dataset.save, value=!saved().has(id);
