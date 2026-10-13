@@ -1,0 +1,4 @@
+interface:
+  display_name: "Trending Topics v2"
+  short_description: "Weekly video topics from our work and our creators, with record-ready briefs, titles and descriptions"
+  default_prompt: "Use Trending Topics. Research our last 14 days of Claude Code work and our creator list, give me 5 ranked topics with title options, then wait for me to pick 3 and plan the week."

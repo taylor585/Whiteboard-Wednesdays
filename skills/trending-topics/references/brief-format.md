@@ -1,4 +1,4 @@
-# Trending Topic Brief: the format
+# Trending Topic Brief: the format (v2)
 
 One brief per video. Taylor reads it before the camera goes on, knows exactly what to say, draw and show, then records straight through. Every heading below appears in every brief, word for word, in this order. `scripts/check_brief.py` enforces it.
 
@@ -19,6 +19,8 @@ The gold example is `examples/harness-brief.md`. Read it before writing a new br
 9. Act 3 numbers are blanks for the presenter. Never invent figures.
 10. Flag anything that must be verified before saying it on camera: sources, claims, client names, competitor videos on the same topic.
 11. British English. No em dashes or double dashes in prose.
+12. Finish with **PACKAGING**: an A/B set of 3 titles (3 different formulas, scored), a thumbnail line per title and a description, following `headlines.md` and `descriptions.md`.
+13. When the video demonstrates the system on examples, add each as an Act 2 segment card and put its full context in an appendix after PACKAGING: a **live** example gets prompts to paste and a check-in prompt; a **built-not-run** example gets the made-up client, their requests, the nine answers, the locks, the skill bindings, the decision tiers and sample constraint rows, plus the line "We're not running this one, just to save credits." Never put a real client's name or data in anything committed to the public repo.
 
 ---
 
@@ -149,6 +151,45 @@ Every problem below was reverse-engineered from a specific line in the source. T
 
 - [ ] [files, demos, stories, numbers]
 - [ ] Verify before quoting on camera: [items]
+
+---
+
+# PACKAGING
+
+## TITLES (A/B set)
+
+| # | Title | Formula | Chars | Intent | Score |
+|---|---|---|---|---|---|
+| 1 | [title] | [formula from headlines.md §3] | [n] | Both | [0-100] |
+| 2 | [title] | [different formula] | [n] | [intent] | [score] |
+| 3 | [title] | [different formula] | [n] | [intent] | [score] |
+
+**RECOMMENDED PAIR:** [title n] with thumbnail line "[2 to 5 words]"
+
+## THUMBNAIL LINES
+
+- With title 1: "[line]" ([verdict / proof / emotion])
+- With title 2: "[line]"
+- With title 3: "[line]"
+
+## DESCRIPTION
+
+**LINE 1:** [promise + searchable noun + one proof detail, 150 characters or fewer]
+
+**LINE 2:** [label]: [your link]
+
+**BODY:**
+- [3 to 5 lines from the Act 2 one-liners]
+
+**CHAPTERS:** from transcript after recording. Planned: [section names in order]
+
+**STANDING BLOCKS:** [offer, socials, disclosure if any affiliate link]
+
+**HASHTAGS:** [none unless Taylor's rule says otherwise]
+
+---
+
+# APPENDIX A: [EXAMPLE NAME] (optional, for live or built-not-run examples)
 ```
 
 ---

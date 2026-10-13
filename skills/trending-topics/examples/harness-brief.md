@@ -1,13 +1,13 @@
 # TRENDING TOPICS: How AI Harnesses Can 10x Your Quality and Output
 
 SOURCE: Harness Chassis Builder - No Schedules (skill harness-chassis-builder-no-schedules)
-FORMAT: Trending Topic Brief (references/brief-format.md)
+FORMAT: Trending Topic Brief v2 (references/brief-format.md)
 
 # AT A GLANCE
 
 **PROMISE:** Wrap your AI in a harness and it stops interrupting, drifting, forgetting and bluffing, so quality and output both go up.
 
-**TOTAL LENGTH:** about 25 to 28 minutes.
+**TOTAL LENGTH:** about 35 to 40 minutes (theory 25, two examples 12).
 
 | Section | Job | Length |
 |---|---|---|
@@ -15,6 +15,7 @@ FORMAT: Trending Topic Brief (references/brief-format.md)
 | ACT 1: THE PROBLEM | Five failure characters the viewer recognises | 6 to 8 min |
 | The turn | Problems are missing parts of a chassis | 1 min |
 | ACT 2: THE SYSTEM | Eleven segments in run order, crossing off every problem | 12 to 15 min |
+| ACT 2 examples (Segments 12 and 13) | live client app run + Harbour & Hearth paid ads harness | 12 min |
 | ACT 3: THE PROOF | Quality x Output, with real numbers | 2 min |
 | Close | CTA and next video | 1 min |
 
@@ -26,6 +27,8 @@ FORMAT: Trending Topic Brief (references/brief-format.md)
 - **Act 1 characters (stick these up first):** The Interrupter, The Drifter, The Goldfish, The Bluffer, The Loose Cannon.
 - **Act 2 one-liners, in order:** Harness the big, long jobs. AI answers its own questions first, then asks you once. Five locks keep piece twenty as good as piece one. One page that says what must stay true. Green: just do it. Amber: decide and log. Red: ask. Rules and progress live in files, so nothing gets forgotten. A script, not the AI, decides when it's finished. A separate AI marks the work, never its own homework. Tests before building, never sends twice, caps the spend. It keeps working until the checker says done. Your decisions first, then proof everything was done.
 - **Have open before you press record:** a finished run folder, a terminal ready to run the checker three times, an evaluator verdict showing a fail.
+- **Run order for today:** Act 1 problems (Claude and Codex) > what a harness is > how it fixes each problem (Segments 1 to 11) > Example 1 live client app, LIVE (Segment 12) > Example 2 Harbour & Hearth, built not run (Segment 13) > proof > close.
+- **Say on camera at Example 2:** "We're not running this one, just to save credits. I'll show you everything it would do."
 - **Bring:** your before and after numbers, and your story behind the no-schedules rule.
 - **Angle check:** Nick Saraev posted "AI HARNESS: An In-Depth Explanation" this fortnight. Ours is different: a real business harness, live on client work, with the checker refusing to finish on camera.
 - **Verify first:** the Anthropic and arXiv sources the skill cites.
@@ -424,6 +427,54 @@ This is the one you most want to lead with.
 
 ---
 
+## SEGMENT 12: Example 1, LIVE: a real client app harness
+
+**IN 5 TO 10 WORDS:** A real client app, built feature by feature, unattended.
+
+**WHY SHOULD PEOPLE CARE?:** This is the difference between "AI helped me code" and "AI shipped a client's features while I did other work", with proof each one works.
+
+**WHEN TO USE IT:** App builds with several features, more than one session of work, and a repo the agent can run and test.
+
+**WHEN NOT TO USE IT:** A one-line bug fix, or an app with no way to run or test it (fix that first; the smoke test needs something to hit).
+
+**PROBLEMS IT SOLVES:** P1 to P3, P19 to P24, P27, P28, P32, P35, P46, P48
+
+**SAY:** "This is a client app we're building right now. I'm going to start a harness on it live, walk away, and we'll come back later to see exactly how far it got and what it decided without me."
+
+**QUOTE FROM THE SOURCE:** "A failing smoke test becomes the current node; new features wait."
+
+**DRAW:** a row of feature boxes, each with a tick box; a "smoke test" gate in front of the row; a loop arrow with "cap: 60".
+
+**DEMO:** follow the live run script in Appendix A, steps 1 to 6: paste the kickoff prompt, show the nine answers it writes itself, say "Active", show features.json (every feature starts passes:false), start the loop, then show PROGRESS.md filling. Later in the video or a follow-up: Appendix A step 7, the check-in.
+
+**CROSS OFF:** P1, P2, P3, P27, P35, P48 (point at each on the board as it happens live).
+
+---
+
+## SEGMENT 13: Example 2, BUILT NOT RUN: Harbour & Hearth paid ads campaign
+
+**IN 5 TO 10 WORDS:** One harness runs research, emails, ads, scripts and page.
+
+**WHY SHOULD PEOPLE CARE?:** A whole campaign is 20-plus pieces. Without a harness, piece 20 is worse than piece 1 and the claims drift. With one, every piece hits the same bar and nothing goes live without your sign-off.
+
+**WHEN TO USE IT:** Multi-asset campaigns: emails, statics, video scripts and a landing page for one offer, one ICP.
+
+**WHEN NOT TO USE IT:** A single ad or a single email. And never let it launch spend: staging stays paused until you approve.
+
+**PROBLEMS IT SOLVES:** P10 to P16, P36, P38, P42, P43, P53
+
+**SAY:** "Harbour & Hearth is a made-up brand, so I can show you the whole thing. We're not running this one, just to save credits, but here's every question it answers, every skill it uses and every check it has to pass."
+
+**QUOTE FROM THE SOURCE:** "A worker statement is never evidence."
+
+**DRAW:** one ICP box at the top, arrows down to four lanes (emails, statics, scripts, landing page), all passing through one "evaluator" gate, then a padlocked "PAUSED, awaiting approval" box.
+
+**DEMO:** scroll Appendix B: the brief, the nine answers, the five locks, the skill bindings table, the constraints rows, then the campaign-stage rubric ("paused state", "72-hour rule").
+
+**CROSS OFF:** P10 to P14, P36, P42, P53.
+
+---
+
 # ACT 3: THE PROOF
 
 **DRAW:** Quality × Output = 10x
@@ -449,10 +500,184 @@ This is the one you most want to lead with.
 # PREP CHECKLIST
 
 - [ ] A finished run folder (contract, plan, progress, constraints, final report)
-- [ ] A small live job to start on camera (10 UGC scripts)
+- [ ] the client app repo open in Claude Code, app runnable, Appendix A prompts ready to paste
+- [ ] Appendix B open on screen for the Harbour & Hearth walkthrough
 - [ ] Checker demo files for the three runs in Segment 7
 - [ ] An evaluator verdict showing a fail
 - [ ] Ralph Wiggum plugin installed, if showing the loop
 - [ ] Your story behind the no-schedules rule
 - [ ] Your before and after numbers
 - [ ] Verify before quoting on camera: the skill cites Anthropic engineering posts (Nov 2025, Mar 2026) and arXiv papers dated 2026, which have not been independently checked
+
+
+
+---
+
+# PACKAGING
+
+## TITLES (A/B set)
+
+| # | Title | Formula | Chars | Intent | Score |
+|---|---|---|---|---|---|
+| 1 | How AI Harnesses Can 10x Your Quality and Output | Stakes / multiplier | 48 | Both | 85 |
+| 2 | Your AI Isn't Dumb. It Has No Harness. | Reframe | 38 | Both | 75 |
+| 3 | I Tested an AI Harness on a Real Client App | I tested | 43 | Both | 80 |
+
+**RECOMMENDED PAIR:** title 1 with thumbnail line "It can't lie about done."
+
+## THUMBNAIL LINES
+
+- With title 1: "It can't lie about done." (proof: the checker refusing, on screen)
+- With title 2: "Same model. 10x output." (verdict)
+- With title 3: "Built while I slept." (result; only if the live run shows real progress)
+
+## DESCRIPTION
+
+**LINE 1:** How we stop Claude and Codex drifting, interrupting and bluffing on long jobs: a real business harness, live.
+
+**LINE 2:** Get the harness starter contract: [your link]
+
+**BODY:**
+- Why AI answers its own questions first, then asks you once
+- The five locks that keep piece twenty as good as piece one
+- Green, amber, red: how it decides without bothering you
+- Why a script, not the AI, decides when it's done
+
+**CHAPTERS:** from transcript after recording. Planned: Same model, different results / Five AI failure types / What a harness is / Kickoff and the five locks / Decisions and memory / The done check / Live client app build / Campaign harness walkthrough / Proof and next steps
+
+**STANDING BLOCKS:** Pecuna Factorem call link, socials, disclosure if any affiliate link.
+
+**HASHTAGS:** none (Taylor's rule overrides).
+
+---
+
+# APPENDIX A: LIVE CLIENT APP RUN SCRIPT
+
+**Client:** a real client app in progress (name it on camera only if the client has agreed). Keep any personal or user data off screen.
+
+**Before you record:** open the the client app repo in Claude Code (desktop app, so you can show it). Make sure the app can run locally or in the cloud session.
+
+**Step 1: kickoff prompt (paste this):**
+
+```
+Use the harness-chassis-builder-no-schedules skill.
+
+Job: continue building the the client app app end to end. Read the repo, README, open issues/PRs and any brief in the project first, and harvest every answer you can before asking me anything.
+
+Deliverable class: app/system.
+Run the full nine-question kickoff and show all nine answers on screen.
+Write INTERVIEW.md, CONTRACT.md, PLAN.md, PROGRESS.md, CONSTRAINTS.json and features.json in a harness/ folder in the repo.
+features.json: list every remaining user-visible feature, each passes:false, one per iteration.
+Write init.sh and a smoke test for this app before any new work.
+Decision tiers: GREEN micro-choices; AMBER decide and log; RED = anything touching production data, payments, deploys or user personal data.
+Ask me only the genuine gaps and the Q8 owner decisions, all together, in one message.
+```
+
+**Step 2:** while it reads, say: "Watch: it's answering its own questions from the repo first." Point at the board (The Interrupter, P1).
+
+**Step 3:** show the nine answers and the short list of questions. Answer them. Say "Active".
+
+**Step 4:** open `harness/features.json`. Say: "Every feature starts as false. It only flips to true with end-to-end evidence." Open `CONSTRAINTS.json`: "And the AI can't mark these verified itself."
+
+**Step 5: start the loop (paste):**
+
+```
+/ralph-loop "Read harness/CONTRACT.md in full, then PLAN.md, PROGRESS.md, CONSTRAINTS.json and features.json. Run init.sh and the smoke test first; if it fails, fixing it is the current node. Take the next eligible feature and run the node cycle: re-read, load bound skills, perform, gate-check, checkpoint. At each PLAN milestone run the independent evaluation with the EVALUATOR PACKET and record its verdict. Log every AMBER decision as it is made. Never edit a test, feature row or constraint row to make it pass. If a node is blocked, record it in PROGRESS and continue with an independent node. Output the exact words CHASSIS DONE only when PLAN has no eligible node and python3 scripts/check_constraints.py harness/CONSTRAINTS.json exits 0." --max-iterations 40 --completion-promise "CHASSIS DONE"
+```
+
+If the ralph-wiggum plugin is not installed, say so and paste the same prompt as a normal message; it still runs the node cycle, you just re-enter it yourself.
+
+**Step 6:** say: "Now I walk away. No timers, no schedule. It keeps going until the checker passes or it hits the cap of 40."
+
+**Step 7: the check-in (later, paste):**
+
+```
+ledger
+Then show: features passing vs remaining (python3 scripts/check_features.py harness/features.json), CONSTRAINTS rows verified vs not (python3 scripts/check_constraints.py harness/CONSTRAINTS.json), every REVIEW: yes decision, and the exact next action from PROGRESS.md.
+```
+
+Show on camera: the ledger, the feature count moving, any evaluator fail and its repair, and "decisions for you" at the top.
+
+---
+
+# APPENDIX B: HARBOUR & HEARTH CAMPAIGN HARNESS (built, not run)
+
+## The client (made up)
+
+**Harbour & Hearth** is a premium UK home-fragrance brand: hand-poured soy candles and reed diffusers, sold direct online, average order £48. Founder: Ellie Marsh, Cornwall. Launching the **"Winter Harbour" collection** (3 scents) for November with Meta ads.
+
+**Their requests:**
+1. ICP research from real buyer reviews (Reddit, Trustpilot).
+2. A 5-email launch sequence (teaser, launch, social proof, last chance, thank-you).
+3. 6 static ad images (2 per scent) with headlines.
+4. 3 promotional video scripts: a UGC unboxing, a founder-to-camera story, a 15-second product demo.
+5. A landing page for the collection.
+6. The Meta campaign staged and paused, ready for approval.
+
+## The nine kickoff answers (what the harness would write)
+
+1. **Done means:** 5 emails, 6 statics, 3 scripts with storyboards, 1 landing page live on staging, 1 Meta campaign staged PAUSED, every CONSTRAINTS row verified with evidence.
+2. **World class:** every hook uses a real buyer phrase; the page loads fast and matches the ads; the 20th piece is as sharp as the first. Let down in performance if claims are invented; let down in aesthetics if the statics look like stock templates.
+3. **What could go wrong:** invented reviews or "bestseller" claims; voice drifting between email and video; hooks repeating; ads going live without approval; spend reported without a live read. Each becomes a lock, NEVER rule or RED permission.
+4. **Skills:** icp-buyer-research-verified-evidence-quality-gate, breakthrough-advertising-mastery, world-class-copywriting, llm-image-creator, ugc-script-creator, creative-storyboard-architect, finishing-touches-copy-and-scripts, fable-website-funnel-design, web-and-funnel-design-quality-gate-approved, meta-ads-creation-and-management.
+5. **Where each is used:** see the bindings table below; every email, every static, every script, every page section.
+6. **Master rules:** the five locks below, plus ALWAYS/NEVER framing.
+7. **Review gates:** after research, after copy, after creative, after the page, after staging. Independent evaluator at each, using the research-section, ugc-script and campaign-stage rubrics.
+8. **Owner decisions (asked once, up front):** offer and discount (e.g. 15% launch code?), budget and dates, approval to stage in Meta, who signs off before activation.
+9. **Memory:** contract re-read before every asset; four run files plus CONSTRAINTS.json; PreCompact hook; resume from PROGRESS.
+
+## The five locks
+
+- **Identity:** "Coastal calm": warm, unhurried, sensory, British. Named in the contract; changing it needs Ellie's sign-off.
+- **Sameness:** the same 3 scent names, the same offer wording, the same colour palette (sea-glass green, driftwood, cream) and fonts in every asset.
+- **Difference:** no two hooks open the same way; each email has a different job; the 3 scripts use 3 different formats.
+- **Let-down:** performance: any claim without a source fails; aesthetics: any static that reads as a template fails.
+- **Fatigue:** static 6 and email 5 must still use a real buyer phrase and pass the same evaluator thresholds.
+
+**ALWAYS:** quote real buyer language; say "hand-poured in Cornwall" only because the brief says so. **NEVER:** invent reviews, star ratings, "bestseller" or stock counts; activate any ad; report spend without a live read.
+
+## Skill bindings
+
+| Step | Skill | Used on |
+|---|---|---|
+| ICP research | icp-buyer-research-verified-evidence-quality-gate | the research stage, once |
+| Angles and offer | breakthrough-advertising-mastery | before any copy |
+| Emails | world-class-copywriting, then finishing-touches-copy-and-scripts | each of the 5 emails |
+| Static images | llm-image-creator | each of the 6 statics |
+| Video scripts | ugc-script-creator, then finishing-touches-copy-and-scripts | each of the 3 scripts |
+| Storyboards | creative-storyboard-architect | each script |
+| Landing page | fable-website-funnel-design | each page section |
+| Page QA | web-and-funnel-design-quality-gate-approved | the finished page |
+| Meta staging | meta-ads-creation-and-management | campaign, ad sets, ads (PAUSED) |
+
+## Decision tiers
+
+- **GREEN:** word choice inside the locks, image crops, section spacing.
+- **AMBER (decide and log):** email order, which buyer quote leads which ad, page section order.
+- **RED (Ellie decides):** discount size, budget, launch date, activating anything in Meta.
+
+## Sample CONSTRAINTS rows
+
+| id | check | verified by |
+|---|---|---|
+| C-01 | 5 emails, 6 statics, 3 scripts, 1 page, 1 staged campaign exist at their paths | evaluator |
+| C-02 | Every hook quotes a phrase traceable to the research report | evaluator (quote + source) |
+| C-03 | No review, rating, "bestseller" or stock claim without a source | evaluator |
+| C-04 | Scent names, offer wording and palette identical in all assets | evaluator |
+| C-05 | Every Meta object reads back PAUSED from the platform | ground truth (Meta read-back) |
+| C-06 | Every ad URL carries utm_source, utm_medium, utm_campaign, utm_content | ground truth |
+| C-07 | Landing page passes the funnel quality gate on mobile and desktop | evaluator (screenshots) |
+
+## The evaluator moments to describe
+
+- **Research:** "ten graded quotes, each with a URL and date, or a shortfall ledger. No padding."
+- **Scripts:** the ugc-script rubric fails a script on truthfulness alone, the "rated 4.9 by 2,000 customers" example.
+- **Staging:** the campaign-stage rubric: paused read-back, UTMs, no verdict on any ad under 72 hours, approval recorded against exact ad IDs.
+
+## The loop it would use
+
+```
+/ralph-loop "<the fixed loop prompt, as in Appendix A, with Harbour & Hearth paths>" --max-iterations 50 --completion-promise "CHASSIS DONE"
+```
+
+**Line to say:** "And that's where we'd press go. We're not running it today, just to save credits."

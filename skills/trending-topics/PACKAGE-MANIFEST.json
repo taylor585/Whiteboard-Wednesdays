@@ -1,0 +1,146 @@
+{
+  "name": "trending-topics",
+  "version": "2.0.0",
+  "files": [
+    {
+      "path": "BUILD-STATUS.md",
+      "sha256": "f04f135806e9d53dbbe8b136e92963c407eff87597b13f0ed42863316d934c7f",
+      "bytes": 1785
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "57e9beda6e3000e8541a0cc01ee01eefbc5d6c3db029ead345a408a2b6611a8c",
+      "bytes": 1627
+    },
+    {
+      "path": "README.md",
+      "sha256": "7c3e0773375102287b21cf01661e4ab7f4cee77a17c1037044f8c2fd18178377",
+      "bytes": 2430
+    },
+    {
+      "path": "SKILL.md",
+      "sha256": "10f1b560343b834e7c21373526e63218e0a3cfec9b29fc61de5c0992639b8513",
+      "bytes": 10259
+    },
+    {
+      "path": "START-HERE.md",
+      "sha256": "d6f241f7fe4b77513a32703a5178acd67ac31794289a8404c8329eca0e7a6e49",
+      "bytes": 1524
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "e9cd8ebc4f9c27d517b3f4f5b59b97f898d3ef1f9eb98681275bdd9a2c8c88e8",
+      "bytes": 155
+    },
+    {
+      "path": "agents/openai.yaml",
+      "sha256": "36648858562081cd1c1cda3d94b424b82952a8359c1c2c5e66e9eaede23ace42",
+      "bytes": 372
+    },
+    {
+      "path": "examples/harness-brief.md",
+      "sha256": "b9e0af3dcdcb956b6cc98aae03f011dcbebdd81a1748dc3e876a1506156a75ad",
+      "bytes": 40336
+    },
+    {
+      "path": "examples/picks-2026-W42.md",
+      "sha256": "61f358723c63cb28b15a12b560e4fb780631b8ec134e67cf3b8da40370e816b9",
+      "bytes": 10422
+    },
+    {
+      "path": "examples/scan-2026-10-12-core.md",
+      "sha256": "bbb3b8f14fbc695cc58415b96cea8cdee3fef6fb9fc71d833216e6bff6f04bd6",
+      "bytes": 11705
+    },
+    {
+      "path": "references/brief-format.md",
+      "sha256": "0a25b19561d18383b902a72f46518e650898df79d451f2a6a5ca2901f6585b29",
+      "bytes": 7627
+    },
+    {
+      "path": "references/chat-research.md",
+      "sha256": "e9e9a7b7145f616c0e08166f7087a9732227a91faad821142b71723e6cf8207d",
+      "bytes": 4022
+    },
+    {
+      "path": "references/creator-research.md",
+      "sha256": "76e4d88cbba811f2ecfa8e1ed6d145994736508726419cfa342603c3b330881a",
+      "bytes": 3338
+    },
+    {
+      "path": "references/creators.json",
+      "sha256": "b65cd2c58abcab612fe09f04e06ea7d065ea2ab422ce96830705331b00da6a62",
+      "bytes": 2386
+    },
+    {
+      "path": "references/descriptions.md",
+      "sha256": "2d48c4eb2977933f7a27be86de917ed6ff5b3fef02335462d2cd3b7a9e649b27",
+      "bytes": 4818
+    },
+    {
+      "path": "references/headlines.md",
+      "sha256": "3819e6cb49687e7bc769f82ceae70e88d76f8d3a0bbe6a3dd97f4cb55030ae1c",
+      "bytes": 9407
+    },
+    {
+      "path": "references/pick-output.md",
+      "sha256": "c1162cc60317e23634f4fc50c980b5a974bec433ee1037178376a9af3346a30e",
+      "bytes": 2011
+    },
+    {
+      "path": "references/quality.md",
+      "sha256": "26ea3aba41d5a18b6bac1f94777850da8a7ae7aa0a7eb12e46666e4888f8bdef",
+      "bytes": 2278
+    },
+    {
+      "path": "references/research-findings.md",
+      "sha256": "497d98723ed6d8649828650ef76720ed59a62c4fcf04c11f08bb999d96440a8e",
+      "bytes": 12904
+    },
+    {
+      "path": "references/research-framework.md",
+      "sha256": "4294bab0deab5b650316c5355cf9e06af1ca87bff5f2a3b3ca337e62d39fd1f2",
+      "bytes": 5114
+    },
+    {
+      "path": "references/research-to-topics.md",
+      "sha256": "d36ff87c605b1d8becbbbd573d22d8fce95ab202a16859c9f256716c7a81b0e3",
+      "bytes": 4995
+    },
+    {
+      "path": "references/scoring.md",
+      "sha256": "6a35838711df72f54f3113cc83373c2a3a2e3cd5827dbbadf41ea22e6dc6c545",
+      "bytes": 2526
+    },
+    {
+      "path": "references/skill-integrations.md",
+      "sha256": "5286cd212a4e5ae0ef4b25e21f69b29b076d5d5fde5cc3d6c9f2b79f70bd3f5d",
+      "bytes": 2361
+    },
+    {
+      "path": "references/week-pack.md",
+      "sha256": "a3fbb706a5df57f3f4347a1a66bb7f8ce5729ae5db0eb9474a2574a1b4d65c3a",
+      "bytes": 2836
+    },
+    {
+      "path": "scripts/build_manifest.py",
+      "sha256": "750aaba670ff143ff6e1391fe916fd80d500f8199292cac0b4ca1ec954aaac27",
+      "bytes": 1271
+    },
+    {
+      "path": "scripts/check_brief.py",
+      "sha256": "f0a1655832cb93373a2fb4140517bc64f12a5cc7e246c53e9625c88622cc4172",
+      "bytes": 7767
+    },
+    {
+      "path": "scripts/scan_creators.py",
+      "sha256": "e928fa3d1707a79cddf29b188cee1576f64c60bda245d11f99057cdea645a0ff",
+      "bytes": 13593
+    },
+    {
+      "path": "tests/test_skill.py",
+      "sha256": "7b82031364b92006f91b5d6fa243eccc9ce3e53635eb50cbc0720819f90a3396",
+      "bytes": 5292
+    }
+  ]
+}

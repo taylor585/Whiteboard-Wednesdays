@@ -5,7 +5,7 @@ What Taylor gets after choosing 3 of the 5 picked topics: everything needed to r
 ## Steps
 
 1. Confirm the 3 chosen topics and the recording order Taylor wants. Default order: the strongest Lane A proof first, then follow the series link.
-2. Build each brief with `references/brief-format.md`, one at a time, reading each topic's source in full (for a skill: its SKILL.md and every reference file, line by line).
+2. Build each brief with `references/brief-format.md`, one at a time, reading each topic's source in full (for a skill: its SKILL.md and every reference file, line by line). Every brief ends with PACKAGING (A/B titles, thumbnail lines, description) from `references/headlines.md` and `references/descriptions.md`, and carries example appendices when the video demonstrates the system.
 3. Set each brief's **NEXT VIDEO** to the next brief in the week, and the last one to next week ("Next week: [top unused pick]").
 4. Run `python3 <skill-dir>/scripts/check_brief.py <brief1> <brief2> <brief3>`. Fix every BLOCKING line and re-run until it exits 0. Never deliver a failing brief.
 5. Write the week overview (template below).
@@ -25,7 +25,7 @@ What Taylor gets after choosing 3 of the 5 picked topics: everything needed to r
 
 Picked on [date] from [n] chat sessions (last 14 days) and [n] creator uploads.
 
-| # | Title | In 5 to 10 words | Length | Status |
+| # | Title (recommended A/B title 1) | In 5 to 10 words | Length | Status |
 |---|---|---|---|---|
 | 1 | [title] | [the brief's PROMISE, shortened] | [min] | Ready / needs [x] |
 | 2 | ... | ... | ... | ... |

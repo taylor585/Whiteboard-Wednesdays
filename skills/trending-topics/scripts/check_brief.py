@@ -12,13 +12,15 @@ Checks (see references/brief-format.md):
   5. Every Act 1 problem appears in at least one card's PROBLEMS IT SOLVES ("P19 to P26" ranges count).
   6. Every card solves at least one Act 1 problem, and names no problem Act 1 does not define.
   7. Act 3 has a NUMBERS line.
+  8. PACKAGING has an A/B set of at least 3 titles (table rows "| 1 | ..."), a description LINE 1 of
+     150 characters or fewer, a LINE 2 and a CHAPTERS line (see references/headlines.md, descriptions.md).
 Exit 0: all briefs pass. Exit 1: any BLOCKING line. Exit 2: a file is missing.
 """
 import re
 import sys
 
 SECTIONS = ['AT A GLANCE', 'READ BEFORE YOU RECORD', 'COLD OPEN', 'ACT 1: THE PROBLEM', 'THE TURN',
-            'ACT 2: THE SYSTEM', 'ACT 3: THE PROOF', 'CLOSE', 'PREP CHECKLIST']
+            'ACT 2: THE SYSTEM', 'ACT 3: THE PROOF', 'CLOSE', 'PREP CHECKLIST', 'PACKAGING']
 FIELDS = ['IN 5 TO 10 WORDS', 'WHY SHOULD PEOPLE CARE?', 'WHEN TO USE IT', 'WHEN NOT TO USE IT',
           'PROBLEMS IT SOLVES', 'SAY', 'QUOTE FROM THE SOURCE', 'DRAW', 'DEMO', 'CROSS OFF']
 
@@ -128,6 +130,26 @@ def check(path):
     # 7. Act 3 numbers.
     if 'ACT 3: THE PROOF' in positions and not re.search(r'NUMBERS', section('ACT 3: THE PROOF')):
         problems.append('Act 3 has no NUMBERS line for the presenter')
+
+    # 8. Packaging: titles and description.
+    if 'PACKAGING' in positions:
+        pack = section('PACKAGING')
+        titles = re.findall(r'^\|\s*\d+\s*\|\s*([^|]+?)\s*\|', pack, re.M)
+        if len(titles) < 3:
+            problems.append(f'PACKAGING has {len(titles)} titles; the A/B set needs at least 3 table rows "| 1 | Title | ..."')
+        for t in titles:
+            clean = t.strip().strip('"“”')
+            if len(clean) > 70:
+                problems.append(f'PACKAGING title is {len(clean)} characters (keep to 60, hook must survive a cut): {clean!r}')
+        line1 = field_value(pack, 'LINE 1')
+        if not line1:
+            problems.append('PACKAGING description is missing LINE 1')
+        elif len(line1.splitlines()[0].strip()) > 150:
+            problems.append(f'PACKAGING LINE 1 is {len(line1.splitlines()[0].strip())} characters (150 or fewer)')
+        if not field_value(pack, 'LINE 2'):
+            problems.append('PACKAGING description is missing LINE 2 (the single most useful link, or [your link])')
+        if not field_value(pack, 'CHAPTERS'):
+            problems.append('PACKAGING description is missing CHAPTERS (planned names before recording, timestamps after)')
 
     status = 'PASS' if not problems else 'FAIL'
     print(f'{status}  {path}: {len(defined)} problems, {len(starts)} segments, {len(solved & defined)} crossed off')
