@@ -1,0 +1,381 @@
+{
+  "version": "Whiteboard Wednesdays V1.1",
+  "deck": "ai-harnesses",
+  "simplicity_passes": {
+    "meaning": "One takeaway per slide, stated in a three-to-five-word headline. Act 2 slides each carry the brief's one-liner in the presenter notes.",
+    "structure": "Act 1 problem lists cut to three on the slide; the rest sit behind an expander. Secondary method detail moved to presenter notes.",
+    "visual": "Each idea shown as the thing itself: real checker output, the contract page, the run files, the actual prompts. No decorative boxes.",
+    "sequence": "Reveals run source, then mechanism, then the quote and what it crosses off. No two neighbouring slides share a device.",
+    "audience": "Checked at 375, 390, 768 and 1280px: on phones columns stack in story order, the wheel and road become lists, tables become cards and prompt boxes lose their height cap.",
+    "exceptions": "Headlines below three words are deliberate: the five character names (The Interrupter, The Drifter, The Goldfish, The Bluffer, The Loose Cannon) are the board labels the presenter sticks up, so they stay as names. The recap reuses the character-card device of slide 2; it is not adjacent to it."
+  },
+  "slides": [
+    {
+      "number": 1,
+      "id": "cold-open",
+      "takeaway": "Same model. Different result.",
+      "device": "two-lane comparison",
+      "source": "Illustrative comparison of two runs. The checker line is real output from the skill’s check_constraints.py, shortened.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Hook, about 45 seconds. SAY: “Same model, same prompt, two completely different results. One drifts by piece ten, forgets your rules and tells you it’s finished when it isn’t. The other runs for hours and comes back with proof every requirement was met. The difference isn’t the model. It’s the harness.” SHOW after this slide: a finished run folder, a passing checker and the final report. The piece-by-piece lanes are a teaching illustration, not measured results."
+    },
+    {
+      "number": 2,
+      "id": "five-failures",
+      "takeaway": "Meet the five failures",
+      "device": "character cards with animated counts",
+      "source": "Problem list P1 to P58 and the five characters: Trending Topic Brief, Act 1. Each problem is reverse-engineered from a named rule in the Harness Chassis Builder - No Schedules skill.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "presenter_note": "Stick the five characters up on the board first. Lead with The Interrupter, the one viewers feel most. P54 to P58 are bonus problems; use them only if time allows. Counts: 58 problems (P1 to P58), 5 characters, 11 system segments, all from the brief."
+    },
+    {
+      "number": 3,
+      "id": "interrupter",
+      "takeaway": "The Interrupter",
+      "device": "illustrative chat",
+      "source": "P1 to P9: Trending Topic Brief, Character 1. Chat messages are illustrative.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "This is the one to lead with. Each of P1 to P9 is fixed later: kickoff harvesting (Segment 2), Q8 owner decisions asked together, GREEN and AMBER tiers (Segment 5), the self-unblocking question, and the loop driver (Segment 10)."
+    },
+    {
+      "number": 4,
+      "id": "drifter",
+      "takeaway": "The Drifter",
+      "device": "three drifting pieces",
+      "source": "P10 to P18: Trending Topic Brief, Character 2. The three pieces are an illustrative drift, not output from a real run.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "Walk left to right: same job, three moments. Point at what changed: hook pattern, voice, terminology, invented claim. Then the causes. The fix is the five locks (Segment 3) and the contract re-read (Segment 6)."
+    },
+    {
+      "number": 5,
+      "id": "goldfish",
+      "takeaway": "The Goldfish",
+      "device": "memory strip",
+      "source": "P19 to P26: Trending Topic Brief, Character 3. Message numbers are illustrative.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "Context rot in one picture: the rules lived only in the chat, and the chat was compressed. Fix: memory lives in files and the full contract is re-read at every node (Segment 6)."
+    },
+    {
+      "number": 6,
+      "id": "bluffer",
+      "takeaway": "The Bluffer",
+      "device": "claim and receipts",
+      "source": "P27 to P41: Trending Topic Brief, Character 4. The rating example is the failing case in the skill’s ugc-script rubric. The chat bubble is illustrative.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Read the bubble in a confident voice, then reveal the receipts. Remaining Bluffer problems for the voice-over: P29 reviewer talked round by the transcript, P30 all praise, P31 same blind spots, P33 claims to have read a file it did not, P37 guesses as facts, P38 padded research, P40 no reason for a choice, P41 pretends to follow a process it lacks."
+    },
+    {
+      "number": 7,
+      "id": "loose-cannon",
+      "takeaway": "The Loose Cannon",
+      "device": "failure sequence",
+      "source": "P42 to P53: Trending Topic Brief, Character 5. The send sequence illustrates P44.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "P44 is the scary one: the crash happened after the action and before the record, so a naive restart repeats it. Also in this family: P45 retries the same failing step, P47 repair attempts go in circles, P51 helpers never saw the rules, P52 over-engineered setups."
+    },
+    {
+      "number": 8,
+      "id": "the-turn",
+      "takeaway": "Engine and chassis",
+      "device": "stage rail",
+      "source": "Harness Chassis Builder - No Schedules skill: “interview → contract → prepare runtime → execute → verify → checkpoint → report”.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "About one minute. SAY: “Each of those five characters is a missing part. The model is the engine. The harness is the chassis.” Draw the seven stages left to right, then read the quote. Everything in Act 2 follows this run order."
+    },
+    {
+      "number": 9,
+      "id": "when-to-use",
+      "takeaway": "Harness the big jobs",
+      "device": "job-size scale",
+      "source": "Harness Chassis Builder - No Schedules skill, §1 Entry and scope and MR-1.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "In 5 to 10 words: harness the big, long jobs; skip it for quick ones. SAY: it is not for everything. One skill owns the whole job, so no hand-offs lose detail (P56), and upgrades only ever add rules, never quietly drop old ones (P55, MR-1)."
+    },
+    {
+      "number": 10,
+      "id": "kickoff",
+      "takeaway": "Answers first, asks once",
+      "device": "nine-box kickoff",
+      "source": "Harness Chassis Builder - No Schedules skill, §2 Kickoff: the nine questions.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "SAY: before asking anything it reads your brief, files and past instructions, answers nine questions itself, separates facts from guesses, and brings you only the real gaps, all at once. Question 8 lists every decision that would block the run, so nothing surfaces at 2am. DEMO: start a real job (10 UGC scripts) and show the nine answers appear, then the short batch of questions. Not used when resuming an ACTIVE contract."
+    },
+    {
+      "number": 11,
+      "id": "five-locks",
+      "takeaway": "Five locks, one bar",
+      "device": "five padlocks",
+      "source": "Harness Chassis Builder - No Schedules skill, §2 Five lock questions.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "presenter_note": "In 5 to 10 words: five locks keep piece twenty as good as piece one. Do not force a lock the job does not need: app screens may repeat, so set variety only where function warrants it, and research wants consistent evidence over variety. DEMO: the locks section of the contract from the kickoff job."
+    },
+    {
+      "number": 12,
+      "id": "contract",
+      "takeaway": "One page, activated once",
+      "device": "contract page with stamp",
+      "source": "Harness Chassis Builder - No Schedules skill, §3 Work Contract template and §2 Activate once. The job name is illustrative.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "In 5 to 10 words: one page that says what must stay true. One or two pages. ALWAYS and NEVER rules that can never invent claims. Every step names a skill or says none. A newer instruction from you updates the contract; an old contract never overrules you. DEMO: scroll the real contract: job and done, locks, framing, skill bindings, permissions."
+    },
+    {
+      "number": 13,
+      "id": "decision-tiers",
+      "takeaway": "Green, amber, red",
+      "device": "traffic lights and ledger",
+      "source": "Harness Chassis Builder - No Schedules skill, §4 Decision tiers and blocker handling.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "presenter_note": "In 5 to 10 words: Green, just do it. Amber, decide and log. Red, ask. When it hits a blocker it asks itself first. Only work that depends on a red decision waits; everything else carries on. Red is not a blanket rule: something you already approved does not need asking again. DEMO: type ledger mid-run and point at a REVIEW: yes."
+    },
+    {
+      "number": 14,
+      "id": "memory-files",
+      "takeaway": "Memory lives in files",
+      "device": "file drawers and node wheel",
+      "source": "Harness Chassis Builder - No Schedules skill, §5 run files, §6 node cycle and Appendix H.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "In 5 to 10 words: rules and progress live in files, so nothing gets forgotten. Four run files plus the two v2 JSON files. Locked state is JSON because the skill notes the model is less likely to overwrite JSON than Markdown. Before compression, a PreCompact hook snapshots the run files automatically. DEMO: close the session mid-run, open a new one, type resume. It picks up at the exact next step with no questions."
+    },
+    {
+      "number": 15,
+      "id": "done-gate",
+      "takeaway": "A script decides done",
+      "device": "real terminal output",
+      "source": "Real output from the skill’s scripts/check_constraints.py (Appendix I), run on 13 October 2026 against three two-row demonstration files.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "In 5 to 10 words: a script, not the AI, decides when it is finished. DEMO: run the checker three times live. 1, a row unverified. 2, the same row marked verified by “worker”: still blocked. 3, verified by the evaluator with evidence: passes. LINE: “The AI can’t talk its way past a script.” Qualities with no objective check (craft, storytelling) go to the evaluator instead."
+    },
+    {
+      "number": 16,
+      "id": "evaluator",
+      "takeaway": "Never its own homework",
+      "device": "worker and evaluator desks",
+      "source": "Harness Chassis Builder - No Schedules skill, MR-3, §6 step 4, Appendix C evaluator packet and Appendix D rubrics.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "In 5 to 10 words: a separate AI marks the work, never its own homework. Fresh context, finished work only, problems before praise, hard pass marks. Four repair attempts, then flagged. Never a replacement for the worker’s own checks; it is in addition. DEMO: an evaluator verdict with a fail and its defect list, then the fix and the pass."
+    },
+    {
+      "number": 17,
+      "id": "safety-rails",
+      "takeaway": "Rails on both sides",
+      "device": "road with guard rails",
+      "source": "Harness Chassis Builder - No Schedules skill, MR-5, MR-6, §1, §5, §7 and §8.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "In 5 to 10 words: tests before building, never sends twice, caps the spend. On restart it checks what actually happened before retrying anything. The smoke test is for apps; scripts and research do not need one. Extra machinery must name the failure it fixes. DEMO (optional): a failing smoke test becoming the current job."
+    },
+    {
+      "number": 18,
+      "id": "loop-driver",
+      "takeaway": "Keeps going until done",
+      "device": "locked loop",
+      "source": "Harness Chassis Builder - No Schedules skill, MR-0, MR-5, §6 step 6 and Appendix E. The ralph-wiggum plugin is the one the skill names.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "In 5 to 10 words: it keeps working until the checker says done. Only after you have approved unattended running and the contract is active. Never without an iteration cap; never on a timer, schedule or interval. STORY: tell your real reason for the no-schedules rule here. Cancel with /cancel-ralph. Check the ralph-wiggum plugin is installed before demonstrating."
+    },
+    {
+      "number": 19,
+      "id": "final-report",
+      "takeaway": "Your decisions come first",
+      "device": "report page",
+      "source": "Harness Chassis Builder - No Schedules skill, §9 Final and session report and §10.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "In 5 to 10 words: your decisions first, then proof everything was done. Five minutes tells you exactly what needs you and what was delivered. Also closes P39 and P40. DEMO: scroll a real final report."
+    },
+    {
+      "number": 20,
+      "id": "mutsa-live",
+      "takeaway": "Mutsa, built live",
+      "device": "feature gate and run sheet",
+      "source": "Mutsa is a real client app build. Run sheet: Trending Topic Brief, Appendix A. No Mutsa features, data or results are shown here.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "SAY: “This is Mutsa, a client app we’re building right now. I’m going to start a harness on it live, walk away, and we’ll come back later to see exactly how far it got and what it decided without me.” Keep personal or user data off screen. Point at each crossed-off problem on the board as it happens live. Cap is 40, matching the Appendix A loop command."
+    },
+    {
+      "number": 21,
+      "id": "mutsa-prompts",
+      "takeaway": "The two prompts",
+      "device": "exact prompts",
+      "source": "Prompts reproduced exactly from the Trending Topic Brief, Appendix A, steps 1, 5 and 7.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Paste these on camera. While it reads, say: “Watch: it’s answering its own questions from the repo first.” The loop prompt is your Appendix A wording. It leaves out the skill’s clause for open RED items (write the checkpoint report, then output CHASSIS DONE), so if a RED decision stays open the run will continue to its cap of 40; answer RED items promptly or add that clause. If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself."
+    },
+    {
+      "number": 22,
+      "id": "harbour-hearth",
+      "takeaway": "Harbour & Hearth",
+      "device": "campaign lanes to paused gate",
+      "source": "Harbour & Hearth, its founder and its collection are made up for this demonstration. Brief: Trending Topic Brief, Appendix B. Not run; no campaign exists.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Say on camera: “We’re not running this one, just to save credits. I’ll show you everything it would do.” Then: “Harbour & Hearth is a made-up brand, so I can show you the whole thing: every question it answers, every skill it uses and every check it has to pass.” Without a harness, piece 15 of a 15-piece campaign is worse than piece 1 and the claims drift."
+    },
+    {
+      "number": 23,
+      "id": "hh-locks",
+      "takeaway": "Locks and bindings",
+      "device": "locks and bindings table",
+      "source": "Trending Topic Brief, Appendix B: five locks, skill bindings, framing and decision tiers. Palette colours are named in the brief; swatch shades are illustrative.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Scroll Appendix B on screen alongside this slide. AMBER for this campaign: email order, which buyer quote leads which ad, page section order. GREEN: word choice inside the locks, image crops, section spacing."
+    },
+    {
+      "number": 24,
+      "id": "hh-constraints",
+      "takeaway": "Seven rows to pass",
+      "device": "constraint rows and gates",
+      "source": "Rows C-01 to C-07: Trending Topic Brief, Appendix B. Gates: Harness Chassis Builder - No Schedules skill, campaign-stage rubric.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Evaluator moments to describe: research, ten graded quotes each with a URL and date, or a shortfall ledger, no padding. Scripts: the ugc-script rubric fails a script on truthfulness alone (the rated 4.9 example). Staging: paused read-back, UTMs, no verdict under 72 hours, approval against exact ad IDs. LINE: “And that’s where we’d press go. We’re not running it today, just to save credits.”"
+    },
+    {
+      "number": 25,
+      "id": "proof",
+      "takeaway": "Quality × Output",
+      "device": "quality times output",
+      "source": "Quality and output factors: Trending Topic Brief, Act 3. Before and after figures are supplied by the presenter; none are claimed here.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "About two minutes. Fill in your real before and after numbers before recording: pieces per day, rounds of rework, interruptions. The board leaves them blank on purpose so no figure is invented. The episode title promises 10x; only say it on this slide if your numbers support it."
+    },
+    {
+      "number": 26,
+      "id": "recap",
+      "takeaway": "All five, crossed off",
+      "device": "character cards crossed off",
+      "source": "Fixes mapped in the Trending Topic Brief, Act 1 “Fixed by” columns.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "presenter_note": "RECAP: cross out each character on the board as you name its fix. The Interrupter: kickoff, decision tiers and the loop driver. The Drifter: five locks and the contract re-read. The Goldfish: memory in files. The Bluffer: the checker and the evaluator. The Loose Cannon: safety rails and caps."
+    },
+    {
+      "number": 27,
+      "id": "close",
+      "takeaway": "Get the checker",
+      "device": "call to action",
+      "source": "Close and next video: Trending Topic Brief.",
+      "reveal_order": [
+        1,
+        2
+      ],
+      "presenter_note": "About one minute. CTA: free download of the checker script, the one demonstrated on the done-gate slide. The brief also offered a starter contract as the alternative; swap it in here if you prefer. Next video: “Next week, Vision Boards: how we decide what to build before the harness builds it.”"
+    }
+  ]
+}

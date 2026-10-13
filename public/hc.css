@@ -68,7 +68,7 @@ q[data-verbatim]:before{content:'“'}q[data-verbatim]:after{content:'”'}
 .hc-seg{display:grid;gap:4px;padding:12px 0}
 .hc-seg b{font:600 30px/1.1 var(--heading),cursive}
 .hc-cut{background:repeating-linear-gradient(135deg,transparent 0 10px,var(--tint) 10px 20px);padding:14px 16px}
-.hc-lost{opacity:.6}
+.hc-lost{color:var(--muted)}
 .hc-lost s{text-decoration-color:var(--accent);text-decoration-thickness:3px}
 
 /* 6 claim */
@@ -111,7 +111,7 @@ q[data-verbatim]:before{content:'“'}q[data-verbatim]:after{content:'”'}
 .hc-grid9 li:after{position:absolute;right:12px;top:8px;font:700 26px var(--heading),cursive;color:var(--accent);transition:opacity 200ms ease}
 .hc-grid9 .hc-t:after{content:'✓'}
 .hc-grid9 .hc-o{outline:3px solid var(--accent);outline-offset:3px;border-radius:40% 30% 40% 35%/30% 40% 35% 40%}
-.hc-grid9 .hc-o:after{content:'ask Taylor';font-size:18px;top:auto;bottom:-14px;background:var(--surface);padding:0 6px}
+.hc-grid9 .hc-o:after{content:'ask you';font-size:18px;top:auto;bottom:-14px;background:var(--surface);padding:0 6px}
 .hc-nine:has(.part.pending[data-step="2"]) .hc-t:after,.hc-nine:has(.part.pending[data-step="3"]) .hc-o:after{opacity:0}
 .hc-nine:has(.part.pending[data-step="3"]) .hc-o{outline-color:transparent;border-radius:3px 8px 4px 6px}
 .hc-key{display:flex;align-items:center;gap:14px;font-size:20px;margin:0}
@@ -362,6 +362,7 @@ q[data-verbatim]:before{content:'“'}q[data-verbatim]:after{content:'”'}
  .hc-ctable td:nth-child(2){grid-column:1/-1;order:-1;font-size:16px}
  .hc-table tbody th{white-space:normal}
  .hc-numbers th,.hc-numbers td{padding:8px 4px;font-size:13px}
+ .hc-promptbox pre{max-height:none}
  .hc-factor h3{font-size:38px}
  .hc-desk b,.hc-say{font-size:28px}
  .hc-bubble{font-size:28px}
@@ -385,3 +386,9 @@ q[data-verbatim]:before{content:'“'}q[data-verbatim]:after{content:'”'}
 .hc-reading article h2{font:600 clamp(34px,4vw,52px)/1.08 WWHand,cursive;margin:8px 0 24px}
 .hc-reading details{margin-top:16px;font-size:15px}
 .hc-reading p{overflow-wrap:anywhere}
+/* V1.1: secondary detail sits behind an expander so each slide leads with one idea. */
+.hc-more{margin-top:14px;font-size:16px}
+.hc-more summary{min-height:44px;display:flex;align-items:center;cursor:pointer;text-decoration:underline;text-underline-offset:5px;color:var(--muted)}
+.hc-more[open] summary{margin-bottom:4px}
+.hc-reading .hc-more{display:block}
+.hc-problems li{font-size:19px}

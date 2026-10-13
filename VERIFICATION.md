@@ -1,5 +1,12 @@
 # AI Harnesses deck, 13 October 2026 (branch, not published)
 
+## V1.1 build-out, approved by Taylor on 13 October 2026
+
+- Merged main (condensed 20-slide LGE deck, creator watchlist, PROCESS.md). `verify.cjs` keeps main's deck-card navigation plus a third tab arrow for the new deck.
+- Act 1 problem lists show three problems on the slide and the rest behind 44px expanders; the reading view opens every expander. `HC-27-slide-map.json` records takeaway, device, source, reveals, notes, the five simplicity passes and the deliberate short-headline exception.
+- Independent read-only review against the V1.1 skill and the source skill: 7 must-fix items fixed (loop exit is the exact CHASSIS DONE string, GREEN no longer includes order, kickoff shows all nine self-answered with only owner decisions coming to you, close offers only the checker script, Goldfish faded label contrast, Harbour & Hearth ICP phrased as planned research, presenter guidance removed from a source line). Considered items fixed where in scope; Taylor's own line "The AI can't talk its way past a script" kept as approved wording.
+- After the merge and fixes: `verify-hc.cjs` 1264, `verify.cjs` 928, `verify-lge.cjs` 746, `verify-lge-prompt.cjs` and `verify-lge-condensed.cjs` passed. All 19 quotations re-proven.
+
 New third deck `ai-harnesses`, 27 slides, from Taylor's Trending Topic Brief and the Harness Chassis Builder - No Schedules skill. Added through `public/presentations.js` with the Pecuna Factorem brand profile, official `ww-coin.svg`, deck-scoped `hc.css`, cover `hc-cover.png` and reading page `hc-reading.html`. No other deck's content or assets changed. `index.html` gains one stylesheet link.
 
 - `build-hc-reading.cjs`: 19 verbatim quotations proven against the skill text (SHA-256 0b5b7e18ff4991dedafdf749995a41e42a040b18b51c7f7d5c50a3b307ca3996); unique stable IDs; contiguous reveal groups; source and note on every slide; no consecutive repeated device; no em or double dashes.

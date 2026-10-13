@@ -58,7 +58,7 @@ window.WW={slides:[
  parts:[
   '<div class="hc-chatlog"><p class="hc-msg"><time>09:12</time>Quick question before I start: what tone should the scripts use?</p><p class="hc-msg"><time>10:40</time>Script 2 is drafted. Shall I proceed?</p></div>',
   '<div class="hc-chatlog"><p class="hc-msg"><time>13:05</time>I hit an error. How would you like me to handle it?</p><p class="hc-msg hc-waiting"><time>15:30</time>Still waiting for your reply…</p><small>Illustrative chat, not a real transcript.</small></div>',
-  '<ul class="hc-problems"><li><b>P1</b>Asks what your brief already says</li><li><b>P2</b>Drip-feeds questions across hours</li><li><b>P3</b>Waits on you all lunch</li><li><b>P4</b>“Shall I proceed?” again and again</li><li><b>P5</b>Re-asks for permission you gave</li><li><b>P6</b>Asks about trivia</li><li><b>P7</b>Hands you the first error</li><li><b>P8</b>One question freezes the whole job</li><li><b>P9</b>You keep typing “continue”</li></ul>'
+  '<ul class="hc-problems"><li><b>P1</b>Asks what your brief already says</li><li><b>P4</b>“Shall I proceed?” again and again</li><li><b>P9</b>You keep typing “continue”</li></ul><details class="hc-more"><summary>Six more Interrupter problems</summary><ul class="hc-problems"><li><b>P2</b>Drip-feeds questions across hours</li><li><b>P3</b>Waits on you all lunch</li><li><b>P5</b>Re-asks for permission you gave</li><li><b>P6</b>Asks about trivia</li><li><b>P7</b>Hands you the first error</li><li><b>P8</b>One question freezes the whole job</li></ul></details>'
  ],
  reveals:[1,2,3],
  source:'P1 to P9: Trending Topic Brief, Character 1. Chat messages are illustrative.',
@@ -70,7 +70,7 @@ window.WW={slides:[
   '<div class="hc-piece hc-p1"><div class="micro">Piece 1</div><p>Hook uses a real buyer phrase.</p><p>Warm, British voice.</p><p>“Sea-glass green” as specified.</p></div>',
   '<div class="hc-piece hc-p10"><div class="micro">Piece 10</div><p>Hook: “Are you tired of…?”</p><p>Voice turning into hype.</p><p>“Seaglass” spelt a new way.</p></div>',
   '<div class="hc-piece hc-p20"><div class="micro">Piece 20</div><p>Same opening as piece 9.</p><p>Half the length, half the care.</p><p>“Bestselling” appears from nowhere.</p></div>',
-  '<ul class="hc-problems hc-two"><li><b>P10</b>No named identity, so style wanders</li><li><b>P11</b>Nothing says what stays identical</li><li><b>P12</b>Nothing says what must differ</li><li><b>P13</b>Piece 20 is lazier than piece 1</li><li><b>P14</b>“Make it on-brand” is not testable</li><li><b>P15</b>Uses your SOP once, then improvises</li><li><b>P16</b>No quality bar was ever set</li><li><b>P17</b>Old and new instructions fight</li><li><b>P18</b>Builds on the drifted work</li></ul>'
+  '<ul class="hc-problems"><li><b>P10</b>No named identity, so style wanders</li><li><b>P13</b>Piece 20 is lazier than piece 1</li><li><b>P14</b>“Make it on-brand” is not testable</li></ul><details class="hc-more"><summary>Six more Drifter problems</summary><ul class="hc-problems"><li><b>P11</b>Nothing says what stays identical</li><li><b>P12</b>Nothing says what must differ</li><li><b>P15</b>Uses your SOP once, then improvises</li><li><b>P16</b>No quality bar was ever set</li><li><b>P17</b>Old and new instructions fight</li><li><b>P18</b>Builds on the drifted work</li></ul></details>'
  ],
  reveals:[1,2,3,4],
  source:'P10 to P18: Trending Topic Brief, Character 2. The three pieces are an illustrative drift, not output from a real run.',
@@ -82,7 +82,7 @@ window.WW={slides:[
   '<div class="hc-strip"><div class="hc-seg hc-rules"><span class="micro">Message 1</span><b>Your rules</b><span>Voice, sources, never invent ratings.</span></div></div>',
   '<div class="hc-strip"><div class="hc-seg hc-cut"><span class="micro">Message 80</span><b>Chat compressed</b><span>A summary replaces the detail.</span></div></div>',
   '<div class="hc-strip"><div class="hc-seg hc-lost"><span class="micro">Message 81</span><b><s>Your rules</s></b><span>Quietly missing. Nobody noticed.</span></div></div>',
-  '<ul class="hc-problems"><li><b>P19</b>Forgets rules set at the start</li><li><b>P20</b>Rules vanish after compression</li><li><b>P21</b>Forgets to save its place</li><li><b>P22</b>New session, explain it all again</li><li><b>P23</b>Re-runs the interview</li><li><b>P24</b>After a crash, nobody knows where it got to</li><li><b>P25</b>Too much in its head at once</li><li><b>P26</b>Rewrites its own progress notes</li></ul>'
+  '<ul class="hc-problems"><li><b>P19</b>Forgets rules set at the start</li><li><b>P20</b>Rules vanish after compression</li><li><b>P22</b>New session, explain it all again</li></ul><details class="hc-more"><summary>Five more Goldfish problems</summary><ul class="hc-problems"><li><b>P21</b>Forgets to save its place</li><li><b>P23</b>Re-runs the interview</li><li><b>P24</b>After a crash, nobody knows where it got to</li><li><b>P25</b>Too much in its head at once</li><li><b>P26</b>Rewrites its own progress notes</li></ul></details>'
  ],
  reveals:[1,2,3,4],
  source:'P19 to P26: Trending Topic Brief, Character 3. Message numbers are illustrative.',
@@ -135,13 +135,13 @@ window.WW={slides:[
 {
  id:'kickoff',title:'Answers first, asks once',section:'03 / The system · 02',kind:'hc-nine',
  parts:[
-  '<ol class="hc-grid9"><li class="hc-t">Done means</li><li class="hc-o">World class</li><li class="hc-t">What could go wrong</li><li class="hc-t">Which skills</li><li class="hc-t">Where each skill is used</li><li class="hc-t">Master rules</li><li class="hc-t">Review gates</li><li class="hc-o">Owner decisions</li><li class="hc-t">Memory</li></ol>',
-  '<p class="hc-key"><span class="hc-tick-key"></span>Seven answered from your brief, files and past instructions.</p>',
-  '<p class="hc-key"><span class="hc-ring-key"></span>Two brought to you: together, once.</p>',
+  '<ol class="hc-grid9"><li class="hc-t">Done means</li><li class="hc-t">World class</li><li class="hc-t">What could go wrong</li><li class="hc-t">Which skills</li><li class="hc-t">Where each skill is used</li><li class="hc-t">Master rules</li><li class="hc-t">Review gates</li><li class="hc-o">Owner decisions</li><li class="hc-t">Memory</li></ol>',
+  '<p class="hc-key"><span class="hc-tick-key"></span>All nine answered first, from your brief, files and past instructions.</p>',
+  '<p class="hc-key"><span class="hc-ring-key"></span>Only real gaps and owner decisions come to you: together, once.</p>',
   quote('Harvest answers from the brief, assets and prior instructions before asking anything.','§2 Kickoff')+cross('The Interrupter',['P1','P2','P3'])
  ],
  reveals:[1,2,3,4],
- source:SRC+', §2 Kickoff: the nine questions. Which two need the owner is illustrative for a 10 UGC script job.',
+ source:SRC+', §2 Kickoff: the nine questions.',
  note:'SAY: before asking anything it reads your brief, files and past instructions, answers nine questions itself, separates facts from guesses, and brings you only the real gaps, all at once. Question 8 lists every decision that would block the run, so nothing surfaces at 2am. DEMO: start a real job (10 UGC scripts) and show the nine answers appear, then the short batch of questions. Not used when resuming an ACTIVE contract.'
 },
 {
@@ -156,7 +156,7 @@ window.WW={slides:[
  ],
  reveals:[1,2,3,4,5,6],
  source:SRC+', §2 Five lock questions.',
- note:'In 5 to 10 words: five locks keep piece twenty as good as piece one. Do not force a lock the job does not need: app screens should repeat, so no Difference lock there, and research wants consistent evidence over variety. DEMO: the locks section of the contract from the kickoff job.'
+ note:'In 5 to 10 words: five locks keep piece twenty as good as piece one. Do not force a lock the job does not need: app screens may repeat, so set variety only where function warrants it, and research wants consistent evidence over variety. DEMO: the locks section of the contract from the kickoff job.'
 },
 {
  id:'contract',title:'One page, activated once',section:'03 / The system · 04',kind:'hc-contract',
@@ -173,7 +173,7 @@ window.WW={slides:[
 {
  id:'decision-tiers',title:'Green, amber, red',section:'03 / The system · 05',kind:'hc-tiers',
  parts:[
-  '<div class="hc-light hc-green"><b>Green</b><span>Just do it. Names, spacing, order. No log.</span></div>',
+  '<div class="hc-light hc-green"><b>Green</b><span>Just do it. Names, spacing. No log.</span></div>',
   '<div class="hc-light hc-amber"><b>Amber</b><span>Decide, log it, keep going. The default.</span></div>',
   '<div class="hc-light hc-red"><b>Red</b><span>Ask. Publishing, sending, spending, deleting or legal claims you have not already approved.</span></div>',
   '<div class="hc-ledger"><div class="micro">The live ledger</div><code data-verbatim>[#] · [step] · DECIDED: [what] · WHY: [reason; blocker if any] · REVERSIBLE: yes/no · REVIEW: yes/no</code><code>07 · script 4 · DECIDED: lead with the buyer’s own phrase · WHY: strongest line in the research · REVERSIBLE: yes · REVIEW: yes</code><small>Second line is an illustrative entry.</small></div>',
@@ -221,9 +221,9 @@ window.WW={slides:[
 {
  id:'safety-rails',title:'Rails on both sides',section:'03 / The system · 09',kind:'hc-rails',
  parts:[
-  '<div class="hc-road"><ul><li>Smoke test before any new build</li><li>Iteration cap on every unattended run</li><li>Repair cap of four</li><li>No credentials in run files</li></ul><div class="hc-lane-line" aria-hidden="true"></div><ul><li>Check what really happened before any retry</li><li>Never repeat an unchanged failed step</li><li>Helpers get the full contract</li><li>Smallest runtime that works</li></ul></div>',
+  '<div class="hc-road"><ul><li>Smoke test before any new build</li><li>Iteration cap on every unattended run</li><li>Repair cap of four</li><li>No credentials in run files</li><li>No new folders without a request</li></ul><div class="hc-lane-line" aria-hidden="true"></div><ul><li>Check what really happened before any retry</li><li>Never repeat an unchanged failed step</li><li>Helpers get the full contract</li><li>Smallest runtime that works</li><li>Never overwrite another run’s files</li></ul></div>',
   quote('Never blindly repeat a send, payment, publish or other consequential operation.','§8 Checkpoint and resume'),
-  cross('The Loose Cannon',['P44','P46','P48','P49','P50','P51','P52','P53'])
+  cross('The Loose Cannon',['P44','P46','P48','P49','P50','P51','P52'])
  ],
  reveals:[1,2,3],
  source:SRC+', MR-5, MR-6, §1, §5, §7 and §8.',
@@ -232,20 +232,20 @@ window.WW={slides:[
 {
  id:'loop-driver',title:'Keeps going until done',section:'03 / The system · 10',kind:'hc-loop',
  parts:[
-  '<svg class="hc-loop-svg" viewBox="0 0 320 240" role="img" aria-label="A loop that repeats the node cycle. Its exit is locked until the checker passes, and a counter caps it at 60 iterations."><path class="hc-loop-path" d="M160 40a80 80 0 1 1-80 80"/><path class="hc-loop-path" d="M70 131l10-12 10 12"/><text x="160" y="116" text-anchor="middle">node cycle</text><text x="160" y="140" text-anchor="middle" class="hc-svg-small">re-read · work · check</text><g transform="translate(106 64)"><rect x="-10" y="6" width="20" height="16" rx="3"/><path d="M-6 6v-5a6 6 0 0 1 12 0v5"/></g><text x="72" y="50" text-anchor="middle" class="hc-svg-small">exit: checker passes</text><rect class="hc-counter" x="10" y="190" width="96" height="34" rx="4"/><text x="58" y="212" text-anchor="middle" class="hc-svg-mono">cap: 60</text></svg>',
-  '<pre class="hc-cmd">/ralph-loop "&lt;loop prompt&gt;" --max-iterations 60 --completion-promise "CHASSIS DONE"</pre><p class="hc-small">A Stop hook will not let the session end until the checker passes or the cap is reached. Blockers are logged, never treated as done.</p>',
+  '<svg class="hc-loop-svg" viewBox="0 0 320 240" role="img" aria-label="A loop that repeats the node cycle. Its exit opens only on the exact words CHASSIS DONE, and a counter caps it at 60 iterations."><path class="hc-loop-path" d="M160 40a80 80 0 1 1-80 80"/><path class="hc-loop-path" d="M70 131l10-12 10 12"/><text x="160" y="116" text-anchor="middle">node cycle</text><text x="160" y="140" text-anchor="middle" class="hc-svg-small">re-read · work · check</text><g transform="translate(106 64)"><rect x="-10" y="6" width="20" height="16" rx="3"/><path d="M-6 6v-5a6 6 0 0 1 12 0v5"/></g><text x="72" y="50" text-anchor="middle" class="hc-svg-small">exit: CHASSIS DONE</text><rect class="hc-counter" x="10" y="190" width="96" height="34" rx="4"/><text x="58" y="212" text-anchor="middle" class="hc-svg-mono">cap: 60</text></svg>',
+  '<pre class="hc-cmd">/ralph-loop "&lt;loop prompt&gt;" --max-iterations 60 --completion-promise "CHASSIS DONE"</pre><p class="hc-small">A Stop hook re-feeds the same prompt until the model prints CHASSIS DONE, which it may only do once the checker passes, or until the cap is reached. Blockers are logged, never treated as done.</p>',
   '<div class="hc-mr0"><div class="micro">MR-0 · No schedules, ever</div><p>No timers, no cron, <q data-verbatim>never in slices that fire every 20 or 30 minutes</q>. One continuous run, start to finish.</p></div>'+quote('The loop cannot shorten a run; it can only prevent the model from stopping before the finish line.','Appendix E, loop driver'),
   cross('The Interrupter and bonus',['P9','P54'])
  ],
  reveals:[1,2,3,4],
- source:SRC+', MR-0, MR-5, §6 step 6 and Appendix E. The ralph-wiggum plugin is the one the skill names; check it is installed before demonstrating.',
- note:'In 5 to 10 words: it keeps working until the checker says done. Only after you have approved unattended running and the contract is active. Never without an iteration cap; never on a timer, schedule or interval. STORY: tell your real reason for the no-schedules rule here. Cancel with /cancel-ralph.'
+ source:SRC+', MR-0, MR-5, §6 step 6 and Appendix E. The ralph-wiggum plugin is the one the skill names.',
+ note:'In 5 to 10 words: it keeps working until the checker says done. Only after you have approved unattended running and the contract is active. Never without an iteration cap; never on a timer, schedule or interval. STORY: tell your real reason for the no-schedules rule here. Cancel with /cancel-ralph. Check the ralph-wiggum plugin is installed before demonstrating.'
 },
 {
  id:'final-report',title:'Your decisions come first',section:'03 / The system · 11',kind:'hc-report',
  parts:[
   '<div class="hc-page hc-report-page"><div class="hc-boxed"><div class="micro">1 · Your decisions</div><p>#07 · lead quote for script 4 · REVIEW: yes · Reverse: swap to the second-ranked quote.</p><p>#12 · script 9 kept at 45 seconds · REVIEW: yes · Reverse: trim the middle beat.</p><small>Illustrative entries.</small></div></div>',
-  '<ol class="hc-report-list" start="2"><li>All decisions: the full ledger</li><li>Which skill ran where</li><li>Every lock: held, repaired or open</li><li>Leftovers and next action</li><li>The nine answers, in full</li><li>Every requirement and its evidence</li></ol>',
+  '<ol class="hc-report-list" start="2"><li>All decisions: the full ledger</li><li>Which skill ran where</li><li>Every lock: held, repaired or open</li><li>Leftovers and next action</li><li>The nine answers, in full</li><li>Every requirement, its evidence and each evaluator verdict</li></ol>',
   quote('Report states the actual completion status and leads with decisions to review.','§10 Acceptance check')+'<p class="hc-small">Unfinished? It is labelled a <b>checkpoint report</b>, never “complete”.</p>'+cross('Bonus',['P57'])
  ],
  reveals:[1,2,3],
@@ -253,7 +253,7 @@ window.WW={slides:[
  note:'In 5 to 10 words: your decisions first, then proof everything was done. Five minutes tells you exactly what needs you and what was delivered. Also closes P39 and P40. DEMO: scroll a real final report.'
 },
 {
- id:'mutsa-live',title:'Mutsa, live',section:'04 / Example 1 · live',kind:'hc-runsheet',
+ id:'mutsa-live',title:'Mutsa, built live',section:'04 / Example 1 · live',kind:'hc-runsheet',
  parts:[
   '<div class="hc-build"><div class="hc-gate"><b>Smoke test</b><span>init.sh first</span></div>'+arrow+'<ol class="hc-features"><li>F-001</li><li>F-002</li><li>F-003</li><li>F-004</li><li>F-005</li><li>…</li></ol><span class="hc-cap">cap: 40</span></div><p class="hc-small">Every feature starts <code>passes:false</code> and flips only with end-to-end evidence. Feature rows are written live from the repo.</p>',
   '<ol class="hc-steps"><li>Paste the kickoff prompt</li><li>Watch it answer from the repo first</li><li>Answer the short list. Say “Active”.</li><li>Open features.json and CONSTRAINTS.json</li><li>Start the loop</li><li>Walk away. No timers, no schedule.</li><li class="hc-later">Later: type <code>ledger</code> and check in</li></ol>',
@@ -266,24 +266,24 @@ window.WW={slides:[
 {
  id:'mutsa-prompts',title:'The two prompts',section:'04 / Example 1 · live',kind:'hc-prompt',
  parts:[
-  '<div class="hc-promptbox"><div class="micro">Step 1 · kickoff prompt</div><pre>'+esc(kickoffPrompt)+'</pre></div>',
-  '<div class="hc-promptbox"><div class="micro">Step 5 · loop prompt</div><pre>'+esc(loopPrompt)+'</pre></div>',
+  '<div class="hc-promptbox"><div class="micro" id="hc-p1">Step 1 · kickoff prompt</div><pre tabindex="0" aria-labelledby="hc-p1">'+esc(kickoffPrompt)+'</pre></div>',
+  '<div class="hc-promptbox"><div class="micro" id="hc-p5">Step 5 · loop prompt</div><pre tabindex="0" aria-labelledby="hc-p5">'+esc(loopPrompt)+'</pre></div>',
   '<div class="hc-promptbox hc-checkin"><div class="micro">Step 7 · the check-in</div><pre>ledger\npython3 scripts/check_features.py harness/features.json\npython3 scripts/check_constraints.py harness/CONSTRAINTS.json</pre><p class="hc-small">Then show: features passing vs remaining, constraint rows verified vs not, every REVIEW: yes decision and the exact next action from PROGRESS.md.</p></div>'
  ],
  reveals:[1,2,3],
  source:'Prompts reproduced exactly from the Trending Topic Brief, Appendix A, steps 1, 5 and 7.',
- note:'Paste these on camera. While it reads, say: “Watch: it’s answering its own questions from the repo first.” If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself.'
+ note:'Paste these on camera. While it reads, say: “Watch: it’s answering its own questions from the repo first.” The loop prompt is your Appendix A wording. It leaves out the skill’s clause for open RED items (write the checkpoint report, then output CHASSIS DONE), so if a RED decision stays open the run will continue to its cap of 40; answer RED items promptly or add that clause. If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself.'
 },
 {
  id:'harbour-hearth',title:'Harbour & Hearth',section:'05 / Example 2 · built, not run',kind:'hc-lanes',
  parts:[
   '<div class="hc-brief"><div class="micro">Fictional brand</div><p><b>Premium UK home fragrance.</b> Hand-poured soy candles and reed diffusers, sold direct. Average order £48. Launching the “Winter Harbour” collection, three scents, for November, with Meta ads.</p></div>',
-  '<div class="hc-flow"><div class="hc-icp">One ICP, from real buyer reviews</div><div class="hc-fan" aria-hidden="true"></div><ul class="hc-lanes4"><li><b>5</b>emails</li><li><b>6</b>static ads</li><li><b>3</b>video scripts</li><li><b>1</b>landing page</li></ul></div>',
+  '<div class="hc-flow"><div class="hc-icp">One ICP, from the buyer reviews it would research</div><div class="hc-fan" aria-hidden="true"></div><ul class="hc-lanes4"><li><b>5</b>emails</li><li><b>6</b>static ads</li><li><b>3</b>video scripts</li><li><b>1</b>landing page</li></ul></div>',
   '<div class="hc-flow"><div class="hc-evalgate">Evaluator gate</div>'+arrow.replace('hc-arrow','hc-arrow hc-down')+'<div class="hc-paused"><svg viewBox="0 0 48 56" aria-hidden="true"><path d="M14 24v-8a10 10 0 0 1 20 0v8"/><rect x="6" y="24" width="36" height="28" rx="4"/></svg><b>PAUSED, awaiting approval</b><span>Meta campaign staged. Nothing goes live without Ellie.</span></div></div>'
  ],
  reveals:[1,2,3],
  source:'Harbour & Hearth, its founder and its collection are made up for this demonstration. Brief: Trending Topic Brief, Appendix B. Not run; no campaign exists.',
- note:'Say on camera: “We’re not running this one, just to save credits. I’ll show you everything it would do.” Then: “Harbour & Hearth is a made-up brand, so I can show you the whole thing: every question it answers, every skill it uses and every check it has to pass.” Without a harness, piece 20 of a 20-plus piece campaign is worse than piece 1 and the claims drift.'
+ note:'Say on camera: “We’re not running this one, just to save credits. I’ll show you everything it would do.” Then: “Harbour & Hearth is a made-up brand, so I can show you the whole thing: every question it answers, every skill it uses and every check it has to pass.” Without a harness, piece 15 of a 15-piece campaign is worse than piece 1 and the claims drift.'
 },
 {
  id:'hh-locks',title:'Locks and bindings',section:'05 / Example 2 · built, not run',kind:'hc-matrix',
@@ -328,12 +328,12 @@ window.WW={slides:[
 {
  id:'close',title:'Get the checker',section:'07 / Close',kind:'hc-close',
  parts:[
-  '<div class="hc-cta"><div class="micro">Free download</div><p class="statement">The checker script and a starter contract.</p></div>',
+  '<div class="hc-cta"><div class="micro">Free download</div><p class="statement">The checker script.</p><p class="hc-small">Link in the description.</p></div>',
   '<div class="hc-next"><div class="micro">Next week</div><h3>Vision Boards</h3><p>How we decide what to build before the harness builds it.</p></div>'
  ],
  reveals:[1,2],
  source:'Close and next video: Trending Topic Brief.',
- note:'About one minute. CTA: free download. The brief offers the checker script or a starter contract; confirm which before recording and adjust this slide. Next video: “Next week, Vision Boards: how we decide what to build before the harness builds it.”'
+ note:'About one minute. CTA: free download of the checker script, the one demonstrated on the done-gate slide. The brief also offered a starter contract as the alternative; swap it in here if you prefer. Next video: “Next week, Vision Boards: how we decide what to build before the harness builds it.”'
 }
 ]};
 })();
