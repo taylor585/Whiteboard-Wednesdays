@@ -1,286 +1,151 @@
 {
-  "version": "Whiteboard Wednesdays V1.1",
   "slides": [
     {
       "number": 1,
       "id": "poor-quality",
       "takeaway": "Too many poor-fit leads",
-      "device": "fit comparison",
-      "source": "Illustrative examples of a lead that does not fit.",
-      "reveal_order": [
-        1,
-        2
-      ],
-      "presenter_note": "Open with poor-quality leads, one of the two problems Taylor identified. These are illustrative failure modes, not measured industry prevalence or a claim about every lead supplier. Lead Gen Engine quality means matching the agreed brief and passing the documented checks."
+      "device": "lge-split lge-fit",
+      "source": "Lead Gen Engine service proposition supplied by the owner."
     },
     {
       "number": 2,
       "id": "shared-leads",
       "takeaway": "The same lead, shared",
-      "device": "branch diagram",
-      "source": "Illustrative shared-lead model. No market-wide figures are claimed.",
-      "reveal_order": [
-        1,
-        2
-      ],
-      "presenter_note": "Explain the second problem in ordinary language: a supplier sends the same lead to multiple buying businesses. The three branches are a teaching diagram, not an industry statistic. Do not claim all suppliers operate this way."
+      "device": "lge-split lge-branch",
+      "source": "Lead Gen Engine service proposition supplied by the owner."
     },
     {
       "number": 3,
       "id": "our-offer",
       "takeaway": "Better fit. Not shared.",
-      "device": "two promises",
-      "source": "Quality follows the agreed brief and checks. Our supplied leads are not shared with other buyers.",
-      "reveal_order": [
-        1,
-        2
-      ],
-      "presenter_note": "Taylor confirmed the offer on 7 October 2026: high-quality leads that are not shared. Present non-sharing as our supply commitment, not proof that nobody else can independently identify or contact the same person. The walkthrough demonstrates selection and validation; it does not audit an exclusivity allocation system or claim guaranteed enquiries, appointments or sales."
+      "device": "lge-split lge-promise",
+      "source": "Lead Gen Engine service proposition supplied by the owner."
     },
     {
       "number": 4,
       "id": "real-example",
-      "takeaway": "A real business example",
-      "device": "company profile",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2
-      ],
-      "presenter_note": "United’s official service page describes interstate moving, packing and storage. This example narrows to US homeowners; it is not a claim that all United customers own homes. Explain that Alex Demo, prices, capacity and targets are invented for teaching. No United partnership or completed audience run is claimed."
+      "takeaway": "Two specialist AI agents",
+      "device": "lge-single lge-record-lines",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "number": 5,
       "id": "journey",
-      "takeaway": "From brief to conversation",
-      "device": "numbered path",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
-      "presenter_note": "Reveal each numbered step. Avoid suggesting that this is a fully autonomous one-click pipeline. The original research established an operator-guided workflow and identified older application defaults that need checking before a real run."
+      "takeaway": "One connected decision process",
+      "device": "lge-steps lge-path",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "number": 6,
       "id": "onboarding-start",
-      "takeaway": "Your answers set the rules",
-      "device": "interactive completed form",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8
-      ],
-      "presenter_note": "The verified source is the actual Lead Gen Engine onboarding form, inspected in the earlier walkthrough on 5 October. A separate Google onboarding sheet was not located; do not call this a live Google Sheet. The companion completed example reproduces every applicable field and shows conditional questions as not applicable. Do not submit an application for United. All six original sections are available on this slide. Open the detail you are explaining; keep the rest closed. Business, prices, capacity, goals and authority remain exactly as shown in the completed fictional brief."
+      "takeaway": "The intelligence starts here",
+      "device": "lge-split lge-count-stage",
+      "source": "Current onboarding schema, verified 13 October 2026."
     },
     {
       "number": 7,
       "id": "customer",
-      "takeaway": "One audience. Clear boundaries.",
-      "device": "audience summary",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2,
-        3
-      ],
-      "presenter_note": "Topics include moving, relocation, pre-movers, residential moving and moving costs. The date window means the actual execution day and previous day. Missing evidence is held when policy requires it. B2B target industries and company sizes do not apply. Staff job titles remain eligible for this consumer audience. We use the person’s location to find this nationwide audience. Their moving destination and serviceable route still need confirming. The complete onboarding companion includes the full state-code list. Any owner-occupied residence; no property-size, state-priority, radius or ZIP restriction. No extra demographic or seniority filters."
+      "takeaway": "A richer business context",
+      "device": "lge-single lge-audience",
+      "source": "Current onboarding schema: 32 client fields and 20 staff fields."
     },
     {
       "number": 8,
       "id": "brief-to-audience",
-      "takeaway": "The brief becomes filters",
-      "device": "brief-to-filter mapping",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2
-      ],
-      "presenter_note": "Keep the approved two-column design. Explain without database vocabulary first: any relevant moving topic can match, but all eligibility conditions must match. In the query, topics use OR and geography, homeowner, score and date criteria use AND. Retained catalogue examples: 2217 Moving Costs And Logistics; 8925 Residential Moving Services; 2274 Moving; 2275 Relocation; 6378 Pre-Movers. Recheck these live before execution. Save the audience name with LGE |, company, moving, US, exact dates and Med+. The old 4 to 5 October example is historical, not today’s date window. Do not silently widen dates to match an older export."
+      "takeaway": "A framework for decisions",
+      "device": "lge-single lge-record-lines",
+      "source": "Audience Builder operating instructions and separate creation run log."
     },
     {
       "number": 9,
       "id": "signals",
-      "takeaway": "Interest starts the conversation",
-      "device": "marker contrast",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2
-      ],
-      "presenter_note": "Intent means a provider-classified interest signal. The provider’s underlying signal collection and scoring have not been independently audited here. Never present intent as an opt-in enquiry, verified moving plan or permission to contact. Quality checks and human qualification do different jobs."
+      "takeaway": "A broad data toolkit",
+      "device": "lge-split lge-count-stage",
+      "source": "Recorded DataMoon interface, 15 September 2026; Audience Builder procedure."
     },
     {
       "number": 10,
       "id": "build-export",
-      "takeaway": "Build, download and check",
-      "device": "build sequence",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2,
-        3,
-        4
-      ],
-      "presenter_note": "Export means downloading the results as a file. Retain the original download, export run and file checksum. A checksum is a file fingerprint used to detect a changed file. Fix a mismatch between requested and exported dates explicitly. Lock the brief, field mapping, policy and validation date before checks. This United run has not been executed. These are different measures, so do not call them all leads or unique people. We have no United demo counts to display. The presentation explains where actual results would be checked; it does not invent them."
+      "takeaway": "Compress the manual work",
+      "device": "lge-split lge-contrast",
+      "source": "Workflow comparison from the documented procedure; no measured timing claim."
     },
     {
       "number": 11,
       "id": "checks-1",
-      "takeaway": "Check identity and location",
-      "device": "four-check grid",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2,
-        3,
-        4
-      ],
-      "presenter_note": "Source: the existing walkthrough’s strict validation policy 3.2.0, checks C01 to C04. Evaluate every independent check for every row. Format checks do not prove mailbox delivery, phone ownership or live profile verification. Company and job fields are completeness checks, not targeting of moving-company staff. For homeowner evidence, a contradictory row overrides a query assertion; exact-cohort query evidence can support an absent homeowner field under policy. Query score settings cannot replace missing row score evidence."
+      "takeaway": "The build checks itself",
+      "device": "lge-steps lge-path",
+      "source": "Audience Builder verification and reconciliation procedure."
     },
     {
       "number": 12,
       "id": "checks-2",
-      "takeaway": "Check the contact record",
-      "device": "record field lines",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2,
-        3,
-        4
-      ],
-      "presenter_note": "Source: the existing walkthrough’s strict validation policy 3.2.0, checks C05 to C08. Evaluate every independent check for every row. Format checks do not prove mailbox delivery, phone ownership or live profile verification. Company and job fields are completeness checks, not targeting of moving-company staff. For homeowner evidence, a contradictory row overrides a query assertion; exact-cohort query evidence can support an absent homeowner field under policy. Query score settings cannot replace missing row score evidence."
+      "takeaway": "One real business example",
+      "device": "lge-split lge-example",
+      "source": "United Van Lines service example retained from the original walkthrough. Hypothetical brief."
     },
     {
       "number": 13,
       "id": "checks-3",
-      "takeaway": "Check timing and fit",
-      "device": "four-check grid",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2,
-        3,
-        4
-      ],
-      "presenter_note": "Source: the existing walkthrough’s strict validation policy 3.2.0, checks C09 to C12. Evaluate every independent check for every row. Format checks do not prove mailbox delivery, phone ownership or live profile verification. Company and job fields are completeness checks, not targeting of moving-company staff. For homeowner evidence, a contradictory row overrides a query assertion; exact-cohort query evidence can support an absent homeowner field under policy. Query score settings cannot replace missing row score evidence."
+      "takeaway": "A separate quality layer",
+      "device": "lge-single lge-audience",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "number": 14,
       "id": "four-outcomes",
-      "takeaway": "Four clear outcomes",
-      "device": "decision ladder",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2,
-        3,
-        4
-      ],
-      "presenter_note": "Plain-English labels correspond to exact duplicates removed, excluded, held and accepted. Apply precedence in that order after evaluating all checks. Exact duplicate means all source values repeat, not merely a repeated person’s name or identifier. A measured failure takes precedence over unresolved evidence. This is not an appointment or consent check. These are illustrative rule paths, not actual United records. Low score is excluded. Unknown score is held if no measured failure exists. A missing signal cannot become a pass simply because the audience query requested Medium or High."
+      "takeaway": "Twelve checks. Every record.",
+      "device": "lge-split lge-count-stage",
+      "source": "Current Validation Agent specification, version 3.2.0; criteria retained privately."
     },
     {
       "number": 15,
       "id": "reconcile",
-      "takeaway": "Every record accounted for",
-      "device": "reconciliation diagram",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2
-      ],
-      "presenter_note": "Accepted + excluded + held + exact duplicates removed = input rows. Count final outcomes once each. Do not add failed-check totals together, because one record can fail more than one check. Show only actual counts after an authorised rehearsal."
+      "takeaway": "Refined against real exports",
+      "device": "lge-single lge-audience",
+      "source": "Historical validation regression recorded 24 September 2026."
     },
     {
       "number": 16,
       "id": "delivery",
-      "takeaway": "A clean, correctly assigned list",
-      "device": "delivery specification",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2
-      ],
-      "presenter_note": "The project instruction requires the 15 core fields plus 15 additional fields, listed in the complete reading view. LinkedIn must remain a usable personal profile link. Optional missing values remain blank. The source brief supplies Industry. The hypothetical company name is not an approved Lead Distro buyer mapping. No lead send is included. Reconcile the client vault, named audience and Leads Delivered Tracker using stable identifiers and batch identity. Vault means the client’s area in the dashboard. Do not put contacts in an unassigned audience or infer client identity from a company-name field. Do not register this fictional example as a real delivery."
+      "takeaway": "Every outcome stays visible",
+      "device": "lge-single lge-record-lines",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "number": 17,
       "id": "not-shared",
       "takeaway": "One buyer. Your business.",
-      "device": "one-buyer connection",
-      "source": "Our supply commitment: we do not share these leads with other buyers.",
-      "reveal_order": [
-        1,
-        2
-      ],
-      "presenter_note": "This non-sharing commitment was explicitly supplied by Taylor. The process demonstration does not itself prove a cross-client exclusivity control. Do not imply that removing exact duplicates in one file proves exclusivity, or that nobody else can independently find the person. The client allocation and commercial terms must honour the stated offer."
+      "device": "lge-split lge-connection",
+      "source": "Lead Gen Engine non-sharing service proposition."
     },
     {
       "number": 18,
       "id": "human-conversation",
-      "takeaway": "Confirm the actual move",
-      "device": "qualification questions",
-      "source": "Illustrative United Van Lines example. No affiliation or completed lead results claimed.",
-      "reveal_order": [
-        1,
-        2,
-        3,
-        4
-      ],
-      "presenter_note": "A validated record is a candidate for follow-up, not an appointment. Use only authorised contact channels and destinations after permission review. Track enquiries, survey bookings, whether surveys were held and real outcomes. No outreach or booking is performed by this presentation."
+      "takeaway": "Your team closes the loop",
+      "device": "lge-steps lge-path",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "number": 19,
       "id": "finish",
-      "takeaway": "Better fit. Your opportunity.",
-      "device": "closing promises",
-      "source": "Illustrative workflow plus Taylor’s stated non-sharing offer. No completed United campaign is claimed.",
-      "reveal_order": [
-        1,
-        2
-      ],
-      "presenter_note": "Close by connecting the two stated problems to the two offer elements. Do not guarantee conversion. The full instructional presentation is complete, but actual United audience creation, export, row validation and delivery have not been run. The viewer can open all completed onboarding answers and the full reading guide."
+      "takeaway": "Built for better decisions",
+      "device": "lge-split lge-close",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
     },
     {
       "number": 20,
       "id": "now-lets-build",
       "takeaway": "Now let’s build.",
-      "device": "copyable prompt",
-      "source": "United Van Lines demonstration brief. Live validation means checking the actual downloaded records.",
-      "reveal_order": [
-        1
-      ],
-      "presenter_note": "Copy the entire prompt and paste it into the working chat when ready to begin. This slide does not execute a build. The prompt covers the actual build, one-off export and twelve-check local validation; it does not authorise outreach or lead delivery. Fictional onboarding inputs remain labelled."
+      "device": "lge-single",
+      "source": "Demonstration instruction; execution depends on authorised private agents and brief."
     }
   ],
-  "aliases": {
-    "business": "onboarding-start",
-    "offer-details": "onboarding-start",
-    "location": "customer",
-    "goals": "onboarding-start",
-    "review-confirm": "onboarding-start",
-    "topic-settings": "brief-to-audience",
-    "counts": "build-export",
-    "unclear-versus-fail": "four-outcomes",
-    "correct-destination": "delivery"
-  },
   "simplification_passes": {
-    "meaning": "Plain-English headlines, one purpose on each slide; no invented claims.",
-    "structure": "29 slides combined into 20. Six onboarding sections accessible together; counts and delivery details attached to the step they explain.",
-    "visual": "Retained brand; branching diagram, path, completed form, marker contrast, record lines, decision ladder and reconciliation.",
-    "sequence": "Distinct adjacent devices. All twelve checks retained in three short groups. Prompt is last and unchanged.",
-    "audience": "Phone-size stacking; 44px controls; complete details and source notes retained."
-  },
-  "preserved": "Exact final prompt, all onboarding fields, twelve checks, thirty columns, original brand and other presentation."
+    "meaning": "Capabilities and business value, no selection recipe.",
+    "structure": "Two specialist agents, twenty slides.",
+    "visual": "Retained brand; verified count displays, paths, comparisons and one-buyer diagram.",
+    "sequence": "Brief, decision framework, build verification, separate validation, business value, demonstration.",
+    "audience": "Plain-English explanation and recording-safe prompt. All published secondary surfaces sanitised."
+  }
 }
