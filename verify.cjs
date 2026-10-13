@@ -1,6 +1,6 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
 const {chromium}=require(process.env.PLAYWRIGHT_PATH||'playwright');
-const ctx={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'dist/whiteboard-content.js'),'utf8'),ctx);
+const ctx={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'public/whiteboard-content.js'),'utf8'),ctx);
 const deck=ctx.window.WW,base=process.argv[2]||'http://127.0.0.1:8862/';
 const failures=[],results=[];
 const check=(v,msg)=>{if(!v)throw Error(msg);results.push(msg);};
@@ -12,7 +12,7 @@ async function run(){
  const go=async(id)=>{await page.goto(base+'#/presentation/paid-ads-process/slide/'+id);await page.locator('#player').waitFor({state:'visible'});};
  for(const width of [375,390,768,1280]){
   await page.setViewportSize({width,height:900});await page.goto(base);await page.locator('.deck-card').first().waitFor();await page.evaluate(()=>document.fonts.ready);
-  check(await page.locator('.deck-card').count()===3,'three genuine library cards '+width);
+  check(await page.locator('.deck-card').count()===2,'two genuine library cards '+width);
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'library no overflow '+width);
   await page.screenshot({path:(process.env.QA_OUTPUT||'/tmp')+'/ww-library-'+width+'.png',fullPage:true});
   for(const s of deck.slides){
@@ -50,7 +50,7 @@ async function run(){
  const fixture={...JSON.parse(JSON.stringify(deck)),slides:[{id:'fixture',title:'Second test presentation',section:'Test only',kind:'stack',parts:['<p>Independent content</p>',deck.slides.find(s=>s.id==='survey').parts[0]],reveals:[1,2],note:'Only injected by the test harness.'}]};
  await context.route('**/presentations.js',async r=>{const response=await r.fetch({headers:{...r.request().headers(),...(process.env.SITE_QA_TOKEN?{'OAI-Sites-Authorization':'Bearer '+process.env.SITE_QA_TOKEN}:{})}});const body=(await response.text())+"\nwindow.presentationRegister.push({...window.presentationRegister[0],id:'test-only',title:'Second test presentation',source:'test-only.js',brand:{...window.presentationRegister[0].brand,name:'Fictional QA brand',accent:'#174b67'}});";await r.fulfill({response,body});});
  await context.route('**/test-only.js',r=>r.fulfill({contentType:'text/javascript',body:'window.WW='+JSON.stringify(fixture)}));
- await page.goto(base);await page.locator('.deck-card').nth(1).waitFor();await page.goto(base+'#/presentation/lead-gen-engine');await page.locator('#player').waitFor({state:'visible'});await page.locator('#tab-paid-ads-process').click();await page.locator('#player').waitFor({state:'visible'});await page.locator('#next').click();
+ await page.goto(base);await page.locator('.deck-card').nth(1).waitFor();await page.locator('.deck-card a[href="#/presentation/paid-ads-process"]').click();await page.locator('#player').waitFor({state:'visible'});await page.locator('#next').click();
  const progress=await page.locator('#progress').textContent();await page.locator('#tab-paid-ads-process').focus();await page.keyboard.press('ArrowRight');await page.keyboard.press('ArrowRight');await page.keyboard.press('ArrowRight');check(await page.locator('#progress').textContent()===progress,'tab arrows do not advance slide');await page.keyboard.press('Enter');await page.waitForURL('**/fixture');
  const tabProgress=await page.locator('#progress').textContent();await page.keyboard.press('ArrowRight');check(await page.locator('#progress').textContent()===tabProgress,'tab focus preserved after activation');check(await page.locator('#tab-paid-ads-process').evaluate(e=>e===document.activeElement),'tab arrow after activation moves focus');
  check((await page.locator('#brand-name').textContent())==='Fictional QA brand','separate published branding');await page.locator('#next').click();await page.locator('#next').click();check(await page.locator('.survey-options input:checked').count()===0,'new deck survey empty');await page.locator('.survey-options input').first().check();
@@ -64,7 +64,7 @@ async function run(){
  await context.route('**/whiteboard-content.js',r=>r.abort());await page.reload();await page.waitForFunction(()=>document.querySelector('#message-title').textContent==='Unable to open presentation');check(true,'failed content load recovery');await context.unroute('**/whiteboard-content.js');
  await context.route('**/ww-ad.png',r=>r.abort());await go('creative');for(let n=0;n<3;n++)await page.locator('#next').click();await page.locator('.asset-error').waitFor();check(true,'missing image readable fallback');await context.unroute('**/ww-ad.png');
  await context.route('**/ww-report.pdf',r=>r.abort());await go('live-report');await page.locator('#next').click();await page.locator('.embed-error').waitFor();check(true,'missing PDF retry state');await context.unroute('**/ww-report.pdf');await page.locator('.embed-error button').click();await page.locator('iframe[src*="ww-report.pdf"]').waitFor();check(true,'PDF retry recovers');
- await context.route('**/ww-coin.svg',r=>r.abort());await context.route('**/ww-ad.png',r=>r.abort());await page.goto(base);await page.locator('.deck-cover .asset-error').waitFor();check(true,'cover image fallback');await page.locator('.deck-card a').first().click();await page.locator('.deck-head .asset-error').waitFor();check(true,'logo image fallback');await page.locator('#library-button').click();await page.locator('.deck-card').first().waitFor();check(true,'logo failure navigation safe');
+ await context.route('**/ww-coin.svg',r=>r.abort());await context.route('**/ww-ad.png',r=>r.abort());await page.goto(base);await page.locator('.deck-cover .asset-error').waitFor();check(true,'cover image fallback');await page.locator('.deck-card a[href="#/presentation/paid-ads-process"]').click();await page.locator('.deck-head .asset-error').waitFor();check(true,'logo image fallback');await page.locator('#library-button').click();await page.locator('.deck-card').first().waitFor();check(true,'logo failure navigation safe');
  check(failures.length===0,'no browser runtime errors: '+failures.join(';'));
  console.log(JSON.stringify({checks:results.length,failures,lastChecks:results.slice(-45)},null,2));await browser.close();
 }

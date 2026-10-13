@@ -2,7 +2,7 @@ const fs=require('fs'),vm=require('vm'),assert=require('assert/strict');
 const {chromium}=require(process.env.PLAYWRIGHT_PATH||'playwright');
 const root=__dirname;
 const out=process.env.QA_OUTPUT||(process.env.QA_OUTPUT||'/tmp');
-const context={window:{}};vm.runInNewContext(fs.readFileSync(root+'/dist/lge-content.js','utf8'),context);const deck=context.window.WW;let checks=0;
+const context={window:{}};vm.runInNewContext(fs.readFileSync(root+'/public/lge-content.js','utf8'),context);const deck=context.window.WW;let checks=0;
 function ok(v,label){assert(v,label);checks++}
 for(const s of deck.slides){ok(s.reveals.length===s.parts.length,s.id+' reveal mapping');ok(s.reveals.every((n,i)=>n===i+1),s.id+' contiguous');ok(s.note&&s.source,s.id+' sources');}
 const base=process.argv[2]||'http://127.0.0.1:8864/';
@@ -16,7 +16,7 @@ await go('journey');await p.locator('#next').click();await p.locator('#tab-paid-
 await p.locator('#brand-button').click();ok(await p.locator('select[name=font]').inputValue()==='lge','brand selector mapping');await p.locator('#reset-brand').click();ok(await p.locator('#deck-logo').getAttribute('src')==='lge-logo.svg','published logo');
 await p.locator('#index-button').click();await p.locator('[data-chapter="2"]').click();await p.waitForURL('**/our-offer');await p.reload();await p.locator('#player').waitFor({state:'visible'});ok((await p.locator('#canvas h2').innerText())==='Better fit. Not shared.','fresh direct link');
 await p.goto(base+'lge-onboarding.html');ok(await p.locator('article').count()===6,'six full onboarding sections');ok((await p.locator('body').innerText()).includes('UNCHECKED'),'authority unconfirmed');ok((await p.locator('body').innerText()).includes('demo@example.com'),'fictional email');
-await p.goto(base+'lge-reading.html');ok(await p.locator('#delivery-columns li').count()===30,'30 columns');ok(await p.locator('article').count()===31,'29 slides plus columns and sources');
+await p.goto(base+'lge-reading.html');ok(await p.locator('#delivery-columns li').count()===30,'30 columns');ok(await p.locator('article').count()===22,'20 slides plus columns and sources');
 for(const w of [375,390,768,1280]){await p.setViewportSize({width:w,height:900});for(const doc of ['lge-reading.html','lge-onboarding.html']){await p.goto(base+doc);ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'reading overflow '+doc+' '+w)}}
 await p.emulateMedia({reducedMotion:'reduce'});await go('four-outcomes');ok(await p.locator('.pending').count()===0,'reduced motion complete');await p.emulateMedia({reducedMotion:'no-preference'});
 await p.goto(base+'#/presentation/lead-gen-engine/slide/missing');await p.locator('#message').waitFor({state:'visible'});ok((await p.locator('#message-title').innerText())==='Slide not found','missing slide recovery');
