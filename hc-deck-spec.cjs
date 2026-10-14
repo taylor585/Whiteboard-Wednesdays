@@ -14,7 +14,7 @@ module.exports=({fs,path})=>{
   brandProfile:'HC-brand.json',
   file:'hc-preview.html',
   title:'AI Harnesses deck',artifactTitle:'AI Harnesses Deck',
-  header:'PREVIEW · NOT PUBLISHED',eyebrow:'FULL DECK · 31 SLIDES',
+  header:'PREVIEW · NOT PUBLISHED',eyebrow:'FULL DECK · 33 SLIDES',
   intro:'The complete AI Harnesses presentation, as it will appear in the Whiteboard Wednesdays library. Private preview; the live site is unchanged.'
  };
 };

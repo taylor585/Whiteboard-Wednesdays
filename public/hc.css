@@ -441,3 +441,15 @@ q[data-verbatim]:before{content:'“'}q[data-verbatim]:after{content:'”'}
 /* "How you can…" headlines are longer: a smaller title scale for this deck only */
 #canvas:has(.parts[class*=" hc-"]) h2{font-size:clamp(34px,3.3vw,54px);max-width:1200px}
 @media(max-width:640px){#canvas:has(.parts[class*=" hc-"]) h2{font-size:34px}}
+/* Build your own: parts map and build prompt */
+.hc-rail-sm li{font-size:20px;padding:6px 10px}
+.hc-partgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 24px}
+.hc-partgrid>div{border-top:2px solid var(--accent);padding-top:8px;display:grid;grid-template-columns:auto 1fr;column-gap:12px;align-items:baseline}
+.hc-partgrid .hc-count{font-size:44px;grid-row:1/span 2}
+.hc-partgrid b{font-size:18px}
+.hc-partgrid small{margin:2px 0 0;font-size:13px}
+.hc-buildsteps b{font-weight:600}
+.parts.hc-buildprompt .hc-promptbox pre{max-height:none;font-size:13px}
+@media(min-width:701px){.parts.hc-parts{grid-template-columns:1fr}.parts.hc-buildprompt{grid-template-columns:1fr 1.5fr}.parts.hc-buildprompt .part:nth-child(2){grid-column:2;grid-row:1/span 2}.parts.hc-buildprompt .part:nth-child(3){grid-column:1;grid-row:2}}
+@media(max-width:1000px){.hc-partgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.hc-partgrid{grid-template-columns:1fr}}

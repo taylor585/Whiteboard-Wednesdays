@@ -1,5 +1,9 @@
 # AI Harnesses deck, 13 October 2026 (branch, not published)
 
+## Build your own section, 14 October 2026
+
+Two slides added before the proof at Taylor's request: `build-parts` maps every part of the harness skill with counts taken from the skill (9 kickoff questions, 5 lock questions, 8 contract sections, 3 decision tiers, 6 run files, 6 node steps, 4 rubrics, 9 master rules, 7 report sections, 9 appendices); `build-prompt` gives the research-then-build prompt for Claude Fable 5.1 or Claude Opus 5.5. 33 slides. Re-run: v2 `verify-trial.cjs` 1781, `verify-hc.cjs` 1504, `verify.cjs` 928, `verify-lge.cjs` 674; 22 quotations proven.
+
 ## Clear opening and the stuck example, 14 October 2026
 
 Two slides added after the cold open at Taylor's request: `without-harness` states the topic and lists six problems of running AI without a harness; `stuck-example` tells the illustrative two-hour silent stall (and an overnight retry bill) with the harness fixes. 31 slides. Re-run: v2 `verify-trial.cjs` 1683, `verify-hc.cjs` 1424, `verify.cjs` 928, `verify-lge.cjs` 674; 21 quotations proven.

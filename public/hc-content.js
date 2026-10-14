@@ -37,6 +37,30 @@ Write init.sh and a smoke test before any feature work.
 Decision tiers: GREEN micro-choices; AMBER decide and log; RED = live payments, deploying, storing a customer's skin or personal data, and any claim about what suits a skin type that the research database does not support.
 Ask me only the genuine gaps and the Q8 owner decisions, all together, in one message.`;
 const loopPrompt=`/ralph-loop "Read harness/CONTRACT.md in full, then PLAN.md, PROGRESS.md, CONSTRAINTS.json and features.json. Run init.sh and the smoke test first; if it fails, fixing it is the current node. Take the next eligible feature and run the node cycle: re-read, load bound skills, perform, gate-check, checkpoint. At each PLAN milestone run the independent evaluation with the EVALUATOR PACKET and record its verdict. Log every AMBER decision as it is made. Never edit a test, feature row or constraint row to make it pass. If a node is blocked, record it in PROGRESS and continue with an independent node. Output the exact words CHASSIS DONE only when PLAN has no eligible node and python3 scripts/check_constraints.py harness/CONSTRAINTS.json exits 0. If no eligible node remains while RED items are open, write the checkpoint report to PROGRESS first, then output CHASSIS DONE." --max-iterations 60 --completion-promise "CHASSIS DONE"`;
+const buildPrompt=`I want you to build me a reusable harness skill for long-running AI work: one skill that governs a job from the first brief to the final report. Research first, then plan, then build.
+
+Research these nine subtopics using primary sources (Anthropic engineering posts, Claude Code documentation, and arXiv or peer-reviewed papers). Give me a source list with dates, and flag anything you could not verify:
+1. Why long agent runs fail: context rot, compaction, drift and false "done".
+2. Kickoff interviews: answering your own questions from the brief before asking the owner.
+3. Work contracts: testable rules, consistency locks, ALWAYS and NEVER framing.
+4. Decision permissions: decide alone, decide and log, or ask first.
+5. File-based memory: run files, checkpoints and resuming after a crash.
+6. Done-gates: turning every requirement into a machine-checkable row.
+7. Independent evaluators: rubrics, hard pass marks and a clean judge context.
+8. Loop drivers: Stop hooks in Claude Code, iteration caps, and why not to use schedules.
+9. Safety: never repeating a send or payment after a restart, smoke tests first, spend caps.
+
+Then build the skill with:
+- a nine-question kickoff, five lock questions and a one-to-two-page Work Contract
+- green, amber and red decision tiers and a live decision ledger
+- run files: INTERVIEW.md, CONTRACT.md, PLAN.md, PROGRESS.md, CONSTRAINTS.json and features.json
+- a node cycle: re-read the contract, load skills, do the work, check the evidence, checkpoint, continue
+- a checker script that blocks "done" until every requirement is verified by someone other than the worker
+- an evaluator packet and rubrics for my deliverable types
+- a loop prompt with an iteration cap, and a PreCompact hook that saves state automatically
+- a final report that leads with the decisions I need to review.
+
+Show me the research summary and your plan before you write the skill.`;
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 window.WW={slides:[
@@ -360,7 +384,29 @@ window.WW={slides:[
  note:'Evaluator moments to describe: research, ten graded quotes each with a URL and date, or a shortfall ledger, no padding. Scripts: the ugc-script rubric fails a script on truthfulness alone (the rated 4.9 example). Staging: paused read-back, UTMs, no verdict under 72 hours, approval against exact ad IDs. LINE: “And that’s where we’d press go. We’re not running it today, just to save credits.”'
 },
 {
- id:'proof',title:'How harnesses give you better work, and more of it',section:'07 / The proof',kind:'hc-equation',
+ id:'build-parts',title:'How to build your own harness: every part on one page',section:'07 / Build your own · 1 of 2',kind:'hc-parts',
+ parts:[
+  '<ol class="hc-rail hc-rail-sm"><li>Interview</li><li>Contract</li><li>Prepare runtime</li><li>Execute</li><li>Verify</li><li>Checkpoint</li><li>Report</li></ol>',
+  '<div class="hc-partgrid"><div><span class="hc-count" style="--to:9"><span class="hc-sr">9</span></span><b>Kickoff questions</b><small>Done means · world class · what could go wrong · which skills · where each is used · master rules · review gates · owner decisions · memory</small></div><div><span class="hc-count" style="--to:5"><span class="hc-sr">5</span></span><b>Lock questions</b><small>Identity · sameness · difference · let-down · fatigue</small></div><div><span class="hc-count" style="--to:8"><span class="hc-sr">8</span></span><b>Contract sections</b><small>Job and done · locks · framing · skill bindings · permissions · blockers · re-read and review · ledger and report</small></div><div><span class="hc-count" style="--to:3"><span class="hc-sr">3</span></span><b>Decision tiers</b><small>Green · amber · red, plus a live ledger</small></div><div><span class="hc-count" style="--to:6"><span class="hc-sr">6</span></span><b>Run files</b><small>INTERVIEW · CONTRACT · PLAN · PROGRESS · CONSTRAINTS.json · features.json</small></div><div><span class="hc-count" style="--to:6"><span class="hc-sr">6</span></span><b>Steps in every node</b><small>Re-read · load skills · do the work · check evidence · checkpoint · continue</small></div><div><span class="hc-count" style="--to:4"><span class="hc-sr">4</span></span><b>Evaluator rubrics</b><small>App screen · UGC script · research section · campaign stage</small></div><div><span class="hc-count" style="--to:9"><span class="hc-sr">9</span></span><b>Master rules</b><small>MR-0 no schedules to MR-8 write missing templates</small></div><div><span class="hc-count" style="--to:7"><span class="hc-sr">7</span></span><b>Report sections</b><small>Decisions to review first, through to every requirement and its evidence</small></div></div>',
+  '<p class="hc-small">Plus the machinery: a checker script for “done”, a feature checker, init.sh and a smoke test, a loop prompt with a cap, and a PreCompact hook. The skill keeps a canonical copy of each in its nine appendices.</p>'+quote('Required state must not exist only in conversation.','§5 Prepare the smallest durable runtime')
+ ],
+ reveals:[1,2,3],
+ source:'Source: Counts taken from the '+SRC+': §2, §3, §4, §5, §6, §9, the master rules, and Appendices A to I.',
+ note:'This is the map of the whole skill. SAY: “If you want to build this yourself, here is every part.” Walk it in order: seven stages; nine kickoff questions it answers itself; five lock questions; an eight-section contract; three decision tiers with a ledger; six run files; a six-step cycle for every piece of work; four evaluator rubrics; nine master rules, starting with no schedules; and a seven-part report. Then the machinery underneath: the checker, init.sh, the smoke test, the loop prompt and the PreCompact hook. Every number here is counted from the skill itself.'
+},
+{
+ id:'build-prompt',title:'How to get Claude to research and build it for you',section:'07 / Build your own · 2 of 2',kind:'hc-buildprompt',
+ parts:[
+  '<ol class="hc-steps hc-buildsteps"><li>Open Claude and choose <b>Claude Fable 5.1</b> or <b>Claude Opus 5.5</b>, with extended thinking on</li><li>Paste the prompt</li><li>It researches nine subtopics and brings back sources</li><li>It shows you a plan; you approve it</li><li>It builds the skill: templates, scripts and the checker</li></ol>',
+  '<div class="hc-promptbox"><div class="micro" id="hc-pb">The build prompt</div><pre tabindex="0" aria-labelledby="hc-pb">'+esc(buildPrompt)+'</pre></div>',
+  '<p class="statement">Research first. Plan second. <span class="hc-hand-mark">Build third.</span></p>'
+ ],
+ reveals:[1,2,3],
+ source:'Source: Prompt written for this demonstration from the structure of the '+SRC+'. Research results will vary by run.',
+ note:'Live demo. SAY: “Here’s exactly what I’d say to Claude.” Open Claude, pick Fable 5.1 or Opus 5.5, paste the prompt. Point out the nine subtopics it will go and research: why long runs fail, kickoff interviews, contracts, decision permissions, file memory, done-gates, evaluators, loop drivers, and safety. It has to bring back sources with dates and flag what it could not verify, then show a plan before it builds anything. Do not promise what the research will find; read out what actually comes back.'
+},
+{
+ id:'proof',title:'How harnesses give you better work, and more of it',section:'08 / The proof',kind:'hc-equation',
  parts:[
   '<div class="hc-factor"><h3>Quality</h3><ul><li>Locks hold piece 20 to piece 1’s bar</li><li>Contract re-read at every step</li><li>An independent evaluator</li><li>A script decides done</li></ul></div>',
   '<div class="hc-factor"><h3>Output</h3><ul><li>Questions asked once</li><li>Amber decisions made without you</li><li>No “continue” babysitting</li><li>Cold resume after any crash</li><li>Less rework</li></ul></div>',
@@ -371,14 +417,14 @@ window.WW={slides:[
  note:'About two minutes. Fill in your real before and after numbers before recording: pieces per day, rounds of rework, interruptions. The board leaves them blank on purpose so no figure is invented. The episode title promises 10x; only say it on this slide if your numbers support it.'
 },
 {
- id:'recap',title:'How each of the five failures gets fixed',section:'07 / The proof',kind:'hc-cast',
+ id:'recap',title:'How each of the five failures gets fixed',section:'08 / The proof',kind:'hc-cast',
  parts:cast.map(([name,svg],i)=>'<div class="hc-char hc-done">'+svg+'<h3><span class="hc-strike">'+name+'</span></h3><p>'+['Kickoff, tiers and the loop','Locks and the re-read','Files, not the chat','Checker and evaluator','Rails and caps'][i]+'</p></div>'),
  reveals:[1,2,3,4,5],
  source:'Source: Fixes mapped in the Trending Topic Brief, Act 1 “Fixed by” columns.',
  note:'RECAP: cross out each character on the board as you name its fix. The Interrupter: kickoff, decision tiers and the loop driver. The Drifter: five locks and the contract re-read. The Goldfish: memory in files. The Bluffer: the checker and the evaluator. The Loose Cannon: safety rails and caps.'
 },
 {
- id:'close',title:'How to get the checker script free',section:'08 / Close',kind:'hc-close',
+ id:'close',title:'How to get the checker script free',section:'09 / Close',kind:'hc-close',
  parts:[
   '<div class="hc-cta"><div class="micro">Free download</div><p class="statement">The checker script.</p><p class="hc-small">Link in the description.</p></div>',
   '<div class="hc-next"><div class="micro">Next week</div><h3>Vision Boards</h3><p>How we decide what to build before the harness builds it.</p></div>'
