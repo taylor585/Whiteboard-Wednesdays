@@ -20,15 +20,23 @@ const cast=[
 ];
 const arrow='<svg class="hc-arrow" viewBox="0 0 40 16" aria-hidden="true"><path d="M2 8h34M29 2l7 6-7 6"/></svg>';
 const kickoffPrompt=`Use the harness-chassis-builder-no-schedules skill.
-Job: continue building the Mutsa app end to end. Read the repo, README, open issues/PRs and any brief in the project first, and harvest every answer you can before asking me anything.
+Job: build Scentwise, a perfume-matching web app for women, end to end from an empty repo. Read this brief and every file in the project first, and answer every question you can before asking me anything.
 Deliverable class: app/system.
+The app must include:
+1. Skin-type selector: dry, oily, combination, normal and sensitive, with a one-line explainer for each.
+2. Scent slideshow: swipeable cards for each recommended fragrance, showing notes, strength and how long it lasts.
+3. Research connection: every recommendation comes from the skin-type research database in data/scent-research.json. Each match shows its source. No source, no claim.
+4. Product pages, a basket and a full checkout, using the payment provider's test mode only.
+5. Upsells: a larger size or a gift set, offered before payment.
+6. Cross-sells: a matching body lotion or a discovery set, offered in the basket and after purchase.
+7. An order confirmation page and a preview of the confirmation email.
 Run the full nine-question kickoff and show all nine answers on screen.
-Write INTERVIEW.md, CONTRACT.md, PLAN.md, PROGRESS.md, CONSTRAINTS.json and features.json in a harness/ folder in the repo.
-features.json: list every remaining user-visible feature, each passes:false, one per iteration.
-Write init.sh and a smoke test for this app before any new work.
-Decision tiers: GREEN micro-choices; AMBER decide and log; RED = anything touching production data, payments, deploys or user personal data.
+Write INTERVIEW.md, CONTRACT.md, PLAN.md, PROGRESS.md, CONSTRAINTS.json and features.json in a harness/ folder.
+features.json: every user-visible feature, each passes:false, one per iteration.
+Write init.sh and a smoke test before any feature work.
+Decision tiers: GREEN micro-choices; AMBER decide and log; RED = live payments, deploying, storing a customer's skin or personal data, and any claim about what suits a skin type that the research database does not support.
 Ask me only the genuine gaps and the Q8 owner decisions, all together, in one message.`;
-const loopPrompt=`/ralph-loop "Read harness/CONTRACT.md in full, then PLAN.md, PROGRESS.md, CONSTRAINTS.json and features.json. Run init.sh and the smoke test first; if it fails, fixing it is the current node. Take the next eligible feature and run the node cycle: re-read, load bound skills, perform, gate-check, checkpoint. At each PLAN milestone run the independent evaluation with the EVALUATOR PACKET and record its verdict. Log every AMBER decision as it is made. Never edit a test, feature row or constraint row to make it pass. If a node is blocked, record it in PROGRESS and continue with an independent node. Output the exact words CHASSIS DONE only when PLAN has no eligible node and python3 scripts/check_constraints.py harness/CONSTRAINTS.json exits 0." --max-iterations 40 --completion-promise "CHASSIS DONE"`;
+const loopPrompt=`/ralph-loop "Read harness/CONTRACT.md in full, then PLAN.md, PROGRESS.md, CONSTRAINTS.json and features.json. Run init.sh and the smoke test first; if it fails, fixing it is the current node. Take the next eligible feature and run the node cycle: re-read, load bound skills, perform, gate-check, checkpoint. At each PLAN milestone run the independent evaluation with the EVALUATOR PACKET and record its verdict. Log every AMBER decision as it is made. Never edit a test, feature row or constraint row to make it pass. If a node is blocked, record it in PROGRESS and continue with an independent node. Output the exact words CHASSIS DONE only when PLAN has no eligible node and python3 scripts/check_constraints.py harness/CONSTRAINTS.json exits 0. If no eligible node remains while RED items are open, write the checkpoint report to PROGRESS first, then output CHASSIS DONE." --max-iterations 60 --completion-promise "CHASSIS DONE"`;
 const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
 window.WW={slides:[
@@ -253,26 +261,26 @@ window.WW={slides:[
  note:'In 5 to 10 words: your decisions first, then proof everything was done. Five minutes tells you exactly what needs you and what was delivered. Also closes P39 and P40. DEMO: scroll a real final report.'
 },
 {
- id:'mutsa-live',title:'Mutsa, built live',section:'04 / Example 1 · live',kind:'hc-runsheet',
+ id:'app-build',title:'One app, built unattended',section:'04 / Example 1 · app build',kind:'hc-runsheet',
  parts:[
-  '<div class="hc-build"><div class="hc-gate"><b>Smoke test</b><span>init.sh first</span></div>'+arrow+'<ol class="hc-features"><li>F-001</li><li>F-002</li><li>F-003</li><li>F-004</li><li>F-005</li><li>…</li></ol><span class="hc-cap">cap: 40</span></div><p class="hc-small">Every feature starts <code>passes:false</code> and flips only with end-to-end evidence. Feature rows are written live from the repo.</p>',
-  '<ol class="hc-steps"><li>Paste the kickoff prompt</li><li>Watch it answer from the repo first</li><li>Answer the short list. Say “Active”.</li><li>Open features.json and CONSTRAINTS.json</li><li>Start the loop</li><li>Walk away. No timers, no schedule.</li><li class="hc-later">Later: type <code>ledger</code> and check in</li></ol>',
-  quote('A failing smoke test becomes the current node; new features wait.','§6 step 2')+cross('Live',['P1','P2','P3','P27','P35','P48'])
+  '<div class="hc-build"><div class="hc-gate"><b>Smoke test</b><span>init.sh first</span></div>'+arrow+'<ol class="hc-features hc-named"><li>F-001 Skin-type selector</li><li>F-002 Scent slideshow</li><li>F-003 Research-backed matches</li><li>F-004 Product pages</li><li>F-005 Basket and checkout</li><li>F-006 Upsells</li><li>F-007 Cross-sells</li><li>F-008 Order confirmation</li></ol><span class="hc-cap">cap: 60</span></div><p class="hc-small">Scentwise is a made-up brand. Every feature starts <code>passes:false</code> and flips only with end-to-end evidence.</p>',
+  '<div class="hc-redlist"><div class="micro">Red: it asks you first</div><ul><li>Taking real payments</li><li>Deploying the app</li><li>Storing a customer’s skin or personal data</li><li>Any “suits your skin” claim the research doesn’t back</li></ul></div><ol class="hc-steps"><li>Paste the kickoff prompt</li><li>It answers its own questions from the brief</li><li>Answer the short list. Say “Active”.</li><li>Start the loop and walk away</li><li class="hc-later">Later: type <code>ledger</code> and check in</li></ol>',
+  quote('A failing smoke test becomes the current node; new features wait.','§6 step 2')+cross('Example 1',['P1','P2','P3','P27','P35','P36','P48'])
  ],
  reveals:[1,2,3],
- source:'Source: Mutsa is a real client app build. Run sheet: Trending Topic Brief, Appendix A. No Mutsa features, data or results are shown here.',
- note:'SAY: “This is Mutsa, a client app we’re building right now. I’m going to start a harness on it live, walk away, and we’ll come back later to see exactly how far it got and what it decided without me.” Keep personal or user data off screen. Point at each crossed-off problem on the board as it happens live. Cap is 40, matching the Appendix A loop command.'
+ source:'Source: Scentwise is a fictional app used to show a harness on a complex build. No app, research database or results exist.',
+ note:'SAY: “Let’s give it something genuinely hard: a perfume-matching app with a skin-type selector, a scent slideshow wired to a research database, a full checkout, upsells and cross-sells.” Eight features, one per iteration, each starting at passes:false. The smoke test runs before any feature. Point at the red list: payments, deploying, personal data and unsupported skin claims always come back to you. The research rule is the Bluffer fix in action: no source, no claim. Cap of 60 follows the skill’s guide of about two iterations per node plus spare. Do not imply the app or its research exists; it is a worked example.'
 },
 {
- id:'mutsa-prompts',title:'The two prompts',section:'04 / Example 1 · live',kind:'hc-prompt',
+ id:'app-prompts',title:'The two prompts',section:'04 / Example 1 · app build',kind:'hc-prompt',
  parts:[
   '<div class="hc-promptbox"><div class="micro" id="hc-p1">Step 1 · kickoff prompt</div><pre tabindex="0" aria-labelledby="hc-p1">'+esc(kickoffPrompt)+'</pre></div>',
-  '<div class="hc-promptbox"><div class="micro" id="hc-p5">Step 5 · loop prompt</div><pre tabindex="0" aria-labelledby="hc-p5">'+esc(loopPrompt)+'</pre></div>',
-  '<div class="hc-promptbox hc-checkin"><div class="micro">Step 7 · the check-in</div><pre>ledger\npython3 scripts/check_features.py harness/features.json\npython3 scripts/check_constraints.py harness/CONSTRAINTS.json</pre><p class="hc-small">Then show: features passing vs remaining, constraint rows verified vs not, every REVIEW: yes decision and the exact next action from PROGRESS.md.</p></div>'
+  '<div class="hc-promptbox"><div class="micro" id="hc-p5">Step 4 · loop prompt</div><pre tabindex="0" aria-labelledby="hc-p5">'+esc(loopPrompt)+'</pre></div>',
+  '<div class="hc-promptbox hc-checkin"><div class="micro">Later · the check-in</div><pre>ledger\npython3 scripts/check_features.py harness/features.json\npython3 scripts/check_constraints.py harness/CONSTRAINTS.json</pre><p class="hc-small">Then show: features passing vs remaining, constraint rows verified vs not, every REVIEW: yes decision and the exact next action from PROGRESS.md.</p></div>'
  ],
  reveals:[1,2,3],
- source:'Source: Prompts reproduced exactly from the Trending Topic Brief, Appendix A, steps 1, 5 and 7.',
- note:'Paste these on camera. While it reads, say: “Watch: it’s answering its own questions from the repo first.” The loop prompt is your Appendix A wording. It leaves out the skill’s clause for open RED items (write the checkpoint report, then output CHASSIS DONE), so if a RED decision stays open the run will continue to its cap of 40; answer RED items promptly or add that clause. If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself.'
+ source:'Source: Kickoff written for this example; loop prompt follows the skill’s fixed loop prompt (Appendix E) with harness/ paths.',
+ note:'Paste these on camera if you run it. The kickoff lists all seven parts of the app and draws the red line around payments, deploying, personal data and unsupported skin claims. The loop prompt includes the skill’s clause for open red items, so the run writes a checkpoint report and stops cleanly instead of spinning to its cap. If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself.'
 },
 {
  id:'harbour-hearth',title:'Harbour & Hearth',section:'05 / Example 2 · built, not run',kind:'hc-lanes',

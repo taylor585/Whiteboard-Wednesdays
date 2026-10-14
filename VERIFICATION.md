@@ -1,5 +1,9 @@
 # AI Harnesses deck, 13 October 2026 (branch, not published)
 
+## Example 1 replaced, 14 October 2026
+
+At Taylor's request the Mutsa slide and Mutsa prompts were removed. Example 1 is now Scentwise, a fictional perfume-matching app (skin-type selector, scent slideshow wired to a research database, checkout, upsells, cross-sells, order confirmation): slides `app-build` and `app-prompts`. Its loop prompt includes the skill's clause for open RED items and a cap of 60. Re-run after the change: v2 `verify-trial.cjs` 1487, `verify-hc.cjs` 1264, `verify.cjs` 928, `verify-lge.cjs` 674; all 19 quotations re-proven.
+
 ## End-to-end build with Whiteboard Wednesdays v2, 13 October 2026
 
 - Brand: Taylor confirmed Pecuna Factorem for `ai-harnesses` in the session; recorded in `HC-brand.json`. No recording tools, at Taylor's choice.

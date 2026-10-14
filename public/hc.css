@@ -392,3 +392,13 @@ q[data-verbatim]:before{content:'“'}q[data-verbatim]:after{content:'”'}
 .hc-more[open] summary{margin-bottom:4px}
 .hc-reading .hc-more{display:block}
 .hc-problems li{font-size:19px}
+/* Example 1: named feature rows and the red list */
+.hc-named li{font-size:12px}
+.hc-redlist{border-left:3px solid var(--accent);padding-left:16px;margin-bottom:18px}
+.hc-redlist ul{margin:6px 0 0;padding-left:18px}
+.hc-redlist li{font-size:17px;padding:3px 0}
+.hc-features.hc-named{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.hc-named li{overflow-wrap:anywhere}
+.parts.hc-prompt .hc-promptbox pre{max-height:none}
+@media(max-width:700px){.hc-features.hc-named{grid-template-columns:1fr;width:100%}}
+.hc-named li:last-child{border-style:solid}.hc-named li:last-child:before{display:block}

@@ -274,29 +274,29 @@
     },
     {
       "number": 20,
-      "id": "mutsa-live",
-      "takeaway": "Mutsa, built live",
+      "id": "app-build",
+      "takeaway": "One app, built unattended",
       "device": "feature gate and run sheet",
-      "source": "Source: Mutsa is a real client app build. Run sheet: Trending Topic Brief, Appendix A. No Mutsa features, data or results are shown here.",
+      "source": "Source: Scentwise is a fictional app used to show a harness on a complex build. No app, research database or results exist.",
       "reveal_order": [
         1,
         2,
         3
       ],
-      "presenter_note": "SAY: “This is Mutsa, a client app we’re building right now. I’m going to start a harness on it live, walk away, and we’ll come back later to see exactly how far it got and what it decided without me.” Keep personal or user data off screen. Point at each crossed-off problem on the board as it happens live. Cap is 40, matching the Appendix A loop command."
+      "presenter_note": "SAY: “Let’s give it something genuinely hard: a perfume-matching app with a skin-type selector, a scent slideshow wired to a research database, a full checkout, upsells and cross-sells.” Eight features, one per iteration, each starting at passes:false. The smoke test runs before any feature. Point at the red list: payments, deploying, personal data and unsupported skin claims always come back to you. The research rule is the Bluffer fix in action: no source, no claim. Cap of 60 follows the skill’s guide of about two iterations per node plus spare. Do not imply the app or its research exists; it is a worked example."
     },
     {
       "number": 21,
-      "id": "mutsa-prompts",
+      "id": "app-prompts",
       "takeaway": "The two prompts",
       "device": "exact prompts",
-      "source": "Source: Prompts reproduced exactly from the Trending Topic Brief, Appendix A, steps 1, 5 and 7.",
+      "source": "Source: Kickoff written for this example; loop prompt follows the skill’s fixed loop prompt (Appendix E) with harness/ paths.",
       "reveal_order": [
         1,
         2,
         3
       ],
-      "presenter_note": "Paste these on camera. While it reads, say: “Watch: it’s answering its own questions from the repo first.” The loop prompt is your Appendix A wording. It leaves out the skill’s clause for open RED items (write the checkpoint report, then output CHASSIS DONE), so if a RED decision stays open the run will continue to its cap of 40; answer RED items promptly or add that clause. If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself."
+      "presenter_note": "Paste these on camera if you run it. The kickoff lists all seven parts of the app and draws the red line around payments, deploying, personal data and unsupported skin claims. The loop prompt includes the skill’s clause for open red items, so the run writes a checkpoint report and stops cleanly instead of spinning to its cap. If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself."
     },
     {
       "number": 22,

@@ -33,7 +33,7 @@ const base=process.argv[2]||'http://127.0.0.1:8862/';const id='ai-harnesses';
  await p.locator('#back').click();ok(await p.locator('#canvas .part.revealed').count()===1,'back reverses');
  await p.locator('#notes-button').click();ok((await p.locator('#notes').innerText()).includes('a script, not the AI'),'presenter notes panel');
  // selecting text in a prompt does not advance
- await go('mutsa-prompts');await p.locator('#replay').click();await p.locator('#next').click();await p.locator('.hc-promptbox pre').first().selectText();await p.locator('.hc-promptbox pre').first().click();ok(await p.locator('#canvas .part.revealed').count()===1,'selected prompt text does not advance');
+ await go('app-prompts');await p.locator('#replay').click();await p.locator('#next').click();await p.locator('.hc-promptbox pre').first().selectText();await p.locator('.hc-promptbox pre').first().click();ok(await p.locator('#canvas .part.revealed').count()===1,'selected prompt text does not advance');
  // V1.1 expanders: opening one never advances the slide; the reading view shows them open
  await go('interrupter');await p.locator('#replay').click();for(let i=0;i<3;i++)await p.locator('#next').click();await p.locator('#canvas .hc-more summary').click();ok(await p.locator('#canvas .hc-more').evaluate(e=>e.open),'expander opens');ok(p.url().endsWith('/interrupter'),'expander click does not advance');ok(await p.locator('#canvas .hc-more summary').evaluate(e=>e.getBoundingClientRect().height>=44),'expander target at least 44px');
  // reveal-linked device states
