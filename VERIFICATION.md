@@ -55,3 +55,15 @@ Restored text-only underlined main navigation from Taylor's supplied screenshot.
 Current source is public/, with server routes in app/. README.md and CLAUDE.md now document the correct source paths and static/full-server preview commands for Claude. Generated dist output, dependencies, local databases and secrets are excluded.
 
 Passed this session: full Vinext build, TypeScript noEmit check, all four YouTube adapter tests. Browser tool rejected the preview tab under its URL policy, so no new rendered screenshot or responsive browser pass is claimed for this header change. YouTube live API retrieval remains pending credential approval. No production publication or access-policy change was performed.
+
+## Lead Gen Engine visual refinement, 13 October 2026
+
+Whiteboard Wednesdays 2.0.0, supplied ZIP matched to the installed skill. Targeted revision of the approved Lead Gen Engine design. Five simplicity passes:
+
+1. Meaning: retained one business lesson per slide. Corrected the onboarding caption to explain conditional fields.
+2. Structure: retained all 20 chapters, the complete 32-field onboarding at 19 and the unchanged copyable prompt at 20.
+3. Visual: illustrated builder versus validator, connected the four-stage journey, laid out decisions as a two-by-two sequence, and expressed input capacity as 32 + 20 = 52. Retained approved logo, fonts and palette.
+4. Sequence: retained click-controlled reveals; added 420ms path drawing and 800ms final-value count reveals for verified figures only. Static final values in reduced-motion and reading modes.
+5. Audience: retained plain explanations, safe fictional business inputs and the boundary between data validation and human qualification. No private filter recipe or invented speed claim introduced.
+
+Checks: 674 existing presentation assertions passed at 375, 390, 768 and 1280px. Clipboard tests passed at all four widths, including full-screen and blocked-clipboard fallback. The completed form, aliases, reading view and confidentiality scan passed. Additional V2 checks cover all 20 slides at desktop/mobile widths, final count values, replay and reduced motion. Physical-device recording remains an owner review.

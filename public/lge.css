@@ -19,3 +19,45 @@ html[data-deck-font="lge"] #player .source-note{font-size:12px;color:#475569;max
 @media print{.lge-reading article{break-inside:avoid}.lge-reading details{display:block}.lge-reading nav{display:none}}
 
 .lge-prompt-panel{width:100%;max-width:1100px}.lge-prompt-top{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:16px}.lge-prompt-top p{margin:0;font-size:22px}.lge-prompt-panel label{display:block;font-size:14px;margin-bottom:8px;color:#475569}.lge-prompt-panel textarea{display:block;width:100%;height:320px;min-height:160px;resize:vertical;padding:20px;border:1px solid #D4A96A;border-radius:8px;background:#fff;color:#111827;font:16px/1.6 LGEInter,Arial,sans-serif;box-sizing:border-box}.lge-copy-status{font-size:13px!important;color:#475569;margin-top:12px!important}.lge-prompt-top button{white-space:nowrap}.lge-reading .lge-prompt-panel{max-width:none}@media(max-width:640px){.lge-prompt-top{align-items:start;flex-direction:column;gap:12px}.lge-prompt-panel textarea{height:340px;padding:16px}}@media print{.lge-prompt-panel textarea{height:1800px}.lge-prompt-top button{display:none}}
+
+/* Whiteboard Wednesdays V1.1: focused variation within the approved LGE brand. */
+.lge-promise .part,.lge-close .part{border-top:3px solid #D4A96A;padding-top:24px}.lge-example .lge-company{border-left:3px solid #D4A96A;padding-left:24px}.lge-path .lge-num{width:36px;height:36px;border:1px solid #D4A96A;border-radius:50%;display:grid;place-items:center;padding:0}.lge-path .part.revealed .lge-num{animation:lge-step-in .2s ease-out}.lge-intake{border-bottom:1px solid #EDE7DD}.lge-intake summary{min-height:48px;display:flex;align-items:center;gap:20px;font-size:24px;cursor:pointer;padding:8px 0}.lge-intake summary:after{content:'+';margin-left:auto;font-size:26px}.lge-intake[open] summary:after{content:'−'}.lge-intake-body{padding:16px 0 24px}.lge-intake table{width:100%;border-collapse:collapse;table-layout:fixed}.lge-intake th,.lge-intake td{padding:12px;text-align:left;vertical-align:top;border-bottom:1px solid #EDE7DD;font-size:16px;overflow-wrap:anywhere}.lge-intake th{width:38%}.lge-intake-body>p{font-size:14px;color:#475569}.lge-audience-hero h3{font-size:38px!important;max-width:800px}.lge-audience-hero p{font-size:24px}.lge-criteria{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.lge-criteria div{border-top:2px solid #D4A96A;padding-top:16px}.lge-criteria b{display:block;font-size:14px;color:#475569;margin-bottom:12px}.lge-criteria span{font-size:25px}.lge-marker{background:linear-gradient(transparent 78%,#D4A96A 78%,#D4A96A 90%,transparent 90%)}.lge-topic-detail,.lge-count-detail{margin-top:20px;font-size:17px}.lge-topic-detail summary,.lge-count-detail summary{min-height:44px;cursor:pointer;text-decoration:underline;text-underline-offset:5px}.lge-count-detail{grid-column:1/-1}.lge-steps>.part:has(.lge-count-detail){grid-column:1/-1}.lge-record-lines .lge-step{border-top:1px solid #EDE7DD;grid-template-columns:48px 1fr;padding:16px 0}.lge-record-lines .lge-step>div{display:grid;grid-template-columns:250px 1fr;gap:24px}.lge-record-lines .lge-step h3{font-size:24px!important}.lge-decisions .lge-step{border-top:1px solid #EDE7DD;grid-template-columns:40px 1fr;padding:16px 0}.lge-decisions .lge-step>div{display:grid;grid-template-columns:260px 1fr;gap:24px}.lge-decisions .lge-step p{padding-top:3px}.lge-accounting .lge-counts span{border-left:2px solid #D4A96A;padding-left:16px}.lge-questions .lge-num{font-size:24px;color:#111827}.lge-reading .parts.lge-single{display:block}.lge-reading .parts.lge-steps{grid-template-columns:repeat(3,minmax(0,1fr))}.lge-reading .lge-intake-body{max-height:none}@keyframes lge-step-in{from{transform:scale(.9)}to{transform:scale(1)}}@media(max-width:640px){.lge-criteria{grid-template-columns:1fr}.lge-audience-hero h3{font-size:30px!important}.lge-record-lines .lge-step>div,.lge-decisions .lge-step>div{display:block}.lge-intake summary{font-size:21px}.lge-intake th,.lge-intake td{padding:12px 4px;font-size:15px}.lge-reading .parts.lge-steps{display:block}}@media(prefers-reduced-motion:reduce){.lge-path .part.revealed .lge-num{animation:none}}
+
+/* Capability figures retain the approved brand and responsive type scale. */
+.lge-stat strong{display:block;font-size:clamp(64px,9vw,112px);line-height:1;color:#111827;font-weight:700;letter-spacing:-.05em;margin-bottom:20px}.lge-stat h3{font-size:26px}.lge-stat p{font-size:20px;line-height:1.5;max-width:640px}.lge-count-stage>.part:last-child:has(>.lge-caption){grid-column:1/-1}.lge-reading .lge-stat strong{font-size:64px}@media(max-width:640px){.lge-stat p{font-size:18px}}
+
+.lge-step p.lge-source-count{grid-column:2;margin-top:0;font-size:16px;line-height:1.6;color:#475569}.lge-source-count strong{color:#111827;font-size:22px}
+
+.lge-demo-form{width:100%;min-width:0}.lge-form-section{margin:32px 0}.lge-form-section h3{padding-bottom:12px;border-bottom:2px solid #D4A96A}.lge-form-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 32px;margin:0}.lge-form-fields>div{padding:16px 0;border-bottom:1px solid #EDE7DD;min-width:0}.lge-form-fields dt{font-size:14px;line-height:1.5;color:#475569;margin-bottom:8px}.lge-form-fields dd{margin:0;font-size:19px;line-height:1.55;overflow-wrap:anywhere}@media(max-width:700px){.lge-form-fields{grid-template-columns:1fr}.lge-form-fields dd{font-size:18px}}
+
+/* V2 presentation polish, scoped to Lead Gen Engine. */
+.lge-illustration{display:block;width:min(100%,320px);height:150px;color:#111827;margin:0 0 24px}
+.parts.lge-agent-pair{align-items:start}
+.lge-agent-pair>.part:last-child,.lge-count-stage>.part:last-child,.lge-contrast>.part:last-child{grid-column:1/-1}
+.lge-agent-pair .lge-step{grid-template-columns:40px 1fr}
+.lge-agent-pair .lge-source-count{font-size:16px;line-height:1.65;margin-top:20px}
+.lge-agent-pair .lge-source-count strong{font-size:24px}
+.parts.lge-four-stage{grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+.lge-four-stage .lge-step{display:block;position:relative;border-top:0;padding-top:0}
+.lge-four-stage .lge-num{margin-bottom:24px}
+.lge-four-stage .part:not(:last-child) .lge-step:after{content:'→';position:absolute;top:0;left:65px;right:0;color:#475569;font-size:28px;border-bottom:2px solid #D4A96A;text-align:right;line-height:28px}
+.lge-four-stage h3{font-size:24px;line-height:1.25}
+.parts.lge-decision-map{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 56px}
+.lge-decision-map .lge-step{padding-top:24px}
+.lge-input-equation{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:8px 0 48px}
+.lge-input-equation>div{flex:1;min-width:0}
+.lge-input-equation strong{display:block;font-size:clamp(56px,7vw,96px);line-height:1.08;letter-spacing:-.045em;font-weight:700;font-variant-numeric:tabular-nums}
+.lge-input-equation span{display:block;font-size:20px;line-height:1.4;margin-top:12px}
+.lge-input-equation .lge-maths{font-size:40px;margin:0;color:#475569}
+.lge-equation-total{border-bottom:5px solid #D4A96A;padding-bottom:20px}
+.lge-manual-list{padding-left:28px;margin:24px 0 0;display:grid;gap:16px;font-size:24px;line-height:1.35}
+.lge-manual-list li{padding-left:12px}
+.lge-manual-list li::marker{color:#475569;font-size:16px;font-weight:600}
+.lge-check-matrix{display:grid;grid-template-columns:repeat(6,36px);gap:12px;margin-top:24px}
+.lge-check-matrix span{display:grid;place-items:center;width:36px;height:36px;border:1px solid #D4A96A;border-radius:50%;font-size:13px;font-variant-numeric:tabular-nums;color:#475569}
+.lge-illustration path,.lge-sharing path{stroke-dasharray:1000;stroke-dashoffset:0}
+.revealed .lge-illustration path,.revealed .lge-sharing path{animation:lge-draw-v2 420ms ease-out both}
+@keyframes lge-draw-v2{from{stroke-dashoffset:1000}to{stroke-dashoffset:0}}
+@media(max-width:1000px){.parts.lge-four-stage{grid-template-columns:repeat(2,minmax(0,1fr))}.lge-four-stage .part:nth-child(2) .lge-step:after{display:none}}
+@media(max-width:640px){.parts.lge-four-stage,.parts.lge-decision-map{grid-template-columns:1fr;gap:28px}.lge-four-stage .lge-step{display:grid;grid-template-columns:40px 1fr}.lge-four-stage .part .lge-step:after{display:none}.lge-illustration{height:128px;width:272px;margin-bottom:20px}.lge-input-equation{flex-wrap:wrap;gap:16px;margin-bottom:32px}.lge-input-equation>div{flex:1 1 30%}.lge-input-equation .lge-equation-total{flex-basis:100%;margin-top:8px}.lge-input-equation>.lge-maths:nth-child(4){display:none}.lge-input-equation strong{font-size:64px}.lge-input-equation span{font-size:18px}.lge-manual-list{font-size:22px;gap:12px}.lge-check-matrix{gap:10px}}
+@media(prefers-reduced-motion:reduce){.revealed .lge-illustration path,.revealed .lge-sharing path{animation:none}}

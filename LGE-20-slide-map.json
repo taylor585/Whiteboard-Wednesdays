@@ -1,0 +1,151 @@
+{
+  "slides": [
+    {
+      "number": 1,
+      "id": "poor-quality",
+      "takeaway": "Too many poor-fit leads",
+      "device": "lge-split lge-fit",
+      "source": "Lead Gen Engine service proposition supplied by the owner."
+    },
+    {
+      "number": 2,
+      "id": "shared-leads",
+      "takeaway": "The same lead, shared",
+      "device": "lge-split lge-branch",
+      "source": "Lead Gen Engine service proposition supplied by the owner."
+    },
+    {
+      "number": 3,
+      "id": "our-offer",
+      "takeaway": "Better fit. Not shared.",
+      "device": "lge-split lge-promise",
+      "source": "Lead Gen Engine service proposition supplied by the owner."
+    },
+    {
+      "number": 4,
+      "id": "real-example",
+      "takeaway": "Two specialist AI agents",
+      "device": "lge-single lge-record-lines",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
+    },
+    {
+      "number": 5,
+      "id": "journey",
+      "takeaway": "One connected decision process",
+      "device": "lge-steps lge-path",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
+    },
+    {
+      "number": 6,
+      "id": "onboarding-start",
+      "takeaway": "The intelligence starts here",
+      "device": "lge-split lge-count-stage",
+      "source": "Current onboarding schema, verified 13 October 2026."
+    },
+    {
+      "number": 7,
+      "id": "customer",
+      "takeaway": "A richer business context",
+      "device": "lge-single lge-audience",
+      "source": "Current onboarding schema: 32 client fields and 20 staff fields."
+    },
+    {
+      "number": 8,
+      "id": "brief-to-audience",
+      "takeaway": "A framework for decisions",
+      "device": "lge-single lge-record-lines",
+      "source": "Audience Builder operating instructions and separate creation run log."
+    },
+    {
+      "number": 9,
+      "id": "signals",
+      "takeaway": "A broad data toolkit",
+      "device": "lge-split lge-count-stage",
+      "source": "Recorded DataMoon interface, 15 September 2026; Audience Builder procedure."
+    },
+    {
+      "number": 10,
+      "id": "build-export",
+      "takeaway": "Compress the manual work",
+      "device": "lge-split lge-contrast",
+      "source": "Workflow comparison from the documented procedure; no measured timing claim."
+    },
+    {
+      "number": 11,
+      "id": "checks-1",
+      "takeaway": "The build checks itself",
+      "device": "lge-steps lge-path",
+      "source": "Audience Builder verification and reconciliation procedure."
+    },
+    {
+      "number": 12,
+      "id": "checks-2",
+      "takeaway": "One real business example",
+      "device": "lge-split lge-example",
+      "source": "United Van Lines service example retained from the original walkthrough. Hypothetical brief."
+    },
+    {
+      "number": 13,
+      "id": "checks-3",
+      "takeaway": "A separate quality layer",
+      "device": "lge-single lge-audience",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
+    },
+    {
+      "number": 14,
+      "id": "four-outcomes",
+      "takeaway": "Twelve checks. Every record.",
+      "device": "lge-split lge-count-stage",
+      "source": "Current Validation Agent specification, version 3.2.0; criteria retained privately."
+    },
+    {
+      "number": 15,
+      "id": "reconcile",
+      "takeaway": "Refined against real exports",
+      "device": "lge-single lge-audience",
+      "source": "Historical validation regression recorded 24 September 2026."
+    },
+    {
+      "number": 16,
+      "id": "delivery",
+      "takeaway": "Every outcome stays visible",
+      "device": "lge-single lge-record-lines",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
+    },
+    {
+      "number": 17,
+      "id": "not-shared",
+      "takeaway": "One buyer. Your business.",
+      "device": "lge-split lge-connection",
+      "source": "Lead Gen Engine non-sharing service proposition."
+    },
+    {
+      "number": 18,
+      "id": "human-conversation",
+      "takeaway": "Your team closes the loop",
+      "device": "lge-steps lge-path",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
+    },
+    {
+      "number": 19,
+      "id": "finish",
+      "takeaway": "Built for better decisions",
+      "device": "lge-split lge-close",
+      "source": "Illustrative workflow. An accepted record is not a confirmed enquiry or appointment."
+    },
+    {
+      "number": 20,
+      "id": "now-lets-build",
+      "takeaway": "Now let’s build.",
+      "device": "lge-single",
+      "source": "Demonstration instruction; execution depends on authorised private agents and brief."
+    }
+  ],
+  "simplification_passes": {
+    "meaning": "Capabilities and business value, no selection recipe.",
+    "structure": "Two specialist agents, twenty slides.",
+    "visual": "Retained brand; verified count displays, paths, comparisons and one-buyer diagram.",
+    "sequence": "Brief, decision framework, build verification, separate validation, business value, demonstration.",
+    "audience": "Plain-English explanation and recording-safe prompt. All published secondary surfaces sanitised."
+  }
+}
