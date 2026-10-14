@@ -1,0 +1,459 @@
+{
+  "version": "Whiteboard Wednesdays V1.1",
+  "deck": "ai-harnesses",
+  "simplicity_passes": {
+    "meaning": "One takeaway per slide, stated in a three-to-five-word headline. Act 2 slides each carry the brief's one-liner in the presenter notes.",
+    "structure": "Act 1 problem lists cut to three on the slide; the rest sit behind an expander. Secondary method detail moved to presenter notes.",
+    "visual": "Each idea shown as the thing itself: real checker output, the contract page, the run files, the actual prompts. No decorative boxes.",
+    "sequence": "Reveals run source, then mechanism, then the quote and what it crosses off. No two neighbouring slides share a device.",
+    "audience": "Checked at 375, 390, 768 and 1280px: on phones columns stack in story order, the wheel and road become lists, tables become cards and prompt boxes lose their height cap.",
+    "exceptions": "Headlines below three words are deliberate: the five character names (The Interrupter, The Drifter, The Goldfish, The Bluffer, The Loose Cannon) are the board labels the presenter sticks up, so they stay as names. The recap reuses the character-card device of slide 2; it is not adjacent to it."
+  },
+  "slides": [
+    {
+      "number": 1,
+      "id": "cold-open",
+      "takeaway": "How you can use AI harnesses to manage more clients and run tasks for longer with fewer mistakes",
+      "device": "two-lane comparison",
+      "source": "Source: Illustrative comparison of two runs. The checker line is real output from the skill’s check_constraints.py, shortened.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Hook, about 45 seconds. SAY: “Same model, same prompt, two completely different results. One drifts by piece ten, forgets your rules and tells you it’s finished when it isn’t. The other runs for hours and comes back with proof every requirement was met. The difference isn’t the model. It’s the harness.” SHOW after this slide: a finished run folder, a passing checker and the final report. The piece-by-piece lanes are a teaching illustration, not measured results."
+    },
+    {
+      "number": 2,
+      "id": "without-harness",
+      "takeaway": "Why AI lets you down on long jobs when there’s no harness",
+      "device": "numbered problem list",
+      "source": "Source: Problem list summarised from the Trending Topic Brief, Act 1 (P1 to P58).",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Say plainly what the video is about before anything else. SAY: “Here’s what we’re covering. When you give AI a long job with nothing around it, six things go wrong.” Read the six, one line each. Then: “By the end you’ll see how a harness fixes every one, so you can take on more clients, let jobs run for longer and get fewer mistakes.” The next slide is a story that makes one of these real."
+    },
+    {
+      "number": 3,
+      "id": "stuck-example",
+      "takeaway": "How AI can waste two hours and your tokens without telling you",
+      "device": "story timeline",
+      "source": "Source: Illustrative examples. Fixes from the Harness Chassis Builder - No Schedules skill, §4, §6 and MR-5.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Tell this as a story you have lived, if it matches your experience. SAY: “You kick off a big job, go and do something else, and two hours later you check in. It got stuck at minute twenty. It didn’t say a word. Instead it started inventing its own tasks to try and fix it, none of which had anything to do with what you asked for. Two hours, a pile of tokens, and the goal hasn’t moved.” Then the overnight version: the same failing step retried all night. Then the fix: blockers get written down and the run moves on to independent work; the contract is re-read before every step, so it can’t wander off the goal; four repair attempts, then it flags you; and a cap on iterations stops the bill."
+    },
+    {
+      "number": 4,
+      "id": "five-failures",
+      "takeaway": "The five ways AI lets you down when nothing keeps it on track",
+      "device": "character cards with animated counts",
+      "source": "Source: Problem list P1 to P58 and the five characters: Trending Topic Brief, Act 1. Each problem is reverse-engineered from a named rule in the Harness Chassis Builder - No Schedules skill.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "presenter_note": "Stick the five characters up on the board first. Lead with The Interrupter, the one viewers feel most. P54 to P58 are bonus problems; use them only if time allows. Counts: 58 problems (P1 to P58), 5 characters, 11 system segments, all from the brief."
+    },
+    {
+      "number": 5,
+      "id": "interrupter",
+      "takeaway": "The Interrupter: why AI keeps stopping to ask you questions",
+      "device": "illustrative chat",
+      "source": "Source: P1 to P9: Trending Topic Brief, Character 1. Chat messages are illustrative.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "This is the one to lead with. Each of P1 to P9 is fixed later: kickoff harvesting (Segment 2), Q8 owner decisions asked together, GREEN and AMBER tiers (Segment 5), the self-unblocking question, and the loop driver (Segment 10)."
+    },
+    {
+      "number": 6,
+      "id": "drifter",
+      "takeaway": "The Drifter: why piece 20 never matches piece 1",
+      "device": "three drifting pieces",
+      "source": "Source: P10 to P18: Trending Topic Brief, Character 2. The three pieces are an illustrative drift, not output from a real run.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "Walk left to right: same job, three moments. Point at what changed: hook pattern, voice, terminology, invented claim. Then the causes. The fix is the five locks (Segment 3) and the contract re-read (Segment 6)."
+    },
+    {
+      "number": 7,
+      "id": "goldfish",
+      "takeaway": "The Goldfish: why AI forgets your rules halfway through",
+      "device": "memory strip",
+      "source": "Source: P19 to P26: Trending Topic Brief, Character 3. Message numbers are illustrative.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "Context rot in one picture: the rules lived only in the chat, and the chat was compressed. Fix: memory lives in files and the full contract is re-read at every node (Segment 6)."
+    },
+    {
+      "number": 8,
+      "id": "bluffer",
+      "takeaway": "The Bluffer: why AI says it’s done when it isn’t",
+      "device": "claim and receipts",
+      "source": "Source: P27 to P41: Trending Topic Brief, Character 4. The rating example is the failing case in the skill’s ugc-script rubric. The chat bubble is illustrative.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Read the bubble in a confident voice, then reveal the receipts. Remaining Bluffer problems for the voice-over: P29 reviewer talked round by the transcript, P30 all praise, P31 same blind spots, P33 claims to have read a file it did not, P37 guesses as facts, P38 padded research, P40 no reason for a choice, P41 pretends to follow a process it lacks."
+    },
+    {
+      "number": 9,
+      "id": "loose-cannon",
+      "takeaway": "The Loose Cannon: how AI runs up bills and sends things twice",
+      "device": "failure sequence",
+      "source": "Source: P42 to P53: Trending Topic Brief, Character 5. The send sequence illustrates P44.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "P44 is the scary one: the crash happened after the action and before the record, so a naive restart repeats it. Also in this family: P45 retries the same failing step, P47 repair attempts go in circles, P51 helpers never saw the rules, P52 over-engineered setups."
+    },
+    {
+      "number": 10,
+      "id": "the-turn",
+      "takeaway": "Why a better harness beats a smarter model",
+      "device": "stage rail",
+      "source": "Source: Harness Chassis Builder - No Schedules skill: “interview → contract → prepare runtime → execute → verify → checkpoint → report”.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "About one minute. SAY: “Each of those five characters is a missing part. The model is the engine. The harness is the chassis.” Draw the seven stages left to right, then read the quote. Everything in Act 2 follows this run order."
+    },
+    {
+      "number": 11,
+      "id": "when-to-use",
+      "takeaway": "How to know which jobs need a harness",
+      "device": "job-size scale",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §1 Entry and scope and MR-1.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "In 5 to 10 words: harness the big, long jobs; skip it for quick ones. SAY: it is not for everything. One skill owns the whole job, so no hand-offs lose detail (P56), and upgrades only ever add rules, never quietly drop old ones (P55, MR-1)."
+    },
+    {
+      "number": 12,
+      "id": "kickoff",
+      "takeaway": "How you can brief AI once and walk away",
+      "device": "nine-box kickoff",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §2 Kickoff: the nine questions.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "SAY: before asking anything it reads your brief, files and past instructions, answers nine questions itself, separates facts from guesses, and brings you only the real gaps, all at once. Question 8 lists every decision that would block the run, so nothing surfaces at 2am. DEMO: start a real job (10 UGC scripts) and show the nine answers appear, then the short batch of questions. Not used when resuming an ACTIVE contract."
+    },
+    {
+      "number": 13,
+      "id": "five-locks",
+      "takeaway": "How to keep piece 20 as good as piece 1",
+      "device": "five padlocks",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §2 Five lock questions.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "presenter_note": "In 5 to 10 words: five locks keep piece twenty as good as piece one. Do not force a lock the job does not need: app screens may repeat, so set variety only where function warrants it, and research wants consistent evidence over variety. DEMO: the locks section of the contract from the kickoff job."
+    },
+    {
+      "number": 14,
+      "id": "contract",
+      "takeaway": "How to agree what good looks like before it starts",
+      "device": "contract page with stamp",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §3 Work Contract template and §2 Activate once. The job name is illustrative.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "In 5 to 10 words: one page that says what must stay true. One or two pages. ALWAYS and NEVER rules that can never invent claims. Every step names a skill or says none. A newer instruction from you updates the contract; an old contract never overrules you. DEMO: scroll the real contract: job and done, locks, framing, skill bindings, permissions."
+    },
+    {
+      "number": 15,
+      "id": "decision-tiers",
+      "takeaway": "How to stop AI asking about trivia without losing control",
+      "device": "traffic lights and ledger",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §4 Decision tiers and blocker handling.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "presenter_note": "In 5 to 10 words: Green, just do it. Amber, decide and log. Red, ask. When it hits a blocker it asks itself first. Only work that depends on a red decision waits; everything else carries on. Red is not a blanket rule: something you already approved does not need asking again. DEMO: type ledger mid-run and point at a REVIEW: yes."
+    },
+    {
+      "number": 16,
+      "id": "memory-files",
+      "takeaway": "How AI picks up exactly where it stopped, even after a crash",
+      "device": "file drawers and node wheel",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §5 run files, §6 node cycle and Appendix H.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "In 5 to 10 words: rules and progress live in files, so nothing gets forgotten. Four run files plus the two v2 JSON files. Locked state is JSON because the skill notes the model is less likely to overwrite JSON than Markdown. Before compression, a PreCompact hook snapshots the run files automatically. DEMO: close the session mid-run, open a new one, type resume. It picks up at the exact next step with no questions."
+    },
+    {
+      "number": 17,
+      "id": "done-gate",
+      "takeaway": "How a simple script stops AI saying it’s done when it isn’t",
+      "device": "real terminal output",
+      "source": "Source: Real output from the skill’s scripts/check_constraints.py (Appendix I), run on 13 October 2026 against three two-row demonstration files.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "In 5 to 10 words: a script, not the AI, decides when it is finished. DEMO: run the checker three times live. 1, a row unverified. 2, the same row marked verified by “worker”: still blocked. 3, verified by the evaluator with evidence: passes. LINE: “The AI can’t talk its way past a script.” Qualities with no objective check (craft, storytelling) go to the evaluator instead."
+    },
+    {
+      "number": 18,
+      "id": "evaluator",
+      "takeaway": "How a second AI catches mistakes before your clients do",
+      "device": "worker and evaluator desks",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, MR-3, §6 step 4, Appendix C evaluator packet and Appendix D rubrics.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "In 5 to 10 words: a separate AI marks the work, never its own homework. Fresh context, finished work only, problems before praise, hard pass marks. Four repair attempts, then flagged. Never a replacement for the worker’s own checks; it is in addition. DEMO: an evaluator verdict with a fail and its defect list, then the fix and the pass."
+    },
+    {
+      "number": 19,
+      "id": "safety-rails",
+      "takeaway": "How to stop double sends and surprise bills",
+      "device": "road with guard rails",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, MR-5, MR-6, §1, §5, §7 and §8.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "In 5 to 10 words: tests before building, never sends twice, caps the spend. On restart it checks what actually happened before retrying anything. The smoke test is for apps; scripts and research do not need one. Extra machinery must name the failure it fixes. DEMO (optional): a failing smoke test becoming the current job."
+    },
+    {
+      "number": 20,
+      "id": "loop-driver",
+      "takeaway": "How you can let AI work for hours without you",
+      "device": "locked loop",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, MR-0, MR-5, §6 step 6 and Appendix E. The ralph-wiggum plugin is the one the skill names.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "presenter_note": "In 5 to 10 words: it keeps working until the checker says done. Only after you have approved unattended running and the contract is active. Never without an iteration cap; never on a timer, schedule or interval. STORY: tell your real reason for the no-schedules rule here. Cancel with /cancel-ralph. Check the ralph-wiggum plugin is installed before demonstrating."
+    },
+    {
+      "number": 21,
+      "id": "final-report",
+      "takeaway": "How to see what needs you in five minutes",
+      "device": "report page",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §9 Final and session report and §10.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "In 5 to 10 words: your decisions first, then proof everything was done. Five minutes tells you exactly what needs you and what was delivered. Also closes P39 and P40. DEMO: scroll a real final report."
+    },
+    {
+      "number": 22,
+      "id": "three-clients",
+      "takeaway": "How you can take on three new clients in one week without the chaos",
+      "device": "three client harnesses side by side",
+      "source": "Source: Harness Chassis Builder - No Schedules skill, §1, §2 and §3. The three clients are illustrative; skill names are from Taylor’s skill library.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "SAY: “Here’s where this pays. Say you sign three clients in the same week: a dental clinic, a business coach and a skincare brand. Without a harness, by Thursday the coach’s emails start sounding like the clinic. With one harness per client, each has its own folder, its own contract and its own voice lock.” Walk the four deliverables: video scripts including the confirmation-page video, email sequences covering lead nurture and the confirmation call script, static images and qualifying questions. Each row is bound to a named skill, so every piece uses the same method. The clients are examples, not real accounts."
+    },
+    {
+      "number": 23,
+      "id": "app-half",
+      "takeaway": "How one harness gets you half way through a full app design",
+      "device": "half-and-half split",
+      "source": "Source: “About half” is Taylor’s target for a single harness run on a complex app design, not a measured result. The split follows the RED tier and smoke-test rules in the Harness Chassis Builder - No Schedules skill.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "SAY: “On a complicated app, one harness won’t finish the job, and it shouldn’t. What it does is get you roughly half way: the screens, the components, a working checkout in test mode, all tested, with a report of what it decided. The other half is the work that needs a person: brand, real data, going live, real customers.” Then the business point: someone with little or no staff can take on far more clients, and that revenue is what lets you hire. Treat 50% as your own working figure; only give a number on camera you can stand behind."
+    },
+    {
+      "number": 24,
+      "id": "app-build",
+      "takeaway": "How to build a complex app without babysitting the AI",
+      "device": "feature gate and run sheet",
+      "source": "Source: Scentwise is a fictional app used to show a harness on a complex build. No app, research database or results exist.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "SAY: “Let’s give it something genuinely hard: a perfume-matching app with a skin-type selector, a scent slideshow wired to a research database, a full checkout, upsells and cross-sells.” Eight features, one per iteration, each starting at passes:false. The smoke test runs before any feature. Point at the red list: payments, deploying, personal data and unsupported skin claims always come back to you. The research rule is the Bluffer fix in action: no source, no claim. Cap of 60 follows the skill’s guide of about two iterations per node plus spare. Do not imply the app or its research exists; it is a worked example."
+    },
+    {
+      "number": 25,
+      "id": "app-prompts",
+      "takeaway": "The two prompts you can copy to run it yourself",
+      "device": "exact prompts",
+      "source": "Source: Kickoff written for this example; loop prompt follows the skill’s fixed loop prompt (Appendix E) with harness/ paths.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Paste these on camera if you run it. The kickoff lists all seven parts of the app and draws the red line around payments, deploying, personal data and unsupported skin claims. The loop prompt includes the skill’s clause for open red items, so the run writes a checkpoint report and stops cleanly instead of spinning to its cap. If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself."
+    },
+    {
+      "number": 26,
+      "id": "harbour-hearth",
+      "takeaway": "How to produce a 15-piece campaign with nothing going live by mistake",
+      "device": "campaign lanes to paused gate",
+      "source": "Source: Harbour & Hearth, its founder and its collection are made up for this demonstration. Brief: Trending Topic Brief, Appendix B. Not run; no campaign exists.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Say on camera: “We’re not running this one, just to save credits. I’ll show you everything it would do.” Then: “Harbour & Hearth is a made-up brand, so I can show you the whole thing: every question it answers, every skill it uses and every check it has to pass.” Without a harness, piece 15 of a 15-piece campaign is worse than piece 1 and the claims drift."
+    },
+    {
+      "number": 27,
+      "id": "hh-locks",
+      "takeaway": "How to make every piece sound like the same brand",
+      "device": "locks and bindings table",
+      "source": "Source: Trending Topic Brief, Appendix B: five locks, skill bindings, framing and decision tiers. Palette colours are named in the brief; swatch shades are illustrative.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Scroll Appendix B on screen alongside this slide. AMBER for this campaign: email order, which buyer quote leads which ad, page section order. GREEN: word choice inside the locks, image crops, section spacing."
+    },
+    {
+      "number": 28,
+      "id": "hh-constraints",
+      "takeaway": "How to make sure nothing goes live without proof",
+      "device": "constraint rows and gates",
+      "source": "Source: Rows C-01 to C-07: Trending Topic Brief, Appendix B. Gates: Harness Chassis Builder - No Schedules skill, campaign-stage rubric.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Evaluator moments to describe: research, ten graded quotes each with a URL and date, or a shortfall ledger, no padding. Scripts: the ugc-script rubric fails a script on truthfulness alone (the rated 4.9 example). Staging: paused read-back, UTMs, no verdict under 72 hours, approval against exact ad IDs. LINE: “And that’s where we’d press go. We’re not running it today, just to save credits.”"
+    },
+    {
+      "number": 29,
+      "id": "build-parts",
+      "takeaway": "How to build your own harness: every part on one page",
+      "device": "parts map with counts",
+      "source": "Source: Counts taken from the Harness Chassis Builder - No Schedules skill: §2, §3, §4, §5, §6, §9, the master rules, and Appendices A to I.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "This is the map of the whole skill. SAY: “If you want to build this yourself, here is every part.” Walk it in order: seven stages; nine kickoff questions it answers itself; five lock questions; an eight-section contract; three decision tiers with a ledger; six run files; a six-step cycle for every piece of work; four evaluator rubrics; nine master rules, starting with no schedules; and a seven-part report. Then the machinery underneath: the checker, init.sh, the smoke test, the loop prompt and the PreCompact hook. Every number here is counted from the skill itself."
+    },
+    {
+      "number": 30,
+      "id": "build-prompt",
+      "takeaway": "How to get Claude to research and build it for you",
+      "device": "build steps and prompt",
+      "source": "Source: Prompt written for this demonstration from the structure of the Harness Chassis Builder - No Schedules skill. Research results will vary by run.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Live demo. SAY: “Here’s exactly what I’d say to Claude.” Open Claude, pick Fable 5.1 or Opus 5.5, paste the prompt. Point out the nine subtopics it will go and research: why long runs fail, kickoff interviews, contracts, decision permissions, file memory, done-gates, evaluators, loop drivers, and safety. It has to bring back sources with dates and flag what it could not verify, then show a plan before it builds anything. Do not promise what the research will find; read out what actually comes back."
+    },
+    {
+      "number": 31,
+      "id": "proof",
+      "takeaway": "How harnesses give you better work, and more of it",
+      "device": "quality times output",
+      "source": "Source: Quality and output factors: Trending Topic Brief, Act 3. Before and after figures are supplied by the presenter; none are claimed here.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "About two minutes. Fill in your real before and after numbers before recording: pieces per day, rounds of rework, interruptions. The board leaves them blank on purpose so no figure is invented. The episode title promises 10x; only say it on this slide if your numbers support it."
+    },
+    {
+      "number": 32,
+      "id": "recap",
+      "takeaway": "How each of the five failures gets fixed",
+      "device": "character cards crossed off",
+      "source": "Source: Fixes mapped in the Trending Topic Brief, Act 1 “Fixed by” columns.",
+      "reveal_order": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "presenter_note": "RECAP: cross out each character on the board as you name its fix. The Interrupter: kickoff, decision tiers and the loop driver. The Drifter: five locks and the contract re-read. The Goldfish: memory in files. The Bluffer: the checker and the evaluator. The Loose Cannon: safety rails and caps."
+    },
+    {
+      "number": 33,
+      "id": "close",
+      "takeaway": "How to get the checker script free",
+      "device": "call to action",
+      "source": "Source: Close and next video: Trending Topic Brief.",
+      "reveal_order": [
+        1,
+        2
+      ],
+      "presenter_note": "About one minute. CTA: free download of the checker script, the one demonstrated on the done-gate slide. The brief also offered a starter contract as the alternative; swap it in here if you prefer. Next video: “Next week, Vision Boards: how we decide what to build before the harness builds it.”"
+    }
+  ]
+}

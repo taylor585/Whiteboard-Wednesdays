@@ -1,3 +1,45 @@
+# AI Harnesses deck, 13 October 2026 (branch, not published)
+
+## Build your own section, 14 October 2026
+
+Two slides added before the proof at Taylor's request: `build-parts` maps every part of the harness skill with counts taken from the skill (9 kickoff questions, 5 lock questions, 8 contract sections, 3 decision tiers, 6 run files, 6 node steps, 4 rubrics, 9 master rules, 7 report sections, 9 appendices); `build-prompt` gives the research-then-build prompt for Claude Fable 5.1 or Claude Opus 5.5. 33 slides. Re-run: v2 `verify-trial.cjs` 1781, `verify-hc.cjs` 1504, `verify.cjs` 928, `verify-lge.cjs` 674; 22 quotations proven.
+
+## Clear opening and the stuck example, 14 October 2026
+
+Two slides added after the cold open at Taylor's request: `without-harness` states the topic and lists six problems of running AI without a harness; `stuck-example` tells the illustrative two-hour silent stall (and an overnight retry bill) with the harness fixes. 31 slides. Re-run: v2 `verify-trial.cjs` 1683, `verify-hc.cjs` 1424, `verify.cjs` 928, `verify-lge.cjs` 674; 21 quotations proven.
+
+## Practical headlines and In practice slides, 14 October 2026
+
+At Taylor's request every headline after the cold open now states a practical benefit, and a new section 04 / In practice adds `three-clients` (one harness per client, each delivering video scripts with the confirmation-page video, lead nurture emails with the confirmation call script, static images and qualifying questions) and `app-half` (about half of a complex app design from one harness; 50% is Taylor's stated target, not a measured result). Headlines are now longer than the skill's three-to-five-word default by Taylor's choice. The deck is 29 slides; the slide map is now `HC-slide-map.json`. Re-run: v2 `verify-trial.cjs` 1585, `verify-hc.cjs` 1344, `verify.cjs` 928, `verify-lge.cjs` 674, `verify-lge-condensed.cjs` passed; 20 quotations proven.
+
+## Example 1 replaced, 14 October 2026
+
+At Taylor's request the Mutsa slide and Mutsa prompts were removed. Example 1 is now Scentwise, a fictional perfume-matching app (skin-type selector, scent slideshow wired to a research database, checkout, upsells, cross-sells, order confirmation): slides `app-build` and `app-prompts`. Its loop prompt includes the skill's clause for open RED items and a cap of 60. Re-run after the change: v2 `verify-trial.cjs` 1487, `verify-hc.cjs` 1264, `verify.cjs` 928, `verify-lge.cjs` 674; all 19 quotations re-proven.
+
+## End-to-end build with Whiteboard Wednesdays v2, 13 October 2026
+
+- Brand: Taylor confirmed Pecuna Factorem for `ai-harnesses` in the session; recorded in `HC-brand.json`. No recording tools, at Taylor's choice.
+- `hc-deck-spec.cjs` wraps the live package for the v2 builder. Its gates passed: confirmed brand, 4.5:1 contrast, unique IDs, contiguous reveals, every audience line starting "Source:", variety rule, no TODO placeholders. All 19 quotations re-proven against the harness skill.
+- v2 `verify-trial.cjs` on the private one-file preview (bundled viewer): 1487 checks, no runtime errors. The project's newer viewer needs the site's header elements, so the preview uses the skill's bundled viewer snapshot; the live library uses `public/library.js`.
+- Library suites after merging main: `verify-hc.cjs` 1264, `verify.cjs` 928, `verify-lge.cjs` 674, `verify-lge-prompt.cjs` and `verify-lge-condensed.cjs` passed.
+- Quality scorecard (self-assessed, not approval): evidence fidelity 5, clarity 4, visual craft 4, motion and reveals 4, phone readability 4, brand fidelity 5. Weighted 87/100, no dimension below 4. Visual craft is held at 4 because no image generation tool was available; visuals are HTML, CSS and SVG diagrams.
+- Not done: publication to the live Sites library (no Sites tool in this environment, and publication needs Taylor's go-ahead), hosted test, physical iPhone and Safari test.
+
+## V1.1 build-out, approved by Taylor on 13 October 2026
+
+- Merged main (condensed 20-slide LGE deck, creator watchlist, PROCESS.md). `verify.cjs` keeps main's deck-card navigation plus a third tab arrow for the new deck.
+- Act 1 problem lists show three problems on the slide and the rest behind 44px expanders; the reading view opens every expander. `HC-slide-map.json` records takeaway, device, source, reveals, notes, the five simplicity passes and the deliberate short-headline exception.
+- Independent read-only review against the V1.1 skill and the source skill: 7 must-fix items fixed (loop exit is the exact CHASSIS DONE string, GREEN no longer includes order, kickoff shows all nine self-answered with only owner decisions coming to you, close offers only the checker script, Goldfish faded label contrast, Harbour & Hearth ICP phrased as planned research, presenter guidance removed from a source line). Considered items fixed where in scope; Taylor's own line "The AI can't talk its way past a script" kept as approved wording.
+- After the merge and fixes: `verify-hc.cjs` 1264, `verify.cjs` 928, `verify-lge.cjs` 746, `verify-lge-prompt.cjs` and `verify-lge-condensed.cjs` passed. All 19 quotations re-proven.
+
+New third deck `ai-harnesses`, 27 slides, from Taylor's Trending Topic Brief and the Harness Chassis Builder - No Schedules skill. Added through `public/presentations.js` with the Pecuna Factorem brand profile, official `ww-coin.svg`, deck-scoped `hc.css`, cover `hc-cover.png` and reading page `hc-reading.html`. No other deck's content or assets changed. `index.html` gains one stylesheet link.
+
+- `build-hc-reading.cjs`: 19 verbatim quotations proven against the skill text (SHA-256 0b5b7e18ff4991dedafdf749995a41e42a040b18b51c7f7d5c50a3b307ca3996); unique stable IDs; contiguous reveal groups; source and note on every slide; no consecutive repeated device; no em or double dashes.
+- `verify-hc.cjs`: 1257 assertions passed in local Chromium against the static preview at 375, 390, 768 and 1280px. Every reveal of every slide, overflow, asset errors, notes kept off the slide, keyboard, canvas click, Back, text selection, reveal-linked device states, count-up end values, full-window mode, fresh direct links, refresh, Back/Forward, missing slide recovery, isolated state across decks, tab arrows, browser-only brand preview not persisting, reduced motion and the complete reading view. No runtime errors; the only filtered responses are `/api/ideas` 404s, which need the full server.
+- Regression: `verify.cjs` 928 checks, `verify-lge.cjs` 933 checks and `verify-lge-prompt.cjs` passed against the same preview. `verify.cjs` already timed out on unchanged main because the library page no longer shows tabs; its navigation now opens a deck before clicking tabs, and its arrow count covers the third tab. Deck-count assertions are now three.
+- Done-gate slide output is real output from the skill's `check_constraints.py` on three demonstration files.
+- Not done: full Vinext build, hosted test, physical iPhone/Safari test, independent reviewer, publication. No image generation tool was available; visuals are HTML, CSS and SVG diagrams, and the cover is a rendered HTML drawing.
+
 # Current release verification, 9 October 2026
 
 The paid ads deck contains 29 slides: three Andromeda opening slides followed by all 26 existing slides. Lead Gen Engine remains a separate real 29-slide deck. The historical one-deck statements below apply only to the old release.
