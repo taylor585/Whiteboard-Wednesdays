@@ -438,3 +438,6 @@ q[data-verbatim]:before{content:'“'}q[data-verbatim]:after{content:'”'}
 @media(min-width:701px){.parts.hc-agenda{grid-template-columns:1fr}.parts.hc-story{grid-template-columns:1.1fr 1fr}.parts.hc-story .part:nth-child(1){grid-row:1/span 2}}
 @media(max-width:1000px){.hc-agenda-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.hc-agenda-list{grid-template-columns:1fr}.hc-topic{font-size:20px}}
+/* "How you can…" headlines are longer: a smaller title scale for this deck only */
+#canvas:has(.parts[class*=" hc-"]) h2{font-size:clamp(34px,3.3vw,54px);max-width:1200px}
+@media(max-width:640px){#canvas:has(.parts[class*=" hc-"]) h2{font-size:34px}}
