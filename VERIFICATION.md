@@ -1,5 +1,9 @@
 # AI Harnesses deck, 13 October 2026 (branch, not published)
 
+## Practical headlines and In practice slides, 14 October 2026
+
+At Taylor's request every headline after the cold open now states a practical benefit, and a new section 04 / In practice adds `three-clients` (one harness per client, each delivering video scripts with the confirmation-page video, lead nurture emails with the confirmation call script, static images and qualifying questions) and `app-half` (about half of a complex app design from one harness; 50% is Taylor's stated target, not a measured result). Headlines are now longer than the skill's three-to-five-word default by Taylor's choice. The deck is 29 slides; the slide map is now `HC-slide-map.json`. Re-run: v2 `verify-trial.cjs` 1585, `verify-hc.cjs` 1344, `verify.cjs` 928, `verify-lge.cjs` 674, `verify-lge-condensed.cjs` passed; 20 quotations proven.
+
 ## Example 1 replaced, 14 October 2026
 
 At Taylor's request the Mutsa slide and Mutsa prompts were removed. Example 1 is now Scentwise, a fictional perfume-matching app (skin-type selector, scent slideshow wired to a research database, checkout, upsells, cross-sells, order confirmation): slides `app-build` and `app-prompts`. Its loop prompt includes the skill's clause for open RED items and a cap of 60. Re-run after the change: v2 `verify-trial.cjs` 1487, `verify-hc.cjs` 1264, `verify.cjs` 928, `verify-lge.cjs` 674; all 19 quotations re-proven.
@@ -16,7 +20,7 @@ At Taylor's request the Mutsa slide and Mutsa prompts were removed. Example 1 is
 ## V1.1 build-out, approved by Taylor on 13 October 2026
 
 - Merged main (condensed 20-slide LGE deck, creator watchlist, PROCESS.md). `verify.cjs` keeps main's deck-card navigation plus a third tab arrow for the new deck.
-- Act 1 problem lists show three problems on the slide and the rest behind 44px expanders; the reading view opens every expander. `HC-27-slide-map.json` records takeaway, device, source, reveals, notes, the five simplicity passes and the deliberate short-headline exception.
+- Act 1 problem lists show three problems on the slide and the rest behind 44px expanders; the reading view opens every expander. `HC-slide-map.json` records takeaway, device, source, reveals, notes, the five simplicity passes and the deliberate short-headline exception.
 - Independent read-only review against the V1.1 skill and the source skill: 7 must-fix items fixed (loop exit is the exact CHASSIS DONE string, GREEN no longer includes order, kickoff shows all nine self-answered with only owner decisions coming to you, close offers only the checker script, Goldfish faded label contrast, Harbour & Hearth ICP phrased as planned research, presenter guidance removed from a source line). Considered items fixed where in scope; Taylor's own line "The AI can't talk its way past a script" kept as approved wording.
 - After the merge and fixes: `verify-hc.cjs` 1264, `verify.cjs` 928, `verify-lge.cjs` 746, `verify-lge-prompt.cjs` and `verify-lge-condensed.cjs` passed. All 19 quotations re-proven.
 

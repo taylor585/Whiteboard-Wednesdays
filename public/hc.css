@@ -402,3 +402,21 @@ q[data-verbatim]:before{content:'“'}q[data-verbatim]:after{content:'”'}
 .parts.hc-prompt .hc-promptbox pre{max-height:none}
 @media(max-width:700px){.hc-features.hc-named{grid-template-columns:1fr;width:100%}}
 .hc-named li:last-child{border-style:solid}.hc-named li:last-child:before{display:block}
+/* In practice: three clients and half an app */
+.hc-promise{font:600 30px/1.2 var(--heading),cursive;margin:0 0 18px;color:var(--accent)}
+.hc-clientgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.hc-client{border-top:3px solid var(--accent);padding-top:10px}
+.hc-client h3{font:600 15px WWMono,monospace;margin:6px 0}
+.hc-voice{font-size:16px;margin:4px 0}
+.hc-deliv th:first-child,.hc-deliv tbody th{width:22%}
+.hc-deliv td:last-child{font:13px WWMono,monospace;color:var(--muted)}
+.hc-half{display:flex;border:2.5px solid var(--ink);border-radius:4px;overflow:hidden;font:600 24px/1.2 var(--heading),cursive}
+.hc-half span{flex:1;padding:16px 18px}
+.hc-half-done{background:#f6df8c;color:#1c1a17}
+.hc-half-left{background:repeating-linear-gradient(135deg,transparent 0 10px,var(--tint) 10px 20px)}
+.hc-halves{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.hc-halves h3{font-size:30px;margin:0 0 6px}
+.hc-halves ul{margin:0;padding-left:22px}
+.hc-halves li{font-size:18px;padding:4px 0}
+@media(min-width:701px){.parts.hc-clients,.parts.hc-split{grid-template-columns:1fr}}
+@media(max-width:700px){.hc-clientgrid,.hc-halves{grid-template-columns:1fr}.hc-half{flex-direction:column;font-size:22px}.hc-promise{font-size:26px}.hc-deliv thead{display:none}.hc-deliv tr{display:grid;padding:10px 0;border-bottom:1px solid var(--line)}.hc-deliv th,.hc-deliv td{border:0;padding:2px 0;width:auto!important}}
