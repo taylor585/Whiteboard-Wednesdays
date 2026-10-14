@@ -52,6 +52,28 @@ window.WW={slides:[
  note:'Hook, about 45 seconds. SAY: “Same model, same prompt, two completely different results. One drifts by piece ten, forgets your rules and tells you it’s finished when it isn’t. The other runs for hours and comes back with proof every requirement was met. The difference isn’t the model. It’s the harness.” SHOW after this slide: a finished run folder, a passing checker and the final report. The piece-by-piece lanes are a teaching illustration, not measured results.'
 },
 {
+ id:'without-harness',title:'What goes wrong when AI runs without a harness',section:'01 / The problem',kind:'hc-agenda',
+ parts:[
+  '<p class="hc-topic">Today: the problems you hit when you hand AI a long job with nothing around it, and the harness that fixes each one.</p>',
+  '<ol class="hc-agenda-list"><li><b>It keeps stopping to ask you</b><span>Questions it could answer itself, one at a time, all day.</span></li><li><b>It drifts off the brief</b><span>Piece 20 no longer sounds like piece 1.</span></li><li><b>It forgets your rules</b><span>Long chats and new sessions lose what you told it.</span></li><li><b>It says “done” when it isn’t</b><span>Marks its own work, invents claims, hides what failed.</span></li><li><b>It gets stuck and doesn’t tell you</b><span>Then burns tokens on tasks it gave itself.</span></li><li><b>It takes risks with your money and clients</b><span>Sends twice, runs all night, builds on broken work.</span></li></ol>',
+  '<p class="hc-promise">The fix: manage more clients, run tasks for longer, make fewer mistakes.</p>'
+ ],
+ reveals:[1,2,3],
+ source:'Source: Problem list summarised from the Trending Topic Brief, Act 1 (P1 to P58).',
+ note:'Say plainly what the video is about before anything else. SAY: “Here’s what we’re covering. When you give AI a long job with nothing around it, six things go wrong.” Read the six, one line each. Then: “By the end you’ll see how a harness fixes every one, so you can take on more clients, let jobs run for longer and get fewer mistakes.” The next slide is a story that makes one of these real.'
+},
+{
+ id:'stuck-example',title:'Two hours in, stuck, and it never told you',section:'01 / The problem · a real-world example',kind:'hc-story',
+ parts:[
+  '<ol class="hc-timeline2"><li><time>0:00</time><span>You start the job and go and do something else.</span></li><li><time>0:20</time><span>It hits an error it can’t fix.</span></li><li><time>0:21</time><span>It doesn’t mention it.</span></li><li><time>0:40</time><span>It starts giving itself new tasks to “fix” the error. None of them move the actual goal forward.</span></li><li class="hc-bad2"><time>2:00</time><span>You check in. The goal hasn’t moved, the tokens are gone, and you have to unpick what it did.</span></li></ol><small>Illustrative timeline.</small>',
+  '<div class="hc-example2"><div class="micro">Second example · the overnight bill</div><p>It retries the same failing step all night, because nothing tells it to stop. You wake up to the bill, not the work.</p></div>',
+  '<div class="hc-fixes"><div class="micro">With a harness</div><ul><li>The blocker is written down, not hidden, and it moves on to work that isn’t blocked</li><li>The contract is re-read before every step, so off-goal side-tasks don’t start</li><li>Four repair attempts, then it flags the problem for you</li><li>An iteration cap stops the spend</li></ul></div>'+quote('Avoid repeating an unchanged failed operation.','§4 Blocker handling')+cross('The Bluffer and The Loose Cannon',['P39','P45','P46','P47'])
+ ],
+ reveals:[1,2,3],
+ source:'Source: Illustrative examples. Fixes from the '+SRC+', §4, §6 and MR-5.',
+ note:'Tell this as a story you have lived, if it matches your experience. SAY: “You kick off a big job, go and do something else, and two hours later you check in. It got stuck at minute twenty. It didn’t say a word. Instead it started inventing its own tasks to try and fix it, none of which had anything to do with what you asked for. Two hours, a pile of tokens, and the goal hasn’t moved.” Then the overnight version: the same failing step retried all night. Then the fix: blockers get written down and the run moves on to independent work; the contract is re-read before every step, so it can’t wander off the goal; four repair attempts, then it flags you; and a cap on iterations stops the bill.'
+},
+{
  id:'five-failures',title:'Five ways AI lets you down',section:'01 / The problem',kind:'hc-cast',
  parts:[
   ...cast.map(([name,svg,line,range])=>'<div class="hc-char">'+svg+'<h3>'+name+'</h3><p>'+line+'</p><span class="micro">'+range+'</span></div>'),

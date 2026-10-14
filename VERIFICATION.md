@@ -1,5 +1,9 @@
 # AI Harnesses deck, 13 October 2026 (branch, not published)
 
+## Clear opening and the stuck example, 14 October 2026
+
+Two slides added after the cold open at Taylor's request: `without-harness` states the topic and lists six problems of running AI without a harness; `stuck-example` tells the illustrative two-hour silent stall (and an overnight retry bill) with the harness fixes. 31 slides. Re-run: v2 `verify-trial.cjs` 1683, `verify-hc.cjs` 1424, `verify.cjs` 928, `verify-lge.cjs` 674; 21 quotations proven.
+
 ## Practical headlines and In practice slides, 14 October 2026
 
 At Taylor's request every headline after the cold open now states a practical benefit, and a new section 04 / In practice adds `three-clients` (one harness per client, each delivering video scripts with the confirmation-page video, lead nurture emails with the confirmation call script, static images and qualifying questions) and `app-half` (about half of a complex app design from one harness; 50% is Taylor's stated target, not a measured result). Headlines are now longer than the skill's three-to-five-word default by Taylor's choice. The deck is 29 slides; the slide map is now `HC-slide-map.json`. Re-run: v2 `verify-trial.cjs` 1585, `verify-hc.cjs` 1344, `verify.cjs` 928, `verify-lge.cjs` 674, `verify-lge-condensed.cjs` passed; 20 quotations proven.

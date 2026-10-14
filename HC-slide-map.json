@@ -25,6 +25,32 @@
     },
     {
       "number": 2,
+      "id": "without-harness",
+      "takeaway": "What goes wrong when AI runs without a harness",
+      "device": "numbered problem list",
+      "source": "Source: Problem list summarised from the Trending Topic Brief, Act 1 (P1 to P58).",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Say plainly what the video is about before anything else. SAY: “Here’s what we’re covering. When you give AI a long job with nothing around it, six things go wrong.” Read the six, one line each. Then: “By the end you’ll see how a harness fixes every one, so you can take on more clients, let jobs run for longer and get fewer mistakes.” The next slide is a story that makes one of these real."
+    },
+    {
+      "number": 3,
+      "id": "stuck-example",
+      "takeaway": "Two hours in, stuck, and it never told you",
+      "device": "story timeline",
+      "source": "Source: Illustrative examples. Fixes from the Harness Chassis Builder - No Schedules skill, §4, §6 and MR-5.",
+      "reveal_order": [
+        1,
+        2,
+        3
+      ],
+      "presenter_note": "Tell this as a story you have lived, if it matches your experience. SAY: “You kick off a big job, go and do something else, and two hours later you check in. It got stuck at minute twenty. It didn’t say a word. Instead it started inventing its own tasks to try and fix it, none of which had anything to do with what you asked for. Two hours, a pile of tokens, and the goal hasn’t moved.” Then the overnight version: the same failing step retried all night. Then the fix: blockers get written down and the run moves on to independent work; the contract is re-read before every step, so it can’t wander off the goal; four repair attempts, then it flags you; and a cap on iterations stops the bill."
+    },
+    {
+      "number": 4,
       "id": "five-failures",
       "takeaway": "Five ways AI lets you down",
       "device": "character cards with animated counts",
@@ -40,7 +66,7 @@
       "presenter_note": "Stick the five characters up on the board first. Lead with The Interrupter, the one viewers feel most. P54 to P58 are bonus problems; use them only if time allows. Counts: 58 problems (P1 to P58), 5 characters, 11 system segments, all from the brief."
     },
     {
-      "number": 3,
+      "number": 5,
       "id": "interrupter",
       "takeaway": "The Interrupter: always asking, never finishing",
       "device": "illustrative chat",
@@ -53,7 +79,7 @@
       "presenter_note": "This is the one to lead with. Each of P1 to P9 is fixed later: kickoff harvesting (Segment 2), Q8 owner decisions asked together, GREEN and AMBER tiers (Segment 5), the self-unblocking question, and the loop driver (Segment 10)."
     },
     {
-      "number": 4,
+      "number": 6,
       "id": "drifter",
       "takeaway": "The Drifter: piece 20 isn’t piece 1",
       "device": "three drifting pieces",
@@ -67,7 +93,7 @@
       "presenter_note": "Walk left to right: same job, three moments. Point at what changed: hook pattern, voice, terminology, invented claim. Then the causes. The fix is the five locks (Segment 3) and the contract re-read (Segment 6)."
     },
     {
-      "number": 5,
+      "number": 7,
       "id": "goldfish",
       "takeaway": "The Goldfish: forgets your rules mid-job",
       "device": "memory strip",
@@ -81,7 +107,7 @@
       "presenter_note": "Context rot in one picture: the rules lived only in the chat, and the chat was compressed. Fix: memory lives in files and the full contract is re-read at every node (Segment 6)."
     },
     {
-      "number": 6,
+      "number": 8,
       "id": "bluffer",
       "takeaway": "The Bluffer: says “done” when it isn’t",
       "device": "claim and receipts",
@@ -94,7 +120,7 @@
       "presenter_note": "Read the bubble in a confident voice, then reveal the receipts. Remaining Bluffer problems for the voice-over: P29 reviewer talked round by the transcript, P30 all praise, P31 same blind spots, P33 claims to have read a file it did not, P37 guesses as facts, P38 padded research, P40 no reason for a choice, P41 pretends to follow a process it lacks."
     },
     {
-      "number": 7,
+      "number": 9,
       "id": "loose-cannon",
       "takeaway": "The Loose Cannon: costly, risky mistakes",
       "device": "failure sequence",
@@ -107,7 +133,7 @@
       "presenter_note": "P44 is the scary one: the crash happened after the action and before the record, so a naive restart repeats it. Also in this family: P45 retries the same failing step, P47 repair attempts go in circles, P51 helpers never saw the rules, P52 over-engineered setups."
     },
     {
-      "number": 8,
+      "number": 10,
       "id": "the-turn",
       "takeaway": "The fix isn’t a smarter model",
       "device": "stage rail",
@@ -120,7 +146,7 @@
       "presenter_note": "About one minute. SAY: “Each of those five characters is a missing part. The model is the engine. The harness is the chassis.” Draw the seven stages left to right, then read the quote. Everything in Act 2 follows this run order."
     },
     {
-      "number": 9,
+      "number": 11,
       "id": "when-to-use",
       "takeaway": "Harness the jobs that eat your week",
       "device": "job-size scale",
@@ -133,7 +159,7 @@
       "presenter_note": "In 5 to 10 words: harness the big, long jobs; skip it for quick ones. SAY: it is not for everything. One skill owns the whole job, so no hand-offs lose detail (P56), and upgrades only ever add rules, never quietly drop old ones (P55, MR-1)."
     },
     {
-      "number": 10,
+      "number": 12,
       "id": "kickoff",
       "takeaway": "Brief it once, then walk away",
       "device": "nine-box kickoff",
@@ -147,7 +173,7 @@
       "presenter_note": "SAY: before asking anything it reads your brief, files and past instructions, answers nine questions itself, separates facts from guesses, and brings you only the real gaps, all at once. Question 8 lists every decision that would block the run, so nothing surfaces at 2am. DEMO: start a real job (10 UGC scripts) and show the nine answers appear, then the short batch of questions. Not used when resuming an ACTIVE contract."
     },
     {
-      "number": 11,
+      "number": 13,
       "id": "five-locks",
       "takeaway": "Piece 20 as good as piece 1",
       "device": "five padlocks",
@@ -163,7 +189,7 @@
       "presenter_note": "In 5 to 10 words: five locks keep piece twenty as good as piece one. Do not force a lock the job does not need: app screens may repeat, so set variety only where function warrants it, and research wants consistent evidence over variety. DEMO: the locks section of the contract from the kickoff job."
     },
     {
-      "number": 12,
+      "number": 14,
       "id": "contract",
       "takeaway": "Agree what good looks like, once",
       "device": "contract page with stamp",
@@ -177,7 +203,7 @@
       "presenter_note": "In 5 to 10 words: one page that says what must stay true. One or two pages. ALWAYS and NEVER rules that can never invent claims. Every step names a skill or says none. A newer instruction from you updates the contract; an old contract never overrules you. DEMO: scroll the real contract: job and done, locks, framing, skill bindings, permissions."
     },
     {
-      "number": 13,
+      "number": 15,
       "id": "decision-tiers",
       "takeaway": "It stops asking you about trivia",
       "device": "traffic lights and ledger",
@@ -192,7 +218,7 @@
       "presenter_note": "In 5 to 10 words: Green, just do it. Amber, decide and log. Red, ask. When it hits a blocker it asks itself first. Only work that depends on a red decision waits; everything else carries on. Red is not a blanket rule: something you already approved does not need asking again. DEMO: type ledger mid-run and point at a REVIEW: yes."
     },
     {
-      "number": 14,
+      "number": 16,
       "id": "memory-files",
       "takeaway": "It picks up exactly where it stopped",
       "device": "file drawers and node wheel",
@@ -205,7 +231,7 @@
       "presenter_note": "In 5 to 10 words: rules and progress live in files, so nothing gets forgotten. Four run files plus the two v2 JSON files. Locked state is JSON because the skill notes the model is less likely to overwrite JSON than Markdown. Before compression, a PreCompact hook snapshots the run files automatically. DEMO: close the session mid-run, open a new one, type resume. It picks up at the exact next step with no questions."
     },
     {
-      "number": 15,
+      "number": 17,
       "id": "done-gate",
       "takeaway": "No more false “all done”",
       "device": "real terminal output",
@@ -219,7 +245,7 @@
       "presenter_note": "In 5 to 10 words: a script, not the AI, decides when it is finished. DEMO: run the checker three times live. 1, a row unverified. 2, the same row marked verified by “worker”: still blocked. 3, verified by the evaluator with evidence: passes. LINE: “The AI can’t talk its way past a script.” Qualities with no objective check (craft, storytelling) go to the evaluator instead."
     },
     {
-      "number": 16,
+      "number": 18,
       "id": "evaluator",
       "takeaway": "Mistakes caught before clients see them",
       "device": "worker and evaluator desks",
@@ -233,7 +259,7 @@
       "presenter_note": "In 5 to 10 words: a separate AI marks the work, never its own homework. Fresh context, finished work only, problems before praise, hard pass marks. Four repair attempts, then flagged. Never a replacement for the worker’s own checks; it is in addition. DEMO: an evaluator verdict with a fail and its defect list, then the fix and the pass."
     },
     {
-      "number": 17,
+      "number": 19,
       "id": "safety-rails",
       "takeaway": "No double sends, no surprise bills",
       "device": "road with guard rails",
@@ -246,7 +272,7 @@
       "presenter_note": "In 5 to 10 words: tests before building, never sends twice, caps the spend. On restart it checks what actually happened before retrying anything. The smoke test is for apps; scripts and research do not need one. Extra machinery must name the failure it fixes. DEMO (optional): a failing smoke test becoming the current job."
     },
     {
-      "number": 18,
+      "number": 20,
       "id": "loop-driver",
       "takeaway": "It works for hours without you",
       "device": "locked loop",
@@ -260,7 +286,7 @@
       "presenter_note": "In 5 to 10 words: it keeps working until the checker says done. Only after you have approved unattended running and the contract is active. Never without an iteration cap; never on a timer, schedule or interval. STORY: tell your real reason for the no-schedules rule here. Cancel with /cancel-ralph. Check the ralph-wiggum plugin is installed before demonstrating."
     },
     {
-      "number": 19,
+      "number": 21,
       "id": "final-report",
       "takeaway": "Five minutes to see what needs you",
       "device": "report page",
@@ -273,7 +299,7 @@
       "presenter_note": "In 5 to 10 words: your decisions first, then proof everything was done. Five minutes tells you exactly what needs you and what was delivered. Also closes P39 and P40. DEMO: scroll a real final report."
     },
     {
-      "number": 20,
+      "number": 22,
       "id": "three-clients",
       "takeaway": "Three new clients, one week, no chaos",
       "device": "three client harnesses side by side",
@@ -286,7 +312,7 @@
       "presenter_note": "SAY: “Here’s where this pays. Say you sign three clients in the same week: a dental clinic, a business coach and a skincare brand. Without a harness, by Thursday the coach’s emails start sounding like the clinic. With one harness per client, each has its own folder, its own contract and its own voice lock.” Walk the four deliverables: video scripts including the confirmation-page video, email sequences covering lead nurture and the confirmation call script, static images and qualifying questions. Each row is bound to a named skill, so every piece uses the same method. The clients are examples, not real accounts."
     },
     {
-      "number": 21,
+      "number": 23,
       "id": "app-half",
       "takeaway": "Half an app design from one harness",
       "device": "half-and-half split",
@@ -299,7 +325,7 @@
       "presenter_note": "SAY: “On a complicated app, one harness won’t finish the job, and it shouldn’t. What it does is get you roughly half way: the screens, the components, a working checkout in test mode, all tested, with a report of what it decided. The other half is the work that needs a person: brand, real data, going live, real customers.” Then the business point: someone with little or no staff can take on far more clients, and that revenue is what lets you hire. Treat 50% as your own working figure; only give a number on camera you can stand behind."
     },
     {
-      "number": 22,
+      "number": 24,
       "id": "app-build",
       "takeaway": "Eight features, built without babysitting",
       "device": "feature gate and run sheet",
@@ -312,7 +338,7 @@
       "presenter_note": "SAY: “Let’s give it something genuinely hard: a perfume-matching app with a skin-type selector, a scent slideshow wired to a research database, a full checkout, upsells and cross-sells.” Eight features, one per iteration, each starting at passes:false. The smoke test runs before any feature. Point at the red list: payments, deploying, personal data and unsupported skin claims always come back to you. The research rule is the Bluffer fix in action: no source, no claim. Cap of 60 follows the skill’s guide of about two iterations per node plus spare. Do not imply the app or its research exists; it is a worked example."
     },
     {
-      "number": 23,
+      "number": 25,
       "id": "app-prompts",
       "takeaway": "Copy these two prompts",
       "device": "exact prompts",
@@ -325,7 +351,7 @@
       "presenter_note": "Paste these on camera if you run it. The kickoff lists all seven parts of the app and draws the red line around payments, deploying, personal data and unsupported skin claims. The loop prompt includes the skill’s clause for open red items, so the run writes a checkpoint report and stops cleanly instead of spinning to its cap. If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself."
     },
     {
-      "number": 24,
+      "number": 26,
       "id": "harbour-hearth",
       "takeaway": "Fifteen pieces, one standard, nothing live",
       "device": "campaign lanes to paused gate",
@@ -338,7 +364,7 @@
       "presenter_note": "Say on camera: “We’re not running this one, just to save credits. I’ll show you everything it would do.” Then: “Harbour & Hearth is a made-up brand, so I can show you the whole thing: every question it answers, every skill it uses and every check it has to pass.” Without a harness, piece 15 of a 15-piece campaign is worse than piece 1 and the claims drift."
     },
     {
-      "number": 25,
+      "number": 27,
       "id": "hh-locks",
       "takeaway": "Every piece sounds like the same brand",
       "device": "locks and bindings table",
@@ -351,7 +377,7 @@
       "presenter_note": "Scroll Appendix B on screen alongside this slide. AMBER for this campaign: email order, which buyer quote leads which ad, page section order. GREEN: word choice inside the locks, image crops, section spacing."
     },
     {
-      "number": 26,
+      "number": 28,
       "id": "hh-constraints",
       "takeaway": "Nothing goes live without proof",
       "device": "constraint rows and gates",
@@ -364,7 +390,7 @@
       "presenter_note": "Evaluator moments to describe: research, ten graded quotes each with a URL and date, or a shortfall ledger, no padding. Scripts: the ugc-script rubric fails a script on truthfulness alone (the rated 4.9 example). Staging: paused read-back, UTMs, no verdict under 72 hours, approval against exact ad IDs. LINE: “And that’s where we’d press go. We’re not running it today, just to save credits.”"
     },
     {
-      "number": 27,
+      "number": 29,
       "id": "proof",
       "takeaway": "Better work, and more of it",
       "device": "quality times output",
@@ -377,7 +403,7 @@
       "presenter_note": "About two minutes. Fill in your real before and after numbers before recording: pieces per day, rounds of rework, interruptions. The board leaves them blank on purpose so no figure is invented. The episode title promises 10x; only say it on this slide if your numbers support it."
     },
     {
-      "number": 28,
+      "number": 30,
       "id": "recap",
       "takeaway": "All five failures, fixed",
       "device": "character cards crossed off",
@@ -392,7 +418,7 @@
       "presenter_note": "RECAP: cross out each character on the board as you name its fix. The Interrupter: kickoff, decision tiers and the loop driver. The Drifter: five locks and the contract re-read. The Goldfish: memory in files. The Bluffer: the checker and the evaluator. The Loose Cannon: safety rails and caps."
     },
     {
-      "number": 29,
+      "number": 31,
       "id": "close",
       "takeaway": "Get the checker, free",
       "device": "call to action",
