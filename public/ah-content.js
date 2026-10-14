@@ -1,0 +1,524 @@
+/* How AI Harnesses Can 10x Your Quality and Output (id: ai-harnesses).
+   Moved unchanged from the private Claude trial artifact "AI Harnesses Deck", 13 October 2026. */
+window.WW={
+ "slides": [
+  {
+   "id": "cold-open",
+   "title": "Same model. Different result.",
+   "section": "00 / Cold open",
+   "kind": "hc-versus",
+   "parts": [
+    "<div class=\"hc-lane hc-without\"><div class=\"micro\">Without a harness</div><ol class=\"hc-timeline\"><li><b>Piece 1</b><span>Sharp, on brief.</span></li><li><b>Piece 10</b><span>Drifting. Your rules have gone quiet.</span></li><li><b>Piece 20</b><span>“All done!” It is not.</span></li></ol></div>",
+    "<div class=\"hc-lane hc-with\"><div class=\"micro\">With a harness</div><ol class=\"hc-timeline\"><li><b>Piece 1</b><span>Sharp, on brief.</span></li><li><b>Piece 10</b><span>Contract re-read. Same bar.</span></li><li><b>Piece 20</b><span>Proof every requirement was met.</span></li></ol><pre class=\"hc-mini-term\">$ python3 scripts/check_constraints.py CONSTRAINTS.json\nAll rows verified.</pre></div>",
+    "<p class=\"statement hc-punch\">The difference isn’t the model. <span>It’s the harness.</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Illustrative comparison of two runs. The checker line is real output from the skill’s check_constraints.py, shortened.",
+   "note": "Hook, about 45 seconds. SAY: “Same model, same prompt, two completely different results. One drifts by piece ten, forgets your rules and tells you it’s finished when it isn’t. The other runs for hours and comes back with proof every requirement was met. The difference isn’t the model. It’s the harness.” SHOW after this slide: a finished run folder, a passing checker and the final report. The piece-by-piece lanes are a teaching illustration, not measured results."
+  },
+  {
+   "id": "five-failures",
+   "title": "Meet the five failures",
+   "section": "01 / The problem",
+   "kind": "hc-cast",
+   "parts": [
+    "<div class=\"hc-char\"><svg class=\"hc-icon\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><path d=\"M8 12h48v30H30l-12 10v-10H8z\"/><path d=\"M27 22c0-4 10-5 10 1 0 4-5 4-5 8\"/><circle cx=\"32\" cy=\"36\" r=\"1.6\"/></svg><h3>The Interrupter</h3><p>Stops and asks when it does not need to.</p><span class=\"micro\">P1 to P9</span></div>",
+    "<div class=\"hc-char\"><svg class=\"hc-icon\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><path d=\"M6 44c10-14 16 6 26-8s14 2 24-14\"/><path d=\"M47 21l9 1-2 9\"/><path d=\"M6 52h52\" stroke-dasharray=\"3 5\"/></svg><h3>The Drifter</h3><p>Output slowly stops matching what you asked for.</p><span class=\"micro\">P10 to P18</span></div>",
+    "<div class=\"hc-char\"><svg class=\"hc-icon\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><path d=\"M8 32c8-12 26-14 38 0-12 14-30 12-38 0z\"/><path d=\"M46 32l12-10v20z\"/><circle cx=\"18\" cy=\"30\" r=\"1.8\"/><path d=\"M28 12c2-3 6-3 8 0M40 8c1-2 4-2 5 0\" stroke-dasharray=\"2 3\"/></svg><h3>The Goldfish</h3><p>Forgets your rules, its progress and its place.</p><span class=\"micro\">P19 to P26</span></div>",
+    "<div class=\"hc-char\"><svg class=\"hc-icon\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><rect x=\"10\" y=\"10\" width=\"44\" height=\"44\" rx=\"4\" stroke-dasharray=\"5 4\"/><path d=\"M20 33l8 8 16-18\"/></svg><h3>The Bluffer</h3><p>Says it is right when it is not.</p><span class=\"micro\">P27 to P41</span></div>",
+    "<div class=\"hc-char\"><svg class=\"hc-icon\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><circle cx=\"28\" cy=\"38\" r=\"16\"/><path d=\"M39 26l7-7\"/><path d=\"M48 10l2 5M56 16l-5 2M54 8l-4 6\"/></svg><h3>The Loose Cannon</h3><p>Does risky or wasteful things.</p><span class=\"micro\">P42 to P53</span></div>",
+    "<div class=\"hc-counts\"><div><span class=\"hc-count\" style=\"--to:58\"><span class=\"hc-sr\">58</span></span><small>problems, each traced to a line in the skill</small></div><div><span class=\"hc-count\" style=\"--to:5\"><span class=\"hc-sr\">5</span></span><small>characters you will recognise</small></div><div><span class=\"hc-count\" style=\"--to:11\"><span class=\"hc-sr\">11</span></span><small>parts of the harness that fix them</small></div></div>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "source": "Source: Problem list P1 to P58 and the five characters: Trending Topic Brief, Act 1. Each problem is reverse-engineered from a named rule in the Harness Chassis Builder - No Schedules skill.",
+   "note": "Stick the five characters up on the board first. Lead with The Interrupter, the one viewers feel most. P54 to P58 are bonus problems; use them only if time allows. Counts: 58 problems (P1 to P58), 5 characters, 11 system segments, all from the brief."
+  },
+  {
+   "id": "interrupter",
+   "title": "The Interrupter",
+   "section": "01 / The problem · 1 of 5",
+   "kind": "hc-chat",
+   "parts": [
+    "<div class=\"hc-chatlog\"><p class=\"hc-msg\"><time>09:12</time>Quick question before I start: what tone should the scripts use?</p><p class=\"hc-msg\"><time>10:40</time>Script 2 is drafted. Shall I proceed?</p></div>",
+    "<div class=\"hc-chatlog\"><p class=\"hc-msg\"><time>13:05</time>I hit an error. How would you like me to handle it?</p><p class=\"hc-msg hc-waiting\"><time>15:30</time>Still waiting for your reply…</p><small>Illustrative chat, not a real transcript.</small></div>",
+    "<ul class=\"hc-problems\"><li><b>P1</b>Asks what your brief already says</li><li><b>P4</b>“Shall I proceed?” again and again</li><li><b>P9</b>You keep typing “continue”</li></ul><details class=\"hc-more\"><summary>Six more Interrupter problems</summary><ul class=\"hc-problems\"><li><b>P2</b>Drip-feeds questions across hours</li><li><b>P3</b>Waits on you all lunch</li><li><b>P5</b>Re-asks for permission you gave</li><li><b>P6</b>Asks about trivia</li><li><b>P7</b>Hands you the first error</li><li><b>P8</b>One question freezes the whole job</li></ul></details>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: P1 to P9: Trending Topic Brief, Character 1. Chat messages are illustrative.",
+   "note": "This is the one to lead with. Each of P1 to P9 is fixed later: kickoff harvesting (Segment 2), Q8 owner decisions asked together, GREEN and AMBER tiers (Segment 5), the self-unblocking question, and the loop driver (Segment 10)."
+  },
+  {
+   "id": "drifter",
+   "title": "The Drifter",
+   "section": "01 / The problem · 2 of 5",
+   "kind": "hc-drift",
+   "parts": [
+    "<div class=\"hc-piece hc-p1\"><div class=\"micro\">Piece 1</div><p>Hook uses a real buyer phrase.</p><p>Warm, British voice.</p><p>“Sea-glass green” as specified.</p></div>",
+    "<div class=\"hc-piece hc-p10\"><div class=\"micro\">Piece 10</div><p>Hook: “Are you tired of…?”</p><p>Voice turning into hype.</p><p>“Seaglass” spelt a new way.</p></div>",
+    "<div class=\"hc-piece hc-p20\"><div class=\"micro\">Piece 20</div><p>Same opening as piece 9.</p><p>Half the length, half the care.</p><p>“Bestselling” appears from nowhere.</p></div>",
+    "<ul class=\"hc-problems\"><li><b>P10</b>No named identity, so style wanders</li><li><b>P13</b>Piece 20 is lazier than piece 1</li><li><b>P14</b>“Make it on-brand” is not testable</li></ul><details class=\"hc-more\"><summary>Six more Drifter problems</summary><ul class=\"hc-problems\"><li><b>P11</b>Nothing says what stays identical</li><li><b>P12</b>Nothing says what must differ</li><li><b>P15</b>Uses your SOP once, then improvises</li><li><b>P16</b>No quality bar was ever set</li><li><b>P17</b>Old and new instructions fight</li><li><b>P18</b>Builds on the drifted work</li></ul></details>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "source": "Source: P10 to P18: Trending Topic Brief, Character 2. The three pieces are an illustrative drift, not output from a real run.",
+   "note": "Walk left to right: same job, three moments. Point at what changed: hook pattern, voice, terminology, invented claim. Then the causes. The fix is the five locks (Segment 3) and the contract re-read (Segment 6)."
+  },
+  {
+   "id": "goldfish",
+   "title": "The Goldfish",
+   "section": "01 / The problem · 3 of 5",
+   "kind": "hc-memory",
+   "parts": [
+    "<div class=\"hc-strip\"><div class=\"hc-seg hc-rules\"><span class=\"micro\">Message 1</span><b>Your rules</b><span>Voice, sources, never invent ratings.</span></div></div>",
+    "<div class=\"hc-strip\"><div class=\"hc-seg hc-cut\"><span class=\"micro\">Message 80</span><b>Chat compressed</b><span>A summary replaces the detail.</span></div></div>",
+    "<div class=\"hc-strip\"><div class=\"hc-seg hc-lost\"><span class=\"micro\">Message 81</span><b><s>Your rules</s></b><span>Quietly missing. Nobody noticed.</span></div></div>",
+    "<ul class=\"hc-problems\"><li><b>P19</b>Forgets rules set at the start</li><li><b>P20</b>Rules vanish after compression</li><li><b>P22</b>New session, explain it all again</li></ul><details class=\"hc-more\"><summary>Five more Goldfish problems</summary><ul class=\"hc-problems\"><li><b>P21</b>Forgets to save its place</li><li><b>P23</b>Re-runs the interview</li><li><b>P24</b>After a crash, nobody knows where it got to</li><li><b>P25</b>Too much in its head at once</li><li><b>P26</b>Rewrites its own progress notes</li></ul></details>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "source": "Source: P19 to P26: Trending Topic Brief, Character 3. Message numbers are illustrative.",
+   "note": "Context rot in one picture: the rules lived only in the chat, and the chat was compressed. Fix: memory lives in files and the full contract is re-read at every node (Segment 6)."
+  },
+  {
+   "id": "bluffer",
+   "title": "The Bluffer",
+   "section": "01 / The problem · 4 of 5",
+   "kind": "hc-claim",
+   "parts": [
+    "<p class=\"hc-bubble\">All done! Every script is finished and checked.</p>",
+    "<ul class=\"hc-receipts\"><li><b>P28</b>It marked its own homework.</li><li><b>P32</b>A test failed, so it changed the test.</li><li><b>P34</b>“200 OK”, but the output is wrong.</li><li><b>P35</b>The button looks polished and does nothing.</li><li><b>P36</b>“rated 4.9 by 2,000 customers”, with no source.</li><li><b>P39</b>The blocked part was reported as finished.</li></ul>",
+    "<p class=\"statement\">Without a harness, “done” is <span class=\"hc-hand-mark\">an opinion</span>.</p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: P27 to P41: Trending Topic Brief, Character 4. The rating example is the failing case in the skill’s ugc-script rubric. The chat bubble is illustrative.",
+   "note": "Read the bubble in a confident voice, then reveal the receipts. Remaining Bluffer problems for the voice-over: P29 reviewer talked round by the transcript, P30 all praise, P31 same blind spots, P33 claims to have read a file it did not, P37 guesses as facts, P38 padded research, P40 no reason for a choice, P41 pretends to follow a process it lacks."
+  },
+  {
+   "id": "loose-cannon",
+   "title": "The Loose Cannon",
+   "section": "01 / The problem · 5 of 5",
+   "kind": "hc-hazard",
+   "parts": [
+    "<ol class=\"hc-seq\"><li>Email sent</li><li class=\"hc-crash\">Crash, before the record was saved</li><li>Restart: “Was it sent?”</li><li class=\"hc-bad\">Sent again</li></ol>",
+    "<div class=\"hc-tiles\"><p><b>P42</b>Takes silence as a yes</p><p><b>P43</b>Writes “approved” in its own log</p><p><b>P46</b>Loop runs all night and burns money</p><p><b>P48</b>Builds on something already broken</p><p><b>P49</b>Overwrites another job’s files</p><p><b>P50</b>Passwords end up in logs</p></div>",
+    "<p class=\"hc-aside\"><b>P53</b> Ad reporting with estimated spend, or a verdict on a one-day-old ad.</p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: P42 to P53: Trending Topic Brief, Character 5. The send sequence illustrates P44.",
+   "note": "P44 is the scary one: the crash happened after the action and before the record, so a naive restart repeats it. Also in this family: P45 retries the same failing step, P47 repair attempts go in circles, P51 helpers never saw the rules, P52 over-engineered setups."
+  },
+  {
+   "id": "the-turn",
+   "title": "Engine and chassis",
+   "section": "02 / The turn",
+   "kind": "hc-chassis",
+   "parts": [
+    "<p class=\"statement\">Each character is a missing part. <span>The model is the engine. The harness is the chassis.</span></p>",
+    "<ol class=\"hc-rail\"><li>Interview</li><li>Contract</li><li>Prepare runtime</li><li>Execute</li><li>Verify</li><li>Checkpoint</li><li>Report</li></ol>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>The plan says what we will do; the contract says what must stay true; the ledger says what we decided.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, opening section</figcaption></figure>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill: “interview → contract → prepare runtime → execute → verify → checkpoint → report”.",
+   "note": "About one minute. SAY: “Each of those five characters is a missing part. The model is the engine. The harness is the chassis.” Draw the seven stages left to right, then read the quote. Everything in Act 2 follows this run order."
+  },
+  {
+   "id": "when-to-use",
+   "title": "Harness the big jobs",
+   "section": "03 / The system · 01",
+   "kind": "hc-dial",
+   "parts": [
+    "<div class=\"hc-scale\"><span>Quick question</span><span>Small edit</span><span>Brainstorm</span><span class=\"hc-zone\">Multi-session build</span><span class=\"hc-zone\">Overnight run</span></div><p class=\"hc-scale-key\"><span>Skip the harness</span><span>Harness zone</span></p>",
+    "<ul class=\"hc-criteria\"><li>Spans more than one session or context window</li><li>Runs for hours</li><li>Must survive a restart</li><li>Repeats enough pieces that drift is likely</li></ul>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>About ten messages is a heuristic, not a reason to impose process on a small task.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, §1 Entry and scope</figcaption></figure><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>Bonus</b><span>P55</span><span>P56</span><span>P58</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill, §1 Entry and scope and MR-1.",
+   "note": "In 5 to 10 words: harness the big, long jobs; skip it for quick ones. SAY: it is not for everything. One skill owns the whole job, so no hand-offs lose detail (P56), and upgrades only ever add rules, never quietly drop old ones (P55, MR-1)."
+  },
+  {
+   "id": "kickoff",
+   "title": "Answers first, asks once",
+   "section": "03 / The system · 02",
+   "kind": "hc-nine",
+   "parts": [
+    "<ol class=\"hc-grid9\"><li class=\"hc-t\">Done means</li><li class=\"hc-t\">World class</li><li class=\"hc-t\">What could go wrong</li><li class=\"hc-t\">Which skills</li><li class=\"hc-t\">Where each skill is used</li><li class=\"hc-t\">Master rules</li><li class=\"hc-t\">Review gates</li><li class=\"hc-o\">Owner decisions</li><li class=\"hc-t\">Memory</li></ol>",
+    "<p class=\"hc-key\"><span class=\"hc-tick-key\"></span>All nine answered first, from your brief, files and past instructions.</p>",
+    "<p class=\"hc-key\"><span class=\"hc-ring-key\"></span>Only real gaps and owner decisions come to you: together, once.</p>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>Harvest answers from the brief, assets and prior instructions before asking anything.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, §2 Kickoff</figcaption></figure><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>The Interrupter</b><span>P1</span><span>P2</span><span>P3</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill, §2 Kickoff: the nine questions.",
+   "note": "SAY: before asking anything it reads your brief, files and past instructions, answers nine questions itself, separates facts from guesses, and brings you only the real gaps, all at once. Question 8 lists every decision that would block the run, so nothing surfaces at 2am. DEMO: start a real job (10 UGC scripts) and show the nine answers appear, then the short batch of questions. Not used when resuming an ACTIVE contract."
+  },
+  {
+   "id": "five-locks",
+   "title": "Five locks, one bar",
+   "section": "03 / The system · 03",
+   "kind": "hc-locks",
+   "parts": [
+    "<div class=\"hc-lock\"><svg viewBox=\"0 0 48 56\" aria-hidden=\"true\"><path d=\"M14 24v-8a10 10 0 0 1 20 0v8\"/><rect x=\"6\" y=\"24\" width=\"36\" height=\"28\" rx=\"4\"/></svg><h3>Identity</h3><p>One named voice, refined throughout.</p></div>",
+    "<div class=\"hc-lock\"><svg viewBox=\"0 0 48 56\" aria-hidden=\"true\"><path d=\"M14 24v-8a10 10 0 0 1 20 0v8\"/><rect x=\"6\" y=\"24\" width=\"36\" height=\"28\" rx=\"4\"/></svg><h3>Sameness</h3><p>What stays identical: terms, colours, evidence standard.</p></div>",
+    "<div class=\"hc-lock\"><svg viewBox=\"0 0 48 56\" aria-hidden=\"true\"><path d=\"M14 24v-8a10 10 0 0 1 20 0v8\"/><rect x=\"6\" y=\"24\" width=\"36\" height=\"28\" rx=\"4\"/></svg><h3>Difference</h3><p>What must not repeat: hooks, openings, angles.</p></div>",
+    "<div class=\"hc-lock\"><svg viewBox=\"0 0 48 56\" aria-hidden=\"true\"><path d=\"M14 24v-8a10 10 0 0 1 20 0v8\"/><rect x=\"6\" y=\"24\" width=\"36\" height=\"28\" rx=\"4\"/></svg><h3>Let-down</h3><p>What would make it fail, in performance and in looks.</p></div>",
+    "<div class=\"hc-lock\"><svg viewBox=\"0 0 48 56\" aria-hidden=\"true\"><path d=\"M14 24v-8a10 10 0 0 1 20 0v8\"/><rect x=\"6\" y=\"24\" width=\"36\" height=\"28\" rx=\"4\"/></svg><h3>Fatigue</h3><p>Where piece 20 would start to coast.</p></div>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>where would piece 20 be tempted to coast, and what quality floor must it still clear?</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, §2 Five lock questions</figcaption></figure><p class=\"hc-rule\"><span class=\"hc-v\" data-verbatim>“On-brand” is not testable.</span> Every lock must be something a stranger could check.</p><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>The Drifter</b><span>P10</span><span>P11</span><span>P12</span><span>P13</span><span>P14</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill, §2 Five lock questions.",
+   "note": "In 5 to 10 words: five locks keep piece twenty as good as piece one. Do not force a lock the job does not need: app screens may repeat, so set variety only where function warrants it, and research wants consistent evidence over variety. DEMO: the locks section of the contract from the kickoff job."
+  },
+  {
+   "id": "contract",
+   "title": "One page, activated once",
+   "section": "03 / The system · 04",
+   "kind": "hc-contract",
+   "parts": [
+    "<div class=\"hc-page\"><div class=\"hc-page-head\"><b>WORK CONTRACT: 10 UGC scripts</b><span class=\"hc-stamp\">ACTIVE</span></div><ol><li>Job and done</li><li>Testable locks</li><li>Framing: ALWAYS and NEVER</li><li>Skill bindings</li><li>Decision permissions</li><li>Blockers</li><li>Re-read and review</li><li>Ledger and final report</li></ol></div>",
+    "<div class=\"hc-framing\"><p><b>ALWAYS</b> truthful framing. Framings can never invent experience, evidence or claims.</p><p><b>NEVER</b> <q data-verbatim>remove, weaken or edit a test, a feature row or a constraint row so that it passes.</q></p><p><b>Skill bindings</b> every step names a skill, or says “none”.</p></div>",
+    "<p class=\"hc-say\">You say <span class=\"hc-hand-mark\">“Active”</span> once.</p><figure class=\"hc-quote\"><blockquote data-verbatim>Never treat silence or elapsed time as approval.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, §2 Activate once</figcaption></figure>",
+    "<p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>The Interrupter and The Bluffer</b><span>P4</span><span>P5</span><span>P15</span><span>P36</span><span>P42</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill, §3 Work Contract template and §2 Activate once. The job name is illustrative.",
+   "note": "In 5 to 10 words: one page that says what must stay true. One or two pages. ALWAYS and NEVER rules that can never invent claims. Every step names a skill or says none. A newer instruction from you updates the contract; an old contract never overrules you. DEMO: scroll the real contract: job and done, locks, framing, skill bindings, permissions."
+  },
+  {
+   "id": "decision-tiers",
+   "title": "Green, amber, red",
+   "section": "03 / The system · 05",
+   "kind": "hc-tiers",
+   "parts": [
+    "<div class=\"hc-light hc-green\"><b>Green</b><span>Just do it. Names, spacing. No log.</span></div>",
+    "<div class=\"hc-light hc-amber\"><b>Amber</b><span>Decide, log it, keep going. The default.</span></div>",
+    "<div class=\"hc-light hc-red\"><b>Red</b><span>Ask. Publishing, sending, spending, deleting or legal claims you have not already approved.</span></div>",
+    "<div class=\"hc-ledger\"><div class=\"micro\">The live ledger</div><code data-verbatim>[#] · [step] · DECIDED: [what] · WHY: [reason; blocker if any] · REVERSIBLE: yes/no · REVIEW: yes/no</code><code>07 · script 4 · DECIDED: lead with the buyer’s own phrase · WHY: strongest line in the research · REVERSIBLE: yes · REVIEW: yes</code><small>Second line is an illustrative entry.</small></div>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>What can I verify or change within our permissions to fix this without bothering the owner?</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, §4 Blocker handling</figcaption></figure><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>The Interrupter</b><span>P6</span><span>P7</span><span>P8</span></p><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>The Bluffer and The Loose Cannon</b><span>P40</span><span>P43</span><span>P45</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill, §4 Decision tiers and blocker handling.",
+   "note": "In 5 to 10 words: Green, just do it. Amber, decide and log. Red, ask. When it hits a blocker it asks itself first. Only work that depends on a red decision waits; everything else carries on. Red is not a blanket rule: something you already approved does not need asking again. DEMO: type ledger mid-run and point at a REVIEW: yes."
+  },
+  {
+   "id": "memory-files",
+   "title": "Memory lives in files",
+   "section": "03 / The system · 06",
+   "kind": "hc-cabinet",
+   "parts": [
+    "<ul class=\"hc-drawers\"><li><code>INTERVIEW.md</code>The nine questions and answers</li><li><code>CONTRACT.md</code>What must stay true</li><li><code>PLAN.md</code>Steps, current step, next action</li><li><code>PROGRESS.md</code>Evidence, blockers, live ledger</li><li><code>CONSTRAINTS.json</code>Every requirement as a row</li><li><code>features.json</code>App work: every feature, passes:false</li></ul>",
+    "<ol class=\"hc-wheel\"><li>Re-read contract</li><li>Load skills</li><li>Do the work</li><li>Check against evidence</li><li>Checkpoint</li><li>Continue</li></ol>",
+    "<p class=\"hc-say\">Said out loud, every time: <q data-verbatim>Contract re-read; starting screen 4.</q></p><figure class=\"hc-quote\"><blockquote data-verbatim>The transcript summary is not the contract.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, Appendix H, PreCompact hook</figcaption></figure><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>The Goldfish</b><span>P19 to P26</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill, §5 run files, §6 node cycle and Appendix H.",
+   "note": "In 5 to 10 words: rules and progress live in files, so nothing gets forgotten. Four run files plus the two v2 JSON files. Locked state is JSON because the skill notes the model is less likely to overwrite JSON than Markdown. Before compression, a PreCompact hook snapshots the run files automatically. DEMO: close the session mid-run, open a new one, type resume. It picks up at the exact next step with no questions."
+  },
+  {
+   "id": "done-gate",
+   "title": "A script decides done",
+   "section": "03 / The system · 07",
+   "kind": "hc-terminal",
+   "parts": [
+    "<div class=\"hc-term\"><div class=\"micro\">Run 1 · a row is unverified</div><pre>$ python3 scripts/check_constraints.py CONSTRAINTS.json\nCONSTRAINTS: 1/2 rows verified with evidence\n  BLOCKING  C-02  [unverified]  not verified\n<mark>Completion string may NOT be emitted.</mark>\nexit 1</pre></div>",
+    "<div class=\"hc-term\"><div class=\"micro\">Run 2 · the worker marks it verified</div><pre>$ python3 scripts/check_constraints.py CONSTRAINTS.json\nCONSTRAINTS: 1/2 rows verified with evidence\n  BLOCKING  C-02  [verified]  verified by the worker, not by the evaluator or a ground-truth check\n<mark>Completion string may NOT be emitted.</mark>\nexit 1</pre></div>",
+    "<div class=\"hc-term hc-pass\"><div class=\"micro\">Run 3 · evaluator, with evidence</div><pre>$ python3 scripts/check_constraints.py CONSTRAINTS.json\nCONSTRAINTS: 2/2 rows verified with evidence\nAll rows verified. Completion string may be emitted if PLAN has no eligible node.\nexit 0</pre></div>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>Done is a ledger state, not an opinion.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, MR-2</figcaption></figure><p class=\"statement\">The AI can’t talk its way past a script.</p><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>The Bluffer</b><span>P27</span><span>P32</span><span>P39</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "source": "Source: Real output from the skill’s scripts/check_constraints.py (Appendix I), run on 13 October 2026 against three two-row demonstration files.",
+   "note": "In 5 to 10 words: a script, not the AI, decides when it is finished. DEMO: run the checker three times live. 1, a row unverified. 2, the same row marked verified by “worker”: still blocked. 3, verified by the evaluator with evidence: passes. LINE: “The AI can’t talk its way past a script.” Qualities with no objective check (craft, storytelling) go to the evaluator instead."
+  },
+  {
+   "id": "evaluator",
+   "title": "Never its own homework",
+   "section": "03 / The system · 08",
+   "kind": "hc-wall",
+   "parts": [
+    "<div class=\"hc-desks\"><div class=\"hc-desk\"><b>Worker</b><span>Does the job. Knows the whole story.</span></div><div class=\"hc-partition\" aria-hidden=\"true\"><span>finished work only</span></div><div class=\"hc-desk\"><b>Evaluator</b><span>Fresh context. Sees the artefacts, never the transcript.</span></div></div>",
+    "<ul class=\"hc-criteria\"><li>Problems listed before any praise</li><li>Hard pass marks on every axis</li><li>A different model family for client, spend or legal work</li><li>Four repair attempts, then flagged for you</li></ul>",
+    "<pre class=\"hc-json\">{\n  \"verdict\": \"fail\",\n  \"problems_first\": [\n    \"Script 7 says \\\"rated 4.9 by 2,000 customers\\\"; no source in the run\"\n  ],\n  \"scores\": {\n    \"Truthfulness and framing\": {\"score\": 1, \"threshold\": 5}\n  }\n}</pre><small>Illustrative verdict in the skill’s output shape, built from its ugc-script rubric, Example B.</small>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>The screen looked polished, and that did not matter.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, app-screen rubric, Example B</figcaption></figure><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>The Bluffer</b><span>P28 to P31</span><span>P34</span><span>P35</span><span>P36</span><span>P38</span><span>P47</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill, MR-3, §6 step 4, Appendix C evaluator packet and Appendix D rubrics.",
+   "note": "In 5 to 10 words: a separate AI marks the work, never its own homework. Fresh context, finished work only, problems before praise, hard pass marks. Four repair attempts, then flagged. Never a replacement for the worker’s own checks; it is in addition. DEMO: an evaluator verdict with a fail and its defect list, then the fix and the pass."
+  },
+  {
+   "id": "safety-rails",
+   "title": "Rails on both sides",
+   "section": "03 / The system · 09",
+   "kind": "hc-rails",
+   "parts": [
+    "<div class=\"hc-road\"><ul><li>Smoke test before any new build</li><li>Iteration cap on every unattended run</li><li>Repair cap of four</li><li>No credentials in run files</li><li>No new folders without a request</li></ul><div class=\"hc-lane-line\" aria-hidden=\"true\"></div><ul><li>Check what really happened before any retry</li><li>Never repeat an unchanged failed step</li><li>Helpers get the full contract</li><li>Smallest runtime that works</li><li>Never overwrite another run’s files</li></ul></div>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>Never blindly repeat a send, payment, publish or other consequential operation.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, §8 Checkpoint and resume</figcaption></figure>",
+    "<p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>The Loose Cannon</b><span>P44</span><span>P46</span><span>P48</span><span>P49</span><span>P50</span><span>P51</span><span>P52</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill, MR-5, MR-6, §1, §5, §7 and §8.",
+   "note": "In 5 to 10 words: tests before building, never sends twice, caps the spend. On restart it checks what actually happened before retrying anything. The smoke test is for apps; scripts and research do not need one. Extra machinery must name the failure it fixes. DEMO (optional): a failing smoke test becoming the current job."
+  },
+  {
+   "id": "loop-driver",
+   "title": "Keeps going until done",
+   "section": "03 / The system · 10",
+   "kind": "hc-loop",
+   "parts": [
+    "<svg class=\"hc-loop-svg\" viewBox=\"0 0 320 240\" role=\"img\" aria-label=\"A loop that repeats the node cycle. Its exit opens only on the exact words CHASSIS DONE, and a counter caps it at 60 iterations.\"><path class=\"hc-loop-path\" d=\"M160 40a80 80 0 1 1-80 80\"/><path class=\"hc-loop-path\" d=\"M70 131l10-12 10 12\"/><text x=\"160\" y=\"116\" text-anchor=\"middle\">node cycle</text><text x=\"160\" y=\"140\" text-anchor=\"middle\" class=\"hc-svg-small\">re-read · work · check</text><g transform=\"translate(106 64)\"><rect x=\"-10\" y=\"6\" width=\"20\" height=\"16\" rx=\"3\"/><path d=\"M-6 6v-5a6 6 0 0 1 12 0v5\"/></g><text x=\"72\" y=\"50\" text-anchor=\"middle\" class=\"hc-svg-small\">exit: CHASSIS DONE</text><rect class=\"hc-counter\" x=\"10\" y=\"190\" width=\"96\" height=\"34\" rx=\"4\"/><text x=\"58\" y=\"212\" text-anchor=\"middle\" class=\"hc-svg-mono\">cap: 60</text></svg>",
+    "<pre class=\"hc-cmd\">/ralph-loop \"&lt;loop prompt&gt;\" --max-iterations 60 --completion-promise \"CHASSIS DONE\"</pre><p class=\"hc-small\">A Stop hook re-feeds the same prompt until the model prints CHASSIS DONE, which it may only do once the checker passes, or until the cap is reached. Blockers are logged, never treated as done.</p>",
+    "<div class=\"hc-mr0\"><div class=\"micro\">MR-0 · No schedules, ever</div><p>No timers, no cron, <q data-verbatim>never in slices that fire every 20 or 30 minutes</q>. One continuous run, start to finish.</p></div><figure class=\"hc-quote\"><blockquote data-verbatim>The loop cannot shorten a run; it can only prevent the model from stopping before the finish line.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, Appendix E, loop driver</figcaption></figure>",
+    "<p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>The Interrupter and bonus</b><span>P9</span><span>P54</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill, MR-0, MR-5, §6 step 6 and Appendix E. The ralph-wiggum plugin is the one the skill names.",
+   "note": "In 5 to 10 words: it keeps working until the checker says done. Only after you have approved unattended running and the contract is active. Never without an iteration cap; never on a timer, schedule or interval. STORY: tell your real reason for the no-schedules rule here. Cancel with /cancel-ralph. Check the ralph-wiggum plugin is installed before demonstrating."
+  },
+  {
+   "id": "final-report",
+   "title": "Your decisions come first",
+   "section": "03 / The system · 11",
+   "kind": "hc-report",
+   "parts": [
+    "<div class=\"hc-page hc-report-page\"><div class=\"hc-boxed\"><div class=\"micro\">1 · Your decisions</div><p>#07 · lead quote for script 4 · REVIEW: yes · Reverse: swap to the second-ranked quote.</p><p>#12 · script 9 kept at 45 seconds · REVIEW: yes · Reverse: trim the middle beat.</p><small>Illustrative entries.</small></div></div>",
+    "<ol class=\"hc-report-list\" start=\"2\"><li>All decisions: the full ledger</li><li>Which skill ran where</li><li>Every lock: held, repaired or open</li><li>Leftovers and next action</li><li>The nine answers, in full</li><li>Every requirement, its evidence and each evaluator verdict</li></ol>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>Report states the actual completion status and leads with decisions to review.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, §10 Acceptance check</figcaption></figure><p class=\"hc-small\">Unfinished? It is labelled a <b>checkpoint report</b>, never “complete”.</p><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>Bonus</b><span>P57</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Harness Chassis Builder - No Schedules skill, §9 Final and session report and §10.",
+   "note": "In 5 to 10 words: your decisions first, then proof everything was done. Five minutes tells you exactly what needs you and what was delivered. Also closes P39 and P40. DEMO: scroll a real final report."
+  },
+  {
+   "id": "mutsa-live",
+   "title": "Mutsa, built live",
+   "section": "04 / Example 1 · live",
+   "kind": "hc-runsheet",
+   "parts": [
+    "<div class=\"hc-build\"><div class=\"hc-gate\"><b>Smoke test</b><span>init.sh first</span></div><svg class=\"hc-arrow\" viewBox=\"0 0 40 16\" aria-hidden=\"true\"><path d=\"M2 8h34M29 2l7 6-7 6\"/></svg><ol class=\"hc-features\"><li>F-001</li><li>F-002</li><li>F-003</li><li>F-004</li><li>F-005</li><li>…</li></ol><span class=\"hc-cap\">cap: 40</span></div><p class=\"hc-small\">Every feature starts <code>passes:false</code> and flips only with end-to-end evidence. Feature rows are written live from the repo.</p>",
+    "<ol class=\"hc-steps\"><li>Paste the kickoff prompt</li><li>Watch it answer from the repo first</li><li>Answer the short list. Say “Active”.</li><li>Open features.json and CONSTRAINTS.json</li><li>Start the loop</li><li>Walk away. No timers, no schedule.</li><li class=\"hc-later\">Later: type <code>ledger</code> and check in</li></ol>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>A failing smoke test becomes the current node; new features wait.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, §6 step 2</figcaption></figure><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>Live</b><span>P1</span><span>P2</span><span>P3</span><span>P27</span><span>P35</span><span>P48</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Mutsa is a real client app build. Run sheet: Trending Topic Brief, Appendix A. No Mutsa features, data or results are shown here.",
+   "note": "SAY: “This is Mutsa, a client app we’re building right now. I’m going to start a harness on it live, walk away, and we’ll come back later to see exactly how far it got and what it decided without me.” Keep personal or user data off screen. Point at each crossed-off problem on the board as it happens live. Cap is 40, matching the Appendix A loop command."
+  },
+  {
+   "id": "mutsa-prompts",
+   "title": "The two prompts",
+   "section": "04 / Example 1 · live",
+   "kind": "hc-prompt",
+   "parts": [
+    "<div class=\"hc-promptbox\"><div class=\"micro\" id=\"hc-p1\">Step 1 · kickoff prompt</div><pre tabindex=\"0\" aria-labelledby=\"hc-p1\">Use the harness-chassis-builder-no-schedules skill.\nJob: continue building the Mutsa app end to end. Read the repo, README, open issues/PRs and any brief in the project first, and harvest every answer you can before asking me anything.\nDeliverable class: app/system.\nRun the full nine-question kickoff and show all nine answers on screen.\nWrite INTERVIEW.md, CONTRACT.md, PLAN.md, PROGRESS.md, CONSTRAINTS.json and features.json in a harness/ folder in the repo.\nfeatures.json: list every remaining user-visible feature, each passes:false, one per iteration.\nWrite init.sh and a smoke test for this app before any new work.\nDecision tiers: GREEN micro-choices; AMBER decide and log; RED = anything touching production data, payments, deploys or user personal data.\nAsk me only the genuine gaps and the Q8 owner decisions, all together, in one message.</pre></div>",
+    "<div class=\"hc-promptbox\"><div class=\"micro\" id=\"hc-p5\">Step 5 · loop prompt</div><pre tabindex=\"0\" aria-labelledby=\"hc-p5\">/ralph-loop \"Read harness/CONTRACT.md in full, then PLAN.md, PROGRESS.md, CONSTRAINTS.json and features.json. Run init.sh and the smoke test first; if it fails, fixing it is the current node. Take the next eligible feature and run the node cycle: re-read, load bound skills, perform, gate-check, checkpoint. At each PLAN milestone run the independent evaluation with the EVALUATOR PACKET and record its verdict. Log every AMBER decision as it is made. Never edit a test, feature row or constraint row to make it pass. If a node is blocked, record it in PROGRESS and continue with an independent node. Output the exact words CHASSIS DONE only when PLAN has no eligible node and python3 scripts/check_constraints.py harness/CONSTRAINTS.json exits 0.\" --max-iterations 40 --completion-promise \"CHASSIS DONE\"</pre></div>",
+    "<div class=\"hc-promptbox hc-checkin\"><div class=\"micro\">Step 7 · the check-in</div><pre>ledger\npython3 scripts/check_features.py harness/features.json\npython3 scripts/check_constraints.py harness/CONSTRAINTS.json</pre><p class=\"hc-small\">Then show: features passing vs remaining, constraint rows verified vs not, every REVIEW: yes decision and the exact next action from PROGRESS.md.</p></div>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Prompts reproduced exactly from the Trending Topic Brief, Appendix A, steps 1, 5 and 7.",
+   "note": "Paste these on camera. While it reads, say: “Watch: it’s answering its own questions from the repo first.” The loop prompt is your Appendix A wording. It leaves out the skill’s clause for open RED items (write the checkpoint report, then output CHASSIS DONE), so if a RED decision stays open the run will continue to its cap of 40; answer RED items promptly or add that clause. If the ralph-wiggum plugin is not installed, say so and paste the same loop prompt as a normal message; it still runs the node cycle, you just re-enter it yourself."
+  },
+  {
+   "id": "harbour-hearth",
+   "title": "Harbour & Hearth",
+   "section": "05 / Example 2 · built, not run",
+   "kind": "hc-lanes",
+   "parts": [
+    "<div class=\"hc-brief\"><div class=\"micro\">Fictional brand</div><p><b>Premium UK home fragrance.</b> Hand-poured soy candles and reed diffusers, sold direct. Average order £48. Launching the “Winter Harbour” collection, three scents, for November, with Meta ads.</p></div>",
+    "<div class=\"hc-flow\"><div class=\"hc-icp\">One ICP, from the buyer reviews it would research</div><div class=\"hc-fan\" aria-hidden=\"true\"></div><ul class=\"hc-lanes4\"><li><b>5</b>emails</li><li><b>6</b>static ads</li><li><b>3</b>video scripts</li><li><b>1</b>landing page</li></ul></div>",
+    "<div class=\"hc-flow\"><div class=\"hc-evalgate\">Evaluator gate</div><svg class=\"hc-arrow hc-down\" viewBox=\"0 0 40 16\" aria-hidden=\"true\"><path d=\"M2 8h34M29 2l7 6-7 6\"/></svg><div class=\"hc-paused\"><svg viewBox=\"0 0 48 56\" aria-hidden=\"true\"><path d=\"M14 24v-8a10 10 0 0 1 20 0v8\"/><rect x=\"6\" y=\"24\" width=\"36\" height=\"28\" rx=\"4\"/></svg><b>PAUSED, awaiting approval</b><span>Meta campaign staged. Nothing goes live without Ellie.</span></div></div>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Harbour & Hearth, its founder and its collection are made up for this demonstration. Brief: Trending Topic Brief, Appendix B. Not run; no campaign exists.",
+   "note": "Say on camera: “We’re not running this one, just to save credits. I’ll show you everything it would do.” Then: “Harbour & Hearth is a made-up brand, so I can show you the whole thing: every question it answers, every skill it uses and every check it has to pass.” Without a harness, piece 15 of a 15-piece campaign is worse than piece 1 and the claims drift."
+  },
+  {
+   "id": "hh-locks",
+   "title": "Locks and bindings",
+   "section": "05 / Example 2 · built, not run",
+   "kind": "hc-matrix",
+   "parts": [
+    "<dl class=\"hc-locklist\"><div><dt>Identity</dt><dd>“Coastal calm”: warm, unhurried, sensory, British.</dd></div><div><dt>Sameness</dt><dd>Same three scent names, offer wording, palette and fonts everywhere.</dd></div><div><dt>Difference</dt><dd>No two hooks open the same way; three scripts, three formats.</dd></div><div><dt>Let-down</dt><dd>Any unsourced claim fails. Any static that reads as a template fails.</dd></div><div><dt>Fatigue</dt><dd>Static 6 and email 5 still use a real buyer phrase.</dd></div></dl><div class=\"hc-swatches\" aria-label=\"Palette named in the brief\"><span class=\"hc-sw-sea\">sea-glass green</span><span class=\"hc-sw-drift\">driftwood</span><span class=\"hc-sw-cream\">cream</span></div>",
+    "<table class=\"hc-table\"><caption class=\"micro\">Skill bindings</caption><tbody><tr><th>ICP research</th><td>icp-buyer-research-verified-evidence-quality-gate</td></tr><tr><th>Angles and offer</th><td>breakthrough-advertising-mastery</td></tr><tr><th>Each email</th><td>world-class-copywriting, then finishing-touches-copy-and-scripts</td></tr><tr><th>Each static</th><td>llm-image-creator</td></tr><tr><th>Each script</th><td>ugc-script-creator, then finishing-touches-copy-and-scripts</td></tr><tr><th>Storyboards</th><td>creative-storyboard-architect</td></tr><tr><th>Page sections</th><td>fable-website-funnel-design</td></tr><tr><th>Page QA</th><td>web-and-funnel-design-quality-gate-approved</td></tr><tr><th>Meta staging</th><td>meta-ads-creation-and-management (PAUSED)</td></tr></tbody></table>",
+    "<div class=\"hc-framing\"><p><b>ALWAYS</b> quote real buyer language.</p><p><b>NEVER</b> invent reviews, star ratings, “bestseller” or stock counts; activate any ad; report spend without a live read.</p><p><b>RED</b> Ellie decides discount size, budget, launch date and anything going live.</p></div>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Trending Topic Brief, Appendix B: five locks, skill bindings, framing and decision tiers. Palette colours are named in the brief; swatch shades are illustrative.",
+   "note": "Scroll Appendix B on screen alongside this slide. AMBER for this campaign: email order, which buyer quote leads which ad, page section order. GREEN: word choice inside the locks, image crops, section spacing."
+  },
+  {
+   "id": "hh-constraints",
+   "title": "Seven rows to pass",
+   "section": "05 / Example 2 · built, not run",
+   "kind": "hc-rows",
+   "parts": [
+    "<table class=\"hc-table hc-ctable\"><thead><tr><th>Row</th><th>Check</th><th>Verified by</th><th>Status</th></tr></thead><tbody><tr><td>C-01</td><td>5 emails, 6 statics, 3 scripts, 1 page, 1 staged campaign exist at their paths</td><td>evaluator</td><td>unverified</td></tr><tr><td>C-02</td><td>Every hook quotes a phrase traceable to the research report</td><td>evaluator (quote + source)</td><td>unverified</td></tr><tr><td>C-03</td><td>No review, rating, “bestseller” or stock claim without a source</td><td>evaluator</td><td>unverified</td></tr><tr><td>C-04</td><td>Scent names, offer wording and palette identical in all assets</td><td>evaluator</td><td>unverified</td></tr><tr><td>C-05</td><td>Every Meta object reads back PAUSED from the platform</td><td>ground truth (Meta read-back)</td><td>unverified</td></tr><tr><td>C-06</td><td>Every ad URL carries utm_source, utm_medium, utm_campaign, utm_content</td><td>ground truth</td><td>unverified</td></tr><tr><td>C-07</td><td>Landing page passes the funnel quality gate on mobile and desktop</td><td>evaluator (screenshots)</td><td>unverified</td></tr></tbody></table><small>Not run, so every row stays unverified.</small>",
+    "<ul class=\"hc-gates\"><li><b>Paused state</b>read back from the platform</li><li><b>UTMs</b>no UTM, no launch</li><li><b>72-hour rule</b>no verdict on any ad live under 72 hours</li><li><b>Spend</b>only with spend_as_of from a live read</li><li><b>Approval</b>recorded against exact ad IDs</li></ul>",
+    "<figure class=\"hc-quote\"><blockquote data-verbatim>A worker statement is never evidence.</blockquote><figcaption>Harness Chassis Builder - No Schedules skill, campaign-stage rubric</figcaption></figure><p class=\"hc-cross\"><span class=\"micro\">Crosses off</span><b>Example 2</b><span>P10 to P14</span><span>P36</span><span>P42</span><span>P53</span></p>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Rows C-01 to C-07: Trending Topic Brief, Appendix B. Gates: Harness Chassis Builder - No Schedules skill, campaign-stage rubric.",
+   "note": "Evaluator moments to describe: research, ten graded quotes each with a URL and date, or a shortfall ledger, no padding. Scripts: the ugc-script rubric fails a script on truthfulness alone (the rated 4.9 example). Staging: paused read-back, UTMs, no verdict under 72 hours, approval against exact ad IDs. LINE: “And that’s where we’d press go. We’re not running it today, just to save credits.”"
+  },
+  {
+   "id": "proof",
+   "title": "Quality × Output",
+   "section": "06 / The proof",
+   "kind": "hc-equation",
+   "parts": [
+    "<div class=\"hc-factor\"><h3>Quality</h3><ul><li>Locks hold piece 20 to piece 1’s bar</li><li>Contract re-read at every step</li><li>An independent evaluator</li><li>A script decides done</li></ul></div>",
+    "<div class=\"hc-factor\"><h3>Output</h3><ul><li>Questions asked once</li><li>Amber decisions made without you</li><li>No “continue” babysitting</li><li>Cold resume after any crash</li><li>Less rework</li></ul></div>",
+    "<table class=\"hc-table hc-numbers\"><thead><tr><th></th><th>Pieces per day</th><th>Rounds of rework</th><th>Interruptions</th></tr></thead><tbody><tr><th>Before</th><td class=\"hc-fill\"></td><td class=\"hc-fill\"></td><td class=\"hc-fill\"></td></tr><tr><th>After</th><td class=\"hc-fill\"></td><td class=\"hc-fill\"></td><td class=\"hc-fill\"></td></tr></tbody></table><small>Taylor’s own before and after figures, written in on the board.</small>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Quality and output factors: Trending Topic Brief, Act 3. Before and after figures are supplied by the presenter; none are claimed here.",
+   "note": "About two minutes. Fill in your real before and after numbers before recording: pieces per day, rounds of rework, interruptions. The board leaves them blank on purpose so no figure is invented. The episode title promises 10x; only say it on this slide if your numbers support it."
+  },
+  {
+   "id": "recap",
+   "title": "All five, crossed off",
+   "section": "06 / The proof",
+   "kind": "hc-cast",
+   "parts": [
+    "<div class=\"hc-char hc-done\"><svg class=\"hc-icon\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><path d=\"M8 12h48v30H30l-12 10v-10H8z\"/><path d=\"M27 22c0-4 10-5 10 1 0 4-5 4-5 8\"/><circle cx=\"32\" cy=\"36\" r=\"1.6\"/></svg><h3><span class=\"hc-strike\">The Interrupter</span></h3><p>Kickoff, tiers and the loop</p></div>",
+    "<div class=\"hc-char hc-done\"><svg class=\"hc-icon\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><path d=\"M6 44c10-14 16 6 26-8s14 2 24-14\"/><path d=\"M47 21l9 1-2 9\"/><path d=\"M6 52h52\" stroke-dasharray=\"3 5\"/></svg><h3><span class=\"hc-strike\">The Drifter</span></h3><p>Locks and the re-read</p></div>",
+    "<div class=\"hc-char hc-done\"><svg class=\"hc-icon\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><path d=\"M8 32c8-12 26-14 38 0-12 14-30 12-38 0z\"/><path d=\"M46 32l12-10v20z\"/><circle cx=\"18\" cy=\"30\" r=\"1.8\"/><path d=\"M28 12c2-3 6-3 8 0M40 8c1-2 4-2 5 0\" stroke-dasharray=\"2 3\"/></svg><h3><span class=\"hc-strike\">The Goldfish</span></h3><p>Files, not the chat</p></div>",
+    "<div class=\"hc-char hc-done\"><svg class=\"hc-icon\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><rect x=\"10\" y=\"10\" width=\"44\" height=\"44\" rx=\"4\" stroke-dasharray=\"5 4\"/><path d=\"M20 33l8 8 16-18\"/></svg><h3><span class=\"hc-strike\">The Bluffer</span></h3><p>Checker and evaluator</p></div>",
+    "<div class=\"hc-char hc-done\"><svg class=\"hc-icon\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><circle cx=\"28\" cy=\"38\" r=\"16\"/><path d=\"M39 26l7-7\"/><path d=\"M48 10l2 5M56 16l-5 2M54 8l-4 6\"/></svg><h3><span class=\"hc-strike\">The Loose Cannon</span></h3><p>Rails and caps</p></div>"
+   ],
+   "reveals": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "source": "Source: Fixes mapped in the Trending Topic Brief, Act 1 “Fixed by” columns.",
+   "note": "RECAP: cross out each character on the board as you name its fix. The Interrupter: kickoff, decision tiers and the loop driver. The Drifter: five locks and the contract re-read. The Goldfish: memory in files. The Bluffer: the checker and the evaluator. The Loose Cannon: safety rails and caps."
+  },
+  {
+   "id": "close",
+   "title": "Get the checker",
+   "section": "07 / Close",
+   "kind": "hc-close",
+   "parts": [
+    "<div class=\"hc-cta\"><div class=\"micro\">Free download</div><p class=\"statement\">The checker script.</p><p class=\"hc-small\">Link in the description.</p></div>",
+    "<div class=\"hc-next\"><div class=\"micro\">Next week</div><h3>Vision Boards</h3><p>How we decide what to build before the harness builds it.</p></div>"
+   ],
+   "reveals": [
+    1,
+    2
+   ],
+   "source": "Source: Close and next video: Trending Topic Brief.",
+   "note": "About one minute. CTA: free download of the checker script, the one demonstrated on the done-gate slide. The brief also offered a starter contract as the alternative; swap it in here if you prefer. Next video: “Next week, Vision Boards: how we decide what to build before the harness builds it.”"
+  }
+ ]
+};
