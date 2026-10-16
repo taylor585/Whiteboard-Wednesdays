@@ -12,7 +12,7 @@ The shared GitHub repository is https://github.com/taylor585/Whiteboard-Wednesda
 The header uses plain text tabs and a thin dark underline, as selected on 12 October 2026. Do not restore the icon pills.
 The Video ideas integration awaits Google API approval and a server-side key. Do not claim live YouTube retrieval works until it is connected and tested.
 Design changes can be made without access to the private hosted app: run the public/ static preview or the full local server.
-The weekly production process (slides, recording, editing, posting) is in PROCESS.md. Plan the Topics screen around it.
+The weekly production process (planning, slides, recording, editing, posting) is in PROCESS.md, updated 16 October 2026. Plan the Topics screen around it.
 
 
 ## Owner instruction update: 15 October 2026
@@ -50,3 +50,7 @@ Use Claude Code or an execution-capable coding environment with authenticated Gi
 Return the live URL, shipping commit, deployment version or run ID, rollback reference and actual checks performed. Clearly distinguish merged source from published output. Do the implementation, tests and merge yourself instead of passing those tasks to Codex. If the only remaining blocker is hosting access, identify that exact blocker; do not claim the app is live or ask another agent to redo the build.
 
 Reference: https://learn.chatgpt.com/docs/sites. Public Sites can be open to signed-out visitors; audience sharing and authentication inside application code are separate controls. Changing public access still requires authorised access to the existing project.
+
+## Handover: 16 October 2026
+
+Taylor asked for Codex to take over building and publishing the remaining work: getting all four presentations live, the 2C creator watchlist cards with real thumbnails, and the Topics planner on the 16 October schedule. The full brief is in HANDOVER-CODEX.md. PROCESS.md holds the current weekly schedule.
