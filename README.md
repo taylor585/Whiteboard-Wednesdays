@@ -34,6 +34,10 @@ npm run dev -- --port 8864
 
 Open http://localhost:8864/#/library. The migration commands use local storage only. On Sites, the platform applies the files in `drizzle/` when the app is published; `0001_topics.sql` adds topics and copies any old saved ideas into them.
 
+## Heading style
+
+Use the Creator watchlist’s simple Instrument Sans heading style across the app: black, medium-weight page headings, with responsive sizing. Presentation titles and reading views use simple sans-serif headings; retain the Lead Gen Engine brand font and fonts demonstrated inside slide artwork.
+
 ## Where to edit
 
 - `public/index.html`: application header, navigation, Creator watchlist and Topics markup.
