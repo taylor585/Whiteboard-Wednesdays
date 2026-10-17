@@ -1,7 +1,7 @@
 (()=>{
 'use strict';
 const $=s=>document.querySelector(s),register=window.presentationRegister,cache=new Map(),sessions=new Map(),previews=new Map();
-const base={name:'Pecuna Factorem',surface:'#ffffff',ink:'#1c1a17',accent:'#8b6002',font:'hand',logo:'ww-coin.svg'};
+const base={name:'Pecuna Factorem',surface:'#ffffff',ink:'#1c1a17',accent:'#8b6002',font:'clean',logo:'ww-coin.svg'};
 let active=null,data=null,state=null,brand=base,request=0,loading=Promise.resolve();
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));

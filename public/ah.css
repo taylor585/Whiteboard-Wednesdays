@@ -354,10 +354,10 @@ q[data-verbatim]:before{content:'“'}q[data-verbatim]:after{content:'”'}
 .hc-reading{max-width:1180px;margin:auto;padding:24px 20px 60px}
 .hc-reading header{display:flex;align-items:center;gap:18px;border-bottom:1px solid var(--line);padding-bottom:18px}
 .hc-reading header img{width:72px;height:72px}
-.hc-reading header h1{font:600 clamp(36px,5vw,56px)/1.05 WWHand,cursive;margin:0}
+.hc-reading header h1{font:600 clamp(36px,5vw,56px)/1.05 WWBody,Arial,sans-serif;margin:0}
 .hc-reading nav{display:flex;gap:20px;flex-wrap:wrap;padding:16px 0;font-size:15px}
 .hc-reading article{border-top:1px solid var(--line);padding:28px 0}
-.hc-reading article h2{font:600 clamp(34px,4vw,52px)/1.08 WWHand,cursive;margin:8px 0 24px}
+.hc-reading article h2{font:600 clamp(34px,4vw,52px)/1.08 WWBody,Arial,sans-serif;margin:8px 0 24px}
 .hc-reading details{margin-top:16px;font-size:15px}
 .hc-reading p{overflow-wrap:anywhere}
 /* V1.1: secondary detail sits behind an expander so each slide leads with one idea. */
