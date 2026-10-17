@@ -3,6 +3,11 @@
   "version": "3.0.0",
   "files": [
     {
+      "path": ".gitignore",
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793",
+      "bytes": 19
+    },
+    {
       "path": "BUILD-STATUS.md",
       "sha256": "e5907115980519c0071b01b9de08723e299f138d3fd78dd7c96d3a10b9578cba",
       "bytes": 1948
