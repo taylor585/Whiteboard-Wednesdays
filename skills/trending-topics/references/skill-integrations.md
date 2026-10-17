@@ -8,16 +8,16 @@ Trending Topics finds the topic and writes the plan. Other skills make the asset
 | Thumbnail render and audit | `thumbnail-tracker` | Renders the thumbnail lines we wrote, audits at phone size, tracks results | Pass the A/B title + thumbnail line pairs from PACKAGING |
 | Turning a brief into slides | `whiteboard-wednesdays` | Builds the deck (three-slide calibration first) in Pecuna Factorem branding | Pass the brief; segment headlines become slide titles, one-liners become reveals, quotes stay verbatim |
 | Spoken script polish | `finishing-touches-copy-and-scripts` | Makes any scripted lines (cold open, close) sound like Taylor | Pass the HOOK and CLOSE lines only |
-| Post-production | `subi-shots` | Edits the recording with speech-timed graphics | Pass the recording plus the brief's segment one-liners and the whiteboard recording cue list |
+| Post-production | `suby-shots` | Edits the recording with speech-timed graphics | Pass the recording plus the brief's segment one-liners and the whiteboard recording cue list |
 | Examples that run a harness on camera | `harness-chassis-builder-no-schedules` | The live example's kickoff and loop | Appendix prompts in the brief |
 | Campaign examples | `breakthrough-advertising-mastery`, `world-class-copywriting`, `llm-image-creator`, `ugc-script-creator`, `fable-website-funnel-design` | Only when an example actually produces those assets | Name them in the example's skill bindings table |
-| Market-only themes that need work first | `funnel-hacking-forensics` and others | Run the work this week so the topic qualifies next week | Note it under "Market-only themes" on the pick sheet |
+| A chosen topic we have no work on yet | `funnel-hacking-forensics` and others | Do the smallest real piece of work before recording, for talking points | A "before you record" task in the brief's PREP CHECKLIST |
 
 ## Order of a full week
 
-1. Trending Topics: Pick → Taylor chooses 3 → Plan the week (3 briefs with PACKAGING).
+1. Trending Topics: Pick (creators only) → Taylor chooses 3 → talking points from our work → Plan the week (3 briefs with PACKAGING).
 2. Whiteboard Wednesdays: a deck per brief, if Taylor wants slides.
 3. Record, reading each brief's READ BEFORE YOU RECORD.
-4. Subi Shots: edit.
+4. Suby Shots: edit.
 5. Thumbnail Tracker: render and audit the thumbnails from PACKAGING; after publishing, track results.
-6. Next Pick run reads what was published and deprioritises it.
+6. Next Pick run deprioritises what was recorded in the last 4 weeks.

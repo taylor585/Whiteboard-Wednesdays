@@ -4,13 +4,15 @@ A pick sheet or brief is delivered only when every applicable check below passes
 
 ## Pick sheet
 
-- [ ] Window dates stated; sessions found and read; channels scanned and failures named.
-- [ ] Exactly 5 topics, or fewer with the reason (never padded).
-- [ ] Every topic has Lane A evidence (session or skill named) and Lane B evidence with URL and date.
+- [ ] Scan date stated; channels scanned and failures named; `lane-b.md` themes written.
+- [ ] Exactly 6 topics including any Taylor already chose, or fewer with the reason (never padded).
+- [ ] Every topic has at least one core creator winner (1.4× or more) with its URL; no secondary-only themes.
+- [ ] Every topic names the promise and format the creators proved, and our version.
+- [ ] No session names, client names or our project details on the sheet (our work comes after the pick).
 - [ ] Listing views are labelled rounded; provisional ratios (under about 3 weeks) labelled.
 - [ ] Score breakdown shown for every topic; hard gates applied.
 - [ ] Client names and confidential details flagged, not on camera unchecked.
-- [ ] Market-only themes listed separately with what we would need first.
+- [ ] Proven themes left out are listed with the reason.
 - [ ] Ends with the recommended 3 and "Pick 3 and I'll plan the week."
 
 ## Trending Topic Brief
@@ -25,6 +27,8 @@ A pick sheet or brief is delivered only when every applicable check below passes
 - [ ] Live examples have prompts to paste and a check-in prompt; built-not-run examples have the nine answers, locks, skill bindings and constraint rows.
 
 ## Week pack
+
+- [ ] Talking points from our work found for each topic after the choice, or a "before you record" task where we have none.
 
 - [ ] All three briefs pass `check_brief.py` together.
 - [ ] NEXT VIDEO links each brief to the next.

@@ -55,7 +55,7 @@ Our videos are "here is the problem, here is our system" videos built from real 
 | Time-box | We teach a broad, wanted money skill compactly | Sabri 4.68× (n=5), 4.15× on marketing/sales/ads (n=8); missed on self-help and niche tools | "Learn {N}% of {Skill} in {N} Minutes" | "Learn 90% of Meta Ads Research in 20 Minutes" |
 | Secret / exposed | We show how something really works | Sabri 2024 to 25 5.35×; tired on luxury brands, fresh topic needed | "How {Industry} {Hidden Mechanism}" | "How Top Creators Pick Their Thumbnails" |
 | Contrarian verdict | We have an honest negative take | Nick 6.03× (n=1) | "{Hyped Thing} Sucks, Actually" | "Vibe Coding Sucks Without a Plan" |
-| Single-launch explainer | One launch this week we have used for real | Riley 5.2 to 10.8× (n=4) | "{Launch} Explained: What It Means for {Audience}" | only with Lane A proof |
+| Single-launch explainer | One launch this week we have used for real | Riley 5.2 to 10.8× (n=4) | "{Launch} Explained: What It Means for {Audience}" | only when the angle is what it does for a business |
 | Full course | A genuinely complete course, about 2 hours or more | Nick "course" 4.15× (n=11); Riley 60+ min 2.58× | "{TOPIC} FULL COURSE {N} HOURS" | not for a 30-minute brief |
 
 Only use a formula the video can honestly deliver: no "I tested" without a test, no time-box longer than the video, no multiplier without the numbers to back it in Act 3.

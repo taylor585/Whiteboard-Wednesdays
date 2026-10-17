@@ -2,7 +2,7 @@
 """Offline tests for the Trending Topics skill. Run: python3 tests/test_skill.py
 
 Covers check_brief.py (gold example passes; each required rule fails when broken) and the pure
-functions in scan_creators.py (outlier maths, window inference). No network needed.
+functions in scan_creators.py (outlier maths, window inference, core winners, core-only default). No network needed.
 """
 import datetime as dt
 import importlib.util
@@ -123,6 +123,25 @@ class Scanner(unittest.TestCase):
                           dt.datetime(2026, 10, 12, tzinfo=dt.timezone.utc))
         self.assertEqual(rec['status'], 'failed')
         self.assertEqual(len(rec['errors']), 2)
+
+    def test_core_winners_are_breakouts_from_core_only(self):
+        sc = load_scanner()
+        v = lambda i, ratio, short=False: {'id': i, 'outlier': ratio, 'short': short, 'title': i}
+        recs = [{'name': 'Core', 'tier': 'core', 'weight': 3,
+                 'videos': [v('a', 1.2), v('b', 13.0), v('c', 1.4), v('d', 9.0, short=True)]},
+                {'name': 'Sec', 'tier': 'secondary', 'weight': 1, 'videos': [v('e', 40.0)]}]
+        wins = sc.core_winners(recs)
+        self.assertEqual([r['name'] for r, _ in wins], ['Core'])  # the watchlist never sets a topic
+        self.assertEqual([w['id'] for w in wins[0][1]], ['b', 'c'])  # 1.4x or more, long-form, best first
+
+    def test_secondary_off_by_default(self):
+        sc = load_scanner()
+        with tempfile.TemporaryDirectory() as d:
+            core, sec = os.path.join(d, 'core.json'), os.path.join(d, 'sec.json')
+            open(core, 'w').write('{"core": [{"name": "C", "handle": "@c", "weight": 3}]}')
+            open(sec, 'w').write('{"creators": [{"name": "S", "handle": "@s"}]}')
+            self.assertEqual([c['name'] for c in sc.load_creators(core, sec, True)], ['C'])
+            self.assertEqual([c['name'] for c in sc.load_creators(core, sec, False)], ['C', 'S'])
 
 
 if __name__ == '__main__':

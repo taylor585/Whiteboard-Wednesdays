@@ -1,6 +1,6 @@
-# Trending Topics v2
+# Trending Topics v3
 
-A Claude Code skill that finds Whiteboard Wednesdays video topics from two sources (our recent Claude Code work and our creator list), scores them with our packaging research, and writes record-ready Trending Topic Briefs with titles and descriptions.
+A Claude Code skill that finds Whiteboard Wednesdays video topics from what our creator list has already proven (each creator's breakout videos), scores them with our packaging research, then, once Taylor picks, pulls our own Claude Code work in as talking points and writes record-ready Trending Topic Briefs with titles and descriptions.
 
 ## Layout
 
@@ -22,9 +22,9 @@ trending-topics/
 ## Commands
 
 ```bash
-# Lane B: scan creators (core + app watchlist when the repo is present)
-python3 scripts/scan_creators.py --out <dir> --days 14            # full
-python3 scripts/scan_creators.py --out <dir> --days 14 --core-only
+# Scan the core creators (the only source of topics)
+python3 scripts/scan_creators.py --out <dir> --days 14
+python3 scripts/scan_creators.py --out <dir> --days 14 --with-secondary   # add the app watchlist as support
 python3 scripts/scan_creators.py --out <dir> --no-ytdlp           # RSS only
 
 # Gate a brief (or several)
@@ -50,6 +50,6 @@ python3 scripts/build_manifest.py
 
 ## Data sources
 
-- Our sessions: Claude Code remote session tools (`list_sessions`, `list_events`).
-- Creators: public YouTube channel RSS and listings. No API key needed.
+- Creators (topics): public YouTube channel RSS and listings. No API key needed.
+- Our sessions (talking points, after the pick): Claude Code remote session tools (`list_sessions`, `list_events`).
 - Packaging research: the thumbnail-tracker skill's study of Nick Saraev, Sabri Suby and Riley Brown, summarised in `references/research-findings.md`.

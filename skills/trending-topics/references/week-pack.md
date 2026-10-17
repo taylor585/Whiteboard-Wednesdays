@@ -1,18 +1,19 @@
 # The week pack
 
-What Taylor gets after choosing 3 of the 5 picked topics: everything needed to record the week, delivered in the chat.
+What Taylor gets after choosing 3 of the 6 picked topics: everything needed to record the week, delivered in the chat.
 
 ## Steps
 
-1. Confirm the 3 chosen topics and the recording order Taylor wants. Default order: the strongest Lane A proof first, then follow the series link.
-2. Build each brief with `references/brief-format.md`, one at a time, reading each topic's source in full (for a skill: its SKILL.md and every reference file, line by line). Every brief ends with PACKAGING (A/B titles, thumbnail lines, description) from `references/headlines.md` and `references/descriptions.md`, and carries example appendices when the video demonstrates the system.
-3. Set each brief's **NEXT VIDEO** to the next brief in the week, and the last one to next week ("Next week: [top unused pick]").
-4. Run `python3 <skill-dir>/scripts/check_brief.py <brief1> <brief2> <brief3>`. Fix every BLOCKING line and re-run until it exits 0. Never deliver a failing brief.
-5. Write the week overview (template below).
-6. Save the files to the session scratchpad (never the public repo):
+1. Confirm the 3 chosen topics and the recording order Taylor wants. Default order: the highest-scoring topic first, then follow the series link.
+2. **Find our talking points** for each topic (`references/chat-research.md`): search our sessions and skills by the topic's words, write `talking-points-[slug].md`, and mark anything confidential. If we have nothing, add a "before you record" task.
+3. Build each brief with `references/brief-format.md`, one at a time, reading each topic's source in full (for a skill: its SKILL.md and every reference file, line by line). Every brief ends with PACKAGING (A/B titles, thumbnail lines, description) from `references/headlines.md` and `references/descriptions.md`, and carries example appendices when the video demonstrates the system.
+4. Set each brief's **NEXT VIDEO** to the next brief in the week, and the last one to next week ("Next week: [top unused pick]").
+5. Run `python3 <skill-dir>/scripts/check_brief.py <brief1> <brief2> <brief3>`. Fix every BLOCKING line and re-run until it exits 0. Never deliver a failing brief.
+6. Write the week overview (template below).
+7. Save the files to `video-plans/` in the working directory, so Taylor can open them (never commit them: the repo is public):
    - `week-YYYY-Www-overview.md`
    - `week-YYYY-Www-1-[slug].md`, `-2-[slug].md`, `-3-[slug].md`
-7. **Deliver in the chat:**
+8. **Deliver in the chat:**
    - The week overview in full, as text.
    - Each brief's AT A GLANCE and READ BEFORE YOU RECORD blocks as text, so Taylor can start reading straight away.
    - Send all four files with SendUserFile (status `normal`) so they open on a phone. The full briefs live in the files.
@@ -23,7 +24,7 @@ What Taylor gets after choosing 3 of the 5 picked topics: everything needed to r
 ```markdown
 # WEEK [YYYY-Www]: Trending Topics
 
-Picked on [date] from [n] chat sessions (last 14 days) and [n] creator uploads.
+Picked on [date] from [n] core creators' winners. Talking points from [n] of our sessions.
 
 | # | Title (recommended A/B title 1) | In 5 to 10 words | Length | Status |
 |---|---|---|---|---|

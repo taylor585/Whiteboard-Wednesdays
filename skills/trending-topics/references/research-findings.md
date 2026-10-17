@@ -13,6 +13,7 @@ Dates are October 2026. YouTube numbers move daily; re-run the scan for anything
 5. The first manual topic research (before the skill existed)
 6. What building the first brief taught us
 7. Open questions to test on our own channel
+8. Why work-first picking failed, and the creators-first rewrite (W43)
 
 ---
 
@@ -183,3 +184,51 @@ Market-only that week: ChatGPT Dots, Grok Bot agents, funnels (we had the funnel
 3. Does a time-box work on our core topic (AI for marketing), or is it Sabri-specific?
 4. Do our live-build examples hold retention better than theory segments? Check audience retention at each act boundary.
 5. Year refresh: retitle evergreen briefs with the coming year and compare 30 days before and after.
+
+## 8. Why work-first picking failed, and the creators-first rewrite (W43, 17 October 2026)
+
+### What happened
+
+The v2 Pick run for week 43 read 76 of our sessions first, then matched creator videos to them. Taylor rejected all six topics. He asked whether we were researching the creator list at all.
+
+### What we found
+
+- **The direction was backwards.** Topics started from our sessions ("76 sessions", "9 agents", "a 77-minute edit"), so they described our process, not a viewer promise. Creator videos were added afterwards as decoration.
+- **The scoring favoured us.** Our proof (×3) and our angle (×2) made up 25 of the 50 points. A hard gate dropped every creator theme with no work of ours, which included the hottest ones: Grok, Meta ads on a low budget, landing pages and "what to learn instead".
+- **Dilution.** 10 of the 22 evidence rows came from the secondary watchlist. Five core creators backed no pick at all.
+- **The wrong ranking.** Views per day over 14 days measures channel size and age. Most creators post only 2 to 6 long-form videos a fortnight, too few to see what beats their normal.
+- **A skipped step.** The themes file (`lane-b.md`) was not written, so no cross-creator pattern was found.
+
+### The rewrite (v3)
+
+- **Creators decide the topic; our work is for talking points after Taylor chooses.** Taylor: "We should only use our work for talking points ONCE the topic has been decided from other creators."
+- **The scanner is core-only by default**, ranks by outlier ratio and opens with a Core winners table: each creator's 1.4×+ long-form uploads from the latest 30, any date.
+- **New scoring:** creator proof ×3, spread ×2, viewer promise ×2, freshness, fit and open lane. Having no work of ours is no longer a gate.
+
+### What the first creators-first scan showed (core winners, 17 October 2026)
+
+- **Time-boxed crash courses on money skills**, the strongest pattern, on 4 core creators:
+  - Sabri: "Learn 97% of Meta Ads in Under 19 minutes" 13.08×, "Give Me 27 Minutes..." 8.38×, "Learn 97% of Sales in 52 Minutes" 4.74×
+  - Daniel Priestley: "25 Years of Sales Knowledge in 34 Minutes" 5.46×
+  - Nick: 6-hour Claude Code marketing course 2.53×
+  - Riley: 2-hour course 2.95×
+- **Meta ads on a low budget after Andromeda:**
+  - Sergio: 13.44×, and 1.94× in the window
+  - Sabri: 13.08×
+  - Jeremy: "Most Valuable Meta Ads Training" 2.75×, "New Era of Meta Ads" 2.5×
+- **The new era of AI, and what to learn now:**
+  - Nick: 5.73× and 2.15× in the window, 2.83×
+  - The Calum Johnson Show: 10.71× and 9.59×
+- **The top 0.01%, and systems:**
+  - Daniel Priestley: 10.38×, and "7 businesses" 3.1×
+  - Sabri: 3.71×, and "Build Systems Like This" 4.78×
+- **Grok:**
+  - Paul J Lipsky: "Grok Bot Is Now Only $20" at 356×, an anomaly
+  - Riley: 2.06× in the window
+  - Alex Finn: 1.66×
+- **Reverse-engineering:** Nick at 18.84× in the window, the biggest fresh breakout.
+
+### Lesson
+
+The creators have already run the experiment on a real audience. Copy the promise and the format, change the subject to ours, then bring our work in as proof.
+

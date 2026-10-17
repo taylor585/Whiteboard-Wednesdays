@@ -1,6 +1,6 @@
-# Trending Topics v2 build status
+# Trending Topics v3 build status
 
-Version 2.0.0, built 13 October 2026 in the shared cloud workspace.
+Version 3.0.0, rebuilt creators-first on 17 October 2026 in the shared cloud workspace (v2.0.0 was 13 October).
 
 ## Verified
 
@@ -18,4 +18,5 @@ Version 2.0.0, built 13 October 2026 in the shared cloud workspace.
 - Package mode's real chapter timestamps need a recorded video's transcript; only planned chapters have been written so far.
 - The open questions in `references/research-findings.md` §7 need our own channel's data after the first uploads.
 - Layer C deep study (latest 30 + all-time top 20) is done for Nick Saraev, Sabri Suby and Riley Brown only; Sergio C, Jeremy Haynes and Alex Finn are next.
-- Lane A is built for Claude Code. On claude.ai without session tools, it falls back to asking Taylor for a short note.
+- The talking points step (after the pick) is built for Claude Code. On claude.ai without session tools, it falls back to asking Taylor for a short note.
+- Plan the week has not yet been run on a creators-first pick; the first is week 43.

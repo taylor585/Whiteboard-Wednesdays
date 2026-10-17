@@ -2,9 +2,13 @@
 """Scan the creator list for what is working right now (Lane B of the Trending Topics skill).
 
 Usage:
-  python3 scan_creators.py --out <dir> [--days 14] [--core-only] [--depth 30]
+  python3 scan_creators.py --out <dir> [--days 14] [--depth 30] [--with-secondary]
                            [--creators <creators.json>] [--secondary <public/creators.json>]
                            [--no-ytdlp] [--include-shorts]
+
+Creators first: by default only the core list in references/creators.json is scanned, because
+topics are chosen from what Taylor's creators have already proven. --with-secondary adds the app
+watchlist (public/creators.json) as a separate, lower-weight table that never sets a topic.
 
 For each channel it combines two public sources:
   1. The channel RSS feed (standard library only): exact publish time and exact views for the
@@ -15,7 +19,8 @@ For each channel it combines two public sources:
 
 Writes:
   <out>/scan.json  every creator, status, error and video (machine readable)
-  <out>/scan.md    in-window long-form uploads ranked, top outliers, failures and caveats
+  <out>/scan.md    core winners per creator, in-window uploads ranked by outlier ratio,
+                   top outliers, failures and caveats
 
 Flags on each video: NEW (published inside --days), OUTLIER (ratio >= 2), HOT (top 10 by views
 per day among in-window uploads, per tier). A channel that fails is logged and the run continues.
@@ -185,6 +190,23 @@ def fmt(n):
     return f'{n / 1_000_000:.1f}M' if n >= 1_000_000 else (f'{n / 1000:.1f}k' if n >= 1000 else str(n))
 
 
+def core_winners(recs, min_ratio=1.4):
+    """Per core creator: long-form uploads in the listing that beat their own normal (ratio >= min_ratio).
+
+    These are the topics, promises and formats the creators have already proven with their audience,
+    whatever the publish date, so they are the starting point for every pick.
+    """
+    out = []
+    for r in recs:
+        if r.get('tier') != 'core':
+            continue
+        wins = [v for v in r['videos'] if not v.get('short') and v.get('outlier') is not None and v['outlier'] >= min_ratio]
+        wins.sort(key=lambda v: v['outlier'], reverse=True)
+        out.append((r, wins))
+    out.sort(key=lambda rw: (rw[0].get('weight', 1), len(rw[1])), reverse=True)
+    return out
+
+
 def write_md(recs, days, out, now, include_shorts=False):
     rows = [(r, v) for r in recs for v in r['videos'] if v['in_window'] and (include_shorts or not v['short'])]
     rows.sort(key=lambda rv: (rv[1]['views_per_day'] or 0, rv[1]['outlier'] or 0), reverse=True)
@@ -192,13 +214,23 @@ def write_md(recs, days, out, now, include_shorts=False):
         for r, v in [rv for rv in rows if rv[0]['tier'] == tier][:10]:
             if v['views_per_day']:
                 v['flags'].append('HOT')
+    # Breakouts first: beating the creator's own normal says more about the topic than raw size.
+    rows.sort(key=lambda rv: (rv[1]['outlier'] or 0, rv[1]['views_per_day'] or 0), reverse=True)
     L = [f'# Creator scan: last {days} days', '',
-         f'Run: {now:%Y-%m-%d %H:%M} UTC. Creators scanned: {sum(r["status"] != "failed" for r in recs)}/{len(recs)}.']
-    for tier, label in (('core', 'Core creators'), ('secondary', 'Secondary (app watchlist)')):
+         f'Run: {now:%Y-%m-%d %H:%M} UTC. Creators scanned: {sum(r["status"] != "failed" for r in recs)}/{len(recs)}.',
+         '', '## Core winners: what each creator has already proven (latest listed long-form, ratio 1.4 or more, any date)', '',
+         '| Creator | Weight | Title | Views | Outlier | In window | URL |', '|---|---|---|---|---|---|---|']
+    for r, wins in core_winners(recs):
+        if not wins:
+            L.append(f"| {r['name']} | {r.get('weight', 1)} | no breakout in the latest listed uploads | | | | |")
+        for v in wins[:5]:
+            L.append(f"| {r['name']} | {r.get('weight', 1)} | {v['title'].replace('|', '/')} | {fmt(v['views'])} | "
+                     f"{v['outlier']} | {'yes' if v['in_window'] else ('no' if v['in_window'] is False else 'unknown')} | {v['url']} |")
+    for tier, label in (('core', 'Core creators'), ('secondary', 'Secondary (app watchlist, supporting only)')):
         part = [rv for rv in rows if rv[0]['tier'] == tier]
         if tier == 'secondary' and not part and not any(r['tier'] == 'secondary' for r in recs):
             continue
-        L += ['', f'## {label}: in-window long-form uploads (ranked by views per day, then outlier ratio)', '',
+        L += ['', f'## {label}: in-window long-form uploads (ranked by outlier ratio, then views per day)', '',
               '| # | Creator | Title | Views | Views/day | Outlier | Age (days) | Flags | URL |',
               '|---|---|---|---|---|---|---|---|---|']
         for i, (r, v) in enumerate(part, 1):
@@ -232,7 +264,8 @@ def main():
     ap.add_argument('--out', required=True)
     ap.add_argument('--days', type=int, default=14)
     ap.add_argument('--depth', type=int, default=30)
-    ap.add_argument('--core-only', action='store_true')
+    ap.add_argument('--with-secondary', action='store_true', help='also scan the app watchlist (supporting evidence only)')
+    ap.add_argument('--core-only', action='store_true', help='kept for old prompts; core-only is now the default')
     ap.add_argument('--no-ytdlp', action='store_true')
     ap.add_argument('--include-shorts', action='store_true')
     ap.add_argument('--creators', default=os.path.join(HERE, '..', 'references', 'creators.json'))
@@ -251,7 +284,7 @@ def main():
         print('NOTE: yt-dlp not found; RSS only (no outlier ratios). Install with: pip install yt-dlp', file=sys.stderr)
 
     os.makedirs(a.out, exist_ok=True)
-    creators = load_creators(a.creators, secondary, a.core_only)
+    creators = load_creators(a.creators, secondary, not a.with_secondary)
     now = dt.datetime.now(dt.timezone.utc)
     print(f'Scanning {len(creators)} channels ({sum(c["tier"] == "core" for c in creators)} core), last {a.days} days...', file=sys.stderr)
     with cf.ThreadPoolExecutor(max_workers=4) as ex:
