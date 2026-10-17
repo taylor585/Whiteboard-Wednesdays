@@ -56,7 +56,7 @@ export function createYouTubeClient(key, fetcher=fetch, now=()=>Date.now()) {
       for(const v of data.items || []) {
         const s=v.snippet,t=Date.parse(s?.publishedAt);
         if(!s || !Number.isFinite(t) || t<cutoff || t>now())continue;
-        videos.push({id:v.id,channelId:channel.id,handle:channel.handle,creator:s.channelTitle,title:s.title,publishedAt:s.publishedAt,thumbnail:s.thumbnails?.maxres?.url || s.thumbnails?.high?.url || s.thumbnails?.medium?.url || s.thumbnails?.default?.url || ''});
+        videos.push({id:v.id,channelId:channel.id,handle:channel.handle,creator:s.channelTitle,title:s.title,description:String(s.description || '').slice(0,5000),publishedAt:s.publishedAt,thumbnail:s.thumbnails?.maxres?.url || s.thumbnails?.high?.url || s.thumbnails?.medium?.url || s.thumbnails?.default?.url || ''});
       }
     }
     return videos.sort((a,b)=>Date.parse(b.publishedAt)-Date.parse(a.publishedAt));

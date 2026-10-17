@@ -51,6 +51,6 @@ Return the live URL, shipping commit, deployment version or run ID, rollback ref
 
 Reference: https://learn.chatgpt.com/docs/sites. Public Sites can be open to signed-out visitors; audience sharing and authentication inside application code are separate controls. Changing public access still requires authorised access to the existing project.
 
-## Handover: 16 October 2026
+## Handover: 16 and 17 October 2026
 
-Taylor asked for Codex to take over building and publishing the remaining work: getting all four presentations live, the 2C creator watchlist cards with real thumbnails, and the Topics planner on the 16 October schedule. The full brief is in HANDOVER-CODEX.md. PROCESS.md holds the current weekly schedule.
+Claude built, tested and merged the 2C creator watchlist (real 16:9 thumbnails) and the Topics planner on the 16 October schedule (17 October). Codex's remaining job is publishing `main` to the existing Sites project. The brief is in HANDOVER-CODEX.md. PROCESS.md holds the current weekly schedule.
