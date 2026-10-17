@@ -17,10 +17,11 @@ test('paginates uploads, deduplicates IDs and filters exact video timestamps',as
    calls.push(url);
    if(url.pathname.endsWith('playlistItems'))return response(url.searchParams.get('pageToken') ? {items:[{contentDetails:{videoId:'older',videoPublishedAt:stamp(31)}}]} : {nextPageToken:'next',items:['recent','boundary','future','recent'].map(videoId=>({contentDetails:{videoId,videoPublishedAt:stamp(1)}}))});
    assert.equal(url.searchParams.get('id'),'recent,boundary,future,older');
-   return response({items:[['recent',1],['boundary',30],['future',-1],['older',31]].map(([id,age])=>({id,snippet:{title:id,channelTitle:'Fictional QA channel',publishedAt:stamp(age),thumbnails:{high:{url:'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg'}}}}))});
+   return response({items:[['recent',1],['boundary',30],['future',-1],['older',31]].map(([id,age])=>({id,snippet:{title:id,description:'Fictional description for '+id,channelTitle:'Fictional QA channel',publishedAt:stamp(age),thumbnails:{high:{url:'https://i.ytimg.com/vi/'+id+'/hqdefault.jpg'}}}}))});
  },()=>now);
  const videos=await client.uploads({id:'channel',handle:'@example',playlistId:'uploads'});
  assert.deepEqual(videos.map(v=>v.id),['recent','boundary']);
+ assert.equal(videos[0].description,'Fictional description for recent');
  assert.equal(calls.length,3);
 });
 test('does not return fake empty data on quota errors or absent credentials',async()=>{

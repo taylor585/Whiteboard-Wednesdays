@@ -1,6 +1,6 @@
 # Handover to Codex: Whiteboard Wednesdays
 
-Written by Claude on 16 October 2026, at Taylor's request. Taylor wants Codex to get everything below built, merged and live on the existing site.
+Written by Claude on 16 October 2026, at Taylor's request. Taylor wants everything below live on the existing site. As of 17 October it is all built and merged, so Codex only publishes.
 
 This file is the brief. If anything here conflicts with an instruction Taylor gives you directly, Taylor wins. If it conflicts with `CLAUDE.md`, read the "Who does what" note at the end of section 1.
 
@@ -26,185 +26,67 @@ This file is the brief. If anything here conflicts with an instruction Taylor gi
 
 ## 2. Where things stand right now
 
-`main` is at `716a607` (or later; always fetch first). It already contains:
+**Update, 17 October 2026: Claude has built, tested and merged everything.** Codex's job is now **publishing only** (section 3). Do not rebuild the watchlist or Topics.
+
+Everything below is on `main`. Always fetch first, because Sites sometimes writes "Update Site source" commits back.
 
 | Done and merged | Where |
 |---|---|
 | Four presentations in one library (below) | `public/presentations.js` |
-| Navigation renamed "Video ideas" → **Creator watchlist** (the `#/video-ideas` link still works) | `public/index.html` |
-| **1A toolbar**: one bordered bar with search, a Creator dropdown and 7 / 14 / 30 days as underline tabs (`role=tab`, `aria-selected`) | `public/index.html`, `public/video-ideas.css`, `public/video-ideas.js` |
-| Font fix: the watchlist now uses `WWBody` (it was falling back to Arial) | `public/video-ideas.css` |
-| Slide alias support, so renamed slide links keep working | `public/library.js` |
-| Weekly process (updated 16 October) | `PROCESS.md` |
-| `verify.cjs` updated for four decks | `verify.cjs` |
+| Navigation: **Presentations · Creator watchlist · Topics**, plain text with a thin dark underline | `public/index.html`, `public/library.js` |
+| **1A toolbar**: search, Creator dropdown, 7 / 14 / 30 days as underline tabs | `public/index.html`, `public/video-ideas.css` |
+| **Creator watchlist, design 2C** (see below) | `public/video-ideas.js`, `public/video-ideas.css` |
+| **Topics tab** on the 16 October schedule (see below) | `public/topics.js`, `public/topics.css` |
+| Server: topics, subtopics, descriptions, per-creator videos | `app/api/ideas/[[...path]]/route.ts`, `youtube-api.mjs` |
+| Database migration `0001_topics.sql`: adds the topic tables and `videos.description`, and copies old saved ideas into topics | `db/schema.ts`, `drizzle/0001_topics.sql` |
+| Routes: `#/watchlist`, `#/watchlist/creator/@handle`, `#/topics`. The old `#/video-ideas` link still works. | `public/library.js` |
+| Weekly process | `PROCESS.md` |
 
 The four presentations (all must appear on the live site):
 
-| Tab title | ID | Content file | Reading view | Slides |
-|---|---|---|---|---|
-| Our paid ads process | `paid-ads-process` | `whiteboard-content.js` | `ww-guide.html` | 29 |
-| Lead Gen Engine Demo Walkthrough | `lead-gen-engine` | `lge-content.js` | `lge-reading.html` | 20 |
-| Using AI vision boards to build apps | `vision-boards` | `vb-content.js` (+ `vb.css`, `vb.js`, `vb-cover.svg`, `vb-motion-demo.html`) | `vb-reading.html` | 30 |
-| How AI Harnesses Can 10x Your Quality and Output | `ai-harnesses` | `ah-content.js` (+ `ah.css`) | `ah-reading.html` | 27 |
+| Tab title | ID | Slides |
+|---|---|---|
+| Our paid ads process | `paid-ads-process` | 29 |
+| Lead Gen Engine Demo Walkthrough | `lead-gen-engine` | 20 |
+| Using AI vision boards to build apps | `vision-boards` | 30 |
+| How AI Harnesses Can 10x Your Quality and Output | `ai-harnesses` | 27 |
 
-Vision Boards and AI Harnesses used to exist only as separate private Claude artifacts. They now live in the repo, so nothing needed exists only in Claude. Claude's artifacts are for Taylor's viewing only, and you do not need them.
+**Creator watchlist, design 2C (Taylor's pick):**
+- One row per creator (42).
+- Click a row to expand that creator's videos in place: 16:9 thumbnail, date, title, description with "More", **+ Save as topic** (new topic or add to an existing one), and Watch on YouTube.
+- Thumbnails sit in a fixed 16:9 frame that crops YouTube's letterbox bars. If an image is missing, the card shows the creator's initial.
+- On phones each row stacks onto separate lines instead of a squeezed grid.
+- Until the YouTube key is connected, rows honestly say no uploads are loaded yet.
 
-**Not live yet:** as far as Claude knows, the live site is still behind `main`. Taylor sent Codex a publish prompt on 14 October for commit `c0de78a`. Check the live site before assuming it ran (step 3.1).
+**Topics (Taylor's pick 3C-7):**
+- **Week strip:** Mon plan and slides, Tue post and edit, Wed record, Thu edit, Fri record.
+- **Production line:** three weeks, two slots a week (Wednesday and Friday).
+- **Topic panel:** title, status, recording day, post date (defaults to the next Tuesday), notes, ordered subtopics and source videos.
+- **"Not scheduled yet" list** for topics without a recording day.
+- Only Wednesdays and Fridays can be booked, one topic each. A clash offers a swap.
 
-**Known hosting blocker:** on 15 October the Codex account's Sites `get_site` call returned `project_not_found`. The last verified site owner is `mantamarketingltd@gmail.com`. You need to publish from the owning account, or be given editor access to the existing project. Do not create a new project to get around this.
+**Not live yet:** as far as Claude knows, the live site is still on an older version. Check before assuming.
 
-## 3. The work, in order
+**Known hosting blocker:** on 15 October the Codex account's Sites `get_site` call returned `project_not_found`. The last verified site owner is `mantamarketingltd@gmail.com`. You must publish from the owning account, or be given editor access to the existing project. Do not create a new project to get around this.
 
-Do each part as its own branch and PR off the latest `main`. Merge each one only after its checks pass. Publish after Part A, and again after Parts B and C.
+**Decision for Taylor before switching off the login:**
+- The watchlist and Topics can **change data**: create, edit and delete topics, add creators, and run refreshes, which use YouTube API quota.
+- Today those actions are protected only by the site being private.
+- With no visitor login, anyone with the link could do them.
+- Ask Taylor to confirm that's acceptable before removing the login. If not, keep the current access setting and publish anyway.
 
-### Part A: get the current `main` live (the quick win)
+## 3. The work: publish `main`
 
-1. `git fetch origin && git checkout main && git pull`. Note the commit hash. Sites sometimes writes "Update Site source" commits back into `main`, so always pull before you start.
-2. Run the checks in section 4.
-3. Publish exactly that commit to the existing Sites project:
+1. `git fetch origin && git checkout main && git pull`. Note the commit hash.
+2. Run the checks in section 4 on that commit.
+3. Publish exactly that commit to the existing Sites project.
    - Keep the current live version as the rollback.
-   - Set the audience so visitors need no login (Taylor, 15 October).
-4. Run the live checks in section 5, signed out.
-5. Report the live URL, the commit, the Sites version number, the rollback version and the checks you ran.
+   - The platform applies `drizzle/0001_topics.sql` on publish. Confirm it ran: the Topics tab loads with no "could not be loaded" message.
+   - For access, follow Taylor's decision from section 2.
+4. Run the live checks in section 5.
+5. Report back as in section 6.
 
-### Part B: Creator watchlist cards, design 2C (Taylor's pick, 16 October)
-
-Taylor chose **2C: compact rows that expand in place**, with real thumbnails coming through. Taylor said the 2C mock-up looked squashed and wants a better design than the mock-up. The spec below fixes that.
-
-**What 2C is:**
-- The watchlist is a list of **one row per creator**: 42 creators, from `public/creators.json` (`.creators`).
-- Clicking a row expands it in place to show that creator's videos for the selected period (7 / 14 / 30 days from the 1A toolbar).
-- Only one row is open at a time. The row is a `<button aria-expanded>` that controls the panel beneath it.
-
-**Collapsed row:**
-- Shows: creator name (bold), handle (`WWMono`, muted), latest upload date, the number of videos in the period, and a chevron.
-- Desktop (≥ 768px): one line, 4 columns plus the chevron.
-- **Phone (< 768px), the fix for "squashed":** do not keep the 4-column grid. Show two lines:
-  - Line 1: name and chevron.
-  - Line 2 (muted, 13px): `@handle · latest 9 Oct · 5 videos`.
-- Minimum tap height 56px. No horizontal scrolling at 375px.
-
-**Expanded panel, one card per video, newest first:**
-- **Thumbnail:**
-  - A real YouTube thumbnail in a fixed **16:9** frame: `aspect-ratio:16/9; width:100%; object-fit:cover; border-radius:6px`.
-  - Desktop: thumbnail column 280px wide, text beside it.
-  - Phone: thumbnail full width above the text.
-  - Set `width` and `height` attributes so the layout doesn't jump, plus `loading="lazy"`.
-- **Why thumbnails look squashed or letterboxed today:**
-  - `youtube-api.mjs` stores `maxres`, else `high`, `medium` or `default`.
-  - `high` (480×360) and `default` are **4:3 images with black bars baked in**. Shown in a 16:9 box without `object-fit:cover`, they look squashed or barred.
-  - Fix it in two places:
-    - (a) Always render in the 16:9 frame with `object-fit:cover`. This crops the bars.
-    - (b) Prefer the true-16:9 sizes. Build the URL from the video ID: `https://i.ytimg.com/vi/{id}/maxresdefault.jpg`, and if that fails to load, fall back to `https://i.ytimg.com/vi/{id}/mqdefault.jpg` (320×180, always 16:9).
-- **Thumbnail safety:**
-  - Keep the existing allow-list (`/^https:\/\/i[0-9]?\.ytimg\.com\//` in `public/video-ideas.js`).
-  - If every image fails, show a plain `#F5F3EE` block with the creator's initial. Never show a broken image icon.
-- **Text:** date (`9 Oct 2026`), title (600 weight, 18px), and the first 3 lines of the YouTube description with a "More" toggle.
-- **Actions:**
-  - **+ Save as topic** (primary, ink button): offers "New topic" or "Add to an existing topic".
-  - **Watch on YouTube ↗**: new tab, with `rel="noopener noreferrer"`.
-- **Panel footer:** "Open full creator view →" deep link: `#/watchlist/creator/{handle}` opens the watchlist with that row expanded.
-
-**States:**
-- **Not connected** (no API key): still list all 42 creators. An expanded row says "No uploads loaded yet. The YouTube connection is still being set up." Keep the existing honest wording style. No fake videos.
-- **Connected, no uploads in period:** "No uploads in the last N days."
-- **Loading:** a short "Checking …" line. **Error:** show the stored per-creator `error` text, plain.
-
-**Data and API changes needed:**
-- `youtube-api.mjs`:
-  - Also keep `description: s.description || ''` from `snippet` in `uploads()`.
-  - Add a test to `youtube-api.test.mjs`.
-- New migration `drizzle/0001_*.sql` and `db/schema.ts`: add a `videos.description` text column, `NOT NULL DEFAULT ''`.
-- `app/api/ideas/[[...path]]/route.ts`:
-  - Store the description on refresh.
-  - Add `GET /api/ideas/creator?handle=@x`, which returns that creator's stored videos **with** descriptions. Keep descriptions out of the main `/api/ideas` payload so it stays small.
-  - Keep the existing same-origin, JSON-only and size checks.
-- **Save as topic replaces Save idea** (Taylor's decision):
-  - Remove the "Saved ideas only" checkbox and the `save` action.
-  - Copy existing `saved_ideas` rows into topics (Part C migration).
-  - Leave the old `saved_ideas` table in place: no destructive drop.
-- **Routing (`public/library.js`):**
-  - Keep `#/video-ideas` working as an alias, using `history.replaceState` to `#/watchlist`.
-  - Add `#/watchlist` and `#/watchlist/creator/{handle}`.
-
-### Part C: the Topics tab, built around the new weekly schedule
-
-Add a third navigation tab, **Topics**, in the same plain-text underline style: **Presentations · Creator watchlist · Topics**.
-
-**The schedule** (Taylor, 16 October; also in `PROCESS.md`):
-
-| Day | Job |
-|---|---|
-| Monday | Plan all of the week's topics. Finish last week's videos so they're fully edited. Build the two presentations for this week's recordings. |
-| Tuesday | Post day, plus editing |
-| Wednesday | Record video 1 |
-| Thursday | Editing |
-| Friday | Record video 2 |
-
-How one video moves: **Plan and slides (Mon) → Record (Wed or Fri) → Edit (Thu / Tue, finished by next Mon) → Post (next Tue)**.
-
-Example: planned Mon 19 Oct → recorded Wed 21 Oct → edited Thu 22 Oct → finished Mon 26 Oct → posted Tue 27 Oct. The Friday video posts the same Tuesday.
-
-Open question for Taylor: whether both videos post on the same Tuesday. Until Taylor answers, suggest the next Tuesday for both and let either date be edited.
-
-**Layout: "production line plus week strip" (Taylor's pick 3C-7, the blend of 3C-5 and 3C-4):**
-
-1. **Header:**
-   - Eyebrow `TOPICS · THIS WEEK AND NEXT TWO` (`WWMono`), title "The production line" in `WWHand` with "production line" in gold.
-   - "‹ Previous week · Next week ›" text links.
-2. **This week strip:** five equal cells, Mon to Fri, each showing:
-   - The day in `WWHand`, the date, and a job tag:
-     - Mon **Plan + slides**: outline tag.
-     - Tue **Post + edit**: `#F6DF8C` tag.
-     - Wed **Record**: ink tag, white text.
-     - Thu **Edit**: gold outline tag.
-     - Fri **Record**: ink tag.
-   - One line naming the topic or job:
-     - Mon: "2 topics to plan · 1 of 2 slides ready".
-     - Tue: "Post: last week's two videos".
-     - Wed / Fri: the scheduled topic title.
-     - Thu: "Edit: Wednesday's video".
-   - Today's cell has a 2px ink outline.
-   - On a phone the strip becomes a row of five chips that **scrolls inside its own box**. The page itself must never scroll sideways.
-3. **Production line:** one row per video for this week and the next two (two rows a week).
-   - Columns: **Topic | Plan & slides (Mon) | Record (Wed/Fri) | Edit | Post (Tue) | Status**.
-   - Empty slots show "+ Pick a topic" with a dashed border.
-   - On a phone each row becomes a stacked card with small labels.
-4. **Side panel** (right on desktop, below on phone): the selected topic's details:
-   - Title, status, notes or angle, linked source videos (each removable), and the record and post dates.
-   - **Subtopics:** an ordered list of points, each a title and a note, with "+ Add subtopic" and reorder. These are prepared on Monday with the slides.
-   - "Mark as …" button for the next status.
-5. **Unscheduled topics list** underneath: everything saved from the watchlist that has no recording slot yet, with a "Schedule for … ▾" menu listing the next open Wed / Fri slots.
-
-**Rules:**
-- Recording dates must be a Wednesday or Friday, **one topic per slot**. Use a unique index. If the slot is taken, ask whether to swap.
-- Dates worked out from `record_date`, and stored only where they can be overridden:
-
-| Date | Rule |
-|---|---|
-| `plan_date` | Monday of the same week |
-| `edit_date` | Thursday of the same week for a Wednesday recording; the next Monday for a Friday recording |
-| `post_date` | The next Tuesday, overridable |
-
-- Statuses, in order: `new → shortlisted → planned → slides_ready → recorded → edited → posted`.
-
-**Data (migration `drizzle/0002_*.sql` and `db/schema.ts`):**
-- `topics`: `id`, `title`, `status`, `notes`, `record_date` (nullable, unique), `post_date` (nullable override), `created_at`, `updated_at`.
-- `topic_sources`: `topic_id`, `video_id`, `added_at`, primary key `(topic_id, video_id)`.
-- `topic_points`: `id`, `topic_id`, `position`, `title`, `note`, `done`.
-- Copy each `saved_ideas` row into a `new` topic titled with the video title, plus its source row.
-- In `refresh`, change the `DELETE` statements so videos linked to a topic (`topic_sources`) are never pruned. Today they protect `saved_ideas`.
-
-**API (same route file and same safety checks):**
-- `GET /api/ideas` also returns topics with their sources and points.
-- `POST` actions:
-  - `topic`: `{videoId}` creates a topic; `{videoId, topicId}` adds a source to an existing topic.
-  - `topic-update`: title, status, notes, recordDate, postDate, each validated. Allow a larger body for this action only, so notes fit.
-  - `topic-source-remove`
-  - `topic-delete`
-  - `point-add`, `point-update`, `point-delete`, `point-move`
-
-**New files:** `public/topics.js` and `public/topics.css`. Reuse `api()`, `esc()` and `date()` from `public/video-ideas.js` rather than copying them. Add both files to `public/index.html` and update README "Where to edit".
+If anything fails, roll back to the previous version and report the exact error. Don't patch the live site by hand: fixes go through a PR to `main`.
 
 ## 4. Checks before every merge
 
@@ -220,8 +102,8 @@ node verify-lge-condensed.cjs http://127.0.0.1:8862/
 node verify-lge-prompt.cjs http://127.0.0.1:8862/
 ```
 
-For Parts B and C you also need the full server, because the static preview cannot test the API:
-- Apply the migrations to **local** D1 only (see README, "Full application"), then run `npm run dev -- --port 8864`.
+For the watchlist and Topics you also need the full server, because the static preview cannot test the API:
+- Apply both migrations to **local** D1 only (see README, "Full application"), then run `npm run dev -- --port 8864`.
 - Insert a few clearly fake test videos into **local** D1 only.
 - Never commit them.
 
@@ -233,14 +115,16 @@ Browser checks at **375, 390, 768 and 1280px**:
 - [ ] Direct links work: `#/presentation/vision-boards`, `#/presentation/ai-harnesses/slide/done-gate`.
 - [ ] Back and forward history works across tabs.
 - [ ] `#/video-ideas` still opens Creator watchlist.
-- [ ] Part B: 42 creator rows. Expanding one shows its videos with 16:9 thumbnails, nothing stretched or barred. Phone rows are two lines, not squashed. `#/watchlist/creator/@handle` opens that row. Save as topic creates a topic and can add to an existing one.
-- [ ] Part C: week strip with the right jobs Mon to Fri, today outlined. Only Wed / Fri can be booked, and one topic per slot. Post date defaults to the next Tuesday and can be changed. Status advances. Subtopics add, edit and reorder. A refresh never deletes a video linked to a topic.
+- [ ] Watchlist: 42 creator rows. Expanding one shows its videos with 16:9 thumbnails, nothing stretched or barred. Phone rows are two lines, not squashed. `#/watchlist/creator/@handle` opens that row. Save as topic creates a topic and can add to an existing one.
+- [ ] Topics: week strip with the right jobs Mon to Fri, today outlined. Only Wed / Fri can be booked, and one topic per slot. Post date defaults to the next Tuesday and can be changed. Status advances. Subtopics add, edit and reorder. A refresh never deletes a video linked to a topic.
 - [ ] Browser-only brand previews are never saved as shared settings.
 
 ## 5. Checks after every publish (on the live URL, signed out)
 
-- [ ] An unauthenticated `curl -I https://whiteboard-wednesdays.mantamarketingltd.chatgpt.site/` returns 200, not a login redirect.
-- [ ] A **signed-out** browser (new private window) opens the library with no login prompt. An already signed-in tab doesn't count.
+- [ ] Access matches Taylor's decision from section 2:
+  - **If no login:** an unauthenticated `curl -I https://whiteboard-wednesdays.mantamarketingltd.chatgpt.site/` returns 200, not a login redirect, and a **signed-out** browser (new private window) opens the library with no login prompt. An already signed-in tab doesn't count.
+  - **If kept private:** a signed-out browser is asked to sign in.
+- [ ] Topics loads with no "could not be loaded" message, which shows migration `0001_topics.sql` ran, and the Creator watchlist lists 42 creators.
 - [ ] Repeat the browser checks from section 4 on the live site at 390 and 1280px.
 - [ ] `presentations.js` on the live site lists all four deck IDs.
 - [ ] The older paid ads site is unchanged.
