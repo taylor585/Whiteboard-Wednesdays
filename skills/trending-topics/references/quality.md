@@ -4,16 +4,17 @@ A pick sheet or brief is delivered only when every applicable check below passes
 
 ## Pick sheet
 
-- [ ] Scan date stated; channels scanned and failures named; `lane-b.md` themes written.
-- [ ] Exactly 6 topics including any Taylor already chose, or fewer with the reason (never padded).
-- [ ] Every topic has at least one core creator winner (1.4× or more) with its URL; no secondary-only themes.
-- [ ] Every topic names the promise and format the creators proved, and our version.
-- [ ] No session names, client names or our project details on the sheet (our work comes after the pick).
+- [ ] Two tables, never mixed: Table 1 (our work) and Table 2 (creators); locked titles shown above both.
+- [ ] Table 1: every session updated in the last 30 days indexed and every non-trivial one read; repos pushed in the window read; skills updated listed; counts and anything unreadable stated.
+- [ ] Table 1: nothing dropped for being on an earlier sheet; only recorded or fully planned topics left out.
+- [ ] Table 2: scan date, channels and failures stated; `lane-b.md` written; every row has a core creator winner (1.4× or more) with its URL.
+- [ ] Every title promises the viewer something.
+- [ ] No client names, private links or personal data in either table.
 - [ ] Listing views are labelled rounded; provisional ratios (under about 3 weeks) labelled.
 - [ ] Score breakdown shown for every topic; hard gates applied.
 - [ ] Client names and confidential details flagged, not on camera unchecked.
 - [ ] Proven themes left out are listed with the reason.
-- [ ] Ends with the recommended 3 and "Pick 3 and I'll plan the week."
+- [ ] Ends with the recommended picks and "Pick from either table and I'll plan the week."
 
 ## Trending Topic Brief
 

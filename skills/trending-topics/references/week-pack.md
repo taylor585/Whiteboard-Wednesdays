@@ -1,11 +1,11 @@
 # The week pack
 
-What Taylor gets after choosing 3 of the 6 picked topics: everything needed to record the week, delivered in the chat.
+What Taylor gets after choosing 3 topics from the two pick tables: everything needed to record the week, delivered in the chat.
 
 ## Steps
 
 1. Confirm the 3 chosen topics and the recording order Taylor wants. Default order: the highest-scoring topic first, then follow the series link.
-2. **Find our talking points** for each topic (`references/chat-research.md`): search our sessions and skills by the topic's words, write `talking-points-[slug].md`, and mark anything confidential. If we have nothing, add a "before you record" task.
+2. **Find our talking points** for each topic (`references/chat-research.md`): for an our-work topic read its sessions and sources in full; for a creator topic search the 30-day research by the topic's words, write `talking-points-[slug].md`, and mark anything confidential. If we have nothing, add a "before you record" task.
 3. Build each brief with `references/brief-format.md`, one at a time, reading each topic's source in full (for a skill: its SKILL.md and every reference file, line by line). Every brief ends with PACKAGING (A/B titles, thumbnail lines, description) from `references/headlines.md` and `references/descriptions.md`, and carries example appendices when the video demonstrates the system.
 4. Set each brief's **NEXT VIDEO** to the next brief in the week, and the last one to next week ("Next week: [top unused pick]").
 5. Run `python3 <skill-dir>/scripts/check_brief.py <brief1> <brief2> <brief3>`. Fix every BLOCKING line and re-run until it exits 0. Never deliver a failing brief.

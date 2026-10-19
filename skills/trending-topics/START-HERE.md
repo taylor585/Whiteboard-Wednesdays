@@ -1,14 +1,14 @@
-# Start using Trending Topics v3
+# Start using Trending Topics v3.1
 
 Say this to Claude Code:
 
-> Use Trending Topics. Find this week's 6 topics from what our creators have proven.
+> Use Trending Topics. Give me this week's two tables: our own work from the last 30 days, and what our creators have proven.
 
-When the pick sheet arrives, reply with your three:
+When the pick sheet arrives, reply with your three, from either table:
 
-> Go with 1, 3 and 4. Plan the week.
+> Go with A1, A3 and C2. Plan the week.
 
-Topics come from the creators only. Once you pick, the skill pulls our own work in as talking points, then you get a week overview and three Trending Topic Briefs in the chat. Each brief has a READ BEFORE YOU RECORD block at the top: read it, open what it lists, and record. Each brief ends with PACKAGING: three titles to A/B test, a thumbnail line for each, and the description.
+Table 1 comes from reading every session, repo and skill from the last 30 days; Table 2 from the creators' breakout videos. Once you pick, you get a week overview and three Trending Topic Briefs in the chat. Each brief has a READ BEFORE YOU RECORD block at the top: read it, open what it lists, and record. Each brief ends with PACKAGING: three titles to A/B test, a thumbnail line for each, and the description.
 
 Other things you can ask:
 
@@ -28,8 +28,8 @@ python3 tests/test_skill.py
 python3 scripts/check_brief.py examples/harness-brief.md
 ```
 
-Pick needs only the creator scan. The talking points step (after you pick) uses Claude Code's session tools; if those are missing, the skill reads local transcripts or asks you for a short note of what we did on the topic.
+Table 1 uses Claude Code's session tools and GitHub; if those are missing, the skill reads local transcripts or asks you for a short note of what we did on the topic.
 
 ## Install on claude.ai
 
-Upload `trending-topics.skill` in Settings > Capabilities > Skills. The scanner needs network access to YouTube; the talking points step works best in Claude Code.
+Upload `trending-topics.skill` in Settings > Capabilities > Skills. The scanner needs network access to YouTube; Table 1 works best in Claude Code.

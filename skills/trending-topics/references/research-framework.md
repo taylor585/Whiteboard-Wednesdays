@@ -6,8 +6,8 @@ Exactly how much we research, of whom, and how often. Keep to these numbers so e
 
 | Layer | What | How many | Which creators | When |
 |---|---|---|---|---|
-| **A. Creator scan** (decides the topics) | Each core creator's winners and fresh uploads | Per channel: the latest **30** long-form uploads by listing (outlier ratio, the Core winners table, any date) plus the latest **~15** uploads by RSS (exact dates and views); fresh window **14 days**; Shorts excluded | **Core 10** (11 channels) every run; the secondary watchlist only with `--with-secondary`, as support | Every Pick run |
-| **B. Our work** (talking points, after the choice) | Our Claude Code sessions and skills that match a chosen topic | Sessions from the last **14 days** matching the topic's search words; up to about **5** read in depth per topic | n/a | Plan the week and Build one, never Pick |
+| **A. Creator scan** (Table 2) | Each core creator's winners and fresh uploads | Per channel: the latest **30** long-form uploads by listing (outlier ratio, the Core winners table, any date) plus the latest **~15** uploads by RSS (exact dates and views); fresh window **14 days**; Shorts excluded | **Core 10** (11 channels) every run; the secondary watchlist only with `--with-secondary`, as support | Every Pick run |
+| **B. Our work** (Table 1, then talking points) | Every Claude Code session, every GitHub repo pushed, every skill updated | **All** sessions updated in the last **30 days**, every non-trivial one read in depth by parallel agents (one per project group, about 30 sessions each at most); every repo pushed in the window with no session; the skills manifest | n/a | Every Pick run; re-read per topic in Plan the week |
 | **C. Deep packaging study** | Titles, thumbnails, descriptions, by era | Per creator: **latest 30** long-form + **all-time top 20** (top 10 by views + top 10 breakouts, 180 s or longer) + **full upload history** for base rates; **5** studied in depth | Done: Nick Saraev, Sabri Suby, Riley Brown. Next in line: Sergio C, Jeremy Haynes, Alex Finn | When adding a priority creator, when a formula looks tired, or about every quarter |
 
 Layer C is the thumbnail-tracker skill's research rubric (`thumbnail-tracker/references/research-rubric.md`, collection with `fetch_videos.py --baseline 30 --all-dossiers`). This skill uses its findings; it does not repeat the study each week.
@@ -73,6 +73,7 @@ Remove when a creator has had no in-window upload in 3 consecutive runs, or has 
 ## 6. What every run must record
 
 - Channels scanned, failures, core winners, in-window uploads, themes written to `lane-b.md`.
-- For Plan the week: sessions searched and read per topic, talking points written.
+- Sessions indexed and read, repos read, skills listed, and anything that could not be read.
+- For Plan the week: talking points written per topic.
 - Which numbers are rounded (listing) and which exact (RSS).
 - Which creators were unavailable and why.

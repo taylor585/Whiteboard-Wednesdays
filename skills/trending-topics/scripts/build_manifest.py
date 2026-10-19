@@ -24,7 +24,7 @@ def main():
             data = open(p, 'rb').read()
             files.append({'path': os.path.relpath(p, ROOT).replace(os.sep, '/'),
                           'sha256': hashlib.sha256(data).hexdigest(), 'bytes': len(data)})
-    out = {'name': 'trending-topics', 'version': '3.0.0', 'files': files}
+    out = {'name': 'trending-topics', 'version': '3.1.0', 'files': files}
     with open(os.path.join(ROOT, 'PACKAGE-MANIFEST.json'), 'w', encoding='utf-8') as fh:
         json.dump(out, fh, indent=2)
         fh.write('\n')

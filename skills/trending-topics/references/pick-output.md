@@ -2,61 +2,67 @@
 
 Pick mode ends with this sheet in the chat, then stops for Taylor's choice. Save it to `video-plans/Picks - week NN.md` in the working directory (Taylor opens files there, not in the scratchpad) and send it with SendUserFile.
 
-The sheet uses creator evidence only. Our own work is added later, as talking points, once a topic is chosen.
+It has **two tables, never mixed**: Table 1 from our own work, Table 2 from other creators. Taylor picks from either.
 
 ## Template
 
 ```markdown
 # Trending Topics: picks for week [YYYY-Www]
 
-Scan: [date], [n] of [n] core channels, [n] core winners (1.4× or more), [n] in-window uploads. Secondary watchlist: off / on (supporting only).
-Already chosen by Taylor: [titles, or none].
+**Locked in:** [titles Taylor already chose, word for word, or none]
 
-## The six
+**Our work researched:** [n] Claude Code sessions (every one updated [start] to [end]), [n] GitHub repos pushed in the window, [n] skills updated. [Name anything that could not be read.]
+**Creators researched:** [n] of [n] core channels, [n] core winners (1.4× or more), [n] in-window uploads.
 
-### 1. [Working title]  ·  score [n]/50
+## Table 1: from our own work
 
-**In 5 to 10 words:** [what the video promises the viewer]
-
-**What the creators proved:** [the promise and format, in one line]
-
-**Creator evidence:**
-| Creator | Video | Views | Outlier | In window | URL |
+| # | Topic (best title) | What we built | Wow | Proof on screen | Score |
 |---|---|---|---|---|---|
-| [name] | [title] | [views] | [ratio] | yes/no | [url] |
+| A1 | [title] | [one line] | [why it blows people away, one line] | [the number or demo] | [n]/50 |
+| A2 | ... | ... | ... | ... | ... |
 
-**Our version:** [the same promise for our audience, and the twist that makes it ours]
+## Table 2: from other creators
 
-**Title options** (borrowing the proven formula):
-- [title A]
-- [title B]
-- [title C, optional]
+| # | Topic (best title) | What the creators proved | Best evidence | Our version | Score |
+|---|---|---|---|---|---|
+| C1 | [title] | [promise + format] | [creator, video, ratio, URL] | [our twist] | [n]/50 |
+| C2 | ... | ... | ... | ... | ... |
 
-**Hook:** "[one opening line]"
+## Details
 
-**Score:** proof [n]×3 · spread [n]×2 · promise [n]×2 · fresh [n] · fit [n] · open [n]
+### A1. [title]
+- **Title options:** [2 or 3, borrowing a proven formula where one fits]
+- **Hook:** "[one line]"
+- **From:** [sessions, repos, skills, by name]
+- **Proof:** [numbers and verbatim quotes]
+- **Demo:** [what we show]
+- **Creator echo:** [a core creator video on the same theme, with URL, or none]
+- **Score:** wow [n]×3 · proof [n]×2 · demo [n]×2 · fit [n] · fresh [n] · echo [n]
+- **Risks and what to scrub:** [confidential details, unfinished parts, claims to verify]
 
-**Risks:** [crowded this fortnight, a single-creator signal, a claim to verify, news that may date]
+[repeat for each A row]
 
-[repeat for 2 to 6]
+### C1. [title]
+- **Title options**, **hook**, **creator evidence table** (creator, video, views, outlier, in window, URL), **our version**
+- **Score:** proof [n]×3 · spread [n]×2 · promise [n]×2 · fresh [n] · fit [n] · open [n]
+- **Risks**
 
-## Proven themes we left out
-- [theme]: [best creator evidence]. Why not this week: [off-audience, done in the last 4 weeks, crowded].
+[repeat for each C row]
 
-## Recommended three
-1. [title]: [one-line reason]
-2. [title]: [one-line reason]
-3. [title]: [one-line reason]
+## Recommended this week
+1. [locked title]
+2. [pick]: [one-line reason]
+3. [pick]: [one-line reason]
 
 **How they link as a series:** [one line]
 
-When you pick, I'll pull our own work in as talking points for each one. Pick 3 and I'll plan the week.
+Pick from either table and I'll plan the week.
 ```
 
 ## Rules
 
-- Exactly 6 topics, ranked by score, counting any title Taylor already chose (shown first, marked "chosen"). If fewer pass the gates, show what passed and say why the rest failed. Never pad.
-- Every row has a URL. Say "views rounded" for listing views, and flag ratios under about 3 weeks old as provisional.
-- Core creators only in the evidence table. A secondary-watchlist row may appear only under a core row, labelled "supporting".
-- No session names, client names or our own project details on the pick sheet.
-- Do not reuse a topic we recorded or planned in the last 4 weeks, unless the creators' angle is clearly different. Say which.
+- **Table 1** lists every distinct thing we built in the window that passes the our-work gates, ranked by score, at least 6 rows when that many pass. Never pad. Never drop something because it was on an earlier sheet; only drop it if it was recorded or fully planned in the last 4 weeks.
+- **Table 2** lists 6 creator topics ranked by score, core creators only, every evidence row with a URL.
+- No client names, private links or personal data in either table. Describe clients by type ("a parenting app client").
+- Say "views rounded" for listing views, and flag ratios under about 3 weeks old as provisional.
+- A topic may appear in both tables only if it is genuinely both (our work plus a creator breakout). List it once, in Table 1, with the creator echo.

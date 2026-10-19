@@ -1,14 +1,45 @@
-# Creator-first scoring
+# Scoring: two rubrics, two tables
 
-Our creators have already tested topics on a real audience. A breakout (a video that beat the creator's own normal) is that test passing. We score topics on that evidence alone. Our own work is not scored: it comes in as talking points after Taylor chooses (`chat-research.md`).
+The pick sheet has two tables that are scored separately and never mixed:
 
-## Step 1: build candidates
+- **Table 1, our work:** scored on how much it would blow a business owner away (Part A).
+- **Table 2, the creators:** scored on how proven it is with a real audience (Part B).
+
+Neither gates the other.
+
+# Part A: our work (Table 1)
+
+## Score each thing we built 1 to 5
+
+| Factor | Weight | 5 looks like | 1 looks like |
+|---|---|---|---|
+| Wow factor | ×3 | A business owner would say "that's not possible" (an AI that makes sales calls, an app built by agents, a 77-minute video edited and self-checked) | Routine work any tool does |
+| Proof | ×2 | Built and working, with numbers, outputs or a live result | Half-built or blocked, nothing to show |
+| Demo | ×2 | Can be shown on screen end to end, live | Abstract, or only describable |
+| Audience fit | ×1 | Our buyers would pay for this result | Personal or off-audience |
+| Freshness | ×1 | Built or changed in the last 14 days | Untouched for most of the 30 days |
+| Creator echo | ×1 | A core creator breakout on the same theme (borrow its title format) | No creator touched it |
+
+Total out of 50.
+
+## Our-work gates
+
+- **It exists.** It names real sessions, repos or skills from the window.
+- **It works anonymised.** If it only makes sense with a client's name or data, it is not a pick.
+- **It was not already recorded or fully planned** in the last 4 weeks. Being on an earlier pick sheet does not count.
+- **It has a viewer promise.** At least one title option promises the viewer a result.
+
+# Part B: the creators (Table 2)
+
+Our creators have already tested topics on a real audience. A breakout (a video that beat the creator's own normal) is that test passing.
+
+## Step 1: build creator candidates
 
 1. Start from the **Core winners** table in `scan.md`: every core creator's long-form uploads at 1.4× or more, any date, plus the in-window uploads.
 2. Group them into themes in `lane-b.md` (`creator-research.md`): same subject, or same promise and format, across creators.
 3. A candidate is one theme plus our version of it: the promise they proved, aimed at Pecuna Factorem's audience (business owners, marketers, agency operators), with our searchable noun.
 
-## Step 2: score each candidate 1 to 5
+## Step 2: score each creator candidate 1 to 5
 
 | Factor | Weight | 5 looks like | 1 looks like |
 |---|---|---|---|
@@ -25,7 +56,7 @@ Spread bands (core creators with a winner on the theme): 5 = 4 or more · 4 = 3 
 
 Total out of 50. Show the breakdown on the pick sheet.
 
-## Hard gates (fail any, and it is not a pick)
+## Creator gates (fail any, and it is not a pick)
 
 - **No core creator winner:** at least one core upload on the theme at 1.4× or more, with its URL.
 - **Secondary only:** a theme seen only on the app watchlist is not a pick.

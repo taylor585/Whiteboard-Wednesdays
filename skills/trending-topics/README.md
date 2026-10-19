@@ -1,6 +1,6 @@
-# Trending Topics v3
+# Trending Topics v3.1
 
-A Claude Code skill that finds Whiteboard Wednesdays video topics from what our creator list has already proven (each creator's breakout videos), scores them with our packaging research, then, once Taylor picks, pulls our own Claude Code work in as talking points and writes record-ready Trending Topic Briefs with titles and descriptions.
+A Claude Code skill that finds Whiteboard Wednesdays video topics in two separate tables: our own work (every Claude Code session, GitHub repo and skill from the last 30 days) and what our creator list has already proven (each creator's breakout videos). It scores each table with its own rubric, then writes record-ready Trending Topic Briefs with titles and descriptions for the topics Taylor picks.
 
 ## Layout
 
@@ -51,5 +51,5 @@ python3 scripts/build_manifest.py
 ## Data sources
 
 - Creators (topics): public YouTube channel RSS and listings. No API key needed.
-- Our sessions (talking points, after the pick): Claude Code remote session tools (`list_sessions`, `list_events`).
+- Our work (Table 1 and talking points): Claude Code remote session tools (`list_sessions`, `list_events`), GitHub (`list_repos`, read-only clones) and the synced skills manifest.
 - Packaging research: the thumbnail-tracker skill's study of Nick Saraev, Sabri Suby and Riley Brown, summarised in `references/research-findings.md`.

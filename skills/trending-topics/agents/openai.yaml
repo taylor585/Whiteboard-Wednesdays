@@ -1,4 +1,4 @@
 interface:
-  display_name: "Trending Topics v3"
-  short_description: "Weekly video topics from what our creators have proven, with record-ready briefs, titles and descriptions"
-  default_prompt: "Use Trending Topics. Scan our creator list for what is beating their own normal, give me 6 ranked topics with title options, then wait for me to pick 3, pull our work in as talking points and plan the week."
+  display_name: "Trending Topics v3.1"
+  short_description: "Weekly video topics in two tables, our own work and what our creators have proven, with record-ready briefs"
+  default_prompt: "Use Trending Topics. Give me two ranked tables: our own work from every session, repo and skill in the last 30 days, and our creators' breakout videos. Then wait for me to pick and plan the week."

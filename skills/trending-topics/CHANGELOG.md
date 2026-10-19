@@ -1,5 +1,15 @@
 # Trending Topics releases
 
+## 3.1.0 — 19 October 2026
+
+Two tables. Taylor asked for the pick sheet to list our own work and other creators separately, and for our work to cover every chat and project from the last 30 days. See `references/research-findings.md` §9.
+
+- Pick returns Table 1 (our work) and Table 2 (creators), scored with separate rubrics. Neither gates the other.
+- Table 1 reads everything: every session updated in the last 30 days (paged to the end, read by parallel agents per project group), every GitHub repo pushed in the window with no session (read-only, nothing run), and every skill updated in the window.
+- An earlier pick sheet is no longer a reason to skip something we built; only a recorded or fully planned topic is.
+- New our-work rubric: wow ×3, proof ×2, demo ×2, fit, freshness, creator echo.
+- Rewritten `chat-research.md` and `pick-output.md`; updated SKILL.md, scoring, framework, week pack, quality, START-HERE, README.
+
 ## 3.0.0 — 17 October 2026
 
 Creators first. Taylor rejected the v2 week 43 picks because they started from our own sessions; see `references/research-findings.md` §8.
