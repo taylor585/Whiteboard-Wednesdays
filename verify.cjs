@@ -12,7 +12,7 @@ async function run(){
  const go=async(id)=>{await page.goto(base+'#/presentation/paid-ads-process/slide/'+id);await page.locator('#player').waitFor({state:'visible'});};
  for(const width of [375,390,768,1280]){
   await page.setViewportSize({width,height:900});await page.goto(base);await page.locator('.deck-card').first().waitFor();await page.evaluate(()=>document.fonts.ready);
-  check(await page.locator('.deck-card').count()===4,'four genuine library cards '+width);
+  check(await page.locator('.deck-card').count()===5,'five genuine library cards '+width);
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'library no overflow '+width);
   await page.screenshot({path:(process.env.QA_OUTPUT||'/tmp')+'/ww-library-'+width+'.png',fullPage:true});
   for(const s of deck.slides){

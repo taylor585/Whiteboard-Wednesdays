@@ -42,7 +42,7 @@ Everything below is on `main`. Always fetch first, because Sites sometimes write
 | Routes: `#/watchlist`, `#/watchlist/creator/@handle`, `#/topics`. The old `#/video-ideas` link still works. | `public/library.js` |
 | Weekly process | `PROCESS.md` |
 
-The four presentations (all must appear on the live site):
+The five presentations (all must appear on the live site):
 
 | Tab title | ID | Slides |
 |---|---|---|
@@ -50,6 +50,7 @@ The four presentations (all must appear on the live site):
 | Lead Gen Engine Demo Walkthrough | `lead-gen-engine` | 20 |
 | Using AI vision boards to build apps | `vision-boards` | 30 |
 | How AI Harnesses Can 10x Your Quality and Output | `ai-harnesses` | 27 |
+| Grok Voice WILL Replace Sales Reps! | `grok-voice` | 17 |
 
 **Creator watchlist, design 2C (Taylor's pick):**
 - One row per creator (42).
@@ -108,7 +109,7 @@ For the watchlist and Topics you also need the full server, because the static p
 - Never commit them.
 
 Browser checks at **375, 390, 768 and 1280px**:
-- [ ] Library shows exactly the four decks named in section 2.
+- [ ] Library shows exactly the five decks named in section 2.
 - [ ] Every deck opens from its tab and reaches its final slide. Check with motion on and with reduced motion.
 - [ ] `document.documentElement.scrollWidth <= clientWidth` on every screen. No sideways page scroll.
 - [ ] No runtime errors in the console after clicking around.
@@ -126,7 +127,7 @@ Browser checks at **375, 390, 768 and 1280px**:
   - **If kept private:** a signed-out browser is asked to sign in.
 - [ ] Topics loads with no "could not be loaded" message, which shows migration `0001_topics.sql` ran, and the Creator watchlist lists 42 creators.
 - [ ] Repeat the browser checks from section 4 on the live site at 390 and 1280px.
-- [ ] `presentations.js` on the live site lists all four deck IDs.
+- [ ] `presentations.js` on the live site lists all five deck IDs.
 - [ ] The older paid ads site is unchanged.
 
 ## 6. What to send back to Taylor
