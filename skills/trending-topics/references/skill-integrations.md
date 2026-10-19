@@ -15,7 +15,7 @@ Trending Topics finds the topic and writes the plan. Other skills make the asset
 
 ## Order of a full week
 
-1. Trending Topics: Pick (Table 1 our work, Table 2 creators) → Taylor chooses 3 → talking points → Plan the week (3 briefs with PACKAGING).
+1. Trending Topics: Pick (Table One our work, Table Two creators) → Taylor chooses 3 → talking points → Plan the week (3 briefs with PACKAGING).
 2. Whiteboard Wednesdays: a deck per brief, if Taylor wants slides.
 3. Record, reading each brief's READ BEFORE YOU RECORD.
 4. Suby Shots: edit.

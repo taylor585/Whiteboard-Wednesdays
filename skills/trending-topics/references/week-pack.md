@@ -13,7 +13,8 @@ What Taylor gets after choosing 3 topics from the two pick tables: everything ne
 7. Save the files to `video-plans/` in the working directory, so Taylor can open them (never commit them: the repo is public):
    - `week-YYYY-Www-overview.md`
    - `week-YYYY-Www-1-[slug].md`, `-2-[slug].md`, `-3-[slug].md`
-8. **Deliver in the chat:**
+8. Mark each topic planned: `python3 <skill-dir>/scripts/topics.py status "<title>" planned`.
+9. **Deliver in the chat:**
    - The week overview in full, as text.
    - Each brief's AT A GLANCE and READ BEFORE YOU RECORD blocks as text, so Taylor can start reading straight away.
    - Send all four files with SendUserFile (status `normal`) so they open on a phone. The full briefs live in the files.

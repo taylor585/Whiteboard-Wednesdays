@@ -1,6 +1,6 @@
-# Trending Topics v3.1 build status
+# Trending Topics v4 build status
 
-Version 3.1.0, 19 October 2026: two tables (our work, creators). Version 3.0.0 was rebuilt creators-first on 17 October 2026 in the shared cloud workspace (v2.0.0 was 13 October).
+Version 4.0.0, 19 October 2026: Table One: Your own work and Table Two: Ideas from creators, the topic register, the session indexer, the pick sheet gate and the version check. Version 3.1.0 (19 October) first split the two tables. Version 3.0.0 was rebuilt creators-first on 17 October 2026 in the shared cloud workspace (v2.0.0 was 13 October).
 
 ## Verified
 

@@ -2,12 +2,12 @@
 
 The pick sheet has two tables that are scored separately and never mixed:
 
-- **Table 1, our work:** scored on how much it would blow a business owner away (Part A).
-- **Table 2, the creators:** scored on how proven it is with a real audience (Part B).
+- **Table One: Your own work:** scored on how much it would blow a business owner away (Part A).
+- **Table Two: Ideas from creators:** scored on how proven it is with a real audience (Part B).
 
 Neither gates the other.
 
-# Part A: our work (Table 1)
+# Part A: our work (Table One)
 
 ## Score each thing we built 1 to 5
 
@@ -29,7 +29,7 @@ Total out of 50.
 - **It was not already recorded or fully planned** in the last 4 weeks. Being on an earlier pick sheet does not count.
 - **It has a viewer promise.** At least one title option promises the viewer a result.
 
-# Part B: the creators (Table 2)
+# Part B: the creators (Table Two)
 
 Our creators have already tested topics on a real audience. A breakout (a video that beat the creator's own normal) is that test passing.
 

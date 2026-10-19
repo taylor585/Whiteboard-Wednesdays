@@ -15,6 +15,7 @@ Dates are October 2026. YouTube numbers move daily; re-run the scan for anything
 7. Open questions to test on our own channel
 8. Why work-first picking failed, and the creators-first rewrite (W43)
 9. Two tables and reading everything (W43, 19 October)
+10. Everything we learned, in one list (v4)
 
 ---
 
@@ -260,4 +261,27 @@ Taylor asked why so much of our work was missing: the Thumbnail Tracker skill, t
 ### Lesson
 
 Read everything, every time, in parallel. Go by project, not by session, and include the repos. A list of things we built is only complete when work done outside Claude Code is in it too.
+
+## 10. Everything we learned, in one list (v4, 19 October 2026)
+
+Each lesson below came from a real moment in weeks 42 and 43. Each is now a rule, a script or a test.
+
+| # | What happened | What the skill does now |
+|---|---|---|
+| 1 | Picks started from our sessions and described our process ("76 sessions"); Taylor rejected all six | Every title promises the viewer something; proven formats are borrowed (`headlines.md`, master rules) |
+| 2 | v3 swung to creators only, and our best work vanished from the sheet | Two tables with Taylor's names: Table One: Your own work, Table Two: Ideas from creators. Separate rubrics; neither gates the other |
+| 3 | Sampling 10 to 15 sessions missed the Thumbnail Tracker, the live app and more | Every session in 30 days is indexed (`index_sessions.py`, PAGE MORE until complete) and read by parallel agents (`agent-prompts.md`) |
+| 4 | The biggest project of the month (an AI outbound caller, 141 commits in 4 days) had no session at all | Repos pushed in the window are read too, by a repo agent |
+| 5 | Things on an earlier pick sheet were skipped as "done", though never recorded | The topic register (`topics.py`) is the only judge: planned, recorded or published in 4 weeks |
+| 6 | Taylor had to ask whether the attached skill was the latest; it was two versions old | `version_check.py` runs first and says OLD COPY |
+| 7 | Taylor locked titles in chat and they had to be carried by memory | `topics.py lock`; locked titles shown word for word above both tables; `check_picks.py` fails if one is missing or reworded |
+| 8 | Taylor could not open files saved in the scratchpad | Everything for Taylor goes to `video-plans/` in the working directory and is sent with SendUserFile |
+| 9 | A question about a client's name stalled the plan on recording day, and Taylor was rightly angry | When a recording is close, deliver with defaults and list open points at the end |
+| 10 | Taylor wanted the vision-board video to "really sell" how advanced the skill is | "Sell what we built": showcase segments for advanced capabilities in briefs about our own skills |
+| 11 | The AI caller has passed 28 rehearsals but made zero real calls; "5 slices in 2 days" and "10x" were unverified | The claim ladder (live, working, rehearsed, half-built, blocked) with a status column; claims never go above the status |
+| 12 | The research found a public repo holding client material, and an app open to anyone with the link | A "Things we noticed" section on the pick sheet |
+| 13 | Client and children's names appeared throughout the session research | A scrub list built from the agents' CONFIDENTIAL notes, enforced by `check_picks.py --scrub`, never committed |
+| 14 | The live app's YouTube data is not connected yet | Never claim live YouTube retrieval until it is connected and tested (repo CLAUDE.md) |
+| 15 | The harness video needed one live example and one built-not-run example ("not running to save credits") | Kept in `brief-format.md` appendices and Build one step 4 |
+| 16 | A 14-day creator window was too thin to see breakouts | Core winners from each creator's latest 30 uploads, ranked by outlier ratio (`scan_creators.py`) |
 

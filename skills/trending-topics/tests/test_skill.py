@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Offline tests for the Trending Topics skill. Run: python3 tests/test_skill.py
 
-Covers check_brief.py (gold example passes; each required rule fails when broken) and the pure
-functions in scan_creators.py (outlier maths, window inference, core winners, core-only default). No network needed.
+Covers check_brief.py and check_picks.py (gold examples pass; each required rule fails when broken),
+scan_creators.py (outlier maths, window inference, core winners, core-only default), the topic
+register (topics.py), the session indexer (index_sessions.py) and version_check.py. No network needed.
 """
 import datetime as dt
 import importlib.util
+import json
 import os
 import subprocess
 import sys
@@ -142,6 +144,124 @@ class Scanner(unittest.TestCase):
             open(sec, 'w').write('{"creators": [{"name": "S", "handle": "@s"}]}')
             self.assertEqual([c['name'] for c in sc.load_creators(core, sec, True)], ['C'])
             self.assertEqual([c['name'] for c in sc.load_creators(core, sec, False)], ['C', 'S'])
+
+
+def load(name):
+    spec = importlib.util.spec_from_file_location(name, os.path.join(ROOT, 'scripts', f'{name}.py'))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+PICKS = os.path.join(ROOT, 'examples', 'picks-two-tables.md')
+
+
+class CheckPicks(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.cp = load('check_picks')
+        cls.good = open(PICKS, encoding='utf-8').read()
+
+    def test_example_passes(self):
+        self.assertEqual(self.cp.check(self.good, ["Claude Code WILL Replace Your Video Editor (Here's Proof)"]), [])
+
+    def test_tables_need_taylors_headings(self):
+        errs = self.cp.check(self.good.replace('## Table Two: Ideas from creators', '## Creators'))
+        self.assertTrue(any('Table Two' in e for e in errs), errs)
+
+    def test_locked_title_must_be_word_for_word(self):
+        errs = self.cp.check(self.good, ['Grok Voice WILL Replace Sales Reps! (Reworded)'])
+        self.assertTrue(any('locked title' in e for e in errs), errs)
+
+    def test_creator_row_needs_url(self):
+        bad = self.good.replace('https://www.youtube.com/watch?v=NTmWqnPIb2s', 'Sabri video', 1)
+        errs = self.cp.check(bad)
+        self.assertTrue(any('C1' in e and 'URL' in e for e in errs), errs)
+
+    def test_scrub_word_blocks(self):
+        errs = self.cp.check(self.good, scrub=['Suby Shots'])
+        self.assertTrue(any('confidential' in e for e in errs), errs)
+
+    def test_research_counts_required(self):
+        bad = self.good.replace('112 Claude Code sessions', 'some sessions')
+        errs = self.cp.check(bad)
+        self.assertTrue(any('Our work researched' in e for e in errs), errs)
+
+    def test_must_end_with_prompt(self):
+        errs = self.cp.check(self.good.rstrip() + '\n\nThanks!')
+        self.assertTrue(any('Pick from either table' in e for e in errs), errs)
+
+
+class TopicRegister(unittest.TestCase):
+    def test_lock_status_recent(self):
+        tp = load('topics')
+        reg = {'topics': []}
+        d = dt.date(2026, 10, 19)
+        tp.lock(reg, 'Grok Voice WILL Replace Sales Reps!', '2026-W43', '', d)
+        tp.lock(reg, 'Old Idea', '2026-W30', '', d - dt.timedelta(weeks=10))
+        tp.set_status(reg, 'old idea', 'recorded', '', d - dt.timedelta(weeks=9))  # case-insensitive match
+        tp.lock(reg, 'Harness', '2026-W42', '', d - dt.timedelta(days=7))
+        tp.set_status(reg, 'Harness', 'recorded', '', d - dt.timedelta(days=2))
+        self.assertEqual([t['title'] for t in tp.recent(reg, 4, d)], ['Harness'])  # only recent planned/recorded
+        self.assertEqual([t['title'] for t in tp.locked(reg)], ['Grok Voice WILL Replace Sales Reps!'])
+        self.assertEqual(reg['topics'][0]['title'], 'Grok Voice WILL Replace Sales Reps!')  # stored exactly
+        with self.assertRaises(KeyError):
+            tp.set_status(reg, 'Never locked', 'recorded', '', d)
+        with self.assertRaises(ValueError):
+            tp.set_status(reg, 'Harness', 'filmed', '', d)
+
+    def test_cli_round_trip(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            reg = os.path.join(tmp, 'reg.json')
+            run = lambda *a: subprocess.run([sys.executable, os.path.join(ROOT, 'scripts', 'topics.py'), *a,
+                                             '--register', reg, '--today', '2026-10-19'], capture_output=True, text=True)
+            self.assertEqual(run('lock', "Claude Code WILL Replace Your Video Editor (Here's Proof)").returncode, 0)
+            out = run('list').stdout
+            self.assertIn("Claude Code WILL Replace Your Video Editor (Here's Proof)", out)
+            self.assertEqual(run('status', 'Missing', 'recorded').returncode, 1)
+
+
+def page(sessions, has_more=True, last_id='last'):
+    return 'saved result text\n' + json.dumps({'ccr': {'data': sessions, 'has_more': has_more, 'last_id': last_id}})
+
+
+def sess(i, title, created, updated, repo=None):
+    s = {'id': f's{i}', 'title': title, 'created_at': created, 'updated_at': updated,
+         'post_turn_summary': {'recent_action': f'did {i}'}}
+    if repo:
+        s['session_context'] = {'sources': [{'git_repository': {'url': f'https://github.com/x/{repo}'}}]}
+    return s
+
+
+class IndexSessions(unittest.TestCase):
+    def test_window_groups_and_paging(self):
+        ix = load('index_sessions')
+        now = dt.datetime(2026, 10, 19, tzinfo=dt.timezone.utc)
+        p1 = ix.parse_page(page([sess(1, '(WW) Live App', '2026-10-12T00:00:00Z', '2026-10-18T00:00:00Z'),
+                                 sess(2, 'No tag here', '2026-10-10T00:00:00Z', '2026-10-11T00:00:00Z', repo='outbound-caller'),
+                                 sess(3, '(WW) Old', '2026-08-01T00:00:00Z', '2026-08-02T00:00:00Z'),
+                                 sess(4, '(WW) Me', '2026-10-01T00:00:00Z', '2026-10-19T00:00:00Z')], True, 's4'))
+        rows, more = ix.build([p1], now, 30, {'s4'})
+        self.assertEqual(sorted(r['id'] for r in rows), ['s1', 's2'])  # s3 too old, s4 excluded
+        self.assertIsNone(more)  # the page reached back past the window (s3 created in August)
+        self.assertEqual(next(r for r in rows if r['id'] == 's2')['tag'], 'outbound-caller')  # repo when no tag
+        p_recent = ix.parse_page(page([sess(5, '(PF) Site', '2026-10-15T00:00:00Z', '2026-10-16T00:00:00Z')], True, 's5'))
+        _, more = ix.build([p_recent], now, 30)
+        self.assertEqual(more, 's5')  # still inside the window and more pages exist: PAGE MORE
+
+    def test_big_groups_split(self):
+        ix = load('index_sessions')
+        rows = [{'tag': 'NURTURE P', 'updated': '2026-10-01'} for _ in range(65)]
+        g = ix.group(rows, 30)
+        self.assertEqual([len(v) for v in g.values()], [30, 30, 5])
+
+
+class VersionCheck(unittest.TestCase):
+    def test_compare(self):
+        vc = load('version_check')
+        self.assertTrue(vc.compare('2.0.0', '4.0.0').startswith('OLD COPY'))
+        self.assertTrue(vc.compare('4.0.0', '4.0.0').startswith('CURRENT'))
+        self.assertTrue(vc.compare('4.0.0', None).startswith('NO REPO'))
 
 
 if __name__ == '__main__':

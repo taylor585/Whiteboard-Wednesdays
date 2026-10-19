@@ -1,4 +1,4 @@
-# Start using Trending Topics v3.1
+# Start using Trending Topics v4
 
 Say this to Claude Code:
 
@@ -6,9 +6,19 @@ Say this to Claude Code:
 
 When the pick sheet arrives, reply with your three, from either table:
 
-> Go with A1, A3 and C2. Plan the week.
+> Lock in A1 and C2. Plan the week.
 
-Table 1 comes from reading every session, repo and skill from the last 30 days; Table 2 from the creators' breakout videos. Once you pick, you get a week overview and three Trending Topic Briefs in the chat. Each brief has a READ BEFORE YOU RECORD block at the top: read it, open what it lists, and record. Each brief ends with PACKAGING: three titles to A/B test, a thumbnail line for each, and the description.
+Or lock your own title at any time:
+
+> "Grok Voice WILL Replace Sales Reps!" is locked in.
+
+After recording:
+
+> We recorded the Grok video.
+
+That marks it recorded, so it never comes back as a suggestion.
+
+Table One comes from reading every session, repo and skill from the last 30 days; Table Two from the creators' breakout videos. Once you pick, you get a week overview and three Trending Topic Briefs in the chat. Each brief has a READ BEFORE YOU RECORD block at the top: read it, open what it lists, and record. Each brief ends with PACKAGING: three titles to A/B test, a thumbnail line for each, and the description.
 
 Other things you can ask:
 
@@ -24,12 +34,13 @@ Other things you can ask:
 python3 --version              # 3.10 or newer
 pip install -r requirements.txt   # optional: yt-dlp for outlier ratios; the scan works without it (RSS only)
 python3 scripts/scan_creators.py --out /tmp/tt-scan --days 14
+python3 scripts/version_check.py
 python3 tests/test_skill.py
 python3 scripts/check_brief.py examples/harness-brief.md
 ```
 
-Table 1 uses Claude Code's session tools and GitHub; if those are missing, the skill reads local transcripts or asks you for a short note of what we did on the topic.
+Table One uses Claude Code's session tools and GitHub; if those are missing, the skill reads local transcripts or asks you for a short note of what we did on the topic.
 
 ## Install on claude.ai
 
-Upload `trending-topics.skill` in Settings > Capabilities > Skills. The scanner needs network access to YouTube; Table 1 works best in Claude Code.
+Upload `trending-topics.skill` in Settings > Capabilities > Skills. The scanner needs network access to YouTube; Table One works best in Claude Code.

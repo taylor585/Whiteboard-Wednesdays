@@ -4,10 +4,15 @@ A pick sheet or brief is delivered only when every applicable check below passes
 
 ## Pick sheet
 
-- [ ] Two tables, never mixed: Table 1 (our work) and Table 2 (creators); locked titles shown above both.
-- [ ] Table 1: every session updated in the last 30 days indexed and every non-trivial one read; repos pushed in the window read; skills updated listed; counts and anything unreadable stated.
-- [ ] Table 1: nothing dropped for being on an earlier sheet; only recorded or fully planned topics left out.
-- [ ] Table 2: scan date, channels and failures stated; `lane-b.md` written; every row has a core creator winner (1.4× or more) with its URL.
+- [ ] `python3 scripts/check_picks.py <sheet> --scrub <scratchpad>/scrub.txt` exits 0 (locked titles word for word, both table headings in order, scores, creator URLs, research counts, no confidential words, the closing line).
+- [ ] `version_check.py` was run, and Taylor was told if the attached copy is old.
+- [ ] Every Table One row has a claim-ladder status, and no title or hook claims more than it allows.
+- [ ] "Left out as already done" matches `topics.py recent`.
+
+- [ ] Two tables, never mixed: Table One (your own work) and Table Two (ideas from creators); locked titles shown above both.
+- [ ] Table One: every session updated in the last 30 days indexed and every non-trivial one read; repos pushed in the window read; skills updated listed; counts and anything unreadable stated.
+- [ ] Table One: nothing dropped for being on an earlier sheet; only recorded or fully planned topics left out.
+- [ ] Table Two: scan date, channels and failures stated; `lane-b.md` written; every row has a core creator winner (1.4× or more) with its URL.
 - [ ] Every title promises the viewer something.
 - [ ] No client names, private links or personal data in either table.
 - [ ] Listing views are labelled rounded; provisional ratios (under about 3 weeks) labelled.

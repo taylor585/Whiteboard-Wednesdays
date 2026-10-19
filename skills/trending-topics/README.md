@@ -1,4 +1,4 @@
-# Trending Topics v3.1
+# Trending Topics v4
 
 A Claude Code skill that finds Whiteboard Wednesdays video topics in two separate tables: our own work (every Claude Code session, GitHub repo and skill from the last 30 days) and what our creator list has already proven (each creator's breakout videos). It scores each table with its own rubric, then writes record-ready Trending Topic Briefs with titles and descriptions for the topics Taylor picks.
 
@@ -14,9 +14,10 @@ trending-topics/
   requirements.txt         optional Python dependency (yt-dlp)
   agents/openai.yaml       display name and default prompt for Codex
   references/              how we do each part (format, headlines, descriptions, research, scoring...)
-  scripts/                 scan_creators.py, check_brief.py, build_manifest.py
+  scripts/                 scan_creators.py, index_sessions.py, topics.py, check_picks.py,
+                           check_brief.py, version_check.py, build_manifest.py
   tests/                   offline tests
-  examples/                gold brief, first pick sheet, first scan
+  examples/                gold brief, pick sheets (v2, v3, v4 two tables), first scan
 ```
 
 ## Commands
@@ -26,6 +27,21 @@ trending-topics/
 python3 scripts/scan_creators.py --out <dir> --days 14
 python3 scripts/scan_creators.py --out <dir> --days 14 --with-secondary   # add the app watchlist as support
 python3 scripts/scan_creators.py --out <dir> --no-ytdlp           # RSS only
+
+# Start of every run
+python3 scripts/version_check.py                       # is this copy the newest?
+python3 scripts/topics.py list                         # locked, planned, recorded titles
+
+# Table One: index every session from saved list_sessions pages, then read each group with an agent
+python3 scripts/index_sessions.py --out <dir> --days 30 --exclude <this session id> page1.txt page2.txt
+
+# Lock, plan, record
+python3 scripts/topics.py lock "Exact Title" --week 2026-W43
+python3 scripts/topics.py status "Exact Title" recorded
+python3 scripts/topics.py recent --weeks 4              # the only topics Pick may leave out
+
+# Gate a pick sheet
+python3 scripts/check_picks.py "video-plans/Picks - week 43.md" --scrub <scratchpad>/scrub.txt
 
 # Gate a brief (or several)
 python3 scripts/check_brief.py brief1.md brief2.md brief3.md
@@ -51,5 +67,5 @@ python3 scripts/build_manifest.py
 ## Data sources
 
 - Creators (topics): public YouTube channel RSS and listings. No API key needed.
-- Our work (Table 1 and talking points): Claude Code remote session tools (`list_sessions`, `list_events`), GitHub (`list_repos`, read-only clones) and the synced skills manifest.
+- Our work (Table One and talking points): Claude Code remote session tools (`list_sessions`, `list_events`), GitHub (`list_repos`, read-only clones) and the synced skills manifest.
 - Packaging research: the thumbnail-tracker skill's study of Nick Saraev, Sabri Suby and Riley Brown, summarised in `references/research-findings.md`.

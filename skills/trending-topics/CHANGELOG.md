@@ -1,5 +1,21 @@
 # Trending Topics releases
 
+## 4.0.0 — 19 October 2026
+
+Everything learned while picking weeks 42 and 43, built in. See `references/research-findings.md` §10.
+
+- **The two tables have Taylor's names:** "Table One: Your own work" and "Table Two: Ideas from creators". They are scored separately and never mixed.
+- **Topic register** (`scripts/topics.py`): lock titles word for word, then mark them planned, recorded or published. Locked titles show above both tables every run, and only what the register lists as planned, recorded or published in 4 weeks is left out.
+- **Session indexer** (`scripts/index_sessions.py`): saved `list_sessions` pages become the 30-day index and research groups (by title tag or repo, split at 30). It says PAGE MORE until the window is covered.
+- **Research agent prompts** (`references/agent-prompts.md`) for session groups, sensitive client groups and repos (work done in Codex, on the desktop or by routines).
+- **Pick sheet gate** (`scripts/check_picks.py`): locked titles, both headings, scores, creator URLs, research counts, a confidential scrub list, the closing line.
+- **Version check** (`scripts/version_check.py`) at the start of every run, so an old attached copy is caught.
+- **The claim ladder:** live, working, rehearsed, half-built, blocked. A status column in Table One, and no title claims more than its status allows.
+- **"Things we noticed"** section for risks found during research (a public repo with client material, an app without a login).
+- **"Sell what we built":** briefs on our own skills give each advanced capability its own showcase segment.
+- **Working with Taylor:** files in `video-plans/`, tables shown in the chat too, and no stalling with questions when a recording is close.
+- **New Lock and Recorded modes**, a new two-table example, and 24 offline tests (up from 13).
+
 ## 3.1.0 — 19 October 2026
 
 Two tables. Taylor asked for the pick sheet to list our own work and other creators separately, and for our work to cover every chat and project from the last 30 days. See `references/research-findings.md` §9.
