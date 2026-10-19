@@ -50,7 +50,7 @@ The five presentations (all must appear on the live site):
 | Lead Gen Engine Demo Walkthrough | `lead-gen-engine` | 20 |
 | Using AI vision boards to build apps | `vision-boards` | 30 |
 | How AI Harnesses Can 10x Your Quality and Output | `ai-harnesses` | 27 |
-| Grok Voice WILL Replace Sales Reps! | `grok-voice` | 17 |
+| Grok Voice WILL Replace Sales Reps! | `grok-voice` | 18 |
 
 **Creator watchlist, design 2C (Taylor's pick):**
 - One row per creator (42).
