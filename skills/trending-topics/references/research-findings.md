@@ -14,6 +14,7 @@ Dates are October 2026. YouTube numbers move daily; re-run the scan for anything
 6. What building the first brief taught us
 7. Open questions to test on our own channel
 8. Why work-first picking failed, and the creators-first rewrite (W43)
+9. Two tables and reading everything (W43, 19 October)
 
 ---
 
@@ -231,4 +232,32 @@ The v2 Pick run for week 43 read 76 of our sessions first, then matched creator 
 ### Lesson
 
 The creators have already run the experiment on a real audience. Copy the promise and the format, change the subject to ours, then bring our work in as proof.
+
+## 9. Two tables and reading everything (W43, 19 October 2026)
+
+### What happened
+
+Taylor asked why so much of our work was missing: the Thumbnail Tracker skill, the live app dashboard and "loads of other projects". He also asked for the pick sheet to have two tables, one for our own work and one for other creators.
+
+### Why we were missing it
+
+- **Sampling.** v2 read 10 to 15 sessions from 14 days. v3 read none.
+- **Wrongly skipped.** Things on an earlier pick sheet were treated as "already done", although they were never recorded.
+- **Invisible work.** Codex, desktop and hourly-routine work leaves no Claude Code session. The biggest project of the month, an AI outbound sales caller on Grok Voice with 141 commits in 4 days, existed only in a GitHub repo.
+
+### The full read (19 October)
+
+- **What was read:**
+  - 115 sessions updated in 30 days, about 75 in depth, by 4 parallel agents split by project;
+  - 11 repos pushed in the window, cloned read-only;
+  - 13 skills updated.
+- **What it found:** 11 distinct things we built. The top three were:
+  - the AI video editor (wow 5);
+  - the AI dev team on a client app (wow 5);
+  - one sales call turned into 19 ads (wow 5).
+- **What it unblocked:** the locked Grok Voice topic gained a full working system of ours as its proof.
+
+### Lesson
+
+Read everything, every time, in parallel. Go by project, not by session, and include the repos. A list of things we built is only complete when work done outside Claude Code is in it too.
 
