@@ -5,7 +5,7 @@
 Everything learned while picking weeks 42 and 43, built in. See `references/research-findings.md` §10.
 
 - **The two tables have Taylor's names:** "Table One: Your own work" and "Table Two: Ideas from creators". They are scored separately and never mixed.
-- **Topic register** (`scripts/topics.py`): lock titles word for word, then mark them planned, recorded or published. Locked titles show above both tables every run, and only what the register lists as planned, recorded or published in 4 weeks is left out.
+- **Topic register** (`scripts/topics.py`): lock titles word for word (or a working title), rename a working title to its final title with its history kept, then mark it planned, recorded or published. Locked titles show above both tables every run, and only what the register lists as planned, recorded or published in 4 weeks is left out.
 - **Session indexer** (`scripts/index_sessions.py`): saved `list_sessions` pages become the 30-day index and research groups (by title tag or repo, split at 30). It says PAGE MORE until the window is covered.
 - **Research agent prompts** (`references/agent-prompts.md`) for session groups, sensitive client groups and repos (work done in Codex, on the desktop or by routines).
 - **Pick sheet gate** (`scripts/check_picks.py`): locked titles, both headings, scores, creator URLs, research counts, a confidential scrub list, the closing line.

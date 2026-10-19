@@ -14,8 +14,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "b58a78af3eb6f280bcd7ebfe455c31f0a54659f53b49d1d9de5c025e10b6b37f",
-      "bytes": 5756
+      "sha256": "9aa32398c5cca67b9ff5f4b64c18c3a9fdb5f2be8c2fcbe611ce4bcd59af6d95",
+      "bytes": 5840
     },
     {
       "path": "README.md",
@@ -24,8 +24,8 @@
     },
     {
       "path": "SKILL.md",
-      "sha256": "1b441f24ca9ea0c661a24ca2f153802c67b98483eabe1e08ca28545663ff428d",
-      "bytes": 16272
+      "sha256": "b8d5cc5f5fc4fb8f89ccdf9d1c50ca1fcdb23e4195f7486b140c25e1c1c2e5e2",
+      "bytes": 16570
     },
     {
       "path": "START-HERE.md",
@@ -169,8 +169,8 @@
     },
     {
       "path": "scripts/topics.py",
-      "sha256": "8a2fa4705d2def1f70fd33773a6f59a2653811d54ab31aa845d65a009bca2463",
-      "bytes": 5180
+      "sha256": "384baf642def0cdf4e476886e9b5f42199b3f50051b453005c946c65ac112358",
+      "bytes": 5932
     },
     {
       "path": "scripts/version_check.py",
@@ -179,8 +179,8 @@
     },
     {
       "path": "tests/test_skill.py",
-      "sha256": "27b24bb676e7412ba82077509b1e64b28a5986a129c8d74ed74a6d6a1da9c32b",
-      "bytes": 12732
+      "sha256": "1a508d64e0679b5be181c931a0f2762b6eddf76838c0b9deadad55853c7522b3",
+      "bytes": 13320
     }
   ]
 }

@@ -210,6 +210,17 @@ class TopicRegister(unittest.TestCase):
         with self.assertRaises(ValueError):
             tp.set_status(reg, 'Harness', 'filmed', '', d)
 
+    def test_rename_keeps_history(self):
+        tp = load('topics')
+        reg = {'topics': []}
+        d = dt.date(2026, 10, 19)
+        tp.lock(reg, "Most AI Is Hype. Here's the Only System I Still Use", '2026-W43', 'working title', d)
+        tp.rename(reg, "most ai is hype. here's the only system i still use", 'I Built 20 AI Agents. Only One Survived.', d)
+        t = reg['topics'][0]
+        self.assertEqual(t['title'], 'I Built 20 AI Agents. Only One Survived.')
+        self.assertEqual(t['status'], 'locked')
+        self.assertIn('renamed from', t['history'][-1]['note'])
+
     def test_cli_round_trip(self):
         with tempfile.TemporaryDirectory() as tmp:
             reg = os.path.join(tmp, 'reg.json')

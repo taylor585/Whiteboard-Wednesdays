@@ -4,6 +4,7 @@
 Usage (options go after the command):
   python3 topics.py lock "Exact Title" [--week 2026-W43] [--note "..."] [--register <file>]
   python3 topics.py status "Exact Title" planned|recorded|published|dropped [--note "..."]
+  python3 topics.py rename "Working Title" "Final Title"     (keeps the topic's history)
   python3 topics.py list [--status locked,planned]
   python3 topics.py recent [--weeks 4]
 
@@ -80,6 +81,17 @@ def set_status(reg, title, status, note, today):
     return t
 
 
+def rename(reg, old, new, today):
+    t = find(reg, old)
+    if t is None:
+        raise KeyError(f'no topic titled {old!r}')
+    if find(reg, new) is not None and norm(new) != norm(old):
+        raise ValueError(f'a topic titled {new!r} already exists')
+    t['history'].append({'status': t['status'], 'date': today.isoformat(), 'note': f'renamed from: {t["title"]}'})
+    t['title'] = new
+    return t
+
+
 def last_date(t, statuses):
     dates = [h['date'] for h in t['history'] if h['status'] in statuses]
     return dt.date.fromisoformat(max(dates)) if dates else None
@@ -108,6 +120,7 @@ def main(argv=None):
     sub = ap.add_subparsers(dest='cmd', required=True)
     p = sub.add_parser('lock', parents=[common]); p.add_argument('title'); p.add_argument('--week'); p.add_argument('--note')
     p = sub.add_parser('status', parents=[common]); p.add_argument('title'); p.add_argument('status'); p.add_argument('--note')
+    p = sub.add_parser('rename', parents=[common]); p.add_argument('old'); p.add_argument('new')
     p = sub.add_parser('list', parents=[common]); p.add_argument('--status', default=None)
     p = sub.add_parser('recent', parents=[common]); p.add_argument('--weeks', type=int, default=4)
     a = ap.parse_args(argv)
@@ -122,6 +135,10 @@ def main(argv=None):
             t = set_status(reg, a.title, a.status, a.note, today)
             save(a.register, reg)
             print(f'{a.status.upper():9} {t["title"]}')
+        elif a.cmd == 'rename':
+            t = rename(reg, a.old, a.new, today)
+            save(a.register, reg)
+            print(f'RENAMED   {t["title"]}')
         elif a.cmd == 'list':
             want = set(a.status.split(',')) if a.status else None
             for t in reg['topics']:

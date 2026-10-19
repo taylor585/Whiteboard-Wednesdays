@@ -62,7 +62,7 @@ Find what to record from two separate sources: everything we built, and what our
 | Mode | Taylor says something like | You produce |
 |---|---|---|
 | **Pick** (default) | "find this week's topics", "what should we record" | The pick sheet with Table One and Table Two, checked. Then stop for the choice |
-| **Lock** | "lock in A1", "X is locked in" | The title in the register and in `video-plans/Week NN - chosen topics.md`, word for word, with what we have for it and "Before you record" tasks |
+| **Lock** | "lock in A1", "X is locked in", "save this topic, we'll think of titles" | The title in the register and in `video-plans/Week NN - chosen topics.md`, word for word, with what we have for it and "Before you record" tasks |
 | **Plan the week** | "plan the week", "build the briefs" | The week pack: an overview plus a validated brief per locked title |
 | **Build one** | "build the brief for X", "break this skill into a video" | One validated Trending Topic Brief |
 | **Package** | "titles for this", "write the description" | The PACKAGING section only |
@@ -99,6 +99,8 @@ Run both tables at the same time: start the research agents and the creator scan
    - its claim-ladder status;
    - "Before you record" tasks (for example "add credits and make the six test calls").
 3. Confirm the list of locked titles back to Taylor, word for word.
+
+A topic can be locked under a **working title** while Taylor decides; say so in `--note` and on the sheet. When the final title is chosen, run `topics.py rename "<working title>" "<final title>"`. The history is kept, and the old title stops being shown.
 
 ## Plan the week
 
