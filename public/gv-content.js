@@ -79,6 +79,20 @@ window.WW={
    note:'About 90 seconds. Let the gold dot travel the line: each station flashes as the call passes it. 1) Leads are imported with consent records; the importer’s consented-only mode skips anyone without one. 2) Every few minutes in calling hours the dispatcher picks leads that pass every rule. 3) The carrier dials and streams the audio to our server. 4) The server bridges it to Grok Voice; the rep speaks first, within 2 seconds. 5) Mid-call the rep can find free slots and book. After the call it is scored, reflected on and its objections counted, and Taylor reviews everything on the dashboard. UK carrier: built on the Twilio path; the final UK carrier is still being chosen.'
   },
   {
+   id:'database',
+   title:'Supabase: the brain',
+   section:'03 / The system',
+   kind:'gv-split',
+   parts:[
+    '<div class="gv-split-row"><div class="gv-handset-mini"><b>The prospect</b>hears only approved lines</div><div class="gv-wave-wrap"><div class="gv-wave" aria-hidden="true">'+[6,10,14,9,16,12,7,13,15,8,11,5].map((h,i)=>'<i style="--h:'+h*4+'px;--d:'+i*70+'ms"></i>').join('')+'</div><div class="micro">Grok Voice 3.0 · realtime speech</div></div><div class="gv-brain"><b>The brain</b>Leads, calls and every word the reps may say, versioned, with Taylor’s approval in front of every change.</div></div>',
+    '<div class="gv-tables"><div><h3>Calling <span>7 tables</span></h3><ul><li><code>leads</code> consent, source, opt-in date, time zone, callback time</li><li><code>calls</code> transcript, reply times, tool calls, outcome, recording</li><li><code>suppression</code> the do-not-call list, shared by both reps; <span class="gv-sweep">numbers are never removed</span></li><li><code>inbound_calls</code>, <code>offers</code>, <code>prompt_versions</code>, <code>proposals</code></li></ul></div><div><h3>Knowledge <span>11 tables</span></h3><ul><li><code>objections</code> 222 rows: 56 approved, 166 draft</li><li><code>knowledge_faq</code> 206 rows: 106 approved, 100 draft</li><li><code>talk_tracks</code> 35 rows: 23 approved, 12 draft</li><li><code>openers</code> 16, all draft · plus qualification, compliance rules, personas, offer details, training examples, change requests and a technique library</li></ul></div><div><h3>Learning <span>3 tables</span></h3><ul><li><code>feedback</code> human and AI scores per call</li><li><code>call_reflections</code> what worked, objections raised</li><li><code>daily_reviews</code> end-of-day summary per rep</li><li>Four views: calls dashboard, A/B results, opener stats, objection stats</li></ul></div></div>',
+    '<p class="gv-locked"><b>Locked down.</b> <span class="gv-sweep">Row-level security on every table; only the server-side key can read or write.</span> Recordings sit in private storage behind short-lived signed links. Every client gets their own database.</p>'
+   ],
+   reveals:[1,2,3],
+   source:'Source: Handover brief, sections 10 and 15 (live Supabase project queried read-only on 19 October 2026: 21 tables and 4 views; row counts as listed) and section 20 (one database per client).',
+   note:'About 90 seconds. Start with the three objects: the phone, the live voice, and the brain behind it. SAY: “Everything the reps know lives in one database, versioned, and nothing in it reaches a call until Taylor approves it.” Then the three groups. Calling: who may be rung, every call and the do-not-call list, which never loses a number. Knowledge: the counts are live on 19 October, and most of it is still waiting as drafts. Learning: scores, reflections and daily reviews, which fill up once real calls start (0 rows today, 2 daily reviews). The approved rows are held in memory and refreshed every 5 minutes, so a call never waits on the database, and the prompt files are the seed and the fallback if the database cannot be reached. Lock-down was applied on 19 October (migration 018). Callbacks are columns on leads and calls, not a separate table. For Tuned Reps clients, each client has their own Supabase project and never shares a database with Pecuna or another client.'
+  },
+  {
    id:'research',
    title:'It starts with research',
    section:'04 / The words',
@@ -236,18 +250,23 @@ window.WW={
    note:'About 45 seconds. Gold fills along the track stop by stop. PARTNER VERSION: SWAP IN with the setup flow: one onboarding form produces one client config file; the setup script writes the client folder, applies every migration to the client’s own database, loads knowledge, offers and openers as drafts, generates the client’s prompt overlay with a leak check, and refuses Pecuna’s own database. It never buys numbers, spends credit or deploys. Say “planned”: no client has been set up yet, and the onboarding form is not yet deployed.'
   },
   {
-   id:'status',
-   title:'Where it stands today',
-   section:'11 / Status',
-   kind:'gv-stamp gv-ch-ink',
+   id:'test-calls',
+   title:'What the test calls will show',
+   section:'11 / Testing',
+   kind:'gv-tiles gv-testcalls gv-ch-ink',
    parts:[
-    '<div class="gv-zero"><span class="gv-huge">0</span><p>real calls so far. So there are no booking rates, results or testimonials to show you yet, and we won’t invent any.</p></div>',
-    '<div class="gv-stamped">Built · tested · rehearsed<small>Not live yet · results to come</small></div>',
-    '<div class="gv-golive"><div class="micro">Before the first live call</div><ol><li>xAI credits, offers approved, the calendar connected, phone lines and the server set up</li><li>Compliance sign-off with the lawyer</li><li>Six test calls per rep to Taylor’s own phone, each checked</li><li>Then a 50-call soft launch per rep</li></ol></div>'
+    '<div class="gv-tile"><span>Test call 1</span><b>Booking</b>Two live slots offered, the email read back, the 20-minute call booked and the invite sent</div>',
+    '<div class="gv-tile"><span>Test call 2</span><b>Opt-out</b>“Stop” confirmed once, the number on the do-not-call list for both reps, the line closed</div>',
+    '<div class="gv-tile"><span>Test call 3</span><b>Callback</b>“Ring me Thursday at 2” read back in local time, and rung then, not before</div>',
+    '<div class="gv-tile"><span>Test call 4</span><b>Identity</b>Asked “are you a robot?”, the rep says yes</div>',
+    '<div class="gv-tile"><span>Test call 5</span><b>Wrong number</b>An apology, no pitch, the number listed as do-not-call</div>',
+    '<div class="gv-tile"><span>Test call 6</span><b>Talk-over</b>The prospect interrupts and the rep’s audio stops at once</div>',
+    '<div class="gv-targets"><div class="gv-circled"><span class="gv-mid">1.5 s</span><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path vector-effect="non-scaling-stroke" d="M30 8C8 12 2 50 8 72s40 26 70 20 22-50 8-70S50 0 22 14"/></svg></div><p><span class="gv-hand">the median reply we are aiming for</span> First word within 2 seconds of answer; the slowest reply 3 seconds, or 5 after a tool. These are targets: nothing has been measured on a real phone line yet. Each call is checked afterwards, line by line.</p></div>',
+    '<p class="statement gv-punch">Six calls per rep to Taylor’s own phone. <span>Then a 50-call soft launch per rep.</span></p>'
    ],
-   reveals:[1,2,3],
-   source:'Source: Handover brief, section 19 (status and what blocks go-live) and section 06 (no results; the live database held 0 calls on 19 October 2026).',
-   note:'About one minute. Let the stamp slam. Honesty is the strength here. SAY: “Built, tested, rehearsed. Not live yet. Zero real calls, so I’m not going to show you a booking rate.” Go-live is Taylor’s decision: test calls first, then a 50-call soft launch per rep. If asked about the UK carrier: the UK rep is built on the Twilio path; the final UK carrier is still being chosen. The US rep uses Telnyx.'
+   reveals:[1,1,1,2,2,2,3,4],
+   source:'Source: Handover brief, sections 17 and 19 (the six planned test calls per rep, the checks afterwards, the 50-call soft launch), section 13 (the behaviours) and section 06 (latency targets only, nothing measured).',
+   note:'About 90 seconds. This is what we will demonstrate when Grok Voice goes on a real phone line. SAY: “The rehearsal proved the system joins up. These six calls prove it on a real line, with the real model.” Each rep makes the same six calls to Taylor’s own phone: booking, opt-out, callback, identity, wrong number and talk-over, and every one is checked afterwards with the check-test-call script. What they will show for the first time: real audio quality and reply speed, how the real Grok model behaves, carrier delivery, and a real GoHighLevel calendar accepting the booking. The circled 1.5 seconds is a target, not a result. Only after these pass does each rep get a 50-call soft launch; go-live is Taylor’s decision. Roleplay against the 31 simulated prospects (target 8 out of 10 or better, with zero compliance fails) also runs once the xAI account has credits.'
   },
   {
    id:'close',
