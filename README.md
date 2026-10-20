@@ -18,7 +18,7 @@ Run from the repository root:
 python3 -m http.server 8862 --directory public
 ```
 
-Open http://localhost:8862/#/library on that same machine. This shows all five presentations, the approved clean underline header, and the Creator watchlist and Topics layouts. Live video retrieval and saved topics require the full server below. No API key is needed for design work.
+Open http://localhost:8862/#/library on that same machine. This shows all six presentations, the approved clean underline header, and the Creator watchlist and Topics layouts. Live video retrieval and saved topics require the full server below. No API key is needed for design work.
 
 ## Full application
 
