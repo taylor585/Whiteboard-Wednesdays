@@ -1,0 +1,15 @@
+{
+  "name": "YOUR BRAND",
+  "surface": "#ffffff",
+  "ink": "#1c1a17",
+  "accent": "#8b6002",
+  "font": "hand",
+  "logo": "../assets/ww-coin.svg",
+  "confirmation": {
+    "confirmed": false,
+    "by": "template",
+    "at": null,
+    "evidence": "",
+    "decks": []
+  }
+}
