@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-label="Grok Voice cover: a phone handset sending a voice wave into a calendar with one booked slot ticked">
+<rect width="720" height="540" fill="#ffffff"/>
+<g fill="none" stroke="#1c1a17" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+<path d="M96 196c-14 14-14 40 6 74l36 54c22 30 46 46 66 40l22-8c10-4 14-16 8-26l-26-40c-6-8-16-10-24-6l-16 8c-12-6-30-30-36-46l12-12c8-6 10-16 4-24l-26-38c-6-10-20-12-28-4z"/>
+</g>
+<g fill="none" stroke="#8b6002" stroke-width="5" stroke-linecap="round">
+<path d="M262 270h18M296 238v64M318 210v120M340 244v52M362 222v96M384 254v32M406 236v68M428 262h18"/>
+</g>
+<g fill="none" stroke="#1c1a17" stroke-width="4" stroke-linejoin="round">
+<rect x="480" y="150" width="190" height="230" rx="10"/>
+<path d="M480 198h190M520 132v34M630 132v34"/>
+</g>
+<g fill="#1c1a17"><rect x="502" y="220" width="30" height="24" rx="3" opacity=".18"/><rect x="560" y="220" width="30" height="24" rx="3" opacity=".18"/><rect x="618" y="220" width="30" height="24" rx="3" opacity=".18"/><rect x="502" y="264" width="30" height="24" rx="3" opacity=".18"/><rect x="618" y="264" width="30" height="24" rx="3" opacity=".18"/><rect x="502" y="308" width="30" height="24" rx="3" opacity=".18"/><rect x="560" y="308" width="30" height="24" rx="3" opacity=".18"/><rect x="618" y="308" width="30" height="24" rx="3" opacity=".18"/></g>
+<rect x="552" y="256" width="46" height="40" rx="6" fill="#f6df8c"/>
+<path d="M562 276l10 10 18-20" fill="none" stroke="#8b6002" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="96" y="450" font-family="Arial,sans-serif" font-size="34" font-weight="700" fill="#1c1a17">Call. Qualify. Book.</text>
+<path d="M96 468c80-8 200-8 290 0" fill="none" stroke="#8b6002" stroke-width="4" stroke-linecap="round"/>
+</svg>
