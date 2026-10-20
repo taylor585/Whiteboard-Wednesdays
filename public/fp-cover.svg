@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-label="The 5% in AI cover: a circle split 95 to 5, the gold 5% slice pulled out, beside one card that is still running">
+<rect width="720" height="540" fill="#ffffff"/>
+<circle cx="250" cy="285" r="170" fill="#ece8e0" stroke="#1c1a17" stroke-width="5"/>
+<path d="M262 260 L262 90 A170 170 0 0 1 314.5 98.3 Z" fill="#8b6002"/>
+<path d="M318 92 C380 40 450 40 500 60" fill="none" stroke="#8b6002" stroke-width="5" stroke-linecap="round"/>
+<rect x="470" y="180" width="200" height="120" rx="12" fill="#ffffff" stroke="#1c1a17" stroke-width="5"/>
+<rect x="470" y="180" width="200" height="12" rx="6" fill="#8b6002"/>
+<g fill="#1c1a17"><rect x="494" y="214" width="120" height="12" rx="6"/><rect x="494" y="238" width="152" height="10" rx="5" opacity=".35"/><rect x="494" y="258" width="132" height="10" rx="5" opacity=".35"/></g>
+<g fill="#8b6002"><circle cx="502" cy="336" r="9"/><circle cx="502" cy="368" r="9"/><circle cx="502" cy="400" r="9"/></g>
+<g fill="#f6df8c"><rect x="522" y="328" width="130" height="16" rx="8"/><rect x="522" y="360" width="104" height="16" rx="8"/><rect x="522" y="392" width="118" height="16" rx="8"/></g>
+<g fill="none" stroke="#5b5853" stroke-width="5" stroke-linecap="round"><path d="M150 330l36 36M186 330l-36 36"/><path d="M230 380l36 36M266 380l-36 36"/></g>
+</svg>
