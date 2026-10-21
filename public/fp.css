@@ -837,6 +837,7 @@
 .fp-stage .ls9 .frame{display:none}
 .fp-stage .ls9 .sc:nth-child(3){border:.8cqw solid var(--gold);box-shadow:0 0 0 1.2cqw rgba(246,223,140,.7)}
 .fp-stage .lp{grid-template-columns:1fr}
+.fp-stage .lp .h{font-size:8cqw!important}
 .fp-stage .lp ol{font-size:calc(1.8*var(--u))}
 .fp-stage .cm4 .sg{grid-template-columns:1.6fr 1fr 1fr}
 .fp-stage .cm4 .sg>div{height:auto;min-height:calc(4.6*var(--u))}
