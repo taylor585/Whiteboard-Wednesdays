@@ -67,6 +67,7 @@ Find what to record from two separate sources: everything we built, and what our
 | **Build one** | "build the brief for X", "break this skill into a video" | One validated Trending Topic Brief |
 | **Package** | "titles for this", "write the description" | The PACKAGING section only |
 | **Recorded** | "we recorded X", "X is live" | `topics.py status` updated |
+| **Video topics list** | "save this topic", "add it to the list", "take X off the list" | `video-plans/Video topics list.md` updated (see below) |
 | **Scan only** | "what's working for my creators" | Core winners and themes, no picks |
 | **Creators** | "add @handle", "remove X" | An updated `references/creators.json` |
 
@@ -146,6 +147,16 @@ Add or remove entries in `references/creators.json` using the criteria in `refer
 - **A channel fails:** the scan logs it and continues; name it on the pick sheet.
 - **Fewer rows pass the gates than usual:** show what passed and why the rest failed. Never pad.
 - **The topic's source cannot be read:** say so, offer the next pick, do not build from memory.
+
+## Video topics list
+
+Taylor keeps one standing list of video topics at `video-plans/Video topics list.md`.
+
+- **Format:** for each topic, the title (word for word) and then a short summary of what Taylor explained the video will cover, in Taylor's own words. Nothing else on the list: no scores, evidence or talking points (those go in the week file and the brief).
+- **Adding:** when Taylor saves a topic, add it to the list, lock it in the register (`topics.py lock`), and put the research and talking points in the week file.
+- **Removing:** a topic stays on the list until Taylor says to take it off. Recording it, or a new Pick, does not remove it.
+- **Starting fresh:** when Taylor says a new list starts, the file holds only the topics Taylor names. The register keeps the history of everything else.
+- Show the full list back to Taylor after every change.
 
 ## Recorded
 

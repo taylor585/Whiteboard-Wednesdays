@@ -14,7 +14,8 @@ Everything learned while picking weeks 42 and 43, built in. See `references/rese
 - **"Things we noticed"** section for risks found during research (a public repo with client material, an app without a login).
 - **"Sell what we built":** briefs on our own skills give each advanced capability its own showcase segment.
 - **Working with Taylor:** files in `video-plans/`, tables shown in the chat too, and no stalling with questions when a recording is close.
-- **New Lock and Recorded modes**, a new two-table example, and 24 offline tests (up from 13).
+- **The video topics list** (`video-plans/Video topics list.md`): Taylor's standing list, with each title and a short summary in Taylor's words, kept until Taylor removes a topic.
+- **New Lock, Recorded and Video topics list modes**, a new two-table example, and 24 offline tests (up from 13).
 
 ## 3.1.0 — 19 October 2026
 

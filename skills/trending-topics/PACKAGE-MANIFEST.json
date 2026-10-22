@@ -14,8 +14,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "9aa32398c5cca67b9ff5f4b64c18c3a9fdb5f2be8c2fcbe611ce4bcd59af6d95",
-      "bytes": 5840
+      "sha256": "456eace115ae95126a2d977870d87187a5f37df2e208895112ce8456a31b8ef9",
+      "bytes": 6039
     },
     {
       "path": "README.md",
@@ -24,8 +24,8 @@
     },
     {
       "path": "SKILL.md",
-      "sha256": "b8d5cc5f5fc4fb8f89ccdf9d1c50ca1fcdb23e4195f7486b140c25e1c1c2e5e2",
-      "bytes": 16570
+      "sha256": "6cb0076bff7b58a850e002033e018eb6e2caa466fd0fec9a23cfa834e4fcf04a",
+      "bytes": 17584
     },
     {
       "path": "START-HERE.md",
