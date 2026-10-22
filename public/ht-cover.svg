@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-label="AI Isn’t the Bottleneck cover: an empty chat box with a blinking cursor above five numbered questions">
+<rect width="720" height="540" fill="#ffffff"/>
+<rect x="90" y="96" width="540" height="84" rx="42" fill="none" stroke="#1c1a17" stroke-width="5"/>
+<rect x="132" y="118" width="6" height="40" fill="#8b6002"/>
+<g font-family="Courier New,monospace" font-size="22" fill="#8b6002" font-weight="700">
+<text x="150" y="262">Q1</text><text x="150" y="316">Q2</text><text x="150" y="370">Q3</text><text x="150" y="424">Q4</text><text x="150" y="478">Q5</text>
+</g>
+<g stroke="#1c1a17" stroke-width="5" stroke-linecap="round"><path d="M210 255h300M210 309h250M210 363h330M210 417h280M210 471h230"/></g>
+<rect x="196" y="397" width="358" height="34" fill="#f6df8c" opacity=".9"/>
+<path d="M210 417h280" stroke="#1c1a17" stroke-width="5" stroke-linecap="round"/>
+</svg>
