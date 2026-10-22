@@ -189,6 +189,10 @@
 @keyframes ht-wipe2{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
 .parts.ht-split .part:nth-child(2).revealed:before{display:none}
 
+.ht-prompt{font:500 clamp(18px,1.7vw,23px)/1.45 var(--heading),sans-serif;margin:16px 0 0;color:var(--ink)}
+.ht-prompt b{font-weight:600}
+.ht-qlist{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px;font:600 clamp(17px,1.6vw,22px)/1.3 var(--heading),sans-serif;color:var(--ink)}
+.ht-qlist b{font:600 12px WWMono,monospace;color:var(--accent);margin-right:10px}
 /* 14 placeholder chapter */
 .parts.ht-hold{grid-template-columns:1fr}
 .ht-placeholder{position:relative;border:2px dashed var(--line);border-radius:10px;padding:40px;max-width:calc(100% - 330px);min-height:220px}
