@@ -2,6 +2,7 @@
    Built 22 October 2026 from the 18 designs Taylor approved in the Whiteboard Wednesdays - Variety Pack (round 1),
    locked to slides with the pack's rotation rules. Pecuna Factorem brand, confirmed by Taylor on 21 October 2026.
    Source: Taylor's video idea of 20 October 2026 (how to think in frameworks so AI can do almost anything).
+   Updated 22 October 2026: two opening prompts (ask what a good question is; let AI ask itself the questions), from Taylor's idea that day.
    The salon brief, the chats and the two answers are illustrative, written for this deck. Word counts are measured from the brief. */
 (()=>{
 const tick='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13l5 5 11-12"/></svg>';
@@ -34,6 +35,32 @@ window.WW={
    note:'About 45 seconds. Watch the cursor: someone starts typing, stops, and deletes it. SAY: “The tool is ready. The thinking isn’t.” Second click: “AI can research, plan, write and check its own work. The bottleneck is knowing what to ask. And that is a skill you can learn in five questions.”'
   },
   {
+   id:'good-question',
+   title:'Ask what a good question is',
+   section:'01 / Questions first · prompt 1',
+   kind:'ht-phone ht-e-draw',
+   parts:[
+    '<div class="ht-handset"><div class="ht-bb ht-me" style="--d:300ms"><b>You</b>What makes a really good question? Research how the best thinkers, coaches and researchers ask hard questions, the kind that make us think in ways we otherwise wouldn’t. Then give me a short checklist I can use before I ask you anything.</div><div class="ht-bb" style="--d:1300ms"><b>AI</b>I’ll look at how great teachers, coaches and researchers ask questions, pull out what the hardest and most useful ones have in common, and give you a short checklist. Shall I start?</div></div>',
+    '<div class="ht-side"><div class="micro">Prompt 1 · illustrative chat</div><p class="ht-say">Before you ask AI anything, ask it how to ask.</p><p>You don’t need to know what a good question looks like. <b>Get AI to research it for you first.</b> The quality of the question sets the quality of the thinking.</p></div>'
+   ],
+   reveals:[1,2],
+   source:'Prompt written for this deck from Taylor’s idea of 22 October 2026. The AI reply is illustrative; it was not run for this deck.',
+   note:'About 60 seconds. This is the very first move, before any real task. SAY: “If you don’t know what to ask, start one step back. Ask AI what makes a really good question, and get it to research how the best people ask hard questions, the ones that make you think in ways you otherwise wouldn’t.” Read the prompt off the phone. Second click: “The quality of the question sets the quality of the thinking. So level up the question first.”'
+  },
+  {
+   id:'ask-itself',
+   title:'Let AI ask itself the questions',
+   section:'01 / Questions first · prompt 2',
+   kind:'ht-split ht-e-draw',
+   parts:[
+    '<div class="ht-half ht-b"><div class="micro">Prompt 2 · your end goal</div><p class="ht-prompt">“Here’s my end goal: <b>run my own Meta ads for my salon by 31 January.</b> What questions could you ask yourself that would dramatically improve your answer? Ask yourself really good questions, then show me what they’d look like for this goal.”</p></div>',
+    '<div class="ht-half ht-a"><div class="micro">Questions it might ask itself · illustrative</div><ol class="ht-qlist"><li><b>Q1</b>What does success look like, and by when?</li><li><b>Q2</b>What should I ask before I plan?</li><li><b>Q3</b>Whose methods are worth learning from?</li><li><b>Q4</b>How will we know the plan is good?</li><li><b>Q5</b>What don’t I know about this salon?</li></ol><p class="ht-res">Sound familiar? These are the five questions.</p></div>'
+   ],
+   reveals:[1,2],
+   source:'Prompt written for this deck from Taylor’s idea of 22 October 2026. The list is illustrative: the kind of questions this prompt invites, grouped under the five questions. It was not run for this deck.',
+   note:'About 75 seconds. SAY: “Then give it your end goal and ask: what questions could you ask yourself that would dramatically improve your answer?” Read the prompt. Second click: “Look at what comes back. What does done look like. What to ask before planning. Who to learn from. How to judge it. What it doesn’t know. That is all thinking in frameworks is. For the rest of this video I’ll show you those five questions one at a time, so you can ask them yourself.”'
+  },
+  {
    id:'usual-prompt',
    title:'The prompt most people type',
    section:'01 / The problem',
@@ -43,8 +70,8 @@ window.WW={
     '<div class="ht-under"><div class="micro">6 words · illustrative</div><p>No goal. No budget. No deadline. Nothing about who is asking. <b>So AI gives the average answer to the average person.</b></p></div>'
    ],
    reveals:[1,2],
-   source:'Illustrative prompt, written for this deck. It is the running example: it grows into a full brief on slide 11.',
-   note:'About 40 seconds. This is the running example for the whole video. SAY: “Here is what most people type. Six words. And it is not a bad question. It is just missing everything that makes it yours.” Second click: read the missing pieces one at a time.'
+   source:'Illustrative prompt, written for this deck. It is the running example: it grows into a full brief on slide 13.',
+   note:'About 40 seconds. This is the running example for the whole video. SAY: “Most people skip all of that. Here is what they type instead. Six words. And it is not a bad question. It is just missing everything that makes it yours.” Second click: read the missing pieces one at a time.'
   },
   {
    id:'step-one',
@@ -56,7 +83,7 @@ window.WW={
     '<p class="ht-claim">They type a question and stop. <span class="ht-sweep">The real work happens before you type</span>, and it takes five questions.</p>'
    ],
    reveals:[1,2],
-   source:'Counted from the illustrative prompt on slide 3.',
+   source:'Counted from the illustrative prompt on slide 5.',
    note:'About 30 seconds. The circle goes round the 6. SAY: “That is the whole brief most people give AI. Six words. Then they blame the tool.” Second click: “The real work happens before you type. And it is five questions. Here they are.”'
   },
   {
@@ -67,7 +94,7 @@ window.WW={
    parts:[tabs(1)].concat(Q.map((q,i)=>'<div class="ht-note" style="--r:'+[-3,2,-2,3,-1][i]+'deg"><span class="ht-pin" aria-hidden="true"></span><b>'+q[1]+'</b><small>'+q[0]+' · '+q[2]+'</small></div>')),
    reveals:[0,1,2,3,4,5],
    source:'Taylor’s framework, from the video brief of 20 October 2026.',
-   note:'About 60 seconds, one note per click. SAY each one in a sentence: 1) What does done look like? 2) Should we plan first? 3) Who is the best at this? 4) How will I know it is good? 5) What does it not know? “You do not need to know the answer to any of these. You just need to ask them, in this order. Let’s take them one at a time, on the paid ads question.”'
+   note:'About 60 seconds, one note per click. SAY each one in a sentence: 1) What does done look like? 2) Should we plan first? 3) Who is the best at this? 4) How will I know it is good? 5) What does it not know? “These are the questions AI handed back two slides ago, in the order I use them. You do not need to know the answer to any of them. You just need to ask them. Let’s take them one at a time, on the paid ads question.”'
   },
   {
    id:'q1-done',
@@ -158,7 +185,7 @@ window.WW={
     '<p class="ht-claim">Same person, same question. <span class="ht-sweep">The extra 110 words are the thinking.</span></p>'
    ],
    reveals:[1,2],
-   source:'Counted from the illustrative brief on slide 11 (22, 26, 22, 22 and 24 words) and the prompt on slide 3 (6 words).',
+   source:'Counted from the illustrative brief on slide 13 (22, 26, 22, 22 and 24 words) and the prompt on slide 5 (6 words).',
    note:'About 30 seconds. SAY: “Six words in. A hundred and sixteen out. You didn’t need to know anything about ads to write those extra words. You just answered five questions.”'
   },
   {
