@@ -1,8 +1,8 @@
 # Performance Poster research
 
-The research behind the planned **Performance Poster** skill. That skill will write YouTube descriptions, LinkedIn posts and Instagram captions.
+The research behind the **Performance Poster** skill, which writes YouTube descriptions, LinkedIn posts and Instagram captions.
 
-Researched 20 October 2026. The skill itself is **not built yet**; section 6 of the PDF is its blueprint. Thumbnail Tracker is unchanged.
+Researched 20 October 2026. The skill was built from section 6 of the PDF on 22 October 2026 and lives in `skills/performance-poster/`. Thumbnail Tracker is unchanged.
 
 | File | What it is |
 |---|---|
