@@ -1,4 +1,4 @@
-/* AI Isn’t the Bottleneck. You Are. Every rule is scoped to ht- classes so other decks are unaffected.
+/* The Most Important Skill In AI for The Next 5 Years (how-to-think). Every rule is scoped to ht- classes so other decks are unaffected.
    Each layout is a design Taylor approved in the Whiteboard Wednesdays - Variety Pack, round 1 (22 October 2026). */
 .parts[class*=" ht-"],.parts[class^="ht-"]{gap:24px 48px}
 #canvas:has(.parts[class*="ht-"]){overflow-x:clip}
@@ -199,6 +199,18 @@
 .ht-placeholder .micro{color:var(--accent);font-weight:600}
 .ht-placeholder p{font-size:clamp(20px,2vw,28px);margin:12px 0 0}
 
+/* 16 three worked examples (brief pages, as approved for slide 13) */
+.parts.ht-examples{grid-template-columns:1fr;gap:18px}
+#canvas:has(.parts.ht-examples) .parts .part:nth-child(2){max-width:calc(100% - 330px)}
+.ht-ex-lead{font:600 clamp(22px,2.2vw,30px)/1.3 var(--heading),sans-serif;margin:0}
+.ht-ex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.ht-ex{border:1px solid var(--line);border-radius:10px;padding:18px 20px;box-shadow:0 10px 22px rgba(28,26,23,.07);background:var(--surface)}
+.ht-ex h3{margin:6px 0 10px;font:600 clamp(20px,1.8vw,26px)/1.15 var(--heading),sans-serif}
+.ht-ex table{width:100%;border-collapse:collapse}
+.ht-ex th{font:600 11px WWMono,monospace;text-transform:uppercase;letter-spacing:1px;color:var(--accent);text-align:left;width:56px;padding:8px 8px 8px 0;vertical-align:top}
+.ht-ex td{font-size:clamp(14px,1.15vw,16px);line-height:1.4;padding:7px 0;border-top:1px solid var(--line)}
+.ht-ex tr:nth-child(4) td{background:#f6df8c}
+#canvas .revealed .ht-ex{animation:ht-up 500ms ease-out var(--d) both}
 /* 15 the five-question card */
 .parts.ht-invite{grid-template-columns:1.15fr 1fr;align-items:center;gap:40px 64px}
 .ht-card{position:relative;border:2.5px solid var(--ink);border-radius:14px;overflow:visible;background:var(--surface);box-shadow:0 16px 30px rgba(28,26,23,.14)}
@@ -217,6 +229,7 @@
 .ht-one{font:600 clamp(24px,2.4vw,34px)/1.35 var(--heading),sans-serif;margin:0;padding-left:22px;border-left:6px solid #f6df8c}
 
 @media(max-width:1100px) and (min-width:701px){
+ .ht-ex-grid{grid-template-columns:1fr 1fr}
  .parts.ht-sticky{grid-template-columns:repeat(3,1fr)}
  .parts.ht-criteria .part:nth-child(2){grid-template-columns:repeat(2,1fr)}
  .parts.ht-phone,.parts.ht-invite{grid-template-columns:1fr}
@@ -267,6 +280,8 @@
  .parts.ht-split{grid-template-columns:1fr}
  .parts.ht-split .part:nth-child(2){border-left:0;border-top:4px solid var(--ink)}
  .ht-placeholder{max-width:none;padding:24px}
+ .ht-ex-grid{grid-template-columns:1fr;gap:16px}
+ #canvas:has(.parts.ht-examples) .parts .part:nth-child(2){max-width:none}
  .parts.ht-invite{grid-template-columns:1fr}
  .ht-card-body{grid-template-columns:1fr}
  .ht-card-top{font-size:11px}
