@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-label="How Powerful Is Grok Bot Really? cover: a 24-hour clock filled with scheduled jobs">
+<rect width="720" height="540" fill="#ffffff"/>
+<circle cx="360" cy="270" r="200" fill="none" stroke="#1c1a17" stroke-width="6"/>
+<g stroke="#1c1a17" stroke-width="4" stroke-linecap="round"><path d="M360 70v24M560 270h-24M360 470v-24M160 270h24"/></g>
+<path d="M360 270V110" stroke="#8b6002" stroke-width="8" stroke-linecap="round"/>
+<circle cx="360" cy="270" r="10" fill="#1c1a17"/>
+<g fill="#8b6002"><circle cx="553" cy="322" r="13"/><circle cx="523" cy="371" r="13"/><circle cx="480" cy="415" r="13"/><circle cx="430" cy="448" r="13"/><circle cx="360" cy="470" r="13"/><circle cx="290" cy="458" r="13"/><circle cx="240" cy="430" r="13"/><circle cx="200" cy="390" r="13"/></g>
+<g fill="#1c1a17"><circle cx="553" cy="218" r="13"/><circle cx="560" cy="270" r="13"/><circle cx="160" cy="270" r="13"/></g>
+</svg>

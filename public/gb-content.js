@@ -1,0 +1,433 @@
+/* How Powerful Is Grok Bot Really? (id: grok-bot-power). 25 slides, each one a design Taylor approved in the
+   Whiteboard Wednesdays - Variety Pack (round 1, 22 October 2026; all 40 designs approved on 23 October 2026),
+   locked with the pack's rotation rules. Pecuna Factorem brand, confirmed by Taylor on 22 October 2026.
+   Sources: Taylor's notes on Tuned Reps and GPT Visibility (22 October 2026), tuned-reps-site.vercel.app and
+   gptvisibility.co.uk (read and captured 22 October 2026). gb.js plays each slide's motion one click at a time. */
+window.WW={
+ "slides": [
+  {
+   "id": "question",
+   "title": "How powerful is Grok Bot really?",
+   "section": "00 / Cold open",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-wipe\" data-stops=\"2100,2900\" role=\"img\" aria-label=\"The question How powerful is Grok Bot really, handwritten, then the answer: 28 jobs, 2 live businesses, 10 worth copying.\"><div class=\"s gba\"><div class=\"q\">How powerful is Grok Bot <span>really?</span></div><svg class=\"ul\" viewBox=\"0 0 300 30\" aria-hidden=\"true\"><path d=\"M8 20C80 8 200 6 292 16\"/></svg><div class=\"ans\"><b>28</b> jobs · <b>2</b> live businesses · <b>10</b> worth copying</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>",
+    "<span class=\"gb-step\">Reveal 2</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2
+   ],
+   "source": "Source: Taylor’s notes on Tuned Reps and GPT Visibility, 22 October 2026: 14 jobs each, 28 in total.",
+   "note": "Hook, about 20 seconds. Click 1: the question writes itself on. SAY: “How powerful is Grok Bot, really? Not in a demo. In two businesses I actually run.” Click 2: “Twenty-eight jobs. Two live businesses. And ten of them are worth copying today.”"
+  },
+  {
+   "id": "the-day",
+   "title": "The bot’s day",
+   "section": "00 / Cold open",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-wipe\" data-stops=\"6000\" role=\"img\" aria-label=\"A dark activity log scrolls through one weekday of scheduled jobs across Tuned Reps and GPT Visibility, beside the number 28.\"><div class=\"s hk3\"><div><div class=\"eb\">One weekday · UK time</div><div class=\"log\"><div class=\"feed\"><span>07:00 · Tuned Reps · <b>Test calls, graded /100</b></span><span>08:00 · Tuned Reps · <b>Fixes run + 10 new objections</b></span><span>09:00 · GPT Visibility · <b>150 tailored cold emails</b></span><span>09:29 · GPT Visibility · <b>X scan, draft post</b></span><span>10:19 · GPT Visibility · <b>20 sponsor pitches</b></span><span>11:29 · GPT Visibility · <b>Site and bug check</b></span><span>12:30 · GPT Visibility · <b>Reddit answers drafted</b></span><span>13:32 · GPT Visibility · <b>New guide published</b></span><span>14:29 · GPT Visibility · <b>Website upgrade shipped</b></span><span>15:00 · GPT Visibility · <b>Directory listings</b></span><span>16:00 · GPT Visibility · <b>Warm-lead follow-ups</b></span><span>16:15 · GPT Visibility · <b>Daily report email</b></span><span>18:00 · Tuned Reps · <b>Tuned Reps daily update</b></span></div></div></div><div><div class=\"eb\">Two businesses, one bot</div><div class=\"big\">28</div><div class=\"cap\">jobs it runs, most of them every day</div><div class=\"tick3\"><div>2<small>live businesses</small></div><div>Hourly<small>one small upgrade</small></div></div></div><div class=\"src\">Source: Taylor’s notes on Tuned Reps and GPT Visibility, 22 October 2026. Schedule in UK time.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026. Every line is a real scheduled job, in UK time.",
+   "note": "About 30 seconds. Click once and let the log run. SAY: “Seven in the morning it is test-calling its own sales reps. Nine, it is emailing a hundred and fifty businesses. Lunchtime it publishes a guide. Four o’clock it is following up warm leads. Every hour it upgrades itself. That is one weekday.” Every line is a real scheduled job from the notes, not an illustration."
+  },
+  {
+   "id": "top-10",
+   "title": "The top 10",
+   "section": "00 / The countdown",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-wipe\" data-stops=\"1800\" role=\"img\" aria-label=\"A ladder of the top 10: real phone calls at the top, down to nothing public without your yes.\"><div class=\"s gbl2\"><div><div class=\"eb\">The countdown</div><div class=\"h\">The top 10</div><p>Picked from the 28 jobs Grok Bot runs across two businesses.</p></div><ol class=\"lad\"><li style=\"--d:1440ms\" class=\"one\"><b>1</b>AI reps that make real calls</li><li style=\"--d:1280ms\"><b>2</b>£752 a month, full time</li><li style=\"--d:1120ms\"><b>3</b>Tested every morning</li><li style=\"--d:960ms\"><b>4</b>One upgrade every hour</li><li style=\"--d:800ms\"><b>5</b>A free check that sells</li><li style=\"--d:640ms\"><b>6</b>150 emails every weekday</li><li style=\"--d:480ms\"><b>7</b>It spots who’s interested</li><li style=\"--d:320ms\"><b>8</b>The site upgrades itself</li><li style=\"--d:160ms\"><b>9</b>One email every evening</li><li style=\"--d:0ms\"><b>10</b>Nothing public without your yes</li></ol></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: chosen from the 28 jobs in Taylor’s notes, 22 October 2026, for impact and for what viewers can copy.",
+   "note": "About 20 seconds. SAY: “I went through all twenty-eight and picked the ten that matter most: the ones that will impress you and the ones you can copy. Let’s count them down.” The rungs build from number 10 to number 1."
+  },
+  {
+   "id": "ch-tuned-reps",
+   "title": "Tuned Reps: it makes the calls",
+   "section": "01 / Tuned Reps",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-zoom\" data-stops=\"1300\" role=\"img\" aria-label=\"Chapter 1 card: Tuned Reps. It makes the calls.\"><div class=\"s ti2\"><div class=\"num a\" style=\"--anim:gb-up\">01</div><div class=\"eb\">Chapter · Tuned Reps</div><div class=\"h\">It makes the calls</div><div class=\"bar\"></div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Tuned Reps, a Pecuna Factorem company (tuned-reps-site.vercel.app).",
+   "note": "Chapter pause, about 10 seconds. SAY: “Business one: Tuned Reps. AI sales reps that pick up the phone.”"
+  },
+  {
+   "id": "real-calls",
+   "title": "It makes real phone calls",
+   "section": "01 / Tuned Reps · #1",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-zoom\" data-stops=\"5300\" role=\"img\" aria-label=\"The prospect’s phone, a live sound wave for Charlotte and Madison, and the approved answers and real calendar they look up mid-call.\"><div class=\"s fl4\"><div class=\"t\"><div class=\"eb\">Top 10 · #1</div><div class=\"h\">It makes real phone calls</div></div><div class=\"phone\"><div><b>Prospect</b>“Is this a sales call?”</div></div><div><div class=\"wave\"><i style=\"--h:calc(6*var(--u));--d:0ms\"></i><i style=\"--h:calc(10*var(--u));--d:70ms\"></i><i style=\"--h:calc(14*var(--u));--d:140ms\"></i><i style=\"--h:calc(9*var(--u));--d:210ms\"></i><i style=\"--h:calc(16*var(--u));--d:280ms\"></i><i style=\"--h:calc(12*var(--u));--d:350ms\"></i><i style=\"--h:calc(7*var(--u));--d:420ms\"></i><i style=\"--h:calc(13*var(--u));--d:490ms\"></i><i style=\"--h:calc(15*var(--u));--d:560ms\"></i><i style=\"--h:calc(8*var(--u));--d:630ms\"></i><i style=\"--h:calc(11*var(--u));--d:700ms\"></i><i style=\"--h:calc(5*var(--u));--d:770ms\"></i></div><div class=\"lbl\">Charlotte (UK) · Madison (US) · always say they’re AI</div></div><div class=\"brain\"><b>Looks it up live</b>Approved answers from Supabase: objections, FAQs, compliance, offers.<br><br><b>Real calendar</b>Today’s date, and your booking link by email or WhatsApp.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026: the xAI console (Charlotte and Madison), the dashboard Knowledge tab and Supabase. No call results are claimed.",
+   "note": "Number 1, about 60 seconds. SAY: “Two AI sales reps. Charlotte calls in the UK, Madison in the US. They open the call, handle objections and book strategy calls, and they always say they’re AI.” Then: “Mid-call, they look up approved answers in our own database instead of making things up, and they know today’s date from the real calendar, so no invented meeting times.” SHOW: Charlotte and Madison in the xAI console, then the Knowledge tab. This was a custom build, not a template. Say nothing about booking rates: none are claimed."
+  },
+  {
+   "id": "cost",
+   "title": "£752 a month, full time",
+   "section": "01 / Tuned Reps · #2",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-zoom\" data-stops=\"1700\" role=\"img\" aria-label=\"Two coin stacks: about £752 a month for a UK rep and £644 for a US rep, full time.\"><div class=\"s gbc\"><div><div class=\"eb\">Top 10 · #2</div><div class=\"h\">£752 a month, full time</div><p>A rep on calls for all 9,600 minutes a month. Every line costed on the website.</p><p class=\"sm\">At 50% connected: about £377 (UK) and £323 (US).</p></div><div class=\"stk\"><div class=\"col\"><b style=\"--d:1200ms\">~£752</b><div class=\"pile\"><i style=\"--i:0;--d:0ms\"></i><i style=\"--i:1;--d:70ms\"></i><i style=\"--i:2;--d:140ms\"></i><i style=\"--i:3;--d:210ms\"></i><i style=\"--i:4;--d:280ms\"></i><i style=\"--i:5;--d:350ms\"></i><i style=\"--i:6;--d:420ms\"></i><i style=\"--i:7;--d:490ms\"></i><i style=\"--i:8;--d:560ms\"></i><i style=\"--i:9;--d:630ms\"></i><i style=\"--i:10;--d:700ms\"></i><i style=\"--i:11;--d:770ms\"></i><i style=\"--i:12;--d:840ms\"></i><i style=\"--i:13;--d:910ms\"></i><i style=\"--i:14;--d:980ms\"></i></div><small>Charlotte · UK</small></div><div class=\"col\"><b style=\"--d:1300ms\">~£644</b><div class=\"pile\"><i style=\"--i:0;--d:100ms\"></i><i style=\"--i:1;--d:170ms\"></i><i style=\"--i:2;--d:240ms\"></i><i style=\"--i:3;--d:310ms\"></i><i style=\"--i:4;--d:380ms\"></i><i style=\"--i:5;--d:450ms\"></i><i style=\"--i:6;--d:520ms\"></i><i style=\"--i:7;--d:590ms\"></i><i style=\"--i:8;--d:660ms\"></i><i style=\"--i:9;--d:730ms\"></i><i style=\"--i:10;--d:800ms\"></i><i style=\"--i:11;--d:870ms\"></i><i style=\"--i:12;--d:940ms\"></i></div><small>Madison · US</small></div></div><div class=\"src\">Source: tuned-reps-site.vercel.app, running costs, read 22 October 2026. $1,003 and $859 at about £0.75 per $1.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: tuned-reps-site.vercel.app, running costs, read 22 October 2026: $1,003 (UK) and $859 (US) for 9,600 minutes, at about £0.75 per $1.",
+   "note": "Number 2, about 40 seconds. SAY: “A rep on the phone full time, every minute of an eight-hour day, costs about seven hundred and fifty-two pounds a month in the UK and six hundred and forty-four in the US.” Then the honest version: “Realistically it’s connected about half the time, so about three seventy-seven and three twenty-three.” Do not compare with a human salary on screen; no salary figure is sourced."
+  },
+  {
+   "id": "cost-proof",
+   "title": "Every line is on the website",
+   "section": "01 / Tuned Reps · #2",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-zoom\" data-stops=\"3100,3700\" role=\"img\" aria-label=\"The real running-costs table from the Tuned Reps website, zooming in to the UK total: $1,003, about £752.\"><div class=\"s gbzm\"><div class=\"pg\"><img src=\"gb-costs.jpg\" alt=\"Tuned Reps running costs table, UK and US\"><span class=\"hit\"></span></div><div class=\"hint\">Real page: tuned-reps-site.vercel.app, running costs</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>",
+    "<span class=\"gb-step\">Reveal 2</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2
+   ],
+   "source": "Source: tuned-reps-site.vercel.app, “What it costs to run a rep”, captured 22 October 2026.",
+   "note": "About 20 seconds. Click 1: the page glides in to the UK total. Click 2: the highlight. SAY: “And every line of that is on the website: voice minutes, phone minutes, recording, the number itself. Down to the dollar.”"
+  },
+  {
+   "id": "tested",
+   "title": "Tested every morning",
+   "section": "01 / Tuned Reps · #3",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-zoom\" data-stops=\"1500\" role=\"img\" aria-label=\"A loop: 7:00 test calls, score out of 100, 8:00 fixes, your approval, live.\"><div class=\"s lp\"><div><div class=\"eb\">Top 10 · #3</div><div class=\"h\" style=\"font-size:calc(4*var(--u))\">Tested every morning</div><svg viewBox=\"0 0 300 200\" aria-hidden=\"true\"><ellipse class=\"ring\" cx=\"150\" cy=\"105\" rx=\"110\" ry=\"70\"/><circle class=\"stop\" cx=\"150\" cy=\"35\" r=\"7\"/><circle class=\"stop\" cx=\"255\" cy=\"85\" r=\"7\"/><circle class=\"stop on\" cx=\"215\" cy=\"163\" r=\"9\"/><circle class=\"stop\" cx=\"85\" cy=\"163\" r=\"7\"/><circle class=\"stop\" cx=\"45\" cy=\"85\" r=\"7\"/><text x=\"150\" y=\"22\" text-anchor=\"middle\">7:00 test</text><text x=\"268\" y=\"80\">Score</text><text x=\"215\" y=\"192\" text-anchor=\"middle\">Your yes</text><text x=\"85\" y=\"192\" text-anchor=\"middle\">Live</text><text x=\"34\" y=\"80\" text-anchor=\"end\">8:00 fix</text></svg></div><ol><li class=\"a\" style=\"--anim:gb-up;--d:300ms\"><b>1</b>7:00: three test calls per rep, realistic objections</li><li class=\"a\" style=\"--anim:gb-up;--d:450ms\"><b>2</b>Every answer scored out of 100</li><li class=\"a\" style=\"--anim:gb-up;--d:600ms\"><b>3</b>8:00: it fixes what it can</li><li class=\"a\" style=\"--anim:gb-up;--d:750ms\"><b>4</b>Wording changes wait for your yes</li><li class=\"a\" style=\"--anim:gb-up;--d:900ms\"><b>5</b>A pass/fail summary lands in your chat</li></ol></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026: the Test Calls and Review tabs on the dashboard.",
+   "note": "Number 3, about 45 seconds. SAY: “Every morning at seven, three test calls run on each rep with realistic buyer objections. Every answer is scored out of a hundred against the wording I approved. At eight, it fixes what it can, queues wording changes for my yes, and sends me a pass or fail.” SHOW: the Test Calls tab."
+  },
+  {
+   "id": "graded",
+   "title": "Every answer scored",
+   "section": "01 / Tuned Reps · #3",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-zoom\" data-stops=\"1000,2000,2400\" role=\"img\" aria-label=\"Test-call cards ride a conveyor; each gets a score out of 100 and the one that fails drops into the 8:00 fixes tray. Scores are examples.\"><div class=\"s gbb\"><div class=\"eb\">Top 10 · #3 · scores illustrative</div><div class=\"h\">Every answer, scored out of 100</div><div class=\"belt\"><div class=\"gate\">Scored /100</div><div class=\"cd c1\" style=\"--d:0ms\"><b>Charlotte</b>“It’s too expensive”<span class=\"sc\">94</span></div><div class=\"cd c2 fail\" style=\"--d:700ms\"><b>Madison</b>“Send me an email”<span class=\"sc\">58</span></div><div class=\"cd c3\" style=\"--d:1400ms\"><b>Charlotte</b>“Who gave you my number?”<span class=\"sc\">97</span></div><div class=\"tray\">8:00 fixes</div></div><div class=\"src\">Source: Taylor’s notes. 7:00 test calls, 3 per rep; 8:00 fixes run. The scores shown are examples.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>",
+    "<span class=\"gb-step\">Reveal 2</span>",
+    "<span class=\"gb-step\">Reveal 3</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026. The scores shown are examples, not real results.",
+   "note": "About 30 seconds. One card per click. SAY: “Pass, and it rides on. Fail, and it drops into the eight o’clock fixes.” The scores are examples: show real ones from the Test Calls tab when recording. It also writes ten new objections a day, five UK and five US, for your approval."
+  },
+  {
+   "id": "hourly",
+   "title": "One upgrade every hour",
+   "section": "01 / Tuned Reps · #4",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-zoom\" data-stops=\"950,1900,2350,3450\" role=\"img\" aria-label=\"Four phrases read along one by one: I’m not interested. Send me an email. Wrong number. Take me off your list.\"><div class=\"s qt2 gbq\"><div class=\"speaker\"><i></i>What prospects actually say</div><div class=\"script\"><div>“<span class=\"w k\" style=\"--d:300ms\">I’m</span> <span class=\"w\" style=\"--d:470ms\">not</span> <span class=\"w\" style=\"--d:640ms\">interested.</span>”</div><div>“<span class=\"w k\" style=\"--d:1100ms\">Send</span> <span class=\"w\" style=\"--d:1270ms\">me</span> <span class=\"w\" style=\"--d:1440ms\">an</span> <span class=\"w\" style=\"--d:1610ms\">email.</span>”</div><div>“<span class=\"w k\" style=\"--d:1900ms\">Wrong</span> <span class=\"w\" style=\"--d:2070ms\">number.</span>”</div><div>“<span class=\"w k\" style=\"--d:2500ms\">Take</span> <span class=\"w\" style=\"--d:2670ms\">me</span> <span class=\"w\" style=\"--d:2840ms\">off</span> <span class=\"w\" style=\"--d:3010ms\">your</span> <span class=\"w\" style=\"--d:3180ms\">list.</span>”</div></div><div class=\"src\">Source: Taylor’s notes, 22 October 2026. Today’s hourly upgrade: each one understood in dozens of everyday phrasings.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>",
+    "<span class=\"gb-step\">Reveal 2</span>",
+    "<span class=\"gb-step\">Reveal 3</span>",
+    "<span class=\"gb-step\">Reveal 4</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026, and the progress log in the Tuned Reps GitHub repository.",
+   "note": "Number 4, about 40 seconds. One phrase per click. SAY: “Every hour, a routine makes one small upgrade. Today it taught the reps to understand these four.” After the fourth: “Tested and saved, without me touching it.” SHOW: the progress log."
+  },
+  {
+   "id": "phrasings",
+   "title": "However they say it",
+   "section": "01 / Tuned Reps · #4",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-zoom\" data-stops=\"2250\" role=\"img\" aria-label=\"Twelve everyday phrasings fly into four columns, one for each thing the prospect means. The phrasings are examples.\"><div class=\"s gbs\"><div class=\"eb\">Top 10 · #4 · example phrasings</div><div class=\"h\">However they say it</div><div class=\"cols\"><div class=\"col\"><h5>“I’m not interested”</h5><span style=\"--x:calc(-18*var(--u));--y:calc(12*var(--u));--r:-8deg;--d:60ms\">Not for me, thanks</span><span style=\"--x:calc(22*var(--u));--y:calc(-8*var(--u));--r:6deg;--d:120ms\">We’re all sorted</span><span style=\"--x:calc(-30*var(--u));--y:calc(18*var(--u));--r:-4deg;--d:180ms\">No ta</span></div><div class=\"col\"><h5>“Send me an email”</h5><span style=\"--x:calc(14*var(--u));--y:calc(-14*var(--u));--r:9deg;--d:240ms\">Just email it over</span><span style=\"--x:calc(30*var(--u));--y:calc(6*var(--u));--r:-6deg;--d:300ms\">Pop it in an email</span><span style=\"--x:calc(-8*var(--u));--y:calc(22*var(--u));--r:4deg;--d:360ms\">Bung me an email</span></div><div class=\"col\"><h5>“Wrong number”</h5><span style=\"--x:calc(-24*var(--u));--y:calc(-4*var(--u));--r:7deg;--d:420ms\">No one by that name</span><span style=\"--x:calc(10*var(--u));--y:calc(16*var(--u));--r:-9deg;--d:480ms\">You’ve got the wrong person</span><span style=\"--x:calc(26*var(--u));--y:calc(-18*var(--u));--r:5deg;--d:540ms\">Never heard of them</span></div><div class=\"col\"><h5>“Take me off your list”</h5><span style=\"--x:calc(-14*var(--u));--y:calc(8*var(--u));--r:-3deg;--d:600ms\">Don’t ring me again</span><span style=\"--x:calc(6*var(--u));--y:calc(-10*var(--u));--r:8deg;--d:660ms\">Remove my number</span><span style=\"--x:calc(-28*var(--u));--y:calc(4*var(--u));--r:-6deg;--d:720ms\">Stop calling me</span></div></div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026: “in dozens of everyday phrasings”. The twelve phrasings shown are examples.",
+   "note": "About 25 seconds. SAY: “Because nobody says ‘take me off your list’ like that. They say ‘don’t ring me again’, or ‘no ta’. It learned dozens of ways of saying each one.” The headings are exact; the phrasings are examples, not a copy of the real list."
+  },
+  {
+   "id": "ch-gpt-visibility",
+   "title": "GPT Visibility: it runs a business",
+   "section": "02 / GPT Visibility",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-pen\" data-stops=\"1800\" role=\"img\" aria-label=\"Chapter 2 title, handwritten: It runs a business.\"><div class=\"s ti3\"><div class=\"eb\">02 / GPT Visibility</div><div class=\"hand\">It runs a business</div><svg class=\"ul\" viewBox=\"0 0 520 40\" aria-hidden=\"true\"><path d=\"M6 24C120 10 300 8 512 22\"/></svg><div class=\"sub\">A free tool, cold email, content and a website that improves itself.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: gptvisibility.co.uk.",
+   "note": "Chapter pause, about 10 seconds. SAY: “Business two: GPT Visibility. This one, the bot pretty much runs.”"
+  },
+  {
+   "id": "free-check",
+   "title": "A free check that sells",
+   "section": "02 / GPT Visibility · #5",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-pen\" data-stops=\"1500\" role=\"img\" aria-label=\"Any business enters its website and gets a score out of 100 in seconds; the key words are highlighted.\"><div class=\"s mk mk2\"><div class=\"eb\">Top 10 · #5</div><div class=\"h\">A free check that sells</div><p>Any business enters its website and gets <span class=\"hl\">a score out of 100 in seconds.</span> It costs nothing to run.</p></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026, and gptvisibility.co.uk/check.",
+   "note": "Number 5, about 30 seconds. SAY: “The hook for the whole business: a free check. Any business types in its website and gets a score out of a hundred in seconds. It costs us nothing to run.” Be accurate: the page says it is a technical readiness check, not a live ChatGPT test."
+  },
+  {
+   "id": "real-result",
+   "title": "A real result",
+   "section": "02 / GPT Visibility · #5",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-pen\" data-stops=\"1200,1800,2800\" role=\"img\" aria-label=\"The real free-check result for the Tuned Reps site: 62 out of 100, with business schema at 0 of 15 boxed.\"><div class=\"s gbm\"><div class=\"shot\"><img src=\"gb-check.jpg\" alt=\"GPT Visibility free check result for the Tuned Reps site: 62 out of 100\"><svg class=\"o1\" viewBox=\"0 0 100 100\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M50 3C18 2 2 30 6 58s30 42 58 38 34-38 28-62S70 0 40 8\" vector-effect=\"non-scaling-stroke\"/></svg><span class=\"o2\"></span></div><div class=\"nt\"><div class=\"eb\">Real result · 22 Oct</div><b>62 / 100</b><span class=\"hd\">No schema = the fix we sell</span></div><div class=\"src\">Source: gptvisibility.co.uk/check on tuned-reps-site.vercel.app, 22 October 2026.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>",
+    "<span class=\"gb-step\">Reveal 2</span>",
+    "<span class=\"gb-step\">Reveal 3</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "source": "Source: gptvisibility.co.uk/check, run on tuned-reps-site.vercel.app, 22 October 2026.",
+   "note": "About 40 seconds. Click 1: circle the score. Click 2: box the schema gap. Click 3: the note. SAY: “I ran it on our own Tuned Reps site: sixty-two. Every gap it finds is a reason to buy the paid audit or the fix sprint.” Known issue to fix before recording: the result tells every business to add “AccountingService for accountants” schema, even a sales-rep site. Re-run and re-capture once it is fixed."
+  },
+  {
+   "id": "emails",
+   "title": "150 emails every weekday",
+   "section": "02 / GPT Visibility · #6",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-pen\" data-stops=\"1900\" role=\"img\" aria-label=\"Odometer digits roll to 150: personalised cold emails sent every weekday.\"><div class=\"s nm3\"><div class=\"eb\">Top 10 · #6</div><div class=\"h\">150 emails every weekday</div><div class=\"odo\"><div><div class=\"dig\"><span><ol style=\"--v:1;--d:0ms\"><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ol></span><span><ol style=\"--v:5;--d:150ms\"><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ol></span><span><ol style=\"--v:0;--d:300ms\"><li>0</li><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li><li>6</li><li>7</li><li>8</li><li>9</li></ol></span></div><small>personalised cold emails, sent at about 9am, every bounce and opt-out recorded</small></div></div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026: the hello@ Sent history and the 4:15pm daily report.",
+   "note": "Number 6, about 40 seconds. SAY: “About nine every weekday morning, it finds UK businesses, mostly coaches, and writes each one a tailored email offering the free check. A hundred and fifty a day. It records every send and bounce, honours opt-outs and keeps a do-not-contact list. Nobody lifts a finger.”"
+  },
+  {
+   "id": "warm-leads",
+   "title": "It spots who’s interested",
+   "section": "02 / GPT Visibility · #7",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-pen\" data-stops=\"3500\" role=\"img\" aria-label=\"A dot travels from the 9am email to the free check, the 4pm check, a follow-up with the real score, and a warm lead.\"><div class=\"s fl3\"><div class=\"eb\">Top 10 · #7</div><div class=\"h\">It spots who’s interested</div><div class=\"lane\"><div class=\"wire\"></div><div class=\"nodes\"><div class=\"nd\" style=\"--d:600ms\"><b>9am</b>tailored email goes out</div><div class=\"nd\" style=\"--d:1300ms\"><b>They click</b>and run the free check</div><div class=\"nd\" style=\"--d:2000ms\"><b>4pm</b>the bot spots it</div><div class=\"nd\" style=\"--d:2700ms\"><b>Follow-up</b>with their real score</div><div class=\"nd end\"><b>Warm lead</b>5 on 22 October</div></div><div class=\"dot\"></div></div><div class=\"status\">Source: Taylor’s notes, 22 October 2026.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026.",
+   "note": "Number 7, about 40 seconds. SAY: “At four, it checks who ran the free check after getting our email, then writes them a personal follow-up using their real score and the gaps it found.” SHOW: a follow-up in Gmail Sent."
+  },
+  {
+   "id": "funnel",
+   "title": "From 150 emails to 5 warm leads",
+   "section": "02 / GPT Visibility · #7",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-pen\" data-stops=\"2850\" role=\"img\" aria-label=\"A funnel: 150 emails pour in and 5 warm leads drop out.\"><div class=\"s gbn\"><div><div class=\"eb\">Top 10 · #7 · 22 October</div><div class=\"h\">From 150 emails to 5 warm leads</div><p class=\"nt\">Within hours of the emails going out, five people had run the free check. Each got a follow-up built on their own score.</p></div><div class=\"fn\"><div class=\"lt\">150 emails</div><svg viewBox=\"0 0 200 220\" aria-hidden=\"true\"><path class=\"cone\" d=\"M10 20H190L118 130V190H82V130Z\"/></svg><i class=\"in\" style=\"--x:14%;--d:0ms\"></i><i class=\"in\" style=\"--x:31%;--d:90ms\"></i><i class=\"in\" style=\"--x:48%;--d:180ms\"></i><i class=\"in\" style=\"--x:65%;--d:270ms\"></i><i class=\"in\" style=\"--x:82%;--d:360ms\"></i><i class=\"in\" style=\"--x:14%;--d:450ms\"></i><i class=\"in\" style=\"--x:31%;--d:540ms\"></i><i class=\"in\" style=\"--x:48%;--d:630ms\"></i><i class=\"in\" style=\"--x:65%;--d:720ms\"></i><i class=\"in\" style=\"--x:82%;--d:810ms\"></i><i class=\"in\" style=\"--x:14%;--d:900ms\"></i><i class=\"in\" style=\"--x:31%;--d:990ms\"></i><i class=\"in\" style=\"--x:48%;--d:1080ms\"></i><i class=\"in\" style=\"--x:65%;--d:1170ms\"></i><i class=\"in\" style=\"--x:82%;--d:1260ms\"></i><i class=\"out\" style=\"--x:32%;--d:1600ms\"></i><i class=\"out\" style=\"--x:41%;--d:1780ms\"></i><i class=\"out\" style=\"--x:50%;--d:1960ms\"></i><i class=\"out\" style=\"--x:59%;--d:2140ms\"></i><i class=\"out\" style=\"--x:68%;--d:2320ms\"></i><div class=\"lb\">5 warm leads</div></div><div class=\"src\">Source: Taylor’s notes, 22 October 2026. Each small dot is 10 emails; each gold dot is one lead.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026. One day’s result, not an average or a forecast.",
+   "note": "About 25 seconds. SAY: “On the twenty-second of October that found five warm leads, within hours of the emails going out.” It is one day’s count from the daily report; do not present it as a rate."
+  },
+  {
+   "id": "site-upgrades",
+   "title": "The site upgrades itself",
+   "section": "02 / GPT Visibility · #8",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-pen\" data-stops=\"1600\" role=\"img\" aria-label=\"Before and after: 6 industry pages become 20, with the 14 new ones in gold.\"><div class=\"s gbx\"><div class=\"sd\"><div class=\"eb\">Before</div><div class=\"big\">6</div><ul><li>Trades and home services</li><li>Clinics and healthcare</li><li>Law firms</li><li>Agencies</li><li>Local services</li><li>Accountants and bookkeepers</li></ul></div><div class=\"sd af\"><div class=\"eb\">After one afternoon · 22 Oct</div><div class=\"big\">20</div><ul class=\"two\"><li>Trades and home services</li><li>Clinics and healthcare</li><li>Law firms</li><li>Agencies</li><li>Local services</li><li>Accountants and bookkeepers</li><li class=\"nw\">Coaches</li><li class=\"nw\">Financial advisers</li><li class=\"nw\">Mortgage brokers</li><li class=\"nw\">Tutors and tuition</li><li class=\"nw\">Estate agents</li><li class=\"nw\">Therapists and counsellors</li><li class=\"nw\">Wedding suppliers</li><li class=\"nw\">Vets</li><li class=\"nw\">Recruitment agencies</li><li class=\"nw\">Architects</li><li class=\"nw\">IT support and MSPs</li><li class=\"nw\">Gyms and personal trainers</li><li class=\"nw\">Aesthetics clinics</li><li class=\"nw\">Care homes and home care</li></ul></div><div class=\"src\">Source: gptvisibility.co.uk/industries, read 22 October 2026. Plus a new guide every weekday.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: gptvisibility.co.uk/industries and /guides, read 22 October 2026.",
+   "note": "Number 8, about 45 seconds. SAY: “Every afternoon at about half two it adds features and fixes and puts them live. Yesterday it built fourteen new industry pages in one go: six industries to twenty. And every weekday at about half one it researches and publishes a new guide. Yesterday’s was how ChatGPT handles ‘near me’ searches.” SHOW: the industries and guides pages."
+  },
+  {
+   "id": "ch-boss",
+   "title": "You stay the boss",
+   "section": "03 / You stay the boss",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-spot\" data-stops=\"1300\" role=\"img\" aria-label=\"Chapter 3 of 3: You stay the boss.\"><div class=\"s gbd\"><div class=\"rail\"><div class=\"st done\"><i></i>Tuned Reps</div><div class=\"st done\"><i></i>GPT Visibility</div><div class=\"st on\"><i></i>You stay the boss</div></div><div class=\"eb\">Chapter 3 of 3</div><div class=\"hd\">You stay the boss</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026.",
+   "note": "Chapter pause, about 10 seconds. SAY: “So who’s in charge? Still me.”"
+  },
+  {
+   "id": "report",
+   "title": "One email every evening",
+   "section": "03 / You stay the boss · #9",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-spot\" data-stops=\"900,2100\" role=\"img\" aria-label=\"An inbox with the daily report subjects; the 4:15pm report opens to what went out, what shipped, the database numbers and what’s waiting on you.\"><div class=\"s gbi\"><div class=\"gbhd\"><div class=\"eb\">Top 10 · #9</div><div class=\"h\">One email every evening</div></div><div class=\"ib\"><div class=\"eb\">Inbox · mock-up</div><div class=\"row on\" style=\"--d:200ms\"><b>GPT Visibility daily report – 22 October 2026</b><span>16:15</span></div><div class=\"row\" style=\"--d:400ms\"><b>Outbound Caller daily update</b><span>18:00</span></div><div class=\"row\" style=\"--d:600ms\"><b>Monday progress update</b><span>Mon 08:29</span></div></div><div class=\"ml\"><div class=\"eb\">The 4:15pm report covers</div><div class=\"ln\" style=\"--d:900ms\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 13l5 5 11-12\"/></svg>What went out</div><div class=\"ln\" style=\"--d:1200ms\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 13l5 5 11-12\"/></svg>What shipped</div><div class=\"ln\" style=\"--d:1500ms\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 13l5 5 11-12\"/></svg>The database numbers</div><div class=\"ln\" style=\"--d:1800ms\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 13l5 5 11-12\"/></svg>What’s waiting on you</div></div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>",
+    "<span class=\"gb-step\">Reveal 2</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026. The inbox layout is a mock-up; the subjects, times and sections are from the notes.",
+   "note": "Number 9, about 35 seconds. SAY: “I don’t check twenty dashboards. One email at quarter past four: what went out, what shipped, the numbers and what’s waiting on me. Tuned Reps sends its own update at six, and on Mondays I get the weekly summary.” SHOW: the real report in the inbox."
+  },
+  {
+   "id": "permission",
+   "title": "Nothing public without your yes",
+   "section": "03 / You stay the boss · #10",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-spot\" data-stops=\"900\" role=\"img\" aria-label=\"Two lanes: what runs on its own, and what waits for your yes.\"><div class=\"s cm1\"><div class=\"eb\">Top 10 · #10</div><div class=\"h\">Nothing public without your yes</div><div class=\"lanes\"><div class=\"lane a\" style=\"--anim:gb-up\"><h4>Runs on its own</h4><p>Test calls and fixes · cold emails and follow-ups · guides and site upgrades · bug checks · reports</p></div><div class=\"lane on a\" style=\"--anim:gb-up;--d:300ms\"><h4>Waits for your yes</h4><p>X posts and replies · Reddit answers · outreach changes · new routines · <mark>new wording for the reps</mark></p></div></div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026.",
+   "note": "Number 10, about 40 seconds. SAY: “Here’s what makes it safe. Emails, guides, fixes and reports run on their own. But anything public, X posts, Reddit answers, outreach changes, new routines, new wording for the reps, waits for my yes.” The reps also follow UK and US calling rules: AI disclosure, calling hours, opt-outs, TPS and Do Not Call."
+  },
+  {
+   "id": "zero",
+   "title": "Zero without your say-so",
+   "section": "03 / You stay the boss · #10",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-spot\" data-stops=\"1420\" role=\"img\" aria-label=\"A huge zero: public posts, outreach changes or new routines without your say-so. Stamp: waits for your yes.\"><div class=\"s cm3\"><div class=\"zero\">0<small>public posts, outreach changes or new routines without your say-so</small></div><div class=\"stmp\">Waits for your yes<small>X · Reddit · outreach · routines</small></div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026.",
+   "note": "About 15 seconds. Let the stamp land. SAY: “Zero. Not one.”"
+  },
+  {
+   "id": "eleven-more",
+   "title": "And 11 more jobs",
+   "section": "03 / You stay the boss",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-spot\" data-stops=\"1600\" role=\"img\" aria-label=\"Eleven more jobs in tiles, from ten new objections a day to Stripe payment links, and a tile with the total: 28.\"><div class=\"s ls2 gbl\"><div class=\"eb\">Not in the top 10</div><div class=\"h\">And 11 more jobs</div><div class=\"tiles\"><div class=\"a\" style=\"--anim:gb-up;--d:0ms\"><b>10 new objections</b>5 UK, 5 US, every morning</div><div class=\"a\" style=\"--anim:gb-up;--d:90ms\"><b>Live dashboard</b>8 tabs for the reps</div><div class=\"a\" style=\"--anim:gb-up;--d:180ms\"><b>A website in one evening</b>three packages, live costs</div><div class=\"a\" style=\"--anim:gb-up;--d:270ms\"><b>Onboarding kit</b>playbook, prompts, rehearsals</div><div class=\"a\" style=\"--anim:gb-up;--d:360ms\"><b>20 sponsor pitches</b>a day, at £450 a month</div><div class=\"a\" style=\"--anim:gb-up;--d:450ms\"><b>Newsletter</b>Tue, Thu and Sun at 8am</div><div class=\"a\" style=\"--anim:gb-up;--d:540ms\"><b>Daily site check</b>every page, link and the checker</div><div class=\"a\" style=\"--anim:gb-up;--d:630ms\"><b>X research</b>scans, then drafts for you</div><div class=\"a\" style=\"--anim:gb-up;--d:720ms\"><b>Reddit answers</b>drafted for you to post</div><div class=\"a\" style=\"--anim:gb-up;--d:810ms\"><b>Free directories</b>3 more today, paid ones skipped</div><div class=\"a\" style=\"--anim:gb-up;--d:900ms\"><b>Stripe and lead tracker</b>£295 and £495 links live</div><div class=\"a tot\" style=\"--anim:gb-up;--d:1000ms\"><b>28</b>jobs in total</div></div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026.",
+   "note": "About 30 seconds. SAY: “And that’s only ten. It also writes ten new objections a day, pitches twenty sponsors, sends a newsletter, scans X, drafts Reddit answers, lists us on free directories and set up our Stripe links.” Point at two or three; do not read all eleven."
+  },
+  {
+   "id": "asks-first",
+   "title": "It still asks first",
+   "section": "04 / Close",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-wipe\" data-stops=\"500,2500,3800\" role=\"img\" aria-label=\"A notification: Grok Bot has drafted an X post and waits; the cursor clicks Yes, post it. Then: It runs while you sleep. It still asks first.\"><div class=\"s gby\"><div class=\"nf\"><div class=\"eb\">Grok Bot · waiting for you · illustrative</div><p>Draft X post: “Can ChatGPT read your website? Free check, 10 seconds.”</p><div class=\"bt\"><span>Not now</span><span class=\"ok\">Yes, post it</span></div><svg class=\"cur\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M3 2l7 19 3-8 8-3z\"/></svg></div><div class=\"hand\">It runs while you sleep.<br>It still asks first.</div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>",
+    "<span class=\"gb-step\">Reveal 2</span>",
+    "<span class=\"gb-step\">Reveal 3</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "source": "Source: Taylor’s notes, 22 October 2026. The draft post is illustrative.",
+   "note": "Close, about 25 seconds. Click 1: the card. Click 2: the yes. Click 3: the line. SAY: “That’s how powerful it is. It runs a whole business while I sleep, and it still asks my permission for anything public.”"
+  },
+  {
+   "id": "call-taylor",
+   "title": "Book 20 minutes with Taylor",
+   "section": "04 / Close",
+   "kind": "gb",
+   "parts": [
+    "<div class=\"gb-stage gb-ent-wipe\" data-stops=\"1800\" role=\"img\" aria-label=\"A calendar invite: a 20-minute strategy call with Taylor, with a gold tick.\"><div class=\"s cl2\"><div class=\"inv\"><div class=\"top\"><span>Invitation</span><span>20 minutes</span></div><div class=\"bd\"><div class=\"day\"><small>Call</small><b>20</b></div><div><h4>Strategy call with Taylor</h4><p>Which of these ten jobs your business should hand to a bot first.</p></div></div></div><div class=\"tk\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 13l5 5 11-12\"/></svg></div></div></div>",
+    "<span class=\"gb-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Source: tuned-reps-site.vercel.app: “Strategy calls are 20 minutes with Taylor.”",
+   "note": "Call to action, about 15 seconds. SAY: “If you want to know which of these your business should hand to a bot first, book twenty minutes with me. And if you want to see your own score, the free check is at gptvisibility.co.uk/check.” Link both in the description."
+  }
+ ]
+};
