@@ -32,7 +32,7 @@ Everything below is on `main`. Always fetch first, because Sites sometimes write
 
 | Done and merged | Where |
 |---|---|
-| Four presentations in one library (below) | `public/presentations.js` |
+| Eight presentations in one library (below) | `public/presentations.js` |
 | Navigation: **Presentations · Creator watchlist · Topics**, plain text with a thin dark underline | `public/index.html`, `public/library.js` |
 | **1A toolbar**: search, Creator dropdown, 7 / 14 / 30 days as underline tabs | `public/index.html`, `public/video-ideas.css` |
 | **Creator watchlist, design 2C** (see below) | `public/video-ideas.js`, `public/video-ideas.css` |
@@ -42,7 +42,7 @@ Everything below is on `main`. Always fetch first, because Sites sometimes write
 | Routes: `#/watchlist`, `#/watchlist/creator/@handle`, `#/topics`. The old `#/video-ideas` link still works. | `public/library.js` |
 | Weekly process | `PROCESS.md` |
 
-The six presentations (all must appear on the live site):
+The eight presentations (all must appear on the live site, in this order):
 
 | Tab title | ID | Slides |
 |---|---|---|
@@ -52,6 +52,8 @@ The six presentations (all must appear on the live site):
 | How AI Harnesses Can 10x Your Quality and Output | `ai-harnesses` | 27 |
 | The 5% in AI That Actually Matters | `five-percent-ai` | 20 |
 | Grok Voice WILL Replace Sales Reps! | `grok-voice` | 19 |
+| The Most Important Skill In AI for The Next 5 Years | `how-to-think` | 17 |
+| How Powerful Is Grok Bot Really? | `grok-bot-power` | 25 |
 
 **Creator watchlist, design 2C (Taylor's pick):**
 - One row per creator (42).
@@ -76,6 +78,21 @@ The six presentations (all must appear on the live site):
 - Today those actions are protected only by the site being private.
 - With no visitor login, anyone with the link could do them.
 - Ask Taylor to confirm that's acceptable before removing the login. If not, keep the current access setting and publish anyway.
+
+### Not on the live site yet (23 October 2026)
+
+The last publish recorded back to GitHub was **13 October** (commit `0a6a813`, "Update Site source"), when the site had two decks. Everything merged since then still needs publishing. One publish of the latest `main` covers all of it:
+
+| Merged | What it adds or changes |
+|---|---|
+| [#6](https://github.com/taylor585/Whiteboard-Wednesdays/pull/6) | Vision Boards and AI Harnesses decks |
+| [#7](https://github.com/taylor585/Whiteboard-Wednesdays/pull/7), [#8](https://github.com/taylor585/Whiteboard-Wednesdays/pull/8) | Owner update and this handover (docs only) |
+| [#9](https://github.com/taylor585/Whiteboard-Wednesdays/pull/9) | Creator watchlist 2C, the Topics tab, and database migration `0001_topics.sql` |
+| [#10](https://github.com/taylor585/Whiteboard-Wednesdays/pull/10) | Consistent simple headings throughout |
+| [#12](https://github.com/taylor585/Whiteboard-Wednesdays/pull/12), [#14](https://github.com/taylor585/Whiteboard-Wednesdays/pull/14) | The 5% in AI That Actually Matters deck, plus slide 10 and phone heading fixes |
+| [#11](https://github.com/taylor585/Whiteboard-Wednesdays/pull/11) | Grok Voice WILL Replace Sales Reps! deck |
+| [#15](https://github.com/taylor585/Whiteboard-Wednesdays/pull/15), [#16](https://github.com/taylor585/Whiteboard-Wednesdays/pull/16), [#17](https://github.com/taylor585/Whiteboard-Wednesdays/pull/17), [#18](https://github.com/taylor585/Whiteboard-Wednesdays/pull/18) | The Most Important Skill In AI for The Next 5 Years deck (`how-to-think`): the deck, its two opening question prompts, its new title, and three worked examples on slide 16 |
+| [#19](https://github.com/taylor585/Whiteboard-Wednesdays/pull/19) | How Powerful Is Grok Bot Really? deck |
 
 ## 3. The work: publish `main`
 
@@ -110,7 +127,7 @@ For the watchlist and Topics you also need the full server, because the static p
 - Never commit them.
 
 Browser checks at **375, 390, 768 and 1280px**:
-- [ ] Library shows exactly the six decks named in section 2.
+- [ ] Library shows exactly the eight decks named in section 2.
 - [ ] Every deck opens from its tab and reaches its final slide. Check with motion on and with reduced motion.
 - [ ] `document.documentElement.scrollWidth <= clientWidth` on every screen. No sideways page scroll.
 - [ ] No runtime errors in the console after clicking around.
@@ -128,7 +145,7 @@ Browser checks at **375, 390, 768 and 1280px**:
   - **If kept private:** a signed-out browser is asked to sign in.
 - [ ] Topics loads with no "could not be loaded" message, which shows migration `0001_topics.sql` ran, and the Creator watchlist lists 42 creators.
 - [ ] Repeat the browser checks from section 4 on the live site at 390 and 1280px.
-- [ ] `presentations.js` on the live site lists all six deck IDs.
+- [ ] `presentations.js` on the live site lists all eight deck IDs.
 - [ ] The older paid ads site is unchanged.
 
 ## 6. What to send back to Taylor
