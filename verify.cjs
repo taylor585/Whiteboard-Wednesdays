@@ -1,6 +1,7 @@
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
 const {chromium}=require(process.env.PLAYWRIGHT_PATH||'playwright');
 const ctx={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'public/whiteboard-content.js'),'utf8'),ctx);
+const reg={window:{}};vm.runInNewContext(fs.readFileSync(path.join(__dirname,'public/presentations.js'),'utf8'),reg);const register=reg.window.presentationRegister;
 const deck=ctx.window.WW,base=process.argv[2]||'http://127.0.0.1:8862/';
 const failures=[],results=[];
 const check=(v,msg)=>{if(!v)throw Error(msg);results.push(msg);};
@@ -12,7 +13,7 @@ async function run(){
  const go=async(id)=>{await page.goto(base+'#/presentation/paid-ads-process/slide/'+id);await page.locator('#player').waitFor({state:'visible'});};
  for(const width of [375,390,768,1280]){
   await page.setViewportSize({width,height:900});await page.goto(base);await page.locator('.deck-card').first().waitFor();await page.evaluate(()=>document.fonts.ready);
-  check(await page.locator('.deck-card').count()===6,'six genuine library cards '+width);
+  check(await page.locator('.deck-card').count()===register.length,register.length+' genuine library cards '+width);
   check(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'library no overflow '+width);
   await page.screenshot({path:(process.env.QA_OUTPUT||'/tmp')+'/ww-library-'+width+'.png',fullPage:true});
   for(const s of deck.slides){
