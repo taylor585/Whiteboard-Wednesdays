@@ -1,4 +1,4 @@
-/* AI Isn’t the Bottleneck. You Are. Every rule is scoped to ht- classes so other decks are unaffected.
+/* The Most Important Skill In AI for The Next 5 Years (how-to-think). Every rule is scoped to ht- classes so other decks are unaffected.
    Each layout is a design Taylor approved in the Whiteboard Wednesdays - Variety Pack, round 1 (22 October 2026). */
 .parts[class*=" ht-"],.parts[class^="ht-"]{gap:24px 48px}
 #canvas:has(.parts[class*="ht-"]){overflow-x:clip}

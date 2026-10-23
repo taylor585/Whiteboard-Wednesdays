@@ -1,4 +1,4 @@
-/* AI Isn’t the Bottleneck. You Are. (id: how-to-think).
+/* The Most Important Skill In AI for The Next 5 Years (id: how-to-think). Titled by Taylor on 23 October 2026.
    Built 22 October 2026 from the 18 designs Taylor approved in the Whiteboard Wednesdays - Variety Pack (round 1),
    locked to slides with the pack's rotation rules. Pecuna Factorem brand, confirmed by Taylor on 21 October 2026.
    Source: Taylor's video idea of 20 October 2026 (how to think in frameworks so AI can do almost anything).
