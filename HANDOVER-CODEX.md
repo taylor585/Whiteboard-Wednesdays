@@ -1,5 +1,7 @@
 # Handover to Codex: Whiteboard Wednesdays
 
+> **Retired on 24 October 2026.** Taylor stopped using the ChatGPT Sites app. The app now lives in the Claude artifact https://claude.ai/artifact/WCzdc2u9RBzuzqz5JhHwea, and Claude publishes it. Codex has nothing to publish. This file is kept only as history; see the hosting decision in `CLAUDE.md`.
+
 Written by Claude on 16 October 2026, at Taylor's request. Taylor wants everything below live on the existing site. As of 17 October it is all built and merged, so Codex only publishes.
 
 This file is the brief. If anything here conflicts with an instruction Taylor gives you directly, Taylor wins. If it conflicts with `CLAUDE.md`, read the "Who does what" note at the end of section 1.
