@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<title>Performance Poster Research</title>
+<style>
+@font-face{font-family:'Fraunces';font-weight:600 700;src:url('fonts/fraunces-latin.woff2') format('woff2')}
+@font-face{font-family:'Instrument Sans';font-weight:400 700;src:url('fonts/instrument-sans-latin.woff2') format('woff2')}
+@font-face{font-family:'IBM Plex Mono';font-weight:400 600;src:url('fonts/ibm-plex-mono-latin.woff2') format('woff2')}
+:root{--cream:#F5EAD8;--paper:#FFFDF8;--ink:#1C1A17;--brass:#8B6002;--brass-l:#CB8E03;--red:#B3261E;--green:#2E6B3F;--muted:#6B6256;--line:#E3D6BF}
+@page{size:A4;margin:16mm 15mm 18mm}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 9.2pt/1.4 'Instrument Sans',Arial,sans-serif}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:700;line-height:1.15;margin:0}
+h1{font-size:24pt;letter-spacing:-.4px;margin:0 0 4mm}
+h2{font-size:13.5pt;margin:5.5mm 0 2.2mm;break-after:avoid}
+h3{font-size:11pt;margin:5mm 0 2mm;break-after:avoid}
+p{margin:0 0 2.6mm}
+ul,ol{margin:0 0 3mm;padding-left:5mm}
+li{margin:0 0 1.2mm}
+a{color:var(--brass);text-decoration:none;word-break:break-all}
+.mono,.label{font-family:'IBM Plex Mono',monospace}
+.label{font-size:7.6pt;letter-spacing:2px;text-transform:uppercase;color:var(--brass);margin-bottom:2mm;display:block}
+section.chapter{break-before:page}
+.sec-head{border-bottom:2px solid var(--ink);padding-bottom:3mm;margin-bottom:5mm}
+.sec-head .num{font:600 9pt 'IBM Plex Mono',monospace;color:var(--brass);letter-spacing:3px}
+.lede{font-size:10.5pt;line-height:1.45;color:#3a352e;margin-bottom:3mm}
+table{width:100%;border-collapse:collapse;margin:1mm 0 3.5mm;font-size:8.2pt;break-inside:auto}
+tr{break-inside:avoid}
+th{background:var(--ink);color:var(--paper);text-align:left;font-weight:600;padding:1.6mm 2mm;font-size:8pt}
+td{border-bottom:1px solid var(--line);padding:1.2mm 2mm;vertical-align:top}
+tbody tr:nth-child(even) td{background:#FBF6EC}
+.box{background:var(--cream);border-left:3px solid var(--brass);padding:2.4mm 3.5mm;margin:1.5mm 0 2.5mm;break-inside:avoid}
+.box.red{border-left-color:var(--red)}
+.box.green{border-left-color:var(--green)}
+.box p:last-child,.box ul:last-child{margin-bottom:0}
+.conf{font:600 7.2pt 'IBM Plex Mono',monospace;letter-spacing:1px;padding:.3mm 1.6mm;border-radius:2px;white-space:nowrap}
+.hi{background:#DCEBDF;color:var(--green)}.md{background:#F6E7C2;color:#7A5500}.lo{background:#F4D9D6;color:var(--red)}
+.tag{display:inline-block;font:500 8pt 'IBM Plex Mono',monospace;background:#fff;border:1px solid var(--line);padding:.2mm 1.6mm;margin:0 .8mm .8mm 0;border-radius:2px}
+pre{font:400 8pt/1.45 'IBM Plex Mono',monospace;background:#fff;border:1px solid var(--line);padding:3mm;white-space:pre-wrap;margin:1mm 0 4mm;break-inside:avoid}
+/* cover */
+.cover{height:262mm;display:flex;flex-direction:column;justify-content:space-between;background:var(--cream);margin:-16mm -15mm 0;padding:22mm 18mm 18mm}
+.cover h1{font-size:40pt;line-height:1.02;letter-spacing:-1px;margin:6mm 0 5mm}
+.cover .sub{font-size:13pt;color:#3a352e;max-width:150mm}
+.cover .meta{font:500 8.5pt/1.7 'IBM Plex Mono',monospace;color:var(--muted)}
+.pills{display:flex;gap:3mm;margin-top:8mm}
+.pill{font:600 9pt 'IBM Plex Mono',monospace;letter-spacing:2px;padding:2mm 4mm;border:1.5px solid var(--ink);border-radius:20px}
+.toc{font-size:10.5pt}
+.toc li{margin-bottom:2mm}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3mm;margin:2mm 0 5mm}
+.card{background:#fff;border:1px solid var(--line);border-top:3px solid var(--brass);padding:3mm;break-inside:avoid}
+.card h3{margin-top:0}
+.card .big{font:700 20pt 'Fraunces',serif;line-height:1}
+.card .small{font-size:8pt;color:var(--muted)}
+.foot{font-size:8pt;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div>
+    <span class="label">Pecuna Factorem · Whiteboard Wednesdays · Research</span>
+    <h1>Performance Poster</h1>
+    <p class="sub">Character limits, optimal lengths and hashtag research for YouTube, LinkedIn and Instagram, plus the blueprint for a skill that turns a video brief into finished posts for all three.</p>
+    <div class="pills"><span class="pill">YOUTUBE</span><span class="pill">LINKEDIN</span><span class="pill">INSTAGRAM</span></div>
+  </div>
+  <div class="meta">
+    Researched 20 October 2026 · UK English<br>
+    Prepared for Taylor Cunningham, Pecuna Factorem<br>
+    Status: research complete. The Performance Poster skill is <b>not yet built</b>; Section 6 is its blueprint.<br>
+    Thumbnail Tracker is unchanged. This report lifts its proven parts; it doesn't edit them.
+  </div>
+</div>
+
+<!-- CONTENTS -->
+<section class="chapter">
+  <div class="sec-head"><span class="num">CONTENTS</span><h1>What's inside</h1></div>
+  <ol class="toc">
+    <li><b>Summary:</b> the numbers on one page</li>
+    <li><b>YouTube:</b> limits, description length, the three hashtags, where to research keywords and hashtags, what the creator data shows</li>
+    <li><b>LinkedIn:</b> limits, post length, the fold, links, <b>hashtag research</b> and where to find hashtags</li>
+    <li><b>Instagram:</b> limits, the new 5-hashtag cap, caption length by format, <b>hashtag research</b> and where to find trending hashtags</li>
+    <li><b>What we lift from Thumbnail Tracker</b></li>
+    <li><b>How to build and use Performance Poster:</b> from a topic and brief to the full YouTube description (with CTA), the LinkedIn post and the Instagram caption</li>
+    <li><b>Sources, confidence and gaps</b></li>
+  </ol>
+  <h2>How to read this report</h2>
+  <ul>
+    <li><b>Source types.</b> Every hard limit is <b>official</b> (the platform's own help pages, developer docs or named staff on record), <b>third-party</b> (vendor studies, trade press) or <b>observed</b> (our own data, or a figure vendors report without a published method).</li>
+    <li><b>Confidence.</b> Every finding has a confidence tag: <span class="conf hi">HIGH</span> <span class="conf md">MEDIUM</span> <span class="conf lo">LOW</span>. Sample sizes (n) are given wherever a study publishes them.</li>
+    <li><b>Correlation, not proof.</b> Almost every large dataset here is a tool vendor's observational data. It shows what goes with good results, not what causes them.</li>
+    <li><b>Kept separate.</b> Research findings are kept apart from Pecuna's <b>house rules</b> (e.g. the WhatsApp CTA on line 1). Where the research contradicts a house rule, we say so and recommend a change. Taylor decides.</li>
+    <li><b>Access limits.</b> Instagram and LinkedIn block logged-out access, and YouTube blocked bulk re-fetching on the day. So creator-level Instagram and LinkedIn samples are tiny or empty. Section 7 lists every gap and how to close it.</li>
+  </ul>
+</section>
+
+<!-- 1 SUMMARY -->
+<section class="chapter">
+  <div class="sec-head"><span class="num">01 · SUMMARY</span><h1>The numbers on one page</h1></div>
+  <div class="grid3">
+    <div class="card"><span class="label">YouTube description</span><div class="big">800–2,000</div><div class="small">characters, never padded · hard limit 5,000 bytes</div><p style="margin-top:2mm"><b>3 hashtags</b> (only 3 are ever shown)</p></div>
+    <div class="card"><span class="label">LinkedIn post</span><div class="big">900–1,500</div><div class="small">characters for reach · 1,500–2,500 for comments · max 3,000</div><p style="margin-top:2mm"><b>1–2 hashtags</b> (3 max)</p></div>
+    <div class="card"><span class="label">Instagram caption</span><div class="big">125–500</div><div class="small">characters on Reels · under 30 words on carousels · max 2,200</div><p style="margin-top:2mm"><b>3–5 hashtags</b> (hard cap 5)</p></div>
+  </div>
+  <table>
+    <thead><tr><th>Platform</th><th>Hard limit</th><th>Visible before the fold</th><th>Optimal length</th><th>Hashtags</th><th>Confidence</th></tr></thead>
+    <tbody>
+      <tr><td><b>YouTube</b> title</td><td>100 characters (official)</td><td>~60–70 desktop, ~40–60 mobile (third-party)</td><td>Main keyword in the first ~50 characters</td><td>Allowed in the title; not used by the research creators</td><td><span class="conf hi">HIGH</span> limit · <span class="conf lo">LOW</span> truncation</td></tr>
+      <tr><td><b>YouTube</b> description</td><td>5,000 characters (Help) / 5,000 bytes (API). Budget in bytes.</td><td>"The first few lines" (official); ~157 desktop, ~100–150 mobile (third-party)</td><td>No magic length. ~800–2,000 characters covers hook, summary, bullets and chapters.</td><td><b>3</b>. YouTube shows up to 3 above the title; over 60 means all are ignored.</td><td><span class="conf hi">HIGH</span> rules · <span class="conf md">MEDIUM</span> length</td></tr>
+      <tr><td><b>YouTube</b> tags field</td><td>500 characters, commas included</td><td>n/a</td><td>A few misspellings and brand variants only</td><td>n/a</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td><b>LinkedIn</b> post</td><td>3,000 characters (official)</td><td>~210 desktop, ~140 mobile (vendor-observed)</td><td>900–1,500 for reach; 1,500–2,500 when the goal is comments</td><td><b>1–2</b> (max 3). 3+ is linked to lower reach.</td><td><span class="conf hi">HIGH</span> limit · <span class="conf md">MEDIUM</span> optimum</td></tr>
+      <tr><td><b>LinkedIn</b> comment</td><td>1,250 characters (vendor test, Mar 2026)</td><td>n/a</td><td>Put the YouTube link here, not in the post body</td><td>n/a</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td><b>Instagram</b> caption</td><td>2,200 characters incl. hashtags (official)</td><td>~125 feed, ~55–60 Reels (convention)</td><td>Reels 125–500 · carousels under 30 words · single images 300–800</td><td><b>3–5</b>. <b>Hard cap 5 since 18 Dec 2025.</b></td><td><span class="conf hi">HIGH</span> cap · <span class="conf lo">LOW–MED</span> length</td></tr>
+      <tr><td><b>Instagram</b> bio / name</td><td>150 / 30 characters</td><td>n/a</td><td>Put the main topic in the name field (it's searched)</td><td>n/a</td><td><span class="conf md">MEDIUM–HIGH</span></td></tr>
+    </tbody>
+  </table>
+  <h2>Five findings that change what we do</h2>
+  <div class="box red"><p><b>1. Instagram now allows only 5 hashtags per post or Reel</b>, down from 30. @creators announced it on 18 Dec 2025. Instagram says hashtags help label content but don't increase reach. <span class="conf hi">HIGH</span></p></div>
+  <div class="box red"><p><b>2. LinkedIn's "3–5 hashtags" house rule is contradicted by 2026 data.</b> In two large median-based studies (566,957 and 516,144 posts), 0–2 hashtags were neutral and 3+ went with lower reach and fewer likes. Recommendation: <b>1–2, max 3</b>. <span class="conf md">MEDIUM</span></p></div>
+  <div class="box"><p><b>3. YouTube only ever shows 3 hashtags</b>, so a 4th or 5th adds nothing visible. Recommendation: <b>3</b> (house rule currently 3–5). <span class="conf hi">HIGH</span></p></div>
+  <div class="box"><p><b>4. A link in the body of a LinkedIn post goes with lower reach</b> (−19% to −36% across three studies). For video promos, upload a native cut and put the YouTube link in the first comment. <span class="conf md">MEDIUM</span></p></div>
+  <div class="box green"><p><b>5. The YouTube description doesn't decide the click; the title and thumbnail do.</b> Across 150 videos from Nick Saraev, Riley Brown and Sabri Suby, no description feature consistently separated hits from misses. One rule did hold: <b>never open with a sponsor or third-party link</b>; your own CTA on line 1 is fine. <span class="conf md">MEDIUM</span></p></div>
+</section>
+
+<!-- 2 YOUTUBE -->
+<section class="chapter">
+  <div class="sec-head"><span class="num">02 · YOUTUBE</span><h1>YouTube descriptions</h1></div>
+  <p class="lede">The description's job is to convert and help: line-1 CTA, a keyword-led hook, chapters and the offer. The research says it doesn't drive the click, so keep it clean, accurate and on brand.</p>
+
+  <h2>Hard limits and rules</h2>
+  <table>
+    <thead><tr><th>Item</th><th>Limit or rule</th><th>Source</th><th>Conf.</th></tr></thead>
+    <tbody>
+      <tr><td>Title</td><td><b>100 characters</b>; <span class="mono">&lt;</span> and <span class="mono">&gt;</span> not allowed</td><td>Official: YouTube Help 57404; Data API</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Title truncation</td><td>~60–70 characters on desktop search, ~40–60 on mobile. It's measured in pixels, not characters.</td><td>Third-party estimates</td><td><span class="conf lo">LOW</span></td></tr>
+      <tr><td>Description</td><td><b>5,000 characters</b> (Help Centre). The API says <b>5,000 bytes</b>, and emojis and curly quotes cost 3–4 bytes each, so budget in bytes.</td><td>Official: Help 57404, 12948449; Data API</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Above "…more"</td><td>Officially "the first few lines". Third-party: ~157 characters desktop, ~100–150 mobile.</td><td>Official (no number); third-party</td><td><span class="conf lo">LOW</span> (numbers)</td></tr>
+      <tr><td>Hashtags</td><td>YouTube shows <b>up to 3</b> "most engaging" hashtags by the title. <b>Over 60, all are ignored</b>. Over-tagging can get a video removed from search. Each hashtag must relate to the video, with no spaces.</td><td>Official: Help 6390658</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Tags field</td><td><b>500 characters</b>. Commas count; a tag with a space counts +2. Tags "play a minimal role". Excessive tags in the description breach the spam policy.</td><td>Official: Data API; Help 146402</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Chapters</td><td>First at <b>0:00</b>, <b>at least 3</b>, ascending, each <b>at least 10 seconds</b></td><td>Official: Help 9884579</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Comments / pinned comment</td><td>10,000 characters</td><td>Third-party</td><td><span class="conf lo">LOW–MED</span></td></tr>
+      <tr><td>Shorts</td><td>Links in Shorts descriptions and comments have <b>not been clickable since 31 Aug 2023</b>. No Shorts-specific text limits found.</td><td>Third-party news quoting YouTube</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Misleading metadata</td><td>Banned as "malicious clickbait" (titles, thumbnails or descriptions that misrepresent the video)</td><td>Official: Help 2801973</td><td><span class="conf hi">HIGH</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>What the creator data shows (150 videos)</h2>
+  <p>Nick Saraev, Riley Brown and Sabri Suby, latest 30 + all-time top 20 each, from the Thumbnail Tracker data (12 Oct 2026). The outlier score is a video's views ÷ the median views of the 10 uploads either side of it.</p>
+  <table>
+    <thead><tr><th>Creator (latest 30)</th><th>Median length</th><th>Line 1</th><th>First link</th><th>Hashtags</th><th>Chapters</th></tr></thead>
+    <tbody>
+      <tr><td>Nick Saraev</td><td>~3,500 characters</td><td>CTA in 30/30</td><td>line 1</td><td>0/30</td><td>24/30</td></tr>
+      <tr><td>Riley Brown</td><td>~950 characters</td><td>hook or keyword sentence</td><td>line 3</td><td>7/30 (mostly partner tags)</td><td>29/30</td></tr>
+      <tr><td>Sabri Suby</td><td>~310 characters</td><td>summary</td><td>line 3</td><td>0/30</td><td>0/30</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li><b>All three styles produce hits</b> (~300, ~1,000 and ~3,500 characters), so no length is required. <span class="conf hi">HIGH</span></li>
+    <li><b>No description feature consistently separates hits from misses.</b> Length, keyword placement, links and chapters each flip direction between creators and samples. <span class="conf md">MEDIUM</span></li>
+    <li><b>Sponsor-first descriptions sit on Riley's weak videos:</b> a CTA on line 1 scored 0.21× vs 1.12× (n = 4 vs 26), and a later first link went with higher scores (rho +0.39, n = 24). His own-product line-1 links in the all-time top 20 are neutral (7.54× vs 7.57×). Never open with a sponsor link; your own CTA is fine. <span class="conf md">MEDIUM</span></li>
+    <li><b>Hashtags are near-absent</b> (7 of 90 latest videos). <b>Chapters are a channel habit, not a lever.</b> <span class="conf hi">HIGH</span> (usage)</li>
+    <li>This data confirms Thumbnail Tracker's description findings 17, 18 and 20 (description doesn't decide the click; chapters are a habit; hashtags barely used). Finding 19 (disclosure) wasn't re-tested.</li>
+  </ul>
+
+  <h2>Optimal YouTube description</h2>
+  <table>
+    <thead><tr><th>Element</th><th>Recommendation</th><th>Conf.</th></tr></thead>
+    <tbody>
+      <tr><td>Length</td><td>No target; ~800–2,000 characters. Enough for hook, summary, bullets and chapters. Never pad. Stay under 5,000 <b>bytes</b>.</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Line 1</td><td>Your own CTA (house rule: the WhatsApp line). Never a sponsor or third-party link.</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Line 2 (hook)</td><td>The WhatsApp line takes 108 characters, so the hook must <b>open with the title's searchable noun in its first ~40 characters</b>. That keeps the keyword inside the first ~150 characters.</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Chapters</td><td>On every long-form video: real timestamps, plain keyword names</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Hashtags</td><td><b>3</b>: one topic, one audience, one series (#WhiteboardWednesdays). <i>House rule says 3–5; research says only 3 ever show.</i></td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Disclosure</td><td>For any affiliate, referral or sponsor link. A legal requirement in the UK and US.</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Pinned comment</td><td>Repeat the CTA, short</td><td><span class="conf lo">LOW</span></td></tr>
+      <tr><td>Shorts</td><td>Don't rely on description links; point to the long-form video or the channel links</td><td><span class="conf md">MEDIUM</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Where to research YouTube keywords and hashtags</h2>
+  <table>
+    <thead><tr><th>Source</th><th>What it gives</th><th>Cost</th><th>Use it for</th></tr></thead>
+    <tbody>
+      <tr><td><b>YouTube Studio → Analytics → Research tab</b></td><td>Searches across YouTube from the last 28 days (low/medium/high), "Your viewers' searches", content gaps. English searches from the UK, US, India, Australia and Canada.</td><td>Free</td><td>The best free source. Check every topic noun here.</td></tr>
+      <tr><td>YouTube search autocomplete</td><td>Real queries as you type (no volumes). Use a private window; the a–z trick widens the list.</td><td>Free</td><td>Phrasing of the title noun</td></tr>
+      <tr><td>Google Trends (set to <b>YouTube Search</b>)</td><td>Relative interest over time and by region, up to 5 terms</td><td>Free</td><td>Choosing between 2–3 phrasings</td></tr>
+      <tr><td>Google Ads Keyword Planner</td><td>Web search volumes (not YouTube volumes)</td><td>Free with an Ads account</td><td>A secondary check</td></tr>
+      <tr><td>vidIQ / TubeBuddy</td><td>Modelled volume and competition estimates</td><td>Freemium / paid</td><td>Optional; their volumes are estimates</td></tr>
+      <tr><td>Studio Inspiration tab</td><td>AI ideas. <b>Being phased out from Aug 2026</b> in favour of Ask Studio.</td><td>Free</td><td>Don't build on it</td></tr>
+      <tr><td>A hashtag's own results page</td><td>Whether the tag has related videos on it</td><td>Free</td><td>Vetting each of the 3 hashtags</td></tr>
+    </tbody>
+  </table>
+  <div class="box"><p><b>10-minute workflow per video:</b></p><ol><li>Run autocomplete on the topic noun.</li><li>Check the Research tab (popularity, content gap).</li><li>Compare 2–3 phrasings in Google Trends (YouTube Search; UK and worldwide; past 12 months).</li><li>Put the winner in the first 50 characters of the title and the first 40 of the hook.</li><li>Pick 3 hashtags (topic, audience, series) and vet each one's results page.</li></ol></div>
+</section>
+
+<!-- 3 LINKEDIN -->
+<section class="chapter">
+  <div class="sec-head"><span class="num">03 · LINKEDIN</span><h1>LinkedIn posts and hashtags</h1></div>
+  <p class="lede">The hook has to land in the first ~140 characters. Keep the post body free of links. Use one or two hashtags at most. Upload video natively, not as a YouTube link.</p>
+
+  <h2>Hard limits</h2>
+  <table>
+    <thead><tr><th>Item</th><th>Limit</th><th>Source</th><th>Conf.</th></tr></thead>
+    <tbody>
+      <tr><td>Post (personal and company Page)</td><td><b>3,000 characters</b>. LinkedIn may also limit how often you post (no number given).</td><td>Official: Help a528176</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>"…see more" fold</td><td><b>~210 characters desktop, ~140 mobile</b>; fewer when media is attached or there are line breaks</td><td>Vendor-observed; never published by LinkedIn</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Comment</td><td>1,250 characters (older sources say 1,750)</td><td>AuthoredUp test, Mar 2026</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Article</td><td>125,000 characters. SEO title under 60 characters; SEO description 140–160.</td><td>Official: a522483, a6244140</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Document (PDF carousel)</td><td>100 MB, 300 pages, one per post</td><td>Official: a518909</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Native video</td><td>Up to 5 GB, <b>15 minutes</b> (assume 10 from a phone until checked). Aspect ratio 1:2.4–2.4:1. Page videos 10 minutes.</td><td>Official: a548372, a1311816</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Poll</td><td>Question 140 characters; 2–4 options of 30 characters</td><td>Official: a527270</td><td><span class="conf md">MED–HIGH</span></td></tr>
+      <tr><td>Headline / About</td><td>220 / 2,600 characters</td><td>Third-party</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Hashtags / mentions per post</td><td>No published limit. LinkedIn's feed lead: "don't go overboard".</td><td>Official advice, no number</td><td><span class="conf md">MEDIUM</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Hashtag research: what's changed and what works</h2>
+  <ul>
+    <li><b>The hashtag feed is going.</b> In July 2025 Rishi Jobanputra (LinkedIn's Feed product lead) said "people were not really using it… we are actually in the process of getting rid of it". He said hashtags still help "when people are trying to search for a specific trend or topic", and advised "don't go overboard". <span class="conf hi">HIGH</span></li>
+    <li><b>Following hashtags was removed in 2024</b>, along with creator mode and "Talks about" profile hashtags. LinkedIn's old hashtag help page now returns 404. <span class="conf md">MED–HIGH</span></li>
+    <li><b>Reach falls as hashtags rise.</b> <b>Magicpost</b> (566,957 posts, median impressions): 0 → 874 · 1 → 847 · 2 → 825 · 3 → 637 · 5 → 492. <b>LinkPost</b> (516,144 posts, median likes): 1 hashtag +21%, 4–6 hashtags −40%. Hashtag use fell from 67.9% of posts (2022) to 23.2% (2026). <span class="conf md">MEDIUM</span></li>
+    <li><b>One outlier:</b> Metricool (673,658 posts) claims an 85% impressions lift with hashtags, but doesn't define what it compared against. <span class="conf lo">LOW</span></li>
+  </ul>
+  <div class="box red"><p><b>Recommendation: 1–2 hashtags, max 3; zero is fine.</b> Put them at the end, on their own line, never in the hook. <b>This contradicts the current Pecuna house rule of 3–5.</b> Taylor to decide; we recommend updating it. (Placement is editorial advice; no study measures it.)</p></div>
+
+  <h3>Where to research LinkedIn hashtags and trending topics</h3>
+  <table>
+    <thead><tr><th>Source</th><th>What it gives</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td><b>LinkedIn search → Posts filter → sort by Latest</b>, searching <span class="mono">#tag</span> or a keyword</td><td>Real, recent use of the tag; who posts with it and what engagement they get. With follower counts gone, this is the main check.</td><td>Free</td></tr>
+      <tr><td>LinkedIn News / Top stories</td><td>Topics LinkedIn's editors are featuring now (topics, not tags). Good for timing an angle.</td><td>Free</td></tr>
+      <tr><td>Peer and competitor posts</td><td>The tags AI and agency peers actually use, and whether those posts perform. Check ~10 peers per pillar by hand; no scraping.</td><td>Free</td></tr>
+      <tr><td>Sales Navigator</td><td>What buyers (agency owners) post about; alerts on saved leads. Not a hashtag tool.</td><td>Paid</td></tr>
+      <tr><td>Taplio · AuthoredUp</td><td>Post inspiration, fold preview, analytics on your own posts' hashtags</td><td>Paid (Taplio from $39/month; AuthoredUp ~$20/month, unverified)</td></tr>
+      <tr><td>RiteTag · Shield</td><td>RiteTag's LinkedIn data source isn't disclosed. Shield may no longer operate.</td><td>Use with caution</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Starter hashtag candidates for Pecuna (verify before use)</h3>
+  <p>Pick <b>1–2 per post</b>: one broad, one niche. Check each in LinkedIn search (Posts, Latest) first.</p>
+  <table>
+    <thead><tr><th>Pillar</th><th>Broad</th><th>Niche candidates</th></tr></thead>
+    <tbody>
+      <tr><td>AI agents / Claude Code / Codex</td><td><span class="tag">#AI</span></td><td><span class="tag">#ClaudeCode</span><span class="tag">#AIAgents</span><span class="tag">#Anthropic</span><span class="tag">#GenerativeAI</span><span class="tag">#Automation</span></td></tr>
+      <tr><td>Meta ads &amp; paid social</td><td><span class="tag">#DigitalMarketing</span></td><td><span class="tag">#MetaAds</span><span class="tag">#FacebookAds</span><span class="tag">#PaidSocial</span><span class="tag">#PerformanceMarketing</span></td></tr>
+      <tr><td>Agency growth &amp; operations</td><td><span class="tag">#AgencyGrowth</span></td><td><span class="tag">#AgencyOwner</span><span class="tag">#MarketingAgency</span><span class="tag">#AgencyLife</span></td></tr>
+      <tr><td>ICP / buyer research</td><td><span class="tag">#B2BMarketing</span></td><td><span class="tag">#CustomerResearch</span><span class="tag">#BuyerPersona</span><span class="tag">#Positioning</span></td></tr>
+      <tr><td>Content &amp; YouTube</td><td><span class="tag">#ContentMarketing</span></td><td><span class="tag">#VideoMarketing</span><span class="tag">#ContentStrategy</span><span class="tag">#WhiteboardWednesdays</span> (series tag)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Post performance (2024–2026 studies)</h2>
+  <table>
+    <thead><tr><th>Question</th><th>Finding</th><th>Evidence</th><th>Conf.</th></tr></thead>
+    <tbody>
+      <tr><td>Length</td><td>Reach peaks at ~150–174 words (~900–1,050 characters). Engagement and comments keep rising with longer posts (1,500–2,500+).</td><td>Shield Index (167,940 posts); Ordinal (248,275); LinkPost (516,144)</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Hook</td><td>80% of highly viral posts had a strong hook in the first 200 characters; 61% had a data point. LinkedIn's own ranking penalises posts people scroll straight past (its "skip" model, 2020).</td><td>LinkPost top-1% (438,413); LinkedIn Engineering 2020</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Links in the post body</td><td>Lower reach: −36% (LinkPost), −26.5% (Ordinal, mostly company pages), −18.8% (van der Blom). LinkedIn has never confirmed a penalty. Link-in-first-comment tests are tiny (4–6 posts per arm).</td><td>Three vendor studies</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Formats</td><td>Document carousels had the top engagement rate (7.00%, company pages). Video and carousels lead on likes; text-only is lowest. Video reach on personal profiles fell 36% year on year.</td><td>Socialinsider (1.3M posts); LinkPost; AuthoredUp</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Frequency</td><td>2–5 posts a week beats 1 (+1,182 impressions per post), and the gains continue at higher frequencies.</td><td>Buffer (2M+ posts, 94k accounts, within-account comparison)</td><td><span class="conf md">MED–HIGH</span></td></tr>
+      <tr><td>What LinkedIn demotes (Mar 2026)</td><td>"Comment to agree" bait, engagement pods, comment automation, "videos that don't match the text"</td><td>Official: LinkedIn News</td><td><span class="conf hi">HIGH</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Optimal LinkedIn post (against the house rule)</h2>
+  <table>
+    <thead><tr><th>Lever</th><th>Recommendation</th><th>Against the house rule</th></tr></thead>
+    <tbody>
+      <tr><td>Max</td><td>3,000 characters</td><td>Confirmed</td></tr>
+      <tr><td>Length</td><td>900–1,500 for reach; 1,500–2,500 for teaching or opinion posts aimed at comments</td><td>Mostly confirmed; the data also supports going longer</td></tr>
+      <tr><td>Hook</td><td>The whole hook inside ~140 characters, ideally one line of ≤110, with a number or a contrarian claim</td><td>Confirmed</td></tr>
+      <tr><td>Hashtags</td><td><b>1–2, max 3</b>, at the end on their own line</td><td><b>Contradicted (was 3–5)</b></td></tr>
+      <tr><td>Video promo</td><td>Upload a <b>30–90 s native cut</b>, captioned, with text that matches the video. Put the YouTube link in the first comment. Alternative: a document carousel of the whiteboard frames.</td><td>New</td></tr>
+      <tr><td>CTA</td><td>A specific question that invites a real reply. No bait, pods or automation. Reply to comments by hand.</td><td>New</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 4 INSTAGRAM -->
+<section class="chapter">
+  <div class="sec-head"><span class="num">04 · INSTAGRAM</span><h1>Instagram captions and hashtags</h1></div>
+  <p class="lede">Up to five hashtags, chosen for relevance rather than reach. Put the hook and keyword in the first line, keep captions short on carousels, and give one clear CTA.</p>
+
+  <h2>Hard limits (date-stamped)</h2>
+  <table>
+    <thead><tr><th>Item</th><th>Limit</th><th>Source</th><th>Conf.</th></tr></thead>
+    <tbody>
+      <tr><td><b>Hashtags per post or Reel</b></td><td><b>5</b> (was 30). "Starting today, Instagram will allow up to 5 hashtags in a reel or post." Rolled out from <b>18 Dec 2025</b>.</td><td>Official: @creators on Threads; Social Media Today</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Caption</td><td><b>2,200 characters</b>, hashtags and links included</td><td>Official: Meta API reference</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Caption fold</td><td>~125 characters in feed; ~55–60 on the Reels overlay</td><td>Convention; Meta doesn't publish one</td><td><span class="conf md">MEDIUM</span> / <span class="conf lo">LOW</span></td></tr>
+      <tr><td>@mentions</td><td>20 per caption</td><td>Official: API</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Carousel</td><td>20 slides (since Aug 2024); one caption per post</td><td>Official: API</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Alt text</td><td>Up to 1,000 characters per image; not for Reels or Stories</td><td>Official: API</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Reels length</td><td>API publishing 3 s–15 min. In-app camera up to 20 min (reported Nov 2025). ≤3 min reportedly needed to reach non-followers.</td><td>Official (API); third-party</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Bio / name / username</td><td>150 / 30 / 30 characters. The name field is searchable.</td><td>Third-party</td><td><span class="conf md">MED–HIGH</span></td></tr>
+      <tr><td>Comment-to-DM automation</td><td>One automated private reply per comment, within 7 days</td><td>Official: Meta Private Replies docs</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Following hashtags</td><td>Removed 13 Dec 2024 (you can still tag and search)</td><td>Third-party</td><td><span class="conf hi">HIGH</span></td></tr>
+      <tr><td>Reels text safe zone</td><td>No official organic spec. Convention: ~220 px top, ~420 px bottom of 1080×1920. Meta's ads guidance: 14% top, 35% bottom.</td><td>Convention; Meta ads guidance</td><td><span class="conf md">MEDIUM</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Hashtag research</h2>
+  <ul>
+    <li><b>Instagram's official position:</b> hashtags are a <b>labelling and search aid, not a reach lever</b>. Instagram's guidance with the cap: "using fewer (up to 5) more targeted hashtags, rather than many generic ones, can improve both your content's performance and people's experience". Avoid #reels, #explore, #viral, #fyp. <span class="conf hi">HIGH</span></li>
+    <li><b>Search is keyword-led.</b> Account search matches username and display name (Meta Transparency Centre, Jun 2026). Mosseri says search also reads captions, comments and the video itself (Jul 2026, reported). Google can index public professional posts (since Jul 2025). <span class="conf md">MEDIUM</span></li>
+    <li><b>Correlation in the largest study:</b> posts with at least 1 hashtag had 31.7% fewer views and 33.9% fewer interactions than average (Metricool, 24.4M posts, Jun 2026). This doesn't show hashtags cause the drop, but they clearly don't help reach. <span class="conf md">MEDIUM</span></li>
+    <li><b>Hashtags in the first comment:</b> unclear under the 5-tag cap; sources conflict. <b>Put them in the caption.</b> <span class="conf md">MEDIUM</span></li>
+    <li><b>Checking for banned tags:</b> open the tag's page in the app. No results, or "recent posts hidden", means restricted. Check Settings → Account Status to see whether you can appear in Search.</li>
+  </ul>
+  <div class="box green"><p><b>Recommendation: 3–5 hashtags, at the end of the caption.</b> Mix: <b>1 branded + 1 broad + 1–3 niche</b>, chosen by relevance, not post count. Put 1–2 search phrases naturally in line 1 and the body, repeat the key phrase in on-screen text, and add the topic to the display name (e.g. "Taylor, AI for Agencies").</p></div>
+
+  <h3>Where to find trending and relevant Instagram hashtags</h3>
+  <table>
+    <thead><tr><th>Source</th><th>What it gives</th><th>Cost</th><th>Reliability</th></tr></thead>
+    <tbody>
+      <tr><td><b>In-app search (Tags and keyword results)</b></td><td>Autocomplete, ranked by query similarity and by how often people searching the same thing in your country click each suggestion (official). Post counts shown inconsistently; check live.</td><td>Free</td><td>High</td></tr>
+      <tr><td><b>Professional Dashboard → Reels Trends</b></td><td>Trending audio and trending hashtags for Reels (professional accounts; may be region-limited)</td><td>Free</td><td>Medium</td></tr>
+      <tr><td>Hashtag pages</td><td>Top-posts grid. Whether post counts still show (Oct 2026) is unverified.</td><td>Free</td><td>Medium</td></tr>
+      <tr><td>Post Insights</td><td>Which surface brought reach (Home, Explore, Reels, Profile). A separate "from hashtags" line isn't confirmed as still present.</td><td>Free</td><td>Low (for hashtags)</td></tr>
+      <tr><td>Meta Business Suite / Graph API hashtag search</td><td>Top and recent media for a tag; 30 unique tags per 7 days</td><td>Free (API needs review)</td><td>High</td></tr>
+      <tr><td>Competitor and peer posts</td><td>Tags AI and agency creators actually use</td><td>Free</td><td>Medium</td></tr>
+      <tr><td>Flick · Later · Metricool</td><td>Hashtag search, banned-tag audit, tracking (Flick from ~£11/month, no free plan)</td><td>Paid / freemium</td><td>Medium</td></tr>
+      <tr><td>Inflact · RiteTag · Display Purposes</td><td>Generators; current Instagram data access unverified since Dec 2024</td><td>Mixed</td><td>Low; ideas only</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Starter hashtag sets for Pecuna (candidates; check post counts and restrictions in the app)</h3>
+  <table>
+    <thead><tr><th>Pillar</th><th>Branded (1)</th><th>Broad (1)</th><th>Niche (pick 1–3)</th></tr></thead>
+    <tbody>
+      <tr><td>AI agents / Claude Code / Codex</td><td><span class="tag">#WhiteboardWednesdays</span></td><td><span class="tag">#AI</span></td><td><span class="tag">#ClaudeCode</span><span class="tag">#ClaudeAI</span><span class="tag">#AIAgents</span><span class="tag">#AIAutomation</span><span class="tag">#AIForBusiness</span></td></tr>
+      <tr><td>Meta ads</td><td><span class="tag">#PecunaFactorem</span></td><td><span class="tag">#DigitalMarketing</span></td><td><span class="tag">#MetaAds</span><span class="tag">#FacebookAds</span><span class="tag">#PaidSocial</span><span class="tag">#AdStrategy</span></td></tr>
+      <tr><td>Agency growth</td><td><span class="tag">#WhiteboardWednesdays</span></td><td><span class="tag">#MarketingAgency</span></td><td><span class="tag">#AgencyOwner</span><span class="tag">#AgencyGrowth</span><span class="tag">#UKBusiness</span></td></tr>
+      <tr><td>ICP research</td><td><span class="tag">#PecunaFactorem</span></td><td><span class="tag">#Marketing</span></td><td><span class="tag">#IdealCustomerProfile</span><span class="tag">#CustomerResearch</span><span class="tag">#B2BMarketing</span></td></tr>
+      <tr><td>Content creation</td><td><span class="tag">#WhiteboardWednesdays</span></td><td><span class="tag">#ContentMarketing</span></td><td><span class="tag">#ContentStrategy</span><span class="tag">#VideoMarketing</span><span class="tag">#CreatorEconomy</span></td></tr>
+    </tbody>
+  </table>
+  <p class="foot">Excluded on purpose: #ICP (also a cryptocurrency). Check #Codex before use; it's also a common word and other brands use it.</p>
+
+  <h2>Caption performance and the optimal caption</h2>
+  <table>
+    <thead><tr><th>Element</th><th>Recommendation</th><th>Evidence</th><th>Conf.</th></tr></thead>
+    <tbody>
+      <tr><td>Reels caption</td><td>125–500 characters: hook line, 1–3 short lines of value, then the CTA. The video carries the message.</td><td>Socialinsider × Sked (video: 30+ words better); PostPlanify (6,126 posts)</td><td><span class="conf lo">LOW–MED</span></td></tr>
+      <tr><td>Carousel caption</td><td>Under ~30 words (~150–200 characters) + CTA; the slides carry the content</td><td>Socialinsider (9.1M posts, 2023 data)</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Single image</td><td>300–800 characters, story-led, with line breaks</td><td>PostPlanify (small)</td><td><span class="conf lo">LOW</span></td></tr>
+      <tr><td>First line</td><td>≤125 characters (≤60 for Reels), with the outcome and main keyword</td><td>Fold convention; search reads captions</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>CTA (one per post)</td><td>A question (+36.7% comments); a comment-focused CTA (+202.8% comments); "Comment WORD and I'll DM you the template" (Private Replies); "Send this to your media buyer" (sends, a top ranking signal); "Link in bio"</td><td>Metricool 2026 (24.4M posts); Mosseri on sends</td><td><span class="conf md">MEDIUM</span></td></tr>
+      <tr><td>Alt text</td><td>Custom on every image and slide, ≤~125 characters</td><td>Meta API; accessibility guidance</td><td><span class="conf hi">HIGH</span> feature</td></tr>
+      <tr><td>Emoji / line breaks</td><td>0–3 functional emoji; short paragraphs</td><td>No large study</td><td><span class="conf lo">LOW</span></td></tr>
+      <tr><td>Frequency</td><td>3–5 posts a week (+~12% reach per post vs 1–2)</td><td>Buffer (2M+ posts)</td><td><span class="conf hi">HIGH</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 5 LIFT -->
+<section class="chapter">
+  <div class="sec-head"><span class="num">05 · WHAT WE LIFT</span><h1>The good parts of Thumbnail Tracker</h1></div>
+  <p class="lede">Performance Poster reuses what's already proven in Thumbnail Tracker (3.3.1). It copies; it doesn't edit. Thumbnail Tracker keeps thumbnails and titles, unchanged.</p>
+  <table>
+    <thead><tr><th>Lifted part</th><th>What it is</th><th>How Performance Poster uses it</th></tr></thead>
+    <tbody>
+      <tr><td><b>Research method</b></td><td>Latest 30 + all-time top 20 per creator; outlier ratio = views ÷ median of the 10 uploads either side; era and channel-size confounds; n and confidence on every claim</td><td>The same method for Instagram and LinkedIn once logged-in data is available</td></tr>
+      <tr><td><b>Description findings 17–20</b></td><td>The description doesn't decide the click; chapters are a habit; disclose links; hashtags barely used on YouTube</td><td>Re-tested in Section 2 (17, 18 and 20 confirmed). They become the YouTube section's foundation.</td></tr>
+      <tr><td><b>Description framework</b></td><td>9 parts in order: CTA line → hook → summary → What you'll learn → chapters → How we can help → links → disclosure → hashtags; plus Sabri, Nick and Riley styles</td><td>The YouTube output structure (Section 6)</td></tr>
+      <tr><td><b>House style</b></td><td>The WhatsApp CTA verbatim on line 1 (space after 👉); a blank line between every bullet, chapter and paragraph; UK English; no client names; real figures only; one copy-and-paste box</td><td>Applied to every output</td></tr>
+      <tr><td><b>CTA library</b></td><td>6 approved CTAs + PDF (01 pinned WhatsApp; 02 book a call; 03 how we can help; 04/05 LinkedIn; 06 skill build)</td><td>The CTA for each platform comes from here</td></tr>
+      <tr><td><b>Taylor's voice</b></td><td>9 headline patterns (I built…, AI as the actor, curiosity verdicts, two-beat lines, his own spoken lines)</td><td>Hooks and first lines in his voice</td></tr>
+      <tr><td><b>Headline log</b></td><td>Every headline written, picked or published, with CTR results (44 rows)</td><td>Hooks are logged the same way, so winners can be reused</td></tr>
+      <tr><td><b>Checker</b> (<span class="mono">package.py</span>)</td><td>Title ≤70; chapters (0:00, ≥3, ≥10 s); disclosure; LinkedIn hook and length; hashtag count; placeholders</td><td>Grows into one checker covering every platform's limits (Section 6)</td></tr>
+      <tr><td><b>Worked examples</b></td><td>ICP Research (published description), AI Harnesses (10 scored titles, description), AI Vision Boards</td><td>The first examples and regression tests</td></tr>
+      <tr><td>Not lifted</td><td>The high-quality thumbnail renderer, layouts, fonts, logos, check sheet, feed mock</td><td>Stay in Thumbnail Tracker</td></tr>
+    </tbody>
+  </table>
+  <h2>Changes the research suggests to house rules (Taylor to decide)</h2>
+  <table>
+    <thead><tr><th>House rule today</th><th>Research says</th><th>Suggested rule</th></tr></thead>
+    <tbody>
+      <tr><td>YouTube: 3–5 hashtags</td><td>Only 3 are ever shown</td><td><b>3</b>: topic, audience, #WhiteboardWednesdays</td></tr>
+      <tr><td>LinkedIn: 3–5 hashtags</td><td>3+ goes with lower reach (two studies, 1M+ posts)</td><td><b>1–2</b>, max 3, at the end</td></tr>
+      <tr><td>LinkedIn: a link in the post</td><td>Body links go with −19% to −36% reach</td><td>Link in the first comment; native video cut in the post</td></tr>
+      <tr><td>Instagram: none yet</td><td>Cap of 5; relevance beats volume</td><td>3–5: 1 branded + 1 broad + 1–3 niche</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 6 BUILD & USE -->
+<section class="chapter">
+  <div class="sec-head"><span class="num">06 · BUILD &amp; USE</span><h1>How Performance Poster will work</h1></div>
+  <p class="lede">You give it a video topic and brief. It returns the full YouTube description (CTA included), the LinkedIn post and the Instagram caption with hashtags, each checked against the platform's limits.</p>
+
+  <h2>Using it</h2>
+  <ol>
+    <li><b>Give it the brief.</b> The minimum is the topic, the working or final title, the promise, the real proof said in the video, chapters with real timestamps and the content pillar. Optional: a transcript, links and best lines.</li>
+    <li><b>Say "post this", or name a platform</b> ("just the YouTube description").</li>
+    <li><b>Get back</b> one copy-and-paste box per platform, with character counts, the hashtags chosen (and why), and any <span class="mono">[PLACEHOLDER]</span> left to fill.</li>
+    <li><b>Paste and publish.</b> After 48 hours, give it CTR, impressions or engagement, and it logs the result against the hook and hashtags.</li>
+  </ol>
+  <h3>The brief (template)</h3>
+<pre>TITLE:        I Built an AI Harness So Claude Code Can Run for 24 Hours
+PILLAR:       AI agents / Claude Code
+PROMISE:      Use AI harnesses to manage more clients and run tasks for longer with fewer mistakes
+AUDIENCE:     Agency owners and 1–3 person teams using Claude Code or Codex
+PROOF (said): 2 hours, 20% → 80%, 24–36 hours, 58 problems, 11 parts, 9 steps, under an hour
+CHAPTERS:     0:00 The bouncing ball … 29:43 Build your own   (real timestamps only)
+BEST LINES:   "It's actually a liability because it's cost you tokens."
+LINKS:        contact https://pecunafactorem.com/contact · booking [BOOKING LINK]
+PLATFORMS:    YouTube, LinkedIn (native cut + carousel), Instagram (Reel)</pre>
+
+  <h2>What it generates</h2>
+  <h3>YouTube description: the full framework, in order</h3>
+  <table>
+    <thead><tr><th>#</th><th>Part</th><th>Rule</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><b>CTA line</b></td><td>Exactly: "Want to chat? Give me a message on WhatsApp. This is my personal number 👉 https://pecunafactorem.com/contact", then a blank line (108 characters)</td></tr>
+      <tr><td>2</td><td><b>Hook</b></td><td>Opens with the title's searchable noun in the first ~40 characters (it must land inside the first ~150 overall); the promise and one real proof detail</td></tr>
+      <tr><td>3</td><td>Summary</td><td>2–3 sentences: why it matters now, what the video walks through. Always written fresh for this video.</td></tr>
+      <tr><td>4</td><td>Offer line</td><td>CTA 02 "Want this built for your agency? Book a call:" plus the booking link, or the contact link if there's no booking link</td></tr>
+      <tr><td>5</td><td>What you'll learn</td><td>3–10 bullets of real specifics from the video, a blank line between each</td></tr>
+      <tr><td>6</td><td>Chapters</td><td>0:00 first, ≥3, ascending, ≥10 s apart, real timestamps, plain keyword names, a blank line between each</td></tr>
+      <tr><td>7</td><td>How we can help</td><td>CTA 03 adapted to the video, then the contact link on its own line</td></tr>
+      <tr><td>8</td><td>Links</td><td>"Pecuna Factorem: https://pecunafactorem.com"; never invented</td></tr>
+      <tr><td>9</td><td>Disclosure</td><td>Only if there's an affiliate, referral or sponsor link</td></tr>
+      <tr><td>10</td><td>Hashtags</td><td>3: topic, audience, #WhiteboardWednesdays</td></tr>
+    </tbody>
+  </table>
+  <h3>LinkedIn post</h3>
+  <p>A hook of ≤110 characters (inside the ~140 mobile fold), in Taylor's voice → a short story or teaching body of 900–1,500 characters (up to 2,500 for teaching) → one specific question → 1–2 hashtags on their own line. Format: a native 30–90 s cut, with the YouTube link in the first comment, or a document carousel of the whiteboard frames. No bait such as "comment to agree".</p>
+  <h3>Instagram caption</h3>
+  <p>A first line of ≤60 characters for Reels or ≤125 for feed, with the outcome and keyword → a body of 125–500 characters for Reels, or under 30 words for carousels → one CTA (comment WORD for a DM, send to a colleague, or link in bio) → 3–5 hashtags (1 branded, 1 broad, 1–3 niche) at the end → alt text per slide. It also suggests a display-name keyword and on-screen text for Reels.</p>
+
+  <h2>The checker (every output, before delivery)</h2>
+  <table>
+    <thead><tr><th>Check</th><th>YouTube</th><th>LinkedIn</th><th>Instagram</th></tr></thead>
+    <tbody>
+      <tr><td>Hard maximum</td><td>Title ≤100 (brand ≤70); description ≤5,000 bytes; tags ≤500</td><td>≤3,000</td><td>≤2,200 including hashtags</td></tr>
+      <tr><td>Above the fold</td><td>CTA line exact; keyword within the first 150 characters</td><td>Hook ≤140 (warn over 110)</td><td>First line ≤125 (≤60 for Reels)</td></tr>
+      <tr><td>Hashtags</td><td>Exactly 3 (error over 60)</td><td>0–3 (warn over 2)</td><td>≤5 (error over 5)</td></tr>
+      <tr><td>Structure</td><td>Chapters 0:00 / ≥3 / ≥10 s; blank-line spacing; disclosure if affiliate links</td><td>No link in the body (warn); no bait phrases</td><td>One CTA; alt text present for images</td></tr>
+      <tr><td>Truth</td><td colspan="3">Figures must appear in the brief's PROOF list; no client names; no leftover placeholders unless flagged</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Building the skill</h2>
+<pre>performance-poster/
+  SKILL.md                     router: YouTube description · LinkedIn post · Instagram caption · hashtags · "post everything"
+  references/
+    limits.md / limits.json    every limit in this report, with source URL + date checked
+    youtube.md                 description framework + findings (Section 2)
+    linkedin.md                post + hashtag rules (Section 3)
+    instagram.md               caption + hashtag rules (Section 4)
+    hashtags/pecuna.md         verified tag sets per pillar, refreshed monthly
+    brief-template.md          the brief above
+  shared/ (copied from Thumbnail Tracker, not edited there)
+    house-style.md · cta-library.md · taylor-voice.md · headline-log.csv
+  scripts/
+    check_post.py              the checker above, reading limits.json
+    hashtag_log.py             logs tags used + results per post
+  examples/  ai-harnesses/ · icp-research/   (inputs + approved outputs)
+  tests/     limits, spacing, hashtag caps, examples pass the checker</pre>
+  <ol>
+    <li><b>Freeze the limits</b> from this report into <span class="mono">limits.json</span>, with a "re-check by" date 90 days out.</li>
+    <li><b>Copy the shared brand files</b> from Thumbnail Tracker. Apply the house-rule changes Taylor approves.</li>
+    <li><b>Write the three platform references</b> from Sections 2–4.</li>
+    <li><b>Build <span class="mono">check_post.py</span></b> with tests: every number in the checker table is a test case.</li>
+    <li><b>Verify the starter hashtags live</b> (Instagram app and LinkedIn search), and save the verified sets.</li>
+    <li><b>Run the AI Harnesses and ICP briefs</b> through the skill as examples; Taylor approves the outputs.</li>
+    <li><b>Package the skill as a zip</b> and upload it to claude.ai.</li>
+  </ol>
+  <div class="box"><p><b>Next research step (needs Taylor's logged-in access):</b> collect the last 30 posts each from Nick Saraev, Sabri Suby, Riley Brown, Jeremy Haynes, Alex Finn and Daniel Priestley on Instagram and LinkedIn, via Claude in Chrome or screenshots. Then measure their caption length, first line, CTA and hashtags the same way as the YouTube study.</p></div>
+</section>
+
+<!-- 7 SOURCES -->
+<section class="chapter">
+  <div class="sec-head"><span class="num">07 · SOURCES</span><h1>Sources, confidence and gaps</h1></div>
+  <p>All sources accessed 20 October 2026. The full research notes, the analysis script and per-video data sit beside this PDF in the repo.</p>
+  <h3>YouTube (official)</h3>
+  <p class="foot">support.google.com/youtube/answer/57404 · /answer/12948449 · /answer/6390658 · /answer/9884579 · /answer/146402 · /answer/2801973 · /answer/11962757 · /answer/15575509 · developers.google.com/youtube/v3/docs/videos</p>
+  <h3>YouTube (third-party)</h3>
+  <p class="foot">tubefilter.com (Shorts links, Aug 2023) · searchenginejournal.com · malwarebytes.com · link.boo · socialk.it · unilink.us · advancedcharactercounter.com · collabpals.com · creaticalc.com · howmanywords.app · influencermarketinghub.com · typecount.com · vidiq.com · ppc.land · Thumbnail Tracker research data (150 videos, 12 Oct 2026)</p>
+  <h3>LinkedIn (official)</h3>
+  <p class="foot">linkedin.com/help/linkedin/answer/a528176 · a522483 · a518909 · a523054 · a548372 · a1311816 · a527270 · a522948 · a6244140 · a528144 (404) · news.linkedin.com/2026/ImprovingTheFeed · LinkedIn Engineering "Understanding feed dwell time" (2020) · Rishi Jobanputra post (Jul 2025, via digitalinformationworld.com)</p>
+  <h3>LinkedIn (third-party studies)</h3>
+  <p class="foot">Buffer (2M+ posts) · Socialinsider 2025/2026 benchmarks (1.3M posts) · Ordinal (248,275 posts; link study) · Shield Index (167,940 posts) · LinkPost (516,144 posts) · Magicpost (566,957 posts) · Metricool (673,658 posts) · Richard van der Blom via agilitypr.com · Sprout Social and Agorapulse first-comment tests · AuthoredUp · Social Media Today (creator mode) · contentin.io · linkedgrow.ai · taplio.com · ritekit.com</p>
+  <h3>Instagram (official)</h3>
+  <p class="foot">@creators Threads post DSalXGPCWM4 (18 Dec 2025) · developers.facebook.com Instagram Platform: IG User Media, Private Replies, Hashtag Search · transparency.meta.com IG Search · about.instagram.com "Instagram ranking explained" (2023) · help.instagram.com alt text</p>
+  <h3>Instagram (third-party)</h3>
+  <p class="foot">Social Media Today and Social Samosa (5-tag cap) · Metricool 2026 Instagram Study (24.4M posts) and limits guide · Socialinsider caption study (9.1M posts) and 2026 benchmarks · PostPlanify (6,126 posts) · Sked × Socialinsider · Hootsuite experiments · Buffer frequency and Reels length · Kontentino (Mosseri, Jul 2026) · Lindsey Gamble · PetaPixel · TechRadar · TechCrunch · Inro · Ignite · Bundle.social · Izea · Search Engine Journal · Adweek · Flick review</p>
+
+  <h2>What we couldn't verify</h2>
+  <table>
+    <thead><tr><th>Platform</th><th>Gap</th><th>How to close it</th></tr></thead>
+    <tbody>
+      <tr><td>All</td><td>Exact "…more" / "see more" fold lengths. No platform publishes them.</td><td>Paste test text in each composer and record the cut</td></tr>
+      <tr><td>YouTube</td><td>Raw descriptions for all 150 videos; the 3 watchlist creators (YouTube blocked the fetch on the day); whether title hashtags displace description hashtags</td><td>Re-run the fetch from a logged-in machine; one test upload</td></tr>
+      <tr><td>LinkedIn</td><td>Any official link-penalty statement; the mentions cap; 10 vs 15 minutes for mobile video; current posts from the 6 creators (n = 3 old posts only)</td><td>Logged-in collection via Claude in Chrome</td></tr>
+      <tr><td>Instagram</td><td>Help Centre wording for the 5-tag cap; whether comments and the API are capped at 5; links in bio (1/3/5); comment length; whether hashtag post counts and "reach from hashtags" still show; the 6 creators' captions (n = 0)</td><td>Check in the app; logged-in collection</td></tr>
+      <tr><td>All</td><td>No CTR, search-traffic or link-click data, so every performance finding is observational</td><td>Log Pecuna's own results at 48 hours and 30 days (headline and hashtag logs)</td></tr>
+    </tbody>
+  </table>
+  <p class="foot" style="margin-top:6mm">Fonts: Fraunces, Instrument Sans and IBM Plex Mono, bundled under their licences in <span class="mono">fonts/</span>. Built from <span class="mono">performance-poster-research.html</span> with Playwright.</p>
+</section>
+
+</body>
+</html>

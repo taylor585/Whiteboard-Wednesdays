@@ -1,0 +1,202 @@
+{
+ "name": "performance-poster",
+ "version": "1.0.0",
+ "built": "2026-10-22T08:13:59+00:00",
+ "files": [
+  {
+   "path": ".gitignore",
+   "sha256": "f0f29ccafe976d3aee8843b28277a78db45af20137889ea074c4aa7241e8a096",
+   "bytes": 39
+  },
+  {
+   "path": "CHANGELOG.md",
+   "sha256": "7013449dc38c63667699dd696f1e4bf16e4db0f5aa3206e4e394a1426bd7dbfb",
+   "bytes": 1314
+  },
+  {
+   "path": "README.md",
+   "sha256": "f4504b28db9216391f8ac2b2ffd35d70e705a52793e4226ed1397ac28a6a6f30",
+   "bytes": 2548
+  },
+  {
+   "path": "SKILL.md",
+   "sha256": "58b91cb02e5c26ca51b52270a2eeba670dbdef1cb4114da0b50137d94318598f",
+   "bytes": 8395
+  },
+  {
+   "path": "package.json",
+   "sha256": "c708f574fdff3b772baa03ee4cf9d4c2920715ac02e811e4630215862161e095",
+   "bytes": 213
+  },
+  {
+   "path": "assets/cta/Pecuna-Factorem-CTA-Library.pdf",
+   "sha256": "4afa92a9ff15a060a11fb077a208ea005eeff23ab8a4ed244e466b04c1dad6b0",
+   "bytes": 122895
+  },
+  {
+   "path": "assets/cta/cta-library.html",
+   "sha256": "9a4f33779bc2a56df1b746b314194c3376fae8f39fd9272f2dc305790bca400d",
+   "bytes": 4358
+  },
+  {
+   "path": "examples/README.md",
+   "sha256": "53e617ef55be301ecddd5e0506f88c0b84f89c8386d8e3d3f91629b61a28f3ca",
+   "bytes": 1204
+  },
+  {
+   "path": "examples/ai-harnesses/brief.txt",
+   "sha256": "5a42c69be6e3c7e2af233155d5a104e4eab9bf6e7d5edae66a9418cd2a80566b",
+   "bytes": 1150
+  },
+  {
+   "path": "examples/ai-harnesses/description-final.txt",
+   "sha256": "e5eea3baefae8f5083f11c00f1d7bd87a24821dfc91415b07da2b7c34b949d34",
+   "bytes": 2642
+  },
+  {
+   "path": "examples/ai-harnesses/linkedin-first-comment.txt",
+   "sha256": "0d83f5f192cbd6dd94d96a70dc97b4305245f6f34592e3866b8ad31e80064e68",
+   "bytes": 68
+  },
+  {
+   "path": "examples/ai-harnesses/linkedin-post.txt",
+   "sha256": "b666f28da2215f6a830689279ed40b05b633e317f0688ceb30306843aa40670d",
+   "bytes": 1186
+  },
+  {
+   "path": "examples/ai-harnesses-reel-3/brief.txt",
+   "sha256": "215585b67a4f865c9e3b6a6d5eaf3d0dd169dd8a615fb7adb0fadf20dc188ed1",
+   "bytes": 375
+  },
+  {
+   "path": "examples/ai-harnesses-reel-3/instagram-caption.txt",
+   "sha256": "89e3f13d4bdb2994ab68f28d510eaaa6fe80d8adc289b0247949b4cf38a8901b",
+   "bytes": 531
+  },
+  {
+   "path": "examples/ai-harnesses-reel-3/transcript.txt",
+   "sha256": "e945aad9d80d79524b05363b0b8619cfd1424299e6101303ea0d51c5b6c74474",
+   "bytes": 1174
+  },
+  {
+   "path": "examples/ai-vision-boards/brief.txt",
+   "sha256": "91ffbd034be181a5789bf8859427bbd090fcf093e7d112a7f6883c45836375de",
+   "bytes": 1161
+  },
+  {
+   "path": "examples/ai-vision-boards/youtube-description.txt",
+   "sha256": "bc151eb3c12fc527b28e2195ba430d981799ee392b0b9e15fcbc0b636aadd7e6",
+   "bytes": 2664
+  },
+  {
+   "path": "examples/icp-research/brief.md",
+   "sha256": "00639de29c50fffb0cb4821bd124b0fc49729fe28b0356b8d0afec3dfa12cd7b",
+   "bytes": 5544
+  },
+  {
+   "path": "examples/icp-research/brief.txt",
+   "sha256": "8d4e8c4373b32f351995bb5a99802a796b2ec4ea1a5fb61fd8974fa0897699cc",
+   "bytes": 758
+  },
+  {
+   "path": "examples/icp-research/description-final.txt",
+   "sha256": "6812ec446c972b54083838b8a916814d66f8bae7e1c551d9be209df9a59811b5",
+   "bytes": 2339
+  },
+  {
+   "path": "examples/icp-research/linkedin-posts.md",
+   "sha256": "c8d048cf99dfacf0ba5ebdc21ea6b7e78eea40b21d7d12622bfb304d00bca563",
+   "bytes": 3130
+  },
+  {
+   "path": "references/brief-template.md",
+   "sha256": "0c7fe70305ec623263e896b1c284c858499466611719fd844743c3bd6c120845",
+   "bytes": 1945
+  },
+  {
+   "path": "references/instagram.md",
+   "sha256": "6f3ea85dfb278cce5a7dac1a8b64cc51ad61e7dcdfd373e232d1b7a01666327a",
+   "bytes": 5234
+  },
+  {
+   "path": "references/limits.json",
+   "sha256": "d82c0d94d042c350591d1431752d13451ec617fcfa9b33ce85942e85bea5ccff",
+   "bytes": 5691
+  },
+  {
+   "path": "references/limits.md",
+   "sha256": "7dd5066732a23c45388927ad029bff67ee64286b7f35cb0b0308d5db86a7657a",
+   "bytes": 1477
+  },
+  {
+   "path": "references/linkedin.md",
+   "sha256": "2032bb3a68b5eef3994a591a107671419a1c6c232aefe10ec18f036470664834",
+   "bytes": 5345
+  },
+  {
+   "path": "references/youtube.md",
+   "sha256": "18987e57baa88f661c88b2a94bc8dec7ed679a3d69c72297ce5b5d9207efa118",
+   "bytes": 5743
+  },
+  {
+   "path": "references/hashtags/hashtag-log.csv",
+   "sha256": "0786ced7d82c0dc6f073ac92c79b74f9a0c81f1959ba7b9297e582d911992bac",
+   "bytes": 287
+  },
+  {
+   "path": "references/hashtags/pecuna.md",
+   "sha256": "aa8ef0bcf48ac3a7bb9faaf1aef3695bfe926380671d81e6aca5dabc17a2e0f6",
+   "bytes": 3139
+  },
+  {
+   "path": "references/shared/cta-library.md",
+   "sha256": "21dba9aa6ca1cd7ac04bdffb880dd4656dc34fd61244e7eb5a7ad543bf553e47",
+   "bytes": 2336
+  },
+  {
+   "path": "references/shared/headline-log.csv",
+   "sha256": "15494f1024db632711b36bd658729a486dc83a016e7aec90d4219b4f85478004",
+   "bytes": 9978
+  },
+  {
+   "path": "references/shared/house-style.md",
+   "sha256": "c43eec6375d9e38d39b5718ee852ef99ceacd0fe999d8af636ef1cf8a4eb5489",
+   "bytes": 3822
+  },
+  {
+   "path": "references/shared/taylor-voice.md",
+   "sha256": "d0fd7239f6e6428ce969918139cb00e1dfc73e5046b06f60202e06bc355c712a",
+   "bytes": 4924
+  },
+  {
+   "path": "scripts/check_post.py",
+   "sha256": "e825a2a645fd39a6c7d2806a2fefdad05c45479c1eae051f017166561f6c8f61",
+   "bytes": 16618
+  },
+  {
+   "path": "scripts/hashtag_log.py",
+   "sha256": "7fbeeb429a883dff699fa43d78a33a8c6228c68f3f8ac647af0f0bf978dac4c6",
+   "bytes": 7241
+  },
+  {
+   "path": "scripts/headline_log.py",
+   "sha256": "bcecfa731bcaeb594dcfe3be4cdd87ecb118bc45e0bec58a4850360b56c28681",
+   "bytes": 11028
+  },
+  {
+   "path": "scripts/package_skill.py",
+   "sha256": "548ce10672b840c8a9889f592cac5c2f28cc9974fda6e8e064c9baa6dc37f67f",
+   "bytes": 6612
+  },
+  {
+   "path": "tests/test_check_post.py",
+   "sha256": "ab033935214e3e8d1c13164ab7e2f719712d76a7e9484cb54e2b5393b6dff1d3",
+   "bytes": 12440
+  },
+  {
+   "path": "tests/test_logs.py",
+   "sha256": "698ac9452c15a69210a071c0afbf7141c09b8e318dd1db37e59178a5b0c02aea",
+   "bytes": 2888
+  }
+ ]
+}
