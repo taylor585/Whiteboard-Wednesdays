@@ -15,6 +15,13 @@
       "when": 1792222246637,
       "tag": "0001_topics",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792829210595,
+      "tag": "0002_topic_deck",
+      "breakpoints": true
     }
   ]
 }
