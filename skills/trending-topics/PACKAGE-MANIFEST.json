@@ -1,0 +1,186 @@
+{
+  "name": "trending-topics",
+  "version": "4.0.0",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793",
+      "bytes": 19
+    },
+    {
+      "path": "BUILD-STATUS.md",
+      "sha256": "ef7c740cf801d72d5344ad36562fa41c7b9cae9f9aeb77f7778e242fa06cbd40",
+      "bytes": 2183
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "456eace115ae95126a2d977870d87187a5f37df2e208895112ce8456a31b8ef9",
+      "bytes": 6039
+    },
+    {
+      "path": "README.md",
+      "sha256": "56d81ec15f3d268ffa368d8b238b67f43109dc72e5eb08d8d95fae2a7404344d",
+      "bytes": 3550
+    },
+    {
+      "path": "SKILL.md",
+      "sha256": "6cb0076bff7b58a850e002033e018eb6e2caa466fd0fec9a23cfa834e4fcf04a",
+      "bytes": 17584
+    },
+    {
+      "path": "START-HERE.md",
+      "sha256": "3633d1bc2929b94a1325b3d30acdc672329f3043bece26d8d451e175f49dafb4",
+      "bytes": 1978
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "e9cd8ebc4f9c27d517b3f4f5b59b97f898d3ef1f9eb98681275bdd9a2c8c88e8",
+      "bytes": 155
+    },
+    {
+      "path": "agents/openai.yaml",
+      "sha256": "f0f113955558acc8925312dfdb2859ad3f703ef74b137ab17606635b907f71ca",
+      "bytes": 418
+    },
+    {
+      "path": "examples/harness-brief.md",
+      "sha256": "b9e0af3dcdcb956b6cc98aae03f011dcbebdd81a1748dc3e876a1506156a75ad",
+      "bytes": 40336
+    },
+    {
+      "path": "examples/picks-2026-W42.md",
+      "sha256": "c2b4d3baabead6e82767f6305b4d6a4488a6f6032a77bdf2b14fcc8a9155864e",
+      "bytes": 10570
+    },
+    {
+      "path": "examples/picks-2026-W43.md",
+      "sha256": "17b4c412bdb1af1129015156ea452ee695c1ce0967faec58e8691c24e091b748",
+      "bytes": 12811
+    },
+    {
+      "path": "examples/picks-two-tables.md",
+      "sha256": "99f42f8ae695956fb4665084063fe286218ded34e716138d321da8b57be538b8",
+      "bytes": 5235
+    },
+    {
+      "path": "examples/scan-2026-10-12-core.md",
+      "sha256": "bbb3b8f14fbc695cc58415b96cea8cdee3fef6fb9fc71d833216e6bff6f04bd6",
+      "bytes": 11705
+    },
+    {
+      "path": "references/agent-prompts.md",
+      "sha256": "ea7fca695b44ddd62d080a3353efa21634562c3810c0dddfc5c40100882337c7",
+      "bytes": 5477
+    },
+    {
+      "path": "references/brief-format.md",
+      "sha256": "0a25b19561d18383b902a72f46518e650898df79d451f2a6a5ca2901f6585b29",
+      "bytes": 7627
+    },
+    {
+      "path": "references/chat-research.md",
+      "sha256": "b09045ddfc242763bd9e459bbc88077cb5451439ae76944191a9904cfa043c0f",
+      "bytes": 7381
+    },
+    {
+      "path": "references/creator-research.md",
+      "sha256": "607ddc300e6a9fc0d96e00f5040e4054c164c1e769e5cbc1001b0b62bdfb145a",
+      "bytes": 4058
+    },
+    {
+      "path": "references/creators.json",
+      "sha256": "b65cd2c58abcab612fe09f04e06ea7d065ea2ab422ce96830705331b00da6a62",
+      "bytes": 2386
+    },
+    {
+      "path": "references/descriptions.md",
+      "sha256": "2d48c4eb2977933f7a27be86de917ed6ff5b3fef02335462d2cd3b7a9e649b27",
+      "bytes": 4818
+    },
+    {
+      "path": "references/headlines.md",
+      "sha256": "c736061e47c3acad10feb95710822bd115e8605ae3ebbed89761bcfc45d2c201",
+      "bytes": 9435
+    },
+    {
+      "path": "references/pick-output.md",
+      "sha256": "e63427850d6c776e65545d7c9ebb92ebc7edb126fd689d561ee1677d68d9f02e",
+      "bytes": 4293
+    },
+    {
+      "path": "references/quality.md",
+      "sha256": "d9acd44cf625672481e8e10b703313d850f238d8190fe5770c38c4419fba6005",
+      "bytes": 3321
+    },
+    {
+      "path": "references/research-findings.md",
+      "sha256": "f50f6ae8273d74a0b8a82c220c7d8e63457b96e2fd48a549380e4b09174c2920",
+      "bytes": 20846
+    },
+    {
+      "path": "references/research-framework.md",
+      "sha256": "e82121eedfdec7330b589c74cdea6045e06fbf6c6a4cc332a61351acdf27323e",
+      "bytes": 6014
+    },
+    {
+      "path": "references/research-to-topics.md",
+      "sha256": "63862f0c198f1fa27f21e45c451606027375cbe5f3b18eb0e252f2e0ec59f2e5",
+      "bytes": 5691
+    },
+    {
+      "path": "references/scoring.md",
+      "sha256": "73e28af5fa7ee0d2079442bb34c33fcffbab1922b9e5404d5ac235ad14487f5d",
+      "bytes": 4530
+    },
+    {
+      "path": "references/skill-integrations.md",
+      "sha256": "7c90d3efa4e9f23b5102660c5f466a113888c78b88e181fb2500cc5b9a0b592d",
+      "bytes": 2445
+    },
+    {
+      "path": "references/week-pack.md",
+      "sha256": "f30fd6ab572b9d244f6c24e5cf0c8f9f991d7942c260ccec4ff45bfa61b14e64",
+      "bytes": 3334
+    },
+    {
+      "path": "scripts/build_manifest.py",
+      "sha256": "92139f159b6c266c4f7eb6773cc016014ba398978dca4fcca0fc58283cfc813f",
+      "bytes": 1271
+    },
+    {
+      "path": "scripts/check_brief.py",
+      "sha256": "f0a1655832cb93373a2fb4140517bc64f12a5cc7e246c53e9625c88622cc4172",
+      "bytes": 7767
+    },
+    {
+      "path": "scripts/check_picks.py",
+      "sha256": "8c1e2c429ff128492384f5ae03bfe93689e2a6353da76411f9cbef297b789660",
+      "bytes": 4851
+    },
+    {
+      "path": "scripts/index_sessions.py",
+      "sha256": "467e98a79311c08f6bf853d5baeec93150c45711e5248148d84ed2071135b93f",
+      "bytes": 6091
+    },
+    {
+      "path": "scripts/scan_creators.py",
+      "sha256": "bcdc93efd4ebf40e474c95b9553b6540a42325ff617afd87d29db024538e0770",
+      "bytes": 15767
+    },
+    {
+      "path": "scripts/topics.py",
+      "sha256": "384baf642def0cdf4e476886e9b5f42199b3f50051b453005c946c65ac112358",
+      "bytes": 5932
+    },
+    {
+      "path": "scripts/version_check.py",
+      "sha256": "4aadb72bf9954ee0acf301d0baf48fee8031886eccabc241afe7c9d577ffe3f7",
+      "bytes": 2380
+    },
+    {
+      "path": "tests/test_skill.py",
+      "sha256": "1a508d64e0679b5be181c931a0f2762b6eddf76838c0b9deadad55853c7522b3",
+      "bytes": 13320
+    }
+  ]
+}

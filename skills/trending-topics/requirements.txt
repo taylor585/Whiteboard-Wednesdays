@@ -1,0 +1,3 @@
+# Optional. The scanner runs on the standard library (RSS only) without it.
+# yt-dlp adds the 30-upload listing used for outlier ratios.
+yt-dlp>=2026.8.19

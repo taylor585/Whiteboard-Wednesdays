@@ -53,6 +53,7 @@ Use the Creator watchlist’s simple Instrument Sans heading style across the ap
 - `youtube-api.mjs`: YouTube Data API adapter.
 - `db/schema.ts`, `drizzle/`: storage schema and migrations (generate new ones with `npm run db:generate`).
 - `SKILL.md`: presentation authoring guidance.
+- `skills/trending-topics/`: the Trending Topics skill. Finds 5 weekly video topics from our recent Claude Code work and the creator list, then writes record-ready Trending Topic Briefs for the 3 chosen.
 
 `dist/` is generated build output. Do not edit it.
 
