@@ -4,7 +4,7 @@ import seed from '../../../../public/creators.json';
 export const dynamic='force-dynamic';
 type Creator={handle:string;name:string;channel_id:string|null;playlist_id:string|null;last_success:string|null;error:string|null;lease_until:number};
 type VideoRow={id:string;handle:string;creator:string;title:string;description:string;published_at:string;thumbnail:string};
-type TopicRow={id:string;title:string;status:string;notes:string;record_date:string|null;post_date:string|null;created_at:string;updated_at:string};
+type TopicRow={id:string;title:string;status:string;notes:string;record_date:string|null;post_date:string|null;deck_id:string|null;created_at:string;updated_at:string};
 type PointRow={id:string;topic_id:string;position:number;title:string;note:string;done:number};
 const STATUSES=['new','shortlisted','planned','slides_ready','recorded','edited','posted'];
 const json=(body:unknown,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store'}});
@@ -22,7 +22,7 @@ async function topicsWithDetail(){
   db.prepare('SELECT ts.topic_id,v.* FROM topic_sources ts JOIN videos v ON v.id=ts.video_id ORDER BY ts.added_at').all<VideoRow&{topic_id:string}>(),
   db.prepare('SELECT * FROM topic_points ORDER BY topic_id, position').all<PointRow>(),
  ]);
- return topics.results.map(t=>({id:t.id,title:t.title,status:t.status,notes:t.notes,recordDate:t.record_date,postDate:t.post_date,createdAt:t.created_at,updatedAt:t.updated_at,
+ return topics.results.map(t=>({id:t.id,title:t.title,status:t.status,notes:t.notes,recordDate:t.record_date,postDate:t.post_date,deckId:t.deck_id,createdAt:t.created_at,updatedAt:t.updated_at,
   sources:sources.results.filter(s=>s.topic_id===t.id).map(s=>video(s)),
   points:points.results.filter(p=>p.topic_id===t.id).map(p=>({id:p.id,title:p.title,note:p.note,done:Boolean(p.done),position:p.position}))}));
 }
@@ -69,6 +69,8 @@ async function topicAction(action:string,body:Record<string,unknown>){
   if(body.notes!==undefined){const v=text(body.notes,8000);if(v===null)return bad('Notes can be up to 8,000 characters.');sets.push('notes=?');values.push(v);}
   if(body.status!==undefined){if(typeof body.status!=='string'||!STATUSES.includes(body.status))return bad('Choose a valid status.');sets.push('status=?');values.push(body.status);}
   if(body.postDate!==undefined){if(body.postDate!==null&&!day(body.postDate))return bad('Choose a valid post date.');sets.push('post_date=?');values.push(body.postDate);}
+  // Links a topic to the presentation it becomes (an id from public/presentations.js).
+  if(body.deckId!==undefined){if(body.deckId!==null&&(typeof body.deckId!=='string'||!/^[a-z0-9-]{1,80}$/.test(body.deckId)))return bad('Choose a presentation.');sets.push('deck_id=?');values.push(body.deckId);}
   const statements=[];
   if(body.recordDate!==undefined){
    if(body.recordDate!==null){const d=day(body.recordDate);if(!d||![3,5].includes(d.getUTCDay()))return bad('Recording days are Wednesday and Friday.');}

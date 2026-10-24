@@ -10,7 +10,7 @@ export const savedIdeas = sqliteTable('saved_ideas', {id:text('id').primaryKey()
 // Topics follow PROCESS.md: one topic per Wednesday or Friday recording slot.
 export const topics = sqliteTable('topics', {
  id:text('id').primaryKey(), title:text('title').notNull(), status:text('status').notNull().default('new'), notes:text('notes').notNull().default(''),
- recordDate:text('record_date'), postDate:text('post_date'), createdAt:text('created_at').notNull(), updatedAt:text('updated_at').notNull(),
+ recordDate:text('record_date'), postDate:text('post_date'), deckId:text('deck_id'), createdAt:text('created_at').notNull(), updatedAt:text('updated_at').notNull(),
 }, t => [uniqueIndex('topics_record_date_unique').on(t.recordDate)]);
 export const topicSources = sqliteTable('topic_sources', {
  topicId:text('topic_id').notNull(), videoId:text('video_id').notNull(), addedAt:text('added_at').notNull(),
