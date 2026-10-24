@@ -8,7 +8,7 @@ Repository: https://github.com/taylor585/Whiteboard-Wednesdays
 
 Clone this repository into Claude Code, or select it in Claude's GitHub integration. This repository is public and needs no ChatGPT sign-in to read. A Claude chat that can only fetch web pages cannot necessarily execute or edit a repository; use Claude Code or a GitHub-connected coding environment for design changes.
 
-The hosted ChatGPT Sites app remains owner-private. Localhost addresses only work on the computer running the preview. Neither address is needed to edit this source or run a separate preview.
+The app Taylor uses is the private Claude artifact https://claude.ai/artifact/WCzdc2u9RBzuzqz5JhHwea (since 24 October 2026; the ChatGPT Sites app is retired). Localhost addresses only work on the computer running the preview. Neither address is needed to edit this source or run a separate preview.
 
 ## Design preview without installation
 
@@ -77,4 +77,4 @@ The production runtime needs a server-only `YOUTUBE_API_KEY` restricted to YouTu
 
 ## Publishing
 
-GitHub is the shared editable source. A GitHub push does not publish the ChatGPT Sites app. Publishing requires the existing Sites deployment workflow and Taylor's launch approval. Preserve the existing project ID and private audience. Do not create a replacement site or change visibility to solve Claude access.
+GitHub is the shared editable source. A GitHub push does not update the app. After merging to main, Claude republishes `public/index.html` and the changed `public/` files to the existing artifact https://claude.ai/artifact/WCzdc2u9RBzuzqz5JhHwea, keeping its `db` capability, where saved topics live. Never publish the app to a new artifact. The retired ChatGPT Sites project is left untouched; do not publish to it or delete it.
