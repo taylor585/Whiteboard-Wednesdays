@@ -19,7 +19,8 @@
   const SPARK_DAYS = 14, OPEN = ['new','shortlisted','planned'];
   // From Saturday the board looks ahead to next week, so Monday's brainstorm can start at the weekend.
   const current = () => monday(add(today(), 2));
-  let week = current(), creator = null, spark = null, drag = null;
+  let week = current(), creator = null, spark = null, drag = null, showAll = false;
+  const RAIL_LIMIT = 11;
   const data = () => window.WWIdeas.data;
   const topics = () => data().topics || [];
   const status = message => { $('#bs-status').textContent = message; };
@@ -40,8 +41,15 @@
     const counts = new Map();
     for (const v of data().videos || []) if (Date.parse(v.publishedAt) >= Date.now() - SPARK_DAYS*86400000) counts.set(v.handle, (counts.get(v.handle) || 0) + 1);
     const list = (data().creators || []).slice().sort((a,b) => (counts.get(b.handle) || 0) - (counts.get(a.handle) || 0));
-    const initials = name => name.split(/\s+/).filter(Boolean).slice(0,2).map(w => w[0]).join('').toUpperCase();
-    $('#bs-rail').innerHTML = '<button type="button" class="bs-rc bs-rc-all" data-creator="" aria-pressed="'+!creator+'">All</button>'+list.map(c => '<button type="button" class="bs-rc" data-creator="'+esc(c.handle)+'" aria-pressed="'+(creator === c.handle)+'" title="'+esc(c.name)+'"><i aria-hidden="true">'+esc(initials(c.name))+'</i><span class="bs-sr">'+esc(c.name)+'</span>'+(counts.get(c.handle) ? '<b>'+counts.get(c.handle)+'</b>' : '')+'</button>').join('');
+    // Square name tiles so every creator is recognisable; the busiest show first and the rest open on request.
+    const shown = showAll ? list : list.slice(0, RAIL_LIMIT);
+    $('#bs-rail').innerHTML = '<button type="button" class="bs-rc bs-rc-all" data-creator="" aria-pressed="'+!creator+'"><span class="bs-rc-name">All creators</span><b>'+list.length+'</b></button>'
+      +shown.map(c => '<button type="button" class="bs-rc" data-creator="'+esc(c.handle)+'" aria-pressed="'+(creator === c.handle)+'"><span class="bs-rc-name">'+esc(c.name)+'</span><b>'+(counts.get(c.handle) ? counts.get(c.handle)+' new' : '<span class="bs-sr">no new uploads</span>')+'</b></button>').join('')
+      +(list.length > RAIL_LIMIT ? '<button type="button" class="bs-rc bs-rc-more" id="bs-rail-more" aria-expanded="'+showAll+'">'+(showAll ? 'Show fewer' : 'Show all '+list.length)+'</button>' : '');
+  }
+  function nextUp() {
+    const d = current(), list = [add(d, 2), add(d, 4)].map(day => ({day, t:topics().find(t => t.recordDate === iso(day))}));
+    $('#bs-nextup').innerHTML = '<span class="micro">Recording next</span>'+list.map(x => '<span class="bs-nextup-item"><b>'+esc(fmt(x.day,{weekday:'short',day:'numeric',month:'short'}))+'</b> '+(x.t ? esc(x.t.title) : '<i>Not booked yet</i>')+' <span class="bs-meta">Posts '+esc(fmt(add(x.day, 6),{weekday:'short',day:'numeric',month:'short'}))+'</span></span>').join('');
   }
   function sparkHtml() {
     const list = sparks();
@@ -61,7 +69,7 @@
   function slotHtml(s) {
     const label = fmt(s.day,{weekday:'short',day:'numeric',month:'short'});
     return '<div class="bs-slot'+(s.topic ? ' is-booked' : '')+(s.past ? ' is-past' : '')+'" data-slot="'+iso(s.day)+'"><span class="bs-slot-day">'+esc(label)+' · Record</span><span class="bs-meta">Posts '+esc(fmt(s.post,{weekday:'short',day:'numeric',month:'short'}))+'</span>'
-      +(s.topic ? '<div class="bs-booked"><span>'+esc(s.topic.title)+'</span><span class="bs-booked-actions"><a href="#/schedule">Posting schedule →</a>'+(s.past ? '' : '<button type="button" data-unbook="'+esc(s.topic.id)+'">Unbook</button>')+'</span></div>'
+      +(s.topic ? '<div class="bs-booked"><span>'+esc(s.topic.title)+'</span><span class="bs-booked-actions"><a href="#/schedule">Post &amp; Record →</a>'+(s.past ? '' : '<button type="button" data-unbook="'+esc(s.topic.id)+'">Unbook</button>')+'</span></div>'
         : '<p class="bs-put">'+(s.past ? 'This day has passed.' : 'Drop an angle here, or press Book on an angle.')+'</p>')+'</div>';
   }
   function render() {
@@ -69,13 +77,15 @@
     $('#bs-week').textContent = (thisWeek ? 'Recording week' : 'Week')+' of '+fmt(week,{day:'numeric',month:'long'});
     $('#bs-today').disabled = thisWeek;
     rail();
+    nextUp();
     $('#bs-sparks').innerHTML = sparkHtml();
     const list = angles();
     $('#bs-angles').innerHTML = list.length ? list.map(angleHtml).join('') : '<li class="bs-empty"><p>No open angles yet. Write one below.</p></li>';
     const chosen = spark && (data().videos || []).find(v => v.id === spark);
     $('#bs-from').innerHTML = chosen ? 'From: '+esc(chosen.title)+' <button type="button" class="bs-quiet" id="bs-clear">Clear</button>' : '';
     $('#bs-slots').innerHTML = slots().map(slotHtml).join('');
-    if (!data().ready) status('Topics need the app’s saved data, which is not available here.');
+    const offline = 'Topics need the app’s saved data, which is not available here.';
+    if (!data().ready) status(offline); else if ($('#bs-status').textContent === offline) status('');
     $('#bs-form').querySelectorAll('input,button').forEach(el => { el.disabled = !data().ready; });
     requestAnimationFrame(lines);
   }
@@ -103,8 +113,9 @@
   root.addEventListener('click', async event => {
     const el = event.target.closest('button');
     if (!el) return;
-    if (el.dataset.creator !== undefined) { creator = el.dataset.creator || null; spark = null; render(); return; }
+    if (el.dataset.creator !== undefined) { creator = el.dataset.creator || null; spark = null; render(); root.querySelector('.bs-rc[data-creator="'+CSS.escape(el.dataset.creator)+'"]')?.focus(); return; }
     if (el.dataset.video) { spark = spark === el.dataset.video ? null : el.dataset.video; render(); $('#bs-title').focus(); return; }
+    if (el.id === 'bs-rail-more') { showAll = !showAll; render(); $('#bs-rail-more')?.focus(); return; }
     if (el.id === 'bs-clear') { spark = null; render(); return; }
     if (el.dataset.book) { await book(el.closest('[data-topic]').dataset.topic, el.dataset.book); return; }
     if (el.dataset.unbook) { const t = topics().find(x => x.id === el.dataset.unbook); await mutate('/topic-update', {id:el.dataset.unbook, recordDate:null}, t ? '“'+t.title+'” is back with the angles.' : ''); return; }

@@ -12,8 +12,8 @@ The shared GitHub repository is https://github.com/taylor585/Whiteboard-Wednesda
 The header uses plain text tabs and a thin dark underline, as selected on 12 October 2026. Do not restore the icon pills.
 The Video ideas integration awaits Google API approval and a server-side key. Do not claim live YouTube retrieval works until it is connected and tested.
 Design changes can be made without access to the private hosted app: run the public/ static preview or the full local server.
-The weekly production process (planning, slides, recording, editing, posting) is in PROCESS.md, updated 16 October 2026. Plan the Topics and Posting schedule screens around it.
-Navigation since 24 October 2026: Presentations · Creator watchlist · Topics (`#/topics`, the B2-C brainstorm whiteboard) · Posting schedule (`#/schedule`, the production line). On phones the tab row scrolls sideways inside itself.
+The weekly production process (planning, slides, recording, editing, posting) is in PROCESS.md, updated 16 October 2026. Plan the Topics and Post & Record screens around it.
+Navigation since 24 October 2026: Presentations · Creator watchlist · Topics (`#/topics`, the B2-C brainstorm whiteboard) · Post & Record (`#/schedule`, the production line; renamed from Posting schedule on 24 October 2026). On phones the tab row scrolls sideways inside itself.
 
 
 ## Owner instruction update: 15 October 2026
