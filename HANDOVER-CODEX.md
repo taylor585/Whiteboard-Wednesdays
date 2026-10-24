@@ -63,9 +63,9 @@ The eight presentations (all must appear on the live site, in this order):
 - Until the YouTube key is connected, rows honestly say no uploads are loaded yet.
 
 **Topics (Taylor's pick 3C-7):**
-- **Week strip:** Mon plan and slides, Tue post and edit, Wed record, Thu edit, Fri record.
+- **Week strip:** Mon plan and slides, Tue post and edit, Wed record, Thu post and edit, Fri record.
 - **Production line:** three weeks, two slots a week (Wednesday and Friday).
-- **Topic panel:** title, status, recording day, post date (defaults to the next Tuesday), notes, ordered subtopics and source videos.
+- **Topic panel:** title, status, recording day, post date (defaults to the next Tuesday for a Wednesday recording, the next Thursday for a Friday one), notes, ordered subtopics and source videos.
 - **"Not scheduled yet" list** for topics without a recording day.
 - Only Wednesdays and Fridays can be booked, one topic each. A clash offers a swap.
 
@@ -135,7 +135,7 @@ Browser checks at **375, 390, 768 and 1280px**:
 - [ ] Back and forward history works across tabs.
 - [ ] `#/video-ideas` still opens Creator watchlist.
 - [ ] Watchlist: 42 creator rows. Expanding one shows its videos with 16:9 thumbnails, nothing stretched or barred. Phone rows are two lines, not squashed. `#/watchlist/creator/@handle` opens that row. Save as topic creates a topic and can add to an existing one.
-- [ ] Topics: week strip with the right jobs Mon to Fri, today outlined. Only Wed / Fri can be booked, and one topic per slot. Post date defaults to the next Tuesday and can be changed. Status advances. Subtopics add, edit and reorder. A refresh never deletes a video linked to a topic.
+- [ ] Topics: week strip with the right jobs Mon to Fri, today outlined. Only Wed / Fri can be booked, and one topic per slot. Post date defaults to the next Tuesday (Wednesday recording) or Thursday (Friday recording) and can be changed. Status advances. Subtopics add, edit and reorder. A refresh never deletes a video linked to a topic.
 - [ ] Browser-only brand previews are never saved as shared settings.
 
 ## 5. Checks after every publish (on the live URL, signed out)

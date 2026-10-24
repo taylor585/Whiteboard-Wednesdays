@@ -17,11 +17,11 @@
   const monday = d => add(d, -((d.getDay()+6) % 7));
   const fmt = (d, o={weekday:'short',day:'numeric',month:'short'}) => new Intl.DateTimeFormat('en-GB', o).format(d);
   // Every date follows from the recording day. Wednesday's video is edited on Thursday; Friday's by the next Monday.
-  // Both are posted the next Tuesday unless a post date has been set by hand.
+  // Wednesday's video posts the next Tuesday and Friday's the next Thursday (Taylor, 24 October), unless set by hand.
   function schedule(t) {
     if (!t.recordDate) return null;
     const r = parse(t.recordDate), wed = r.getDay() === 3;
-    const suggested = add(r, wed ? 6 : 4);
+    const suggested = add(r, 6);
     return {plan:monday(r), record:r, edit:add(r, wed ? 1 : 3), post:t.postDate ? parse(t.postDate) : suggested, suggested, custom:Boolean(t.postDate)};
   }
   let week = monday(today()), selected = null, mode = 'book', bookDate = null;
@@ -47,12 +47,13 @@
     const wed = byDate(days[2]), fri = byDate(days[4]);
     const weekTopics = [wed, fri].filter(Boolean);
     const planned = weekTopics.filter(t => rank(t.status) >= rank('planned')).length, slides = weekTopics.filter(t => rank(t.status) >= rank('slides_ready')).length;
-    const posting = topics().filter(t => { const s = schedule(t); return s && iso(s.post) === iso(days[1]); });
+    const postsOn = d => topics().filter(t => { const s = schedule(t); return s && iso(s.post) === iso(d); });
+    const postTue = postsOn(days[1]), postThu = postsOn(days[3]);
     const cells = [
       ['Plan + slides','plan', weekTopics.length ? planned+' of 2 planned · '+slides+' of 2 slides ready' : 'Plan this week’s two topics. Finish last week’s edits.'],
-      ['Post + edit','post', posting.length ? 'Post: '+posting.map(t => t.title).join(' · ') : 'Nothing booked to post'],
+      ['Post + edit','post', postTue.length ? 'Post: '+postTue.map(t => t.title).join(' · ') : 'Nothing booked to post'],
       ['Record','record', wed ? wed.title : 'Not booked yet'],
-      ['Edit','edit', wed ? 'Edit: '+wed.title : 'Edit Wednesday’s video'],
+      ['Post + edit','post', (postThu.length ? 'Post: '+postThu.map(t => t.title).join(' · ') : 'Nothing booked to post')+(wed ? ' · Edit: '+wed.title : '')],
       ['Record','record', fri ? fri.title : 'Not booked yet'],
     ];
     $('#tp-strip').innerHTML = days.map((d, i) => '<li class="tp-day'+(iso(d) === now ? ' is-today' : '')+'"'+(iso(d) === now ? ' aria-current="date"' : '')+'><span class="tp-day-name">'+fmt(d,{weekday:'long'})+'</span><span class="tp-day-date">'+fmt(d,{day:'numeric',month:'short'})+'</span><span class="tp-tag tp-tag-'+cells[i][1]+'">'+cells[i][0]+'</span><span class="tp-day-line">'+esc(cells[i][2])+'</span></li>').join('');
@@ -124,7 +125,7 @@
     if (act === 'close') { selected = null; render(); return; }
     if (!topic) return;
     if (act === 'next') { const next = STATUSES[rank(topic.status)+1]; if (next) await mutate('/topic-update', {id:topic.id, status:next[0]}, 'Marked as '+next[1].toLowerCase()+'.'); return; }
-    if (act === 'post-reset') { await mutate('/topic-update', {id:topic.id, postDate:null}, 'Post date set back to the suggested Tuesday.'); return; }
+    if (act === 'post-reset') { await mutate('/topic-update', {id:topic.id, postDate:null}, 'Post date set back to the suggested day.'); return; }
     if (act === 'delete') { if (confirm('Delete “'+topic.title+'”? Its subtopics go too. Source videos stay in the watchlist.')) { await mutate('/topic-delete', {id:topic.id}, 'Topic deleted.'); selected = null; render(); } return; }
     const remove = t.closest('[data-remove-source]'); if (remove) { await mutate('/topic-source-remove', {topicId:topic.id, videoId:remove.dataset.removeSource}, 'Source removed.'); return; }
     const move = t.closest('[data-point-move]'); if (move) { await mutate('/point-move', {id:move.dataset.point, direction:Number(move.dataset.pointMove)}); return; }
