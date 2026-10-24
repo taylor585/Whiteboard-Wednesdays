@@ -18,7 +18,7 @@ Run from the repository root:
 python3 -m http.server 8862 --directory public
 ```
 
-Open http://localhost:8862/#/library on that same machine. This shows all eight presentations, the approved clean underline header, and the Creator watchlist and Topics layouts. Live video retrieval and saved topics require the full server below. No API key is needed for design work.
+Open http://localhost:8862/#/library on that same machine. This shows all eight presentations, the approved clean underline header, and the Creator watchlist, Topics and Posting schedule layouts. Live video retrieval and saved topics require the full server below. No API key is needed for design work.
 
 ## Full application
 
@@ -29,6 +29,7 @@ npm ci
 npm run build
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_sweet_shaman.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0001_topics.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0002_topic_deck.sql
 npm run dev -- --port 8864
 ```
 
@@ -40,10 +41,12 @@ Use the Creator watchlist’s simple Instrument Sans heading style across the ap
 
 ## Where to edit
 
-- `public/index.html`: application header, navigation, Creator watchlist and Topics markup.
+- `public/index.html`: application header, navigation, Creator watchlist, Topics and Posting schedule markup.
 - `public/library.css`, `public/library.js`: library styling, routing and presentation shell.
 - `public/video-ideas.css`, `public/video-ideas.js`: Creator watchlist (design 2C: one row per creator that expands to its videos, with Save as topic).
-- `public/topics.css`, `public/topics.js`: Topics tab (week strip and production line, built on PROCESS.md).
+- `public/brainstorm.css`, `public/brainstorm.js`: Topics tab (`#/topics`), the Monday brainstorm whiteboard (Taylor's pick B2-C, 24 October 2026): sparks from creator uploads, angles, and the Wednesday and Friday recording slots.
+- `public/topics.css`, `public/topics.js`: Posting schedule tab (`#/schedule`), the week strip and production line built on PROCESS.md.
+- `public/ww-store.js`: when the app runs as a Claude artifact with no server, topics are saved in the artifact's own database instead.
 - `public/presentations.js`: presentation register.
 - `public/whiteboard-content.js`, `public/lge-content.js`, `public/vb-content.js`, `public/ah-content.js`, `public/gv-content.js`: presentation content (paid ads, Lead Gen Engine, Vision Boards, AI Harnesses, Grok Voice).
 - `public/vb.css`, `public/vb.js`, `public/ah.css`, `public/gv.css`: slide styles and behaviour scoped to the Vision Boards (`vb-`), AI Harnesses (`hc-`) and Grok Voice (`gv-`) decks.
@@ -64,7 +67,7 @@ node node_modules/typescript/bin/tsc --noEmit
 npm run build
 ```
 
-Check all three navigation tabs and every presentation at 375, 390, 768 and 1280 pixel widths after design edits.
+Check all four navigation tabs and every presentation at 375, 390, 768 and 1280 pixel widths after design edits.
 
 ## YouTube status and credentials
 

@@ -7,7 +7,10 @@
   const details = new Map(), loadingDetails = new Set();
   const date = value => new Intl.DateTimeFormat('en-GB', {day:'numeric',month:'short',year:'numeric'}).format(new Date(value));
   const short = value => new Intl.DateTimeFormat('en-GB', {day:'numeric',month:'short'}).format(new Date(value));
+  // Inside a Claude artifact there is no server, so topics are kept in the page's own database (ww-store.js).
+  let store = null;
   async function api(path, body) {
+    if (store) return store.call(path, body);
     const response = await fetch('/api/ideas' + path, body === undefined ? {cache:'no-store'} : {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     if (!response.headers.get('content-type')?.includes('application/json')) throw new Error('The YouTube connection is not configured yet. Your creator list is ready.');
     const result = await response.json();
@@ -47,7 +50,7 @@
     return '<article class="vi-item">'+thumb(v, creator.name)+'<div class="vi-item-body"><div class="vi-item-date"><time datetime="'+esc(v.publishedAt)+'">'+date(v.publishedAt)+'</time></div><h3><a href="'+url+'" target="_blank" rel="noopener noreferrer">'+esc(v.title)+'</a></h3>'+
       (description ? '<p class="vi-desc" id="'+descId+'">'+esc(description)+'</p>'+(description.length > 180 ? '<button type="button" class="vi-more" aria-expanded="false" aria-controls="'+descId+'">More</button>' : '') : v.description === undefined ? '<p class="vi-desc vi-desc-wait">Loading description…</p>' : '')+
       '</div><div class="vi-item-actions"><button type="button" class="vi-dark" data-topic="'+esc(v.id)+'">+ Save as topic</button><a href="'+url+'" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>'+
-      (linked.length ? '<a class="vi-linked" href="#/topics">In '+linked.length+' topic'+(linked.length === 1 ? '' : 's')+' →</a>' : '')+'</div></article>';
+      (linked.length ? '<a class="vi-linked" href="#/schedule">In '+linked.length+' topic'+(linked.length === 1 ? '' : 's')+' →</a>' : '')+'</div></article>';
   }
   function panel(creator, videos) {
     if (!videos.length) {
@@ -94,6 +97,7 @@
     try { data = {...await api(''), ready:true}; data.topics ||= []; details.clear(); renderCreators(); render(); emit(); announce(data.configured ? 'Watchlist loaded. Refresh to check for new uploads.' : 'YouTube API connection is not configured yet.'); if(auto && location.hash.startsWith('#/watchlist') && data.configured && data.creators.some(c=>!c.lastSuccess || Date.now()-Date.parse(c.lastSuccess)>=3600000)) await refresh(); }
     catch (error) {
       try { const response = await fetch('creators.json'); const seed = await response.json(); data.creators = seed.creators; } catch { /* Keep the readable connection error. */ }
+      if (!store && window.WWStore) { store = await window.WWStore.connect().catch(() => null); if (store) return load(auto); }
       data.ready = false; renderCreators(); render(); emit(); announce(error.message);
     }
   }
@@ -161,7 +165,22 @@
     if (bits[1] === 'creator' && bits[2]) { open = bits[2]; $('#ideas-creator').value = 'all'; render(); requestAnimationFrame(() => root.querySelector('.vi-row.is-open')?.scrollIntoView({block:'start'})); }
     if (data.ready && data.configured && data.creators.some(c=>!c.lastSuccess || Date.now()-Date.parse(c.lastSuccess)>=3600000)) refresh();
   });
+  window.addEventListener('ww:store', () => { if (store) load(); });
+  // An in-page confirmation, because a Claude artifact cannot show the browser's own confirm box.
+  function ask(message, yes='Confirm') {
+    const dialog = document.querySelector('#ww-confirm');
+    return new Promise(resolve => {
+      dialog.querySelector('#ww-confirm-text').textContent = message;
+      dialog.querySelector('#ww-confirm-yes').textContent = yes;
+      const back = document.activeElement;
+      const done = value => { dialog.onclose = null; if (dialog.open) dialog.close(); back?.focus?.(); resolve(value); };
+      dialog.querySelector('#ww-confirm-yes').onclick = () => done(true);
+      dialog.querySelector('#ww-confirm-no').onclick = () => done(false);
+      dialog.onclose = () => done(false);
+      dialog.showModal();
+    });
+  }
   // Shared with topics.js so both screens use one data load and one request helper.
-  window.WWIdeas = {api, esc, get data() { return data; }, reload: () => load(), openTopicDialog};
+  window.WWIdeas = {api, esc, ask, get data() { return data; }, reload: () => load(), openTopicDialog};
   load(location.hash.startsWith('#/watchlist') || location.hash.startsWith('#/video-ideas'));
 })();

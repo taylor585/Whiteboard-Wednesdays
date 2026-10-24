@@ -4,7 +4,7 @@
   'use strict';
   const root = document.querySelector('#topics');
   if (!root || !window.WWIdeas) return;
-  const {api, esc} = window.WWIdeas;
+  const {api, esc, ask} = window.WWIdeas;
   const $ = s => root.querySelector(s);
   const STATUSES = [['new','New'],['shortlisted','Shortlisted'],['planned','Planned'],['slides_ready','Slides ready'],['recorded','Recorded'],['edited','Edited'],['posted','Posted']];
   const label = s => (STATUSES.find(x => x[0] === s) || STATUSES[0])[1];
@@ -36,7 +36,7 @@
     try { const result = await api(path, body); await window.WWIdeas.reload(); if (success) status(success); if (focus) document.getElementById(focus)?.focus(); return result; }
     catch (error) {
       if (error.status === 409 && error.result?.conflict && body.recordDate && !body.swap) {
-        if (confirm('“'+error.result.conflict.title+'” is already booked for '+fmt(parse(body.recordDate))+'. Swap the two topics?')) return mutate(path, {...body, swap:true}, 'Swapped the two recording slots.');
+        if (await ask('“'+error.result.conflict.title+'” is already booked for '+fmt(parse(body.recordDate))+'. Swap the two topics?', 'Swap')) return mutate(path, {...body, swap:true}, 'Swapped the two recording slots.');
         status('Booking cancelled. That day is already taken.'); return null;
       }
       status(error.message); return null;
@@ -126,7 +126,7 @@
     if (!topic) return;
     if (act === 'next') { const next = STATUSES[rank(topic.status)+1]; if (next) await mutate('/topic-update', {id:topic.id, status:next[0]}, 'Marked as '+next[1].toLowerCase()+'.'); return; }
     if (act === 'post-reset') { await mutate('/topic-update', {id:topic.id, postDate:null}, 'Post date set back to the suggested day.'); return; }
-    if (act === 'delete') { if (confirm('Delete “'+topic.title+'”? Its subtopics go too. Source videos stay in the watchlist.')) { await mutate('/topic-delete', {id:topic.id}, 'Topic deleted.'); selected = null; render(); } return; }
+    if (act === 'delete') { if (await ask('Delete “'+topic.title+'”? Its subtopics go too. Source videos stay in the watchlist.', 'Delete')) { await mutate('/topic-delete', {id:topic.id}, 'Topic deleted.'); selected = null; render(); } return; }
     const remove = t.closest('[data-remove-source]'); if (remove) { await mutate('/topic-source-remove', {topicId:topic.id, videoId:remove.dataset.removeSource}, 'Source removed.'); return; }
     const move = t.closest('[data-point-move]'); if (move) { await mutate('/point-move', {id:move.dataset.point, direction:Number(move.dataset.pointMove)}); return; }
     const del = t.closest('[data-point-delete]'); if (del) { await mutate('/point-delete', {id:del.dataset.pointDelete}, 'Subtopic deleted.'); return; }
@@ -186,6 +186,6 @@
     finally { button.disabled = false; }
   });
   window.addEventListener('ww:data', render);
-  window.addEventListener('ww:route', event => { if (event.detail[0] === 'topics') render(); });
+  window.addEventListener('ww:route', event => { if (event.detail[0] === 'schedule') render(); });
   render();
 })();

@@ -10,5 +10,5 @@
 .app-nav a:focus-visible{outline:3px solid #8b6002;outline-offset:4px}
 .tabs-wrap{position:static}.ideas-intro{padding:56px 0;max-width:640px}.ideas-intro h1{font:500 clamp(38px,5vw,64px)/1.08 WWBody,Arial,sans-serif;letter-spacing:-2px;margin:20px 0}.ideas-intro p{color:#5c5750}.ideas-connection{margin-top:36px;padding-top:24px;border-top:1px solid #d8d5cf;font-weight:600}
 body.presentation .app-nav{display:none}
-@media(max-width:640px){.app-nav{padding:0 20px;gap:32px}.app-nav a{padding:16px 0;font-size:16px}.ideas-intro{padding:36px 0}.ideas-intro h1{letter-spacing:-1px}}
+@media(max-width:640px){.app-nav{padding:0 20px;gap:24px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}.app-nav::-webkit-scrollbar{display:none}.app-nav a{flex:none;white-space:nowrap;padding:16px 0;font-size:16px}.ideas-intro{padding:36px 0}.ideas-intro h1{letter-spacing:-1px}}
 @media print{.app-nav{display:none}}
