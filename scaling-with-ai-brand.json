@@ -1,0 +1,15 @@
+{
+  "name": "Pecuna Factorem",
+  "surface": "#ffffff",
+  "ink": "#1c1a17",
+  "accent": "#8b6002",
+  "font": "hand",
+  "logo": "public/ww-coin.svg",
+  "confirmation": {
+    "confirmed": true,
+    "by": "user",
+    "at": "2026-10-24T00:00:00Z",
+    "evidence": "Taylor, 24 October 2026, when asked which brand the scaling-with-ai deck uses: \"its always pecuna factorem branding\".",
+    "decks": ["scaling-with-ai"]
+  }
+}
