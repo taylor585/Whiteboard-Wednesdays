@@ -1,6 +1,6 @@
 import { sqliteTable, text, integer, primaryKey, uniqueIndex, index } from 'drizzle-orm/sqlite-core';
 export const creators = sqliteTable('creators', {
- handle:text('handle').primaryKey(), name:text('name').notNull(), channelId:text('channel_id'), playlistId:text('playlist_id'), lastSuccess:text('last_success'), error:text('error'), leaseUntil:integer('lease_until').notNull().default(0),
+ handle:text('handle').primaryKey(), name:text('name').notNull(), channelId:text('channel_id'), playlistId:text('playlist_id'), lastSuccess:text('last_success'), error:text('error'), leaseUntil:integer('lease_until').notNull().default(0), note:text('note').notNull().default(''),
 });
 export const videos = sqliteTable('videos', {
  id:text('id').primaryKey(), handle:text('handle').notNull(), creator:text('creator').notNull(), title:text('title').notNull(), description:text('description').notNull().default(''), publishedAt:text('published_at').notNull(), thumbnail:text('thumbnail').notNull(), refreshedAt:text('refreshed_at').notNull(),

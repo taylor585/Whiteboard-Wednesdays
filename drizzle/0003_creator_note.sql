@@ -1,0 +1,1 @@
+ALTER TABLE `creators` ADD `note` text DEFAULT '' NOT NULL;

@@ -2,7 +2,7 @@ import { env } from 'cloudflare:workers';
 import { createYouTubeClient, YouTubeError } from '../../../../youtube-api.mjs';
 import seed from '../../../../public/creators.json';
 export const dynamic='force-dynamic';
-type Creator={handle:string;name:string;channel_id:string|null;playlist_id:string|null;last_success:string|null;error:string|null;lease_until:number};
+type Creator={handle:string;name:string;channel_id:string|null;playlist_id:string|null;last_success:string|null;error:string|null;lease_until:number;note:string};
 type VideoRow={id:string;handle:string;creator:string;title:string;description:string;published_at:string;thumbnail:string};
 type TopicRow={id:string;title:string;status:string;notes:string;record_date:string|null;post_date:string|null;deck_id:string|null;created_at:string;updated_at:string};
 type PointRow={id:string;topic_id:string;position:number;title:string;note:string;done:number};
@@ -39,7 +39,7 @@ export async function GET(request:Request){
    db.prepare('SELECT * FROM creators ORDER BY name COLLATE NOCASE').all<Creator>(),
    db.prepare('SELECT v.* FROM videos v WHERE v.published_at >= ? OR v.id IN (SELECT video_id FROM topic_sources) ORDER BY v.published_at DESC').bind(new Date(Date.now()-30*86400000).toISOString()).all<VideoRow>(),
   ]);
-  return json({configured:Boolean(env.YOUTUBE_API_KEY),creators:creators.results.map(c=>({handle:c.handle,name:c.name,lastSuccess:c.last_success,error:c.error})),videos:videos.results.map(v=>video(v)),topics:await topicsWithDetail()});
+  return json({configured:Boolean(env.YOUTUBE_API_KEY),creators:creators.results.map(c=>({handle:c.handle,name:c.name,lastSuccess:c.last_success,error:c.error,note:c.note||''})),videos:videos.results.map(v=>video(v)),topics:await topicsWithDetail()});
  }catch{return json({error:'Your watchlist could not be loaded. Please retry.'},503);}
 }
 async function topicAction(action:string,body:Record<string,unknown>){
@@ -94,6 +94,14 @@ async function topicAction(action:string,body:Record<string,unknown>){
   const topicId=text(body.topicId,64),videoId=text(body.videoId,64);if(!topicId||!videoId)return bad('Choose a source video.');
   await db.prepare('DELETE FROM topic_sources WHERE topic_id=? AND video_id=?').bind(topicId,videoId).run();return json({removed:true});
  }
+ // A private note on a creator, shown on their creator page and in the Topics database.
+ if(action==='creator-note'){
+  const handle=text(body.handle,240),note=text(body.note,4000);
+  if(!handle||note===null)return bad('Notes can be up to 4,000 characters.');
+  const result=await db.prepare('UPDATE creators SET note=? WHERE handle=?').bind(note,handle).run();
+  if(!result.meta.changes)return bad('That creator is not on the watchlist.',404);
+  return json({saved:true});
+ }
  if(action==='topic-delete'){
   const id=text(body.id,64);if(!id)return bad('Choose a topic.');
   await db.batch([db.prepare('DELETE FROM topic_points WHERE topic_id=?').bind(id),db.prepare('DELETE FROM topic_sources WHERE topic_id=?').bind(id),db.prepare('DELETE FROM topics WHERE id=?').bind(id)]);
@@ -130,7 +138,7 @@ async function topicAction(action:string,body:Record<string,unknown>){
  }
  return null;
 }
-const LARGE=new Set(['topic-update','point-add','point-update']);
+const LARGE=new Set(['topic-update','point-add','point-update','creator-note']);
 export async function POST(request:Request){
  // The existing Sites access boundary protects this shared watchlist.
  // Same-origin JSON requests prevent other sites from submitting writes through a signed-in browser.

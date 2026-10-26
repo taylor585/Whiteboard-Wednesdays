@@ -13,7 +13,7 @@ The header uses plain text tabs and a thin dark underline, as selected on 12 Oct
 The Video ideas integration awaits Google API approval and a server-side key. Do not claim live YouTube retrieval works until it is connected and tested.
 Design changes can be made without access to the private hosted app: run the public/ static preview or the full local server.
 The weekly production process (planning, slides, recording, editing, posting) is in PROCESS.md, updated 16 October 2026. Plan the Topics and Post & Record screens around it.
-Navigation since 24 October 2026: Presentations · Creator watchlist · Topics (`#/topics`, the B2-C brainstorm whiteboard) · Post & Record (`#/schedule`, the production line; renamed from Posting schedule on 24 October 2026). On phones the tab row scrolls sideways inside itself.
+Navigation since 26 October 2026: Presentations · Creator watchlist (`#/watchlist`, the W2-B upload inbox) · Topics (`#/topics`, BC: creator database and idea board with Recording and Posting schedules side by side) · Post & Record (`#/schedule`, the S-C four-week timeline with P-C calendar-lens filters). Each creator has a page at `#/creator/@handle` (C-A). On phones the tab row scrolls sideways inside itself.
 
 
 ## Hosting decision: 24 October 2026
@@ -22,7 +22,7 @@ Taylor retired the ChatGPT Sites app. This supersedes every ChatGPT Sites and Co
 
 - The app Taylor uses from now on is the Claude artifact https://claude.ai/artifact/WCzdc2u9RBzuzqz5JhHwea.
 - Publish after merging to main: republish `public/index.html` to that URL with the Artifact tool, passing each changed file from `public/` in `files` at the same published path. Omit `capabilities` on redeploy so the `db` capability carries forward. Never publish the app to a new artifact.
-- Saved topics live in that artifact's own database (collection `topics`, through `public/ww-store.js`), not in D1. Read or change them with ArtifactData, never wipe them, and after a publish that touches topics, list the collection once to confirm it still reads.
+- Saved topics and creator notes live in that artifact's own database (collections `topics` and `creatorNotes`, through `public/ww-store.js`), not in D1. Read or change them with ArtifactData, never wipe them, and after a publish that touches topics, list the collection once to confirm it still reads.
 - The artifact is private to Taylor's claude.ai account. Sharing is through its Share menu, which only Taylor changes.
 - The full server (`app/`, `drizzle/`, D1, YouTube refresh) does not run inside the artifact. Keep it working for local tests. The Creator watchlist stays in its honest unconfigured state in the app until a live YouTube route for the artifact is built and tested.
 - Leave the ChatGPT Sites project and the older paid ads site untouched: do not publish to them or delete them. Codex has no publishing role; HANDOVER-CODEX.md is historical.
