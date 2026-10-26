@@ -1,0 +1,63 @@
+Want to chat? Give me a message on WhatsApp. This is my personal number 👉 https://pecunafactorem.com/contact
+
+I built an AI harness so Claude Code and Codex can run client work for 24–36 hours with fewer mistakes, instead of stalling two hours in.
+
+Without a harness, you brief your AI agent, come back two hours later and nothing's actually happened. That's not leverage. It's a liability, because it's cost you tokens.
+
+In this Whiteboard Wednesdays I show you the harness that fixes it, so you can manage more clients and run tasks for longer without the AI wasting your time, from ad scripts and emails to static images, landing pages and app builds.
+
+Want harnesses built for your agency? Book a call: https://pecunafactorem.com/contact
+
+What you'll learn:
+
+• Why an AI agent without a harness is like a tiny ball bouncing round a massive gym hall: busy, going nowhere
+
+• Why the built-in harnesses in Claude and Codex aren't advanced enough, and how an agent gets stuck on a simple question, invents bad workarounds and burns tokens
+
+• The five personas AI falls into: The Interrupter, The Drifter, The Goldfish, The Bluffer and The Loose Cannon
+
+• 58 problems tracked, boiled down to the 11 harness parts that fix them
+
+• The Loose Cannon story: nine perfect emails, then email 10 goes to the wrong person
+
+• The parts of a harness: the kickoff interview (9–15 questions), the contract, preparing the run, executing and checkpoints
+
+• Why AI is about 20% effective without a harness, closer to 80% with one, and how harnesses can run for 24–36 hours
+
+• Decision tiers: green (just do it), amber (log it and keep going) and red (ask first before publishing, sending, spending, deleting or making legal claims)
+
+• The run files that survive a crash, and the evaluator: a second AI with fresh context that checks the work before anything goes live
+
+• The nine-step framework to build your own harness in Claude Code or Codex with plan mode, in under an hour
+
+Chapters
+
+0:00 The bouncing ball: AI without a harness
+
+0:42 Why harnesses
+
+4:48 The five personas
+
+12:28 Parts of a harness
+
+17:53 Which jobs need one
+
+19:44 What makes a good harness
+
+23:48 Decision tiers: green, amber, red
+
+25:13 Surviving a crash
+
+26:22 The evaluator
+
+29:43 Build your own
+
+How we can help
+
+If you'd like help building harnesses for your client work, setting up Claude Code or Codex for your team, or turning your processes into skills that run for hours without babysitting, get in touch:
+
+https://pecunafactorem.com/contact
+
+Pecuna Factorem: https://pecunafactorem.com
+
+#ClaudeCode #AIAgents #Codex #AIAutomation #AgencyGrowth

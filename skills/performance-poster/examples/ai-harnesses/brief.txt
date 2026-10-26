@@ -1,0 +1,12 @@
+TITLE: I Built an AI Harness So Claude Code Can Run for 24 Hours
+KEYWORD: AI harness
+PILLAR: AI agents / Claude Code
+PROMISE: Use AI harnesses to manage more clients and run tasks for longer with fewer mistakes
+AUDIENCE: Agency owners and 1–3 person teams using Claude Code or Codex
+PROOF: 2 hours with nothing done; about 20% effective without a harness, closer to 80% with one; harnesses run for 24–36 hours; 58 problems tracked; 11 harness parts; five personas; the kickoff interview asks 9–15 questions; nine perfect emails, then email 10 goes to the wrong person; a nine-step framework; build it in under an hour
+CHAPTERS: 0:00 The bouncing ball · 0:42 Why harnesses · 4:48 The five personas · 12:28 Parts of a harness · 17:53 Which jobs need one · 19:44 What makes a good harness · 23:48 Decision tiers · 25:13 Surviving a crash · 26:22 The evaluator · 29:43 Build your own
+DURATION: 33:00
+BEST LINES: "It's actually a liability because it's cost you tokens."
+CLIENTS: none named in the video
+LINKS: contact https://pecunafactorem.com/contact · booking [BOOKING LINK]
+PLATFORMS: YouTube, LinkedIn (native cut), Instagram (Reel)
