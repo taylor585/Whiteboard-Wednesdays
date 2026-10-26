@@ -4,7 +4,7 @@
 (() => {
   'use strict';
   const STATUSES = ['new','shortlisted','planned','slides_ready','recorded','edited','posted'];
-  let db = null, topics = [], ready = null;
+  let db = null, topics = [], notes = new Map(), ready = null;
   const fail = (error, status=400, extra={}) => { const e = new Error(error); e.status = status; e.result = {error, ...extra}; throw e; };
   const text = (v, max) => typeof v === 'string' && v.length <= max ? v : null;
   function day(v) { if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return null; const d = new Date(v+'T12:00:00Z'); return Number.isNaN(d.getTime()) || d.toISOString().slice(0,10) !== v ? null : d; }
@@ -36,6 +36,11 @@
           window.dispatchEvent(new CustomEvent('ww:store'));
         }, () => { clearTimeout(timer); resolve(); });
       });
+      // Private notes on creators, one document per handle.
+      db.collection('creatorNotes').onSnapshot(snap => {
+        notes = new Map(snap.docs.filter(d => d.exists).map(d => [d.id, String(d.data().note || '')]));
+        window.dispatchEvent(new CustomEvent('ww:store'));
+      }, () => {});
       return api;
     })();
     return ready;
@@ -46,7 +51,7 @@
     if (body === undefined) {
       if (action === 'creator') return {videos:[]};
       let creators = [];
-      try { creators = (await (await fetch('creators.json')).json()).creators.map(c => ({handle:c.handle, name:c.name, lastSuccess:null, error:null})); } catch { /* the list still renders empty */ }
+      try { creators = (await (await fetch('creators.json')).json()).creators.map(c => ({handle:c.handle, name:c.name, lastSuccess:null, error:null, note:notes.get(c.handle) || ''})); } catch { /* the list still renders empty */ }
       return {configured:false, store:'claude', creators, videos:[], topics:sorted()};
     }
     if (!body || typeof body !== 'object' || Array.isArray(body)) fail('A JSON object is required.');
@@ -88,6 +93,12 @@
       const t = find(text(body.topicId, 64));
       await write(() => ref(t.id).update({sources:t.sources.filter(s => s.id !== body.videoId), updatedAt:now}));
       return {removed:true};
+    }
+    if (action === 'creator-note') {
+      const handle = text(body.handle, 240), note = text(body.note, 4000);
+      if (!handle || !/^@[A-Za-z0-9._-]{1,100}$/.test(handle) || note === null) fail('Notes can be up to 4,000 characters.');
+      await write(() => db.collection('creatorNotes').doc(handle).set({note, updatedAt:now}));
+      return {saved:true};
     }
     if (action === 'topic-delete') { const t = find(text(body.id, 64)); await write(() => ref(t.id).delete()); return {deleted:true}; }
     const owner = id => topics.find(t => t.points.some(p => p.id === id)) || fail('That subtopic no longer exists.', 404);

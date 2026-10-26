@@ -1,12 +1,15 @@
+/* Creator watchlist: the upload inbox (Taylor's pick W2-B, 26 October 2026).
+   New uploads are grouped by week. Each one is sparked into Topics or marked seen; seen marks are a
+   per-browser convenience kept in localStorage. Creators are listed by name and open their own page. */
 (() => {
   'use strict';
   const root = document.querySelector('#video-ideas');
   const $ = s => root.querySelector(s);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  let data = {creators:[], videos:[], topics:[], configured:false, ready:false}, days = 30, busy = false, candidate = null, open = null, saving = null;
-  const details = new Map(), loadingDetails = new Set();
-  const date = value => new Intl.DateTimeFormat('en-GB', {day:'numeric',month:'short',year:'numeric'}).format(new Date(value));
+  let data = {creators:[], videos:[], topics:[], configured:false, ready:false}, busy = false, candidate = null, who = null, saving = null;
+  const date = value => new Intl.DateTimeFormat('en-GB', {weekday:'short',day:'numeric',month:'short'}).format(new Date(value));
   const short = value => new Intl.DateTimeFormat('en-GB', {day:'numeric',month:'short'}).format(new Date(value));
+  const DAY = 86400000, WINDOW = 30;
   // Inside a Claude artifact there is no server, so topics are kept in the page's own database (ww-store.js).
   let store = null;
   async function api(path, body) {
@@ -18,6 +21,9 @@
     return result;
   }
   function announce(message) { $('#ideas-status').textContent = message; }
+  // Seen marks live only in this browser. Storage can be unavailable, so every access is guarded.
+  const seen = new Set((() => { try { return JSON.parse(localStorage.getItem('ww-seen') || '[]'); } catch { return []; } })());
+  function keepSeen() { try { localStorage.setItem('ww-seen', JSON.stringify([...seen].slice(-800))); } catch { /* seen marks just will not persist */ } }
   // Thumbnails: the stored image first, then YouTube's always-16:9 medium size, then a plain initial.
   // A 16:9 frame with object-fit:cover crops the black bars that YouTube bakes into 4:3 sizes.
   const safeThumb = url => /^https:\/\/i[0-9]?\.ytimg\.com\//.test(url || '') ? url : '';
@@ -25,80 +31,81 @@
     const first = safeThumb(v.thumbnail), fallback = /^[A-Za-z0-9_-]{6,20}$/.test(v.id) ? 'https://i.ytimg.com/vi/'+v.id+'/mqdefault.jpg' : '';
     const src = first || fallback;
     const initial = '<span class="vi-thumb-empty" aria-hidden="true">'+esc((name || '?').trim().charAt(0).toUpperCase())+'</span>';
-    return '<a class="vi-thumb" data-own-fallback href="https://www.youtube.com/watch?v='+encodeURIComponent(v.id)+'" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">'+(src ? '<img src="'+esc(src)+'"'+(first && fallback && first !== fallback ? ' data-fallback="'+esc(fallback)+'"' : '')+' width="320" height="180" loading="lazy" alt="">' : initial)+'</a>';
+    return '<a class="vi-thumb" data-own-fallback data-name="'+esc(name || '?')+'" href="https://www.youtube.com/watch?v='+encodeURIComponent(v.id)+'" target="_blank" rel="noopener noreferrer" tabindex="-1" aria-hidden="true">'+(src ? '<img src="'+esc(src)+'"'+(first && fallback && first !== fallback ? ' data-fallback="'+esc(fallback)+'"' : '')+' width="320" height="180" loading="lazy" alt="">' : initial)+'</a>';
   }
   // YouTube answers a missing video with a 120×90 grey stand-in rather than an error, so treat that as missing too.
-  root.addEventListener('load', event => { const img = event.target; if (img instanceof HTMLImageElement && img.closest('.vi-thumb') && img.naturalWidth <= 120) img.dispatchEvent(new Event('error')); }, true);
-  root.addEventListener('error', event => {
+  // Listening on the document covers thumbnails on the creator page and in Topics as well.
+  document.addEventListener('load', event => { const img = event.target; if (img instanceof HTMLImageElement && img.closest('.vi-thumb') && img.naturalWidth <= 120) img.dispatchEvent(new Event('error')); }, true);
+  document.addEventListener('error', event => {
     const img = event.target;
     if (!(img instanceof HTMLImageElement) || !img.closest('.vi-thumb')) return;
     if (img.dataset.fallback) { const next = img.dataset.fallback; delete img.dataset.fallback; img.src = next; return; }
-    const name = img.closest('.vi-row')?.querySelector('.vi-row-name')?.textContent || '?';
+    const name = img.closest('.vi-thumb').dataset.name || '?';
     img.replaceWith(Object.assign(document.createElement('span'), {className:'vi-thumb-empty', textContent:name.trim().charAt(0).toUpperCase()}));
   }, true);
-  function topicsFor(id) { return (data.topics || []).filter(t => t.sources.some(s => s.id === id)); }
-  function inPeriod(v) { const t = Date.parse(v.publishedAt), now = Date.now(); return t >= now - days * 86400000 && t <= now; }
-  function renderCreators() {
-    const selected = $('#ideas-creator').value;
-    $('#ideas-creator').innerHTML = '<option value="all">All creators</option>' + data.creators.map(c => '<option value="'+esc(c.handle)+'">'+esc(c.name)+'</option>').join('');
-    if (data.creators.some(c => c.handle === selected)) $('#ideas-creator').value = selected;
+  const topicsFor = id => (data.topics || []).filter(t => t.sources.some(s => s.id === id));
+  const recent = () => data.videos.filter(v => { const t = Date.parse(v.publishedAt); return t >= Date.now() - WINDOW*DAY && t <= Date.now(); });
+  const unread = list => list.filter(v => !seen.has(v.id) && !topicsFor(v.id).length);
+  // Shared by the creator page and Topics: one spark makes a new topic with the video as its source.
+  async function spark(id) {
+    if (!data.ready) { announce('Topics need the app’s saved data, which is not available here.'); return false; }
+    try { await api('/topic', {videoId:id}); seen.add(id); keepSeen(); await load(); announce('Sparked into Topics. It waits on the shortlist.'); return true; }
+    catch (error) { announce(error.message); return false; }
   }
-  function videoCard(v, creator) {
-    const url = 'https://www.youtube.com/watch?v='+encodeURIComponent(v.id), linked = topicsFor(v.id);
-    const description = v.description === undefined ? '' : v.description.trim();
-    const descId = 'vi-desc-'+esc(v.id);
-    return '<article class="vi-item">'+thumb(v, creator.name)+'<div class="vi-item-body"><div class="vi-item-date"><time datetime="'+esc(v.publishedAt)+'">'+date(v.publishedAt)+'</time></div><h3><a href="'+url+'" target="_blank" rel="noopener noreferrer">'+esc(v.title)+'</a></h3>'+
-      (description ? '<p class="vi-desc" id="'+descId+'">'+esc(description)+'</p>'+(description.length > 180 ? '<button type="button" class="vi-more" aria-expanded="false" aria-controls="'+descId+'">More</button>' : '') : v.description === undefined ? '<p class="vi-desc vi-desc-wait">Loading description…</p>' : '')+
-      '</div><div class="vi-item-actions"><button type="button" class="vi-dark" data-topic="'+esc(v.id)+'">+ Save as topic</button><a href="'+url+'" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>'+
-      (linked.length ? '<a class="vi-linked" href="#/schedule">In '+linked.length+' topic'+(linked.length === 1 ? '' : 's')+' →</a>' : '')+'</div></article>';
+  function whoList() {
+    const counts = new Map();
+    for (const v of unread(recent())) counts.set(v.handle, (counts.get(v.handle) || 0) + 1);
+    const all = unread(recent()).length;
+    $('#ideas-who').innerHTML = '<button type="button" data-who="" aria-pressed="'+!who+'"><span>All creators</span>'+(all ? '<b>'+all+'</b>' : '')+'</button>'+data.creators.map(c => '<button type="button" data-who="'+esc(c.handle)+'" aria-pressed="'+(who === c.handle)+'"><span>'+esc(c.name)+'</span>'+(counts.get(c.handle) ? '<b>'+counts.get(c.handle)+'<span class="vi-sr"> new</span></b>' : '')+'</button>').join('');
   }
-  function panel(creator, videos) {
-    if (!videos.length) {
-      const message = !data.configured && !data.videos.length ? 'No uploads loaded yet. The YouTube connection is still being set up.' : creator.error ? creator.error : $('#ideas-search').value.trim() ? 'No headlines match your search.' : 'No uploads in the last '+days+' days.';
-      return '<p class="vi-panel-empty">'+esc(message)+'</p>'+panelFoot(creator);
+  function item(v) {
+    const linked = topicsFor(v.id), isNew = !seen.has(v.id) && !linked.length, url = 'https://www.youtube.com/watch?v='+encodeURIComponent(v.id);
+    const creator = data.creators.find(c => c.handle === v.handle);
+    return '<article class="vi-mail'+(isNew ? '' : ' is-read')+(linked.length ? ' is-sparked' : '')+'" data-video="'+esc(v.id)+'"><span class="vi-dot" '+(isNew ? 'role="img" aria-label="New"' : 'aria-hidden="true"')+'></span>'+thumb(v, v.creator)+
+      '<div class="vi-mail-body"><a class="vi-chip" href="#/creator/'+encodeURIComponent(v.handle)+'">'+esc(creator?.name || v.creator)+'</a><h4><a href="'+url+'" target="_blank" rel="noopener noreferrer">'+esc(v.title)+'</a></h4><span class="vi-mail-meta"><time datetime="'+esc(v.publishedAt)+'">'+date(v.publishedAt)+'</time></span></div>'+
+      '<div class="vi-mail-actions">'+(linked.length ? '<a class="vi-in" href="#/topics">In Topics ✓</a>' : '<button type="button" class="vi-dark" data-spark="'+esc(v.id)+'">Spark a topic</button>')+
+      '<button type="button" class="vi-link" data-topic="'+esc(v.id)+'">Add to a topic</button>'+(isNew ? '<button type="button" class="vi-link" data-seen="'+esc(v.id)+'">Seen</button>' : '')+'</div></article>';
+  }
+  function feed() {
+    const query = $('#ideas-search').value.trim().toLocaleLowerCase();
+    const list = recent().filter(v => (!who || v.handle === who) && v.title.toLocaleLowerCase().includes(query)).sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
+    const creator = who && data.creators.find(c => c.handle === who);
+    let head = creator ? '<div class="vi-feed-head"><h2>'+esc(creator.name)+'</h2><a href="#/creator/'+encodeURIComponent(creator.handle)+'">Open '+esc(creator.name)+'’s page →</a></div>' : '';
+    if (!list.length) {
+      const message = !data.configured && !data.videos.length
+        ? '<h2>Uploads arrive here once YouTube is connected.</h2><p>Live retrieval still needs Google API approval and its key. Your '+data.creators.length+' creators are listed by name; open any of them to see their page and your notes.</p>'
+        : query ? '<h2>No headlines match.</h2><p>Try another search or choose all creators.</p>'
+        : '<h2>No uploads in the last '+WINDOW+' days.</h2><p>Refresh uploads to check again.</p>';
+      $('#ideas-feed').innerHTML = head+'<div class="vi-empty">'+message+'</div>'; return;
     }
-    const rich = details.get(creator.handle);
-    const list = videos.map(v => rich?.find(r => r.id === v.id) || (rich ? {...v, description:''} : v));
-    if (!rich) loadDetails(creator.handle);
-    return list.map(v => videoCard(v, creator)).join('')+panelFoot(creator);
+    const groups = [['This week', 0, 7], ['Last week', 7, 14], ['Earlier this month', 14, WINDOW]];
+    $('#ideas-feed').innerHTML = head+groups.map(([label, from, to]) => {
+      const part = list.filter(v => { const age = (Date.now() - Date.parse(v.publishedAt)) / DAY; return age >= from && age < to; });
+      return part.length ? '<div class="vi-group"><h3 class="micro">'+label+'</h3>'+part.map(item).join('')+'</div>' : '';
+    }).join('');
   }
-  function panelFoot(creator) {
-    return '<div class="vi-panel-foot"><a href="#/watchlist/creator/'+encodeURIComponent(creator.handle)+'">Link to this creator</a><a href="https://www.youtube.com/'+encodeURIComponent(creator.handle)+'" target="_blank" rel="noopener noreferrer">Channel on YouTube ↗</a></div>';
-  }
-  async function loadDetails(handle) {
-    if (!data.ready || loadingDetails.has(handle) || details.has(handle)) return;
-    loadingDetails.add(handle);
-    try { const result = await api('/creator?handle='+encodeURIComponent(handle)); details.set(handle, result.videos); }
-    catch { details.set(handle, []); }
-    finally { loadingDetails.delete(handle); if (open === handle) render(); }
+  function tray() {
+    const waiting = (data.topics || []).filter(t => t.sources.length && !t.recordDate && ['new','shortlisted'].includes(t.status));
+    $('#ideas-tray').innerHTML = '<h2 class="micro" id="ideas-tray-h">TOPICS TRAY</h2><p>Sparked videos wait on the Topics shortlist for Monday’s planning.</p>'+(waiting.length ? '<ol>'+waiting.slice(0, 8).map(t => '<li>'+esc(t.title)+'</li>').join('')+'</ol>' : '<p class="vi-tray-empty">Nothing sparked yet.</p>')+'<a class="vi-tray-go" href="#/topics">Open Topics →</a>';
   }
   function render() {
-    const query = $('#ideas-search').value.trim().toLocaleLowerCase(), channel = $('#ideas-creator').value;
+    const fresh = unread(recent()).length;
+    $('#ideas-heading').textContent = fresh ? fresh+' new since you last looked' : 'Creator watchlist';
     $('#ideas-refresh').disabled = busy || !data.configured;
     $('#ideas-add').disabled = !data.configured;
+    $('#ideas-seen').disabled = !fresh;
     const failed = data.creators.filter(c => c.error);
     $('#ideas-warning').hidden = !failed.length;
     $('#ideas-warning').textContent = failed.length + ' creator refresh'+(failed.length===1?'':'es')+' failed. Previously loaded videos remain visible. Retry refresh to check for missing uploads.';
-    let total = 0;
-    const rows = data.creators.filter(c => channel === 'all' || c.handle === channel).map((c, index) => {
-      const all = data.videos.filter(v => v.handle === c.handle);
-      const videos = all.filter(v => inPeriod(v) && v.title.toLocaleLowerCase().includes(query)).sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
-      if (query && !videos.length) return '';
-      total += videos.length;
-      const latest = all.reduce((m, v) => Math.max(m, Date.parse(v.publishedAt) || 0), 0);
-      const expanded = open === c.handle, id = 'vi-row-'+index;
-      return '<div class="vi-row'+(expanded ? ' is-open' : '')+'" data-handle="'+esc(c.handle)+'"><button type="button" class="vi-row-head" id="'+id+'-btn" aria-expanded="'+expanded+'" aria-controls="'+id+'-panel"><span class="vi-row-name">'+esc(c.name)+'</span><span class="vi-row-handle">'+esc(c.handle)+'</span><span class="vi-row-latest">'+(latest ? '<span class="vi-row-label">Latest </span>'+short(latest) : c.error ? 'Refresh failed' : 'No uploads yet')+'</span><span class="vi-row-count">'+videos.length+(videos.length === 1 ? ' video' : ' videos')+'</span><svg class="vi-chevron" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="vi-row-panel" id="'+id+'-panel" role="region" aria-labelledby="'+id+'-btn"'+(expanded ? '' : ' hidden')+'>'+(expanded ? panel(c, videos) : '')+'</div></div>';
-    }).join('');
-    $('#ideas-count').textContent = !data.configured && !data.videos.length ? data.creators.length+' creators ready' : data.creators.length+' creators · '+total+(total === 1 ? ' video' : ' videos')+' in the last '+days+' days';
-    $('#ideas-rows').innerHTML = rows || '<div class="vi-empty"><h2>No headlines match.</h2><p>Try another search, choose all creators or pick a wider time window.</p></div>';
+    whoList(); feed(); tray();
   }
   function emit() { window.dispatchEvent(new CustomEvent('ww:data', {detail:data})); }
   async function load(auto=false) {
-    try { data = {...await api(''), ready:true}; data.topics ||= []; details.clear(); renderCreators(); render(); emit(); announce(data.configured ? 'Watchlist loaded. Refresh to check for new uploads.' : 'YouTube API connection is not configured yet.'); if(auto && location.hash.startsWith('#/watchlist') && data.configured && data.creators.some(c=>!c.lastSuccess || Date.now()-Date.parse(c.lastSuccess)>=3600000)) await refresh(); }
+    try { data = {...await api(''), ready:true}; data.topics ||= []; render(); emit(); announce(data.configured ? 'Watchlist loaded. Refresh to check for new uploads.' : 'The YouTube connection is not switched on yet.'); if(auto && location.hash.startsWith('#/watchlist') && data.configured && data.creators.some(c=>!c.lastSuccess || Date.now()-Date.parse(c.lastSuccess)>=3600000)) await refresh(); }
     catch (error) {
       try { const response = await fetch('creators.json'); const seed = await response.json(); data.creators = seed.creators; } catch { /* Keep the readable connection error. */ }
       if (!store && window.WWStore) { store = await window.WWStore.connect().catch(() => null); if (store) return load(auto); }
-      data.ready = false; renderCreators(); render(); emit(); announce(error.message);
+      data.ready = false; render(); emit(); announce(error.message);
     }
   }
   async function refresh() {
@@ -111,27 +118,24 @@
     }
     busy=false; await load(); announce('Refresh finished: '+successes+' creators updated'+(failures?', '+failures+' could not be refreshed.':'.')); render();
   }
-  function setOpen(handle, scroll=false) {
-    open = handle; render();
-    history.replaceState(null, '', handle ? '#/watchlist/creator/'+encodeURIComponent(handle) : '#/watchlist');
-    if (scroll && handle) root.querySelector('.vi-row.is-open')?.scrollIntoView({block:'start', behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+  function choose(handle) {
+    who = handle || null; render();
+    history.replaceState(null, '', who ? '#/watchlist/creator/'+encodeURIComponent(who) : '#/watchlist');
   }
-  $('#ideas-refresh').addEventListener('click',refresh);
-  $('#ideas-search').addEventListener('input',render);
-  $('#ideas-creator').addEventListener('change',()=>{ const value = $('#ideas-creator').value; setOpen(value === 'all' ? null : value); });
-  root.querySelectorAll('[data-ideas-days]').forEach(b=>b.addEventListener('click',()=>{days=Number(b.dataset.ideasDays);root.querySelectorAll('[data-ideas-days]').forEach(x=>x.setAttribute('aria-selected',String(x===b)));render();}));
-  $('#ideas-rows').addEventListener('click', event => {
-    const head = event.target.closest('.vi-row-head');
-    if (head) { const handle = head.closest('.vi-row').dataset.handle; setOpen(open === handle ? null : handle); root.querySelector('.vi-row[data-handle="'+CSS.escape(handle)+'"] .vi-row-head')?.focus(); return; }
-    const more = event.target.closest('.vi-more');
-    if (more) { const expanded = more.getAttribute('aria-expanded') !== 'true'; more.setAttribute('aria-expanded', String(expanded)); more.textContent = expanded ? 'Less' : 'More'; document.getElementById(more.getAttribute('aria-controls'))?.classList.toggle('is-full', expanded); return; }
-    const save = event.target.closest('[data-topic]');
-    if (save) openTopicDialog(save.dataset.topic);
+  $('#ideas-refresh').addEventListener('click', refresh);
+  $('#ideas-search').addEventListener('input', () => feed());
+  $('#ideas-seen').addEventListener('click', () => { for (const v of recent()) seen.add(v.id); keepSeen(); render(); announce('All caught up.'); });
+  root.addEventListener('click', async event => {
+    const b = event.target.closest('button'); if (!b) return;
+    if (b.dataset.who !== undefined) { choose(b.dataset.who); $('#ideas-who [data-who="'+CSS.escape(b.dataset.who)+'"]')?.focus(); return; }
+    if (b.dataset.seen) { seen.add(b.dataset.seen); keepSeen(); render(); return; }
+    if (b.dataset.spark) { b.disabled = true; b.textContent = 'Sparking…'; if (!await spark(b.dataset.spark)) { b.disabled = false; b.textContent = 'Spark a topic'; } return; }
+    if (b.dataset.topic) openTopicDialog(b.dataset.topic);
   });
-  // Save as topic: a new topic, or add the video as another source for an existing one.
+  // Add to a topic: a new topic, or add the video as another source for an existing one.
   const topicDialog = document.querySelector('#topic-dialog'), topicForm = document.querySelector('#topic-form'), existing = document.querySelector('#topic-existing'), topicStatus = document.querySelector('#topic-dialog-status');
   function openTopicDialog(id) {
-    if (!data.ready) { announce('Topics are saved on the server, which is not available in this preview.'); return; }
+    if (!data.ready) { announce('Topics need the app’s saved data, which is not available here.'); return; }
     const video = data.videos.find(v => v.id === id); if (!video) return;
     saving = video;
     document.querySelector('#topic-dialog-video').textContent = video.title+' · '+video.creator;
@@ -149,7 +153,8 @@
     button.disabled = true; topicStatus.textContent = 'Saving…';
     try {
       await api('/topic', toExisting ? {videoId:saving.id, topicId:existing.value} : {videoId:saving.id});
-      topicDialog.close(); await load(); announce(toExisting ? 'Added to the topic as another source.' : 'Saved as a new topic. Find it under Topics.');
+      seen.add(saving.id); keepSeen();
+      topicDialog.close(); await load(); announce(toExisting ? 'Added to the topic as another source.' : 'Saved as a new topic. Find it on the Topics shortlist.');
     } catch (error) { topicStatus.textContent = error.message; }
     finally { button.disabled = false; }
   });
@@ -162,7 +167,7 @@
   window.addEventListener('ww:route', event => {
     const bits = event.detail;
     if (bits[0] !== 'watchlist') return;
-    if (bits[1] === 'creator' && bits[2]) { open = bits[2]; $('#ideas-creator').value = 'all'; render(); requestAnimationFrame(() => root.querySelector('.vi-row.is-open')?.scrollIntoView({block:'start'})); }
+    who = bits[1] === 'creator' && bits[2] ? bits[2] : null; render();
     if (data.ready && data.configured && data.creators.some(c=>!c.lastSuccess || Date.now()-Date.parse(c.lastSuccess)>=3600000)) refresh();
   });
   window.addEventListener('ww:store', () => { if (store) load(); });
@@ -180,7 +185,7 @@
       dialog.showModal();
     });
   }
-  // Shared with topics.js so both screens use one data load and one request helper.
-  window.WWIdeas = {api, esc, ask, get data() { return data; }, reload: () => load(), openTopicDialog};
+  // Shared with Topics, Post & Record and the creator page so every screen uses one data load and one request helper.
+  window.WWIdeas = {api, esc, ask, thumb, spark, topicsFor, get data() { return data; }, reload: () => load(), openTopicDialog};
   load(location.hash.startsWith('#/watchlist') || location.hash.startsWith('#/video-ideas'));
 })();

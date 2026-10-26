@@ -30,6 +30,7 @@ npm run build
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_sweet_shaman.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0001_topics.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0002_topic_deck.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0003_creator_note.sql
 npm run dev -- --port 8864
 ```
 
@@ -43,10 +44,11 @@ Use the Creator watchlist’s simple Instrument Sans heading style across the ap
 
 - `public/index.html`: application header, navigation, Creator watchlist, Topics and Post & Record markup.
 - `public/library.css`, `public/library.js`: library styling, routing and presentation shell.
-- `public/video-ideas.css`, `public/video-ideas.js`: Creator watchlist (design 2C: one row per creator that expands to its videos, with Save as topic).
-- `public/brainstorm.css`, `public/brainstorm.js`: Topics tab (`#/topics`), the Monday brainstorm whiteboard (Taylor's pick B2-C, 24 October 2026): sparks from creator uploads, angles, and the Wednesday and Friday recording slots.
-- `public/topics.css`, `public/topics.js`: Post & Record tab (`#/schedule`), the week strip and production line built on PROCESS.md.
-- `public/ww-store.js`: when the app runs as a Claude artifact with no server, topics are saved in the artifact's own database instead.
+- `public/video-ideas.css`, `public/video-ideas.js`: Creator watchlist (`#/watchlist`), the upload inbox (Taylor's pick W2-B, 26 October 2026): creators by name, uploads grouped by week, Spark a topic, Seen (kept in this browser only) and the Topics tray.
+- `public/brainstorm.css`, `public/brainstorm.js`: Topics tab (`#/topics`), creators and ideas (Taylor's pick BC, 26 October 2026): the creator database with a profile and private note, then Sparks, Shortlist, Recording schedule and Posting schedule side by side.
+- `public/creator.css`, `public/creator.js`: creator page (`#/creator/@handle`, Taylor's pick C-A): channel banner, upload rhythm, latest uploads with Spark a topic, and the private note. Stats only come from stored uploads.
+- `public/topics.css`, `public/topics.js`: Post & Record tab (`#/schedule`), a four-week recording and posting timeline with calendar-lens filters (Taylor's picks S-C and P-C, 26 October 2026), the topic panel and the not-scheduled list, built on PROCESS.md.
+- `public/ww-store.js`: when the app runs as a Claude artifact with no server, topics and creator notes are saved in the artifact's own database (collections `topics` and `creatorNotes`).
 - `public/presentations.js`: presentation register.
 - `public/whiteboard-content.js`, `public/lge-content.js`, `public/vb-content.js`, `public/ah-content.js`, `public/gv-content.js`: presentation content (paid ads, Lead Gen Engine, Vision Boards, AI Harnesses, Grok Voice).
 - `public/vb.css`, `public/vb.js`, `public/ah.css`, `public/gv.css`: slide styles and behaviour scoped to the Vision Boards (`vb-`), AI Harnesses (`hc-`) and Grok Voice (`gv-`) decks.

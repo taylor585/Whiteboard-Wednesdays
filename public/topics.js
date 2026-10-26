@@ -1,4 +1,4 @@
-/* Topics: the production line, built on the weekly process in PROCESS.md (16 October 2026).
+/* Post & Record: recording and posting schedules on a four-week timeline, built on PROCESS.md (16 October 2026).
    Monday plan and slides, Tuesday post and edit, Wednesday record, Thursday edit, Friday record. */
 (() => {
   'use strict';
@@ -24,7 +24,7 @@
     const suggested = add(r, 6);
     return {plan:monday(r), record:r, edit:add(r, wed ? 1 : 3), post:t.postDate ? parse(t.postDate) : suggested, suggested, custom:Boolean(t.postDate)};
   }
-  let week = monday(today()), selected = null, mode = 'book', bookDate = null;
+  let start = add(monday(today()), -14), range = 'all', lanes = new Set(['record','post']), follow = null, selected = null, mode = 'book', bookDate = null;
   const data = () => window.WWIdeas.data;
   const topics = () => data().topics || [];
   const ready = () => Boolean(data().ready);
@@ -42,40 +42,49 @@
       status(error.message); return null;
     }
   }
-  function strip() {
-    const days = [0,1,2,3,4].map(i => add(week, i)), now = iso(today());
-    const wed = byDate(days[2]), fri = byDate(days[4]);
-    const weekTopics = [wed, fri].filter(Boolean);
-    const planned = weekTopics.filter(t => rank(t.status) >= rank('planned')).length, slides = weekTopics.filter(t => rank(t.status) >= rank('slides_ready')).length;
-    const postsOn = d => topics().filter(t => { const s = schedule(t); return s && iso(s.post) === iso(d); });
-    const postTue = postsOn(days[1]), postThu = postsOn(days[3]);
-    const cells = [
-      ['Plan + slides','plan', weekTopics.length ? planned+' of 2 planned · '+slides+' of 2 slides ready' : 'Plan this week’s two topics. Finish last week’s edits.'],
-      ['Post + edit','post', postTue.length ? 'Post: '+postTue.map(t => t.title).join(' · ') : 'Nothing booked to post'],
-      ['Record','record', wed ? wed.title : 'Not booked yet'],
-      ['Post + edit','post', (postThu.length ? 'Post: '+postThu.map(t => t.title).join(' · ') : 'Nothing booked to post')+(wed ? ' · Edit: '+wed.title : '')],
-      ['Record','record', fri ? fri.title : 'Not booked yet'],
-    ];
-    $('#tp-strip').innerHTML = days.map((d, i) => '<li class="tp-day'+(iso(d) === now ? ' is-today' : '')+'"'+(iso(d) === now ? ' aria-current="date"' : '')+'><span class="tp-day-name">'+fmt(d,{weekday:'long'})+'</span><span class="tp-day-date">'+fmt(d,{day:'numeric',month:'short'})+'</span><span class="tp-tag tp-tag-'+cells[i][1]+'">'+cells[i][0]+'</span><span class="tp-day-line">'+esc(cells[i][2])+'</span></li>').join('');
-    const thisWeek = iso(week) === iso(monday(today()));
-    $('#tp-week-title').textContent = (thisWeek ? 'This week' : 'Week of '+fmt(week,{day:'numeric',month:'long'}))+' · '+fmt(week,{day:'numeric',month:'short'})+' to '+fmt(add(week,4),{day:'numeric',month:'short'});
-    $('#tp-today').hidden = thisWeek;
+  // Four working weeks: two back and two ahead by default. The legend is the filter (Taylor's pick S-C with the
+  // P-C calendar lens, 26 October 2026): switch lanes on or off, follow one video, or focus on either fortnight.
+  const LANES = [['record','Recording'],['post','Posting'],['edit','Editing'],['plan','Plan + slides']];
+  const home = () => add(monday(today()), -14);
+  const days20 = () => Array.from({length:20}, (_, i) => add(start, Math.floor(i/5)*7 + i%5));
+  // Focusing on one fortnight shows just its ten days, wider; All 4 weeks shows all twenty.
+  function events() {
+    const out = [];
+    for (const t of topics()) { const s = schedule(t); if (!s) continue; for (const [lane, d] of [['plan',s.plan],['record',s.record],['edit',s.edit],['post',s.post]]) out.push({lane, day:iso(d), t}); }
+    return out;
   }
-  function cell(name, d, extra='') { return '<span class="tp-cell'+extra+'"><span class="tp-cell-label">'+name+'</span>'+(d ? fmt(d) : '–')+'</span>'; }
-  function rows() {
-    let html = '';
-    for (let w = 0; w < 3; w++) {
-      const start = add(week, 7*w);
-      html += '<h3 class="tp-week">Week of '+fmt(start,{day:'numeric',month:'short'})+(w === 0 && iso(start) === iso(monday(today())) ? ' <span class="micro">THIS WEEK</span>' : '')+'</h3>';
-      for (const d of [add(start,2), add(start,4)]) {
-        const t = byDate(d);
-        if (!t) { html += '<button type="button" class="tp-row tp-row-empty" data-book="'+iso(d)+'"'+(ready() ? '' : ' disabled')+'><span class="tp-row-title">+ Pick a topic</span><span class="tp-cell"><span class="tp-cell-label">Record</span>'+fmt(d)+'</span></button>'; continue; }
-        const s = schedule(t);
-        html += '<button type="button" class="tp-row'+(selected === t.id ? ' is-selected' : '')+'" data-select="'+esc(t.id)+'" aria-pressed="'+(selected === t.id)+'"><span class="tp-row-title">'+esc(t.title)+'</span>'+cell('Plan & slides', s.plan)+cell('Record', s.record, ' tp-cell-strong')+cell('Edit', s.edit)+cell('Post', s.post, s.custom ? '' : ' tp-cell-suggested')+'<span class="tp-pill tp-pill-'+esc(t.status)+'">'+label(t.status)+'</span></button>';
-      }
+  // Markers are narrow, so they show the first words of a title (at least eight letters); the full title is in the label and the panel.
+  const brief = title => { const out = []; for (const w of title.split(/\s+/)) { out.push(w); if (out.join(' ').length >= 8) break; } return out.join(' '); };
+  function timeline() {
+    const twenty = days20(), now = iso(today()), all = events(), atHome = iso(start) === iso(home());
+    const days = range === 'first' ? twenty.slice(0, 10) : range === 'second' ? twenty.slice(10) : twenty;
+    const first = all.reduce((m, e) => e.day < m ? e.day : m, '9999');
+    const span = (a, b) => fmt(twenty[a],{day:'numeric',month:'short'})+' to '+fmt(twenty[b],{day:'numeric',month:'short'});
+    $('#tp-range').innerHTML = [['first', atHome ? 'Past 2 weeks' : span(0, 9)], ['second', atHome ? 'Next 2 weeks' : span(10, 19)], ['all', 'All 4 weeks']].map(([v, l]) => '<button type="button" data-range="'+v+'" aria-pressed="'+(range === v)+'">'+l+'</button>').join('');
+    $('#tp-today').disabled = atHome;
+    root.querySelectorAll('[data-lane]').forEach(b => b.setAttribute('aria-pressed', lanes.has(b.dataset.lane)));
+    const shown = new Map(); for (const e of all) if (e.day >= iso(days[0]) && e.day <= iso(days[days.length-1])) shown.set(e.t.id, e.t);
+    if (follow && !shown.has(follow)) follow = null;
+    $('#tp-follow').innerHTML = shown.size ? '<span class="micro">FOLLOW</span>'+[...shown.values()].map(t => '<button type="button" data-follow="'+esc(t.id)+'" aria-pressed="'+(follow === t.id)+'">'+esc(t.title)+'</button>').join('') : '';
+    let html = '<span class="tp-tl-corner"></span>'+days.map((d, i) => '<span class="tp-tl-day'+(iso(d) === now ? ' is-today' : '')+(Math.floor(i/5) % 2 ? ' is-alt' : '')+'"><b>'+fmt(d,{weekday:'short'})+'</b> '+fmt(d,{day:'numeric'})+(i % 5 === 0 ? ' '+fmt(d,{month:'short'}) : '')+'</span>').join('');
+    for (const [lane, name] of LANES) {
+      if (!lanes.has(lane)) continue;
+      html += '<span class="tp-tl-lane tp-tl-lane-'+lane+'">'+name+'</span>'+days.map((d, i) => {
+        const day = iso(d), here = all.filter(e => e.lane === lane && e.day === day);
+        let inner = here.map(e => '<button type="button" class="tp-mk tp-mk-'+lane+(follow && follow !== e.t.id ? ' is-dim' : '')+(selected === e.t.id ? ' is-sel' : '')+'" data-select="'+esc(e.t.id)+'" title="'+esc(e.t.title)+'" aria-label="'+name+': '+esc(e.t.title)+', '+fmt(d)+'">'+esc(brief(e.t.title))+'</button>').join('');
+        if (!here.length && lane === 'record' && [3,5].includes(d.getDay()) && day >= now) inner = '<button type="button" class="tp-mk tp-mk-open" data-book="'+day+'" aria-label="Book a recording for '+fmt(d)+'"'+(ready() ? '' : ' disabled')+'>+ Book</button>';
+        return '<span class="tp-tl-cell'+(Math.floor(i/5) % 2 ? ' is-alt' : '')+(!here.length && day < first && day < now ? ' is-nl' : '')+'">'+inner+'</span>';
+      }).join('');
     }
-    $('#tp-rows').innerHTML = html;
+    const before = days.filter(d => iso(d) < now).length, onDay = days.some(d => iso(d) === now);
+    const inside = now >= iso(days[0]) && now <= iso(add(days[days.length-1], 2));
+    if (inside) html += '<span class="tp-tl-now" style="--tl-k:'+(before + (onDay ? .5 : 0))+'" aria-hidden="true"></span>';
+    $('#tp-tl').style.setProperty('--tl-n', days.length);
+    $('#tp-tl').innerHTML = html;
+    $('#tp-tl').style.setProperty('--rows', 1 + LANES.filter(l => lanes.has(l[0])).length);
   }
+  // On narrow screens the timeline scrolls sideways; bring today into view when the screen opens.
+  function toToday() { const wrap = $('.tp-tl-wrap'), line = $('.tp-tl-now'); if (wrap && line && wrap.scrollWidth > wrap.clientWidth) wrap.scrollLeft = Math.max(0, line.offsetLeft - wrap.clientWidth * .5); }
   // The topic panel also lists booked days, so a clash can be resolved by swapping the two topics.
   function slotOptions(current, withBooked=false) {
     let slots = openSlots();
@@ -107,7 +116,7 @@
     if (!ready()) $('#tp-panel').querySelectorAll('input,select,textarea,button:not([data-act=close])').forEach(e => e.disabled = true);
   }
   function render() {
-    strip(); rows(); unscheduled(); panel();
+    timeline(); unscheduled(); panel();
     $('#topics-new').disabled = !ready();
     if (!ready()) status('Topics are saved on the app’s server. This preview shows the layout only.');
     else if ($('#tp-status').textContent.startsWith('Topics are saved')) status('');
@@ -116,9 +125,12 @@
     const t = event.target;
     const select = t.closest('[data-select]'); if (select) { selected = select.dataset.select; render(); $('#tp-panel').scrollIntoView({block:'nearest'}); $('#tp-f-title')?.focus(); return; }
     const book = t.closest('[data-book]'); if (book) { openPick('book', book.dataset.book); return; }
-    if (t.closest('#tp-prev')) { week = add(week, -7); render(); return; }
-    if (t.closest('#tp-next')) { week = add(week, 7); render(); return; }
-    if (t.closest('#tp-today')) { week = monday(today()); render(); $('#tp-prev').focus(); return; }
+    if (t.closest('#tp-prev')) { start = add(start, -14); render(); return; }
+    if (t.closest('#tp-next')) { start = add(start, 14); render(); return; }
+    if (t.closest('#tp-today')) { start = home(); range = 'all'; render(); $('#tp-prev').focus(); toToday(); return; }
+    const r = t.closest('[data-range]'); if (r) { range = r.dataset.range; render(); return; }
+    const lane = t.closest('[data-lane]'); if (lane) { if (lanes.has(lane.dataset.lane)) { if (lanes.size > 1) lanes.delete(lane.dataset.lane); } else lanes.add(lane.dataset.lane); render(); return; }
+    const f = t.closest('[data-follow]'); if (f) { follow = follow === f.dataset.follow ? null : f.dataset.follow; render(); return; }
     if (t.closest('#topics-new')) { openPick('new'); return; }
     const act = t.closest('[data-act]')?.dataset.act;
     const topic = topics().find(x => x.id === selected);
@@ -186,6 +198,6 @@
     finally { button.disabled = false; }
   });
   window.addEventListener('ww:data', render);
-  window.addEventListener('ww:route', event => { if (event.detail[0] === 'schedule') render(); });
+  window.addEventListener('ww:route', event => { if (event.detail[0] === 'schedule') { render(); requestAnimationFrame(toToday); } });
   render();
 })();
