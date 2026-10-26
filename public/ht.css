@@ -228,6 +228,22 @@
 #canvas .revealed .ht-done svg{--len:40;animation:ht-draw 400ms ease-out 1300ms both}
 .ht-one{font:600 clamp(24px,2.4vw,34px)/1.35 var(--heading),sans-serif;margin:0;padding-left:22px;border-left:6px solid #f6df8c}
 
+/* 18 live examples: wipe the board (approved in round 2) */
+#canvas:has(.parts.ht-live){position:relative;background:repeating-linear-gradient(0deg,transparent 0 47px,#f1eee8 47px 48px)}
+#canvas:has(.parts.ht-live) h2{font:700 clamp(54px,6.6vw,104px)/1.05 WWHand,cursive;letter-spacing:0;margin-top:40px;animation:ht-wipe 1300ms steps(26) 2400ms backwards}
+#canvas:has(.parts.ht-live) h2:after{width:min(520px,60%);height:5px;transform-origin:left;animation:ht-grow 600ms ease-out 3700ms backwards}
+.parts.ht-live{grid-template-columns:1fr}
+.parts.ht-live .part:first-child{position:absolute;inset:40px 0 auto 0;padding:0;pointer-events:none}
+#canvas .parts.ht-live .part:first-child.revealed{animation:none}
+.ht-wipeboard{position:relative;overflow:hidden;padding:24px 4px}
+.ht-wb-notes{display:grid;grid-template-columns:repeat(5,1fr);gap:20px;opacity:0}
+.ht-wb-note{background:#f6df8c;padding:20px 16px;min-height:130px;font:700 clamp(22px,2.2vw,30px)/1.12 WWHand,cursive;transform:rotate(var(--r));box-shadow:0 10px 14px rgba(28,26,23,.14)}
+#canvas .revealed .ht-wb-notes{animation:ht-gone 2600ms linear both}
+@keyframes ht-gone{0%,45%{opacity:1;clip-path:inset(-20px -20px -20px -20px)}80%{opacity:1;clip-path:inset(-20px -20px -20px 100%)}100%{opacity:0;clip-path:inset(-20px -20px -20px 100%)}}
+.ht-eraser{position:absolute;top:0;bottom:0;width:120px;left:-140px;background:linear-gradient(90deg,rgba(139,96,2,0),rgba(139,96,2,.35) 40%,var(--accent));border-radius:16px;opacity:0}
+#canvas .revealed .ht-eraser{animation:ht-erase 1100ms ease-in-out 1150ms both}
+@keyframes ht-erase{0%{left:-140px;opacity:1}90%{opacity:1}100%{left:calc(100% + 20px);opacity:0}}
+.ht-live-line{font:500 clamp(22px,2.4vw,34px)/1.35 var(--heading),sans-serif;color:var(--muted);margin:0;max-width:900px}
 @media(max-width:1100px) and (min-width:701px){
  .ht-ex-grid{grid-template-columns:1fr 1fr}
  .parts.ht-sticky{grid-template-columns:repeat(3,1fr)}
@@ -281,6 +297,8 @@
  .parts.ht-split .part:nth-child(2){border-left:0;border-top:4px solid var(--ink)}
  .ht-placeholder{max-width:none;padding:24px}
  .ht-ex-grid{grid-template-columns:1fr;gap:16px}
+ .ht-wb-notes{grid-template-columns:1fr 1fr;gap:12px}
+ .ht-wb-note{min-height:0;padding:12px;font-size:20px}
  #canvas:has(.parts.ht-examples) .parts .part:nth-child(2){max-width:none}
  .parts.ht-invite{grid-template-columns:1fr}
  .ht-card-body{grid-template-columns:1fr}
@@ -289,6 +307,7 @@
 @media(prefers-reduced-motion:reduce){
  #canvas .parts[class*="ht-"] .part.revealed,#canvas .parts[class*="ht-"] .part.revealed:before,#canvas .parts[class*="ht-"] .revealed *,#canvas:has(.parts[class*="ht-"]) h2,#canvas:has(.parts[class*="ht-"]) h2:after,.ht-tabs li.on{animation:none!important}
  #canvas .parts[class*="ht-"] .part.revealed:before{display:none}
+ .ht-wipeboard{display:none}
  .ht-typed{width:auto}
  .ht-page{transition:none}
 }
@@ -304,4 +323,5 @@
 .ht-reading .ht-typed{width:calc(var(--c)*1ch)}
 .ht-reading .ht-tabs{display:none}
 .ht-reading .ht-placeholder{max-width:none}
+.ht-reading .ht-wipeboard{display:none}
 .ht-reading .parts.ht-ch-tab .part:first-child{display:none}
