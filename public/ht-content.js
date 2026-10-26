@@ -224,6 +224,19 @@ window.WW={
    source:'Taylor’s framework, from the video brief of 20 October 2026.',
    note:'About 30 seconds. The card is the thing to screenshot. SAY: “Next time you open AI and think, what do I say? Don’t look for the answer. Ask these five questions.” Second click, slowly: “You don’t need to know the answer. You need to know the questions.”'
   }
+  ,{
+   id:'live',
+   title:'Now let’s get into live examples.',
+   section:'05 / Live examples',
+   kind:'ht-live ht-e-zoom',
+   parts:[
+    '<div class="ht-wipeboard" aria-hidden="true"><div class="ht-wb-notes">'+Q.map((q,i)=>'<div class="ht-wb-note" style="--r:'+[-3,2,-2,3,-1][i]+'deg">'+q[1]+'</div>').join('')+'</div><i class="ht-eraser"></i></div>',
+    '<p class="ht-live-line">Nothing has been pre-planned. No frameworks are going to be used.</p>'
+   ],
+   reveals:[0,1],
+   source:'Live segment. Nothing is pre-planned and no examples are claimed on this slide.',
+   note:'About 15 seconds, then go live. The five question notes sit on the board, a gold eraser wipes them away and the headline writes itself on. SAY: “Now let’s get into live examples.” Click: “Nothing has been pre-planned. No frameworks are going to be used.” Then leave the deck and work live.'
+  }
  ]
 };
 })();
