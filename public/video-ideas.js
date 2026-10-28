@@ -185,7 +185,7 @@
       dialog.showModal();
     });
   }
-  // Shared with Topics, Post & Record and the creator page so every screen uses one data load and one request helper.
+  // Shared with Topics, Schedule and the creator page so every screen uses one data load and one request helper.
   window.WWIdeas = {api, esc, ask, thumb, spark, topicsFor, get data() { return data; }, reload: () => load(), openTopicDialog};
   load(location.hash.startsWith('#/watchlist') || location.hash.startsWith('#/video-ideas'));
 })();

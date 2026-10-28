@@ -1,4 +1,4 @@
-/* Post & Record: recording and posting schedules on a four-week timeline, built on PROCESS.md (16 October 2026).
+/* Schedule (renamed from Post & Record on 28 October 2026): recording and posting schedules on a four-week timeline, built on PROCESS.md (16 October 2026).
    Monday plan and slides, Tuesday post and edit, Wednesday record, Thursday edit, Friday record. */
 (() => {
   'use strict';
