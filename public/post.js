@@ -58,18 +58,19 @@
   function tile(t, i) {
     const lines = t.headline.split('\n').map(l => esc(l).replace(new RegExp('('+t.highlight.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')+')', 'i'), '<mark>$1</mark>'));
     const stick = (t.stickers || []).slice(0, 2).map((s, k) => '<span class="po-st po-st'+k+(s.type === 'mark' ? ' po-st-mark' : '')+'" aria-hidden="true">'+esc(s.text)+'</span>').join('');
-    return '<div class="po-tc'+(win === i ? ' po-won' : '')+'"><div class="po-tile po-bg-'+esc(t.bg)+' po-f-'+esc(t.font)+' po-m-'+esc(t.mark)+'" style="--acc:'+esc(t.accent || '#8B6002')+';--hc:'+esc(t.color || '#1C1A17')+'" role="img" aria-label="Thumbnail '+(i+1)+': '+esc(t.headline.replace('\n', ' '))+'">'+
+    return '<div class="po-tc'+(win === i ? ' po-won' : '')+'"><div class="po-tile po-bg-'+esc(t.bg)+' po-f-'+esc(t.font)+' po-m-'+esc(t.mark)+'" style="--acc:'+esc(t.accent || '#8B6002')+';--hc:'+esc(t.color || '#1C1A17')+';--bfg:'+boxText(t.accent)+'" role="img" aria-label="Thumbnail '+(i+1)+': '+esc(t.headline.replace('\n', ' '))+'">'+
       '<i class="po-face" style="'+(frames[i] ? 'background-image:url('+frames[i]+')' : '')+'"></i><b>'+lines.join('<br>')+'</b>'+stick+'</div>'+
       '<label class="po-win"><input type="radio" name="po-win" value="'+i+'"'+(win === i ? ' checked' : '')+' data-win="'+i+'"><span class="po-bub" aria-hidden="true"></span>'+(win === i ? 'Winner' : 'Pick')+'</label>'+
       '<small class="po-axes">'+esc([t.theme, t.bg.replace('-', ' '), t.font, t.mark].join(' · '))+'</small></div>';
   }
   // Re-rendering replaces the controls, so put keyboard focus back on the same control afterwards.
-  const KEEP = ['data-pick','data-gen','data-thumbs','data-more','data-first','data-win','data-copy','data-remove'];
+  const KEEP = ['data-pick','data-gen','data-thumbs','data-more','data-round1','data-win','data-copy','data-remove'];
+  const NEXT = {'data-more':'[data-round1]', 'data-round1':'[data-more]', 'data-remove':null};
   function render() {
     const a = root.contains(document.activeElement) ? document.activeElement : null;
     const name = a && KEEP.find(n => a.hasAttribute(n)), keep = name && '['+name+(a.getAttribute(name) ? '="'+a.getAttribute(name)+'"' : '')+']';
     draw();
-    const back = keep && (root.querySelector(keep) || (name === 'data-remove' && root.querySelector('[data-pick="'+a.getAttribute(name)+'"]')));
+    const back = keep && (root.querySelector(keep) || (name === 'data-remove' ? root.querySelector('[data-pick="'+a.getAttribute(name)+'"]') : NEXT[name] && root.querySelector(NEXT[name])) || root.querySelector('[data-win]'));
     if (back) back.focus({preventScroll:true});
   }
   function draw() {
@@ -85,7 +86,7 @@
       '<button type="button" class="po-btn po-btn-ghost po-big" data-thumbs'+(pkg?.thumbnails?.length ? '' : ' disabled')+'>Generate thumbnail</button><small>Uses '+esc(pkg?.skills?.thumb || 'Thumbnail Tracker')+' · five at a time</small></div>'+
       '<p class="po-status" role="status">'+(failed ? 'The saved posts could not be loaded. Check your connection and reload.' : !pkg ? 'No posts are saved yet. Ask Claude to package the next video with Performance Poster and Thumbnail Tracker, and they will appear here.' : '')+'</p>'+
       (shown && ready ? '<h2 class="po-h2"><span class="micro">02</span> Generated posts</h2><p class="po-note">Written by Claude with '+esc(pkg.skills.post)+' and checked with its checker before saving. '+esc(pkg.source || '')+'</p>'+['youtube','linkedin','instagram'].map(block).join('') : '')+
-      (round >= 0 ? '<div class="po-thead"><h2 class="po-h2"><span class="micro">03</span> Thumbnail</h2>'+(round < pkg.thumbnails.length - 1 ? '<button type="button" class="po-link" data-more>Generate 5 more</button>' : '<span class="po-last">Last saved round ('+(round+1)+' of '+pkg.thumbnails.length+'). Ask Claude for another round with Thumbnail Tracker.</span>'+(round > 0 ? ' <button type="button" class="po-link" data-first>Back to round 1</button>' : ''))+'</div><p class="po-note">'+esc(pkg.skills.thumb)+' variety pack: 3 light and 2 dark backgrounds, different typefaces and marks, with and without emoji ('+esc((pkg.varietyCheck || [])[round] || 'not checked')+').'+(files.youtube ? ' Faces are frames from your YouTube video.' : ' Upload the YouTube video to use its frames.')+'</p><div class="po-tiles">'+pkg.thumbnails[round].map(tile).join('')+'</div>'+(win !== null ? '<button type="button" class="po-btn po-btn-ghost" data-dl>Download winner (1280×720 PNG)</button>' : '') : '')+
+      (round >= 0 ? '<div class="po-thead"><h2 class="po-h2"><span class="micro">03</span> Thumbnail</h2>'+(round < pkg.thumbnails.length - 1 ? '<button type="button" class="po-link" data-more>Generate 5 more</button>' : '<span class="po-last">Last saved round ('+(round+1)+' of '+pkg.thumbnails.length+'). Ask Claude for another round with Thumbnail Tracker.</span>'+(round > 0 ? ' <button type="button" class="po-link" data-round1>Back to round 1</button>' : ''))+'</div><p class="po-note">'+esc(pkg.skills.thumb)+' variety pack: 3 light and 2 dark backgrounds, different typefaces and marks, with and without emoji ('+esc((pkg.varietyCheck || [])[round] || 'not checked')+').'+(files.youtube ? ' Faces are frames from your YouTube video.' : ' Upload the YouTube video to use its frames.')+'</p><div class="po-tiles">'+pkg.thumbnails[round].map(tile).join('')+'</div>'+(win !== null ? '<button type="button" class="po-btn po-btn-ghost" data-dl>Download winner (1280×720 PNG)</button>' : '') : '')+
       '<dialog class="po-dialog" aria-labelledby="po-dh"></dialog>';
     renderSkills();
   }
@@ -140,20 +141,23 @@
     lines.forEach((line, n) => {
       const y = top + n * s * 1.05, at = line.toUpperCase().indexOf(t.highlight.toUpperCase());
       const pre = at >= 0 ? line.slice(0, at) : line, word = at >= 0 ? line.slice(at, at + t.highlight.length) : '', post = at >= 0 ? line.slice(at + t.highlight.length) : '';
-      let px = 40; x.fillStyle = t.color || (dark ? '#FFFFFF' : '#1C1A17'); x.fillText(pre, px, y); px += x.measureText(pre).width;
+      const heavy = ['condensed','sans'].includes(t.font), put = (str, at) => { x.fillText(str, at, y); if (heavy) { x.lineWidth = s * .035; x.strokeStyle = x.fillStyle; x.lineJoin = 'round'; x.strokeText(str, at, y); } };
+      let px = 40; x.fillStyle = t.color || (dark ? '#FFFFFF' : '#1C1A17'); put(pre, px); px += x.measureText(pre).width;
       if (word) {
         const w = x.measureText(word).width;
-        if (t.mark === 'box') { x.fillStyle = t.accent || '#F6DF8C'; x.fillRect(px - 8, y - s * .82, w + 16, s * .98); x.fillStyle = '#1C1A17'; }
+        if (t.mark === 'box') { x.fillStyle = t.accent || '#F6DF8C'; x.fillRect(px - 8, y - s * .82, w + 16, s * .98); x.fillStyle = boxText(t.accent); }
         else if (t.mark === 'color') x.fillStyle = t.accent || '#8B6002';
-        x.fillText(word, px, y);
+        put(word, px);
         if (t.mark === 'underline') { x.fillStyle = t.accent || '#8B6002'; x.fillRect(px, y + s * .1, w, Math.max(6, s * .07)); }
         px += w; x.fillStyle = t.color || (dark ? '#FFFFFF' : '#1C1A17');
       }
-      x.fillText(post, px, y);
+      put(post, px);
     });
     (t.stickers || []).slice(0, 2).forEach((st, k) => { const [sx, sy] = k ? [640, 130] : [1150, 660]; if (st.type === 'mark') { x.font = '800 110px WWBody,Arial,sans-serif'; x.fillStyle = t.accent || '#8B6002'; } else x.font = '96px sans-serif'; x.fillText(st.text, sx, sy); });
     c.toBlob(b => save(b, 'YouTube-thumbnail-1280x720.png'), 'image/png');
   }
+  // Ink on a light box, white on a dark one, matching the tile.
+  function boxText(accent) { const h = String(accent || '#F6DF8C').replace('#', ''), v = [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); return v[0]*.299 + v[1]*.587 + v[2]*.114 > 150 ? '#1C1A17' : '#FFFFFF'; }
   function save(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
   const textOf = key => root.querySelector('[data-text="'+key+'"]')?.innerText.trim() ?? (pkg.platforms[key].body+'\n\n'+pkg.platforms[key].tags);
   async function copy(text, key, what) {
@@ -178,7 +182,7 @@
     if (b.hasAttribute('data-gen')) { shown = true; render(); root.querySelector('.po-block')?.scrollIntoView({block:'nearest'}); return; }
     if (b.hasAttribute('data-thumbs')) { if (round < 0) return thumbs(0); root.querySelector('.po-tiles')?.scrollIntoView({block:'nearest'}); return; }
     if (b.hasAttribute('data-more')) return thumbs(round + 1);
-    if (b.hasAttribute('data-first')) return thumbs(0);
+    if (b.hasAttribute('data-round1')) return thumbs(0);
     if (b.hasAttribute('data-remove')) { const k = b.dataset.remove; URL.revokeObjectURL(files[k].url); delete files[k]; if (k === 'youtube') frames = []; return render(); }
     if (b.hasAttribute('data-copy')) return copy(textOf(b.dataset.copy), b.dataset.copy, pkg.platforms[b.dataset.copy].kind);
     if (b.hasAttribute('data-copy-first')) return copy(pkg.platforms[b.dataset.copyFirst].firstComment, b.dataset.copyFirst, 'First comment');
@@ -201,6 +205,7 @@
     if (t.matches('[data-skill-use]') && db) { try { await db.collection('skills').doc(t.dataset.skillUse).update({use:t.value}); } catch { status('That change could not be saved. Please try again.'); } }
   });
   root.addEventListener('input', e => { const k = e.target.dataset?.text; if (k && edited[k] === undefined) { edited[k] = ''; const flag = e.target.parentElement.querySelector('.po-check'); if (flag && !flag.querySelector('.po-flag')) flag.insertAdjacentHTML('beforeend', ' <span class="po-flag">Edited since the check</span>'); } if (k) edited[k] = e.target.innerText; });
+  root.addEventListener('focusout', e => { const s = root.querySelector('#po-skills'); if (s && !s.hidden && s.contains(e.target) && e.relatedTarget && !s.contains(e.relatedTarget) && !e.relatedTarget.closest('.po-cog')) { s.hidden = true; root.querySelector('.po-cog').setAttribute('aria-expanded', 'false'); } });
   root.addEventListener('keydown', e => { if (e.key === 'Escape' && !root.querySelector('#po-skills')?.hidden && !root.querySelector('.po-dialog')?.open) { e.preventDefault(); cog(false); } });
   root.addEventListener('dragover', e => { const z = e.target.closest('.po-up'); if (z) { e.preventDefault(); z.classList.add('po-over'); } });
   root.addEventListener('dragleave', e => { e.target.closest('.po-up')?.classList.remove('po-over'); });
