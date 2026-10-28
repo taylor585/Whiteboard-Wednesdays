@@ -12,8 +12,8 @@ The shared GitHub repository is https://github.com/taylor585/Whiteboard-Wednesda
 The header uses plain text tabs and a thin dark underline, as selected on 12 October 2026. Do not restore the icon pills.
 The Video ideas integration awaits Google API approval and a server-side key. Do not claim live YouTube retrieval works until it is connected and tested.
 Design changes can be made without access to the private hosted app: run the public/ static preview or the full local server.
-The weekly production process (planning, slides, recording, editing, posting) is in PROCESS.md, updated 16 October 2026. Plan the Topics and Post & Record screens around it.
-Navigation since 26 October 2026: Presentations · Creator watchlist (`#/watchlist`, the W2-B upload inbox) · Topics (`#/topics`, BC: creator database and idea board with Recording and Posting schedules side by side) · Post & Record (`#/schedule`, the S-C four-week timeline with P-C calendar-lens filters). Each creator has a page at `#/creator/@handle` (C-A). On phones the tab row scrolls sideways inside itself.
+The weekly production process (planning, slides, recording, editing, posting) is in PROCESS.md, updated 16 October 2026. Plan the Topics and Schedule screens around it.
+Navigation since 28 October 2026: Presentations · Creator watchlist (`#/watchlist`, the W2-B upload inbox) · Topics (`#/topics`, BC: creator database and idea board with Recording and Posting schedules side by side) · Schedule (`#/schedule`, renamed from Post & Record on 28 October; the S-C four-week timeline with P-C calendar-lens filters). Taylor cancelled the black and gold rebrand on 28 October 2026: keep the approved white design. Each creator has a page at `#/creator/@handle` (C-A). On phones the tab row scrolls sideways inside itself.
 
 
 ## Hosting decision: 24 October 2026
