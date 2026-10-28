@@ -130,6 +130,5 @@
     fail('Adding and refreshing creators needs the YouTube connection, which this Claude page does not have.', 503);
   }
   const api = {call, get topics() { return sorted(); }};
-  // The Post screen keeps its list of skills in the same database.
-  window.WWStore = {connect, db: () => db};
+  window.WWStore = {connect};
 })();

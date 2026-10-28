@@ -42,14 +42,12 @@ Use the Creator watchlist’s simple Instrument Sans heading style across the ap
 
 ## Where to edit
 
-- `public/index.html`: application header, navigation, Creator watchlist, Topics, Schedule and Post markup.
+- `public/index.html`: application header, navigation, Creator watchlist, Topics and Schedule markup.
 - `public/library.css`, `public/library.js`: library styling, routing and presentation shell.
 - `public/video-ideas.css`, `public/video-ideas.js`: Creator watchlist (`#/watchlist`), the upload inbox (Taylor's pick W2-B, 26 October 2026): creators by name, uploads grouped by week, Spark a topic, Seen (kept in this browser only) and the Topics tray.
 - `public/brainstorm.css`, `public/brainstorm.js`: Topics tab (`#/topics`), creators and ideas (Taylor's pick BC, 26 October 2026): the creator database with a profile and private note, then Sparks, Shortlist, Recording schedule and Posting schedule side by side.
 - `public/creator.css`, `public/creator.js`: creator page (`#/creator/@handle`, Taylor's pick C-A): channel banner, upload rhythm, latest uploads with Spark a topic, and the private note. Stats only come from stored uploads.
 - `public/topics.css`, `public/topics.js`: Schedule tab (`#/schedule`, renamed from Post & Record on 28 October 2026), a four-week recording and posting timeline with calendar-lens filters (Taylor's picks S-C and P-C, 26 October 2026), the topic panel and the not-scheduled list, built on PROCESS.md.
-- `public/post.css`, `public/post.js`: Post tab (`#/post`, Taylor's pick P-A, 28 October 2026). Upload the YouTube, LinkedIn and Instagram videos (they stay on the device), then show the posts and thumbnails saved in `public/post-packages.json`: each platform with its video, title, checked caption, hashtags and Copy, a five-thumbnail variety round with winner bubbles and a 1280×720 PNG download, the skills cog and Post all (a review and download; nothing is posted).
-- `public/post-packages.json`, `scripts/build-post-package.py`: the post vault. Claude Code writes each video's posts with Performance Poster and plans its thumbnails with Thumbnail Tracker, then runs `SKILLS_DIR=<skills folder> python3 scripts/build-post-package.py <work folder> public/post-packages.json`, which stores the checker's own counts. The app never generates or posts on its own.
 - `public/ww-store.js`: when the app runs as a Claude artifact with no server, topics and creator notes are saved in the artifact's own database (collections `topics` and `creatorNotes`).
 - `public/presentations.js`: presentation register.
 - `public/whiteboard-content.js`, `public/lge-content.js`, `public/vb-content.js`, `public/ah-content.js`, `public/gv-content.js`: presentation content (paid ads, Lead Gen Engine, Vision Boards, AI Harnesses, Grok Voice).
