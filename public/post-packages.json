@@ -1,0 +1,323 @@
+{
+ "about": "Packages written by Claude Code with Performance Poster and Thumbnail Tracker. The Post screen shows them; it never generates or posts on its own.",
+ "packages": [
+  {
+   "id": "grok-bot-power",
+   "deck": "grok-bot-power",
+   "title": "How Good Is Grok Bot Really?",
+   "postDate": "2026-10-29",
+   "recorded": "2026-10-23",
+   "toFill": {
+    "youtube": [
+     "booking link",
+     "3 chapter times",
+     "YouTube link once live"
+    ],
+    "linkedin": [
+     "YouTube link in the first comment"
+    ],
+    "instagram": []
+   },
+   "skills": {
+    "post": "Performance Poster 1.2.1",
+    "thumb": "Thumbnail Tracker 3.1"
+   },
+   "source": "Figures come from the deck's speaker notes. Check them against the recording before posting.",
+   "specs": [
+    "thumb-spec.json",
+    "thumb-spec2.json"
+   ],
+   "platforms": {
+    "youtube": {
+     "label": "YouTube",
+     "kind": "Description",
+     "heading": "How Good Is Grok Bot Really?",
+     "body": "Want to chat? Give me a message on WhatsApp. This is my personal number 👉 https://pecunafactorem.com/contact\n\nGrok Bot runs 28 jobs across two live businesses I own. Here are the 10 worth copying.\n\nIn this Whiteboard Wednesdays I count down the jobs it does every day: calling and testing our AI sales reps, emailing 150 businesses every weekday, spotting warm leads and upgrading a website on its own. And why it still asks my permission before anything public.\n\nWant this built for your business? Book a call: [BOOKING LINK]\n\nWhat you'll learn:\n\n• How our two AI sales reps, Charlotte and Madison, make real calls, always say they're AI and look up approved answers mid-call\n\n• What a full-time AI rep costs: about £752 a month, or about £377 realistically\n\n• How 3 test calls each morning at 7 score every answer out of 100 and queue fixes for my yes\n\n• How a free check that scored our own site 62 turns into the hook for a whole business\n\n• How 150 emails every weekday found 5 warm leads on 22 October\n\n• How the site upgrades itself: 14 new industry pages in one go, from 6 industries to 20\n\n• Why nothing public goes out without my yes\n\nChapters\n\n0:00 How powerful is Grok Bot really?\n\nX:XX Tuned Reps: it makes the calls\n\nX:XX GPT Visibility: it runs a business\n\nX:XX You stay the boss\n\nHow we can help\n\nIf you'd like an AI bot built to run jobs like these in your business, safely and with your sign-off on anything public, get in touch:\n\nhttps://pecunafactorem.com/contact\n\nTry the free check: https://gptvisibility.co.uk/check\n\nPecuna Factorem: https://pecunafactorem.com",
+     "tags": "#AIStrategy #BusinessAutomation",
+     "check": {
+      "pass": 22,
+      "warn": 2,
+      "fail": 0,
+      "warnings": [
+       "Chapter times to fill: 3 chapters still X:XX",
+       "Placeholders left to fill: X:XX, [BOOKING LINK]"
+      ]
+     },
+     "titleCheck": {
+      "pass": 13,
+      "warn": 0,
+      "fail": 0,
+      "warnings": []
+     }
+    },
+    "linkedin": {
+     "label": "LinkedIn",
+     "kind": "Post",
+     "heading": "What does an AI bot actually run in a real business, day to day?",
+     "body": "What does an AI bot actually run in a real business, day to day?\n\nI counted. 28 jobs across two businesses I own, and 10 are worth copying.\n\nSeven in the morning, it test-calls our AI sales reps and scores every answer out of 100 against the wording I approved. At nine, it emails 150 businesses. In the afternoon it ships fixes and new pages to the website. At four, it follows up the people who showed interest.\n\nA few that matter most:\n\n→ Two AI sales reps that make real calls, say they're AI and look up approved answers mid-call\n→ A full-time rep for about £752 a month, about £377 realistically\n→ 150 emails every weekday, which found 5 warm leads on 22 October\n→ 14 new industry pages in one go, built and put live on its own\n\nAnd the part that makes it safe: anything public waits for my yes. Emails, guides and fixes run on their own. Posts, outreach changes and new wording for the reps do not.\n\nThe full countdown is in the video, link in the first comment.\n\nWhich job would you hand to a bot first?",
+     "tags": "#AIStrategy #BusinessAutomation",
+     "firstComment": "Full countdown, all 10 jobs: [YOUTUBE LINK]",
+     "check": {
+      "pass": 16,
+      "warn": 1,
+      "fail": 0,
+      "warnings": [
+       "Spelled-out numbers traced: check these by hand: four, nine"
+      ]
+     }
+    },
+    "instagram": {
+     "label": "Instagram Reel",
+     "kind": "Caption",
+     "heading": "Grok Bot runs 28 jobs across two businesses I own.",
+     "body": "Grok Bot runs 28 jobs across two businesses I own.\n\nIt test-calls our AI sales reps every morning, emails 150 businesses every weekday and upgrades the website on its own.\n\nBut anything public still waits for my yes.\n\nFull countdown on YouTube, link in bio.",
+     "tags": "#BusinessAutomation #AIStrategy #EnterpriseAI",
+     "check": {
+      "pass": 14,
+      "warn": 3,
+      "fail": 0,
+      "warnings": [
+       "#BusinessAutomation audited TEST on instagram: Operators automating their own business (IBM, consultants, service businesses); few aspirants.",
+       "#AIStrategy audited TEST on instagram: YouTube page checked by hand (26 Oct): CXOTalk (Citi, Fortune 500 advisers), Thomson Reuters, \"AI strategy that drives real business outcomes\": leaders. Use on videos about planning AI work in a business.",
+       "#EnterpriseAI audited TEST on instagram: Page led by CXOTalk, McKinsey, VentureBeat, Palo Alto Networks: executives and IT leaders. Use only when the video is about AI in a business, not a hobby build."
+      ]
+     }
+    }
+   },
+   "thumbnails": [
+    [
+     {
+      "id": "GB1-white-caps-underline",
+      "theme": "light",
+      "bg": "paper-grid",
+      "font": "condensed",
+      "headline": "IT RUNS\nMY BUSINESS",
+      "highlight": "BUSINESS",
+      "mark": "underline",
+      "accent": "#B3261E",
+      "color": "#1C1A17",
+      "stickers": [
+       {
+        "type": "emoji",
+        "text": "🔥"
+       },
+       {
+        "type": "mark",
+        "text": "!"
+       },
+       {
+        "type": "mark",
+        "text": "!"
+       },
+       {
+        "type": "emoji",
+        "text": "🔥"
+       }
+      ]
+     },
+     {
+      "id": "GB2-yellow-title-box",
+      "theme": "light",
+      "bg": "brand-yellow",
+      "font": "sans",
+      "headline": "It runs\nmy business!",
+      "highlight": "business",
+      "mark": "box",
+      "accent": "#1C1A17",
+      "color": "#1C1A17",
+      "stickers": [
+       {
+        "type": "emoji",
+        "text": "🔥"
+       },
+       {
+        "type": "mark",
+        "text": "!"
+       },
+       {
+        "type": "emoji",
+        "text": "🔥"
+       }
+      ]
+     },
+     {
+      "id": "GB3-cream-marker-colour",
+      "theme": "light",
+      "bg": "cream-grid",
+      "font": "marker",
+      "headline": "IT RUNS\nMY BUSINESS?!",
+      "highlight": "BUSINESS?!",
+      "mark": "color",
+      "accent": "#B3261E",
+      "color": "#1C1A17",
+      "stickers": [
+       {
+        "type": "mark",
+        "text": "!"
+       },
+       {
+        "type": "mark",
+        "text": "!"
+       }
+      ]
+     },
+     {
+      "id": "GB4-black-caps-box",
+      "theme": "dark",
+      "bg": "black-glow",
+      "font": "condensed",
+      "headline": "IT RUNS\nMY BUSINESS",
+      "highlight": "BUSINESS",
+      "mark": "box",
+      "accent": "#F6DF8C",
+      "color": "#FFFFFF",
+      "stickers": []
+     },
+     {
+      "id": "GB5-black-serif-underline",
+      "theme": "dark",
+      "bg": "black-spotlight",
+      "font": "serif",
+      "headline": "It runs\nmy business!",
+      "highlight": "my business!",
+      "mark": "underline",
+      "accent": "#CB8E03",
+      "color": "#F5EAD8",
+      "stickers": [
+       {
+        "type": "emoji",
+        "text": "🔥"
+       },
+       {
+        "type": "emoji",
+        "text": "🚀"
+       },
+       {
+        "type": "mark",
+        "text": "!"
+       }
+      ]
+     }
+    ],
+    [
+     {
+      "id": "GC1-white-caps-underline",
+      "theme": "light",
+      "bg": "paper-grid",
+      "font": "condensed",
+      "headline": "28 JOBS,\nONE BOT",
+      "highlight": "BOT",
+      "mark": "underline",
+      "accent": "#B3261E",
+      "color": "#1C1A17",
+      "stickers": [
+       {
+        "type": "emoji",
+        "text": "👀"
+       },
+       {
+        "type": "mark",
+        "text": "→"
+       },
+       {
+        "type": "mark",
+        "text": "→"
+       },
+       {
+        "type": "emoji",
+        "text": "👀"
+       }
+      ]
+     },
+     {
+      "id": "GC2-yellow-title-box",
+      "theme": "light",
+      "bg": "brand-yellow",
+      "font": "sans",
+      "headline": "28 jobs,\none bot.",
+      "highlight": "bot",
+      "mark": "box",
+      "accent": "#1C1A17",
+      "color": "#1C1A17",
+      "stickers": [
+       {
+        "type": "emoji",
+        "text": "👀"
+       },
+       {
+        "type": "mark",
+        "text": "→"
+       },
+       {
+        "type": "emoji",
+        "text": "👀"
+       }
+      ]
+     },
+     {
+      "id": "GC3-cream-marker-colour",
+      "theme": "light",
+      "bg": "cream-grid",
+      "font": "marker",
+      "headline": "28 JOBS,\nONE BOT?!",
+      "highlight": "BOT?!",
+      "mark": "color",
+      "accent": "#B3261E",
+      "color": "#1C1A17",
+      "stickers": [
+       {
+        "type": "mark",
+        "text": "→"
+       },
+       {
+        "type": "mark",
+        "text": "→"
+       }
+      ]
+     },
+     {
+      "id": "GC4-black-caps-box",
+      "theme": "dark",
+      "bg": "black-glow",
+      "font": "condensed",
+      "headline": "28 JOBS,\nONE BOT",
+      "highlight": "BOT",
+      "mark": "box",
+      "accent": "#F6DF8C",
+      "color": "#FFFFFF",
+      "stickers": []
+     },
+     {
+      "id": "GC5-black-serif-underline",
+      "theme": "dark",
+      "bg": "black-spotlight",
+      "font": "serif",
+      "headline": "28 jobs,\none bot→",
+      "highlight": "one bot→",
+      "mark": "underline",
+      "accent": "#CB8E03",
+      "color": "#F5EAD8",
+      "stickers": [
+       {
+        "type": "emoji",
+        "text": "👀"
+       },
+       {
+        "type": "emoji",
+        "text": "✅"
+       },
+       {
+        "type": "mark",
+        "text": "→"
+       }
+      ]
+     }
+    ]
+   ],
+   "varietyCheck": [
+    "variety: 7 pass, 0 warn, 0 fail",
+    "variety: 7 pass, 0 warn, 0 fail"
+   ]
+  }
+ ]
+}

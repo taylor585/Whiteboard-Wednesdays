@@ -1,8 +1,8 @@
 <!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Whiteboard Wednesdays</title><meta name="description" content="A private library of interactive presentations."><link rel="stylesheet" href="whiteboard.css"><link rel="stylesheet" href="library.css"><link rel="stylesheet" href="lge.css">
 <link rel="stylesheet" href="vb.css">
 <link rel="stylesheet" href="ah.css"><link rel="stylesheet" href="gv.css"><link rel="stylesheet" href="fp.css"><link rel="stylesheet" href="ht.css"><link rel="stylesheet" href="gb.css"><link rel="stylesheet" href="video-ideas.css">
-<link rel="stylesheet" href="topics.css"><link rel="stylesheet" href="brainstorm.css"><link rel="stylesheet" href="creator.css"><script src="ww-store.js" defer></script><script src="video-ideas.js" defer></script>
-<script src="topics.js" defer></script><script src="brainstorm.js" defer></script><script src="creator.js" defer></script><script src="presentations.js" defer></script><script src="library.js" defer></script><script src="lge-prompt.js" defer></script>
+<link rel="stylesheet" href="topics.css"><link rel="stylesheet" href="brainstorm.css"><link rel="stylesheet" href="creator.css"><link rel="stylesheet" href="post.css"><script src="ww-store.js" defer></script><script src="video-ideas.js" defer></script>
+<script src="topics.js" defer></script><script src="brainstorm.js" defer></script><script src="creator.js" defer></script><script src="post.js" defer></script><script src="presentations.js" defer></script><script src="library.js" defer></script><script src="lge-prompt.js" defer></script>
 <script src="vb.js" defer></script><script src="fp.js" defer></script><script src="gb.js" defer></script></head><body>
 <a class="skip" href="#canvas">Skip to content</a>
 <header class="site-header"><a href="#/library" class="site-name">Whiteboard<br><b>Wednesdays</b><span class="micro">PRESENTATION LIBRARY</span></a><div class="header-actions"><button id="library-button">Library</button><button id="brand-button" hidden>Preview branding</button><button id="fullscreen" hidden>Present full screen</button></div></header>
@@ -11,6 +11,7 @@
 <a id="nav-ideas" href="#/watchlist"><span>Creator watchlist</span></a>
 <a id="nav-topics" href="#/topics"><span>Topics</span></a>
 <a id="nav-schedule" href="#/schedule"><span>Schedule</span></a>
+<a id="nav-post" href="#/post"><span>Post</span></a>
 </nav>
 <div class="tabs-wrap" hidden><nav id="presentation-tabs" role="tablist" aria-label="Presentations"></nav><span class="tabs-hint" hidden>Scroll for more →</span></div>
 <main><section id="library"><div class="library-heading"><div><div class="micro">YOUR PRESENTATIONS</div><h1>Ideas worth <em>showing.</em></h1><p>Choose a presentation. Follow the story. Explore the evidence.</p></div><img src="ww-coin.svg" alt="Pecuna Factorem original coin"></div><div id="library-cards"></div></section>
@@ -22,6 +23,7 @@
 <div class="vi-inbox"><nav class="vi-who" id="ideas-who" aria-label="Your creators"></nav><section class="vi-feed" id="ideas-feed" aria-label="Uploads"></section><aside class="vi-tray" id="ideas-tray" aria-labelledby="ideas-tray-h"></aside></div>
 </section>
 <section id="creator" hidden aria-labelledby="cr-name"></section>
+<section id="post" hidden aria-labelledby="po-heading"></section>
 <section id="topics" hidden aria-labelledby="topics-heading">
 <div class="tp-head"><div><div class="micro">SCHEDULE · RECORDING AND POSTING</div><h1 id="topics-heading">Recording and posting</h1><p>Record on Wednesday and Friday. Wednesday’s video posts the next Tuesday, Friday’s the next Thursday. Choose any marker to open its topic.</p></div><div class="tp-head-actions"><button type="button" id="topics-new" class="tp-dark">+ New topic</button></div></div>
 <div class="tp-controls"><div class="tp-seg" role="group" aria-label="Weeks to show" id="tp-range"></div><div class="tp-weeknav-links"><button type="button" id="tp-prev">‹ Earlier</button><button type="button" id="tp-today">Today</button><button type="button" id="tp-next">Later ›</button></div></div>
