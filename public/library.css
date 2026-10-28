@@ -3,7 +3,7 @@
 .tabs-wrap{position:sticky;top:0;z-index:5}
 
 /* Clean underline navigation selected by Taylor, 12 October 2026. */
-.app-nav{display:flex;align-items:stretch;gap:32px;padding:0 4vw;border-bottom:1px solid #d8d5cf;background:#fff;color:#1c1a17}
+.app-nav{display:flex;align-items:stretch;gap:32px;padding:0 4vw;border-bottom:1px solid #d8d5cf;background:#fff;color:#1c1a17;scroll-padding-inline:16px}
 .app-nav a{display:inline-flex;align-items:center;justify-content:center;padding:18px 0;min-height:52px;border-bottom:2px solid transparent;text-decoration:none;font:400 18px/1.4 WWBody,Arial,sans-serif;color:#5c5750}
 .app-nav a[aria-current=page]{border-bottom-color:#1c1a17;color:#1c1a17}
 .app-nav a:hover{color:#1c1a17}

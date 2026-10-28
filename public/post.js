@@ -119,7 +119,7 @@
   async function thumbs(nextRound) {
     round = nextRound; win = null;
     if (files.youtube && !frames.length) { render(); status('Taking frames from your YouTube video…'); frames = await grab(files.youtube.url, 5); }
-    render(); root.querySelector('.po-tiles')?.scrollIntoView({block:'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+    render(); root.querySelector('.po-thead')?.scrollIntoView({block:'start', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
   }
   // Draw the chosen thumbnail at 1280×720 so it can go straight into YouTube Studio.
   async function download() {
@@ -149,7 +149,7 @@
         else if (t.mark === 'color') x.fillStyle = t.accent || '#8B6002';
         put(word, px);
         if (t.mark === 'underline') { x.fillStyle = t.accent || '#8B6002'; x.fillRect(px, y + s * .1, w, Math.max(6, s * .07)); }
-        px += w; x.fillStyle = t.color || (dark ? '#FFFFFF' : '#1C1A17');
+        px += w + (t.mark === 'box' ? 12 : 0); x.fillStyle = t.color || (dark ? '#FFFFFF' : '#1C1A17');
       }
       put(post, px);
     });
