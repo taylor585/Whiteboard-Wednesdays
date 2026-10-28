@@ -7,7 +7,7 @@
   if (!root) return;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const SLOTS = [['youtube','YouTube','Upload video','16:9'],['linkedin','LinkedIn','Upload video','16:9 or 1:1'],['instagram','Instagram Reel','Upload reel','9:16']];
-  const BG = {'paper-grid':'#FFFFFF','brand-yellow':'#F6DF8C','cream-grid':'#F5EAD8','flat':'#F5F3EE','black-glow':'#0A0908','black-spotlight':'#0A0908'};
+  const BG = {'paper-grid':'#FFFFFF','brand-yellow':'#F6DF8C','cream-grid':'#F5F3EE','flat':'#F5F3EE','black-glow':'#1C1A17','black-spotlight':'#1C1A17'};
   const FONT = {condensed:'800 {s}px WWBody,Arial,sans-serif', sans:'700 {s}px WWBody,Arial,sans-serif', marker:'700 {s}px WWHand,cursive', serif:'700 {s}px WWEditorial,Georgia,serif', hand:'700 {s}px WWHand,cursive', mono:'500 {s}px WWMono,monospace'};
   const files = {}, edited = {};
   let packages = null, pkg = null, shown = false, round = -1, win = null, frames = [], skills = [], db = null, failed = false;
@@ -29,7 +29,7 @@
     const f = files[key];
     const warn = f && f.shape && !want.split(' or ').includes(f.shape) ? '<p class="po-warn">This is '+f.shape+'. '+label+' expects '+want+'.</p>' : '';
     return '<div class="po-up" data-slot="'+key+'"><div class="po-up-h"><span class="po-pl po-pl-'+key+'">'+label+'</span><span class="micro">'+want+'</span></div>'+
-      (f ? '<div class="po-file"><video src="'+f.url+'" muted playsinline preload="metadata" aria-label="'+esc(label)+' preview"></video><div><b>'+esc(f.file.name)+'</b><small>'+(f.shape ? f.shape+' · '+time(f.dur)+' · '+f.w+'×'+f.h+' · ' : '')+size(f.file.size)+'</small><span class="po-file-acts"><label class="po-link">Replace<input type="file" accept="video/*" data-pick="'+key+'" hidden></label><button type="button" class="po-link" data-remove="'+key+'">Remove</button></span></div></div>'+warn
+      (f ? '<div class="po-file"><video src="'+f.url+'#t=0.5" muted playsinline preload="metadata" aria-label="'+esc(label)+' preview"></video><div><b>'+esc(f.file.name)+'</b><small>'+(f.shape ? f.shape+' · '+time(f.dur)+' · '+f.w+'×'+f.h+' · ' : '')+size(f.file.size)+'</small><span class="po-file-acts"><label class="po-link">Replace<input type="file" accept="video/*" data-pick="'+key+'" hidden></label><button type="button" class="po-link" data-remove="'+key+'">Remove</button></span></div></div>'+warn
          : '<label class="po-drop"><span class="po-btn po-btn-ink">＋ '+button+'</span><small>or drag it here</small><input type="file" accept="video/*" data-pick="'+key+'" hidden></label>')+'</div>';
   }
   function pick(key, file) {
@@ -76,7 +76,7 @@
       '<button type="button" class="po-btn po-btn-ghost po-big" data-thumbs'+(pkg?.thumbnails?.length ? '' : ' disabled')+'>Generate thumbnail</button><small>Uses '+esc(pkg?.skills?.thumb || 'Thumbnail Tracker')+' · five at a time</small></div>'+
       '<p class="po-status" role="status">'+(failed ? 'The saved posts could not be loaded. Check your connection and reload.' : !pkg ? 'No posts are saved yet. Ask Claude to package the next video with Performance Poster and Thumbnail Tracker, and they will appear here.' : '')+'</p>'+
       (shown && ready ? '<h2 class="po-h2"><span class="micro">02</span> Generated posts</h2><p class="po-note">Written by Claude with '+esc(pkg.skills.post)+' and checked with its checker before saving. '+esc(pkg.source || '')+'</p>'+['youtube','linkedin','instagram'].map(block).join('') : '')+
-      (round >= 0 ? '<div class="po-thead"><h2 class="po-h2"><span class="micro">03</span> Thumbnail</h2><button type="button" class="po-link" data-more>Generate 5 more</button></div><p class="po-note">'+esc(pkg.skills.thumb)+' variety pack: 3 light and 2 dark backgrounds, different typefaces and marks, with and without emoji ('+esc((pkg.varietyCheck || [])[round] || 'not checked')+').'+(files.youtube ? ' Faces are frames from your YouTube video.' : ' Upload the YouTube video to use its frames.')+'</p><div class="po-tiles">'+pkg.thumbnails[round].map(tile).join('')+'</div>'+(win !== null ? '<button type="button" class="po-btn po-btn-ghost" data-dl>Download winner (1280×720 PNG)</button>' : '') : '')+
+      (round >= 0 ? '<div class="po-thead"><h2 class="po-h2"><span class="micro">03</span> Thumbnail</h2>'+(round < pkg.thumbnails.length - 1 ? '<button type="button" class="po-link" data-more>Generate 5 more</button>' : '<span class="po-last">Last saved round ('+(round+1)+' of '+pkg.thumbnails.length+')</span>')+'</div><p class="po-note">'+esc(pkg.skills.thumb)+' variety pack: 3 light and 2 dark backgrounds, different typefaces and marks, with and without emoji ('+esc((pkg.varietyCheck || [])[round] || 'not checked')+').'+(files.youtube ? ' Faces are frames from your YouTube video.' : ' Upload the YouTube video to use its frames.')+'</p><div class="po-tiles">'+pkg.thumbnails[round].map(tile).join('')+'</div>'+(win !== null ? '<button type="button" class="po-btn po-btn-ghost" data-dl>Download winner (1280×720 PNG)</button>' : '') : '')+
       '<dialog class="po-dialog" aria-labelledby="po-dh"></dialog>';
     renderSkills();
   }
@@ -86,7 +86,7 @@
     el.innerHTML = '<div class="po-sk-h"><b>Skills</b><button type="button" class="po-link" data-cog>Close</button></div><p>Claude runs these skills from your Claude account when it packages a video. This list records which skill each button uses.</p>'+
       base.map(([use, name, what]) => '<div class="po-sk"><b>'+esc(name)+'</b><small>'+esc(what)+'</small><span class="micro">USED BY '+(use === 'post' ? 'GENERATE POST' : 'GENERATE THUMBNAIL')+'</span></div>').join('')+
       skills.map(s => '<div class="po-sk"><b>'+esc(s.name)+'</b><small>'+esc(s.file || '')+'</small><label class="micro">USED BY <select data-skill-use="'+esc(s.id)+'"><option value="post"'+(s.use === 'post' ? ' selected' : '')+'>Generate post</option><option value="thumb"'+(s.use === 'thumb' ? ' selected' : '')+'>Generate thumbnail</option></select></label><button type="button" class="po-link" data-skill-del="'+esc(s.id)+'">Remove</button></div>').join('')+
-      '<label class="po-drop po-drop-sm"><span>＋ Add a skill file</span><small>'+(db ? '.md, .zip or .skill. The name is saved here; the skill itself is added to your Claude account.' : 'Saved skill lists need the Claude app. Open this page in Claude to keep them.')+'</small><input type="file" accept=".md,.zip,.skill" data-skill-file hidden'+(db ? '' : ' disabled')+'></label>';
+      '<label class="po-drop po-drop-sm"><span>＋ Add a skill file</span><small>'+(db ? '.md, .zip or .skill. Only the name is saved here. Add the skill itself to your Claude account so Claude can use it.' : 'Saved skill lists need the Claude app. Open this page in Claude to keep them.')+'</small><input type="file" accept=".md,.zip,.skill" data-skill-file hidden'+(db ? '' : ' disabled')+'></label>';
   }
   const status = t => { const el = root.querySelector('.po-status'); if (el) el.textContent = t; };
   // Seek through the YouTube upload and keep five frames for the thumbnail faces.
@@ -102,7 +102,8 @@
     });
   }
   async function thumbs(nextRound) {
-    round = nextRound % pkg.thumbnails.length; win = null;
+    if (nextRound >= pkg.thumbnails.length) { status('That is every saved round for this video. Ask Claude for another round with Thumbnail Tracker and it will appear here.'); return; }
+    round = nextRound; win = null;
     if (files.youtube && !frames.length) { render(); status('Taking frames from your YouTube video…'); frames = await grab(files.youtube.url, 5); }
     render(); root.querySelector('.po-tiles')?.scrollIntoView({block:'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
   }
@@ -112,7 +113,7 @@
     await Promise.all(['WWBody','WWHand','WWEditorial'].map(f => document.fonts.load('700 40px '+f).catch(() => {})));
     const dark = t.theme === 'dark'; x.fillStyle = BG[t.bg] || '#FFFFFF'; x.fillRect(0, 0, 1280, 720);
     if (t.bg.endsWith('grid')) { x.strokeStyle = 'rgba(28,26,23,.09)'; x.lineWidth = 2; for (let g = 40; g < 1280; g += 40) { x.beginPath(); x.moveTo(g, 0); x.lineTo(g, 720); x.stroke(); } for (let g = 40; g < 720; g += 40) { x.beginPath(); x.moveTo(0, g); x.lineTo(1280, g); x.stroke(); } }
-    if (dark) { const r = x.createRadialGradient(960, 360, 40, 960, 360, 560); r.addColorStop(0, t.bg === 'black-glow' ? 'rgba(203,142,3,.4)' : 'rgba(255,255,255,.18)'); r.addColorStop(1, 'rgba(10,9,8,0)'); x.fillStyle = r; x.fillRect(0, 0, 1280, 720); }
+    if (dark) { const r = x.createRadialGradient(960, 360, 40, 960, 360, 560); r.addColorStop(0, t.bg === 'black-glow' ? 'rgba(246,223,140,.28)' : 'rgba(255,255,255,.18)'); r.addColorStop(1, 'rgba(28,26,23,0)'); x.fillStyle = r; x.fillRect(0, 0, 1280, 720); }
     const face = frames[win];
     x.save(); x.beginPath(); x.arc(960, 360, 240, 0, Math.PI*2); x.closePath(); x.fillStyle = dark ? '#1C1A17' : '#5C5750'; x.fill();
     if (face) { const img = new Image(); img.src = face; await img.decode().catch(() => {}); x.clip(); x.drawImage(img, 720, 120, 480, 480); }
@@ -127,7 +128,7 @@
       let px = 40; x.fillStyle = t.color || (dark ? '#FFFFFF' : '#1C1A17'); x.fillText(pre, px, y); px += x.measureText(pre).width;
       if (word) {
         const w = x.measureText(word).width;
-        if (t.mark === 'box') { x.fillStyle = t.accent || '#F6DF8C'; x.fillRect(px - 8, y - s * .82, w + 16, s * .98); x.fillStyle = dark ? '#0A0908' : '#FFFFFF'; }
+        if (t.mark === 'box') { x.fillStyle = t.accent || '#F6DF8C'; x.fillRect(px - 8, y - s * .82, w + 16, s * .98); x.fillStyle = '#1C1A17'; }
         else if (t.mark === 'color') x.fillStyle = t.accent || '#8B6002';
         x.fillText(word, px, y);
         if (t.mark === 'underline') { x.fillStyle = t.accent || '#8B6002'; x.fillRect(px, y + s * .1, w, Math.max(6, s * .07)); }

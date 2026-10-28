@@ -20,7 +20,7 @@
 .po-skills p{margin:0;font-size:14px;color:#5c5750}
 .po-sk-h{display:flex;justify-content:space-between;align-items:center}
 .po-sk{display:grid;gap:4px;padding:12px 0;border-top:1px solid #d8d5cf}.po-sk small{margin:0;font-size:13px}.po-sk select{width:auto;margin-left:8px;padding:4px 8px}
-.po-h2{display:flex;align-items:baseline;gap:12px;margin:40px 0 16px;padding-bottom:12px;border-bottom:1px solid #d8d5cf;font:500 26px/1.2 WWBody,Arial,sans-serif;letter-spacing:-.4px}.po-h2 .micro{color:#8b6002}
+.po-h2{display:flex;align-items:baseline;gap:12px;margin:40px 0 16px;padding-bottom:12px;border-bottom:1px solid #d8d5cf;font:500 26px/1.2 WWBody,Arial,sans-serif;letter-spacing:-.4px}#post .po-h2 .micro{color:#8b6002}
 .po-ups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .po-up{border:1px solid #d8d5cf;border-radius:12px;padding:16px;background:#fff;display:flex;flex-direction:column;gap:12px;transition:border-color 150ms,background 150ms}
 .po-up.po-over{border-color:#8b6002;background:rgba(139,96,2,.06)}
@@ -47,9 +47,10 @@
 .po-copy h3{margin:8px 0 10px;font:700 clamp(26px,2.6vw,38px)/1.12 WWEditorial,Georgia,serif;letter-spacing:-.4px}
 .po-check{margin:4px 0 10px;text-transform:uppercase}
 .po-flag{background:#f6df8c;color:#1c1a17;padding:2px 6px;border-radius:3px;letter-spacing:.06em}
-.po-text{background:#f5f3ee;border-radius:12px;padding:18px 20px;font-size:16px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;max-height:440px;overflow:auto}
+.po-text{background:#f5f3ee;border-radius:12px;padding:18px 20px;font-size:16px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
 .po-text:focus{outline:3px solid #8b6002;outline-offset:2px}
-.po-text-sm{max-height:none;margin-bottom:6px}
+.po-text-sm{margin-bottom:6px}
+.po-last{font-size:14px;color:#5c5750}
 .po-acts{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px}
 .po-copied{font-size:14px;color:#8b6002}
 .po-fill{font-size:14px;margin:12px 0 0;padding:8px 12px;border-left:3px solid #8b6002;background:rgba(139,96,2,.06)}
@@ -62,16 +63,16 @@
 .po-face{position:absolute;right:6%;top:14%;width:38%;aspect-ratio:1;border-radius:50%;background:#5c5750 center/cover;box-shadow:0 0 0 3px var(--acc)}
 .po-bg-paper-grid{background:#fff linear-gradient(rgba(28,26,23,.09) 1px,transparent 1px) 0 0/100% 12px}
 .po-bg-brand-yellow{background:#f6df8c}
-.po-bg-cream-grid{background:#f5ead8 linear-gradient(90deg,rgba(28,26,23,.09) 1px,transparent 1px) 0 0/12px 100%}
+.po-bg-cream-grid{background:#f5f3ee linear-gradient(90deg,rgba(28,26,23,.09) 1px,transparent 1px) 0 0/12px 100%}
 .po-bg-flat{background:#f5f3ee}
-.po-bg-black-glow{background:radial-gradient(circle at 72% 50%,rgba(203,142,3,.4),transparent 60%),#0a0908;box-shadow:none}
-.po-bg-black-spotlight{background:radial-gradient(circle at 70% 40%,rgba(255,255,255,.16),transparent 55%),#0a0908;box-shadow:none}
+.po-bg-black-glow{background:radial-gradient(circle at 72% 50%,rgba(246,223,140,.28),transparent 60%),#1c1a17;box-shadow:none}
+.po-bg-black-spotlight{background:radial-gradient(circle at 70% 40%,rgba(255,255,255,.16),transparent 55%),#1c1a17;box-shadow:none}
 .po-f-sans b{font-weight:700;letter-spacing:-.01em}
 .po-f-marker b,.po-f-hand b{font:700 clamp(13px,1.4vw,21px)/.95 WWHand,cursive}
 .po-f-serif b{font:700 clamp(12px,1.2vw,18px)/1.05 WWEditorial,Georgia,serif}
 .po-m-underline mark{box-shadow:inset 0 -.18em 0 var(--acc)}
 .po-m-box mark{background:var(--acc);color:#fff;padding:0 .15em}
-.po-bg-black-glow.po-m-box mark,.po-bg-black-spotlight.po-m-box mark{color:#0a0908}
+.po-bg-black-glow.po-m-box mark,.po-bg-black-spotlight.po-m-box mark{color:#1c1a17}
 .po-m-color mark{color:var(--acc)}
 .po-st{position:absolute;z-index:2;font-size:clamp(14px,1.4vw,20px);line-height:1}.po-st0{right:4%;bottom:6%}.po-st1{left:48%;top:6%}
 .po-st-mark{font:800 clamp(16px,1.6vw,24px)/1 WWBody,Arial,sans-serif;color:var(--acc)}

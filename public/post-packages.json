@@ -10,8 +10,7 @@
    "toFill": {
     "youtube": [
      "booking link",
-     "3 chapter times",
-     "YouTube link once live"
+     "3 chapter times"
     ],
     "linkedin": [
      "YouTube link in the first comment"
@@ -94,7 +93,7 @@
       "headline": "IT RUNS\nMY BUSINESS",
       "highlight": "BUSINESS",
       "mark": "underline",
-      "accent": "#B3261E",
+      "accent": "#8B6002",
       "color": "#1C1A17",
       "stickers": [
        {
@@ -148,7 +147,7 @@
       "headline": "IT RUNS\nMY BUSINESS?!",
       "highlight": "BUSINESS?!",
       "mark": "color",
-      "accent": "#B3261E",
+      "accent": "#8B6002",
       "color": "#1C1A17",
       "stickers": [
        {
@@ -181,8 +180,8 @@
       "headline": "It runs\nmy business!",
       "highlight": "my business!",
       "mark": "underline",
-      "accent": "#CB8E03",
-      "color": "#F5EAD8",
+      "accent": "#F6DF8C",
+      "color": "#F5F3EE",
       "stickers": [
        {
         "type": "emoji",
@@ -208,7 +207,7 @@
       "headline": "28 JOBS,\nONE BOT",
       "highlight": "BOT",
       "mark": "underline",
-      "accent": "#B3261E",
+      "accent": "#8B6002",
       "color": "#1C1A17",
       "stickers": [
        {
@@ -262,7 +261,7 @@
       "headline": "28 JOBS,\nONE BOT?!",
       "highlight": "BOT?!",
       "mark": "color",
-      "accent": "#B3261E",
+      "accent": "#8B6002",
       "color": "#1C1A17",
       "stickers": [
        {
@@ -295,8 +294,8 @@
       "headline": "28 jobs,\none bot→",
       "highlight": "one bot→",
       "mark": "underline",
-      "accent": "#CB8E03",
-      "color": "#F5EAD8",
+      "accent": "#F6DF8C",
+      "color": "#F5F3EE",
       "stickers": [
        {
         "type": "emoji",
