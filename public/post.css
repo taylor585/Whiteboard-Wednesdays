@@ -28,7 +28,10 @@
 .po-pl{display:inline-flex;align-items:center;gap:8px;font-weight:600}.po-pl::before{content:'';width:12px;height:12px;flex:none;border-radius:3px;background:#1c1a17}
 .po-pl-linkedin::before{background:#8b6002}.po-pl-instagram::before{background:#f6df8c;border:1px solid #8b6002}
 .po-drop{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:18px;border:1px dashed #d8d5cf;border-radius:10px;cursor:pointer}.po-drop .po-btn{pointer-events:none}.po-drop small{margin:0}
-.po-drop:focus-within{outline:3px solid #8b6002;outline-offset:3px}
+.po-drop:focus-within,.po-file-acts label:focus-within{outline:3px solid #8b6002;outline-offset:3px}
+.po-vh{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.po-up{position:relative}
+.po-drop:has(input:disabled){opacity:.55;cursor:not-allowed}
 .po-drop-sm{padding:12px;font-size:14px;font-weight:600}
 .po-file{display:grid;grid-template-columns:120px minmax(0,1fr);gap:12px;align-items:center}
 .po-file video{width:120px;aspect-ratio:16/9;object-fit:cover;background:#1c1a17;border-radius:6px}

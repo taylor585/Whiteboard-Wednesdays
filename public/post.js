@@ -29,8 +29,8 @@
     const f = files[key];
     const warn = f && f.shape && !want.split(' or ').includes(f.shape) ? '<p class="po-warn">This is '+f.shape+'. '+label+' expects '+want+'.</p>' : '';
     return '<div class="po-up" data-slot="'+key+'"><div class="po-up-h"><span class="po-pl po-pl-'+key+'">'+label+'</span><span class="micro">'+want+'</span></div>'+
-      (f ? '<div class="po-file"><video src="'+f.url+'#t=0.5" muted playsinline preload="metadata" aria-label="'+esc(label)+' preview"></video><div><b>'+esc(f.file.name)+'</b><small>'+(f.shape ? f.shape+' · '+time(f.dur)+' · '+f.w+'×'+f.h+' · ' : '')+size(f.file.size)+'</small><span class="po-file-acts"><label class="po-link">Replace<input type="file" accept="video/*" data-pick="'+key+'" hidden></label><button type="button" class="po-link" data-remove="'+key+'">Remove</button></span></div></div>'+warn
-         : '<label class="po-drop"><span class="po-btn po-btn-ink">＋ '+button+'</span><small>or drag it here</small><input type="file" accept="video/*" data-pick="'+key+'" hidden></label>')+'</div>';
+      (f ? '<div class="po-file"><video src="'+f.url+'#t=0.5" muted playsinline preload="metadata" aria-label="'+esc(label)+' preview"></video><div><b>'+esc(f.file.name)+'</b><small>'+(f.shape ? f.shape+' · '+time(f.dur)+' · '+f.w+'×'+f.h+' · ' : '')+size(f.file.size)+'</small><span class="po-file-acts"><label class="po-link">Replace<input class="po-vh" type="file" accept="video/*" data-pick="'+key+'" aria-label="Replace the '+esc(label)+' video"></label><button type="button" class="po-link" data-remove="'+key+'">Remove</button></span></div></div>'+warn
+         : '<label class="po-drop"><span class="po-btn po-btn-ink">＋ '+button+'</span><small>or drag it here</small><input class="po-vh" type="file" accept="video/*" data-pick="'+key+'" aria-label="Upload the '+esc(label)+' video"></label>')+'</div>';
   }
   function pick(key, file) {
     if (!file || !file.type.startsWith('video/')) { status('That file is not a video. Choose an MP4, MOV or WebM file.'); return; }
@@ -63,7 +63,16 @@
       '<label class="po-win"><input type="radio" name="po-win" value="'+i+'"'+(win === i ? ' checked' : '')+' data-win="'+i+'"><span class="po-bub" aria-hidden="true"></span>'+(win === i ? 'Winner' : 'Pick')+'</label>'+
       '<small class="po-axes">'+esc([t.theme, t.bg.replace('-', ' '), t.font, t.mark].join(' · '))+'</small></div>';
   }
+  // Re-rendering replaces the controls, so put keyboard focus back on the same control afterwards.
+  const KEEP = ['data-pick','data-gen','data-thumbs','data-more','data-first','data-win','data-copy','data-remove'];
   function render() {
+    const a = root.contains(document.activeElement) ? document.activeElement : null;
+    const name = a && KEEP.find(n => a.hasAttribute(n)), keep = name && '['+name+(a.getAttribute(name) ? '="'+a.getAttribute(name)+'"' : '')+']';
+    draw();
+    const back = keep && (root.querySelector(keep) || (name === 'data-remove' && root.querySelector('[data-pick="'+a.getAttribute(name)+'"]')));
+    if (back) back.focus({preventScroll:true});
+  }
+  function draw() {
     if (packages === null) { root.innerHTML = '<p class="po-status">Loading your posts…</p>'; return; }
     const ready = pkg && ['youtube','linkedin','instagram'].every(k => pkg.platforms[k]);
     root.innerHTML = '<div class="po-head"><div><div class="micro">POST'+(pkg ? ' · '+esc(pkg.title.toUpperCase())+' · POSTS '+esc(day(pkg.postDate).toUpperCase()) : '')+'</div><h1 id="po-heading">Ready to post</h1>'+
@@ -76,7 +85,7 @@
       '<button type="button" class="po-btn po-btn-ghost po-big" data-thumbs'+(pkg?.thumbnails?.length ? '' : ' disabled')+'>Generate thumbnail</button><small>Uses '+esc(pkg?.skills?.thumb || 'Thumbnail Tracker')+' · five at a time</small></div>'+
       '<p class="po-status" role="status">'+(failed ? 'The saved posts could not be loaded. Check your connection and reload.' : !pkg ? 'No posts are saved yet. Ask Claude to package the next video with Performance Poster and Thumbnail Tracker, and they will appear here.' : '')+'</p>'+
       (shown && ready ? '<h2 class="po-h2"><span class="micro">02</span> Generated posts</h2><p class="po-note">Written by Claude with '+esc(pkg.skills.post)+' and checked with its checker before saving. '+esc(pkg.source || '')+'</p>'+['youtube','linkedin','instagram'].map(block).join('') : '')+
-      (round >= 0 ? '<div class="po-thead"><h2 class="po-h2"><span class="micro">03</span> Thumbnail</h2>'+(round < pkg.thumbnails.length - 1 ? '<button type="button" class="po-link" data-more>Generate 5 more</button>' : '<span class="po-last">Last saved round ('+(round+1)+' of '+pkg.thumbnails.length+')</span>')+'</div><p class="po-note">'+esc(pkg.skills.thumb)+' variety pack: 3 light and 2 dark backgrounds, different typefaces and marks, with and without emoji ('+esc((pkg.varietyCheck || [])[round] || 'not checked')+').'+(files.youtube ? ' Faces are frames from your YouTube video.' : ' Upload the YouTube video to use its frames.')+'</p><div class="po-tiles">'+pkg.thumbnails[round].map(tile).join('')+'</div>'+(win !== null ? '<button type="button" class="po-btn po-btn-ghost" data-dl>Download winner (1280×720 PNG)</button>' : '') : '')+
+      (round >= 0 ? '<div class="po-thead"><h2 class="po-h2"><span class="micro">03</span> Thumbnail</h2>'+(round < pkg.thumbnails.length - 1 ? '<button type="button" class="po-link" data-more>Generate 5 more</button>' : '<span class="po-last">Last saved round ('+(round+1)+' of '+pkg.thumbnails.length+'). Ask Claude for another round with Thumbnail Tracker.</span>'+(round > 0 ? ' <button type="button" class="po-link" data-first>Back to round 1</button>' : ''))+'</div><p class="po-note">'+esc(pkg.skills.thumb)+' variety pack: 3 light and 2 dark backgrounds, different typefaces and marks, with and without emoji ('+esc((pkg.varietyCheck || [])[round] || 'not checked')+').'+(files.youtube ? ' Faces are frames from your YouTube video.' : ' Upload the YouTube video to use its frames.')+'</p><div class="po-tiles">'+pkg.thumbnails[round].map(tile).join('')+'</div>'+(win !== null ? '<button type="button" class="po-btn po-btn-ghost" data-dl>Download winner (1280×720 PNG)</button>' : '') : '')+
       '<dialog class="po-dialog" aria-labelledby="po-dh"></dialog>';
     renderSkills();
   }
@@ -86,7 +95,12 @@
     el.innerHTML = '<div class="po-sk-h"><b>Skills</b><button type="button" class="po-link" data-cog>Close</button></div><p>Claude runs these skills from your Claude account when it packages a video. This list records which skill each button uses.</p>'+
       base.map(([use, name, what]) => '<div class="po-sk"><b>'+esc(name)+'</b><small>'+esc(what)+'</small><span class="micro">USED BY '+(use === 'post' ? 'GENERATE POST' : 'GENERATE THUMBNAIL')+'</span></div>').join('')+
       skills.map(s => '<div class="po-sk"><b>'+esc(s.name)+'</b><small>'+esc(s.file || '')+'</small><label class="micro">USED BY <select data-skill-use="'+esc(s.id)+'"><option value="post"'+(s.use === 'post' ? ' selected' : '')+'>Generate post</option><option value="thumb"'+(s.use === 'thumb' ? ' selected' : '')+'>Generate thumbnail</option></select></label><button type="button" class="po-link" data-skill-del="'+esc(s.id)+'">Remove</button></div>').join('')+
-      '<label class="po-drop po-drop-sm"><span>＋ Add a skill file</span><small>'+(db ? '.md, .zip or .skill. Only the name is saved here. Add the skill itself to your Claude account so Claude can use it.' : 'Saved skill lists need the Claude app. Open this page in Claude to keep them.')+'</small><input type="file" accept=".md,.zip,.skill" data-skill-file hidden'+(db ? '' : ' disabled')+'></label>';
+      '<label class="po-drop po-drop-sm"><span>＋ Add a skill file</span><small>'+(db ? '.md, .zip or .skill. Only the name is saved here. Add the skill itself to your Claude account so Claude can use it.' : 'Saved skill lists need the Claude app. Open this page in Claude to keep them.')+'</small><input class="po-vh" type="file" accept=".md,.zip,.skill" data-skill-file aria-label="Add a skill file"'+(db ? '' : ' disabled')+'></label>';
+  }
+  function cog(open) {
+    const s = root.querySelector('#po-skills'), top = root.querySelector('.po-top'), button = root.querySelector('.po-cog');
+    s.hidden = open === undefined ? !s.hidden : !open; s.style.top = (top.offsetTop + top.offsetHeight + 10)+'px'; button.setAttribute('aria-expanded', String(!s.hidden));
+    (s.hidden ? button : s.querySelector('[data-cog]')).focus();
   }
   const status = t => { const el = root.querySelector('.po-status'); if (el) el.textContent = t; };
   // Seek through the YouTube upload and keep five frames for the thumbnail faces.
@@ -102,7 +116,6 @@
     });
   }
   async function thumbs(nextRound) {
-    if (nextRound >= pkg.thumbnails.length) { status('That is every saved round for this video. Ask Claude for another round with Thumbnail Tracker and it will appear here.'); return; }
     round = nextRound; win = null;
     if (files.youtube && !frames.length) { render(); status('Taking frames from your YouTube video…'); frames = await grab(files.youtube.url, 5); }
     render(); root.querySelector('.po-tiles')?.scrollIntoView({block:'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
@@ -112,7 +125,9 @@
     const t = pkg.thumbnails[round][win], c = document.createElement('canvas'), x = c.getContext('2d'); c.width = 1280; c.height = 720;
     await Promise.all(['WWBody','WWHand','WWEditorial'].map(f => document.fonts.load('700 40px '+f).catch(() => {})));
     const dark = t.theme === 'dark'; x.fillStyle = BG[t.bg] || '#FFFFFF'; x.fillRect(0, 0, 1280, 720);
-    if (t.bg.endsWith('grid')) { x.strokeStyle = 'rgba(28,26,23,.09)'; x.lineWidth = 2; for (let g = 40; g < 1280; g += 40) { x.beginPath(); x.moveTo(g, 0); x.lineTo(g, 720); x.stroke(); } for (let g = 40; g < 720; g += 40) { x.beginPath(); x.moveTo(0, g); x.lineTo(1280, g); x.stroke(); } }
+    x.strokeStyle = 'rgba(28,26,23,.09)'; x.lineWidth = 2;
+    if (t.bg === 'paper-grid') for (let g = 40; g < 720; g += 40) { x.beginPath(); x.moveTo(0, g); x.lineTo(1280, g); x.stroke(); }
+    if (t.bg === 'cream-grid') for (let g = 40; g < 1280; g += 40) { x.beginPath(); x.moveTo(g, 0); x.lineTo(g, 720); x.stroke(); }
     if (dark) { const r = x.createRadialGradient(960, 360, 40, 960, 360, 560); r.addColorStop(0, t.bg === 'black-glow' ? 'rgba(246,223,140,.28)' : 'rgba(255,255,255,.18)'); r.addColorStop(1, 'rgba(28,26,23,0)'); x.fillStyle = r; x.fillRect(0, 0, 1280, 720); }
     const face = frames[win];
     x.save(); x.beginPath(); x.arc(960, 360, 240, 0, Math.PI*2); x.closePath(); x.fillStyle = dark ? '#1C1A17' : '#5C5750'; x.fill();
@@ -136,7 +151,7 @@
       }
       x.fillText(post, px, y);
     });
-    (t.stickers || []).filter(st => st.type === 'emoji').slice(0, 2).forEach((st, k) => { x.font = '96px sans-serif'; x.fillText(st.text, k ? 1120 : 680, k ? 640 : 130); });
+    (t.stickers || []).slice(0, 2).forEach((st, k) => { const [sx, sy] = k ? [640, 130] : [1150, 660]; if (st.type === 'mark') { x.font = '800 110px WWBody,Arial,sans-serif'; x.fillStyle = t.accent || '#8B6002'; } else x.font = '96px sans-serif'; x.fillText(st.text, sx, sy); });
     c.toBlob(b => save(b, 'YouTube-thumbnail-1280x720.png'), 'image/png');
   }
   function save(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
@@ -156,17 +171,18 @@
     d.showModal();
   }
   function postsText() {
-    return ['youtube','linkedin','instagram'].map(k => { const p = pkg.platforms[k]; return '=== '+p.label.toUpperCase()+' ('+p.kind+') ===\n'+(k === 'youtube' ? 'Title: '+pkg.title+'\n\n' : '')+textOf(k)+(p.firstComment ? '\n\nFirst comment:\n'+p.firstComment : '')+((pkg.toFill || {})[k]?.length ? '\n\nTo fill before posting: '+pkg.toFill[k].join(', ') : ''); }).join('\n\n\n')+'\n';
+    return ['youtube','linkedin','instagram'].map(k => { const p = pkg.platforms[k]; return '=== '+p.label.toUpperCase()+' ('+p.kind+') ===\n'+(k === 'youtube' ? 'Title: '+pkg.title+'\n'+(round >= 0 && win !== null ? 'Thumbnail: '+pkg.thumbnails[round][win].headline.replace('\n', ' ')+' ('+pkg.thumbnails[round][win].id+')\n' : 'Thumbnail: not picked yet\n')+'\n' : '')+(edited[k] !== undefined ? '[Edited since the check: run the checker again before posting]\n' : '')+textOf(k)+(p.firstComment ? '\n\nFirst comment:\n'+p.firstComment : '')+((pkg.toFill || {})[k]?.length ? '\n\nTo fill before posting: '+pkg.toFill[k].join(', ') : ''); }).join('\n\n\n')+'\n';
   }
   root.addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b) return;
     if (b.hasAttribute('data-gen')) { shown = true; render(); root.querySelector('.po-block')?.scrollIntoView({block:'nearest'}); return; }
-    if (b.hasAttribute('data-thumbs')) return thumbs(round < 0 ? 0 : round);
+    if (b.hasAttribute('data-thumbs')) { if (round < 0) return thumbs(0); root.querySelector('.po-tiles')?.scrollIntoView({block:'nearest'}); return; }
     if (b.hasAttribute('data-more')) return thumbs(round + 1);
+    if (b.hasAttribute('data-first')) return thumbs(0);
     if (b.hasAttribute('data-remove')) { const k = b.dataset.remove; URL.revokeObjectURL(files[k].url); delete files[k]; if (k === 'youtube') frames = []; return render(); }
     if (b.hasAttribute('data-copy')) return copy(textOf(b.dataset.copy), b.dataset.copy, pkg.platforms[b.dataset.copy].kind);
     if (b.hasAttribute('data-copy-first')) return copy(pkg.platforms[b.dataset.copyFirst].firstComment, b.dataset.copyFirst, 'First comment');
-    if (b.hasAttribute('data-cog')) { const s = root.querySelector('#po-skills'), top = root.querySelector('.po-top'); s.hidden = !s.hidden; s.style.top = (top.offsetTop + top.offsetHeight + 10)+'px'; root.querySelector('.po-cog').setAttribute('aria-expanded', String(!s.hidden)); return; }
+    if (b.hasAttribute('data-cog')) return cog();
     if (b.hasAttribute('data-postall')) return postAll();
     if (b.hasAttribute('data-dl')) return download();
     if (b.hasAttribute('data-dl-posts')) return save(new Blob([postsText()], {type:'text/plain'}), pkg.id+'-posts.txt');
@@ -185,6 +201,7 @@
     if (t.matches('[data-skill-use]') && db) { try { await db.collection('skills').doc(t.dataset.skillUse).update({use:t.value}); } catch { status('That change could not be saved. Please try again.'); } }
   });
   root.addEventListener('input', e => { const k = e.target.dataset?.text; if (k && edited[k] === undefined) { edited[k] = ''; const flag = e.target.parentElement.querySelector('.po-check'); if (flag && !flag.querySelector('.po-flag')) flag.insertAdjacentHTML('beforeend', ' <span class="po-flag">Edited since the check</span>'); } if (k) edited[k] = e.target.innerText; });
+  root.addEventListener('keydown', e => { if (e.key === 'Escape' && !root.querySelector('#po-skills')?.hidden && !root.querySelector('.po-dialog')?.open) { e.preventDefault(); cog(false); } });
   root.addEventListener('dragover', e => { const z = e.target.closest('.po-up'); if (z) { e.preventDefault(); z.classList.add('po-over'); } });
   root.addEventListener('dragleave', e => { e.target.closest('.po-up')?.classList.remove('po-over'); });
   root.addEventListener('drop', e => { const z = e.target.closest('.po-up'); if (!z) return; e.preventDefault(); z.classList.remove('po-over'); pick(z.dataset.slot, e.dataTransfer.files[0]); });
