@@ -1,4 +1,4 @@
-/* Schedule (renamed from Post & Record on 28 October 2026): recording and posting schedules on a four-week timeline, built on PROCESS.md (16 October 2026).
+/* Schedule (Taylor's pick S2-B Big calendar, 30 October 2026): four weeks of recording and posting as a calendar, one row per week, built on PROCESS.md (16 October 2026).
    Monday plan and slides, Tuesday post and edit, Wednesday record, Thursday edit, Friday record. */
 (() => {
   'use strict';
@@ -24,7 +24,7 @@
     const suggested = add(r, 6);
     return {plan:monday(r), record:r, edit:add(r, wed ? 1 : 3), post:t.postDate ? parse(t.postDate) : suggested, suggested, custom:Boolean(t.postDate)};
   }
-  let start = add(monday(today()), -14), range = 'all', lanes = new Set(['record','post']), follow = null, selected = null, mode = 'book', bookDate = null;
+  let start = add(monday(today()), -14), lanes = new Set(['record','post']), follow = null, selected = null, mode = 'book', bookDate = null;
   const data = () => window.WWIdeas.data;
   const topics = () => data().topics || [];
   const ready = () => Boolean(data().ready);
@@ -42,49 +42,38 @@
       status(error.message); return null;
     }
   }
-  // Four working weeks: two back and two ahead by default. The legend is the filter (Taylor's pick S-C with the
-  // P-C calendar lens, 26 October 2026): switch lanes on or off, follow one video, or focus on either fortnight.
+  // Four working weeks: two back and two ahead by default. The legend is the filter (P-C calendar lens,
+  // 26 October 2026): switch jobs on or off, or follow one video.
   const LANES = [['record','Recording'],['post','Posting'],['edit','Editing'],['plan','Plan + slides']];
   const home = () => add(monday(today()), -14);
   const days20 = () => Array.from({length:20}, (_, i) => add(start, Math.floor(i/5)*7 + i%5));
-  // Focusing on one fortnight shows just its ten days, wider; All 4 weeks shows all twenty.
   function events() {
     const out = [];
     for (const t of topics()) { const s = schedule(t); if (!s) continue; for (const [lane, d] of [['plan',s.plan],['record',s.record],['edit',s.edit],['post',s.post]]) out.push({lane, day:iso(d), t}); }
     return out;
   }
-  // Markers are narrow, so they show the first words of a title (at least eight letters); the full title is in the label and the panel.
-  const brief = title => { const out = []; for (const w of title.split(/\s+/)) { out.push(w); if (out.join(' ').length >= 8) break; } return out.join(' '); };
-  function timeline() {
+  // One card per job, with the full title and the date that follows it.
+  const after = (lane, s) => lane === 'record' ? 'Posts '+fmt(s.post) : lane === 'post' ? 'Recorded '+fmt(s.record) : lane === 'edit' ? 'Recorded '+fmt(s.record) : 'Records '+fmt(s.record);
+  function calendar() {
     const twenty = days20(), now = iso(today()), all = events(), atHome = iso(start) === iso(home());
-    const days = range === 'first' ? twenty.slice(0, 10) : range === 'second' ? twenty.slice(10) : twenty;
-    const first = all.reduce((m, e) => e.day < m ? e.day : m, '9999');
-    const span = (a, b) => fmt(twenty[a],{day:'numeric',month:'short'})+' to '+fmt(twenty[b],{day:'numeric',month:'short'});
-    $('#tp-range').innerHTML = [['first', atHome ? 'Past 2 weeks' : span(0, 9)], ['second', atHome ? 'Next 2 weeks' : span(10, 19)], ['all', 'All 4 weeks']].map(([v, l]) => '<button type="button" data-range="'+v+'" aria-pressed="'+(range === v)+'">'+l+'</button>').join('');
+    $('#tp-span').textContent = fmt(twenty[0],{day:'numeric',month:'long'})+' to '+fmt(twenty[19],{day:'numeric',month:'long'});
     $('#tp-today').disabled = atHome;
     root.querySelectorAll('[data-lane]').forEach(b => b.setAttribute('aria-pressed', lanes.has(b.dataset.lane)));
-    const shown = new Map(); for (const e of all) if (e.day >= iso(days[0]) && e.day <= iso(days[days.length-1])) shown.set(e.t.id, e.t);
+    const shown = new Map(); for (const e of all) if (e.day >= iso(twenty[0]) && e.day <= iso(twenty[19])) shown.set(e.t.id, e.t);
     if (follow && !shown.has(follow)) follow = null;
     $('#tp-follow').innerHTML = shown.size ? '<span class="micro">FOLLOW</span>'+[...shown.values()].map(t => '<button type="button" data-follow="'+esc(t.id)+'" aria-pressed="'+(follow === t.id)+'">'+esc(t.title)+'</button>').join('') : '';
-    let html = '<span class="tp-tl-corner"></span>'+days.map((d, i) => '<span class="tp-tl-day'+(iso(d) === now ? ' is-today' : '')+(Math.floor(i/5) % 2 ? ' is-alt' : '')+'"><b>'+fmt(d,{weekday:'short'})+'</b> '+fmt(d,{day:'numeric'})+(i % 5 === 0 ? ' '+fmt(d,{month:'short'}) : '')+'</span>').join('');
-    for (const [lane, name] of LANES) {
-      if (!lanes.has(lane)) continue;
-      html += '<span class="tp-tl-lane tp-tl-lane-'+lane+'">'+name+'</span>'+days.map((d, i) => {
-        const day = iso(d), here = all.filter(e => e.lane === lane && e.day === day);
-        let inner = here.map(e => '<button type="button" class="tp-mk tp-mk-'+lane+(follow && follow !== e.t.id ? ' is-dim' : '')+(selected === e.t.id ? ' is-sel' : '')+'" data-select="'+esc(e.t.id)+'" title="'+esc(e.t.title)+'" aria-label="'+name+': '+esc(e.t.title)+', '+fmt(d)+'">'+esc(brief(e.t.title))+'</button>').join('');
-        if (!here.length && lane === 'record' && [3,5].includes(d.getDay()) && day >= now) inner = '<button type="button" class="tp-mk tp-mk-open" data-book="'+day+'" aria-label="Book a recording for '+fmt(d)+'"'+(ready() ? '' : ' disabled')+'>+ Book</button>';
-        return '<span class="tp-tl-cell'+(Math.floor(i/5) % 2 ? ' is-alt' : '')+(!here.length && day < first && day < now ? ' is-nl' : '')+'">'+inner+'</span>';
-      }).join('');
+    let html = '';
+    for (let w = 0; w < 4; w++) {
+      const mon = twenty[w*5];
+      html += '<div class="tp-wk'+(iso(mon) <= now && now <= iso(add(mon, 6)) ? ' is-this' : '')+'"><div class="tp-wkl"><span class="micro">WEEK OF</span><b>'+fmt(mon,{day:'numeric',month:'short'})+'</b></div>'+twenty.slice(w*5, w*5+5).map(d => {
+        const day = iso(d), here = all.filter(e => lanes.has(e.lane) && e.day === day);
+        let cards = here.map(e => { const s = schedule(e.t); return '<button type="button" class="tp-ev tp-ev-'+e.lane+(follow && follow !== e.t.id ? ' is-dim' : '')+(selected === e.t.id ? ' is-sel' : '')+'" data-select="'+esc(e.t.id)+'" aria-label="'+LANES.find(l => l[0] === e.lane)[1]+': '+esc(e.t.title)+', '+fmt(d)+'"><span class="tp-ev-job">'+LANES.find(l => l[0] === e.lane)[1]+'</span><b>'+esc(e.t.title)+'</b><span class="tp-ev-after">'+after(e.lane, s)+'</span></button>'; }).join('');
+        if (lanes.has('record') && !here.some(e => e.lane === 'record') && [3,5].includes(d.getDay()) && day >= now) cards += '<button type="button" class="tp-ev tp-ev-open" data-book="'+day+'" aria-label="Book a recording for '+fmt(d)+'"'+(ready() ? '' : ' disabled')+'><span class="tp-ev-job">Recording</span><b>Open slot</b><span class="tp-ev-after">+ Book a topic</span></button>';
+        return '<div class="tp-day'+(day === now ? ' is-today' : '')+(day < now ? ' is-past' : '')+'"><span class="tp-dayn"><b>'+fmt(d,{weekday:'short'})+'</b> '+fmt(d,{day:'numeric'})+'</span>'+cards+'</div>';
+      }).join('')+'</div>';
     }
-    const before = days.filter(d => iso(d) < now).length, onDay = days.some(d => iso(d) === now);
-    const inside = now >= iso(days[0]) && now <= iso(add(days[days.length-1], 2));
-    if (inside) html += '<span class="tp-tl-now" style="--tl-k:'+(before + (onDay ? .5 : 0))+'" aria-hidden="true"></span>';
-    $('#tp-tl').style.setProperty('--tl-n', days.length);
-    $('#tp-tl').innerHTML = html;
-    $('#tp-tl').style.setProperty('--rows', 1 + LANES.filter(l => lanes.has(l[0])).length);
+    $('#tp-cal').innerHTML = html;
   }
-  // On narrow screens the timeline scrolls sideways; bring today into view when the screen opens.
-  function toToday() { const wrap = $('.tp-tl-wrap'), line = $('.tp-tl-now'); if (wrap && line && wrap.scrollWidth > wrap.clientWidth) wrap.scrollLeft = Math.max(0, line.offsetLeft - wrap.clientWidth * .5); }
   // The topic panel also lists booked days, so a clash can be resolved by swapping the two topics.
   function slotOptions(current, withBooked=false) {
     let slots = openSlots();
@@ -116,7 +105,7 @@
     if (!ready()) $('#tp-panel').querySelectorAll('input,select,textarea,button:not([data-act=close])').forEach(e => e.disabled = true);
   }
   function render() {
-    timeline(); unscheduled(); panel();
+    calendar(); unscheduled(); panel();
     $('#topics-new').disabled = !ready();
     if (!ready()) status('Topics are saved on the app’s server. This preview shows the layout only.');
     else if ($('#tp-status').textContent.startsWith('Topics are saved')) status('');
@@ -127,8 +116,7 @@
     const book = t.closest('[data-book]'); if (book) { openPick('book', book.dataset.book); return; }
     if (t.closest('#tp-prev')) { start = add(start, -14); render(); return; }
     if (t.closest('#tp-next')) { start = add(start, 14); render(); return; }
-    if (t.closest('#tp-today')) { start = home(); range = 'all'; render(); $('#tp-prev').focus(); toToday(); return; }
-    const r = t.closest('[data-range]'); if (r) { range = r.dataset.range; render(); return; }
+    if (t.closest('#tp-today')) { start = home(); render(); $('#tp-prev').focus(); return; }
     const lane = t.closest('[data-lane]'); if (lane) { if (lanes.has(lane.dataset.lane)) { if (lanes.size > 1) lanes.delete(lane.dataset.lane); } else lanes.add(lane.dataset.lane); render(); return; }
     const f = t.closest('[data-follow]'); if (f) { follow = follow === f.dataset.follow ? null : f.dataset.follow; render(); return; }
     if (t.closest('#topics-new')) { openPick('new'); return; }
@@ -198,6 +186,6 @@
     finally { button.disabled = false; }
   });
   window.addEventListener('ww:data', render);
-  window.addEventListener('ww:route', event => { if (event.detail[0] === 'schedule') { render(); requestAnimationFrame(toToday); } });
+  window.addEventListener('ww:route', event => { if (event.detail[0] === 'schedule') render(); });
   render();
 })();

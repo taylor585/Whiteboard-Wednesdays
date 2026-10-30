@@ -1,6 +1,7 @@
-/* Topics: creators and ideas (Taylor's pick BC, 26 October 2026, replacing the B2-C whiteboard).
-   A creator database with a profile and private note sits above a four-column idea board:
-   Sparks, Shortlist, then the Recording and Posting schedules side by side. Wednesday's video posts
+/* Topics: creators and ideas (Taylor's picks TC-C and T2-B, 30 October 2026, replacing the BC table).
+   The four-column idea board takes the page (Sparks, Shortlist, then the Recording and Posting
+   schedules side by side) and the creators sit beside it as cards; choosing one opens its profile
+   over the rail, so the board never moves. Wednesday's video posts
    the next Tuesday and Friday's the next Thursday (PROCESS.md), unless a post date is set by hand. */
 (() => {
   'use strict';
@@ -19,7 +20,7 @@
   const SPARK_DAYS = 14, OPEN = ['new','shortlisted','planned'], DAY = 86400000;
   // From Saturday the board looks ahead to next week, so Monday's planning can start at the weekend.
   const current = () => monday(add(today(), 2));
-  let week = current(), spark = null, drag = null, picked = null, sort = 'uploads';
+  let week = current(), spark = null, drag = null, picked = null;
   const data = () => window.WWIdeas.data;
   const topics = () => data().topics || [];
   const status = message => { $('#bs-status').textContent = message; };
@@ -39,18 +40,19 @@
       status(error.message); return null;
     }
   }
-  // Creator database: one row per creator, busiest first by default, with a search box.
-  function table() {
+  const initials = name => name.replace(/[^\p{L}\p{N} ]/gu, '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '?';
+  // Creator cards: busiest first, each with its 14-day upload bars; nothing is drawn without real uploads.
+  function bars(h) {
+    const days = Array.from({length:SPARK_DAYS}, (_, i) => recentOf(h).filter(v => Math.floor((Date.now() - Date.parse(v.publishedAt)) / DAY) === SPARK_DAYS-1-i).length);
+    const max = Math.max(1, ...days);
+    return '<span class="bs-bars" aria-hidden="true">'+days.map(n => '<i style="height:'+(n ? 20+Math.round(n/max*80) : 8)+'%"'+(n ? '' : ' class="z"')+'></i>').join('')+'</span>';
+  }
+  function cards() {
     const q = $('#bs-find').value.trim().toLowerCase();
-    let list = (data().creators || []).filter(c => !q || c.name.toLowerCase().includes(q) || c.handle.toLowerCase().includes(q));
-    const n = c => recentOf(c.handle).length, last = c => Date.parse(latestOf(c.handle)?.publishedAt || 0) || 0;
-    list = list.slice().sort((a,b) => sort === 'name' ? a.name.localeCompare(b.name) : sort === 'latest' ? last(b) - last(a) || a.name.localeCompare(b.name) : n(b) - n(a) || a.name.localeCompare(b.name));
-    if (!picked && list[0]) picked = list[0].handle;
-    $('#bs-rows').innerHTML = list.length ? list.map(c => {
-      const latest = latestOf(c.handle), count = recentOf(c.handle).length;
-      return '<tr class="'+(picked === c.handle ? 'is-picked' : '')+'"><th scope="row"><button type="button" data-pick="'+esc(c.handle)+'" aria-pressed="'+(picked === c.handle)+'"><span class="bs-cname">'+esc(c.name)+'</span><span class="bs-chandle">'+esc(c.handle)+'</span></button></th><td class="bs-num">'+(data().configured || latest ? count : '–')+'</td><td>'+(latest ? esc(fmt(new Date(latest.publishedAt),{day:'numeric',month:'short'})) : '–')+'</td><td class="bs-headline">'+(latest ? esc(latest.title) : '<span class="bs-muted">'+(data().configured ? 'No uploads stored' : 'Not connected yet')+'</span>')+'</td></tr>';
-    }).join('') : '<tr><td colspan="4" class="bs-muted">No creator matches “'+esc(q)+'”.</td></tr>';
-    root.querySelectorAll('[data-sort]').forEach(b => b.setAttribute('aria-pressed', b.dataset.sort === sort));
+    const n = c => recentOf(c.handle).length;
+    const list = (data().creators || []).filter(c => !q || c.name.toLowerCase().includes(q) || c.handle.toLowerCase().includes(q)).sort((a,b) => n(b) - n(a) || a.name.localeCompare(b.name));
+    const connected = c => data().configured || recentOf(c.handle).length;
+    $('#bs-cards').innerHTML = list.length ? list.map(c => '<button type="button" class="bs-card" data-pick="'+esc(c.handle)+'" aria-pressed="'+(picked === c.handle)+'"><span class="bs-card-who"><span class="bs-mono" aria-hidden="true">'+esc(initials(c.name))+'</span><span><span class="bs-cname">'+esc(c.name)+'</span><span class="bs-chandle">'+esc(c.handle)+'</span></span></span><span class="bs-card-ft">'+(connected(c) ? '<span><b class="bs-count">'+n(c)+'</b> <span class="bs-meta">uploads · 14 d</span></span>'+bars(c.handle) : '<span class="bs-meta">Uploads need the YouTube connection</span>')+'</span></button>').join('') : '<p class="bs-muted">No creator matches “'+esc(q)+'”.</p>';
   }
   // Uploads per day for the last 14 days, drawn as a small line; nothing is drawn without real uploads.
   function line(h) {
@@ -61,10 +63,11 @@
   }
   function profile() {
     const c = (data().creators || []).find(x => x.handle === picked);
-    if (!c) { $('#bs-profile').innerHTML = '<p class="bs-muted">Choose a creator to see their profile.</p>'; return; }
+    $('#bs-profile').hidden = !c;
+    if (!c) { $('#bs-profile').innerHTML = ''; return; }
     const recent = recentOf(c.handle).sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt)).slice(0, 3);
     const connected = data().configured || recentOf(c.handle).length;
-    $('#bs-profile').innerHTML = '<div class="bs-ph"><h2>'+esc(c.name)+'</h2><span class="bs-chandle">'+esc(c.handle)+'</span></div>'+
+    $('#bs-profile').innerHTML = '<div class="bs-ph"><div><h2>'+esc(c.name)+'</h2><span class="bs-chandle">'+esc(c.handle)+'</span></div><button type="button" class="bs-close" id="bs-close" aria-label="Close profile">✕</button></div>'+
       '<div class="micro">UPLOADS PER DAY · 14 DAYS</div>'+(connected ? line(c.handle) : '<p class="bs-muted">Appears once the YouTube connection is switched on.</p>')+
       '<div class="micro">RECENT HEADLINES</div>'+(recent.length ? '<ul class="bs-heads">'+recent.map(v => '<li><button type="button" data-video="'+esc(v.id)+'" aria-pressed="'+(spark === v.id)+'">'+esc(v.title)+'</button><span class="bs-meta">'+esc(ago(v.publishedAt))+'</span></li>').join('')+'</ul>' : '<p class="bs-muted">'+(connected ? 'No uploads in the last 14 days.' : 'None yet. Live headlines need the YouTube connection.')+'</p>')+
       '<label class="bs-note" for="bs-note-text"><span>Your note</span><textarea id="bs-note-text" rows="3" maxlength="4000" placeholder="Why you follow them, what to watch for"'+(data().ready ? '' : ' disabled')+'>'+esc(c.note || '')+'</textarea></label>'+
@@ -96,15 +99,11 @@
         (going.length ? going.map(t => '<span class="bs-post-title">'+esc(t.title)+'</span><span class="bs-meta">'+(t.recordDate ? (t.recordDate < iso(today()) ? 'Recorded ' : 'Records ')+esc(fmt(parse(t.recordDate))) : '')+(t.status === 'posted' ? ' · Posted' : '')+'</span>').join('') : '<p class="bs-put">'+(past ? 'Nothing was posted.' : 'Nothing booked to post.')+'</p>')+'</div>';
     }).join('');
   }
-  function nextUp() {
-    const d = current(), list = [add(d, 2), add(d, 4)].map(day => ({day, t:topics().find(t => t.recordDate === iso(day))}));
-    $('#bs-nextup').innerHTML = '<span class="micro">Recording next</span>'+list.map(x => '<span class="bs-nextup-item"><b>'+esc(fmt(x.day))+'</b> '+(x.t ? esc(x.t.title) : '<i>Not booked yet</i>')+' <span class="bs-meta">Posts '+esc(fmt(add(x.day, 6)))+'</span></span>').join('');
-  }
   function render() {
     const thisWeek = iso(week) === iso(current());
     $('#bs-week').textContent = (thisWeek ? 'Recording week' : 'Week')+' of '+fmt(week,{day:'numeric',month:'long'});
     $('#bs-today').disabled = thisWeek;
-    nextUp(); table(); profile();
+    cards(); profile();
     $('#bs-sparks').innerHTML = sparkHtml();
     const list = angles();
     $('#bs-angles').innerHTML = list.length ? list.map(angleHtml).join('') : '<li class="bs-empty"><p>No angles waiting. Write one below, or spark one from the Creator watchlist.</p></li>';
@@ -124,8 +123,8 @@
   root.addEventListener('click', async event => {
     const el = event.target.closest('button');
     if (!el) return;
-    if (el.dataset.pick) { picked = el.dataset.pick; spark = null; render(); $('[data-pick="'+CSS.escape(picked)+'"]')?.focus(); return; }
-    if (el.dataset.sort) { sort = el.dataset.sort; table(); return; }
+    if (el.dataset.pick) { picked = picked === el.dataset.pick ? null : el.dataset.pick; spark = null; render(); (picked ? $('#bs-close') : $('[data-pick="'+CSS.escape(el.dataset.pick)+'"]'))?.focus(); return; }
+    if (el.id === 'bs-close') { const was = picked; picked = null; render(); $('[data-pick="'+CSS.escape(was)+'"]')?.focus(); return; }
     if (el.dataset.video) { spark = spark === el.dataset.video ? null : el.dataset.video; render(); $('#bs-title').focus(); return; }
     if (el.id === 'bs-clear') { spark = null; render(); return; }
     if (el.dataset.book) { await book(el.closest('[data-topic]').dataset.topic, el.dataset.book); return; }
@@ -139,7 +138,7 @@
     if (el.id === 'bs-next') { week = add(week, 7); render(); }
     if (el.id === 'bs-today') { week = current(); render(); }
   });
-  $('#bs-find').addEventListener('input', table);
+  $('#bs-find').addEventListener('input', cards);
   root.addEventListener('change', async event => {
     if (event.target.id !== 'bs-note-text') return;
     const c = (data().creators || []).find(x => x.handle === picked); if (!c) return;
