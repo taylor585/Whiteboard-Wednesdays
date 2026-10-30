@@ -17,7 +17,8 @@
 .pb-intake h2,.pb-pack-head h2,.pb-finals h2{margin:0 0 6px;font:500 24px/1.2 WWBody,Arial,sans-serif}
 #pb-links{width:100%;margin-top:12px;padding:12px;border:1px solid #c9c5bd;border-radius:10px;font:13px/1.6 WWMono,monospace;color:#1c1a17;background:#fff;resize:vertical}
 .pb-field{display:flex;flex-direction:column;gap:6px;margin-top:14px;font-size:14px;color:#5c5750}
-.pb-field select,.pb-src select{min-height:44px;padding:8px 10px;border:1px solid #c9c5bd;border-radius:8px;font:15px WWBody,Arial,sans-serif;color:#1c1a17;background:#fff}
+.pb-field textarea{resize:vertical;line-height:1.45;min-height:0}
+.pb-field input,.pb-field textarea,.pb-field select,.pb-src select{min-height:44px;padding:8px 10px;border:1px solid #c9c5bd;border-radius:8px;font:15px WWBody,Arial,sans-serif;color:#1c1a17;background:#fff}
 .pb-srcs{list-style:none;margin:12px 0 0;padding:0;border:1px solid #d8d5cf;border-radius:10px}
 .pb-src{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:10px 14px;border-bottom:1px solid #d8d5cf}
 .pb-src:last-child{border-bottom:0}

@@ -11,7 +11,7 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const MAX_REELS = 5;
   const PLATFORMS = {youtube:'YouTube', linkedin:'LinkedIn', reels:'Instagram Reels'};
-  let db = null, jobs = [], job = null, links = [], connecting = true, note = '', copied = '';
+  let db = null, jobs = [], job = null, links = [], connecting = true, note = '', copied = '', title = '', brief = '';
   const driveId = url => (String(url).match(/\/d\/([\w-]{20,})/) || String(url).match(/[?&]id=([\w-]{20,})/) || [])[1] || null;
   const when = iso => iso ? new Intl.DateTimeFormat('en-GB', {weekday:'short', day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'}).format(new Date(iso)) : '';
   const elapsed = (a, b) => { if (!a) return ''; const s = Math.max(0, Math.round(((b ? Date.parse(b) : Date.now()) - Date.parse(a)) / 1000)); return s < 60 ? s+'s' : s < 3600 ? Math.floor(s/60)+':'+String(s%60).padStart(2,'0') : Math.floor(s/3600)+'h '+Math.floor(s%3600/60)+'m'; };
@@ -23,11 +23,12 @@
   }
   function intake() {
     const main = links.filter(l => l.role === 'main').length, reels = links.filter(l => l.role === 'reel').length;
-    const problem = !links.length ? '' : main !== 1 ? 'Choose exactly one main video.' : reels > MAX_REELS ? 'Up to '+MAX_REELS+' reels.' : links.some(l => !l.id) ? 'One of the links is not a Google Drive file link.' : '';
+    const problem = !links.length ? '' : !title.trim() ? 'Say what the video is about.' : main !== 1 ? 'Choose exactly one main video.' : reels > MAX_REELS ? 'Up to '+MAX_REELS+' reels.' : links.some(l => !l.id) ? 'One of the links is not a Google Drive file link.' : '';
     const ts = topics();
     return '<section class="pb-intake" aria-labelledby="pb-links-h"><div><h2 id="pb-links-h">Paste the Drive links</h2><p class="pb-muted">One 16:9 main video and up to five phone reels, one link per line. Each must be shared “Anyone with the link”.</p>'+
       '<textarea id="pb-links" rows="6" spellcheck="false" placeholder="https://drive.google.com/file/d/…/view">'+esc(links.map(l => l.url).join('\n'))+'</textarea>'+
-      '<label class="pb-field" for="pb-topic"><span>Which video is this?</span><select id="pb-topic"><option value="">Choose a topic</option>'+ts.map(t => '<option value="'+esc(t.id)+'"'+(job?.topicId === t.id ? ' selected' : '')+'>'+esc(t.title)+(t.recordDate ? ' · recorded '+esc(t.recordDate) : '')+'</option>').join('')+'</select></label></div>'+
+      '<label class="pb-field" for="pb-title"><span>What is this video about?</span><input id="pb-title" list="pb-topic-list" maxlength="200" autocomplete="off" placeholder="Type it, or pick one of your saved topics" value="'+esc(title)+'"><datalist id="pb-topic-list">'+ts.map(t => '<option value="'+esc(t.title)+'">').join('')+'</datalist></label>'+
+      '<label class="pb-field" for="pb-brief"><span>What you say in it, in your words (optional)</span><textarea id="pb-brief" rows="3" maxlength="2000" placeholder="The main points, any numbers you mention, who it is for. The title, description and posts are written from this and the transcript.">'+esc(brief)+'</textarea></label></div>'+
       '<div><h2>Check before it renders</h2>'+(links.length ? '<ol class="pb-srcs">'+links.map((l, i) => '<li class="pb-src"><span class="pb-shape '+(l.role === 'main' ? 'is-wide' : 'is-tall')+'" aria-hidden="true"></span><div><b>'+esc(l.id ? 'Drive file …'+l.id.slice(-6) : 'Not a Drive file link')+'</b><small>'+esc(l.url)+'</small></div><select data-role="'+i+'" aria-label="Role of link '+(i+1)+'"><option value="main"'+(l.role === 'main' ? ' selected' : '')+'>Main video 16:9</option><option value="reel"'+(l.role === 'reel' ? ' selected' : '')+'>Phone reel 9:16</option></select></li>').join('')+'</ol>' : '<p class="pb-empty">Your links appear here so you can mark the main video before anything renders.</p>')+
       (problem ? '<p class="pb-warn" role="alert">'+esc(problem)+'</p>' : '')+
       '<button type="button" class="pb-go" id="pb-generate"'+(links.length && !problem && db && !busy() ? '' : ' disabled')+'>Generate Variety Pack</button>'+
@@ -82,20 +83,20 @@
     try { await db.doc('jobs/'+job.id).update({...patch, updatedAt:new Date().toISOString()}); note = ''; }
     catch (e) { note = 'Could not save ('+(e?.code || 'error')+'). Try again.'; render(); }
   }
-  root.addEventListener('input', e => { if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
+  root.addEventListener('input', e => { if (e.target.id === 'pb-title' || e.target.id === 'pb-brief') { if (e.target.id === 'pb-title') title = e.target.value; else brief = e.target.value; const btn = root.querySelector('#pb-generate'), warn = root.querySelector('.pb-warn'); if (links.length && title.trim() && warn?.textContent === 'Say what the video is about.') { warn.remove(); } if (btn && links.length && title.trim() && !root.querySelector('.pb-warn')) btn.disabled = !db || busy(); if (btn && !title.trim()) btn.disabled = true; return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
   root.addEventListener('change', e => { const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; render(); } });
   root.addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b || b.disabled) return;
     if (b.id === 'pb-generate') {
       const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), at = new Date().toISOString();
-      const topicId = root.querySelector('#pb-topic')?.value || null, topic = topics().find(t => t.id === topicId);
-      const doc = {id, topicId, title:topic?.title || '', sources:links.map(l => ({url:l.url, driveId:l.id, role:l.role})), skills:window.WWSettings?.skills || {}, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, updatedAt:at};
+      const topic = topics().find(t => t.title.trim().toLowerCase() === title.trim().toLowerCase());
+      const doc = {id, topicId:topic?.id || null, title:title.trim(), brief:brief.trim(), sources:links.map(l => ({url:l.url, driveId:l.id, role:l.role})), skills:window.WWSettings?.skills || {}, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, updatedAt:at};
       b.disabled = true;
-      try { await db.doc('jobs/'+id).set(doc); job = doc; links = []; note = ''; render(); }
+      try { await db.doc('jobs/'+id).set(doc); job = doc; links = []; title = ''; brief = ''; note = ''; render(); }
       catch (err) { note = 'Could not start the job ('+(err?.code || 'error')+').'; render(); }
       return;
     }
-    if (b.id === 'pb-new') { job = null; links = []; render(); root.querySelector('#pb-links')?.focus(); return; }
+    if (b.id === 'pb-new') { job = null; links = []; title = ''; brief = ''; render(); root.querySelector('#pb-links')?.focus(); return; }
     if (b.dataset.pick) { job.picks = {...(job.picks || {}), [b.dataset.pick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
     if (b.id === 'pb-continue') { job.status = 'finishing'; render(); await save({status:'finishing', pickedAt:new Date().toISOString()}); return; }
     if (b.hasAttribute('data-copy-run')) { await copy('Run Publish job '+job.id, 'run'); return; }
@@ -109,7 +110,7 @@
       jobs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()})).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
       // Follow the job on screen; with none open, show the latest one still in progress.
       job = job ? jobs.find(j => j.id === job.id) || job : jobs.find(j => j.status !== 'posted' && j.status !== 'final') || null;
-      if (document.activeElement?.closest?.('#publish textarea,#publish select')) return;
+      if (document.activeElement?.closest?.('#publish textarea,#publish input')) return;
       render();
     }, () => {});
     render();
