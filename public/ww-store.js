@@ -130,5 +130,6 @@
     fail('Adding and refreshing creators needs the YouTube connection, which this Claude page does not have.', 503);
   }
   const api = {call, get topics() { return sorted(); }};
-  window.WWStore = {connect};
+  // Settings and Publish keep their own documents in the same database.
+  window.WWStore = {connect, db: () => db};
 })();

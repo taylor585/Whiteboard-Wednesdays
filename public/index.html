@@ -1,16 +1,17 @@
 <!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Whiteboard Wednesdays</title><meta name="description" content="A private library of interactive presentations."><link rel="stylesheet" href="whiteboard.css"><link rel="stylesheet" href="library.css"><link rel="stylesheet" href="lge.css">
 <link rel="stylesheet" href="vb.css">
 <link rel="stylesheet" href="ah.css"><link rel="stylesheet" href="gv.css"><link rel="stylesheet" href="fp.css"><link rel="stylesheet" href="ht.css"><link rel="stylesheet" href="gb.css"><link rel="stylesheet" href="ss.css"><link rel="stylesheet" href="video-ideas.css">
-<link rel="stylesheet" href="topics.css"><link rel="stylesheet" href="brainstorm.css"><link rel="stylesheet" href="creator.css"><script src="ww-store.js" defer></script><script src="video-ideas.js" defer></script>
-<script src="topics.js" defer></script><script src="brainstorm.js" defer></script><script src="creator.js" defer></script><script src="presentations.js" defer></script><script src="library.js" defer></script><script src="lge-prompt.js" defer></script>
+<link rel="stylesheet" href="topics.css"><link rel="stylesheet" href="brainstorm.css"><link rel="stylesheet" href="creator.css"><link rel="stylesheet" href="publish.css"><link rel="stylesheet" href="settings.css"><script src="ww-store.js" defer></script><script src="video-ideas.js" defer></script>
+<script src="topics.js" defer></script><script src="brainstorm.js" defer></script><script src="creator.js" defer></script><script src="settings.js" defer></script><script src="publish.js" defer></script><script src="presentations.js" defer></script><script src="library.js" defer></script><script src="lge-prompt.js" defer></script>
 <script src="vb.js" defer></script><script src="fp.js" defer></script><script src="gb.js" defer></script><script src="ss.js" defer></script></head><body>
 <a class="skip" href="#canvas">Skip to content</a>
-<header class="site-header"><a href="#/library" class="site-name">Whiteboard<br><b>Wednesdays</b><span class="micro">PRESENTATION LIBRARY</span></a><div class="header-actions"><button id="library-button">Library</button><button id="brand-button" hidden>Preview branding</button><button id="fullscreen" hidden>Present full screen</button></div></header>
+<header class="site-header"><a href="#/library" class="site-name">Whiteboard<br><b>Wednesdays</b><span class="micro">PLAN · RECORD · POST</span></a><div class="header-actions"><button id="library-button" hidden>Library</button><button id="brand-button" hidden>Preview branding</button><button id="fullscreen" hidden>Present full screen</button><a id="nav-settings" class="cog" href="#/settings" aria-label="Settings: skills and connections"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></a></div></header>
 <nav class="app-nav" aria-label="Main navigation">
 <a id="nav-presentations" href="#/library" aria-current="page"><span>Presentations</span></a>
 <a id="nav-ideas" href="#/watchlist"><span>Creator watchlist</span></a>
 <a id="nav-topics" href="#/topics"><span>Topics</span></a>
 <a id="nav-schedule" href="#/schedule"><span>Schedule</span></a>
+<a id="nav-publish" href="#/publish"><span>Publish</span></a>
 </nav>
 <div class="tabs-wrap" hidden><nav id="presentation-tabs" role="tablist" aria-label="Presentations"></nav><span class="tabs-hint" hidden>Scroll for more →</span></div>
 <main><section id="library"><div class="library-heading"><div><div class="micro">YOUR PRESENTATIONS</div><h1>Ideas worth <em>showing.</em></h1><p>Choose a presentation. Follow the story. Explore the evidence.</p></div><img src="ww-coin.svg" alt="Pecuna Factorem original coin"></div><div id="library-wall" class="wall" aria-label="Your presentations"></div><div id="library-card" class="wall-card" aria-live="polite"></div></section>
@@ -42,6 +43,8 @@
 <section class="bs-zone bs-zone-post" aria-labelledby="bs-posts-h"><h2 id="bs-posts-h">Posting schedule</h2><div id="bs-posts" class="bs-list"></div></section>
 </div></div></div>
 </section>
+<section id="publish" hidden aria-labelledby="pb-heading"></section>
+<section id="settings" hidden aria-labelledby="se-heading"></section>
 <section id="message" hidden role="status"><h1 id="message-title"></h1><p id="message-detail"></p><a href="#/library">Return to library</a></section>
 <noscript><h2>Read the presentation</h2><a href="ww-guide.html">Our paid ads process: complete reading view</a><p><a href="lge-reading.html">Lead Gen Engine: complete reading view</a></p></noscript></main>
 <dialog id="chapters"><div class="dialog-head"><h2>Chapters</h2><button data-close>Close</button></div><nav id="chapter-list" aria-label="Presentation chapters"></nav></dialog>

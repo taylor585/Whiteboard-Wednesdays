@@ -1,0 +1,38 @@
+/* Settings, design SE-B Skill library (Taylor, 30 October 2026). */
+#settings{max-width:1600px;margin:auto;padding:48px 4vw;color:#1c1a17;font-family:WWBody,Arial,sans-serif}
+.se-head h1{margin:8px 0;font:500 clamp(36px,4vw,54px)/1.1 WWBody,Arial,sans-serif;letter-spacing:-1.8px}
+.se-head p{margin:0;color:#5c5750;max-width:62ch}
+.se-back{display:inline-block;margin-bottom:12px;color:#1c1a17;text-underline-offset:4px;font-size:15px}
+.se-lib{display:grid;grid-template-columns:340px minmax(0,1fr);gap:28px;margin-top:28px;align-items:start}
+.se-shelf{display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:12px;background:#f5f3ee;position:sticky;top:16px}
+#settings button{font:inherit;color:#1c1a17;cursor:pointer}
+#settings .se-card{display:flex;flex-direction:column;gap:4px;text-align:left;padding:12px 14px;border:1px solid #d8d5cf;border-radius:10px;background:#fff;font-size:13px}
+#settings .se-card b{font-size:15px;font-weight:600}
+#settings .se-card small{font:11px WWMono,monospace;color:#5c5750}
+#settings .se-card span{color:#5c5750}
+#settings .se-card[aria-pressed=true]{border-color:#1c1a17;box-shadow:inset 0 0 0 1px #1c1a17,0 0 0 3px #f6df8c}
+.se-slots{display:flex;flex-direction:column;gap:24px;min-width:0}
+.se-grp h2{margin:0 0 10px;font:500 22px/1.2 WWBody,Arial,sans-serif;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding-bottom:8px;border-bottom:1px solid #d8d5cf}
+.se-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+#settings .se-job{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;min-height:120px;padding:14px;border:1px dashed #d8d5cf;border-radius:10px;background:#fff;font-size:13px;min-width:0}
+#settings .se-job[aria-disabled=true]{cursor:default}
+#settings .se-job.is-hot{border:1px solid #8b6002;box-shadow:0 0 0 3px #f6df8c}
+#settings .se-job.is-changed{border-style:solid;border-color:#1c1a17;box-shadow:inset 0 0 0 1px #1c1a17}
+#settings .se-job small{color:#5c5750}
+.se-sk{display:inline-flex;align-items:center;gap:8px;max-width:100%;border:1px solid #1c1a17;border-radius:999px;padding:4px 12px 4px 4px;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.se-sk i{flex:none;width:24px;height:24px;border-radius:50%;background:#1c1a17;color:#f6df8c;display:inline-flex;align-items:center;justify-content:center;font:600 10px WWMono,monospace;font-style:normal}
+.se-conns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.se-conn{display:grid;grid-template-columns:12px minmax(0,1fr);gap:4px 12px;padding:14px;border:1px solid #d8d5cf;border-radius:10px;font-size:14px}
+.se-conn div{display:flex;flex-direction:column;gap:2px}.se-conn b{font-weight:600}.se-conn span{color:#5c5750}
+.se-conn em{grid-column:2;font:normal 11px WWMono,monospace;letter-spacing:.06em;text-transform:uppercase;color:#5c5750}
+.se-dot{width:10px;height:10px;border-radius:50%;background:#1c1a17;margin-top:6px}
+.se-dot.is-off{background:#fff;box-shadow:inset 0 0 0 2px #8b6002}
+.se-conn:has(.is-off) em{color:#8b6002}
+.se-save{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:28px;padding-top:16px;border-top:2px solid #1c1a17}
+.se-chg{font:600 12px WWMono,monospace;background:#f6df8c;padding:3px 8px;border-radius:3px}
+.se-when{font-size:15px}.se-note{font-size:13px;color:#5c5750}
+#settings .se-btn{margin-left:auto;min-height:48px;padding:12px 22px;border:0;border-radius:8px;background:#1c1a17;color:#fff;font-size:16px}
+#settings .se-btn:disabled{background:#d8d5cf;color:#5c5750;cursor:not-allowed}
+#settings :focus-visible{outline:3px solid #8b6002;outline-offset:3px}
+@media(max-width:1000px){.se-lib{grid-template-columns:1fr}.se-shelf{position:static;flex-direction:row;overflow-x:auto;overscroll-behavior-x:contain}#settings .se-card{flex:0 0 240px}}
+@media(max-width:700px){#settings{padding:32px 20px}.se-row,.se-conns{grid-template-columns:1fr}#settings .se-job{min-height:0}#settings .se-btn{margin-left:0;width:100%}}

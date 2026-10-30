@@ -36,3 +36,10 @@ body.presentation .app-nav{display:none}
 @media(max-width:900px){.pins{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:640px){.wall{padding:16px;box-shadow:inset 0 0 0 6px #fff,inset 0 0 0 7px rgba(139,96,2,.6)}.pins{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.wall-card{grid-template-columns:1fr}.wall-group h3{font-size:26px}}
 @media(prefers-reduced-motion:reduce){.pin{transition:none}.pin{transform:none}}
+
+/* Settings cog, top right on every screen (Taylor, 30 October 2026). */
+.cog{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #d8d5cf;border-radius:8px;color:#1c1a17;background:#fff}
+.cog:hover{border-color:#1c1a17}
+.cog[aria-current=page]{border-color:#1c1a17;box-shadow:inset 0 0 0 1px #1c1a17}
+.cog:focus-visible{outline:3px solid #8b6002;outline-offset:3px}
+.header-actions{align-items:center}
