@@ -52,11 +52,27 @@
     try { await api('/topic', {videoId:id}); seen.add(id); keepSeen(); await load(); announce('Sparked into Topics. It waits on the shortlist.'); return true; }
     catch (error) { announce(error.message); return false; }
   }
+  // Avatar shelf, design WL-B (Taylor, 30 October 2026): creators with new uploads first, a yellow count, and a grid of everyone behind "All".
+  const initials = name => name.replace(/[^\p{L}\p{N} ]/gu, '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '?';
+  const SHELF = 9;
   function whoList() {
     const counts = new Map();
     for (const v of unread(recent())) counts.set(v.handle, (counts.get(v.handle) || 0) + 1);
     const all = unread(recent()).length;
-    $('#ideas-who').innerHTML = '<button type="button" data-who="" aria-pressed="'+!who+'"><span>All creators</span>'+(all ? '<b>'+all+'</b>' : '')+'</button>'+data.creators.map(c => '<button type="button" data-who="'+esc(c.handle)+'" aria-pressed="'+(who === c.handle)+'"><span>'+esc(c.name)+'</span>'+(counts.get(c.handle) ? '<b>'+counts.get(c.handle)+'<span class="vi-sr"> new</span></b>' : '')+'</button>').join('');
+    const order = [...data.creators].sort((a, b) => (counts.get(b.handle) || 0) - (counts.get(a.handle) || 0));
+    const shown = order.slice(0, SHELF);
+    if (who && !shown.some(c => c.handle === who)) { const c = order.find(x => x.handle === who); if (c) shown[SHELF - 1] = c; }
+    const av = c => '<button type="button" class="vi-av'+(counts.get(c.handle) ? '' : ' is-quiet')+'" data-who="'+esc(c.handle)+'" aria-pressed="'+(who === c.handle)+'"><span class="vi-mono" aria-hidden="true">'+esc(initials(c.name))+'</span>'+(counts.get(c.handle) ? '<b>'+counts.get(c.handle)+'<span class="vi-sr"> new</span></b>' : '')+'<span class="vi-av-name">'+esc(c.name)+'</span></button>';
+    $('#ideas-who').innerHTML = '<button type="button" class="vi-av is-all" data-who="" aria-pressed="'+!who+'"><span class="vi-mono" aria-hidden="true">ALL</span>'+(all ? '<b>'+all+'<span class="vi-sr"> new</span></b>' : '')+'<span class="vi-av-name">Everyone</span></button>'+shown.map(av).join('')+
+      (data.creators.length > SHELF ? '<button type="button" class="vi-av is-more" data-more aria-expanded="'+!$('#ideas-grid').hidden+'" aria-controls="ideas-grid"><span class="vi-mono" aria-hidden="true">+'+(data.creators.length - SHELF)+'</span><span class="vi-av-name">All '+data.creators.length+'</span></button>' : '');
+    $('#ideas-grid').innerHTML = [...data.creators].sort((a, b) => a.name.localeCompare(b.name)).map(c => '<button type="button" data-who="'+esc(c.handle)+'" aria-pressed="'+(who === c.handle)+'"><span class="vi-mono" aria-hidden="true">'+esc(initials(c.name))+'</span><span>'+esc(c.name)+'</span>'+(counts.get(c.handle) ? '<b>'+counts.get(c.handle)+'</b>' : '')+'</button>').join('');
+  }
+  // Command strip, design W3-A: the connection as a status light beside the search and the three actions.
+  function connection() {
+    const last = data.creators.map(c => c.lastSuccess).filter(Boolean).sort().pop();
+    $('#ideas-conn').innerHTML = data.configured
+      ? '<i class="vi-lamp is-on" aria-hidden="true"></i><span><b>YouTube connected</b><span>'+(busy ? 'Checking creators…' : last ? 'Checked '+date(last) : 'Not checked yet')+' · '+data.creators.length+' creators</span></span>'
+      : '<i class="vi-lamp" aria-hidden="true"></i><span><b>Not connected</b><span>Uploads need the YouTube connection</span></span>';
   }
   function item(v) {
     const linked = topicsFor(v.id), isNew = !seen.has(v.id) && !linked.length, url = 'https://www.youtube.com/watch?v='+encodeURIComponent(v.id);
@@ -94,10 +110,11 @@
     $('#ideas-refresh').disabled = busy || !data.configured;
     $('#ideas-add').disabled = !data.configured;
     $('#ideas-seen').disabled = !fresh;
+    $('#ideas-seen-label').textContent = fresh ? 'Mark '+fresh+' seen' : 'Mark all seen';
     const failed = data.creators.filter(c => c.error);
     $('#ideas-warning').hidden = !failed.length;
     $('#ideas-warning').textContent = failed.length + ' creator refresh'+(failed.length===1?'':'es')+' failed. Previously loaded videos remain visible. Retry refresh to check for missing uploads.';
-    whoList(); feed(); tray();
+    connection(); whoList(); feed(); tray();
   }
   function emit() { window.dispatchEvent(new CustomEvent('ww:data', {detail:data})); }
   async function load(auto=false) {
@@ -127,7 +144,8 @@
   $('#ideas-seen').addEventListener('click', () => { for (const v of recent()) seen.add(v.id); keepSeen(); render(); announce('All caught up.'); });
   root.addEventListener('click', async event => {
     const b = event.target.closest('button'); if (!b) return;
-    if (b.dataset.who !== undefined) { choose(b.dataset.who); $('#ideas-who [data-who="'+CSS.escape(b.dataset.who)+'"]')?.focus(); return; }
+    if (b.dataset.more !== undefined) { const g = $('#ideas-grid'); g.hidden = !g.hidden; b.setAttribute('aria-expanded', String(!g.hidden)); return; }
+    if (b.dataset.who !== undefined) { const fromGrid = !!b.closest('#ideas-grid'); if (fromGrid) $('#ideas-grid').hidden = true; choose(b.dataset.who); $('#ideas-who [data-who="'+CSS.escape(b.dataset.who)+'"]')?.focus(); return; }
     if (b.dataset.seen) { seen.add(b.dataset.seen); keepSeen(); render(); return; }
     if (b.dataset.spark) { b.disabled = true; b.textContent = 'Sparking…'; if (!await spark(b.dataset.spark)) { b.disabled = false; b.textContent = 'Spark a topic'; } return; }
     if (b.dataset.topic) openTopicDialog(b.dataset.topic);

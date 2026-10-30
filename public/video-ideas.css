@@ -10,12 +10,6 @@
 .vi-thumb{display:block;width:100%;aspect-ratio:16/9;border-radius:6px;overflow:hidden;background:#f5f3ee}
 .vi-thumb img{display:block;width:100%;height:100%;object-fit:cover}
 .vi-thumb-empty{display:flex;width:100%;height:100%;align-items:center;justify-content:center;font:600 40px WWHand,cursive;color:#5c5750;background:#f5f3ee}
-.vi-inbox{display:grid;grid-template-columns:220px minmax(0,1fr) 280px;gap:28px;align-items:start}
-.vi-who{display:flex;flex-direction:column;gap:4px;max-height:calc(100vh - 140px);overflow-y:auto;position:sticky;top:16px;padding:2px}
-#video-ideas .vi-who button{display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;border-radius:4px;padding:8px 12px;font-size:15px}
-#video-ideas .vi-who button:hover{border-color:#1c1a17}
-#video-ideas .vi-who button[aria-pressed=true]{background:#1c1a17;border-color:#1c1a17;color:#fff}
-.vi-who b{font:600 12px WWMono,monospace;background:#f6df8c;color:#1c1a17;padding:1px 7px;border-radius:3px}
 .vi-feed{display:flex;flex-direction:column;gap:22px;min-width:0}
 .vi-feed-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 16px;padding-bottom:10px;border-bottom:2px solid #1c1a17}
 .vi-feed-head h2{margin:0;font:500 26px/1.2 WWBody,Arial,sans-serif}
@@ -52,12 +46,40 @@
 .ww-dialog button{min-height:44px;border:1px solid #d8d5cf;border-radius:6px;background:#fff;color:#1c1a17;padding:10px 16px;font:inherit;cursor:pointer}
 .ww-dialog .vi-dark{background:#1c1a17;color:#fff;border-color:#1c1a17}
 .ww-dialog :focus-visible{outline:3px solid #8b6002;outline-offset:3px}
-@media(max-width:1100px){.vi-inbox{grid-template-columns:200px minmax(0,1fr)}.vi-tray{grid-column:1/-1;position:static}}
 @media(max-width:767px){
  .vi-inbox{grid-template-columns:minmax(0,1fr);gap:18px}
- .vi-who{flex-direction:row;overflow-x:auto;overscroll-behavior-x:contain;position:static;max-height:none;padding-bottom:6px}
- #video-ideas .vi-who button{flex:none}
  .vi-mail{grid-template-columns:10px 112px minmax(0,1fr);gap:10px 12px;padding:10px}
  .vi-mail-actions{grid-column:2/-1;flex-direction:row;flex-wrap:wrap;align-items:center;gap:4px 14px}
 }
 @media(prefers-reduced-motion:reduce){.vi-mail{transition:none}}
+
+/* Command strip, design W3-A, and avatar shelf, design WL-B (Taylor, 30 October 2026). */
+.vi-inbox{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:28px;align-items:start}
+.vi-cmd{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:22px 0 6px;padding:10px;border:1px solid #d8d5cf;border-radius:14px;background:#f5f3ee}
+.vi-conn{display:flex;align-items:center;gap:10px;padding:4px 14px 4px 6px;border-right:1px solid #d8d5cf;font-size:13px;color:#5c5750}
+.vi-conn b{display:block;font-size:14px;font-weight:600;color:#1c1a17}
+.vi-lamp{width:10px;height:10px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 2px #8b6002}
+.vi-lamp.is-on{background:#1c1a17;box-shadow:none}
+.vi-cmd .vi-query{flex:1 1 240px;background:#fff}
+.vi-acts{display:flex;gap:8px;flex-wrap:wrap}
+#video-ideas .vi-acts button{display:inline-flex;align-items:center;gap:6px;border-radius:8px}
+.vi-status{margin:0 0 4px;font-size:13px;color:#5c5750;min-height:20px}
+.vi-shelf{display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;padding:14px 2px 12px;margin-bottom:18px;border-bottom:1px solid #d8d5cf;scrollbar-width:thin;scrollbar-color:#d8d5cf transparent}
+.vi-shelf::-webkit-scrollbar{height:6px}.vi-shelf::-webkit-scrollbar-thumb{background:#d8d5cf;border-radius:3px}
+#video-ideas .vi-av{flex:none;position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;width:80px;min-height:0;padding:0;border:0;background:none;font-size:12px;line-height:1.2;color:#1c1a17}
+.vi-mono{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#f5f3ee;border:1px solid #d8d5cf;font:600 14px WWMono,monospace;color:#1c1a17}
+.vi-av.is-all .vi-mono,.vi-av.is-more .vi-mono{background:#1c1a17;border-color:#1c1a17;color:#fff;font-size:12px}
+.vi-av.is-quiet .vi-av-name{color:#5c5750}
+.vi-av[aria-pressed=true] .vi-mono{box-shadow:0 0 0 2px #fff,0 0 0 4px #8b6002}
+.vi-av:hover .vi-mono{border-color:#1c1a17}
+.vi-av-name{max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vi-av b{position:absolute;top:-4px;right:8px;font:600 11px WWMono,monospace;background:#f6df8c;color:#1c1a17;padding:1px 7px;border-radius:999px}
+.vi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;margin:-6px 0 18px;padding:14px;border-radius:12px;background:#f5f3ee}
+.vi-grid[hidden]{display:none}
+#video-ideas .vi-grid button{display:flex;align-items:center;gap:8px;min-height:40px;padding:4px 12px 4px 4px;border-radius:999px;font-size:14px;text-align:left}
+#video-ideas .vi-grid button[aria-pressed=true]{border-color:#1c1a17;box-shadow:inset 0 0 0 1px #1c1a17}
+.vi-grid .vi-mono{width:28px;height:28px;font-size:10px}
+.vi-grid span:not(.vi-mono){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vi-grid b{margin-left:auto;font:600 11px WWMono,monospace;background:#f6df8c;padding:1px 7px;border-radius:999px}
+@media(max-width:1100px){.vi-inbox{grid-template-columns:minmax(0,1fr)}.vi-tray{position:static}}
+@media(max-width:640px){.vi-conn{border-right:0;padding-right:0}.vi-acts{width:100%}#video-ideas .vi-acts button{flex:1 1 auto;justify-content:center}#video-ideas .vi-av{width:64px}.vi-mono{width:44px;height:44px}.vi-av-name{max-width:64px}}
