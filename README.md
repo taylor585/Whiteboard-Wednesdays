@@ -18,7 +18,7 @@ Run from the repository root:
 python3 -m http.server 8862 --directory public
 ```
 
-Open http://localhost:8862/#/library on that same machine. This shows all eight presentations, the approved clean underline header, and the Creator watchlist, Topics and Schedule layouts. Live video retrieval and saved topics require the full server below. No API key is needed for design work.
+Open http://localhost:8862/#/library on that same machine. This shows all nine presentations, the approved clean underline header, and the Creator watchlist, Topics and Schedule layouts. Live video retrieval and saved topics require the full server below. No API key is needed for design work.
 
 ## Full application
 
@@ -53,6 +53,7 @@ Use the Creator watchlist’s simple Instrument Sans heading style across the ap
 - `public/whiteboard-content.js`, `public/lge-content.js`, `public/vb-content.js`, `public/ah-content.js`, `public/gv-content.js`: presentation content (paid ads, Lead Gen Engine, Vision Boards, AI Harnesses, Grok Voice).
 - `public/vb.css`, `public/vb.js`, `public/ah.css`, `public/gv.css`: slide styles and behaviour scoped to the Vision Boards (`vb-`), AI Harnesses (`hc-`) and Grok Voice (`gv-`) decks.
 - `public/gb-content.js`, `public/gb.css`, `public/gb.js`, `public/gb-reading.html`: the How Powerful Is Grok Bot Really? deck (`gb-`), ported from its approved Variety Pack designs; `gb.js` plays each slide's motion one click at a time.
+- `public/ss-content.js`, `public/ss.css`, `public/ss.js`, `public/ss-reading.html`: the How to Edit Videos with Claude Easily deck (`ss-`), ported the same way from its approved Variety Pack designs (30 October 2026).
 - `public/`: all retained images, fonts, licences, reading views and PDF assets.
 - `app/api/ideas/[[...path]]/route.ts`: server-side watchlist, refresh, topics and subtopics.
 - `youtube-api.mjs`: YouTube Data API adapter.
