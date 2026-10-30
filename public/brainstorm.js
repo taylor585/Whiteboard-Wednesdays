@@ -52,7 +52,9 @@
     const n = c => recentOf(c.handle).length;
     const list = (data().creators || []).filter(c => !q || c.name.toLowerCase().includes(q) || c.handle.toLowerCase().includes(q)).sort((a,b) => n(b) - n(a) || a.name.localeCompare(b.name));
     const connected = c => data().configured || recentOf(c.handle).length;
-    $('#bs-cards').innerHTML = list.length ? list.map(c => '<button type="button" class="bs-card" data-pick="'+esc(c.handle)+'" aria-pressed="'+(picked === c.handle)+'"><span class="bs-card-who"><span class="bs-mono" aria-hidden="true">'+esc(initials(c.name))+'</span><span><span class="bs-cname">'+esc(c.name)+'</span><span class="bs-chandle">'+esc(c.handle)+'</span></span></span><span class="bs-card-ft">'+(connected(c) ? '<span><b class="bs-count">'+n(c)+'</b> <span class="bs-meta">uploads · 14 d</span></span>'+bars(c.handle) : '<span class="bs-meta">Uploads need the YouTube connection</span>')+'</span></button>').join('') : '<p class="bs-muted">No creator matches “'+esc(q)+'”.</p>';
+    // Until YouTube is connected the cards stay compact and the reason is said once, above them.
+    const anyData = (data().creators || []).some(connected);
+    $('#bs-cards').innerHTML = (anyData ? '' : '<p class="bs-rail-note">Upload counts appear once YouTube is connected.</p>')+(list.length ? list.map(c => '<button type="button" class="bs-card" data-pick="'+esc(c.handle)+'" aria-pressed="'+(picked === c.handle)+'"><span class="bs-card-who"><span class="bs-mono" aria-hidden="true">'+esc(initials(c.name))+'</span><span><span class="bs-cname">'+esc(c.name)+'</span><span class="bs-chandle">'+esc(c.handle)+'</span></span></span>'+(connected(c) ? '<span class="bs-card-ft"><span><b class="bs-count">'+n(c)+'</b> <span class="bs-meta">uploads · 14 d</span></span>'+bars(c.handle)+'</span>' : '')+'</button>').join('') : '<p class="bs-muted">No creator matches “'+esc(q)+'”.</p>');
   }
   // Uploads per day for the last 14 days, drawn as a small line; nothing is drawn without real uploads.
   function line(h) {

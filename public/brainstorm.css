@@ -57,9 +57,10 @@
 .bs-find input{width:100%;min-height:44px;padding:8px 12px;border:1px solid #c9c5bd;border-radius:8px;font:inherit;color:#1c1a17;background:#fff;color-scheme:light}
 .bs-cards{display:flex;flex-direction:column;gap:8px;max-height:calc(100vh - 200px);overflow-y:auto;overscroll-behavior:contain;padding:2px;scrollbar-width:thin;scrollbar-color:#d8d5cf transparent}
 .bs-cards::-webkit-scrollbar{width:6px}.bs-cards::-webkit-scrollbar-thumb{background:#d8d5cf;border-radius:3px}
-#brainstorm .bs-card{display:flex;flex-direction:column;gap:10px;width:100%;text-align:left;padding:12px;border-radius:12px;font-size:14px}
+#brainstorm .bs-card{display:flex;flex:none;flex-direction:column;gap:10px;width:100%;text-align:left;padding:12px;border-radius:12px;font-size:14px}
 #brainstorm .bs-card:hover{border-color:#1c1a17}
 #brainstorm .bs-card[aria-pressed=true]{border-color:#1c1a17;box-shadow:inset 0 0 0 1px #1c1a17}
+.bs-rail-note{margin:0 0 2px;font-size:12px;color:#5c5750;flex:none}
 .bs-card-who{display:flex;gap:10px;align-items:center;min-width:0}
 .bs-card-who>span:last-child{display:flex;flex-direction:column;min-width:0}
 .bs-mono{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;background:#f5f3ee;border:1px solid #d8d5cf;font:600 12px WWMono,monospace;color:#1c1a17}
@@ -108,5 +109,5 @@
 .bs-post-sub{margin:6px 0 0}
 @media(prefers-reduced-motion:reduce){.bs-stk,.bs-slot{transition:none}.bs-stk:hover{transform:none}}
 @media(max-width:1200px){.bs-board{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:1000px){.bs-layout{grid-template-columns:minmax(0,1fr)}.bs-cards{flex-direction:row;overflow-x:auto;overflow-y:hidden;max-height:none;padding-bottom:6px}#brainstorm .bs-card{flex:0 0 190px}.bs-profile{position:static;box-shadow:none}}
+@media(max-width:1000px){.bs-layout{grid-template-columns:minmax(0,1fr)}.bs-rail-note{width:100%}.bs-cards{flex-wrap:wrap;flex-direction:row;overflow-x:auto;overflow-y:hidden;max-height:none;padding-bottom:6px}#brainstorm .bs-card{flex:0 0 190px}.bs-profile{position:static;box-shadow:none}}
 @media(max-width:700px){.bs-board{grid-template-columns:minmax(0,1fr);gap:26px;padding:16px;border-width:6px}.bs-stk:nth-child(n){transform:none}}
