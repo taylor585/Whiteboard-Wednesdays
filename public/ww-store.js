@@ -4,7 +4,7 @@
 (() => {
   'use strict';
   const STATUSES = ['new','shortlisted','planned','slides_ready','recorded','edited','posted'];
-  let db = null, topics = [], notes = new Map(), ready = null;
+  let db = null, topics = [], notes = new Map(), ready = null, uploads = null;
   const fail = (error, status=400, extra={}) => { const e = new Error(error); e.status = status; e.result = {error, ...extra}; throw e; };
   const text = (v, max) => typeof v === 'string' && v.length <= max ? v : null;
   function day(v) { if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return null; const d = new Date(v+'T12:00:00Z'); return Number.isNaN(d.getTime()) || d.toISOString().slice(0,10) !== v ? null : d; }
@@ -21,9 +21,17 @@
       fail('Your change could not be saved. Please try again.', 503);
     }
   }
+  // Latest uploads per creator, fetched from YouTube's public channel feeds by scripts/scan-watchlist.mjs and
+  // published next to the page as uploads.json (see SCAN.md). Nothing here comes from the page itself.
+  async function loadUploads() {
+    try { const r = await fetch('uploads.json', {cache:'no-cache'}); if (r.ok) uploads = await r.json(); } catch { uploads = null; }
+  }
+  const videos = () => (uploads?.docs || []).flatMap(d => (d.data.videos || []).map(v => ({id:v.id, handle:d.data.handle, creator:d.data.name, title:v.title, publishedAt:v.publishedAt, thumbnail:v.thumb, description:v.description || '', views:v.views || 0})));
+  const fetchedFor = h => (uploads?.docs || []).find(d => d.data.handle === h)?.data || null;
   async function connect() {
     if (ready) return ready;
     ready = (async () => {
+      await loadUploads();
       if (!window.claude || typeof window.claude.use !== 'function') return null;
       db = await window.claude.use('db');
       if (!db) return null;
@@ -49,10 +57,11 @@
   async function call(path, body) {
     const action = path.split('?')[0].split('/').filter(Boolean).pop() || '';
     if (body === undefined) {
-      if (action === 'creator') return {videos:[]};
+      if (action === 'creator') { const h = new URLSearchParams(path.split('?')[1] || '').get('handle'); return {videos:videos().filter(v => v.handle === h)}; }
       let creators = [];
-      try { creators = (await (await fetch('creators.json')).json()).creators.map(c => ({handle:c.handle, name:c.name, lastSuccess:null, error:null, note:notes.get(c.handle) || ''})); } catch { /* the list still renders empty */ }
-      return {configured:false, store:'claude', creators, videos:[], topics:sorted()};
+      try { creators = (await (await fetch('creators.json')).json()).creators.map(c => { const f = fetchedFor(c.handle); return {handle:c.handle, name:c.name, channelId:c.channelId || null, lastSuccess:f && !f.error ? f.fetchedAt : null, error:f?.error || null, note:notes.get(c.handle) || ''}; }); } catch { /* the list still renders empty */ }
+      // configured: real uploads are on the page. canAdd stays off: finding a new channel needs the YouTube API.
+      return {configured:Boolean(uploads), canAdd:false, store:'claude', fetchedAt:uploads?.fetchedAt || null, creators, videos:videos(), topics:sorted()};
     }
     if (!body || typeof body !== 'object' || Array.isArray(body)) fail('A JSON object is required.');
     const now = new Date().toISOString();
@@ -127,9 +136,33 @@
       const points = t.points.slice(); [points[i], points[j]] = [points[j], points[i]];
       await savePoints(t, points); return {moved:true};
     }
-    fail('Adding and refreshing creators needs the YouTube connection, which this Claude page does not have.', 503);
+    if (action === 'refresh') return startScan(body.handles);
+    fail('Adding a creator needs the YouTube API, which this page does not have. Ask Claude to add the channel to creators.json.', 503);
   }
-  const api = {call, get topics() { return sorted(); }};
+  // A refresh is a job for a Claude Code session: the page cannot read YouTube itself. The request is saved as
+  // scans/<id>; the page then tries to start the session through the viewer's Claude Code Remote connector, and
+  // says plainly when it cannot, so the request can be run from a Claude chat instead.
+  async function startScan(handles) {
+    if (!db) fail('Refreshing needs the app’s database, which this preview does not have.', 503);
+    const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), now = new Date().toISOString();
+    const want = Array.isArray(handles) && handles.length ? handles.filter(h => typeof h === 'string').slice(0, 60) : null;
+    await write(() => db.collection('scans').doc(id).set({status:'queued', handles:want, createdAt:now}));
+    let started = false, why = '', sessionId = null;
+    try {
+      const mcp = window.claude && await window.claude.use('mcp');
+      if (!mcp) why = 'The Claude Code connection is not available on this page.';
+      else {
+        const envs = await mcp.callTool('Claude Code Remote', 'list_environments', {limit:10});
+        const list = envs?.payload?.environments || envs?.payload?.data || (Array.isArray(envs?.payload) ? envs.payload : []);
+        const env = list.find(e => e && (e.id || e.environment_id));
+        const r = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:env ? (env.id || env.environment_id) : undefined, title:'Watchlist scan '+id, source_url:'https://github.com/taylor585/Whiteboard-Wednesdays', prompt:'Run watchlist scan '+id+'. Follow SCAN.md in this repository: fetch the latest uploads for the creators in the scan, publish uploads.json to the Whiteboard Wednesdays app artifact, and mark the scan done.'});
+        sessionId = r?.payload?.id || r?.payload?.session_id || null; started = true;
+      }
+    } catch (e) { why = e && e.code === 'not_granted' ? 'You did not allow the Claude Code connection.' : 'Could not start a Claude Code session ('+((e && (e.code || e.message)) || 'error')+').'; }
+    await write(() => db.collection('scans').doc(id).update(started ? {status:'started', sessionId, startedAt:new Date().toISOString()} : {status:'waiting', note:why}));
+    return {queued:true, id, started, why, message:started ? 'A Claude Code session is fetching the latest uploads. They appear here when it publishes, usually within a few minutes.' : why+' To run it now, tell Claude: “Run watchlist scan '+id+'”.'};
+  }
+  const api = {call, get topics() { return sorted(); }, reloadUploads: async () => { await loadUploads(); window.dispatchEvent(new CustomEvent('ww:store')); }};
   // Settings and Publish keep their own documents in the same database.
   window.WWStore = {connect, db: () => db};
 })();

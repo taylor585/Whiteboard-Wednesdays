@@ -1,216 +1,258 @@
 {
-  "source": "Selected from Taylor’s signed-in YouTube subscriptions",
-  "checkedAt": "2026-10-11",
-  "creators": [
-    {
-      "handle": "@ImSergioCardenas",
-      "name": "Sergio C",
-      "url": "https://www.youtube.com/@ImSergioCardenas"
-    },
-    {
-      "handle": "@nicksaraev",
-      "name": "Nick Saraev",
-      "url": "https://www.youtube.com/@nicksaraev"
-    },
-    {
-      "handle": "@JeremyHaynesTraining",
-      "name": "Jeremy Haynes",
-      "url": "https://www.youtube.com/@JeremyHaynesTraining"
-    },
-    {
-      "handle": "@rileybrownai",
-      "name": "Riley Brown",
-      "url": "https://www.youtube.com/@rileybrownai"
-    },
-    {
-      "handle": "@Tier11",
-      "name": "Tier 11",
-      "url": "https://www.youtube.com/@Tier11"
-    },
-    {
-      "handle": "@AlexFinnOfficial",
-      "name": "Alex Finn",
-      "url": "https://www.youtube.com/@AlexFinnOfficial"
-    },
-    {
-      "handle": "@SabriSubyOfficial",
-      "name": "Sabri Suby",
-      "url": "https://www.youtube.com/@SabriSubyOfficial"
-    },
-    {
-      "handle": "@AlishaConlinHurd",
-      "name": "Alisha Conlin-Hurd",
-      "url": "https://www.youtube.com/@AlishaConlinHurd"
-    },
-    {
-      "handle": "@SkillLeapAI",
-      "name": "Skill Leap AI",
-      "url": "https://www.youtube.com/@SkillLeapAI"
-    },
-    {
-      "handle": "@PaulJLipsky",
-      "name": "Paul J Lipsky",
-      "url": "https://www.youtube.com/@PaulJLipsky"
-    },
-    {
-      "handle": "@bridgemindai",
-      "name": "BridgeMind",
-      "url": "https://www.youtube.com/@bridgemindai"
-    },
-    {
-      "handle": "@GregIsenberg",
-      "name": "Greg Isenberg",
-      "url": "https://www.youtube.com/@GregIsenberg"
-    },
-    {
-      "handle": "@TheDiaryOfACEO",
-      "name": "The Diary Of A CEO",
-      "url": "https://www.youtube.com/@TheDiaryOfACEO"
-    },
-    {
-      "handle": "@garyvee",
-      "name": "GaryVee",
-      "url": "https://www.youtube.com/@garyvee"
-    },
-    {
-      "handle": "@aiDotEngineer",
-      "name": "AI Engineer",
-      "url": "https://www.youtube.com/@aiDotEngineer"
-    },
-    {
-      "handle": "@MarkBuildsBrandsHighlights",
-      "name": "Mark Builds Brands Highlights",
-      "url": "https://www.youtube.com/@MarkBuildsBrandsHighlights"
-    },
-    {
-      "handle": "@colethomasgordon",
-      "name": "Cole Gordon",
-      "url": "https://www.youtube.com/@colethomasgordon"
-    },
-    {
-      "handle": "@VictorAntonioLive",
-      "name": "Victor Antonio",
-      "url": "https://www.youtube.com/@VictorAntonioLive"
-    },
-    {
-      "handle": "@KasimAslam",
-      "name": "Kasim Aslam",
-      "url": "https://www.youtube.com/@KasimAslam"
-    },
-    {
-      "handle": "@AndyElliottOfficial",
-      "name": "Andy Elliott",
-      "url": "https://www.youtube.com/@AndyElliottOfficial"
-    },
-    {
-      "handle": "@AI-GPTWorkshop",
-      "name": "Zubair Trabzada | AI Workshop",
-      "url": "https://www.youtube.com/@AI-GPTWorkshop"
-    },
-    {
-      "handle": "@Elevenlabs",
-      "name": "ElevenLabs",
-      "url": "https://www.youtube.com/@Elevenlabs"
-    },
-    {
-      "handle": "@AZisk",
-      "name": "Alex Ziskind",
-      "url": "https://www.youtube.com/@AZisk"
-    },
-    {
-      "handle": "@CleoAbram",
-      "name": "Cleo Abram",
-      "url": "https://www.youtube.com/@CleoAbram"
-    },
-    {
-      "handle": "@GrantCardone",
-      "name": "Grant Cardone",
-      "url": "https://www.youtube.com/@GrantCardone"
-    },
-    {
-      "handle": "@perpetual_traffic",
-      "name": "Perpetual Traffic",
-      "url": "https://www.youtube.com/@perpetual_traffic"
-    },
-    {
-      "handle": "@maxwellcopy",
-      "name": "Max Sturtevant",
-      "url": "https://www.youtube.com/@maxwellcopy"
-    },
-    {
-      "handle": "@SamPiliero",
-      "name": "Sam Piliero",
-      "url": "https://www.youtube.com/@SamPiliero"
-    },
-    {
-      "handle": "@NetworkChuck",
-      "name": "NetworkChuck",
-      "url": "https://www.youtube.com/@NetworkChuck"
-    },
-    {
-      "handle": "@D2DExperts",
-      "name": "D2D Experts",
-      "url": "https://www.youtube.com/@D2DExperts"
-    },
-    {
-      "handle": "@eoglobal",
-      "name": "EO",
-      "url": "https://www.youtube.com/@eoglobal"
-    },
-    {
-      "handle": "@ericnowoslawski",
-      "name": "Eric Nowoslawski",
-      "url": "https://www.youtube.com/@ericnowoslawski"
-    },
-    {
-      "handle": "@RyanDanielMoran",
-      "name": "Ryan Daniel Moran",
-      "url": "https://www.youtube.com/@RyanDanielMoran"
-    },
-    {
-      "handle": "@DavidOndrej",
-      "name": "David Ondrej",
-      "url": "https://www.youtube.com/@DavidOndrej"
-    },
-    {
-      "handle": "@CreatorMagicAI",
-      "name": "Creator Magic",
-      "url": "https://www.youtube.com/@CreatorMagicAI"
-    },
-    {
-      "handle": "@thecalumjohnsonshow",
-      "name": "The Calum Johnson Show",
-      "url": "https://www.youtube.com/@thecalumjohnsonshow"
-    },
-    {
-      "handle": "@alexxmcfarland",
-      "name": "Alex McFarland",
-      "url": "https://www.youtube.com/@alexxmcfarland"
-    },
-    {
-      "handle": "@buildnpublic",
-      "name": "Beau Johnson",
-      "url": "https://www.youtube.com/@buildnpublic"
-    },
-    {
-      "handle": "@PhilMJonesUK",
-      "name": "Phil M Jones",
-      "url": "https://www.youtube.com/@PhilMJonesUK"
-    },
-    {
-      "handle": "@russellbrunson",
-      "name": "Russell Brunson",
-      "url": "https://www.youtube.com/@russellbrunson"
-    },
-    {
-      "handle": "@samovenstv",
-      "name": "Sam Ovens",
-      "url": "https://www.youtube.com/@samovenstv"
-    },
-    {
-      "handle": "@wolfofwallst",
-      "name": "The Wolf of Wall Street",
-      "url": "https://www.youtube.com/@wolfofwallst"
-    }
-  ]
+ "source": "Selected from Taylor’s signed-in YouTube subscriptions",
+ "checkedAt": "2026-10-11",
+ "creators": [
+  {
+   "handle": "@ImSergioCardenas",
+   "name": "Sergio C",
+   "url": "https://www.youtube.com/@ImSergioCardenas",
+   "channelId": "UC83sDvcU9vJy0W50kwrSpAQ"
+  },
+  {
+   "handle": "@nicksaraev",
+   "name": "Nick Saraev",
+   "url": "https://www.youtube.com/@nicksaraev",
+   "channelId": "UCbo-KbSjJDG6JWQ_MTZ_rNA"
+  },
+  {
+   "handle": "@JeremyHaynesTraining",
+   "name": "Jeremy Haynes",
+   "url": "https://www.youtube.com/@JeremyHaynesTraining",
+   "channelId": "UCuzbImxdBNTUeolGXpLVL0A"
+  },
+  {
+   "handle": "@rileybrownai",
+   "name": "Riley Brown",
+   "url": "https://www.youtube.com/@rileybrownai",
+   "channelId": "UCMcoud_ZW7cfxeIugBflSBw"
+  },
+  {
+   "handle": "@Tier11",
+   "name": "Tier 11",
+   "url": "https://www.youtube.com/@Tier11",
+   "channelId": "UCaJKpcYpU3xxvEj9N_lLH8A"
+  },
+  {
+   "handle": "@AlexFinnOfficial",
+   "name": "Alex Finn",
+   "url": "https://www.youtube.com/@AlexFinnOfficial",
+   "channelId": "UCfQNB91qRP_5ILeu_S_bSkg"
+  },
+  {
+   "handle": "@SabriSubyOfficial",
+   "name": "Sabri Suby",
+   "url": "https://www.youtube.com/@SabriSubyOfficial",
+   "channelId": "UCAxUtcgLiq_gopO87VaZM5w"
+  },
+  {
+   "handle": "@AlishaConlinHurd",
+   "name": "Alisha Conlin-Hurd",
+   "url": "https://www.youtube.com/@AlishaConlinHurd",
+   "channelId": "UC0WddakKjLJxTDh22DmaNQw"
+  },
+  {
+   "handle": "@SkillLeapAI",
+   "name": "Skill Leap AI",
+   "url": "https://www.youtube.com/@SkillLeapAI",
+   "channelId": "UCwSozl89jl2zUDzQ4jGJD3g"
+  },
+  {
+   "handle": "@PaulJLipsky",
+   "name": "Paul J Lipsky",
+   "url": "https://www.youtube.com/@PaulJLipsky",
+   "channelId": "UCmeU2DYiVy80wMBGZzEWnbw"
+  },
+  {
+   "handle": "@bridgemindai",
+   "name": "BridgeMind",
+   "url": "https://www.youtube.com/@bridgemindai",
+   "channelId": "UCwaTGE53GLGC3fDClVl_7TA"
+  },
+  {
+   "handle": "@GregIsenberg",
+   "name": "Greg Isenberg",
+   "url": "https://www.youtube.com/@GregIsenberg",
+   "channelId": "UCPjNBjflYl0-HQtUvOx0Ibw"
+  },
+  {
+   "handle": "@TheDiaryOfACEO",
+   "name": "The Diary Of A CEO",
+   "url": "https://www.youtube.com/@TheDiaryOfACEO",
+   "channelId": "UCGq-a57w-aPwyi3pW7XLiHw"
+  },
+  {
+   "handle": "@garyvee",
+   "name": "GaryVee",
+   "url": "https://www.youtube.com/@garyvee",
+   "channelId": "UCctXZhXmG-kf3tlIXgVZUlw"
+  },
+  {
+   "handle": "@aiDotEngineer",
+   "name": "AI Engineer",
+   "url": "https://www.youtube.com/@aiDotEngineer",
+   "channelId": "UCLKPca3kwwd-B59HNr-_lvA"
+  },
+  {
+   "handle": "@MarkBuildsBrandsHighlights",
+   "name": "Mark Builds Brands Highlights",
+   "url": "https://www.youtube.com/@MarkBuildsBrandsHighlights",
+   "channelId": "UCagFGQdiJi2zNw8OGIaTHdw"
+  },
+  {
+   "handle": "@colethomasgordon",
+   "name": "Cole Gordon",
+   "url": "https://www.youtube.com/@colethomasgordon",
+   "channelId": "UCemqii1eP-fVgijqOqqyFvg"
+  },
+  {
+   "handle": "@VictorAntonioLive",
+   "name": "Victor Antonio",
+   "url": "https://www.youtube.com/@VictorAntonioLive",
+   "channelId": "UCfCyFresVpOJsopvipmcVIQ"
+  },
+  {
+   "handle": "@KasimAslam",
+   "name": "Kasim Aslam",
+   "url": "https://www.youtube.com/@KasimAslam",
+   "channelId": "UClegdjcg8aKiHDJwpQphEow"
+  },
+  {
+   "handle": "@AndyElliottOfficial",
+   "name": "Andy Elliott",
+   "url": "https://www.youtube.com/@AndyElliottOfficial",
+   "channelId": "UCIP99i3azLdyYRxnUkSLJ7g"
+  },
+  {
+   "handle": "@AI-GPTWorkshop",
+   "name": "Zubair Trabzada | AI Workshop",
+   "url": "https://www.youtube.com/@AI-GPTWorkshop",
+   "channelId": "UC2b2wgxm0vFjQfJJ0iRcFRw"
+  },
+  {
+   "handle": "@Elevenlabs",
+   "name": "ElevenLabs",
+   "url": "https://www.youtube.com/@Elevenlabs",
+   "channelId": "UC-ew9TfeD887qUSiWWAAj1w"
+  },
+  {
+   "handle": "@AZisk",
+   "name": "Alex Ziskind",
+   "url": "https://www.youtube.com/@AZisk",
+   "channelId": "UCajiMK_CY9icRhLepS8_3ug"
+  },
+  {
+   "handle": "@CleoAbram",
+   "name": "Cleo Abram",
+   "url": "https://www.youtube.com/@CleoAbram",
+   "channelId": "UC415bOPUcGSamy543abLmRA"
+  },
+  {
+   "handle": "@GrantCardone",
+   "name": "Grant Cardone",
+   "url": "https://www.youtube.com/@GrantCardone",
+   "channelId": "UCdlNK1xcy-Sn8liq7feNxWw"
+  },
+  {
+   "handle": "@perpetual_traffic",
+   "name": "Perpetual Traffic",
+   "url": "https://www.youtube.com/@perpetual_traffic",
+   "channelId": "UCBHuj4q2Gxv7vSVaDrlpLeA"
+  },
+  {
+   "handle": "@maxwellcopy",
+   "name": "Max Sturtevant",
+   "url": "https://www.youtube.com/@maxwellcopy",
+   "channelId": "UCEM2sO7E5KSMIqonVgb98ug"
+  },
+  {
+   "handle": "@SamPiliero",
+   "name": "Sam Piliero",
+   "url": "https://www.youtube.com/@SamPiliero",
+   "channelId": "UCFFCa4tMjhj9g_xKlvqFWxg"
+  },
+  {
+   "handle": "@NetworkChuck",
+   "name": "NetworkChuck",
+   "url": "https://www.youtube.com/@NetworkChuck",
+   "channelId": "UC9x0AN7BWHpCDHSm9NiJFJQ"
+  },
+  {
+   "handle": "@D2DExperts",
+   "name": "D2D Experts",
+   "url": "https://www.youtube.com/@D2DExperts",
+   "channelId": "UCd7H4YxTryTP3WK4UWhYfJg"
+  },
+  {
+   "handle": "@eoglobal",
+   "name": "EO",
+   "url": "https://www.youtube.com/@eoglobal",
+   "channelId": "UClWTCPVi-AU9TeCN6FkGARg"
+  },
+  {
+   "handle": "@ericnowoslawski",
+   "name": "Eric Nowoslawski",
+   "url": "https://www.youtube.com/@ericnowoslawski",
+   "channelId": "UC6ef5yDFz7gm8rARwX3HaDw"
+  },
+  {
+   "handle": "@RyanDanielMoran",
+   "name": "Ryan Daniel Moran",
+   "url": "https://www.youtube.com/@RyanDanielMoran",
+   "channelId": "UCVneetxSKb5lwa2_6c-qO8Q"
+  },
+  {
+   "handle": "@DavidOndrej",
+   "name": "David Ondrej",
+   "url": "https://www.youtube.com/@DavidOndrej",
+   "channelId": "UCPGrgwfbkjTIgPoOh2q1BAg"
+  },
+  {
+   "handle": "@CreatorMagicAI",
+   "name": "Creator Magic",
+   "url": "https://www.youtube.com/@CreatorMagicAI",
+   "channelId": "UC08Fah8EIryeOZRkjBRohcQ"
+  },
+  {
+   "handle": "@thecalumjohnsonshow",
+   "name": "The Calum Johnson Show",
+   "url": "https://www.youtube.com/@thecalumjohnsonshow",
+   "channelId": "UCuvjQYKukKjVyhSVxQibgOw"
+  },
+  {
+   "handle": "@alexxmcfarland",
+   "name": "Alex McFarland",
+   "url": "https://www.youtube.com/@alexxmcfarland",
+   "channelId": "UCt2lbnJCGYhavBvgk1bT9rA"
+  },
+  {
+   "handle": "@buildnpublic",
+   "name": "Beau Johnson",
+   "url": "https://www.youtube.com/@buildnpublic",
+   "channelId": "UCNJPXT4sJaQWB2ZzWM4_zPA"
+  },
+  {
+   "handle": "@PhilMJonesUK",
+   "name": "Phil M Jones",
+   "url": "https://www.youtube.com/@PhilMJonesUK",
+   "channelId": "UCLWWXCVC_fvqjPN-PlLpSdw"
+  },
+  {
+   "handle": "@russellbrunson",
+   "name": "Russell Brunson",
+   "url": "https://www.youtube.com/@russellbrunson",
+   "channelId": "UC2qUDKqTsz00csykCYgdLuA"
+  },
+  {
+   "handle": "@samovenstv",
+   "name": "Sam Ovens",
+   "url": "https://www.youtube.com/@samovenstv",
+   "channelId": "UC2wTiY8JLWNub751LN-5QvQ"
+  },
+  {
+   "handle": "@wolfofwallst",
+   "name": "The Wolf of Wall Street",
+   "url": "https://www.youtube.com/@wolfofwallst",
+   "channelId": "UCEyBnh-q5Mv_D0ySdKhxwGQ"
+  }
+ ]
 }

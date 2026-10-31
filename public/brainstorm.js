@@ -20,14 +20,20 @@
   const SPARK_DAYS = 14, OPEN = ['new','shortlisted','planned'], DAY = 86400000;
   // From Saturday the board looks ahead to next week, so Monday's planning can start at the weekend.
   const current = () => monday(add(today(), 2));
-  let week = current(), spark = null, drag = null, picked = null;
+  let week = current(), spark = null, drag = null, picked = null, ticked = new Set(), scanned = null;
   const data = () => window.WWIdeas.data;
   const topics = () => data().topics || [];
   const status = message => { $('#bs-status').textContent = message; };
   const postOf = t => t.postDate ? parse(t.postDate) : t.recordDate ? add(parse(t.recordDate), 6) : null;
   const recentOf = h => (data().videos || []).filter(v => v.handle === h && Date.parse(v.publishedAt) >= Date.now() - SPARK_DAYS*DAY);
   const latestOf = h => (data().videos || []).filter(v => v.handle === h).sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))[0];
-  const sparks = () => (data().videos || []).filter(v => Date.parse(v.publishedAt) >= Date.now() - SPARK_DAYS*DAY).sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt)).slice(0, 12);
+  const SCAN_EACH = 5;
+  // Sparks: the latest uploads across everyone, or, after Scan for topics, the latest five from each ticked creator.
+  const sparks = () => {
+    const all = (data().videos || []).slice().sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
+    if (scanned) return [...scanned].flatMap(h => all.filter(v => v.handle === h).slice(0, SCAN_EACH));
+    return all.filter(v => Date.parse(v.publishedAt) >= Date.now() - SPARK_DAYS*DAY).slice(0, 12);
+  };
   const angles = () => topics().filter(t => !t.recordDate && OPEN.includes(t.status));
   const slots = () => [add(week, 2), add(week, 4)].map(d => ({day:d, topic:topics().find(t => t.recordDate === iso(d)), past:iso(d) < iso(today())}));
   async function mutate(path, body, success) {
@@ -52,9 +58,10 @@
     const n = c => recentOf(c.handle).length;
     const list = (data().creators || []).filter(c => !q || c.name.toLowerCase().includes(q) || c.handle.toLowerCase().includes(q)).sort((a,b) => n(b) - n(a) || a.name.localeCompare(b.name));
     const connected = c => data().configured || recentOf(c.handle).length;
-    // Until YouTube is connected the cards stay compact and the reason is said once, above them.
+    // Tap a card to tick it; Scan for topics pulls the latest five from each ticked creator into Sparks.
     const anyData = (data().creators || []).some(connected);
-    $('#bs-cards').innerHTML = (anyData ? '' : '<p class="bs-rail-note">Upload counts appear once YouTube is connected.</p>')+(list.length ? list.map(c => '<button type="button" class="bs-card" data-pick="'+esc(c.handle)+'" aria-pressed="'+(picked === c.handle)+'"><span class="bs-card-who"><span class="bs-mono" aria-hidden="true">'+esc(initials(c.name))+'</span><span><span class="bs-cname">'+esc(c.name)+'</span><span class="bs-chandle">'+esc(c.handle)+'</span></span></span>'+(connected(c) ? '<span class="bs-card-ft"><span><b class="bs-count">'+n(c)+'</b> <span class="bs-meta">uploads · 14 d</span></span>'+bars(c.handle)+'</span>' : '')+'</button>').join('') : '<p class="bs-muted">No creator matches “'+esc(q)+'”.</p>');
+    const bar = ticked.size ? '<div class="bs-scanbar"><span>'+ticked.size+' ticked</span><button type="button" id="bs-scan" class="bs-scan"'+(anyData ? '' : ' disabled')+'>Scan for topics</button><button type="button" class="bs-quiet" id="bs-untick">Clear</button></div>' : '';
+    $('#bs-cards').innerHTML = bar+(anyData ? '' : '<p class="bs-rail-note">Upload counts appear once the watchlist has fetched uploads.</p>')+(list.length ? list.map(c => '<div class="bs-card'+(ticked.has(c.handle) ? ' is-ticked' : '')+'"><button type="button" class="bs-tick" data-tick="'+esc(c.handle)+'" aria-pressed="'+ticked.has(c.handle)+'"><span class="bs-box" aria-hidden="true"></span><span class="bs-card-who"><span class="bs-mono" aria-hidden="true">'+esc(initials(c.name))+'</span><span><span class="bs-cname">'+esc(c.name)+'</span><span class="bs-chandle">'+esc(c.handle)+'</span></span></span></button>'+(connected(c) ? '<span class="bs-card-ft"><span><b class="bs-count">'+n(c)+'</b> <span class="bs-meta">uploads · 14 d</span></span>'+bars(c.handle)+'</span>' : '')+'<button type="button" class="bs-prof" data-pick="'+esc(c.handle)+'" aria-pressed="'+(picked === c.handle)+'" aria-label="Profile: '+esc(c.name)+'">Profile</button></div>').join('') : '<p class="bs-muted">No creator matches “'+esc(q)+'”.</p>');
   }
   // Uploads per day for the last 14 days, drawn as a small line; nothing is drawn without real uploads.
   function line(h) {
@@ -78,7 +85,7 @@
   function sparkHtml() {
     const list = sparks();
     if (list.length) return list.map(v => '<button type="button" class="bs-spark" data-video="'+esc(v.id)+'" aria-pressed="'+(spark === v.id)+'"><span class="bs-meta">'+esc(v.creator)+' · '+esc(ago(v.publishedAt))+'</span><span class="bs-spark-title">'+esc(v.title)+'</span></button>').join('');
-    if (!data().configured) return '<div class="bs-empty"><p><b>Live uploads appear here once the YouTube connection is switched on.</b></p><p>Until then, write your own angles on the shortlist.</p></div>';
+    if (!data().configured) return '<div class="bs-empty"><p><b>Uploads appear here once the Creator watchlist has fetched them.</b></p><p>Press Refresh uploads there, or write your own angles on the shortlist.</p></div>';
     return '<div class="bs-empty"><p>No uploads in the last '+SPARK_DAYS+' days.</p></div>';
   }
   function angleHtml(t) {
@@ -106,7 +113,7 @@
     $('#bs-week').textContent = (thisWeek ? 'Recording week' : 'Week')+' of '+fmt(week,{day:'numeric',month:'long'});
     $('#bs-today').disabled = thisWeek;
     cards(); profile();
-    $('#bs-sparks').innerHTML = sparkHtml();
+    $('#bs-sparks').innerHTML = (scanned ? '<p class="bs-scanned">Latest '+SCAN_EACH+' from '+scanned.size+' creator'+(scanned.size === 1 ? '' : 's')+' <button type="button" class="bs-quiet" id="bs-untick">Show everyone</button></p>' : '')+sparkHtml();
     const list = angles();
     $('#bs-angles').innerHTML = list.length ? list.map(angleHtml).join('') : '<li class="bs-empty"><p>No angles waiting. Write one below, or spark one from the Creator watchlist.</p></li>';
     const chosen = spark && (data().videos || []).find(v => v.id === spark);
@@ -125,6 +132,9 @@
   root.addEventListener('click', async event => {
     const el = event.target.closest('button');
     if (!el) return;
+    if (el.dataset.tick) { const h = el.dataset.tick; if (ticked.has(h)) ticked.delete(h); else ticked.add(h); if (scanned && !ticked.size) scanned = null; cards(); $('[data-tick="'+CSS.escape(h)+'"]')?.focus(); return; }
+    if (el.id === 'bs-scan') { scanned = new Set(ticked); render(); const first = sparks()[0]; status(first ? 'Showing the latest '+SCAN_EACH+' uploads from each of '+scanned.size+' creators. Tap one to write an angle.' : 'No uploads stored for those creators yet. Refresh the Creator watchlist first.'); $('#bs-sparks-h').scrollIntoView({block:'nearest'}); return; }
+    if (el.id === 'bs-untick') { ticked.clear(); scanned = null; render(); $('#bs-find').focus(); return; }
     if (el.dataset.pick) { picked = picked === el.dataset.pick ? null : el.dataset.pick; spark = null; render(); (picked ? $('#bs-close') : $('[data-pick="'+CSS.escape(el.dataset.pick)+'"]'))?.focus(); return; }
     if (el.id === 'bs-close') { const was = picked; picked = null; render(); $('[data-pick="'+CSS.escape(was)+'"]')?.focus(); return; }
     if (el.dataset.video) { spark = spark === el.dataset.video ? null : el.dataset.video; render(); $('#bs-title').focus(); return; }
