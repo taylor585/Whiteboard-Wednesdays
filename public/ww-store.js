@@ -160,18 +160,9 @@
     const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), now = new Date().toISOString();
     const want = Array.isArray(handles) && handles.length ? handles.filter(h => typeof h === 'string').slice(0, 60) : null;
     await write(() => db.collection('scans').doc(id).set({status:'queued', handles:want, createdAt:now}));
-    let started = false, why = '', sessionId = null;
-    try {
-      const mcp = window.claude && await window.claude.use('mcp');
-      if (!mcp) why = 'The Claude Code connection is not available on this page.';
-      else {
-        const envs = await mcp.callTool('Claude Code Remote', 'list_environments', {limit:10});
-        const list = envs?.payload?.environments || envs?.payload?.data || (Array.isArray(envs?.payload) ? envs.payload : []);
-        const env = list.find(e => e && (e.id || e.environment_id));
-        const r = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:env ? (env.id || env.environment_id) : undefined, title:'Watchlist scan '+id, source_url:'https://github.com/taylor585/Whiteboard-Wednesdays', prompt:'Run watchlist scan '+id+'. Follow SCAN.md in this repository: fetch the latest uploads for the creators in the scan, publish uploads.json to the Whiteboard Wednesdays app artifact, and mark the scan done.'});
-        sessionId = r?.payload?.id || r?.payload?.session_id || null; started = true;
-      }
-    } catch (e) { why = e && e.code === 'not_granted' ? 'You did not allow the Claude Code connection.' : 'Could not start a Claude Code session ('+((e && (e.code || e.message)) || 'error')+').'; }
+    // Starting the session from the page needs the connector permission, which froze the Claude desktop app
+    // (31 October: its local connectors tried to start and one failed), so the page only queues the request.
+    const started = false, why = 'The fetch runs from a Claude chat.', sessionId = null;
     await write(() => db.collection('scans').doc(id).update(started ? {status:'started', sessionId, startedAt:new Date().toISOString()} : {status:'waiting', note:why}));
     return {queued:true, id, started, why, message:started ? 'A Claude Code session is fetching the latest uploads. They appear here when it publishes, usually within a few minutes.' : why+' To run it now, tell Claude: “Run watchlist scan '+id+'”.'};
   }
