@@ -66,7 +66,20 @@
     if (!body || typeof body !== 'object' || Array.isArray(body)) fail('A JSON object is required.');
     const now = new Date().toISOString();
     if (action === 'topic') {
-      if (body.videoId !== undefined) fail('Saving videos needs the YouTube connection, which this Claude page does not have.');
+      // Spark a topic from a fetched upload: a new topic titled after the video, or the video added to an existing topic.
+      if (body.videoId !== undefined) {
+        const v = videos().find(x => x.id === body.videoId);
+        if (!v) fail('That video is not in the fetched uploads. Refresh the watchlist and try again.', 404);
+        const source = {id:v.id, title:v.title, creator:v.creator, handle:v.handle, publishedAt:v.publishedAt, thumbnail:v.thumbnail};
+        if (body.topicId) {
+          const t = find(text(body.topicId, 64));
+          if (!t.sources.some(s => s.id === v.id)) await write(() => ref(t.id).update({sources:[...t.sources, source], updatedAt:now}));
+          return {id:t.id, added:true};
+        }
+        const id = crypto.randomUUID(), title = (text(body.title, 200) || v.title).trim().slice(0, 200);
+        await write(() => ref(id).set({title, status:'new', notes:'', recordDate:null, postDate:null, deckId:null, createdAt:now, updatedAt:now, sources:[source], points:[]}));
+        return {id, created:true};
+      }
       const title = text(body.title, 200);
       if (!title || !title.trim()) fail('Give the topic a title.');
       const id = crypto.randomUUID();
