@@ -115,7 +115,9 @@
     const failed = data.creators.filter(c => c.error);
     $('#ideas-warning').hidden = !failed.length;
     $('#ideas-warning').textContent = failed.length + ' creator refresh'+(failed.length===1?'':'es')+' failed. Previously loaded videos remain visible. Retry refresh to check for missing uploads.';
-    connection(); whoList(); feed(); tray();
+    // The inbox is heavy (hundreds of cards), so draw it only while the screen is showing; the route handler draws it on open.
+    if (root.hidden) { root.dataset.stale = '1'; return; }
+    delete root.dataset.stale; connection(); whoList(); feed(); tray();
   }
   function emit() { window.dispatchEvent(new CustomEvent('ww:data', {detail:data})); }
   async function load(auto=false) {
