@@ -49,7 +49,7 @@
   // Shared by the creator page and Topics: one spark makes a new topic with the video as its source.
   async function spark(id) {
     if (!data.ready) { announce('Topics need the app’s saved data, which is not available here.'); return false; }
-    try { await api('/topic', {videoId:id}); seen.add(id); keepSeen(); await load(); announce('Sparked into Topics. It waits on the shortlist.'); return true; }
+    try { await api('/topic', {videoId:id}); seen.add(id); keepSeen(); scanNoteUntil = Date.now() + 8000; await load(); announce('Sparked into Topics. It waits on the shortlist.'); return true; }
     catch (error) { announce(error.message); return false; }
   }
   // Avatar shelf, design WL-B (Taylor, 30 October 2026): creators with new uploads first, a yellow count, and a grid of everyone behind "All".
