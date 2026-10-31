@@ -25,14 +25,30 @@
   const topics = () => data().topics || [];
   const status = message => { $('#bs-status').textContent = message; };
   const postOf = t => t.postDate ? parse(t.postDate) : t.recordDate ? add(parse(t.recordDate), 6) : null;
-  const recentOf = h => (data().videos || []).filter(v => v.handle === h && Date.parse(v.publishedAt) >= Date.now() - SPARK_DAYS*DAY);
-  const latestOf = h => (data().videos || []).filter(v => v.handle === h).sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt))[0];
+  // One index per data load: each creator's uploads newest first, the last 14 days, and a per-day count.
+  // Built once and reused, so a tap on a card costs nothing measurable even with 600+ videos loaded.
+  let idxFor = null, idx = new Map(), sortedAll = [];
+  function index() {
+    const vids = data().videos || [];
+    if (idxFor === vids) return idx;
+    idxFor = vids; idx = new Map(); const now = Date.now(), cut = now - SPARK_DAYS*DAY;
+    sortedAll = vids.map(v => ({v, t:Date.parse(v.publishedAt)})).sort((a,b) => b.t - a.t);
+    for (const {v, t} of sortedAll) {
+      let e = idx.get(v.handle); if (!e) idx.set(v.handle, e = {all:[], recent:[], days:new Array(SPARK_DAYS).fill(0)});
+      e.all.push(v);
+      if (t >= cut && t <= now) { e.recent.push(v); const d = Math.floor((now - t) / DAY); if (d >= 0 && d < SPARK_DAYS) e.days[SPARK_DAYS-1-d]++; }
+    }
+    return idx;
+  }
+  const recentOf = h => index().get(h)?.recent || [];
+  const latestOf = h => index().get(h)?.all[0];
   const SCAN_EACH = 5;
   // Sparks: the latest uploads across everyone, or, after Scan for topics, the latest five from each ticked creator.
   const sparks = () => {
-    const all = (data().videos || []).slice().sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
-    if (scanned) return [...scanned].flatMap(h => all.filter(v => v.handle === h).slice(0, SCAN_EACH));
-    return all.filter(v => Date.parse(v.publishedAt) >= Date.now() - SPARK_DAYS*DAY).slice(0, 12);
+    const ix = index();
+    if (scanned) return [...scanned].flatMap(h => (ix.get(h)?.all || []).slice(0, SCAN_EACH));
+    const cut = Date.now() - SPARK_DAYS*DAY;
+    return sortedAll.filter(x => x.t >= cut).slice(0, 12).map(x => x.v);
   };
   const angles = () => topics().filter(t => !t.recordDate && OPEN.includes(t.status));
   const slots = () => [add(week, 2), add(week, 4)].map(d => ({day:d, topic:topics().find(t => t.recordDate === iso(d)), past:iso(d) < iso(today())}));
@@ -49,7 +65,7 @@
   const initials = name => name.replace(/[^\p{L}\p{N} ]/gu, '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '?';
   // Creator cards: busiest first, each with its 14-day upload bars; nothing is drawn without real uploads.
   function bars(h) {
-    const days = Array.from({length:SPARK_DAYS}, (_, i) => recentOf(h).filter(v => Math.floor((Date.now() - Date.parse(v.publishedAt)) / DAY) === SPARK_DAYS-1-i).length);
+    const days = index().get(h)?.days || new Array(SPARK_DAYS).fill(0);
     const max = Math.max(1, ...days);
     return '<span class="bs-bars" aria-hidden="true">'+days.map(n => '<i style="height:'+(n ? 20+Math.round(n/max*80) : 8)+'%"'+(n ? '' : ' class="z"')+'></i>').join('')+'</span>';
   }
@@ -60,12 +76,16 @@
     const connected = c => data().configured || recentOf(c.handle).length;
     // Tap a card to tick it; Scan for topics pulls the latest five from each ticked creator into Sparks.
     const anyData = (data().creators || []).some(connected);
-    const bar = ticked.size ? '<div class="bs-scanbar"><span>'+ticked.size+' ticked</span><button type="button" id="bs-scan" class="bs-scan"'+(anyData ? '' : ' disabled')+'>Scan for topics</button><button type="button" class="bs-quiet" id="bs-untick">Clear</button></div>' : '';
-    $('#bs-cards').innerHTML = bar+(anyData ? '' : '<p class="bs-rail-note">Upload counts appear once the watchlist has fetched uploads.</p>')+(list.length ? list.map(c => '<div class="bs-card'+(ticked.has(c.handle) ? ' is-ticked' : '')+'"><button type="button" class="bs-tick" data-tick="'+esc(c.handle)+'" aria-pressed="'+ticked.has(c.handle)+'"><span class="bs-box" aria-hidden="true"></span><span class="bs-card-who"><span class="bs-mono" aria-hidden="true">'+esc(initials(c.name))+'</span><span><span class="bs-cname">'+esc(c.name)+'</span><span class="bs-chandle">'+esc(c.handle)+'</span></span></span></button>'+(connected(c) ? '<span class="bs-card-ft"><span><b class="bs-count">'+n(c)+'</b> <span class="bs-meta">uploads · 14 d</span></span>'+bars(c.handle)+'</span>' : '')+'<button type="button" class="bs-prof" data-pick="'+esc(c.handle)+'" aria-pressed="'+(picked === c.handle)+'" aria-label="Profile: '+esc(c.name)+'">Profile</button></div>').join('') : '<p class="bs-muted">No creator matches “'+esc(q)+'”.</p>');
+    $('#bs-cards').innerHTML = '<div id="bs-scanbar-slot"></div>'+(anyData ? '' : '<p class="bs-rail-note">Upload counts appear once the watchlist has fetched uploads.</p>')+(list.length ? list.map(c => '<div class="bs-card'+(ticked.has(c.handle) ? ' is-ticked' : '')+'"><button type="button" class="bs-tick" data-tick="'+esc(c.handle)+'" aria-pressed="'+ticked.has(c.handle)+'"><span class="bs-box" aria-hidden="true"></span><span class="bs-card-who"><span class="bs-mono" aria-hidden="true">'+esc(initials(c.name))+'</span><span><span class="bs-cname">'+esc(c.name)+'</span><span class="bs-chandle">'+esc(c.handle)+'</span></span></span></button>'+(connected(c) ? '<span class="bs-card-ft"><span><b class="bs-count">'+n(c)+'</b> <span class="bs-meta">uploads · 14 d</span></span>'+bars(c.handle)+'</span>' : '')+'<button type="button" class="bs-prof" data-pick="'+esc(c.handle)+'" aria-pressed="'+(picked === c.handle)+'" aria-label="Profile: '+esc(c.name)+'">Profile</button></div>').join('') : '<p class="bs-muted">No creator matches “'+esc(q)+'”.</p>');
+  }
+  function scanBar() {
+    const slot = $('#bs-scanbar-slot'); if (!slot) return;
+    const anyData = (data().creators || []).some(c => data().configured || recentOf(c.handle).length);
+    slot.innerHTML = ticked.size ? '<div class="bs-scanbar"><span>'+ticked.size+' ticked</span><button type="button" id="bs-scan" class="bs-scan"'+(anyData ? '' : ' disabled')+'>Scan for topics</button><button type="button" class="bs-quiet" id="bs-untick">Clear</button></div>' : '';
   }
   // Uploads per day for the last 14 days, drawn as a small line; nothing is drawn without real uploads.
   function line(h) {
-    const days = Array.from({length:SPARK_DAYS}, (_, i) => recentOf(h).filter(v => Math.floor((Date.now() - Date.parse(v.publishedAt)) / DAY) === SPARK_DAYS-1-i).length);
+    const days = index().get(h)?.days || new Array(SPARK_DAYS).fill(0);
     const max = Math.max(1, ...days), w = 240, ht = 40;
     const pts = days.map((n, i) => (i*w/(SPARK_DAYS-1)).toFixed(1)+','+(ht-4-n/max*(ht-10)).toFixed(1)).join(' ');
     return '<svg class="bs-line" viewBox="0 0 '+w+' '+ht+'" preserveAspectRatio="none" role="img" aria-label="'+days.reduce((s,n) => s+n, 0)+' uploads in the last 14 days"><polyline points="'+pts+'"/></svg>';
@@ -112,7 +132,7 @@
     const thisWeek = iso(week) === iso(current());
     $('#bs-week').textContent = (thisWeek ? 'Recording week' : 'Week')+' of '+fmt(week,{day:'numeric',month:'long'});
     $('#bs-today').disabled = thisWeek;
-    cards(); profile();
+    cards(); scanBar(); profile();
     $('#bs-sparks').innerHTML = (scanned ? '<p class="bs-scanned">Latest '+SCAN_EACH+' from '+scanned.size+' creator'+(scanned.size === 1 ? '' : 's')+' <button type="button" class="bs-quiet" id="bs-untick">Show everyone</button></p>' : '')+sparkHtml();
     const list = angles();
     $('#bs-angles').innerHTML = list.length ? list.map(angleHtml).join('') : '<li class="bs-empty"><p>No angles waiting. Write one below, or spark one from the Creator watchlist.</p></li>';
@@ -132,7 +152,12 @@
   root.addEventListener('click', async event => {
     const el = event.target.closest('button');
     if (!el) return;
-    if (el.dataset.tick) { const h = el.dataset.tick; if (ticked.has(h)) ticked.delete(h); else ticked.add(h); if (scanned && !ticked.size) scanned = null; cards(); $('[data-tick="'+CSS.escape(h)+'"]')?.focus(); return; }
+    if (el.dataset.tick) {
+      const h = el.dataset.tick, card = el.closest('.bs-card');
+      if (ticked.has(h)) ticked.delete(h); else ticked.add(h);
+      if (scanned && !ticked.size) { scanned = null; render(); } else { card.classList.toggle('is-ticked', ticked.has(h)); el.setAttribute('aria-pressed', String(ticked.has(h))); scanBar(); }
+      $('[data-tick="'+CSS.escape(h)+'"]')?.focus(); return;
+    }
     if (el.id === 'bs-scan') { scanned = new Set(ticked); render(); const first = sparks()[0]; status(first ? 'Showing the latest '+SCAN_EACH+' uploads from each of '+scanned.size+' creators. Tap one to write an angle.' : 'No uploads stored for those creators yet. Refresh the Creator watchlist first.'); $('#bs-sparks-h').scrollIntoView({block:'nearest'}); return; }
     if (el.id === 'bs-untick') { ticked.clear(); scanned = null; render(); $('#bs-find').focus(); return; }
     if (el.dataset.pick) { picked = picked === el.dataset.pick ? null : el.dataset.pick; spark = null; render(); (picked ? $('#bs-close') : $('[data-pick="'+CSS.escape(el.dataset.pick)+'"]'))?.focus(); return; }
@@ -150,7 +175,7 @@
     if (el.id === 'bs-next') { week = add(week, 7); render(); }
     if (el.id === 'bs-today') { week = current(); render(); }
   });
-  $('#bs-find').addEventListener('input', cards);
+  $('#bs-find').addEventListener('input', () => { cards(); scanBar(); });
   root.addEventListener('change', async event => {
     if (event.target.id !== 'bs-note-text') return;
     const c = (data().creators || []).find(x => x.handle === picked); if (!c) return;
