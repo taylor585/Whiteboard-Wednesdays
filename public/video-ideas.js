@@ -6,7 +6,7 @@
   const root = document.querySelector('#video-ideas');
   const $ = s => root.querySelector(s);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  let data = {creators:[], videos:[], topics:[], configured:false, ready:false}, busy = false, candidate = null, who = null, saving = null;
+  let data = {creators:[], videos:[], topics:[], configured:false, ready:false}, busy = false, candidate = null, who = null, saving = null, scanNoteUntil = 0;
   const date = value => new Intl.DateTimeFormat('en-GB', {weekday:'short',day:'numeric',month:'short'}).format(new Date(value));
   const short = value => new Intl.DateTimeFormat('en-GB', {day:'numeric',month:'short'}).format(new Date(value));
   const DAY = 86400000, WINDOW = 30;
@@ -71,7 +71,7 @@
   function connection() {
     const last = data.creators.map(c => c.lastSuccess).filter(Boolean).sort().pop();
     $('#ideas-conn').innerHTML = data.configured
-      ? '<i class="vi-lamp is-on" aria-hidden="true"></i><span><b>YouTube connected</b><span>'+(busy ? 'Checking creators…' : last ? 'Checked '+date(last) : 'Not checked yet')+' · '+data.creators.length+' creators</span></span>'
+      ? '<i class="vi-lamp is-on" aria-hidden="true"></i><span><b>'+(data.store === 'claude' ? 'Public feeds' : 'YouTube connected')+'</b><span>'+(busy ? 'Asking for the latest…' : last ? 'Fetched '+date(last) : 'Not fetched yet')+' · '+data.creators.length+' creators</span></span>'
       : '<i class="vi-lamp" aria-hidden="true"></i><span><b>Not connected</b><span>Uploads need the YouTube connection</span></span>';
   }
   function item(v) {
@@ -108,7 +108,8 @@
     const fresh = unread(recent()).length;
     $('#ideas-heading').textContent = fresh ? fresh+' new since you last looked' : 'Creator watchlist';
     $('#ideas-refresh').disabled = busy || !data.configured;
-    $('#ideas-add').disabled = !data.configured;
+    $('#ideas-add').disabled = data.canAdd === false || !data.configured;
+    $('#ideas-add').title = data.canAdd === false ? 'Adding a channel needs the YouTube API. Ask Claude to add it to the list.' : '';
     $('#ideas-seen').disabled = !fresh;
     $('#ideas-seen-label').textContent = fresh ? 'Mark '+fresh+' seen' : 'Mark all seen';
     const failed = data.creators.filter(c => c.error);
@@ -118,7 +119,7 @@
   }
   function emit() { window.dispatchEvent(new CustomEvent('ww:data', {detail:data})); }
   async function load(auto=false) {
-    try { data = {...await api(''), ready:true}; data.topics ||= []; render(); emit(); announce(data.configured ? 'Watchlist loaded. Refresh to check for new uploads.' : 'The YouTube connection is not switched on yet.'); if(auto && location.hash.startsWith('#/watchlist') && data.configured && data.creators.some(c=>!c.lastSuccess || Date.now()-Date.parse(c.lastSuccess)>=3600000)) await refresh(); }
+    try { data = {...await api(''), ready:true}; data.topics ||= []; render(); emit(); if (Date.now() > scanNoteUntil) announce(data.configured ? 'Watchlist loaded. Refresh to check for new uploads.' : 'Uploads have not been fetched yet. Press Refresh uploads.'); if(auto && data.store !== 'claude' && location.hash.startsWith('#/watchlist') && data.configured && data.creators.some(c=>!c.lastSuccess || Date.now()-Date.parse(c.lastSuccess)>=3600000)) await refresh(); }
     catch (error) {
       try { const response = await fetch('creators.json'); const seed = await response.json(); data.creators = seed.creators; } catch { /* Keep the readable connection error. */ }
       if (!store && window.WWStore) { store = await window.WWStore.connect().catch(() => null); if (store) return load(auto); }
@@ -127,6 +128,12 @@
   }
   async function refresh() {
     if (busy || !data.configured) return;
+    if (data.store === 'claude') {
+      busy = true; render(); announce('Asking for the latest uploads…');
+      try { const r = await api('/refresh', {}); scanNoteUntil = Date.now() + 120000; announce(r.message); }
+      catch (error) { announce(error.message); }
+      busy = false; render(); return;
+    }
     busy = true; render(); let successes=0, failures=0;
     for (const [index,c] of data.creators.entries()) {
       announce('Checking '+c.name+' · '+(index+1)+' of '+data.creators.length);
@@ -186,7 +193,7 @@
     const bits = event.detail;
     if (bits[0] !== 'watchlist') return;
     who = bits[1] === 'creator' && bits[2] ? bits[2] : null; render();
-    if (data.ready && data.configured && data.creators.some(c=>!c.lastSuccess || Date.now()-Date.parse(c.lastSuccess)>=3600000)) refresh();
+    if (data.ready && data.store !== 'claude' && data.configured && data.creators.some(c=>!c.lastSuccess || Date.now()-Date.parse(c.lastSuccess)>=3600000)) refresh();
   });
   window.addEventListener('ww:store', () => { if (store) load(); });
   // An in-page confirmation, because a Claude artifact cannot show the browser's own confirm box.
