@@ -13,6 +13,8 @@
 .bs-zone h2{margin:0;font:600 30px/1 WWHand,cursive;border-bottom:2px solid #1c1a17;padding-bottom:8px}
 .bs-meta{display:block;font-size:12px;line-height:1.35;color:#5c5750;font-family:WWBody,Arial,sans-serif;font-weight:400}
 .bs-list{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+/* Inside a scrolling list every card keeps its full height; without this the column squashed them and clipped titles. */
+.bs-list>*{flex:none}
 #bs-sparks{max-height:72vh;overflow-y:auto;overscroll-behavior:contain;padding-right:2px;scrollbar-width:thin;scrollbar-color:#d8d5cf transparent}
 #brainstorm .bs-spark{display:flex;flex-direction:column;gap:4px;text-align:left;background:#f5f3ee;border:1px solid #d8d5cf;border-radius:8px;padding:10px 12px}
 #brainstorm .bs-spark[aria-pressed=true]{border:2px solid #8b6002;padding:9px 11px}
@@ -70,7 +72,8 @@
 .bs-scanbar{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;padding:10px 12px;border-radius:10px;background:#f6df8c;font-size:14px;flex:none}
 #brainstorm .bs-scan{min-height:40px;padding:8px 14px;border:0;border-radius:8px;background:#1c1a17;color:#fff;font-weight:600;margin-left:auto}
 #brainstorm .bs-scan:disabled{background:#5c5750}
-.bs-scanned{margin:0;font-size:13px;color:#5c5750;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+.bs-scanned{margin:0;font-size:13px;color:#5c5750;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+#brainstorm .bs-scanned .bs-quiet{padding:0;min-height:0}
 .bs-rail-note{margin:0 0 2px;font-size:12px;color:#5c5750;flex:none}
 .bs-card-who{display:flex;gap:10px;align-items:center;min-width:0;padding-right:56px}
 .bs-card-who>span:last-child{display:flex;flex-direction:column;min-width:0}
