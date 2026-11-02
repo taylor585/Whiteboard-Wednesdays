@@ -4,12 +4,12 @@
 (() => {
   'use strict';
   const STATUSES = ['new','shortlisted','planned','slides_ready','recorded','edited','posted'];
-  let db = null, topics = [], notes = new Map(), ready = null, uploads = null;
+  let db = null, topics = [], notes = new Map(), ready = null, uploads = null, runs = [];
   const fail = (error, status=400, extra={}) => { const e = new Error(error); e.status = status; e.result = {error, ...extra}; throw e; };
   const text = (v, max) => typeof v === 'string' && v.length <= max ? v : null;
   function day(v) { if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return null; const d = new Date(v+'T12:00:00Z'); return Number.isNaN(d.getTime()) || d.toISOString().slice(0,10) !== v ? null : d; }
   const shape = (id, t) => ({id, title:t.title || '', status:t.status || 'new', notes:t.notes || '', recordDate:t.recordDate || null, postDate:t.postDate || null, deckId:t.deckId || null,
-    createdAt:t.createdAt || '', updatedAt:t.updatedAt || '', sources:Array.isArray(t.sources) ? t.sources : [], points:(Array.isArray(t.points) ? t.points : []).slice().sort((a,b) => a.position - b.position)});
+    createdAt:t.createdAt || '', updatedAt:t.updatedAt || '', origin:t.origin || null, skillLock:t.skillLock || null, sources:Array.isArray(t.sources) ? t.sources : [], points:(Array.isArray(t.points) ? t.points : []).slice().sort((a,b) => a.position - b.position)});
   const sorted = () => topics.slice().sort((a,b) => (a.recordDate ? 0 : 1) - (b.recordDate ? 0 : 1) || String(a.recordDate).localeCompare(String(b.recordDate)) || String(b.createdAt).localeCompare(String(a.createdAt)));
   const ref = id => db.collection('topics').doc(id);
   async function write(fn) {
@@ -44,6 +44,11 @@
           window.dispatchEvent(new CustomEvent('ww:store'));
         }, () => { clearTimeout(timer); resolve(); });
       });
+      // Skill ideas: each run of the Trending Topics skill is one document, ideaRuns/<id> (see SKILL-IDEAS.md).
+      db.collection('ideaRuns').onSnapshot(snap => {
+        runs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()}));
+        window.dispatchEvent(new CustomEvent('ww:store'));
+      }, () => {});
       // Private notes on creators, one document per handle.
       db.collection('creatorNotes').onSnapshot(snap => {
         notes = new Map(snap.docs.filter(d => d.exists).map(d => [d.id, String(d.data().note || '')]));
@@ -61,7 +66,7 @@
       let creators = [];
       try { creators = (await (await fetch('creators.json')).json()).creators.map(c => { const f = fetchedFor(c.handle); return {handle:c.handle, name:c.name, channelId:c.channelId || null, lastSuccess:f && !f.error ? f.fetchedAt : null, error:f?.error || null, note:notes.get(c.handle) || ''}; }); } catch { /* the list still renders empty */ }
       // configured: real uploads are on the page. canAdd stays off: finding a new channel needs the YouTube API.
-      return {configured:Boolean(uploads), canAdd:false, store:'claude', fetchedAt:uploads?.fetchedAt || null, creators, videos:videos(), topics:sorted()};
+      return {configured:Boolean(uploads), canAdd:false, store:'claude', fetchedAt:uploads?.fetchedAt || null, creators, videos:videos(), topics:sorted(), ideaRuns:db ? runs.slice().sort((a,b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 6) : null};
     }
     if (!body || typeof body !== 'object' || Array.isArray(body)) fail('A JSON object is required.');
     const now = new Date().toISOString();
@@ -150,6 +155,27 @@
       await savePoints(t, points); return {moved:true};
     }
     if (action === 'refresh') return startScan(body.handles);
+    if (action === 'idea-run') {
+      // Like a refresh, the run is a job for a Claude Code session: the skill reads sessions, repositories and skills.
+      if (!db) fail('Skill ideas need the app’s database, which this preview does not have.', 503);
+      const id = now.slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7);
+      await write(() => db.collection('ideaRuns').doc(id).set({status:'requested', skill:'trending-topics', mix:'five-and-five', count:10, createdAt:now, ideas:[], added:{}}));
+      return {id, line:'Run topic ideas '+id};
+    }
+    if (action === 'idea-add') {
+      // Shortlist and lock (Taylor's pick, 2 November): the title goes on the Shortlist word for word, and the next
+      // Claude run locks it in the skill's topic register (skillLock pending → locked).
+      const run = runs.find(r => r.id === body.runId) || fail('That run of the skill is no longer here.', 404);
+      const idea = (run.ideas || []).find(i => i.id === body.ideaId) || fail('That idea is no longer in the run.', 404);
+      const already = (run.added || {})[idea.id];
+      if (already && topics.some(t => t.id === already)) return {id:already, added:false};
+      const id = crypto.randomUUID(), title = String(idea.title || '').trim().slice(0, 200);
+      if (!title) fail('That idea has no title.');
+      const origin = {kind:'skill', skill:'trending-topics', runId:run.id, ideaId:idea.id, source:idea.source === 'creator' ? 'creator' : 'own', why:String(idea.why || '').slice(0, 400)};
+      await write(() => ref(id).set({title, status:'shortlisted', notes:'', recordDate:null, postDate:null, deckId:null, createdAt:now, updatedAt:now, sources:[], points:[], origin, skillLock:'pending'}));
+      await write(() => db.collection('ideaRuns').doc(run.id).update({added:{...(run.added || {}), [idea.id]:id}}));
+      return {id, created:true};
+    }
     fail('Adding a creator needs the YouTube API, which this page does not have. Ask Claude to add the channel to creators.json.', 503);
   }
   // A refresh is a job for a Claude Code session: the page cannot read YouTube itself. The request is saved as
