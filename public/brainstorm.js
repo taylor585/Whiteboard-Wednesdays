@@ -20,7 +20,7 @@
   const SPARK_DAYS = 14, OPEN = ['new','shortlisted','planned'], DAY = 86400000;
   // From Saturday the board looks ahead to next week, so Monday's planning can start at the weekend.
   const current = () => monday(add(today(), 2));
-  let week = current(), spark = null, drag = null, picked = null, ticked = new Set(), scanned = null;
+  let week = current(), spark = null, drag = null, picked = null, ticked = new Set(), scanned = null, view = 'creators';
   const data = () => window.WWIdeas.data;
   const topics = () => data().topics || [];
   const status = message => { $('#bs-status').textContent = message; };
@@ -108,9 +108,38 @@
     if (!data().configured) return '<div class="bs-empty"><p><b>Uploads appear here once the Creator watchlist has fetched them.</b></p><p>Press Refresh uploads there, or write your own angles on the shortlist.</p></div>';
     return '<div class="bs-empty"><p>No uploads in the last '+SPARK_DAYS+' days.</p></div>';
   }
+  // Skill ideas (SI-A, Taylor's pick, 2 November): ten topics from one run of the Trending Topics skill, five from
+  // Taylor's own work and five from creators, written by a Claude Code session into ideaRuns/<id> (SKILL-IDEAS.md).
+  const WAIT_MS = 30*60*1000;
+  const runs = () => data().ideaRuns;
+  const lastDone = () => (runs() || []).find(r => r.status === 'done' && (r.ideas || []).length);
+  const onList = (run, idea) => topics().find(t => t.origin?.runId === run.id && t.origin?.ideaId === idea.id) || (run.added?.[idea.id] && topics().find(t => t.id === run.added[idea.id]));
+  const when = v => { const d = new Date(v); return Number.isNaN(d.getTime()) ? '' : fmt(d, {weekday:'short',day:'numeric',month:'short'})+', '+new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit'}).format(d); };
+  function skillCount() {
+    const run = lastDone(), n = run ? run.ideas.filter(i => !onList(run, i)).length : 0, el = $('#bs-skill-n');
+    el.hidden = !n; el.textContent = n || '';
+  }
+  function skillHtml() {
+    const list = runs();
+    if (!list) return '<div class="bs-empty"><p><b>Skill ideas need the app’s saved data.</b></p><p>Open Topics in the Claude app to ask the Trending Topics skill for ten topics.</p></div>';
+    const done = lastDone(), newest = list[0];
+    const pending = newest && ['requested','waiting','running'].includes(newest.status) ? newest : null;
+    const failed = newest && newest.status === 'failed' ? newest : null;
+    let top = '';
+    if (pending) {
+      const late = Date.now() - Date.parse(pending.createdAt) > WAIT_MS, line = 'Run topic ideas '+pending.id;
+      top = '<div class="bs-ask is-wait"><p><b>'+(pending.status === 'running' ? 'Claude is running the skill.' : late ? 'Still waiting. Send the line to Claude.' : 'Waiting for Claude.')+'</b> '+(pending.status === 'running' ? 'The ten appear here when it finishes.' : 'Send this in a Claude chat; the ten appear here by themselves.')+'</p>'+(pending.status === 'running' ? '' : '<p class="bs-line"><code>'+esc(line)+'</code><button type="button" class="bs-copy" data-copy="'+esc(line)+'">Copy</button></p>')+'</div>';
+    } else if (failed) {
+      top = '<div class="bs-ask is-fail"><p><b>The last run did not finish.</b> '+esc(failed.error || 'Claude gave no reason.')+'</p><button type="button" class="bs-askbtn" id="bs-ask">Ask again</button></div>';
+    }
+    if (!done) return top+(pending || failed ? '' : '<div class="bs-ask"><p><b>Ten topics from Trending Topics.</b> Five from your own work in the last 30 days, five from your creators’ breakout videos, each with why it made the list.</p><button type="button" class="bs-askbtn" id="bs-ask">Ask the skill for 10 topics</button></div>');
+    const ideas = done.ideas.slice().sort((a,b) => (a.rank || 99) - (b.rank || 99));
+    return top+'<div class="bs-run"><span>Trending Topics · '+esc(when(done.finishedAt || done.createdAt))+'</span>'+(pending ? '' : '<button type="button" class="bs-quiet" id="bs-ask">Ask again</button>')+'</div>'+
+      ideas.map((x, i) => { const t = onList(done, x); return '<div class="bs-idea'+(t ? ' is-added' : '')+'"><span class="bs-rank" aria-hidden="true">'+(x.rank || i+1)+'</span><div><span class="bs-idea-title">'+esc(x.title)+'</span>'+(x.why ? '<span class="bs-meta">'+esc(x.why)+'</span>' : '')+'<span class="bs-idea-ft"><span class="bs-src'+(x.source === 'creator' ? ' is-cr' : '')+'">'+(x.source === 'creator' ? 'Creators' : 'Your work')+'</span>'+(t ? '<span class="bs-on">✓ On the shortlist</span>' : '<button type="button" class="bs-addidea" data-idea="'+esc(x.id)+'" data-run="'+esc(done.id)+'" aria-label="Add “'+esc(x.title)+'” to the shortlist">+ Shortlist</button>')+'</span></div></div>'; }).join('');
+  }
   function angleHtml(t) {
     const open = slots().filter(s => !s.past), src = t.sources[0];
-    return '<li class="bs-stk" draggable="true" data-topic="'+esc(t.id)+'"><span class="bs-stk-title">'+esc(t.title)+'</span>'+(src ? '<span class="bs-meta">From '+esc(src.creator)+': '+esc(src.title)+'</span>' : '')+
+    return '<li class="bs-stk" draggable="true" data-topic="'+esc(t.id)+'"><span class="bs-stk-title">'+esc(t.title)+'</span>'+(src ? '<span class="bs-meta">From '+esc(src.creator)+': '+esc(src.title)+'</span>' : t.origin?.kind === 'skill' ? '<span class="bs-meta">From the skill · '+(t.skillLock === 'locked' ? 'title locked' : 'title locks on the next run')+'</span>' : '')+
       '<span class="bs-stk-actions">'+open.map(s => '<button type="button" data-book="'+iso(s.day)+'">Book '+esc(fmt(s.day,{weekday:'short',day:'numeric'}))+'</button>').join('')+'<button type="button" class="bs-quiet" data-remove="'+esc(t.id)+'" aria-label="Remove “'+esc(t.title)+'”">Remove</button></span></li>';
   }
   function slotHtml(s) {
@@ -133,7 +162,9 @@
     $('#bs-week').textContent = (thisWeek ? 'Recording week' : 'Week')+' of '+fmt(week,{day:'numeric',month:'long'});
     $('#bs-today').disabled = thisWeek;
     cards(); scanBar(); profile();
-    $('#bs-sparks').innerHTML = (scanned ? '<p class="bs-scanned">Latest '+SCAN_EACH+' from '+scanned.size+' creator'+(scanned.size === 1 ? '' : 's')+' <button type="button" class="bs-quiet" id="bs-untick">Show everyone</button></p>' : '')+sparkHtml();
+    root.querySelectorAll('[data-view]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.view === view)));
+    skillCount();
+    if (view === 'skill') $('#bs-sparks').innerHTML = skillHtml(); else $('#bs-sparks').innerHTML = (scanned ? '<p class="bs-scanned">Latest '+SCAN_EACH+' from '+scanned.size+' creator'+(scanned.size === 1 ? '' : 's')+' <button type="button" class="bs-quiet" id="bs-untick">Show everyone</button></p>' : '')+sparkHtml();
     const list = angles();
     $('#bs-angles').innerHTML = list.length ? list.map(angleHtml).join('') : '<li class="bs-empty"><p>No angles waiting. Write one below, or spark one from the Creator watchlist.</p></li>';
     const chosen = spark && (data().videos || []).find(v => v.id === spark);
@@ -158,7 +189,21 @@
       if (scanned && !ticked.size) { scanned = null; render(); } else { card.classList.toggle('is-ticked', ticked.has(h)); el.setAttribute('aria-pressed', String(ticked.has(h))); scanBar(); }
       $('[data-tick="'+CSS.escape(h)+'"]')?.focus(); return;
     }
-    if (el.id === 'bs-scan') { scanned = new Set(ticked); render(); const first = sparks()[0]; status(first ? 'Showing the latest '+SCAN_EACH+' uploads from each of '+scanned.size+' creators. Tap one to write an angle.' : 'No uploads stored for those creators yet. Refresh the Creator watchlist first.'); $('#bs-sparks-h').scrollIntoView({block:'nearest'}); return; }
+    if (el.dataset.view) { view = el.dataset.view; render(); return; }
+    if (el.id === 'bs-ask') {
+      el.disabled = true;
+      try { const r = await api('/idea-run', {}); await window.WWIdeas.reload(); status('Request saved. Send “'+r.line+'” in a Claude chat; the ten appear here by themselves.'); }
+      catch (error) { status(error.status === 404 ? 'Skill ideas need the Claude app; this server does not have them.' : error.message); el.disabled = false; }
+      return;
+    }
+    if (el.dataset.copy) { try { await navigator.clipboard.writeText(el.dataset.copy); status('Copied. Paste it into a Claude chat.'); } catch { status('Copy this line into a Claude chat: '+el.dataset.copy); } return; }
+    if (el.dataset.idea) {
+      el.disabled = true;
+      const run = lastDone(), idea = run?.ideas.find(i => i.id === el.dataset.idea);
+      await mutate('/idea-add', {runId:el.dataset.run, ideaId:el.dataset.idea}, idea ? '“'+idea.title+'” is on the Shortlist, word for word. Its title locks in Trending Topics on the next run.' : '');
+      return;
+    }
+    if (el.id === 'bs-scan') { view = 'creators'; scanned = new Set(ticked); render(); const first = sparks()[0]; status(first ? 'Showing the latest '+SCAN_EACH+' uploads from each of '+scanned.size+' creators. Tap one to write an angle.' : 'No uploads stored for those creators yet. Refresh the Creator watchlist first.'); $('#bs-sparks-h').scrollIntoView({block:'nearest'}); return; }
     if (el.id === 'bs-untick') { ticked.clear(); scanned = null; render(); $('#bs-find').focus(); return; }
     if (el.dataset.pick) { picked = picked === el.dataset.pick ? null : el.dataset.pick; spark = null; render(); (picked ? $('#bs-close') : $('[data-pick="'+CSS.escape(el.dataset.pick)+'"]'))?.focus(); return; }
     if (el.id === 'bs-close') { const was = picked; picked = null; render(); $('[data-pick="'+CSS.escape(was)+'"]')?.focus(); return; }
