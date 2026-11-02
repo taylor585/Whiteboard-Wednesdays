@@ -59,3 +59,6 @@ next-env.d.ts
 
 *.tsbuildinfo
 .dev.vars*
+
+# Weekly pick sheets, briefs and the topic register hold chat-derived and client details: never commit them
+video-plans/
