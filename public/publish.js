@@ -18,7 +18,7 @@
   const topics = () => (window.WWIdeas?.data?.topics || []).filter(t => t.status !== 'posted');
   // Steps: links, Variety Pack, finals, post. The current one follows the job's own status.
   function steps() {
-    const s = job?.status || 'new', at = s === 'new' ? 0 : ['queued','running','pack'].includes(s) ? 1 : ['finishing','final'].includes(s) ? 2 : 3;
+    const s = job?.status || 'new', at = s === 'new' ? 0 : ['queued','starting','running','pack'].includes(s) ? 1 : ['finishing','final'].includes(s) ? 2 : 3;
     return '<ol class="pb-steps">'+['Drive links','Variety Pack','Finished edits','Post'].map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? 'is-on' : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+'</li>').join('')+'</ol>';
   }
   function intake() {
@@ -35,12 +35,35 @@
       '<p class="pb-muted">'+(db ? busy() ? 'A job is already running. Wait for it, or start a new one when it finishes.' : 'The job uses the skills in Settings: '+esc(skillLine())+'.' : connecting ? 'Connecting…' : 'Publish jobs are saved in the app’s database, which this preview does not have.')+'</p></div></section>';
   }
   const skillLine = () => { const s = window.WWSettings?.skills || {}, n = window.WWSettings?.name || (x => x); return [n(s.publishEdit), n(s.publishThumbs), n(s.publishPosts)].filter(Boolean).join(', '); };
-  const busy = () => job && ['queued','running','finishing'].includes(job.status);
+  const busy = () => job && ['queued','starting','running','finishing'].includes(job.status);
+  // Automatic start (Taylor, 3 November 2026): Generate and Continue start a Claude Code session in the cloud
+  // through the viewer's Claude Code Remote connector. The session follows PUBLISH.md with the skills saved on the
+  // job. If the connector is refused or unavailable, the job stays queued with the line to send instead.
+  const ENV = 'env_017PLHsTGZVgThRnUnu1eoGG', REPO = 'https://github.com/taylor585/Whiteboard-Wednesdays';
+  async function startSession(j, step) {
+    const line = (step === 'finals' ? 'Continue Publish job ' : 'Run Publish job ')+j.id;
+    try {
+      const mcp = await window.claude?.use?.('mcp');
+      if (!mcp) throw {code:'unavailable'};
+      const r = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:(step === 'finals' ? 'Publish finals: ' : 'Publish: ')+(j.title || j.id),
+        prompt:line+'. Follow PUBLISH.md in this repository exactly: run the job with the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything.'});
+      const p = r?.payload || {}, sid = p.session_id || p.id || p.session?.id || null;
+      await save({session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, startedAt:new Date().toISOString()}, ...(j.status === 'queued' ? {status:'starting'} : {})});
+      return true;
+    } catch (e) {
+      const why = e?.code === 'not_granted' ? 'You did not allow the Claude Code connection, so it could not start by itself.' : e?.code === 'unavailable' ? 'The Claude Code connection is not available in this view.' : 'Claude Code could not be started ('+(e?.code || e?.message || 'error')+').';
+      note = why+' Send “'+line+'” in a Claude chat instead, or press Start now to try again.'; render(); return false;
+    }
+  }
   // The stage list is written by the session as it works; nothing here is simulated.
   function stages() {
     const list = job.stages || [];
-    const head = job.status === 'queued' ? '<p class="pb-queue"><b>Queued.</b> A Claude Code session picks this job up and writes each step here as it goes. To start it now, say this in your Claude chat: <code>Run Publish job '+esc(job.id)+'</code> <button type="button" class="pb-link" data-copy-run>'+(copied === 'run' ? 'Copied' : 'Copy')+'</button></p>' : '';
-    return '<section class="pb-stages" aria-label="Progress">'+head+(list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(s.state || 'wait')+'"><span class="pb-st-dot" aria-hidden="true"></span><b>'+esc(s.name)+'</b><small>'+esc(s.detail || '')+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '')+'</section>';
+    const ses = job.session?.url ? ' <a class="pb-link" href="'+esc(job.session.url)+'" target="_blank" rel="noopener noreferrer">Watch the session ↗</a>' : '';
+    const head = job.status === 'queued' ? '<p class="pb-queue"><b>Not started yet.</b> <button type="button" class="pb-link" id="pb-start">Start now</button> or say this in a Claude chat: <code>Run Publish job '+esc(job.id)+'</code> <button type="button" class="pb-link" data-copy-run>'+(copied === 'run' ? 'Copied' : 'Copy')+'</button></p>'
+      : job.status === 'starting' ? '<p class="pb-queue"><b>Starting Claude Code.</b> A session is opening in the cloud with your skills; the steps appear here as it works, usually within two minutes.'+ses+'</p>'
+      : ['running','finishing'].includes(job.status) && ses ? '<p class="pb-meta">Claude Code is working on this.'+ses+'</p>' : '';
+    const packLink = job.packUrl ? '<p class="pb-queue"><b>Your Variety Pack is ready.</b> It opens as the same Suby Shots - Variety Pack page Claude Code publishes: make your picks there, then come back and press Continue. <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer">Open the Variety Pack ↗</a></p>'+(job.status === 'pack' && !job.pack?.platforms?.length ? '<div class="pb-bar"><span>Picks made in the Variety Pack?</span><span class="pb-muted">Claude reads them from that page and builds the finished edits.</span><button type="button" class="pb-go" id="pb-continue">Continue · build the finals →</button></div>' : '') : '';
+    return '<section class="pb-stages" aria-label="Progress">'+head+packLink+(list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(s.state || 'wait')+'"><span class="pb-st-dot" aria-hidden="true"></span><b>'+esc(s.name)+'</b><small>'+esc(s.detail || '')+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '')+'</section>';
   }
   // The pack, one block per platform (PB-A): the video, the edit choices and thumbnails, then the copy with two variations.
   function pack() {
@@ -92,13 +115,14 @@
       const topic = topics().find(t => t.title.trim().toLowerCase() === title.trim().toLowerCase());
       const doc = {id, topicId:topic?.id || null, title:title.trim(), brief:brief.trim(), sources:links.map(l => ({url:l.url, driveId:l.id, role:l.role})), skills:window.WWSettings?.skills || {}, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, updatedAt:at};
       b.disabled = true;
-      try { await db.doc('jobs/'+id).set(doc); job = doc; links = []; title = ''; brief = ''; note = ''; render(); }
+      try { await db.doc('jobs/'+id).set(doc); job = doc; links = []; title = ''; brief = ''; note = ''; render(); await startSession(doc, 'pack'); }
       catch (err) { note = 'Could not start the job ('+(err?.code || 'error')+').'; render(); }
       return;
     }
     if (b.id === 'pb-new') { job = null; links = []; title = ''; brief = ''; render(); root.querySelector('#pb-links')?.focus(); return; }
     if (b.dataset.pick) { job.picks = {...(job.picks || {}), [b.dataset.pick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
-    if (b.id === 'pb-continue') { job.status = 'finishing'; render(); await save({status:'finishing', pickedAt:new Date().toISOString()}); return; }
+    if (b.id === 'pb-continue') { job.status = 'finishing'; render(); await save({status:'finishing', pickedAt:new Date().toISOString()}); await startSession(job, 'finals'); return; }
+    if (b.id === 'pb-start') { b.disabled = true; note = ''; await startSession(job, 'pack'); return; }
     if (b.hasAttribute('data-copy-run')) { await copy('Run Publish job '+job.id, 'run'); return; }
     if (b.dataset.copy) { const pl = job.pack.platforms.find(p => p.key === b.dataset.copy), i = Math.max(0, (pl.posts || []).findIndex((_, n) => job.picks?.[pl.key+'.post'] === 'v'+(n+1))); const v = pl.posts[i]; await copy(((v.title || '')+'\n\n'+(v.body || '')).trim(), pl.key); }
   });
