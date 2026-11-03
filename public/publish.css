@@ -74,3 +74,6 @@
 @media(max-width:1000px){.pb-intake{grid-template-columns:1fr}.pb-blk{grid-template-columns:1fr;gap:14px}.pb-vid{max-width:420px}}
 @media(max-width:700px){#publish{padding:32px 20px}.pb-steps li{padding:8px;font-size:12px;flex-direction:column;align-items:flex-start;gap:2px}.pb-opts,.pb-opts.pb-two{grid-template-columns:1fr}.pb-thumbs{grid-template-columns:repeat(2,minmax(0,1fr))}#publish .pb-bar .pb-go,#publish .pb-post .pb-go{margin-left:0;width:100%}}
 @media(prefers-reduced-motion:reduce){#publish *{transition:none}}
+/* Automatic start (3 November 2026): the link out to the skill's own Variety Pack page. */
+#publish .pb-queue .pb-packgo{display:inline-flex;align-items:center;margin:10px 0 0;text-decoration:none;min-height:44px}
+#publish .pb-queue .pb-link{min-height:32px;padding:0 2px}
