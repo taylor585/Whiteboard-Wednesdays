@@ -47,7 +47,7 @@
       if (!mcp) throw {code:'unavailable'};
       const r = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:(step === 'finals' ? 'Publish finals: ' : 'Publish: ')+(j.title || j.id),
         prompt:line+'. Follow PUBLISH.md in this repository exactly: run the job with the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything.'});
-      const p = r?.payload || {}, sid = p.session_id || p.id || p.session?.id || null;
+      const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       await save({session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, startedAt:new Date().toISOString()}, ...(j.status === 'queued' ? {status:'starting'} : {})});
       return true;
     } catch (e) {
