@@ -155,3 +155,8 @@
 .bs-zone{container-type:inline-size}
 .bs-run,.bs-idea-ft{flex-wrap:wrap}
 @container (max-width:260px){.bs-idea{grid-template-columns:18px minmax(0,1fr);gap:6px;padding:10px}.bs-rank{font-size:21px}.bs-idea-title{font-size:14px}#brainstorm .bs-seg button{font-size:13px;padding:6px;white-space:nowrap}.bs-wide{display:none}#brainstorm .bs-addidea{width:100%}}
+/* Booked later: every recording booked after the week on screen (4 November 2026). */
+.bs-later{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+#brainstorm .bs-later button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;padding:10px 12px;border:1px solid #1c1a17;border-radius:8px;background:#fff}
+#brainstorm .bs-later .bs-slot-day{font-size:21px}
+.bs-later-title{font-weight:600;font-size:14px;line-height:1.3;overflow-wrap:anywhere}

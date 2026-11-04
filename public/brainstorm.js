@@ -147,6 +147,12 @@
       (s.topic ? '<div class="bs-booked"><span>'+esc(s.topic.title)+'</span><span class="bs-booked-actions"><a href="#/schedule">Schedule →</a>'+(s.past ? '' : '<button type="button" data-unbook="'+esc(s.topic.id)+'">Unbook</button>')+'</span></div>'
         : '<p class="bs-put">'+(s.past ? 'Nothing was recorded.' : 'Drop an angle here, or press Book on the shortlist.')+'</p>')+'</div>';
   }
+  // Everything booked after the week on screen, so a topic booked weeks ahead is visible from Topics (Taylor, 4 November).
+  function laterHtml() {
+    const end = iso(add(week, 6)), list = topics().filter(t => t.recordDate && t.recordDate > end).sort((a,b) => a.recordDate.localeCompare(b.recordDate));
+    if (!list.length) return '';
+    return '<h3 class="bs-post-sub micro">BOOKED LATER</h3><ul class="bs-later">'+list.map(t => '<li><button type="button" data-goto="'+esc(t.recordDate)+'"><span class="bs-slot-day">'+esc(fmt(parse(t.recordDate)))+'</span><span class="bs-later-title">'+esc(t.title)+'</span><span class="bs-meta">Posts '+esc(fmt(postOf(t)))+'</span></button></li>').join('')+'</ul>';
+  }
   // Posting runs alongside: this week's Tuesday and Thursday, then the following week's, when this week's recordings go out.
   function postHtml() {
     const days = [add(week, 1), add(week, 3), add(week, 8), add(week, 10)];
@@ -169,7 +175,7 @@
     $('#bs-angles').innerHTML = list.length ? list.map(angleHtml).join('') : '<li class="bs-empty"><p>No angles waiting. Write one below, or spark one from the Creator watchlist.</p></li>';
     const chosen = spark && (data().videos || []).find(v => v.id === spark);
     $('#bs-from').innerHTML = chosen ? 'From: '+esc(chosen.title)+' <button type="button" class="bs-quiet" id="bs-clear">Clear</button>' : '';
-    $('#bs-slots').innerHTML = slots().map(slotHtml).join('');
+    $('#bs-slots').innerHTML = slots().map(slotHtml).join('')+laterHtml();
     $('#bs-posts').innerHTML = postHtml();
     const offline = 'Topics need the app’s saved data, which is not available here.';
     if (!data().ready) status(offline); else if ($('#bs-status').textContent === offline) status('');
@@ -216,6 +222,7 @@
       if (t && await ask('Remove “'+t.title+'”? Its notes and subtopics are deleted too.', 'Remove')) await mutate('/topic-delete', {id:t.id}, 'Removed “'+t.title+'”.');
       return;
     }
+    if (el.dataset.goto) { week = monday(parse(el.dataset.goto)); render(); $('#bs-week').scrollIntoView({block:'nearest'}); return; }
     if (el.id === 'bs-prev') { week = add(week, -7); render(); }
     if (el.id === 'bs-next') { week = add(week, 7); render(); }
     if (el.id === 'bs-today') { week = current(); render(); }
