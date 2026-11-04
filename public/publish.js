@@ -5,7 +5,10 @@
    Pick, press Continue, and the finished files land on Drive. Everything lives in the artifact database as
    jobs/<id>; the page never edits video or posts on its own, and it never shows a stage the session has not written.
    Phase 2 (4 November 2026): one Drive folder link is enough. The session lists it, reads each file's shape and length,
-   and stops on "check" when anything is unclear or the title came from the folder name; Taylor confirms here. */
+   and stops on "check" when anything is unclear or the title came from the folder name; Taylor confirms here.
+   Phase 3 (4 November 2026): before any session starts, the page looks for earlier work on the same recording or topic
+   (jobs, and the packs index of every Variety Pack so far) and offers Use this pack or Start fresh anyway. The session
+   looks again before downloading and stops on "found" with the links instead of rebuilding. */
 (() => {
   'use strict';
   const root = document.querySelector('#publish');
@@ -21,6 +24,9 @@
   // Phase 2 folder intake (4 November 2026): ck holds Taylor's answers on the Check the files screen for one job
   // (title, topic, a role per file) until he presses Confirm and continue.
   let ck = null;
+  // Phase 3 existing-work check: packs is the packs/<id> index (every Variety Pack published so far, chat packs included);
+  // reuseSeen is the set of matches Taylor has been shown at intake, reuseOk the set he chose to start fresh over.
+  let packs = [], reuseSeen = '', reuseOk = '';
   // A link names one Drive file, or one shared Drive folder (Phase 2): the cloud session lists the folder, because the
   // browser cannot. Docs, Sheets, Slides and Drive's own views (My Drive, Recent) are refused with a reason.
   function parseLink(url) {
@@ -44,7 +50,7 @@
   function steps() {
     // A failed job stays on the step it was working on, marked as stopped, never on Post. Check the files is step 1.
     const s = job?.status || 'new', failed = s === 'failed';
-    const at = s === 'new' || s === 'check' ? 0 : ['queued','starting','running','pack'].includes(s) ? 1 : ['finishing','final'].includes(s) ? 2 : failed ? (job.session?.step === 'finals' || job.pickedAt ? 2 : 1) : 3;
+    const at = s === 'new' || s === 'check' ? 0 : ['queued','starting','running','found','pack'].includes(s) ? 1 : ['finishing','final'].includes(s) ? 2 : failed ? (job.session?.step === 'finals' || job.pickedAt ? 2 : 1) : 3;
     return '<ol class="pb-steps">'+['Drive links','Variety Pack','Finished edits','Post'].map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+(i === at && failed ? ' <small>stopped</small>' : '')+'</li>').join('')+'</ol>';
   }
   // Every problem at once, re-checked on each change (links, roles and title) and again when Generate is pressed.
@@ -90,11 +96,42 @@
       (close.length ? '<optgroup label="Closest to your title">'+close.map(opt).join('')+'</optgroup><optgroup label="Other topics">'+rest.map(opt).join('')+'</optgroup>' : rest.map(opt).join(''))+
       '<option value="none"'+(topicPick === 'none' ? ' selected' : '')+'>None of these</option></select></label>';
   }
+  // ---- Existing-work check (Phase 3, 4 November 2026) --------------------------------------------------------------
+  // Free, in the page: a job with the same Drive file or folder or on the same topic, or an indexed pack of the same
+  // recording. Using it starts nothing; starting fresh runs Claude Code from the beginning and uses Taylor's plan again.
+  const intakeTopic = () => exactTopic() || (topicPick && topicPick !== 'none' ? topics().find(t => t.id === topicPick) : null);
+  const artifactUrl = u => typeof u === 'string' && /^https:\/\/claude\.ai\/(code\/)?artifact\/[\w-]+$/.test(u) ? u : null;
+  const JOB_WORD = {queued:'not started', starting:'starting', running:'Claude Code is working on it', check:'waiting for you to check the files', found:'found earlier work', pack:'Variety Pack ready', finishing:'finals in progress', final:'finished', failed:'stopped, Variety Pack kept'};
+  const PACK_WORD = {variety:'Variety Pack', katana:'Katana moments', reels:'Reel pack'};
+  function earlier() {
+    if (!links.length || problems().length) return [];
+    const ids = new Set(links.map(l => l.id).filter(Boolean)), folder = folderMode() ? links[0].folderId : null, tid = intakeTopic()?.id || null;
+    const why = (driveIds, folderId, topicId) => (driveIds || []).some(d => ids.has(d)) ? 'Same Drive file' : folder && folderId === folder ? 'Same Drive folder' : tid && topicId === tid ? 'Same topic' : '';
+    const out = [];
+    jobs.forEach(j => { if (j.status === 'failed' && !j.packUrl) return;  // a stopped job with no pack has nothing to reuse
+      const w = why((j.sources || []).map(x => x.driveId), j.source?.folderId, j.topicId);
+      if (w) out.push({kind:'job', id:j.id, why:w, title:j.title || j.folderName || 'Job '+j.id, url:artifactUrl(j.packUrl), detail:JOB_WORD[j.status] || j.status, at:j.createdAt}); });
+    const have = new Set(out.map(x => x.url).filter(Boolean));
+    packs.forEach(p => { const url = artifactUrl(p.url); if (!url || have.has(url)) return;
+      const w = why(p.driveIds, p.folderId, p.topicId);
+      if (w) out.push({kind:'pack', id:p.id, why:w, title:p.title || 'Earlier pack', url, detail:[PACK_WORD[p.kind || 'variety'] || p.kind, p.round ? 'round '+p.round : ''].filter(Boolean).join(', '), at:p.createdAt, variety:(p.kind || 'variety') === 'variety'}); });
+    return out;
+  }
+  const reuseSig = () => earlier().map(x => x.kind+':'+x.id).join('|');
+  function reuseHtml(list) {
+    const same = list.some(x => x.why !== 'Same topic');
+    return '<div class="pb-reuse" id="pb-reuse" tabindex="-1" role="group" aria-labelledby="pb-reuse-h"><h3 id="pb-reuse-h">'+(same ? 'This recording already has work' : 'This topic already has work')+'</h3>'+
+      '<p class="pb-muted">Using it starts nothing. Starting fresh runs Claude Code from the beginning again, which uses your Claude plan’s usage.</p><ul>'+
+      list.map((x, i) => '<li><div><b>'+esc(x.title)+'</b><small>'+esc([x.why, x.detail, x.at ? when(x.at) : ''].filter(Boolean).join(' · '))+'</small></div><span class="pb-acts">'+
+        (x.url ? '<a class="pb-link" href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">Open it ↗</a>' : '')+
+        (x.kind === 'job' ? '<button type="button" class="pb-go" data-reuse="'+i+'">'+(x.url ? 'Use this pack' : 'Open this job')+'</button>' : x.variety ? '<button type="button" class="pb-go" data-reuse="'+i+'">Use this pack</button>' : '')+'</span></li>').join('')+
+      '</ul><button type="button" class="pb-link" id="pb-fresh">Start fresh anyway</button></div>';
+  }
   const canGenerate = () => links.length && !problems().length && db && !busy() && !starting;
   function checkHtml() {
-    const ps = problems();
+    const ps = problems(), found = earlier(), shown = found.length && reuseSeen === reuseSig() && reuseOk !== reuseSeen;
     return (ps.length ? '<div class="pb-warn" role="alert">'+(ps.length === 1 ? esc(ps[0]) : '<ul>'+ps.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>')+'</div>' : '')+
-      '<button type="button" class="pb-go" id="pb-generate"'+(canGenerate() ? '' : ' disabled')+'>Generate Variety Pack</button>'+
+      (shown ? reuseHtml(found) : '<button type="button" class="pb-go" id="pb-generate"'+(canGenerate() ? '' : ' disabled')+'>Generate Variety Pack</button>')+
       '<p class="pb-muted">'+(db ? busy() ? 'A job is already running. Wait for it, or start a new one when it finishes.' : (links.length ? 'Claude Code first checks each file’s shape and length (a few minutes) and stops to ask you if anything is unclear, before any editing. ' : '')+'The job uses the skills in Settings: '+esc(skillLine())+'.' : connecting ? 'Connecting…' : 'Publish jobs are saved in the app’s database, which this preview does not have.')+'</p>';
   }
   const linkLabel = l => l.id ? 'Drive file …'+l.id.slice(-6) : l.kind === 'folder' ? (l.folderId ? 'Drive folder …'+l.folderId.slice(-6) : 'Not a shared folder link') : l.kind === 'doc' ? 'Google Docs link, not a video' : 'Not a Drive file link';
@@ -227,6 +264,15 @@
     if (note) return;
     await startSession(job, 'pack');
   }
+  // ---- Found earlier work (Phase 3) --------------------------------------------------------------------------------
+  // The session's Look for earlier work stage found a pack for this recording and stopped before downloading anything.
+  function foundHtml() {
+    const ex = (job.existing || []).filter(x => artifactUrl(x.url));
+    return '<section class="pb-found" aria-labelledby="pb-found-h"><h2 id="pb-found-h">Claude Code found earlier work for this recording</h2><p class="pb-muted">'+esc(job.foundNote || 'It stopped before downloading or editing anything.')+' Using it starts nothing. Starting fresh runs Claude Code from the beginning again, which uses your Claude plan’s usage.</p><ul>'+
+      ex.map((x, i) => '<li><div><b>'+esc(x.title || 'Earlier pack')+'</b><small>'+esc([PACK_WORD[x.kind || 'variety'] || x.kind, x.round ? 'round '+x.round : '', Number.isFinite(x.decisions) ? x.decisions+' decisions' : '', x.why || ''].filter(Boolean).join(' · '))+'</small></div><span class="pb-acts">'+
+        '<a class="pb-link" href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">Open it ↗</a>'+((x.kind || 'variety') === 'variety' ? '<button type="button" class="pb-go" data-use="'+i+'"'+(starting ? ' disabled' : '')+'>Use this pack for this job</button>' : '')+'</span></li>').join('')+
+      '</ul><button type="button" class="pb-link" id="pb-start-fresh"'+(starting ? ' disabled' : '')+'>Start fresh anyway</button></section>';
+  }
   // The stage list is written by the session as it works; nothing here is simulated.
   function stages() {
     const list = job.stages || [];
@@ -238,7 +284,8 @@
       : job.status === 'starting' ? '<p class="pb-queue"><b>Starting Claude Code.</b> A session is opening in the cloud with your skills; the steps appear here as it works, usually within two minutes.'+ses+'</p>'
       : ['running','finishing'].includes(job.status) && ses ? '<p class="pb-meta">Claude Code is working on this.'+ses+'</p>' : '';
     const bar = starting === 'finals' ? '<div class="pb-bar"><span>Starting Claude Code for the finals…</span></div>' : confirm ? confirmBar() : '<div class="pb-bar"><span>Picks made in the Variety Pack?</span><span class="pb-muted">Claude reads them from that page and builds the finished edits.</span><button type="button" class="pb-go" id="pb-continue">Continue · build the finals →</button></div>';
-    const packLink = job.packUrl ? '<p class="pb-queue"><b>Your Variety Pack is ready.</b> It opens as the same Suby Shots - Variety Pack page Claude Code publishes: make your picks there, then come back and press Continue. <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer">Open the Variety Pack ↗</a></p>'+(canContinue() && !job.pack?.platforms?.length ? bar : '') : '';
+    const pr = job.packRecord || {}, ticked = Number.isFinite(pr.preticked) && pr.preticked > 0 ? ' '+pr.preticked+' designs you approved on earlier videos are already ticked'+(Number.isFinite(pr.fresh) ? '; you decide the '+pr.fresh+' new ones' : '')+'. Untick any you do not want.' : '';
+    const packLink = job.packUrl ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer">Open the Variety Pack ↗</a></p>'+(canContinue() && !job.pack?.platforms?.length ? bar : '') : '';
     return '<section class="pb-stages" aria-label="Progress">'+head+packLink+(list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(/^fail/.test(s.state || '') ? 'failed' : s.state || 'wait')+'"><span class="pb-st-dot" aria-hidden="true"></span><b>'+esc(s.name)+'</b><small>'+esc(s.detail || '')+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '')+'</section>';
   }
   // The pack, one block per platform (PB-A): the video, the edit choices and thumbnails, then the copy with two variations.
@@ -270,7 +317,7 @@
     root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · DRIVE LINKS IN, POSTS OUT</div><h1 id="pb-heading">'+esc(job ? (t?.title || job.title || job.folderName || 'This video') : 'Publish a video')+'</h1><p>Paste the Drive folder, check which file is which, then Generate. Your Variety Pack opens as its own page.</p></div>'+
       (job ? '<button type="button" class="pb-link" id="pb-new"'+(busy() ? ' disabled' : '')+'>Start a new video</button>' : '')+'</div>'+steps()+
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'">'+(copied === 'run' ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
-      (!job || job.status === 'new' ? intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : esc((job.sources || []).length)+' files')+' · started '+esc(when(job.createdAt))+'</p>'+(job.status === 'check' ? checkFiles() : '')+stages()+pack()+finals());
+      (!job || job.status === 'new' ? intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : esc((job.sources || []).length)+' files')+' · started '+esc(when(job.createdAt))+'</p>'+(job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : '')+stages()+pack()+finals());
     if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
     else if (confirm) root.querySelector('#pb-continue-yes')?.focus();
   }
@@ -294,28 +341,32 @@
   // Typing the title or brief refreshes only the checks and the topic question, so the field keeps its caret and list.
   function refreshIntake() { const c = root.querySelector('#pb-check'), q = root.querySelector('#pb-topic-q'); if (c) c.innerHTML = checkHtml(); if (q) q.innerHTML = topicHtml(); }
   root.addEventListener('input', e => { if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
-  root.addEventListener('change', e => { if (e.target.id === 'pb-topic') { topicPick = e.target.value; return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
+  root.addEventListener('change', e => { if (e.target.id === 'pb-topic') { topicPick = e.target.value; const c = root.querySelector('#pb-check'); if (c) c.innerHTML = checkHtml(); return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
   root.addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b || b.disabled) return;
     if (b.id === 'pb-generate') {
       if (!canGenerate()) { render(); return; }  // checked again here: a bad link can never start a paid session
-      const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), at = new Date().toISOString();
-      const topic = exactTopic() || (topicPick && topicPick !== 'none' ? topics().find(t => t.id === topicPick) : null);
-      // Every source starts unchecked: the session's Check the files stage reads each file's shape and length and
-      // compares it with the role before anything is edited. A folder is listed by the session, so sources start empty.
-      const f = folderMode() ? links[0] : null, tt = title.trim();
-      const doc = {id, topicId:topic?.id || null, title:tt, titleBy:tt ? 'taylor' : null, brief:brief.trim(),
-        source:f ? {kind:'folder', folderId:f.folderId, url:f.url} : {kind:'files'},
-        sources:f ? [] : links.map(l => ({url:l.url, driveId:l.id, role:l.role, roleBy:l.by || 'default', check:'pending'})), skills:window.WWSettings?.skills || {}, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, startedAt:at, updatedAt:at};
-      b.disabled = true;
-      try { await db.doc('jobs/'+id).set(doc); job = doc; links = []; title = ''; brief = ''; topicPick = ''; note = ''; render(); await startSession(doc, 'pack'); }
-      catch (err) { note = 'Could not start the job ('+(err?.code || 'error')+').'; render(); }
-      return;
+      // Earlier work for this recording or topic: show it first; Generate needs a second, deliberate press.
+      const sig = reuseSig();
+      if (sig && reuseOk !== sig) { reuseSeen = sig; render(); root.querySelector('#pb-reuse')?.focus(); return; }
+      b.disabled = true; await generate(); return;
     }
-    if (b.id === 'pb-new') { job = null; ck = null; links = []; title = ''; brief = ''; topicPick = ''; note = ''; retry = null; confirm = false; render(); root.querySelector('#pb-links')?.focus(); return; }
+    if (b.id === 'pb-fresh') { if (!canGenerate()) { render(); return; } const seen = earlier().map(x => x.url || 'jobs/'+x.id); reuseOk = reuseSig(); b.disabled = true; await generate({existingSeen:seen}); return; }
+    if (b.dataset.reuse !== undefined) {
+      const x = earlier()[+b.dataset.reuse]; if (!x) { render(); return; }
+      if (x.kind === 'job') { job = jobs.find(j => j.id === x.id) || null; resetIntake(); render(); root.querySelector('#pb-heading')?.focus(); return; }
+      // An indexed pack with no job of its own: a new job that points at it, with no session (it costs nothing).
+      b.disabled = true; await generate({packUrl:x.url, status:'pack', reusedFrom:{pack:x.id, url:x.url, title:x.title, at:new Date().toISOString()}}, false); return;
+    }
+    if (b.id === 'pb-new') { job = null; ck = null; resetIntake(); retry = null; confirm = false; render(); root.querySelector('#pb-links')?.focus(); return; }
     if (b.dataset.pick) { job.picks = {...(job.picks || {}), [b.dataset.pick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
     if (starting && /^pb-(continue|start|retry|stop|ck)/.test(b.id)) return;
     if (b.id === 'pb-ck-go') { await ckConfirm(); return; }
+    if (b.dataset.use !== undefined && job?.status === 'found') {
+      const x = (job.existing || []).filter(e => artifactUrl(e.url))[+b.dataset.use]; if (!x) return;
+      await save({packUrl:x.url, status:'pack', reusedFrom:{url:x.url, title:x.title || null, at:new Date().toISOString()}}); render(); return;
+    }
+    if (b.id === 'pb-start-fresh' && job?.status === 'found') { await save({skipExisting:true}); if (!note) await startSession(job, 'pack'); else render(); return; }
     if (b.id === 'pb-continue') { confirm = true; render(); return; }
     if (b.id === 'pb-continue-no') { confirm = false; render(); root.querySelector('.pb-packgo')?.focus(); return; }
     if (b.id === 'pb-continue-yes') { confirm = false; if (canContinue()) await startSession(job, 'finals'); else render(); return; }
@@ -326,6 +377,20 @@
     if (b.hasAttribute('data-copy-run')) { await copy((b.dataset.copyRun === 'finals' ? 'Continue' : 'Run')+' Publish job '+job.id, 'run'); return; }
     if (b.dataset.copy) { const pl = job.pack.platforms.find(p => p.key === b.dataset.copy), i = Math.max(0, (pl.posts || []).findIndex((_, n) => job.picks?.[pl.key+'.post'] === 'v'+(n+1))); const v = pl.posts[i]; await copy(((v.title || '')+'\n\n'+(v.body || '')).trim(), pl.key); }
   });
+  function resetIntake() { links = []; title = ''; brief = ''; topicPick = ''; note = ''; reuseSeen = ''; reuseOk = ''; }
+  // A new job from the intake. With a patch from "Use this pack" it points at the earlier pack and starts no session.
+  async function generate(patch = {}, start = true) {
+    const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), at = new Date().toISOString();
+    const topic = intakeTopic();
+    // Every source starts unchecked: the session's Check the files stage reads each file's shape and length and
+    // compares it with the role before anything is edited. A folder is listed by the session, so sources start empty.
+    const f = folderMode() ? links[0] : null, tt = title.trim();
+    const doc = {id, topicId:topic?.id || null, title:tt, titleBy:tt ? 'taylor' : null, brief:brief.trim(),
+      source:f ? {kind:'folder', folderId:f.folderId, url:f.url} : {kind:'files'},
+      sources:f ? [] : links.map(l => ({url:l.url, driveId:l.id, role:l.role, roleBy:l.by || 'default', check:'pending'})), skills:window.WWSettings?.skills || {}, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, startedAt:at, updatedAt:at, ...patch};
+    try { await db.doc('jobs/'+id).set(doc); job = doc; resetIntake(); render(); if (start) await startSession(doc, 'pack'); else root.querySelector('#pb-heading')?.focus(); }
+    catch (err) { note = 'Could not start the job ('+(err?.code || 'error')+').'; render(); }
+  }
   async function copy(text, key) { try { await navigator.clipboard.writeText(text); copied = key; } catch { note = 'Copy was blocked by the browser. Select the text and copy it instead.'; } render(); setTimeout(() => { copied = ''; render(); }, 2000); }
   async function load() {
     try { await window.WWStore?.connect(); db = window.WWStore?.db?.() || null; } catch { db = null; }
@@ -336,6 +401,12 @@
       job = job ? jobs.find(j => j.id === job.id) || job : jobs.find(j => j.status !== 'posted' && j.status !== 'final') || null;
       if (!canContinue()) confirm = false;
       if (document.activeElement?.closest?.('#publish textarea,#publish input')) return;
+      render();
+    }, () => {});
+    // The packs index (Phase 3): read only here. Sessions add a document for every pack they publish.
+    if (db) db.collection('packs').onSnapshot(snap => {
+      packs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()}));
+      if (document.activeElement?.closest?.('#publish textarea,#publish input')) { const c = root.querySelector('#pb-check'); if (c && !job) c.innerHTML = checkHtml(); return; }
       render();
     }, () => {});
     render();
