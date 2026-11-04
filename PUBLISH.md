@@ -15,7 +15,7 @@ If the connector is refused, Taylor sends the same line in a chat. Either way, f
 - `topicId`: the saved topic this video belongs to, or null if Taylor did not link one.
 - `startedAt`: when Taylor pressed Generate. `session: {id, url, step, requestedAt, startedAt}`: when the app asked for the session and when it opened. Do not change these.
 - `skills`: the skill chosen for each job in Settings. Use **exactly these skills**, by these names, with the Skill tool:
-  - `publishEdit` (default `suby-shots-with-katana` since 4 November 2026): the edit and its **Suby Shots - Variety Pack**.
+  - `publishEdit` (default `suby-shots-with-katana` since 4 November 2026): the edit and its Variety Pack. The pack's page name is whatever that skill's `scripts/variety-pack/build.py` writes: **Katana Kutz - Variety Pack** for With Katana 5.0, **Suby Shots - Variety Pack** for Master Poster. Below, "the pack" means that page.
   - `publishThumbs` (for example `thumbnail-tracker`): thumbnails.
   - `publishPosts` (for example `performance-poster`): titles, descriptions and posts.
   If a field is missing, use the default from `public/settings.js`. Never swap in a different skill or recreate one from memory.
@@ -99,11 +99,34 @@ The "Thinking With AI" job of 3 November rebuilt a pack for a recording that alr
    - A design shown before and never approved is not fresh: do not tag it `NEW`. Tag `NEW` only designs Taylor has never been shown.
    - Count the half proven, half fresh split on these tags.
 5. Invoke the `publishEdit` skill with the Skill tool and follow it as written, with these answers so it never waits on a question the app has already answered:
-   - **Brand:** the Pecuna Factorem house brand from CLAUDE.md (white, ink #1C1A17, gold #8B6002, highlight #F6DF8C, Caveat, Instrument Sans, IBM Plex Mono, the official coin), unless the job has a `brand` field. Say on the pack which brand was used.
+   - **Brand:** the Pecuna Factorem house brand from CLAUDE.md (white, ink #1C1A17, gold #8B6002, highlight #F6DF8C, Caveat, Instrument Sans, IBM Plex Mono, the official coin), unless the job has a `brand` field.
+     Say it once, at the end of the lede, in exactly this form, with the fonts copied from `pack.json` `brand.fonts` in their order: "Brand: the Pecuna Factorem house brand (Caveat, Instrument Sans, IBM Plex Mono), because the job set no brand of its own." Never name a font the page does not use (the 3 November pack named Fraunces while its page used Caveat).
    - **What the video is about:** `title` and `brief`.
-   - Its master rules still hold: never an AI voice, short-form never cut from the YouTube video.
-6. Build the skill's **Suby Shots - Variety Pack** exactly as the skill does in a chat (its `build.py` checks, the exact name, `capabilities: {db: {}}`), and publish it as its own private artifact.
-   Thumbnail and post options come from `publishThumbs` and `publishPosts` and go on the same pack when the skill's pack has a place for them.
+   - Its master rules still hold: never an AI voice, short-form never cut from the YouTube video, and all three motion engines in every pack (master rule 8: Katana, Blender, AI motion graphics).
+   - **Ask nothing about scope, and make the whole pack a chat would make.** Taylor is not watching. There is no time limit, and render time is never a reason to plan fewer moments. Plan story B-roll and Blender moments by the skill's own rules (a strong process, journey or numbers line; at most one Blender shot per 2 to 3 minutes; 45 s between full-frame takeovers), and Katana moments by `references/katana-framework.md` (two candidates each: one approved concept, one fresh). A 30 to 40 minute recording normally earns 2 or more Blender moments, 1 or 2 stories and 2 or 3 Katana moments, each with its candidates. The chat packs had 67 and 69 assets; the 3 November automatic pack had 45, one Blender moment and no story.
+   - **Waiting on renders: one Monitor, not repeated checks.** Start each long render (base layer, clip batches, Blender previews) in the background and wait with the Monitor tool on an until-loop that ends on success or failure, for example `until [ -f <out>/done ] || grep -qE "Error|Traceback|Killed" <log>; do sleep 5; done`. Never poll with repeated status commands or sleeps: every extra turn re-reads the whole conversation and uses Taylor's plan usage for nothing. Start or end a stage at least every 90 minutes so the app does not show the job as stuck.
+6. Build the pack exactly as the skill does in a chat (`build.py --families` with every check passing, the exact name it writes, `capabilities: {db: {}}`, `icon: "palette"`, label `Round 1`), and publish it as its own private artifact. Before publishing, check these, which `build.py` does not:
+   - **Headings** are the ones in the skill's `references/variety-pack.md` §5, word for word, plus "Katana Kutz" for the `katana` section: "Captions (style C)", "Short phrases", "Short lists", "Other screen overlays", "Full-screen motion graphics", "Camera moves", "Transitions", "Story B-roll", "Katana Kutz", "Blender: B-roll and explanations", "Presenter and chrome", "Icons", "Sound design". The presenter section includes the bubble and the chapter ribbon whenever the plan has screen moments.
+   - **Ids** are the library's own, exactly, so decisions line up across videos: asset ids from `references/style-library.md` (for example `title-stack`, `title-typewriter`, `list-tickets`, `tr-end-wipe`, never `fs-title-stack` or `end-wipe`), Blender `concept` names from `references/blender-framework.md` (`objects-on-the-word`, not `bl-objects-on-the-word`), and Katana `concept` names from build.py's list (`word-punch`, `stretch-morph`, `interface-story`, `fly-through`, `camera-language`).
+   - **Caption cards** show the style C caption layer only, never another design under it (the 3 November pack showed a lower third on a caption card after a render was re-pointed).
+   - **Accuracy:** read every section intro and every card's `use` against its clips: the moment, the time stamp and the count must be right, and every sentence must make sense on its own. Stories and Blender cards show the whole shot, with a 9:16 still.
+   - **Phone playback.** The skill's template plays clips from their file links, which iPhone Safari may not play on this host (it needs byte-range video). In the built pack HTML, replace the media line
+     `` : `<video src="${m.src}" ${m.tall ? 'class="tall"' : ''} muted loop playsinline preload="metadata" controls aria-label="${a.title}"></video>`).join('')}</div>`; ``
+     with
+     `` : `<video data-src="${m.src}" ${m.tall ? 'class="tall"' : ''} muted loop playsinline webkit-playsinline preload="none" controls aria-label="${a.title}"></video>`).join('')}</div>`; ``
+     and replace the two lines after `// play clips only while visible` (the `const io = …` line and the `if (!matchMedia(…` line) with the loader from the 3 November chat pack (https://claude.ai/artifact/5bjmJN27WirTQ7X46hRxxM):
+     ```js
+       // Phones (iOS Safari) need byte-range video, which this host may not serve: each clip is fetched whole and played from memory.
+       const load = v => { if (v.dataset.loaded) return v.dataset.loaded === '1' ? Promise.resolve() : v._p; v.dataset.loaded = 'loading';
+         return v._p = fetch(v.dataset.src).then(r => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+           .then(b => { v.src = URL.createObjectURL(b.type ? b : new Blob([b], {type: 'video/mp4'})); v.dataset.loaded = '1'; })
+           .catch(() => { v.src = v.dataset.src; v.dataset.loaded = '1'; }); };
+       const auto = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+       const io = new IntersectionObserver(es => es.forEach(e => { const v = e.target; if (e.isIntersecting) { load(v).then(() => { if (auto) v.play().catch(() => {}); }); } else v.pause(); }), {rootMargin: '300px 0px', threshold: 0.01});
+       document.querySelectorAll('video').forEach(v => { io.observe(v); v.addEventListener('play', () => { if (v.dataset.loaded !== '1') { v.pause(); load(v).then(() => v.play().catch(() => {})); } }); });
+     ```
+     Add `html,body{overflow-x:clip}` to the end of the page's style block. Then open the page at 390 px and 1280 px (Playwright on the built file is enough) and check that `document.documentElement.scrollWidth` equals `clientWidth`, and that no clip uses `src=` in the media line any more.
+   **Thumbnails and posts are not on the pack.** The skill's pack has no section for them, in a chat or here. `publishThumbs` and `publishPosts` run later, in Continue. Do not write a stage or a pack line that suggests otherwise.
 7. **Pre-tick what Taylor approved before (Taylor, 4 November 2026: he decides only the new designs, and still presses Continue).** Straight after publishing, write one `decisions/<assetId>` document on the **new** pack for every asset tagged `APPROVED BEFORE`, in one ArtifactData `batch` with the new pack's `url`: `{status: "approved", note: "Approved before on <earlier pack's video>, <date>. Untick it if you do not want it here.", at: <presetAt>, preset: true}`, all with the same `presetAt` (the real time). Never pre-tick a `NEW` design or a caption card, and never write to an earlier pack.
 8. Write to the job: `packUrl` (the pack's claude.ai link), `status: "pack"`, the finished stages, and `packRecord: {date, round, preticked, fresh, presetAt, sections: {<section id>: [{id, tag}]}}` (`preticked` and `fresh` are counts). This is the run record the skill would keep in `notes/variety-pack/runs/`, which this session cannot write.
    Add `packs/<pack id>` (`kind: "variety"`, the job's `title`, `skill`, `round`, the main `driveIds`, `folderId`, `seconds`, `topicId`, `jobId`, `decisions: "decisions"`, `by: "session"`). The Publish screen then shows **Open the Variety Pack**, the number pre-ticked, and Continue. The session's work ends here.
@@ -114,7 +137,12 @@ The "Thinking With AI" job of 3 November rebuilt a pack for a recording that alr
    A decision is Taylor's own when it has no `preset`, or its `at` differs from `packRecord.presetAt` (he clicked or wrote a note). A pre-tick he left alone still counts as approved: he saw it and pressed Continue.
    If the job has `reusedFrom` and its sources are not all `check: "done"`, run **Check the files** first (it reads a few MB of each file); stop there if it says so.
    If `decisions` is empty, or none of them is Taylor's own, fail the job (`status: "failed"`, `failedStage: "Read the picks"`, `error: "No picks found on the Variety Pack yet. Make your picks there, then press Continue again."`) and stop. Never build a final from designs Taylor has not approved. The Publish screen keeps Open the Variety Pack and Continue on a failed job that has a `packUrl`.
-2. If decisions ask for changes, run the skill's redo round on the **same pack URL**, set `status: "pack"` again and stop.
+2. If decisions ask for changes, run the skill's redo round on the **same pack URL**, set `status: "pack"` again and stop. This is a new session, so the first session's file path is gone:
+   - read the live pack (`action: "read"` with `url: packUrl`), and rebuild `pack.json` from its `<script id="data">` block with every asset id unchanged;
+   - render only what the decisions ask for, run `build.py --redo`, apply the phone playback patch again (Run step 6), and publish with `url: packUrl`, label `Round <n>`;
+   - send only new or changed media in `files` (files left out are kept); never publish a new artifact for a redo, and never change or delete a decision;
+   - update `packRecord` (round, new ids and tags) and that pack's own `packs` document (`round`, `updatedAt`).
+   Wait on renders with Monitor, as in Run step 5.
 3. Otherwise set `status: "finishing"`, build the finals with the same skills, upload them to Drive, and write `finals: [{platform, label, url, detail}]` and `status: "final"`.
 4. Nothing is ever posted. Post all stays off until the platform connections exist.
 
