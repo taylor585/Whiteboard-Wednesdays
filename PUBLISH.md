@@ -261,3 +261,75 @@ This runs in the same session as "from review" step 3, and again when Taylor pre
 ## If something fails
 
 Write `status: "failed"`, `error` (one sentence Taylor can act on), `failedStage` (the stage's name) and that stage's `state: "failed"` with its real `endedAt`. Do not leave a job on `running`. The Publish screen shows the error and the stage, and frees Start a new video.
+
+## Reels jobs (Phase 8a, 4 November 2026)
+
+Taylor opens **Publish → Reels** (`#/publish/reels`), chooses a Video job ("Use this video's main recording") or pastes one Drive file or folder link, gives the title word for word (and, optionally, the YouTube trim in seconds), and presses **Generate Reel highlight pack**.
+The app saves `reels/<id>` in the same artifact database and starts a session with `Run Reels job <id>`, the same way Generate starts one on Video. If the connector is refused, Taylor sends that line in a chat.
+
+A reel job is its own document, never fields on a Video job: the two lanes run at different times, and separate documents mean neither overwrites the other. **Never write `jobs/<id>` from a reel job.** Read the Video job (`jobId`) only. The Video lane finds its reel job from `reels/<id>.jobId`.
+
+Use exactly the skills on the document, with the Skill tool:
+- `reelsEdit` (default `suby-shots-with-katana`, 5.0): its reel run, step 1 only (the Reel highlight pack, master rule 9).
+- `reelsCopy` (default `finishing-touches-copy-and-scripts`): the fluency pass on every script.
+- `reelsPosts` (default `performance-poster`): reel captions, later (Phase 8b).
+If a field is missing, use the default from `public/settings.js`. Never swap in a different skill or recreate one from memory.
+
+Its master rules hold: never an AI voice (rule 5); reels are 60 s or less (rule 6); **short-form is never cut from the YouTube video** (rule 4). In a reel job the recording is read **only for its words and times**: it is transcribed and the highlights point at its sections, but nothing is cut, rendered or exported from it. The reels themselves are recorded fresh by Taylor on his phone after he picks his winners (Phase 8b). The only material from the main recording that may ever reach a reel is the skill's own silent, face-free screen share, made after he has recorded (Phase 8b).
+
+### The reels document (`reels/<id>`)
+
+One writer per field. Write with ArtifactData, pinned to the version you read (`if_version`). A document may be up to 256 KiB, so the whole pack (about 20 to 40 KB) lives on it.
+
+| Field | Written by | What it is |
+|---|---|---|
+| `id`, `createdAt`, `startedAt`, `updatedAt` | app (`updatedAt` both) | |
+| `jobId` | app | the Video job it came from, or null |
+| `topicId` | app | the saved topic, or null |
+| `title`, `titleBy: "taylor"` | app | the title, word for word. It governs the pack |
+| `source` | app | `{kind: "job", jobId, driveId, url, fromJob: true}` (that job's main recording), `{kind: "file", driveId, url}` or `{kind: "folder", folderId, url}` |
+| `offsetS` | app | the YouTube trim in seconds, or null |
+| `skills` | app | `{reelsEdit, reelsCopy, reelsPosts}`, copied from Settings at Generate |
+| `existingSeen`, `skipExisting` | app | as on Video jobs: earlier reel work Taylor was shown and chose to start fresh over |
+| `status` | both, see below | |
+| `session: {id, url, step: "pack", requestedAt, startedAt}` | app | |
+| `stages: [{name, detail, state, startedAt, endedAt}]` | session | real times only, as on Video jobs |
+| `error`, `failedStage` | session (the app writes `error: "Stopped by Taylor"` on Stop, and clears both on Try again) | |
+| `existing: [{title, url | reelsId, why, createdAt}]`, `foundNote` | session | on `found` |
+| `recordingSeconds`, `check` | session | the main recording's measured length and its file check |
+| `pack` | session | the highlight pack, below |
+| `winners: {"<ideaId>": {music: true | false, at}}`, `winnersSavedAt` | app | Taylor's two winners, and whether each gets music (Taylor's decision 6: off means no music) |
+
+`status`: `queued` → `starting` (app, once the session opened) → `running` (session) (→ `found`) → `pack` (session) → `recording` (app, on Save winners with exactly `pack.winnersToPick` picked). `failed` with `error` if it cannot finish. Taylor's **Change winners** sets `pack` again (app), only while no recording is linked. The session never reads or writes `winners`.
+
+`pack`:
+```text
+{skill: "suby-shots-with-katana", builtWith: "reels.py highlights", checkedAt,
+ ideaCount: 6, highlightsPer: 3, winnersToPick: 2, maxSeconds: 60,
+ durationS,                         the recording's length in seconds, for the map
+ timesIn: "recording" | "youtube",  "youtube" only when offsetS was applied
+ ideas: [{id, n, name, angle, seconds, hook, close,
+          highlights: [{head, say, value, t0, t1, yt0, yt1, lines: [{t, text}], still: null}]}]}
+```
+`t0`/`t1` are seconds; `yt0`/`yt1` the same times as the screen shows them ("18:38"); `lines` the exact source lines with their times; `value` the text after "Value given to the end user:"; `seconds` the spoken length at reel pace. The app shows a pack only when it has exactly `ideaCount` ideas, each with `highlightsPer` highlights, every one with `say`, `value` and `t0 < t1`. It never repairs a pack.
+
+### Run Reels job <id>
+
+1. Read `reels/<id>`. Set `status: "running"` and the first stage, **Check the recording**.
+2. Find the main recording, and refuse anything else:
+   - `source.kind: "job"`: read `jobs/<jobId>` (read only). Its source with `role: "main"` must have this `driveId`. Use it as is (Check the files has already passed on it).
+   - `source.kind: "file"`: `python3 -I scripts/classify-video.py --drive <driveId> --role main --json`. It must be a `youtube-recording` with `accept`. A phone recording, a finished reel or post, or a LinkedIn cut is never a source: fail with one sentence, for example "That file is a phone reel recording; paste the main recording instead."
+   - `source.kind: "folder"`: `python3 -I scripts/classify-video.py --drive-folder <folderId>`. Take the one `youtube-recording` in it. None, or more than one, fails the job ("The folder has no main recording." or "The folder has two main recordings: paste the one you want.").
+   Write `check` and `recordingSeconds`, and finish the stage.
+3. **Look for earlier work** (skip when `skipExisting` is true): read the other `reels` documents and the `packs` index (`kind: "reels"`), and list Taylor's artifacts whose titles end `Reel Highlights` (as Video's step 4 does). It is the same recording when the `driveId`, folder or Video job matches, or the length is within 2 s and the topic or two title words match. Leave out anything in `existingSeen`. On a match, write `existing` (`reelsId` for a reel job, `url` for a page), a one-sentence `foundNote`, the finished stage and `status: "found"`, and end. Nothing is downloaded.
+4. **The words and times.** If the Video job's saved work set has the transcript (`jobs/<jobId>.work`), restore `words.json` and `sentences.tsv` from it as "The work set" says (read only: never write the Video job or its pack). Otherwise download the main recording (Video's Run step 3) and transcribe it with the skill's `scripts/transcribe.py`. This is the only use of the recording.
+5. **The pack** (stage **Draft six reels**, then **Finishing Touches pass**, then **Check the pack**): invoke `reelsEdit` with the Skill tool and run its reel run **step 1 only**, as written, with the title on the document word for word, `offsetS` as the pack's `offset`, and `reelsCopy` for the fluency pass on every hook, highlight line and close. Run `reels.py highlights <highlights.json> <words.json> <out>`. If it refuses the pack, fix the drafts and run it again. Never write a pack it refused. Do **not** publish the skill's own highlights page: Taylor picks in the app (decisions 4 and 6), and the app is the one page for this video.
+6. Write `pack` (above), the finished stages, and `status: "pack"`. Wait on long steps with one Monitor, as on Video. **Stop here.** Never read `winners`, never ask Taylor to record, and never cut, build, render or pick music.
+
+### Later steps (Phase 8b, not built yet)
+
+Your recordings (the recording sheet and the phone recording links), building the reels, music (only for winners with `music: true`, from Taylor's Drive music folder) and Ready to post are not in the app yet. If a chat or a session line asks for `Continue Reels job <id>` or `Finish Reels job <id>`, say that this comes in the next update and write nothing to the document.
+
+### If a reel job fails
+
+Write `status: "failed"`, `error` (one sentence Taylor can act on), `failedStage` and that stage's `state: "failed"` with its real `endedAt`. Do not leave a reel job on `running`. The Reels screen shows the error and **Try again**, which starts `Run Reels job <id>` again; if a valid `pack` was already written, Taylor can still pick from it.
