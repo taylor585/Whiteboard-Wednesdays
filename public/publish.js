@@ -17,7 +17,10 @@
    (Thumbnail Tracker, five a platform, objects only) and the posts (Performance Poster, two checked variations a platform).
    It needs who the video is for (A or B, from the topic) and the booking link saved in Settings; without either it stops
    on "ask" and writes nothing. Taylor picks one thumbnail and one post per platform here, copies each text, and posts by
-   hand: Post all stays off until the platforms are connected. No placeholder such as [BOOKING LINK] is ever copied. */
+   hand: Post all stays off until the platforms are connected. No placeholder such as [BOOKING LINK] is ever copied.
+   Phase 8a (4 November 2026): two plain text lanes under the heading, Video (#/publish, this file) and Reels
+   (#/publish/reels, public/reels.js). This file draws the lane row and hands the Reels routes to reels.js; a Video job's
+   reels are found from the reel job's jobId (reelsId below), so neither lane ever writes the other's documents. */
 (() => {
   'use strict';
   const root = document.querySelector('#publish');
@@ -467,14 +470,23 @@
     const list = jobs.filter(j => j.status === 'final' && j.pack?.platforms?.length).slice(0, 3);
     return list.length ? '<div class="pb-readyjobs" role="group" aria-label="Ready to post by hand"><span class="micro">Ready to post by hand</span>'+list.map(j => '<button type="button" class="pb-link" data-open-job="'+esc(j.id)+'">'+esc(j.title || j.folderName || 'Job '+j.id)+(j.readyAt ? ' · '+esc(when(j.readyAt)) : '')+'</button>').join('')+'</div>' : '';
   }
+  // The lanes: the same plain text tabs with the thin dark underline, one size down. Never a sixth top-level tab.
+  const laneTabs = lane => '<nav class="pb-lanes" aria-label="Publish lanes"><a href="#/publish"'+(lane === 'video' ? ' aria-current="page"' : '')+'>Video</a><a href="#/publish/reels"'+(lane === 'reels' ? ' aria-current="page"' : '')+'>Reels</a></nav>';
+  const reelsLane = () => /^#\/publish\/reels(\/|$)/.test(location.hash);
+  // A Video job's reel job, if one started from its main recording (read from reels/<id>.jobId; nothing is stored on the job).
+  function reelsLine() {
+    const r = job && window.WWReels?.forJob?.(job.id); if (!r) return '';
+    return '<p class="pb-meta pb-reelsline">Reels from this video: '+esc(window.WWReels.label(r))+' · <a class="pb-link" href="#/publish/reels/'+encodeURIComponent(r.id)+'">Open the reel job</a></p>';
+  }
   function render() {
     if (root.hidden) return;
+    if (reelsLane()) { window.WWReels?.render(root); return; }
     const focus = document.activeElement && root.contains(document.activeElement) ? document.activeElement.id : null;
     const t = job && topics().concat(window.WWIdeas?.data?.topics || []).find(x => x.id === job.topicId);
     root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · DRIVE LINKS IN, POSTS OUT</div><h1 id="pb-heading">'+esc(job ? (t?.title || job.title || job.folderName || 'This video') : 'Publish a video')+'</h1><p>Paste the Drive folder, check which file is which, then Generate. Your Variety Pack opens as its own page.</p></div>'+
-      (job ? '<button type="button" class="pb-link" id="pb-new"'+(busy() ? ' disabled' : '')+'>Start a new video</button>' : '')+'</div>'+steps()+
+      (job ? '<button type="button" class="pb-link" id="pb-new"'+(busy() ? ' disabled' : '')+'>Start a new video</button>' : '')+'</div>'+laneTabs('video')+steps()+
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'">'+(copied === 'run' ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
-      (!job || job.status === 'new' ? readyJobs()+intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : esc((job.sources || []).length)+' files')+' · started '+esc(when(job.createdAt))+'</p>'+(job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : job.status === 'ask' ? askHtml() : '')+stages()+pack()+finals());
+      (!job || job.status === 'new' ? readyJobs()+intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : esc((job.sources || []).length)+' files')+' · started '+esc(when(job.createdAt))+'</p>'+reelsLine()+(job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : job.status === 'ask' ? askHtml() : '')+stages()+pack()+finals());
     if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
     else if (confirm) root.querySelector('#pb-continue-yes')?.focus();
     else if (changing && focus === 'pb-change') root.querySelector('#pb-change-note')?.focus();
@@ -585,6 +597,8 @@
   }
   setInterval(() => { if (!root.hidden && job && ['starting','running','finishing'].includes(job.status) && !document.activeElement?.closest?.('#publish select')) render(); }, 15000);
   window.addEventListener('ww:route', e => { if (e.detail[0] === 'publish') render(); });
+  // Shared with the Reels lane: the same Drive link rules (Phase 2) and the same lane row.
+  window.WWPublish = {parseLink, laneTabs};
   window.addEventListener('ww:data', render);
   window.addEventListener('ww:settings', () => { if (!document.activeElement?.closest?.('#publish textarea,#publish input')) render(); });
   // A thumbnail image that will not load in this page (another page's file) shows as a Full size link instead.

@@ -174,3 +174,13 @@
 @media(max-width:700px){.pb-thumbs{grid-template-columns:repeat(2,minmax(0,1fr))}.pb-for .pb-field{max-width:none}}
 .pb-readyjobs{display:flex;flex-wrap:wrap;gap:0 18px;align-items:center;margin-top:20px;padding:10px 14px;border-radius:10px;background:#f5f3ee}
 .pb-readyjobs .micro{flex:1 1 100%;margin-top:4px}
+/* Lanes (Phase 8a, 4 November 2026): Video · Reels under the heading, the same plain text tabs and thin dark underline
+   as the main navigation, one size down. Reels lives inside Publish, never as a sixth top-level tab. */
+.pb-lanes{display:flex;gap:28px;margin-top:22px;border-bottom:1px solid #d8d5cf;overflow-x:auto;scrollbar-width:none}
+.pb-lanes::-webkit-scrollbar{display:none}
+#publish .pb-lanes a{display:inline-flex;align-items:center;min-height:44px;padding:10px 0;border-bottom:2px solid transparent;margin-bottom:-1px;text-decoration:none;font-size:16px;color:#5c5750;white-space:nowrap}
+#publish .pb-lanes a[aria-current=page]{border-bottom-color:#1c1a17;color:#1c1a17}
+#publish .pb-lanes a:hover{color:#1c1a17}
+.pb-lanes+.pb-steps{margin-top:20px}
+.pb-reelsline{margin-top:6px}
+#publish .pb-reelsline .pb-link{min-height:32px;font:12px WWMono,monospace}

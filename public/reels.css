@@ -1,0 +1,151 @@
+/* Reels lane inside Publish (Phase 8a, 4 November 2026): the Reel highlight pack picker from reels-mock.html.
+   The approved white design: ink #1C1A17, muted #5C5750, line #D8D5CF, tint #F5F3EE, gold #8B6002, highlight #F6DF8C.
+   The handwriting font only on whiteboard parts (the step and highlight numbers). Every class starts rl-. */
+#publish .rl-steps .is-soon{color:#5c5750}
+#publish .rl-steps .is-soon b{color:#8a847b}
+#publish .rl-steps small{font:10px WWMono,monospace;letter-spacing:.04em;text-transform:uppercase;color:#5c5750;white-space:nowrap}
+#publish .rl-steps .is-on small{color:#d8d5cf}
+#publish .rl-new{text-decoration:underline;text-underline-offset:4px;display:inline-flex;align-items:center;color:#1c1a17}
+/* Intake */
+.rl-start{margin:14px 0 0;padding:0;border:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+.rl-start legend{padding:0;margin-bottom:6px;font-size:14px;color:#5c5750}
+.rl-choice{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid #d8d5cf;border-radius:10px;cursor:pointer;background:#fff;min-width:0}
+.rl-choice:has(input:checked){border-color:#1c1a17;box-shadow:inset 0 0 0 1px #1c1a17}
+.rl-choice input{width:20px;height:20px;margin:2px 0 0;accent-color:#1c1a17;flex:none}
+.rl-choice span{display:flex;flex-direction:column;min-width:0}
+.rl-choice b{font-weight:600;overflow-wrap:anywhere}.rl-choice small{color:#5c5750;font-size:13px}
+.rl-trim input{max-width:160px}
+.rl-src{display:flex;gap:12px;align-items:center;margin:12px 0 0;padding:12px 14px;border:1px solid #d8d5cf;border-radius:10px;font-size:14px;overflow-wrap:anywhere}
+.rl-src .pb-shape{flex:none}
+#publish .rl-open{display:inline-flex;align-items:center;text-decoration:none;margin:0;min-height:44px;padding:10px 16px;font-size:15px}
+.rl-jobs{display:flex;flex-direction:column;align-items:flex-start;gap:0;margin-top:22px;padding:10px 14px;border-radius:10px;background:#f5f3ee}
+.rl-jobs .micro{margin-bottom:2px}
+#publish .rl-jobs .pb-link{min-height:36px;text-align:left;overflow-wrap:anywhere;color:#1c1a17}
+/* Where each reel comes from: one lane per reel, each highlight at its real section of the recording */
+.rl-map{margin-top:24px;padding:18px 20px 14px;border:1px solid #d8d5cf;border-radius:12px}
+.rl-map-h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;align-items:baseline}
+.rl-map-h h2{margin:0;font:500 20px/1.2 WWBody,Arial,sans-serif}
+.rl-map-h p{margin:0;font-size:14px;color:#5c5750}
+.rl-lanes{display:grid;grid-template-columns:44px minmax(0,1fr);gap:6px 10px;margin-top:14px;align-items:center}
+.rl-lanes+.rl-lanes{margin-top:4px}
+.rl-lab{font:11px WWMono,monospace;color:#5c5750;text-align:right}
+.rl-lab.is-on{color:#1c1a17;font-weight:600}
+.rl-track{position:relative;height:14px;border-radius:3px;background:#f5f3ee}
+#publish .rl-seg{position:absolute;top:0;bottom:0;min-width:6px;border:0;padding:0;border-radius:2px;background:#c9c5bd;transition:background-color .15s}
+#publish .rl-seg:hover{background:#8a847b}
+#publish .rl-seg.is-win{background:#f6df8c;box-shadow:inset 0 0 0 1.5px #8b6002}
+#publish .rl-seg.is-sel{background:#1c1a17}
+#publish .rl-seg:focus-visible{outline-offset:2px;z-index:1}
+.rl-axis{position:relative;height:18px}
+.rl-axis span{position:absolute;transform:translateX(-50%);font:10px WWMono,monospace;color:#5c5750;white-space:nowrap}
+.rl-axis span:first-child{transform:none}
+.rl-key{display:flex;flex-wrap:wrap;gap:6px 18px;margin:10px 0 0;padding:0;list-style:none;font-size:13px;color:#5c5750}
+.rl-key i{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle;background:#c9c5bd}
+.rl-key .k-sel i{background:#1c1a17}.rl-key .k-win i{background:#f6df8c;box-shadow:inset 0 0 0 1.5px #8b6002}
+.rl-overlap{margin:8px 0 0;font-size:13px;color:#5c5750}
+.rl-overlap b{font:500 12px WWMono,monospace;color:#1c1a17}
+/* List and detail */
+.rl-pack{display:grid;grid-template-columns:360px minmax(0,1fr);gap:28px;margin-top:28px;align-items:start}
+.rl-list{list-style:none;margin:0;padding:0;border-top:2px solid #1c1a17;min-width:0}
+#publish .rl-row{display:block;width:100%;text-align:left;padding:14px 14px 14px 16px;border:0;border-bottom:1px solid #d8d5cf;background:#fff;position:relative;min-height:48px}
+#publish .rl-row[aria-current=true],#publish .rl-row[aria-expanded=true]{background:#f5f3ee;box-shadow:inset 3px 0 0 #1c1a17}
+.rl-row .micro{display:block;padding-right:96px}
+.rl-row b{display:block;font-weight:600;font-size:17px;margin-top:2px;overflow-wrap:anywhere}
+.rl-row small{display:block;color:#5c5750;font-size:14px;line-height:1.35;margin-top:2px}
+.rl-mini{display:block;position:relative;height:6px;margin-top:10px;border-radius:2px;background:#f5f3ee}
+.rl-mini i{position:absolute;top:0;bottom:0;min-width:4px;border-radius:2px;background:#c9c5bd}
+.rl-row[aria-current=true] .rl-mini i,.rl-row[aria-expanded=true] .rl-mini i{background:#1c1a17}
+.rl-row.is-win .rl-mini i{background:#8b6002}
+.rl-chip{position:absolute;top:14px;right:14px;font:600 11px WWMono,monospace;letter-spacing:.5px;padding:3px 8px;border-radius:999px;background:#f6df8c;color:#1c1a17}
+.rl-chip.is-music{background:#fff;box-shadow:inset 0 0 0 1px #d8d5cf;color:#5c5750;font-weight:500}
+.rl-detail{min-width:0;padding-top:4px}
+.rl-detail>.micro,.rl-card>.micro{display:block}
+.rl-name{margin:4px 0 2px;font:500 34px/1.15 WWBody,Arial,sans-serif;letter-spacing:-.8px;overflow-wrap:anywhere}
+.rl-angle{margin:0;color:#5c5750}
+.rl-sec{margin:22px 0 0}
+.rl-sec>h4{margin:0 0 8px;font:500 12px WWMono,monospace;letter-spacing:1px;text-transform:uppercase}
+.rl-sec>h4 span{font:13px WWBody,Arial,sans-serif;letter-spacing:0;text-transform:none;color:#5c5750;margin-left:6px}
+.rl-hook{margin:0;padding-left:16px;border-left:4px solid #f6df8c;font-size:22px;line-height:1.4;max-width:60ch;overflow-wrap:anywhere}
+.rl-hls{list-style:none;margin:0;padding:0;counter-reset:h}
+.rl-hl{counter-increment:h;display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 14px;padding:16px 0;border-top:1px solid #d8d5cf}
+.rl-hl::before{content:counter(h);grid-row:1 / span 4;font:600 40px/1 WWHand,cursive;color:#1c1a17}
+.rl-hl>*{grid-column:2;min-width:0}
+.rl-hl h5{margin:0;font:500 12px WWMono,monospace;letter-spacing:1px;text-transform:uppercase;color:#8b6002}
+.rl-say{margin:0;font-size:17px;max-width:64ch;overflow-wrap:anywhere}
+.rl-value{margin:4px 0 0;padding:9px 12px;border-radius:8px;background:#f6df8c;font-size:15px;max-width:64ch;overflow-wrap:anywhere}
+.rl-value b{font-weight:600}
+.rl-from{margin-top:6px;display:grid;grid-template-columns:minmax(0,1fr) 168px;gap:12px;align-items:start}
+.rl-from.no-still{grid-template-columns:minmax(0,1fr)}
+.rl-from details{min-width:0}
+.rl-from summary{cursor:pointer;min-height:36px;display:flex;align-items:center;gap:8px;font:500 12px WWMono,monospace;letter-spacing:.6px;text-transform:uppercase}
+.rl-from summary span{font:12px WWMono,monospace;letter-spacing:0;text-transform:none;color:#5c5750}
+.rl-tr{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px;font-size:14px}
+.rl-tr li{display:grid;grid-template-columns:48px minmax(0,1fr);gap:8px;overflow-wrap:anywhere}
+.rl-tc{font:12px WWMono,monospace;color:#5c5750;padding-top:2px}
+.rl-still{margin:0;display:flex;flex-direction:column;gap:4px}
+.rl-still img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid #d8d5cf;background:#f5f3ee}
+.rl-still figcaption{font:10px WWMono,monospace;color:#5c5750}
+.rl-close{margin:0;font-size:17px;max-width:64ch;overflow-wrap:anywhere}
+/* Add music (Taylor's decision 6): an optional tick per reel, off by default. A real checkbox drawn as a switch, with its
+   label and its consequence in words, so it reads the same to a screen reader and works with Space. */
+.rl-music{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr) 46px;gap:12px;align-items:center;margin-top:22px;padding:12px 14px;max-width:560px;border:1px solid #d8d5cf;border-radius:12px;background:#fff;cursor:pointer;transition:background-color .15s,border-color .15s}
+.rl-music:hover{border-color:#8a847b}
+.rl-music.is-on{background:#fdf8e4;border-color:#8b6002}
+.rl-music-in{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.rl-music-in:disabled{cursor:default}
+.rl-music:has(.rl-music-in:focus-visible){outline:3px solid #8b6002;outline-offset:3px}
+.rl-music:has(.rl-music-in:disabled){cursor:default;opacity:.75}
+.rl-music-ic{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;background:#f5f3ee;color:#5c5750}
+.rl-music.is-on .rl-music-ic{background:#f6df8c;color:#1c1a17}
+.rl-music-t{display:flex;flex-direction:column;min-width:0}
+.rl-music-t b{font-weight:600;font-size:16px}
+.rl-music-t small{font-size:13px;line-height:1.4;color:#5c5750}
+.rl-music-sw{position:relative;width:46px;height:28px;border-radius:999px;background:#d8d5cf;transition:background-color .15s}
+.rl-music-sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(28,26,23,.3);transition:transform .15s}
+.rl-music.is-on .rl-music-sw{background:#1c1a17}
+.rl-music.is-on .rl-music-sw::after{transform:translateX(18px);background:#f6df8c}
+#publish .rl-pick{display:block;margin-top:14px;min-height:48px;padding:12px 22px;border:1.5px solid #1c1a17;border-radius:8px;background:#fff;font-size:16px;font-weight:600}
+#publish .rl-pick[aria-pressed=true]{background:#1c1a17;color:#fff}
+#publish .rl-pick[aria-disabled=true]{color:#5c5750;border-color:#c9c5bd}
+#publish .rl-pick:disabled{cursor:default;opacity:.85}
+.rl-note{margin:8px 0 0;font-size:14px;color:#5c5750}
+.rl-card{padding:4px 16px 18px;background:#fff;border-bottom:1px solid #d8d5cf;min-width:0}
+/* The bar, as on Publish, kept in view while picking */
+.rl-bar{position:sticky;bottom:12px;z-index:3;box-shadow:0 6px 24px rgba(28,26,23,.18)}
+.rl-count{font:500 14px WWMono,monospace;overflow-wrap:anywhere;min-width:0}
+.rl-count b{color:#f6df8c}
+/* Saved winners and the honest next step */
+.rl-saved{margin-top:24px;padding:16px 18px 18px;border:1px solid #d8d5cf;border-left:3px solid #8b6002;border-radius:10px}
+.rl-saved h2{margin:0 0 4px;font:500 24px/1.2 WWBody,Arial,sans-serif}
+.rl-saved h2:focus{outline:none}
+.rl-wins{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rl-wins li{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px;border-radius:10px;background:#f5f3ee;min-width:0}
+.rl-wins b{font-weight:600;font-size:17px;overflow-wrap:anywhere}
+.rl-wins p{margin:0;font-size:15px;overflow-wrap:anywhere}
+.rl-mtag{font:600 11px WWMono,monospace;letter-spacing:.5px;padding:3px 8px;border-radius:999px;background:#fff;color:#5c5750;box-shadow:inset 0 0 0 1px #d8d5cf}
+.rl-mtag.is-on{background:#f6df8c;color:#1c1a17;box-shadow:none}
+.rl-soon{margin-top:14px;padding:12px 14px;border:1px dashed #c9c5bd;border-radius:10px;font-size:14px}
+.rl-soon p{margin:4px 0 0;color:#5c5750;max-width:72ch}
+@media(max-width:999px){.rl-pack{grid-template-columns:1fr}}
+@media(max-width:700px){
+  .rl-map{padding:14px 12px 12px}
+  .rl-lanes{grid-template-columns:28px minmax(0,1fr);gap:6px 8px}
+  .rl-name{font-size:26px}
+  .rl-hook{font-size:19px}
+  .rl-hl{grid-template-columns:30px minmax(0,1fr);gap:4px 10px}
+  .rl-hl::before{font-size:32px}
+  .rl-from{grid-template-columns:1fr}
+  .rl-still{max-width:220px}
+  #publish .rl-pick{width:100%}
+  .rl-music{grid-template-columns:40px minmax(0,1fr) 46px;gap:10px;padding:12px}
+  .rl-music-ic{width:40px;height:40px}
+  .rl-bar .rl-hint{display:none}
+  .rl-wins{grid-template-columns:1fr}
+  .rl-trim input{max-width:none}
+  #publish .rl-steps small{font-size:9px;white-space:normal;line-height:1.2}
+}
+@media(prefers-reduced-motion:reduce){#publish .rl-seg,.rl-music,.rl-music-sw,.rl-music-sw::after{transition:none}}
+/* Nothing focused or scrolled to sits under the sticky bar (keyboard focus stays visible) */
+#publish .rl-pick,#publish .rl-music,#publish .rl-row,#publish .rl-from summary,#publish .rl-note{scroll-margin-bottom:180px}
+html:has(#publish .rl-bar){scroll-padding-bottom:160px}
+@media(max-width:700px){.rl-names{display:none}}

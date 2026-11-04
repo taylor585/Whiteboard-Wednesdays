@@ -21,13 +21,15 @@
     {id:'trending-topics', name:'Trending topics', ver:'4.0', kind:'topic', does:'Finds rising topics for the shortlist.'}];
   const JOBS = [
     ['Publish', 'From Drive links to finished, posted videos', [['publishEdit','Video editing','edit','Variety Pack and the finished edits'], ['publishThumbs','Thumbnails','thumb','Five a round for YouTube and LinkedIn'], ['publishPosts','Posts and captions','post','Two variations per platform']]],
+    // Reels (Phase 8a, 4 November 2026): the reel lane's own skills, so changing the Video edit never changes the reels.
+    ['Reels', 'From one recording to finished reels', [['reelsEdit','Reel highlight pack and edit','edit','Six reels, three highlights each; later the cut and build'], ['reelsCopy','Script polish','post','The fluency pass on every reel script'], ['reelsPosts','Reel captions','post','Checked captions for each reel']]],
     ['Presentations', 'Whiteboard decks', [['decks','Deck building','deck','New decks and slides']]],
     ['Topics', 'Ideas and angles', [['topics','Topic ideas','topic','Angles for the shortlist']]]];
-  const DEFAULTS = {publishEdit:'suby-shots-with-katana', publishThumbs:'thumbnail-tracker', publishPosts:'performance-poster', decks:'suby-shots-reels-and-variety', topics:'trending-topics'};
+  const DEFAULTS = {publishEdit:'suby-shots-with-katana', publishThumbs:'thumbnail-tracker', publishPosts:'performance-poster', reelsEdit:'suby-shots-with-katana', reelsCopy:'finishing-touches-copy-and-scripts', reelsPosts:'performance-poster', decks:'suby-shots-reels-and-variety', topics:'trending-topics'};
   // Honest connection states: nothing here claims a connection the app has not made.
   const CONNECTIONS = [
     ['Google Drive','Publish reads your Drive links. Finished files are not put back on Drive yet.','Links must be shared “Anyone with the link”',true],
-    ['Claude Code','Runs each Publish job: the edit, the thumbnails and the posts.','Asks you once, the first time you press Generate',false],
+    ['Claude Code','Runs each Publish job: the edit, the thumbnails and the posts, and the reel highlight pack.','Asks you once, the first time you press Generate',false],
     ['YouTube','Uploads for the Creator watchlist, and posting.','Not connected',true],
     ['LinkedIn and Instagram','Posting from Post all.','Not connected',true]];
   // The booking link (settings/links). A placeholder, a bare word or anything that is not https is refused.
