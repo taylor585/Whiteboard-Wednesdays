@@ -8,7 +8,10 @@ That session's first message is `Run Publish job <id>`. Every later session star
 |---|---|---|
 | Continue (after his Variety Pack picks) | `Continue Publish job <id> from pack` | builds the pilot, stops on `pilot` (or runs a redo round and stops on `pack`) |
 | Approve the pilot, or Change something | `Continue Publish job <id> from pilot` | renders the YouTube master and the LinkedIn cut and stops on `review` (or changes the pilot and stops on `pilot`) |
-| Approve both, or Change something | `Continue Publish job <id> from review` | finishes the job (`final`), or makes the changes and stops on `review` again |
+| Approve both, or Change something | `Continue Publish job <id> from review` | makes the thumbnails and posts and stops on `posts` (or on `ask` when the booking link or the buyer is missing), or makes the changes and stops on `review` again |
+| Continue on `ask` (after adding the booking link or the buyer) | `Continue Publish job <id> from review` | makes the thumbnails and posts from the approved cuts and stops on `posts` |
+
+Taylor's picks on `posts` start nothing: he picks one thumbnail and one post per platform, presses **Ready to post**, and the app sets `final` itself. Posting stays by hand (Taylor's decision 8).
 
 `Continue Publish job <id>` with no stop named (jobs from before 5 November 2026) means `from pack`.
 Each session is new and runs in a new container: it starts by restoring the **work set** (below), never by transcribing or planning again.
@@ -28,7 +31,7 @@ If the connector is refused, Taylor sends the same line in a chat. Either way, f
   - `publishThumbs` (for example `thumbnail-tracker`): thumbnails.
   - `publishPosts` (for example `performance-poster`): titles, descriptions and posts.
   If a field is missing, use the default from `public/settings.js`. Never swap in a different skill or recreate one from memory.
-- `status`: `queued` → `starting` → `running` (→ `check` → `starting` → `running`) (→ `found`) → `pack` → `finishing` → `pilot` → `finishing` → `review` → `finishing` → `final`. `failed` with `error` if it cannot finish. The app sets `starting` and `finishing` itself, only after the session has opened; `session.step` then says which stop it continues from (`finals` is from the pack, then `pilot`, then `review`).
+- `status`: `queued` → `starting` → `running` (→ `check` → `starting` → `running`) (→ `found`) → `pack` → `finishing` → `pilot` → `finishing` → `review` → `finishing` (→ `ask` → `finishing`) → `posts` → `final`. `failed` with `error` if it cannot finish. The app sets `starting` and `finishing` itself, only after the session has opened; `session.step` then says which stop it continues from (`finals` is from the pack, then `pilot`, then `review`).
 - The stops after the pack (Phase 5, 4 November 2026; Taylor's decision 2: keep the pilot stop, then approve the YouTube master and the LinkedIn cut together, in one stop):
   - `work: {url, archive, manifest, files: [{path, bytes}], bytes, stage, savedAt}`: the saved work set (see "The work set"). Written by the session only.
   - `reviewUrl`: the job's private review page, a claude.ai artifact link. One per job, made at the pilot and updated in place after that.
@@ -36,6 +39,11 @@ If the connector is refused, Taylor sends the same line in a chat. Either way, f
   - `cuts: {url, round, renderedAt, master: {label, seconds, detail, url?}, linkedin: {label, seconds, detail, url?}}`: written when the master and the LinkedIn cut are ready.
   - `approvals: {pilot, review}`: Taylor's answer at each stop, written by the app together with the session it starts: `{decision: "approved" | "changes", note, round, at}`. The session reads it and never changes it. An answer is current when its `at` is later than the `renderedAt` it answers.
   - `finalNote`: one sentence on the finished job, shown above `finals`.
+- Thumbnails and posts (Phase 7, 4 November 2026; Taylor's decisions 7 and 8):
+  - `buyer` (`"A"` wants AI built, `"B"` buys paid ads, or null), `buyerBy` (`"topic"` or `"taylor"`) and `bookingLink` (the https link saved once in Settings as `settings/links`): written by the app with **Approve both** and with Continue on `ask`. The buyer comes from the topic's `buyer`, and Taylor can change it for this video. The session reads these three and never changes them.
+  - `ask: {missing: ["booking" | "buyer"], note, at}`: written by the session when it stops on `ask` (see "Continue from review").
+  - `pack: {note, platforms: [{key: "youtube" | "linkedin", label, postLabel, note, thumbnails: [{id, label, tag, size, url, file}], posts: [{title, body, firstComment, check, checker: {fails, warns, chars}}]}]}`: written by the session on `posts`. The app's PB-A blocks read exactly this.
+  - `picks: {"<key>.thumb": <thumbnail id>, "<key>.post": "v1" | "v2"}`, `readyAt`, `youtubeUrl`: written by the app only. `youtubeUrl` is the video's link once Taylor has posted it by hand; the app puts it into the LinkedIn first comment.
 - Earlier work (Phase 3, 4 November 2026):
   - `existing: [{url, title, kind, round, decisions, why, createdAt}]` and `foundNote`: written by **Look for earlier work** when it stops on `found`. `kind` is `variety`, `katana` or `reels`.
   - `existingSeen`: links Taylor was already shown in the app and chose to start fresh over (pack links, or `jobs/<id>`). Ignore these when looking.
@@ -217,8 +225,38 @@ Never made again: the file check, the transcript, the map, the beat plan, the Va
 
 1. Read `jobs/<id>` and `approvals.review`. Run **Restore the saved work**. If the answer is missing or older than `cuts.renderedAt`, fail the job as in "from pilot" step 2.
 2. **Changes:** apply `note` (it says which video and where), re-render what it touches (the whole master when the master changes, because renders are not kept; the LinkedIn cut when it changes or its source moved), re-run the QA, publish the review copies to the same review page (label `Master and LinkedIn round <n+1>`), save the work set, write `cuts` (`round` + 1) and `status: "review"`, and stop.
-3. **Approved:** the finished files. Full-quality delivery (the master and LinkedIn cut to Drive, Taylor's decision 3) is phase 6, and thumbnails and posts (`publishThumbs`, `publishPosts`) are phase 7; neither is in this file yet. Until they are, do not re-render and do not upload anything: write `finals` with the review page for each cut (`{platform: "youtube" | "linkedin", label, url: reviewUrl, detail: "Approved review copy on your private review page"}`), `finalNote: "Approved. Full-quality delivery and the thumbnails and posts come in the next updates; nothing was posted."`, and `status: "final"`.
+3. **Approved:** the finished files, then the thumbnails and the posts. Full-quality delivery to Drive (Taylor's decision 3) is phase 6 and is not in this file yet: do not re-render and do not upload anywhere else. Write `finals` with the review page for each cut (`{platform: "youtube" | "linkedin", label, url: reviewUrl, detail: "Approved review copy on your private review page"}`), then carry on with **Thumbnails and posts** below.
 4. Nothing is ever posted. Post all stays off until the platform connections exist.
+
+## Thumbnails and posts (Phase 7, after Approve both)
+
+This runs in the same session as "from review" step 3, and again when Taylor presses Continue on `ask` (the same line: `Continue Publish job <id> from review`; `approvals.review` is still the current approval, so do not fail on it). Restore the saved work first, as always.
+
+**1. Check the inputs first (stage "Check the post details"), before anything is made.**
+- `buyer` must be `"A"` or `"B"`.
+- `bookingLink` must be an `https://` link with a real domain, and must not contain `[`, `]`, `{`, `}`, `<`, `>` or a space.
+- If either is missing or wrong, stop: write `status: "ask"`, `ask: {missing, note, at}` (the note says, in one sentence, what to add and where, for example "Add your booking link in Settings, then press Continue."), the finished stage, and end the session. Nothing is rendered and nothing is written to `pack`. Never write a post with `[BOOKING LINK]` and never guess a link or a buyer.
+
+**2. Thumbnails (stage "Thumbnails"), with the `publishThumbs` skill (Thumbnail Tracker 3.2).** Invoke it with the Skill tool and follow its "Create thumbnails" section:
+- **Objects only** (its master rule 6): never a photo of Taylor taken from a video, no frames, stills or reel grabs. A face is used only when the job has `phonePhoto` (a photo Taylor took on his phone and gave for this job; the app does not ask for one yet), and only through `prep_face.py --phone-photo`. Without one, build to `references/design/objects-only-standard.md` from the nearest spec in `examples/objects-only-2026-11/`.
+- **Five per round** (its variety rule for rounds of 4 or more): three light grounds and two dark, varied type, case and mark, each with a line of 4 words or fewer that adds to its title. `variety.py check` must show 0 FAIL and `build_hero.py` no unexplained `WARNING:`. Look at every image, and at the 168 px strip, before using it.
+- **Sizes:** the five at 1280×720 for YouTube, and the same five at 1920×1080 (`--size 1920x1080`) as LinkedIn video covers. Name them `<n>-YouTube-thumbnail-1280x720.jpg` and `<n>-LinkedIn-video-cover-1920x1080.jpg`.
+- **Where they go (Taylor's decision 3: thumbnails on the private download page):** publish them to the job's review page (`url: reviewUrl`, the page file read first and republished unchanged, only the ten images in `files` under `thumbs/`, label `Thumbnails round <n>`). Omit `capabilities` so the page keeps them. For each image, `url` is its address on that page as a `scope: "files"` listing reports it, and `file` the same link (the app shows the image when the browser can load it, and a Full size link when it cannot).
+
+**3. Posts (stage "Posts"), with the `publishPosts` skill (Performance Poster 1.2.1).** Invoke it with the Skill tool and follow its "Full set" section, for YouTube and LinkedIn only (the reels have their own lane):
+- **The brief** (`brief.txt`, its `KEY: value` format): `TITLE` from the skill's Titles step (3 titles, `check_post.py title`), `BUYER` from the job, `VIDEO TEACHES`, `PROOF` from the restored transcript (`words.json` and `sentences.tsv`), `DURATION` the approved master's length (`cuts.master.seconds`), `CLIENTS`, and `LINKS: contact https://pecunafactorem.com/contact · booking <bookingLink>`.
+- **Chapters are real, from the final cut.** Take each chapter's start from the approved master's timeline in the restored assembly list (the master as assembled, after every cut and insert), never from the raw recording's times and never estimated. `0:00` first, at least 3, ascending, 10 seconds apart or more, the last before `DURATION`. No `X:XX`.
+- **Two variations per platform**, on different hooks:
+  - YouTube: `title` (from the Titles step) and `body`, the description in the house structure (the pinned WhatsApp line exactly, hook, summary, the book-a-call line with `bookingLink`, what you'll learn, chapters, how we can help, links, 2 or 3 registry hashtags).
+  - LinkedIn: `body`, a native-video post for the LinkedIn cut (hook inside the fold, CTA 04 with `bookingLink` as the last line, 0 to 2 registry hashtags), and `firstComment` with CTA 05's wording and `[YOUTUBE LINK]`. That is the only placeholder allowed anywhere, because the link exists only after Taylor posts the video: the app asks him for it and fills it in before he copies the comment.
+- **Checked by the skill's own checker.** Save each variation as a file and run `python3 <skill-dir>/scripts/check_post.py youtube|linkedin <file> --brief brief.txt --transcript <transcript> --json` (with `--title` for YouTube and `--duration` from the brief). Fix every FAIL and re-run; a variation with a FAIL is never written. Read every WARN and fix it, except `Placeholders left to fill` for `[YOUTUBE LINK]` in the LinkedIn first comment.
+- **No placeholders.** Before writing, test every `title`, `body` and `firstComment` against the skill's `placeholder_regex` (in `references/limits.json`). Any match other than `[YOUTUBE LINK]` in a LinkedIn `firstComment` means the post is not finished: fix it. If it cannot be fixed, fail the job (`failedStage: "Posts"`). The app refuses to copy a variation that still has one.
+- `check`: one line for Taylor, from the checker (for example "PASS · 1,412 characters · hook 96 · 2 hashtags · 0 WARN"); `checker: {fails, warns, chars}`.
+- Log the hooks and hashtags with the skill's `headline_log.py` and `hashtag_log.py` in its working copy, and add both log files to the work set.
+
+**4. Write the job (pinned to the version you read):** `pack: {note: "Five thumbnails and two checked posts per platform", platforms: [youtube, linkedin]}` in the shape listed under "The job document" (`postLabel` "Title and description" for YouTube, "Post" for LinkedIn; thumbnail `id`s unique within a platform), `finals` (as in step 3 of "from review"), `finalNote: "Approved. Pick a thumbnail and a post for each platform; full-quality delivery comes in the next update. Nothing was posted."`, the finished stages, and `status: "posts"`. Save the work set (`stage: "posts"`: the brief, the posts, the checker reports, the thumbnail specs). The session ends here.
+
+**5. Taylor's picks start nothing.** On `posts` the Publish screen shows the five thumbnails and two variations per platform; he picks one of each, copies each text with its Copy button, and presses **Ready to post**, which sets `status: "final"` and `readyAt`. No session runs for that, and no file changes. A later session never changes `picks`.
 
 ## If something fails
 

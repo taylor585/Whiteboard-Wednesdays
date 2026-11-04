@@ -36,3 +36,12 @@
 #settings :focus-visible{outline:3px solid #8b6002;outline-offset:3px}
 @media(max-width:1000px){.se-lib{grid-template-columns:1fr}.se-shelf{position:static;flex-direction:row;overflow-x:auto;overscroll-behavior-x:contain}#settings .se-card{flex:0 0 240px}}
 @media(max-width:700px){#settings{padding:32px 20px}.se-row,.se-conns{grid-template-columns:1fr}#settings .se-job{min-height:0}#settings .se-btn{margin-left:0;width:100%}}
+/* Links for posts (Phase 7, 4 November 2026): the booking link, saved once. */
+.se-links{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:end;padding:14px;border:1px solid #d8d5cf;border-radius:10px}
+.se-field{display:flex;flex-direction:column;gap:6px;min-width:0;font-size:14px;font-weight:600}
+.se-field input{min-height:48px;padding:10px 12px;border:1px solid #d8d5cf;border-radius:8px;font:400 16px WWBody,Arial,sans-serif;color:#1c1a17;background:#fff;min-width:0;width:100%;box-sizing:border-box}
+.se-field input[aria-invalid=true]{border-color:#8b6002;box-shadow:0 0 0 2px #f6df8c}
+#settings .se-btn-sm{margin-left:0}
+.se-link-st,.se-links .se-note{grid-column:1/-1;margin:0}
+.se-link-st{font-size:14px}.se-link-st.is-bad{color:#8b6002;font-weight:600}
+@media(max-width:700px){.se-links{grid-template-columns:1fr}#settings .se-btn-sm{width:100%}}

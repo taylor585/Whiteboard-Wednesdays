@@ -31,6 +31,7 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0001_topics.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0002_topic_deck.sql
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0003_creator_note.sql
+node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0004_topic_buyer.sql
 npm run dev -- --port 8864
 ```
 
@@ -47,9 +48,9 @@ Use the Creator watchlist’s simple Instrument Sans heading style across the ap
 - `public/video-ideas.css`, `public/video-ideas.js`: Creator watchlist (`#/watchlist`), the upload inbox (Taylor's pick W2-B, 26 October 2026): creators by name, uploads grouped by week, Spark a topic, Seen (kept in this browser only) and the Topics tray.
 - `public/brainstorm.css`, `public/brainstorm.js`: Topics tab (`#/topics`), creators and ideas (Taylor's pick BC, 26 October 2026): the creator database with a profile and private note, then Sparks, Shortlist, Recording schedule and Posting schedule side by side.
 - `public/creator.css`, `public/creator.js`: creator page (`#/creator/@handle`, Taylor's pick C-A): channel banner, upload rhythm, latest uploads with Spark a topic, and the private note. Stats only come from stored uploads.
-- `public/topics.css`, `public/topics.js`: Schedule tab (`#/schedule`), a four-week calendar with one row per week (Taylor's pick S2-B, 30 October 2026) and calendar-lens filters, the topic panel and the not-scheduled list, built on PROCESS.md.
-- `public/publish.css`, `public/publish.js`: Publish tab (`#/publish`): Drive links in, the Variety Pack platform by platform, finals and Post all. Jobs are artifact database documents `jobs/<id>` (fields: sources, skills, status `queued|running|pack|finishing|final`, stages, pack, picks, finals) that a Claude Code session fills in.
-- `public/settings.css`, `public/settings.js`: Settings (`#/settings`, the cog top right): the skill library and the jobs that use each skill, saved as `settings/skills`.
+- `public/topics.css`, `public/topics.js`: Schedule tab (`#/schedule`), a four-week calendar with one row per week (Taylor's pick S2-B, 30 October 2026) and calendar-lens filters, the topic panel (including who the video is for: buyer A or B) and the not-scheduled list, built on PROCESS.md.
+- `public/publish.css`, `public/publish.js`: Publish tab (`#/publish`): Drive links in, the Variety Pack platform by platform, finals and Post all. Jobs are artifact database documents `jobs/<id>` (fields: sources, skills, status `queued|running|check|found|pack|finishing|pilot|review|ask|posts|final`, stages, pack, picks, finals; PUBLISH.md lists them all) that a Claude Code session fills in. On `posts` Taylor picks one of five thumbnails and one of two posts per platform and copies each text; posting stays by hand.
+- `public/settings.css`, `public/settings.js`: Settings (`#/settings`, the cog top right): the skill library and the jobs that use each skill, saved as `settings/skills`, and the booking link for posts, saved once as `settings/links`.
 - `public/ww-store.js`: when the app runs as a Claude artifact with no server, topics and creator notes are saved in the artifact's own database (collections `topics` and `creatorNotes`).
 - `public/presentations.js`: presentation register.
 - `public/whiteboard-content.js`, `public/lge-content.js`, `public/vb-content.js`, `public/ah-content.js`, `public/gv-content.js`: presentation content (paid ads, Lead Gen Engine, Vision Boards, AI Harnesses, Grok Voice).
