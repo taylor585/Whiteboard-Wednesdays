@@ -1,0 +1,363 @@
+/* I Ran an AI Call Centre for a Week: Here Are the Results (id: ai-call-centre-week). 19 slides, each one a design Taylor approved in the
+   Whiteboard Wednesdays - Variety Pack (round 1; 17 of 40 designs approved on 4 November 2026), locked to slides with
+   lock-plan.cjs. Pecuna Factorem brand, confirmed by Taylor on 2 November 2026.
+   Source: the Tuned Reps week one report (Mon 2 Nov 2026). Every quotation is proven against the PDF.
+   cw.js plays each slide's motion one click at a time. */
+window.WW={
+ "slides": [
+  {
+   "id": "cold-open",
+   "title": "1,128 calls. 2 bookings.",
+   "section": "00 / Cold open",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"6000,6500\" role=\"img\" aria-label=\"A dark call log scrolls through real positive outcomes from the week, beside the headline: 1,128 cold calls to UK trades businesses by 16 AI reps, Tuesday 27 to Friday 30 October. Then 327 humans answered and 2 calls booked.\"><div class=\"s hk3\"><div><div class=\"eb\">Real calls from the week · selected</div><div class=\"log\"><div class=\"feed\"><span>Tue 11:12 · Charlotte · O'Reilly Stonemasons · callback</span><span>Tue 12:01 · Charlotte · gwyneddrestoration · callback</span><span>Tue 12:51 · Charlotte · Lime Render Southwest · <b>said yes</b> · line dropped</span><span>Wed 17:40 · Abby · sibconstruction · WhatsApp link</span><span>Thu 09:29 · Geraldine · S Gwynne Masonry · gatekeeper</span><span>Thu 09:37 · Geraldine · Nsg Restorations · <b>BOOKED</b></span><span>Thu 10:01 · Lisa · Damp Shield · report email</span><span>Thu 10:13 · Lisa · Damp Domestics · callback</span><span>Thu 10:29 · Lisa · 3T Restoration · report email</span><span>Thu 11:05 · Leanne · Pro Piling Solutions · <b>said yes</b> · weekend slots</span><span>Thu 12:17 · Rachel · New Line Home · gatekeeper</span><span>Thu 13:33 · Francesca · Awesome Floor · gatekeeper</span><span>Thu 14:17 · Anastasia · Lmdec · report email</span><span>Thu 15:21 · Clarice · Kedco Construction · <b>BOOKED</b></span><span>Fri 10:13 · Abby · Comfort Build · callback</span><span>Fri 16:21 · Charlotte · Dream-House Renovation · gatekeeper</span></div></div></div><div><div class=\"eb\">16 AI reps · Tue 27 to Fri 30 Oct 2026</div><div class=\"big\">1,128</div><div class=\"cap\">cold calls to UK trades businesses</div><div class=\"tick3\"><div>327<small>humans answered</small></div><div>2<small>calls booked</small></div></div></div><div class=\"src\">Source: Tuned Reps week one report, pages 1 and 12 to 14. Lines are real positive outcomes, selected; phone numbers left out.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2
+   ],
+   "source": "Tuned Reps week one report, pages 1, 2 and 12 to 14. Log lines are real positive outcomes from the week, selected. Phone numbers and email addresses are left out.",
+   "note": "Cold open, about 20 seconds. Click 1: the log runs. SAY: “Last week I ran an AI call centre. Sixteen AI reps, cold calling UK trades businesses, for four days.” Click 2: 327 and 2. “1,128 calls. 327 real people picked up. And two of them booked a call with me. Here is exactly what happened.”"
+  },
+  {
+   "id": "chapter-what-we-ran",
+   "title": "What we ran",
+   "section": "01 / What we ran",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"2000\" role=\"img\" aria-label=\"Split-flap board, chapter 1 of 4: WHAT WE RAN. The campaign, the script, the tech and the team.\"><div class=\"s cc-flap\"><div class=\"eb\">Chapter 1 of 4</div><div class=\"board\" style=\"--tw:7.27\"><span style=\"--d:0ms\">W</span><span style=\"--d:90ms\">H</span><span style=\"--d:180ms\">A</span><span style=\"--d:270ms\">T</span><span style=\"--d:360ms\">&nbsp;</span><span style=\"--d:450ms\">W</span><span style=\"--d:540ms\">E</span><span style=\"--d:630ms\">&nbsp;</span><span style=\"--d:720ms\">R</span><span style=\"--d:810ms\">A</span><span style=\"--d:900ms\">N</span></div><div class=\"sub\">The campaign, the script, the tech and the team.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Chapter card.",
+   "note": "Chapter 1. One click flips the board. SAY: “First, what we actually ran.”"
+  },
+  {
+   "id": "the-script",
+   "title": "The script every rep used",
+   "section": "01 / What we ran",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"680,1580,2480\" role=\"img\" aria-label=\"A phone showing three lines of the script every rep used, word for word: the opener, step 1 and step 3.\"><div class=\"s qt3\"><div class=\"ph\"><div class=\"bb\" style=\"--d:300ms\"><b>Opener · every rep</b>Hi, is that [First Name]?</div><div class=\"bb\" style=\"--d:1200ms\"><b>Step 1</b>Hiya [Name], it's [Rep], Taylor's assistant over at Pecuna Factorem! Just so you know, this call's recorded. I promise I'll be quick, just one question… Is that fair enough?</div><div class=\"bb\" style=\"--d:2100ms\"><b>Step 3</b>If you could have more of one thing right now, would it be more of those jobs, or better ones?</div></div><div><div class=\"eb\">Script uk-v1 · on every call · word for word</div><div class=\"h\">The script every rep used</div><div class=\"cap\" style=\"font-size:calc(1.8*var(--u));margin-top:calc(2*var(--u))\">One step per turn. The hook: a free “2,000 data point” report on their top three dream clients, walked through on a 20-minute call.</div></div><div class=\"src\">Source: Tuned Reps week one report, page 3.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>",
+    "<span class=\"cw-step\">Reveal 3</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "source": "Tuned Reps week one report, page 3. Script lines are exact.",
+   "note": "Click 1: the opener. SAY: “Every call opened the same way. A pre-recorded clip, so there was no silence when they picked up.” Click 2: step 1. “Then it says it is Taylor’s assistant and that the call is recorded.” Click 3: step 3. “And one question: more jobs, or better ones?” The deal sizes and 22 objection answers are on page 3 if asked."
+  },
+  {
+   "id": "how-a-call-works",
+   "title": "How a call works",
+   "section": "01 / What we ran",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"3470,4000\" role=\"img\" aria-label=\"Three objects: the prospect’s mobile, a live sound wave for the Grok Voice rep (voices liora and aurora), and the GHL calendar the call books into while they are on the line.\"><div class=\"s fl4\"><div class=\"t\"><div class=\"eb\">01 / What we ran</div><div class=\"h\">How a call works</div></div><div class=\"phone\"><div><b>Prospect</b>a UK trades business owner, on their mobile, after TPS screening</div></div><div><div class=\"wave\"><i style=\"--h:6cqw;--d:0ms\"></i><i style=\"--h:10cqw;--d:70ms\"></i><i style=\"--h:14cqw;--d:140ms\"></i><i style=\"--h:9cqw;--d:210ms\"></i><i style=\"--h:16cqw;--d:280ms\"></i><i style=\"--h:12cqw;--d:350ms\"></i><i style=\"--h:7cqw;--d:420ms\"></i><i style=\"--h:13cqw;--d:490ms\"></i><i style=\"--h:15cqw;--d:560ms\"></i><i style=\"--h:8cqw;--d:630ms\"></i><i style=\"--h:11cqw;--d:700ms\"></i><i style=\"--h:5cqw;--d:770ms\"></i></div><div class=\"lbl\">Grok Voice (xAI) · voices liora and aurora</div></div><div class=\"brain\"><b>GHL calendar</b>book_appointment while they're still on the line.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2
+   ],
+   "source": "Tuned Reps week one report, page 3: Grok Voice (xAI) realtime agents, Telnyx telephony with answering-machine detection, booking into GHL.",
+   "note": "Click 1: the call. SAY: “Telnyx rings their mobile. Grok Voice from xAI does the talking, one agent per rep, two voices.” Click 2: the calendar. “If they say yes, it pulls two real free slots and books them into my calendar while they are still on the line.”"
+  },
+  {
+   "id": "the-team",
+   "title": "16 reps, one hour each",
+   "section": "01 / What we ran",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"1800,2300\" role=\"img\" aria-label=\"Eight cells, one per rep on a shift, each filling with ten dots of five calls: 8 reps times 1 hour times 50 calls makes 400 calls a day. Thursday, Group B: 422 dials.\"><div class=\"s nm2\"><div><div class=\"lab\" style=\"grid-template-columns:repeat(4,1fr)\"><span>09:00</span><span>10:00</span><span>11:00</span><span>12:00</span></div><div class=\"g\" style=\"grid-template-columns:repeat(4,1fr)\"><div class=\"cell\" style=\"--d:200ms\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class=\"cell\" style=\"--d:360ms\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class=\"cell\" style=\"--d:520ms\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class=\"cell\" style=\"--d:680ms\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class=\"cell\" style=\"--d:840ms\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class=\"cell\" style=\"--d:1000ms\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class=\"cell\" style=\"--d:1160ms\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class=\"cell\" style=\"--d:1320ms\"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class=\"rl\">One cell per rep · one dot = 5 calls · 13:00 to 16:00 below</div></div><div><div class=\"eb\">01 / What we ran</div><div class=\"eq\">8 reps<br>× 1 hour each<br>× 50 calls<br><span>= 400 calls a day</span></div><div class=\"cap\" style=\"margin-top:1.4cqw\">Thursday, Group B: 422 dials</div></div><div class=\"src\">Source: Tuned Reps week one report, pages 2 and 4.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2
+   ],
+   "source": "Tuned Reps week one report, pages 2 and 4. Group A dials Monday, Wednesday and Friday; Group B Tuesday and Thursday.",
+   "note": "Click 1: the grid fills. SAY: “Sixteen reps in two teams. Each one owns one hour of the day, 9 till 5.” Click 2: the sum. “Eight reps, one hour each, fifty calls each. Four hundred calls a day. On Thursday Group B made 422.”"
+  },
+  {
+   "id": "chapter-the-numbers",
+   "title": "The numbers",
+   "section": "02 / The numbers",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"2000\" role=\"img\" aria-label=\"Split-flap board, chapter 2 of 4: THE NUMBERS. Every call, from dial to booking.\"><div class=\"s cc-flap\"><div class=\"eb\">Chapter 2 of 4</div><div class=\"board\" style=\"--tw:7.27\"><span style=\"--d:0ms\">T</span><span style=\"--d:90ms\">H</span><span style=\"--d:180ms\">E</span><span style=\"--d:270ms\">&nbsp;</span><span style=\"--d:360ms\">N</span><span style=\"--d:450ms\">U</span><span style=\"--d:540ms\">M</span><span style=\"--d:630ms\">B</span><span style=\"--d:720ms\">E</span><span style=\"--d:810ms\">R</span><span style=\"--d:900ms\">S</span></div><div class=\"sub\">Every call, from dial to booking.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Chapter card.",
+   "note": "Chapter 2. SAY: “So, the numbers.”"
+  },
+  {
+   "id": "thursday",
+   "title": "Thursday was the day",
+   "section": "02 / The numbers",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"1900\" role=\"img\" aria-label=\"The report’s day-by-day table: Tuesday 70 calls, Wednesday 235, Thursday 422 with 171 humans (40.5%), 13 positive and 2 booked, Friday 401. A hand-drawn box goes round Thursday: both bookings.\"><div class=\"s cc-rb\"><div class=\"eb\">02 / The numbers</div><div class=\"h\">Thursday was the day</div><div class=\"tb\"><div class=\"tr th\"><span>Day</span><span>Calls</span><span>Human answered</span><span>Positive</span><span>Booked</span></div><div class=\"tr\"><span>Tue 27 Oct</span><span>70</span><span>15 (21.4%)</span><span>2</span><span>0</span></div><div class=\"tr\"><span>Wed 28 Oct</span><span>235</span><span>48 (20.4%)</span><span>1</span><span>0</span></div><div class=\"tr hit\"><span>Thu 29 Oct</span><span>422</span><span>171 (40.5%)</span><span>13</span><span>2</span></div><div class=\"tr\"><span>Fri 30 Oct</span><span>401</span><span>93 (23.2%)</span><span>4</span><span>0</span></div><div class=\"rbox\"></div><div class=\"nt\">both bookings!</div></div><div class=\"src\">Source: Tuned Reps week one report, page 2.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Tuned Reps week one report, page 2, day by day table.",
+   "note": "Click 1: the box. SAY: “Day by day. Tuesday was one rep on her own. Thursday was the day: 40% of people picked up, 13 positive calls and both bookings.”"
+  },
+  {
+   "id": "funnel",
+   "title": "From 1,128 dials to 2 bookings",
+   "section": "02 / The numbers",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"500,950,1400,1850,2300\" role=\"img\" aria-label=\"Funnel: 1,128 dials, 959 picked up by people or machines, 327 humans answered, 20 positive outcomes, 2 booked.\"><div class=\"s cc-fun\"><div class=\"eb\">02 / The numbers</div><div class=\"h\">From 1,128 dials to 2 bookings</div><div class=\"st\"><div class=\"bar\" style=\"--w:100%;--d:0ms\"><b>1,128</b><span>dials</span></div><div class=\"bar\" style=\"--w:85%;--d:450ms\"><b>959</b><span>picked up (people and machines)</span></div><div class=\"bar\" style=\"--w:29%;--d:900ms\"><b>327</b><span>humans answered</span></div><div class=\"bar\" style=\"--w:9%;--d:1350ms\"><b>20</b><span>positive outcomes</span></div><div class=\"bar end\" style=\"--w:4%;--d:1800ms\"><b>2</b><span>booked</span></div></div><div class=\"ns\">Last two bars widened to stay readable</div><div class=\"src\">Source: Tuned Reps week one report, pages 2, 7 and 8.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>",
+    "<span class=\"cw-step\">Reveal 3</span>",
+    "<span class=\"cw-step\">Reveal 4</span>",
+    "<span class=\"cw-step\">Reveal 5</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "source": "Tuned Reps week one report, pages 2, 7 and 8. Bar widths follow the share of dials; the last two are widened to stay readable.",
+   "note": "One click per bar. SAY: “1,128 dials. 959 picked up, but that counts answering machines. 327 real people. 20 positive outcomes. 2 bookings.”"
+  },
+  {
+   "id": "pick-up-rate",
+   "title": "1 in 3.4 reached a person",
+   "section": "02 / The numbers",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"1400\" role=\"img\" aria-label=\"A ring fills to 29.0%: 327 of 1,128 dials were answered by a human, about 1 in 3.4.\"><div class=\"s cc-donut\"><div class=\"ring\"><svg viewBox=\"0 0 120 120\" aria-hidden=\"true\"><circle class=\"tr\" cx=\"60\" cy=\"60\" r=\"48\" pathLength=\"100\"/><circle class=\"fl\" cx=\"60\" cy=\"60\" r=\"48\" pathLength=\"100\"/></svg><div class=\"c\"><span class=\"count\" style=\"--to:29\"></span><em>.0%</em></div></div><div><div class=\"eb\">02 / The numbers</div><div class=\"h\">1 in 3.4 reached a person</div><p>327 of 1,128 dials were answered by a human. The rest were voicemail, no answer, or a failed line.</p></div><div class=\"src\">Source: Tuned Reps week one report, page 7. The carrier’s own answering-machine labels.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Tuned Reps week one report, pages 2 and 7, using the carrier’s own answering-machine labels.",
+   "note": "Click 1: the ring fills. SAY: “29% of dials reached a real person. About one in three and a half.”"
+  },
+  {
+   "id": "voicemail",
+   "title": "Voicemail beat people 2 to 1",
+   "section": "02 / The numbers",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"600,900,1700\" role=\"img\" aria-label=\"Two lanes: 608 calls (53.9%) went to voicemail or a machine; 327 (29.0%) reached a human. For every human, nearly two calls went to voicemail.\"><div class=\"s cm1\"><div class=\"eb\">02 / The numbers</div><div class=\"h\">Voicemail beat people 2 to 1</div><div class=\"lanes\"><div class=\"lane a\" style=\"--anim:cw-up\"><h4>Voicemail or machine</h4><span class=\"n\">608</span><p>53.9% of calls. Reps leave no message, so these lasted 16 seconds on average.</p></div><div class=\"lane on a\" style=\"--anim:cw-up;--d:300ms\"><h4>A real person</h4><span class=\"n\">327</span><p>29.0% of calls. The only calls that could book.</p></div></div><p class=\"bot a\" style=\"--anim:cw-up;--d:1100ms\">“For every human, <mark>nearly two calls went to voicemail.</mark>”</p><div class=\"src\">Source: Tuned Reps week one report, page 7. The carrier’s own classification, unedited.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>",
+    "<span class=\"cw-step\">Reveal 3</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "source": "Tuned Reps week one report, page 7. The split is the carrier’s answering-machine detection, unedited; a few calls tagged machine were people.",
+   "note": "Click 1: voicemail. SAY: “608 calls went to voicemail.” Click 2: people. “327 reached a person.” Click 3: the line. “For every human, nearly two voicemails. The answering-machine detection isn’t perfect, but that’s the carrier’s own count.”"
+  },
+  {
+   "id": "call-lengths",
+   "title": "Most calls end at the opener",
+   "section": "02 / The numbers",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"1600,2400\" role=\"img\" aria-label=\"Bar chart of how long the 327 human calls lasted: 50 under 10 seconds, 114 from 10 to 19 seconds, 61, 73, 19 from 1 to 2 minutes, 4 and 6 over 2 minutes. The calls that booked all ran 1.9 to 4 minutes.\"><div class=\"s cc-hist\"><div class=\"eb\">02 / The numbers</div><div class=\"h\">Most calls end at the opener</div><div class=\"ch\"><div class=\"col\" style=\"--v:50;--d:0ms\"><span>50</span><i></i><small>0–9 s</small></div><div class=\"col\" style=\"--v:114;--d:160ms\"><span>114</span><i></i><small>10–19 s</small></div><div class=\"col\" style=\"--v:61;--d:320ms\"><span>61</span><i></i><small>20–29 s</small></div><div class=\"col\" style=\"--v:73;--d:480ms\"><span>73</span><i></i><small>30–59 s</small></div><div class=\"col\" style=\"--v:19;--d:640ms\"><span>19</span><i></i><small>1–2 min</small></div><div class=\"col g\" style=\"--v:4;--d:800ms\"><span>4</span><i></i><small>2–3 min</small></div><div class=\"col g\" style=\"--v:6;--d:960ms\"><span>6</span><i></i><small>3–4 min</small></div><svg class=\"br\" viewBox=\"0 0 100 20\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M2 18V4H98V18\" vector-effect=\"non-scaling-stroke\"/></svg><div class=\"brl\">“The calls that turned into bookings, report emails and the lost bookings all ran 1.9 to 4 minutes.”</div></div><div class=\"med\">Median human call: 19 s</div><div class=\"src\">Source: Tuned Reps week one report, page 8. Human-answered calls only, 327 in all.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2
+   ],
+   "source": "Tuned Reps week one report, page 8. Human-answered calls only, 327 in all.",
+   "note": "Click 1: the bars. SAY: “Most people hang up in the first 20 seconds, at the opener.” Click 2: the gold bars. “But get past it, and everything good happened between two and four minutes in.”"
+  },
+  {
+   "id": "chapter-the-bookings",
+   "title": "The bookings",
+   "section": "03 / The bookings",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"2000\" role=\"img\" aria-label=\"Split-flap board, chapter 3 of 4: THE BOOKINGS. Two calendar bookings, both on Thursday.\"><div class=\"s cc-flap\"><div class=\"eb\">Chapter 3 of 4</div><div class=\"board\" style=\"--tw:6.60\"><span style=\"--d:0ms\">T</span><span style=\"--d:90ms\">H</span><span style=\"--d:180ms\">E</span><span style=\"--d:270ms\">&nbsp;</span><span style=\"--d:360ms\">B</span><span style=\"--d:450ms\">O</span><span style=\"--d:540ms\">O</span><span style=\"--d:630ms\">K</span><span style=\"--d:720ms\">I</span><span style=\"--d:810ms\">N</span><span style=\"--d:900ms\">G</span><span style=\"--d:990ms\">S</span></div><div class=\"sub\">Two calendar bookings, both on Thursday.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Chapter card.",
+   "note": "Chapter 3. SAY: “Now the good part. The bookings.”"
+  },
+  {
+   "id": "kedco",
+   "title": "He closed himself",
+   "section": "03 / The bookings",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"2700,4300,4800\" role=\"img\" aria-label=\"Read-along of Dragos at Kedco Construction, word for word: “Okay, let’s try. First time when I’m talking with a robot. Okay, let’s, let’s see.” Then: “Okay, I would like to speak with Taylor.” Booked automatically for Monday 2 November, 9am.\"><div class=\"s qt2\"><div class=\"speaker\"><i></i>Dragos · Kedco Construction · Thu 29 Oct 15:21 · 233 s</div><div class=\"script\">“<span class=\"w\" style=\"--d:300ms\">Okay,</span> <span class=\"w\" style=\"--d:470ms\">let's</span> <span class=\"w\" style=\"--d:640ms\">try.</span> <span class=\"w\" style=\"--d:810ms\">First</span> <span class=\"w\" style=\"--d:980ms\">time</span> <span class=\"w\" style=\"--d:1150ms\">when</span> <span class=\"w\" style=\"--d:1320ms\">I'm</span> <span class=\"w\" style=\"--d:1490ms\">talking</span> <span class=\"w\" style=\"--d:1660ms\">with</span> <span class=\"w\" style=\"--d:1830ms\">a</span> <span class=\"w k\" style=\"--d:2000ms\">robot.</span> <span class=\"w\" style=\"--d:2170ms\">Okay,</span> <span class=\"w\" style=\"--d:2340ms\">let's,</span> <span class=\"w\" style=\"--d:2510ms\">let's</span> <span class=\"w\" style=\"--d:2680ms\">see.</span>”<span class=\"gap\"></span>“<span class=\"w\" style=\"--d:3190ms\">Okay,</span> <span class=\"w\" style=\"--d:3360ms\">I</span> <span class=\"w\" style=\"--d:3530ms\">would</span> <span class=\"w\" style=\"--d:3700ms\">like</span> <span class=\"w\" style=\"--d:3870ms\">to</span> <span class=\"w\" style=\"--d:4040ms\">speak</span> <span class=\"w\" style=\"--d:4210ms\">with</span> <span class=\"w k\" style=\"--d:4380ms\">Taylor.</span>”</div><div class=\"after\" style=\"--d:4400ms\">Booked by Clarice, an AI rep, while he was on the line · Mon 2 Nov, 9am</div><div class=\"src\">Source: Tuned Reps week one report, page 11. Word for word from the transcript.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>",
+    "<span class=\"cw-step\">Reveal 3</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "source": "Tuned Reps week one report, page 11. Word for word from the transcript; the gap marks lines from later in the call.",
+   "note": "Click 1: his opener. SAY: “This is Dragos. He knew straight away it was a robot.” Click 2: “And after the free report pitch, he closed himself.” Click 3: booked. “Clarice booked him into my calendar automatically while he was still on the phone.”"
+  },
+  {
+   "id": "both-asked",
+   "title": "Both bookings asked about the AI",
+   "section": "03 / The bookings",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"2200,2500\" role=\"img\" aria-label=\"A balance tips towards the 19 prospects who asked whether they were talking to an AI: 2 bookings came from them, none from everyone else who answered.\"><div class=\"s cc-bal\"><div class=\"eb\">03 / The bookings</div><div class=\"h\">Both bookings asked about the AI</div><div class=\"sc\"><div class=\"post\"></div><div class=\"beam\"><div class=\"pan l\"><b>2 booked</b><small>from the 19 who asked “are you AI?”</small></div><div class=\"pan r\"><b>0 booked</b><small>from everyone else who answered</small></div></div></div><div class=\"ln\">“<mark>both bookings came from people who asked whether they were talking to an AI.</mark>”</div><div class=\"src\">Source: Tuned Reps week one report, pages 11 and 15. 19 prospects asked, checked by hand.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2
+   ],
+   "source": "Tuned Reps week one report, pages 11 and 15. The 19 prospects who asked were found by matching AI, robot, real person or computer in transcripts, each checked by hand.",
+   "note": "Click 1: the scale tips. SAY: “19 people asked if they were talking to an AI. Both bookings came from those 19.” Click 2: the line. “Saying ‘I am AI’ didn’t kill the call. Alex at Nsg Restorations opened with ‘Is this AI?’ and booked for Wednesday.”"
+  },
+  {
+   "id": "all-the-interest",
+   "title": "20 positive outcomes",
+   "section": "03 / The bookings",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"720,1020,1320,1620,1920\" role=\"img\" aria-label=\"Five sticky notes: 2 booked, 6 callbacks, 3 report emails, 8 gatekeepers, 1 WhatsApp link.\"><div class=\"s ls3\"><div class=\"eb\">03 / The bookings</div><div class=\"h\">20 positive outcomes</div><div class=\"notes\" style=\"grid-template-columns:repeat(5,1fr);gap:2cqw\"><div class=\"note2 alt\" style=\"--r:-3deg;--d:200ms\"><span class=\"pin\"></span>2 booked<small>Nsg Restorations, Kedco Construction</small></div><div class=\"note2\" style=\"--r:2deg;--d:500ms\"><span class=\"pin\"></span>6 callbacks<small>bad lines, “call me later”</small></div><div class=\"note2\" style=\"--r:-2deg;--d:800ms\"><span class=\"pin\"></span>3 report emails<small>too busy for a call, wanted the free report</small></div><div class=\"note2\" style=\"--r:3deg;--d:1100ms\"><span class=\"pin\"></span>8 gatekeepers<small>took a message for the owner</small></div><div class=\"note2\" style=\"--r:-1deg;--d:1400ms\"><span class=\"pin\"></span>1 WhatsApp<small>asked for the booking link there</small></div></div><div class=\"src\">Source: Tuned Reps week one report, page 12.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>",
+    "<span class=\"cw-step\">Reveal 3</span>",
+    "<span class=\"cw-step\">Reveal 4</span>",
+    "<span class=\"cw-step\">Reveal 5</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "source": "Tuned Reps week one report, page 12.",
+   "note": "One click per note. SAY: “Twenty positive outcomes in all: two bookings, six callbacks, three people who wanted the free report by email, eight gatekeepers who took a message, and one who wanted it on WhatsApp.”"
+  },
+  {
+   "id": "chapter-what-broke",
+   "title": "What broke",
+   "section": "04 / What broke",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"2000\" role=\"img\" aria-label=\"Split-flap board, chapter 4 of 4: WHAT BROKE. The honest list, from the data and the git log.\"><div class=\"s cc-flap\"><div class=\"eb\">Chapter 4 of 4</div><div class=\"board\" style=\"--tw:7.40\"><span style=\"--d:0ms\">W</span><span style=\"--d:90ms\">H</span><span style=\"--d:180ms\">A</span><span style=\"--d:270ms\">T</span><span style=\"--d:360ms\">&nbsp;</span><span style=\"--d:450ms\">B</span><span style=\"--d:540ms\">R</span><span style=\"--d:630ms\">O</span><span style=\"--d:720ms\">K</span><span style=\"--d:810ms\">E</span></div><div class=\"sub\">The honest list, from the data and the git log.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Chapter card.",
+   "note": "Chapter 4. SAY: “And here’s what broke.”"
+  },
+  {
+   "id": "neil",
+   "title": "Uh, Thursday's fine.",
+   "section": "04 / What broke",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"680,1580,2480,3380\" role=\"img\" aria-label=\"A phone showing Neil at Lime Render Southwest, word for word: “I’m interested. I just, yeah, I need to know a bit more about it.” “I need to speak with a human as well.” “Uh, Thursday’s fine.” Then the line dropped during the email read-back.\"><div class=\"s qt3\"><div class=\"ph\"><div class=\"bb me\" style=\"--d:300ms\"><b>Neil</b>I'm interested. I just, yeah, I need to know a bit more about it.</div><div class=\"bb me\" style=\"--d:1200ms\"><b>Neil</b>I need to speak with a human as well.</div><div class=\"bb me\" style=\"--d:2100ms\"><b>Neil</b>Uh, Thursday's fine.</div><div class=\"bb sys\" style=\"--d:3000ms\"><b>What happened</b>The line dropped during the email read-back</div></div><div><div class=\"eb\">Lime Render Southwest · Tue 27 Oct 12:51 · 229 s</div><div class=\"h\">A yes we never booked</div><div class=\"cap\" style=\"font-size:calc(1.8*var(--u));margin-top:calc(2*var(--u))\">At 12:51 the 3% abandoned-call brake also paused dialling for the rest of day one.</div></div><div class=\"src\">Source: Tuned Reps week one report, pages 12 and 16. Neil’s words are exact.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>",
+    "<span class=\"cw-step\">Reveal 3</span>",
+    "<span class=\"cw-step\">Reveal 4</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "source": "Tuned Reps week one report, pages 12 and 16. Neil’s words are word for word from the transcript.",
+   "note": "Clicks 1 to 3: Neil’s words. SAY: “Day one. Neil says he’s interested, wants to talk to a human, and agrees Thursday at 9.” Click 4: “Then the line dropped while she was reading his email back. Never booked.” Kurtis at Pro Piling said yes on Thursday too, but the calendar only offered weekends."
+  },
+  {
+   "id": "fixes",
+   "title": "What broke, and the fix",
+   "section": "04 / What broke",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"1200,1650,2100,2550\" role=\"img\" aria-label=\"Four problem cards flip to their fixes: silent pickups (warm session on ring, Tue 10:24), the brake stopping day one (per-rep brake, Wed), weekend-only slots (weekday-only free_slots, Thu 13:24, awaiting approval), carrier refusals (Telnyx channel limit raised from 5 to 10, Thu).\"><div class=\"s cc-fc\"><div class=\"eb\">04 / What broke</div><div class=\"h\">What broke, and the fix</div><div class=\"cards\"><div class=\"fc\" style=\"--d:400ms\"><div class=\"in\"><div class=\"fr\"><small>Problem</small><b>Silent pickups</b><span>25 calls abandoned: the AI didn’t speak in time</span></div><div class=\"bk\"><small>Silent pickups</small><b>Warm session on ring, instant greeting clips</b><span class=\"tk\">✓ Tue 10:24</span></div></div></div><div class=\"fc\" style=\"--d:850ms\"><div class=\"in\"><div class=\"fr\"><small>Problem</small><b>Brake stopped day one</b><span>Charlotte paused from 12:51, just as Neil said yes</span></div><div class=\"bk\"><small>Brake stopped day one</small><b>Per-rep brake only; team-wide brake removed</b><span class=\"tk\">✓ Wed</span></div></div></div><div class=\"fc\" style=\"--d:1300ms\"><div class=\"in\"><div class=\"fr\"><small>Problem</small><b>Weekend-only slots</b><span>Kurtis at Pro Piling: “I don't do weekends”</span></div><div class=\"bk\"><small>Weekend-only slots</small><b>Weekday-only free_slots</b><span class=\"tk\">✓ Thu 13:24 · awaiting approval</span></div></div></div><div class=\"fc\" style=\"--d:1750ms\"><div class=\"in\"><div class=\"fr\"><small>Problem</small><b>Carrier refusals</b><span>35 failed dials, 23 of them on Thursday</span></div><div class=\"bk\"><small>Carrier refusals</small><b>Telnyx channel limit raised from 5 to 10</b><span class=\"tk\">✓ Thu</span></div></div></div></div><div class=\"src\">Source: Tuned Reps week one report, page 16.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>",
+    "<span class=\"cw-step\">Reveal 2</span>",
+    "<span class=\"cw-step\">Reveal 3</span>",
+    "<span class=\"cw-step\">Reveal 4</span>"
+   ],
+   "reveals": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "source": "Tuned Reps week one report, page 16. The weekday-only slots fix was written on Thursday and was awaiting Taylor’s approval at the end of the week.",
+   "note": "One flip per click. SAY each problem then its fix. Close with what worked (page 16): AI disclosure didn’t kill calls, the two-option close landed, email read-backs were accurate, and opt-outs were handled instantly."
+  },
+  {
+   "id": "scorecard",
+   "title": "The week one scorecard",
+   "section": "04 / What broke",
+   "kind": "cw",
+   "parts": [
+    "<div class=\"cw-stage cw-ent-pen\" data-stops=\"2300\" role=\"img\" aria-label=\"A ticket with the week one scorecard: 1,128 calls, 327 humans, 20 positive, 2 booked, $26.55 of AI talk time. The stub tears off: next shift Monday 2 November, 09:00, Group A.\"><div class=\"s cc-tk\"><div class=\"tkt\"><div class=\"main\"><div class=\"eb\">Tuned Reps · week one scorecard</div><div class=\"nums\"><div><b>1,128</b>calls</div><div><b>327</b>humans</div><div><b>20</b>positive</div><div><b>2</b>booked</div><div><b>$26.55</b>talk cost</div></div><div class=\"wk\">Only week so far, so there is no week to compare yet. $26.55 is AI talk time at $0.08 a minute: $13.27 per booking.</div></div><div class=\"stub\"><small>Next shift</small><b>Mon 2 Nov</b>09:00 · Group A</div></div><div class=\"src\">Source: Tuned Reps week one report, pages 1 and 2. The next shift was due at 09:00 on Mon 2 Nov.</div></div></div>",
+    "<span class=\"cw-step\">Reveal 1</span>"
+   ],
+   "reveals": [
+    0,
+    1
+   ],
+   "source": "Tuned Reps week one report, pages 1, 2 and 8. $26.55 is AI talk time only, at the $0.08 a minute rate Taylor gave; it leaves out Telnyx, number rental, TPS screening and the server.",
+   "note": "Click 1: the stub tears off. SAY: “Week one: 1,128 calls, 327 people, 20 positive, 2 bookings, for $26.55 of AI talk time. That’s $13.27 a booking, before phone costs. Week two started Monday at 9. Subscribe and I’ll show you if it gets better.”"
+  }
+ ]
+};
