@@ -147,3 +147,30 @@
 #publish .pb-change .pb-go{margin:0}
 .pb-work{margin-top:10px}
 @media(max-width:700px){.pb-cuts{grid-template-columns:1fr}#publish .pb-stop-acts .pb-go,#publish .pb-change .pb-go{width:100%}}
+/* Thumbnails and posts (Phase 7, 4 November 2026): who it is for and the booking link at the review stop, five
+   thumbnails and two post variations per platform in the PB-A blocks, Copy buttons, and the ready-to-post list. */
+.pb-for{margin-top:18px;padding:14px 16px;border-radius:10px;background:#f5f3ee;max-width:72ch}
+.pb-for h3{margin:0;font:600 15px/1.3 WWBody,Arial,sans-serif}
+.pb-for .pb-field{margin-top:10px;max-width:340px}
+.pb-for .pb-warn{background:#fff}
+.pb-for a{color:#1c1a17;text-underline-offset:4px}
+.pb-url{font:13px WWMono,monospace;color:#1c1a17;overflow-wrap:anywhere}
+.pb-th{display:flex;flex-direction:column;gap:2px;min-width:0}
+#publish .pb-th .pb-opt{flex:1}
+#publish .pb-th-open{min-height:32px;padding:2px;font-size:13px;align-self:flex-start}
+.pb-noimg{display:flex;align-items:center;justify-content:center;aspect-ratio:16/9;border-radius:4px;background:#f5f3ee;color:#5c5750;font-size:12px;text-align:center;padding:6px}
+.pb-chosen{display:flex;flex-direction:column;gap:10px;margin-top:4px;min-width:0}
+.pb-part{display:flex;flex-direction:column;gap:4px;min-width:0}.pb-part b{font-size:13px;font-weight:600}
+.pb-cps{display:flex;flex-wrap:wrap;gap:4px 18px}
+.pb-yt{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:flex-end;padding-top:8px;border-top:1px solid #d8d5cf}
+.pb-yt .pb-field{margin-top:0;flex:1 1 280px;min-width:0}.pb-yt input{width:100%;box-sizing:border-box}
+.pb-yt small{flex:1 1 100%;color:#5c5750;font-size:13px}
+.pb-rd-list{list-style:none;margin:10px 0 0;padding:0}
+#publish .pb-rd{display:grid;grid-template-columns:140px minmax(0,1fr) minmax(0,1.2fr);gap:8px 18px;align-items:start;padding:14px 0;border-bottom:1px solid #d8d5cf}
+.pb-rd-files{display:flex;flex-direction:column;gap:2px;min-width:0}.pb-rd-files a{overflow-wrap:anywhere}
+.pb-rd-copy{display:flex;flex-wrap:wrap;gap:0 18px;align-items:center}
+.pb-rd small{color:#5c5750;font-size:13px}
+@media(max-width:1000px){#publish .pb-rd{grid-template-columns:1fr}.pb-thumbs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){.pb-thumbs{grid-template-columns:repeat(2,minmax(0,1fr))}.pb-for .pb-field{max-width:none}}
+.pb-readyjobs{display:flex;flex-wrap:wrap;gap:0 18px;align-items:center;margin-top:20px;padding:10px 14px;border-radius:10px;background:#f5f3ee}
+.pb-readyjobs .micro{flex:1 1 100%;margin-top:4px}

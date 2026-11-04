@@ -7,6 +7,8 @@
   const {api, esc, ask} = window.WWIdeas;
   const $ = s => root.querySelector(s);
   const STATUSES = [['new','New'],['shortlisted','Shortlisted'],['planned','Planned'],['slides_ready','Slides ready'],['recorded','Recorded'],['edited','Edited'],['posted','Posted']];
+  // Who the video is for (Taylor's decision 7, 4 November 2026): Publish copies it into the job for the posts.
+  const BUYERS = [['','Not set yet'],['A','A · wants AI built'],['B','B · buys paid ads']];
   const label = s => (STATUSES.find(x => x[0] === s) || STATUSES[0])[1];
   const rank = s => Math.max(0, STATUSES.findIndex(x => x[0] === s));
   const pad = n => String(n).padStart(2, '0');
@@ -96,6 +98,8 @@
       '<label class="tp-field"><span>Recording day</span><select id="tp-f-record" data-field="recordDate">'+slotOptions(t.recordDate, true)+'</select></label></div>'+
       (s ? '<dl class="tp-dates"><div><dt>Plan &amp; slides</dt><dd>'+fmt(s.plan)+'</dd></div><div><dt>Record</dt><dd>'+fmt(s.record)+'</dd></div><div><dt>Edit</dt><dd>'+fmt(s.edit)+'</dd></div><div><dt>Post</dt><dd>'+fmt(s.post)+'</dd></div></dl>'+
         '<label class="tp-field"><span>Post date'+(s.custom ? '' : ' (suggested '+fmt(s.suggested)+')')+'</span><input type="date" id="tp-f-post" data-field="postDate" value="'+(t.postDate || '')+'"></label>'+(s.custom ? '<button type="button" class="tp-link" data-act="post-reset">Use the suggested Tuesday</button>' : '') : '')+
+      '<label class="tp-field"><span>Who is it for</span><select id="tp-f-buyer" data-field="buyer">'+BUYERS.map(([v,l]) => '<option value="'+v+'"'+(v === (t.buyer || '') ? ' selected' : '')+'>'+l+'</option>').join('')+'</select></label>'+
+      (t.buyer ? '' : '<p class="tp-muted tp-buyer-ask">Not set yet. The thumbnails and posts are written for one buyer, so choose A or B before the video goes to Publish. Publish asks again if it is still empty.</p>')+
       '<label class="tp-field"><span>Notes and angle</span><textarea id="tp-f-notes" data-field="notes" rows="5" maxlength="8000">'+esc(t.notes)+'</textarea></label>'+
       '<h3 class="tp-panel-sub">Subtopics <span class="micro">PREPARED MONDAY WITH THE SLIDES</span></h3><ol class="tp-points">'+t.points.map((p, i) =>
         '<li class="tp-point'+(p.done ? ' is-done' : '')+'"><input type="checkbox" id="tp-p-done-'+esc(p.id)+'" data-point-done="'+esc(p.id)+'"'+(p.done ? ' checked' : '')+' aria-label="Done: '+esc(p.title)+'"><div class="tp-point-body"><input id="tp-p-title-'+esc(p.id)+'" data-point-field="title" data-point="'+esc(p.id)+'" maxlength="200" value="'+esc(p.title)+'" aria-label="Subtopic title"><textarea id="tp-p-note-'+esc(p.id)+'" data-point-field="note" data-point="'+esc(p.id)+'" rows="2" maxlength="4000" placeholder="Note" aria-label="Note for '+esc(p.title)+'">'+esc(p.note)+'</textarea></div><div class="tp-point-tools"><button type="button" data-point-move="-1" data-point="'+esc(p.id)+'"'+(i === 0 ? ' disabled' : '')+' aria-label="Move up">↑</button><button type="button" data-point-move="1" data-point="'+esc(p.id)+'"'+(i === t.points.length-1 ? ' disabled' : '')+' aria-label="Move down">↓</button><button type="button" data-point-delete="'+esc(p.id)+'" aria-label="Delete subtopic">×</button></div></li>').join('')+'</ol>'+
@@ -137,7 +141,7 @@
     if (!topic) return;
     if (t.dataset.field) {
       const field = t.dataset.field; let value = t.value;
-      if (field === 'recordDate' || field === 'postDate') value = value || null;
+      if (field === 'recordDate' || field === 'postDate' || field === 'buyer') value = value || null;
       if (field === 'title' && !value.trim()) { t.value = topic.title; status('A topic needs a title.'); return; }
       await mutate('/topic-update', {id:topic.id, [field]:value}, 'Saved.');
       return;

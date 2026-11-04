@@ -7,10 +7,11 @@ export const videos = sqliteTable('videos', {
 });
 // Kept so earlier saved ideas are never lost; they are copied into topics by migration 0001.
 export const savedIdeas = sqliteTable('saved_ideas', {id:text('id').primaryKey(), savedAt:text('saved_at').notNull()});
-// Topics follow PROCESS.md: one topic per Wednesday or Friday recording slot.
+// Topics follow PROCESS.md: one topic per Wednesday or Friday recording slot. buyer: who the video is for, 'A' (wants AI
+// built) or 'B' (buys paid ads), or null when not set yet (Taylor's decision 7, 4 November 2026).
 export const topics = sqliteTable('topics', {
  id:text('id').primaryKey(), title:text('title').notNull(), status:text('status').notNull().default('new'), notes:text('notes').notNull().default(''),
- recordDate:text('record_date'), postDate:text('post_date'), deckId:text('deck_id'), createdAt:text('created_at').notNull(), updatedAt:text('updated_at').notNull(),
+ recordDate:text('record_date'), postDate:text('post_date'), deckId:text('deck_id'), buyer:text('buyer'), createdAt:text('created_at').notNull(), updatedAt:text('updated_at').notNull(),
 }, t => [uniqueIndex('topics_record_date_unique').on(t.recordDate)]);
 export const topicSources = sqliteTable('topic_sources', {
  topicId:text('topic_id').notNull(), videoId:text('video_id').notNull(), addedAt:text('added_at').notNull(),

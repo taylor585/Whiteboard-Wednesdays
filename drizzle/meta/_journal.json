@@ -29,6 +29,13 @@
       "when": 1793007462270,
       "tag": "0003_creator_note",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1793788135910,
+      "tag": "0004_topic_buyer",
+      "breakpoints": true
     }
   ]
 }

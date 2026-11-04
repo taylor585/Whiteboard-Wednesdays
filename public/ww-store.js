@@ -8,7 +8,7 @@
   const fail = (error, status=400, extra={}) => { const e = new Error(error); e.status = status; e.result = {error, ...extra}; throw e; };
   const text = (v, max) => typeof v === 'string' && v.length <= max ? v : null;
   function day(v) { if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return null; const d = new Date(v+'T12:00:00Z'); return Number.isNaN(d.getTime()) || d.toISOString().slice(0,10) !== v ? null : d; }
-  const shape = (id, t) => ({id, title:t.title || '', status:t.status || 'new', notes:t.notes || '', recordDate:t.recordDate || null, postDate:t.postDate || null, deckId:t.deckId || null,
+  const shape = (id, t) => ({id, title:t.title || '', status:t.status || 'new', notes:t.notes || '', recordDate:t.recordDate || null, postDate:t.postDate || null, deckId:t.deckId || null, buyer:t.buyer === 'A' || t.buyer === 'B' ? t.buyer : null,
     createdAt:t.createdAt || '', updatedAt:t.updatedAt || '', origin:t.origin || null, skillLock:t.skillLock || null, sources:Array.isArray(t.sources) ? t.sources : [], points:(Array.isArray(t.points) ? t.points : []).slice().sort((a,b) => a.position - b.position)});
   const sorted = () => topics.slice().sort((a,b) => (a.recordDate ? 0 : 1) - (b.recordDate ? 0 : 1) || String(a.recordDate).localeCompare(String(b.recordDate)) || String(b.createdAt).localeCompare(String(a.createdAt)));
   const ref = id => db.collection('topics').doc(id);
@@ -99,6 +99,8 @@
       if (body.status !== undefined) { if (!STATUSES.includes(body.status)) fail('Choose a valid status.'); patch.status = body.status; }
       if (body.postDate !== undefined) { if (body.postDate !== null && !day(body.postDate)) fail('Choose a valid post date.'); patch.postDate = body.postDate; }
       if (body.deckId !== undefined) { if (body.deckId !== null && !(typeof body.deckId === 'string' && /^[a-z0-9-]{1,80}$/.test(body.deckId))) fail('Choose a presentation.'); patch.deckId = body.deckId; }
+      // Who the video is for (Taylor's decision 7, 4 November 2026): A wants AI built, B buys paid ads; null clears it.
+      if (body.buyer !== undefined) { if (body.buyer !== null && body.buyer !== 'A' && body.buyer !== 'B') fail('Choose who the video is for: A or B.'); patch.buyer = body.buyer; }
       if (body.recordDate !== undefined) {
         if (body.recordDate !== null) { const d = day(body.recordDate); if (!d || ![3,5].includes(d.getUTCDay())) fail('Recording days are Wednesday and Friday.'); }
         const holder = body.recordDate === null ? null : topics.find(x => x.recordDate === body.recordDate && x.id !== t.id);

@@ -12,7 +12,12 @@
    Phase 5 (4 November 2026): Continue keeps its context. Each session saves a small work set (transcript, plan, pack data,
    guard data) with the pack and the next one restores it. Two stops follow the Variety Pack, by Taylor's decision 2:
    the pilot (first 60 to 90 s), then the YouTube master and LinkedIn cut together. Approve or Change something here;
-   either starts the next session with a line that names the stop it continues from. */
+   either starts the next session with a line that names the stop it continues from.
+   Phase 7 (4 November 2026, Taylor's decisions 7 and 8): Approve both starts the session that makes the thumbnails
+   (Thumbnail Tracker, five a platform, objects only) and the posts (Performance Poster, two checked variations a platform).
+   It needs who the video is for (A or B, from the topic) and the booking link saved in Settings; without either it stops
+   on "ask" and writes nothing. Taylor picks one thumbnail and one post per platform here, copies each text, and posts by
+   hand: Post all stays off until the platforms are connected. No placeholder such as [BOOKING LINK] is ever copied. */
 (() => {
   'use strict';
   const root = document.querySelector('#publish');
@@ -34,6 +39,9 @@
   // Phase 3 existing-work check: packs is the packs/<id> index (every Variety Pack published so far, chat packs included);
   // reuseSeen is the set of matches Taylor has been shown at intake, reuseOk the set he chose to start fresh over.
   let packs = [], reuseSeen = '', reuseOk = '';
+  // Phase 7: buyerPick is Taylor's answer to "Who is it for" on this screen (null until he changes it), for the job buyerFor;
+  // ytDraft is the YouTube link he types for the LinkedIn first comment; badImg holds thumbnail images that did not load here.
+  let buyerPick = null, buyerFor = null, ytDraft = null, badImg = new Set();
   // A link names one Drive file, or one shared Drive folder (Phase 2): the cloud session lists the folder, because the
   // browser cannot. Docs, Sheets, Slides and Drive's own views (My Drive, Recent) are refused with a reason.
   function parseLink(url) {
@@ -57,7 +65,7 @@
   function steps() {
     // A failed job stays on the step it was working on, marked as stopped, never on Post. Check the files is step 1.
     const s = job?.status || 'new', failed = s === 'failed';
-    const at = s === 'new' || s === 'check' ? 0 : ['queued','starting','running','found','pack'].includes(s) ? 1 : ['finishing','pilot','review','final'].includes(s) ? 2 : failed ? (LATER.includes(job.session?.step) || job.pickedAt ? 2 : 1) : 3;
+    const at = s === 'new' || s === 'check' ? 0 : ['queued','starting','running','found','pack'].includes(s) ? 1 : ['finishing','pilot','review','ask'].includes(s) || (s === 'final' && !job.pack?.platforms?.length) ? 2 : failed ? (LATER.includes(job.session?.step) || job.pickedAt ? 2 : 1) : 3;
     return '<ol class="pb-steps">'+['Drive links','Variety Pack','Finished edits','Post'].map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+(i === at && failed ? ' <small>stopped</small>' : '')+'</li>').join('')+'</ol>';
   }
   // Every problem at once, re-checked on each change (links, roles and title) and again when Generate is pressed.
@@ -108,7 +116,7 @@
   // recording. Using it starts nothing; starting fresh runs Claude Code from the beginning and uses Taylor's plan again.
   const intakeTopic = () => exactTopic() || (topicPick && topicPick !== 'none' ? topics().find(t => t.id === topicPick) : null);
   const artifactUrl = u => typeof u === 'string' && /^https:\/\/claude\.ai\/(code\/)?artifact\/[\w-]+$/.test(u) ? u : null;
-  const JOB_WORD = {queued:'not started', starting:'starting', running:'Claude Code is working on it', check:'waiting for you to check the files', found:'found earlier work', pack:'Variety Pack ready', finishing:'edit in progress', pilot:'pilot ready to watch', review:'master and LinkedIn cut ready to watch', final:'finished', failed:'stopped, Variety Pack kept'};
+  const JOB_WORD = {queued:'not started', starting:'starting', running:'Claude Code is working on it', check:'waiting for you to check the files', found:'found earlier work', pack:'Variety Pack ready', finishing:'edit in progress', pilot:'pilot ready to watch', review:'master and LinkedIn cut ready to watch', ask:'waiting for your booking link or buyer', posts:'thumbnails and posts ready to pick', final:'finished', failed:'stopped, Variety Pack kept'};
   const PACK_WORD = {variety:'Variety Pack', katana:'Katana moments', reels:'Reel pack'};
   function earlier() {
     if (!links.length || problems().length) return [];
@@ -309,14 +317,14 @@
       : ['running','finishing'].includes(job.status) && ses ? '<p class="pb-meta">Claude Code is working on this'+esc(doing())+'.'+ses+'</p>' : '';
     const bar = starting === 'finals' ? '<div class="pb-bar"><span>Starting Claude Code for the pilot…</span></div>' : confirm ? confirmBar() : '<div class="pb-bar"><span>Picks made in the Variety Pack?</span><span class="pb-muted">Claude reads them from that page and builds a pilot of the first 60 to 90 seconds for you to watch.</span><button type="button" class="pb-go" id="pb-continue">Continue · build the pilot →</button></div>';
     const pr = job.packRecord || {}, ticked = Number.isFinite(pr.preticked) && pr.preticked > 0 ? ' '+pr.preticked+' designs you approved on earlier videos are already ticked'+(Number.isFinite(pr.fresh) ? '; you decide the '+pr.fresh+' new ones' : '')+'. Untick any you do not want.' : '';
-    const packLink = job.packUrl && !['finishing','pilot','review','final'].includes(job.status) && !failedLater() ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer">Open the Variety Pack ↗</a></p>'+(canContinue() && !job.pack?.platforms?.length ? bar : '') : job.packUrl ? '<p class="pb-meta">Variety Pack '+(job.packRecord?.round ? 'round '+esc(job.packRecord.round)+' ' : '')+'· <a class="pb-link" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer">Open it ↗</a></p>' : '';
+    const packLink = job.packUrl && !['finishing','pilot','review','ask','posts','final'].includes(job.status) && !failedLater() ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer">Open the Variety Pack ↗</a></p>'+(canContinue() && !job.pack?.platforms?.length ? bar : '') : job.packUrl ? '<p class="pb-meta">Variety Pack '+(job.packRecord?.round ? 'round '+esc(job.packRecord.round)+' ' : '')+'· <a class="pb-link" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer">Open it ↗</a></p>' : '';
     return '<section class="pb-stages" aria-label="Progress">'+head+packLink+workLine()+(list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(/^fail/.test(s.state || '') ? 'failed' : s.state || 'wait')+'"><span class="pb-st-dot" aria-hidden="true"></span><b>'+esc(s.name)+'</b><small>'+esc(s.detail || '')+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '')+'</section>';
   }
   // ---- Pilot and review stops (Phase 5, 4 November 2026) ----------------------------------------------------------
   // What the running session is doing, from the stop it continues and Taylor's answer there.
   function doing() {
     const st = job.session?.step, d = st && job.approvals?.[st]?.decision;
-    return job.status !== 'finishing' ? '' : st === 'finals' ? ': building the pilot from your picks' : st === 'pilot' ? (d === 'changes' ? ': changing the pilot' : ': rendering the YouTube master and the LinkedIn cut') : st === 'review' ? (d === 'changes' ? ': making your changes to the master and the LinkedIn cut' : ': preparing the finished files') : '';
+    return job.status !== 'finishing' ? '' : st === 'finals' ? ': building the pilot from your picks' : st === 'pilot' ? (d === 'changes' ? ': changing the pilot' : ': rendering the YouTube master and the LinkedIn cut') : st === 'review' ? (d === 'changes' ? ': making your changes to the master and the LinkedIn cut' : ': making the thumbnails and the posts') : '';
   }
   // The saved work set: the next session restores it instead of transcribing, mapping and planning again.
   function workLine() {
@@ -324,12 +332,13 @@
     const n = Array.isArray(w.files) ? w.files.length : 0;
     return '<p class="pb-meta pb-work">Saved work: '+(n ? n+' files' : 'transcript and plan')+(w.stage ? ' after the '+esc(w.stage) : '')+', '+esc(when(w.savedAt))+'. The next session picks it up, so nothing is transcribed or planned again.</p>';
   }
-  const STOP_TRACK = ['Pilot','Master and LinkedIn cut','Finished files'];
+  const STOP_TRACK = ['Pilot','Master and LinkedIn cut','Thumbnails and posts','Ready to post'];
+  const trackHtml = at => '<ol class="pb-track" aria-label="Stops after the Variety Pack">'+STOP_TRACK.map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? 'is-on' : '')+'"'+(i === at ? ' aria-current="step"' : '')+'>'+n+'</li>').join('')+'</ol>';
   function stopHtml(kind) {
     const pilot = kind === 'pilot', d = (pilot ? job.pilot : job.cuts) || {}, a = job.approvals?.[kind];
     const url = artifactUrl(d.url) || artifactUrl(job.reviewUrl), round = +d.round || 1;
     const after = a?.decision === 'changes' && a.note && (!d.renderedAt || String(a.at) <= String(d.renderedAt)) ? '<p class="pb-muted">Round '+round+', after your note: “'+esc(a.note)+'”</p>' : '';
-    const track = '<ol class="pb-track" aria-label="Stops after the Variety Pack">'+STOP_TRACK.map((n, i) => { const at = pilot ? 0 : 1; return '<li class="'+(i < at ? 'is-done' : i === at ? 'is-on' : '')+'"'+(i === at ? ' aria-current="step"' : '')+'>'+n+'</li>'; }).join('')+'</ol>';
+    const track = trackHtml(pilot ? 0 : 1);
     const watch = (label, u) => u ? '<a class="pb-go pb-watch" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+label+' ↗</a>' : '';
     const cut = (k, label, c) => { c = c || {}; const u = artifactUrl(c.url) || url;
       return '<li><span class="pb-pf pb-pf-'+k+'">'+label+'</span><b>'+esc(c.label || (k === 'youtube' ? 'YouTube master' : 'LinkedIn cut'))+'</b><small>'+esc([c.seconds ? clock(c.seconds) : '', c.detail || ''].filter(Boolean).join(' · ') || 'Length not reported')+'</small>'+watch('Watch it', u)+'</li>'; };
@@ -342,31 +351,121 @@
       ? '<div class="pb-change"><label class="pb-field" for="pb-change-note"><span>What should change?</span><textarea id="pb-change-note" rows="4" maxlength="2000" placeholder="'+(pilot ? 'For example: at 0:42 the caption covers the screen; use the short list instead of the cards at 1:05.' : 'Say which video and where, for example: master 12:30, the Blender shot runs long. LinkedIn: start at the second story.')+'">'+esc(changeNote)+'</textarea></label>'+
         '<p class="pb-acts"><button type="button" class="pb-go" id="pb-change-send"'+(changeNote.trim() && !starting ? '' : ' disabled')+'>Send the changes</button><button type="button" class="pb-link" id="pb-change-cancel">Cancel</button></p>'+
         '<p class="pb-muted">Claude Code changes '+(pilot ? 'the pilot' : 'what you asked for')+' from the saved plan and stops here again for you to watch.</p></div>'
-      : '<div class="pb-stop-acts"><button type="button" class="pb-go" id="pb-approve"'+(url ? off : ' disabled')+'>'+(pilot ? 'Approve the pilot' : 'Approve both')+'</button><button type="button" class="pb-link" id="pb-change"'+off+'>Change something</button></div>'+
-        '<p class="pb-muted">'+(pilot ? 'Approving starts Claude Code: it renders the whole YouTube master and the LinkedIn cut from the saved plan, then stops here for you to watch both.' : 'Approving starts Claude Code for the finished files. Nothing is posted.')+'</p>';
+      : (pilot ? '' : forHtml())+'<div class="pb-stop-acts"><button type="button" class="pb-go" id="pb-approve"'+(url ? off : ' disabled')+'>'+(pilot ? 'Approve the pilot' : 'Approve both')+'</button><button type="button" class="pb-link" id="pb-change"'+off+'>Change something</button></div>'+
+        '<p class="pb-muted">'+(pilot ? 'Approving starts Claude Code: it renders the whole YouTube master and the LinkedIn cut from the saved plan, then stops here for you to watch both.' : 'Approving starts Claude Code: it makes five thumbnails and two checked post variations for YouTube and for LinkedIn, then stops here for you to pick. Nothing is posted.')+'</p>';
     return '<section class="pb-stop" aria-labelledby="pb-stop-h">'+track+body+missing+acts+'</section>';
   }
-  // The pack, one block per platform (PB-A): the video, the edit choices and thumbnails, then the copy with two variations.
-  function pack() {
-    const p = job.pack; if (!p?.platforms?.length) return '';
-    const picks = job.picks || {}, locked = job.status !== 'pack';
-    const opt = (key, o) => '<button type="button" class="pb-opt" data-pick="'+esc(key)+'" data-val="'+esc(o.id)+'" aria-pressed="'+(picks[key] === o.id)+'"'+(locked ? ' disabled' : '')+'>'+(o.preview ? '<img src="'+esc(o.preview)+'" alt="" loading="lazy">' : '')+'<span class="pb-tag'+(/fresh|motion/i.test(o.tag || '') ? ' is-fresh' : '')+'">'+esc(o.tag || '')+'</span><b>'+esc(o.title)+'</b>'+(o.detail ? '<small>'+esc(o.detail)+'</small>' : '')+'</button>';
-    const need = p.platforms.reduce((n, pl) => n + (pl.questions || []).length + (pl.thumbnails?.length ? 1 : 0) + (pl.posts?.length ? 1 : 0), 0);
-    const have = Object.keys(picks).length;
-    return '<section class="pb-pack" aria-labelledby="pb-pack-h"><div class="pb-pack-head"><h2 id="pb-pack-h">Variety Pack</h2><span class="micro">'+esc(p.note || 'Half proven, half fresh')+'</span></div>'+p.platforms.map(pl => {
-      const k = pl.key, post = pl.posts || [], chosen = post.findIndex((_, i) => picks[k+'.post'] === 'v'+(i+1));
-      return '<article class="pb-blk"><div class="pb-blk-side"><span class="pb-pf pb-pf-'+esc(k)+'">'+esc(PLATFORMS[k] || pl.label || k)+'</span>'+(pl.video?.url ? '<a class="pb-vid'+(k === 'reels' ? ' is-tall' : '')+'" href="'+esc(pl.video.url)+'" target="_blank" rel="noopener noreferrer"><span>'+esc(pl.video.label || 'Preview on Drive')+' ↗</span></a>' : '')+'</div><div class="pb-blk-main">'+
-        (pl.questions || []).map(q => '<div class="pb-q"><span class="micro">'+esc(q.label)+'</span><div class="pb-opts">'+q.options.map(o => opt(k+'.'+q.id, o)).join('')+'</div></div>').join('')+
-        (pl.thumbnails?.length ? '<div class="pb-q"><span class="micro">Thumbnail · '+pl.thumbnails.length+' options</span><div class="pb-thumbs">'+pl.thumbnails.map(t => opt(k+'.thumb', {id:t.id, title:t.label || '', preview:t.url, tag:t.tag || ''})).join('')+'</div></div>' : '')+
-        (post.length ? '<div class="pb-q"><span class="micro">'+esc(pl.postLabel || 'Post')+' · pick a variation</span><div class="pb-opts pb-two">'+post.map((v, i) => opt(k+'.post', {id:'v'+(i+1), tag:'Variation '+(i+1), title:v.title || '', detail:v.check || ''})).join('')+'</div><pre class="pb-copy">'+esc(((post[chosen < 0 ? 0 : chosen].title || '')+'\n\n'+(post[chosen < 0 ? 0 : chosen].body || '')).trim())+'</pre></div>' : '')+
-        '</div></article>';
-    }).join('')+'<div class="pb-bar"><span>'+have+' of '+need+' picked</span><span class="pb-muted">'+(locked ? 'Picks are locked while the finals render.' : 'Finals take a while; you can close this tab.')+'</span><button type="button" class="pb-go" id="pb-continue"'+(!locked && have >= need && !starting ? '' : ' disabled')+'>Continue · build the finals →</button></div>'+(confirm && !locked ? confirmBar() : '')+'</section>';
+  // ---- Thumbnails and posts (Phase 7, 4 November 2026) ----------------------------------------------------------
+  // Who the video is for comes from the topic (Taylor's decision 7) and can be changed here; the booking link comes from
+  // Settings. Both are copied into the job with Approve both, so the session never writes a post with a placeholder.
+  const BUYER = {A:'A · wants AI built', B:'B · buys paid ads'};
+  const jobTopic = () => job && (window.WWIdeas?.data?.topics || []).find(x => x.id === job.topicId) || null;
+  const buyerNow = () => { if (buyerFor !== job?.id) { buyerPick = null; buyerFor = job?.id || null; } const v = buyerPick ?? job?.buyer ?? jobTopic()?.buyer ?? ''; return BUYER[v] ? v : ''; };
+  const booking = () => { const b = window.WWSettings?.links?.booking; return b && !window.WWSettings?.bookingProblem?.(b) ? b : null; };
+  const postInputs = () => { const b = buyerNow(); return {buyer:b || null, buyerBy:!b ? null : buyerPick ? 'taylor' : job.buyer ? (job.buyerBy || 'taylor') : 'topic', bookingLink:booking()}; };
+  const askReady = () => !!buyerNow() && !!booking();
+  function forHtml() {
+    const b = buyerNow(), t = jobTopic(), link = booking(), fromTopic = b && !buyerPick && !job.buyer && t?.buyer === b;
+    return '<div class="pb-for" role="group" aria-labelledby="pb-for-h"><h3 id="pb-for-h">For the thumbnails and posts</h3>'+
+      '<label class="pb-field" for="pb-buyer"><span>Who is this video for?</span><select id="pb-buyer"'+(starting ? ' disabled' : '')+'><option value=""'+(b ? '' : ' selected')+'>Not set yet</option>'+Object.entries(BUYER).map(([v, l]) => '<option value="'+v+'"'+(b === v ? ' selected' : '')+'>'+l+'</option>').join('')+'</select></label>'+
+      '<p class="pb-muted">'+(fromTopic ? 'From your topic “'+esc(t.title)+'”. Change it here for this video only.' : b ? 'The posts and hashtags are written for this buyer.' : '<b>Not set'+(t ? ' on the topic' : '')+'.</b> Choose one, or Claude Code stops before the posts to ask you.')+'</p>'+
+      (link ? '<p class="pb-muted pb-booking">Booking link from Settings: <span class="pb-url">'+esc(link)+'</span></p>'
+        : '<p class="pb-warn pb-booking" role="note"><b>No booking link saved.</b> Add it in <a href="#/settings">Settings</a>. Without it, Claude Code stops before writing the posts and asks you here, so no post ever says [BOOKING LINK].</p>')+'</div>';
   }
+  // The session stopped on "ask": the booking link or the buyer was missing, so nothing was made.
+  function askHtml() {
+    const miss = [!booking() && 'your booking link', !buyerNow() && 'who the video is for'].filter(Boolean);
+    return '<section class="pb-stop pb-ask" aria-labelledby="pb-stop-h">'+trackHtml(2)+'<h2 id="pb-stop-h">'+(miss.length ? 'Claude Code needs '+miss.join(' and ')+' before the posts' : 'Ready to make the thumbnails and posts')+'</h2>'+
+      '<p class="pb-muted">'+esc(job.ask?.note || 'It stopped before making the thumbnails and posts, so nothing was written with a placeholder.')+' Your approved master and LinkedIn cut are kept.</p>'+forHtml()+
+      '<div class="pb-stop-acts"><button type="button" class="pb-go" id="pb-ask-go"'+(askReady() && !starting ? '' : ' disabled')+'>Continue · make the thumbnails and posts</button></div>'+
+      '<p class="pb-muted">Continue starts Claude Code again from your approved cuts. Nothing is rendered again and nothing is posted.</p></section>';
+  }
+  // The skill's own placeholder pattern (performance-poster limits.json). Only [YOUTUBE LINK] in a LinkedIn first comment
+  // is allowed: the link exists only after Taylor posts the video, so he pastes it here and the page fills it in.
+  const PH = /\[(?:[A-Z][A-Z0-9 _\/-]{2,}|your [^\]\n]{2,40})\]|\bX:XX\b/g, YT_PH = '[YOUTUBE LINK]';
+  const placeholders = (x, allowYt) => [...new Set(String(x || '').match(PH) || [])].filter(m => !(allowYt && m === YT_PH));
+  const httpsUrl = u => { try { const x = new URL(String(u || '').trim()); return x.protocol === 'https:' ? x.href : null; } catch { return null; } };
+  const ytUrl = u => { const h = httpsUrl(u); if (!h) return null; const x = new URL(h), host = x.hostname.replace(/^(www|m)\./, '');
+    return (host === 'youtube.com' && (x.searchParams.get('v') || /^\/(shorts|live)\/[\w-]{6,}/.test(x.pathname))) || (host === 'youtu.be' && /^\/[\w-]{6,}/.test(x.pathname)) ? h : null; };
+  const blocked = v => [...placeholders(v.title), ...placeholders(v.body), ...placeholders(v.firstComment, true)];
+  const picksOpen = () => ['posts','final'].includes(job?.status) && !starting;
+  const plats = () => (job?.pack?.platforms || []).filter(pl => pl && pl.key);
+  const chosenPost = pl => { const i = (pl.posts || []).findIndex((v, n) => job.picks?.[pl.key+'.post'] === 'v'+(n+1)); return i < 0 || blocked(pl.posts[i]).length ? null : pl.posts[i]; };
+  const chosenThumb = pl => (pl.thumbnails || []).find(t => t.id === job.picks?.[pl.key+'.thumb']) || null;
+  function pickCount() {
+    let need = 0, have = 0;
+    plats().forEach(pl => { (pl.questions || []).forEach(q => { need++; if (q.options?.some(o => o.id === job.picks?.[pl.key+'.'+q.id])) have++; });
+      if (pl.thumbnails?.length) { need++; if (chosenThumb(pl)) have++; } if (pl.posts?.length) { need++; if (chosenPost(pl)) have++; } });
+    return {need, have};
+  }
+  // The texts one variation gives Taylor to paste: the YouTube title and description, or the LinkedIn post and first comment.
+  function parts(pl, v) {
+    const yt = pl.key === 'youtube', out = [];
+    if (yt && v.title) out.push(['title', 'title', v.title]);
+    out.push(['body', yt ? 'description' : pl.key === 'reels' ? 'caption' : 'post', v.body || '']);
+    if (v.firstComment) out.push(['comment', 'first comment', v.firstComment]);
+    return out;
+  }
+  const fill = x => String(x || '').split(YT_PH).join(job.youtubeUrl || YT_PH);
+  function partText(key) {
+    const [k, part] = key.split('|'), pl = plats().find(p => p.key === k), v = pl && chosenPost(pl), x = v && parts(pl, v).find(p => p[0] === part);
+    if (!x) return null; const t = fill(x[2]);
+    return placeholders(t).length ? null : t.trim();  // nothing with a placeholder is ever copied
+  }
+  const copyBtns = pl => { const v = chosenPost(pl); if (!v) return '';
+    return parts(pl, v).map(([part, label]) => { const key = pl.key+'|'+part, off = !partText(key);
+      return '<button type="button" class="pb-link pb-cp" data-copy-part="'+esc(key)+'"'+(off ? ' disabled' : '')+'>'+(copied === key ? 'Copied' : 'Copy the '+esc(PLATFORMS[pl.key] || pl.key)+' '+label)+'</button>'; }).join(''); };
+  const ytStatus = () => { const d = ytDraft ?? job?.youtubeUrl ?? ''; return !String(d).trim() ? 'Post the YouTube video first, then paste its link here.' : !ytUrl(d) ? 'That is not a YouTube video link.' : ytUrl(d) === job?.youtubeUrl ? 'Saved. The first comment uses it.' : 'Not saved yet.'; };
+  function ytField() {
+    const d = ytDraft ?? job.youtubeUrl ?? '', ok = ytUrl(d);
+    return '<div class="pb-yt"><label class="pb-field" for="pb-yt"><span>Your YouTube link, for the LinkedIn first comment</span><input id="pb-yt" type="url" inputmode="url" spellcheck="false" maxlength="300" placeholder="https://www.youtube.com/watch?v=…" value="'+esc(d)+'"></label>'+
+      '<button type="button" class="pb-link" id="pb-yt-save"'+(ok && ok !== job.youtubeUrl ? '' : ' disabled')+'>Save link</button><small id="pb-yt-st" role="status">'+esc(ytStatus())+'</small></div>';
+  }
+  // The pack, one block per platform (PB-A, the approved design): five thumbnails, then two post variations, each picked
+  // with a tap. The session writes it after Approve both (PUBLISH.md, Continue from review). Picks stay open on "final".
+  function pack() {
+    const p = job.pack, list = plats(); if (!list.length) return '';
+    const picks = job.picks || {}, off = !picksOpen();
+    const opt = (key, o, dis) => '<button type="button" class="pb-opt" data-pick="'+esc(key)+'" data-val="'+esc(o.id)+'" aria-pressed="'+(picks[key] === o.id)+'"'+(off || dis ? ' disabled' : '')+'>'+(o.preview ? '<img src="'+esc(o.preview)+'" alt="'+esc(o.alt || '')+'" loading="lazy">' : o.thumb ? '<span class="pb-noimg">Preview not available here</span>' : '')+(o.tag ? '<span class="pb-tag'+(/fresh|motion|new/i.test(o.tag) ? ' is-fresh' : '')+'">'+esc(o.tag)+'</span>' : '')+'<b>'+esc(o.title)+'</b>'+(o.detail ? '<small>'+esc(o.detail)+'</small>' : '')+'</button>';
+    const thumb = (k, t) => { const src = httpsUrl(t.url), full = httpsUrl(t.file) || src;
+      return '<div class="pb-th">'+opt(k+'.thumb', {id:t.id, title:t.label || '', preview:src && !badImg.has(src) ? src : '', thumb:true, alt:'Thumbnail: '+(t.label || ''), tag:t.tag || '', detail:t.size || ''})+(full ? '<a class="pb-link pb-th-open" href="'+esc(full)+'" target="_blank" rel="noopener noreferrer">Full size ↗</a>' : '')+'</div>'; };
+    const {need, have} = pickCount();
+    const head = '<div class="pb-pack-head"><h2 id="pb-pack-h">Thumbnails and posts</h2><span class="micro">'+esc(p.note || 'Pick one of each per platform')+'</span></div>'+
+      '<p class="pb-muted">One thumbnail and one post for each platform. Every post passed the Performance Poster check for '+(job.buyer && BUYER[job.buyer] ? 'buyer '+esc(BUYER[job.buyer]) : 'its buyer')+(job.bookingLink ? ', with your booking link from Settings' : '')+'.</p>';
+    return '<section class="pb-pack" aria-labelledby="pb-pack-h">'+(['posts','final'].includes(job.status) ? trackHtml(job.status === 'final' ? 3 : 2) : '')+head+list.map(pl => {
+      const k = pl.key, post = pl.posts || [], v = chosenPost(pl), shown = v || post.find(x => !blocked(x).length);
+      const needYt = v && String(v.firstComment || '').includes(YT_PH);
+      return '<article class="pb-blk"><div class="pb-blk-side"><span class="pb-pf pb-pf-'+esc(k)+'">'+esc(PLATFORMS[k] || pl.label || k)+'</span>'+(pl.video?.url ? '<a class="pb-vid'+(k === 'reels' ? ' is-tall' : '')+'" href="'+esc(pl.video.url)+'" target="_blank" rel="noopener noreferrer"><span>'+esc(pl.video.label || 'Watch it')+' ↗</span></a>' : '')+(pl.note ? '<small class="pb-muted">'+esc(pl.note)+'</small>' : '')+'</div><div class="pb-blk-main">'+
+        (pl.questions || []).map(q => '<div class="pb-q"><span class="micro">'+esc(q.label)+'</span><div class="pb-opts">'+q.options.map(o => opt(k+'.'+q.id, o)).join('')+'</div></div>').join('')+
+        (pl.thumbnails?.length ? '<div class="pb-q"><span class="micro">Thumbnail · pick 1 of '+pl.thumbnails.length+'</span><div class="pb-thumbs" data-own-fallback>'+pl.thumbnails.map(t => thumb(k, t)).join('')+'</div></div>' : '')+
+        (post.length ? '<div class="pb-q"><span class="micro">'+esc(pl.postLabel || 'Post')+' · pick a variation</span><div class="pb-opts pb-two">'+post.map((x, i) => { const bad = blocked(x);
+          return opt(k+'.post', {id:'v'+(i+1), tag:'Variation '+(i+1), title:x.title || String(x.body || '').split('\n')[0], detail:bad.length ? 'Cannot be used: it still has '+bad.join(', ')+'.' : x.check || ''}, bad.length); }).join('')+'</div>'+
+          (shown ? '<div class="pb-chosen"><span class="micro">'+(v ? 'Your pick · variation '+(post.indexOf(v)+1) : 'Variation '+(post.indexOf(shown)+1)+' · not picked yet')+'</span>'+parts(pl, shown).map(([, label, x]) => '<div class="pb-part"><b>'+esc(label[0].toUpperCase()+label.slice(1))+'</b><pre class="pb-copy">'+esc(fill(x).trim())+'</pre></div>').join('')+
+            (v ? '<div class="pb-copies pb-cps">'+copyBtns(pl)+'</div>'+(needYt ? ytField() : '') : '<p class="pb-muted">Pick a variation to copy it.</p>')+'</div>' : '<div class="pb-warn" role="alert">No variation here can be used: each still has a placeholder. Ask Claude Code to write them again.</div>')+'</div>' : '')+
+        '</div></article>';
+    }).join('')+(job.status === 'posts'
+      ? '<div class="pb-bar"><span>'+have+' of '+need+' picked</span><span class="pb-muted">Picking costs nothing: no session runs. Nothing is posted.</span><button type="button" class="pb-go" id="pb-ready"'+(have >= need && !starting ? '' : ' disabled')+'>Ready to post →</button></div>'
+      : job.status === 'final' ? '<div class="pb-bar"><span>'+have+' of '+need+' picked</span><span class="pb-muted">'+(job.readyAt ? 'Marked ready '+esc(when(job.readyAt))+'. ' : '')+'Change a pick any time; the list below follows it.</span></div>'
+      : '<div class="pb-bar"><span>'+have+' of '+need+' picked</span><span class="pb-muted">Picks are locked while Claude Code works.</span></div>')+'</section>';
+  }
+  // Finished: the files and texts ready to post by hand, one row per platform once the picks are made.
   function finals() {
-    const f = job.finals || []; if (!f.length) return '';
-    const copyable = (job.pack?.platforms || []).filter(pl => pl.posts?.length);
-    return '<section class="pb-finals" aria-labelledby="pb-fin-h"><h2 id="pb-fin-h">Finished</h2>'+(job.finalNote ? '<p class="pb-muted">'+esc(job.finalNote)+'</p>' : '')+'<ul>'+f.map(x => '<li><span class="pb-pf pb-pf-'+esc(x.platform || '')+'">'+esc(PLATFORMS[x.platform] || x.platform || '')+'</span><a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+' ↗</a>'+(x.detail ? '<small>'+esc(x.detail)+'</small>' : '')+'</li>').join('')+'</ul>'+
-      '<div class="pb-post"><div><b>Post all</b><p class="pb-muted">Posting needs the YouTube, LinkedIn and Instagram connections, which are not set up yet. Until then, copy each post and upload the files from Drive. Nothing has been posted.</p></div><div class="pb-copies">'+copyable.map(pl => '<button type="button" class="pb-link" data-copy="'+esc(pl.key)+'">'+(copied === pl.key ? 'Copied' : 'Copy '+esc(PLATFORMS[pl.key] || pl.key)+' post')+'</button>').join('')+'<button type="button" class="pb-go" disabled>Post all</button></div></div></section>';
+    const f = job.finals || [], list = plats().filter(pl => pl.thumbnails?.length || pl.posts?.length);
+    if (!f.length && !list.length) return '';
+    const ready = list.length && job.status === 'final';
+    const fileLink = x => '<a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+' ↗</a>'+(x.detail ? '<small>'+esc(x.detail)+'</small>' : '');
+    const rows = ready ? '<ul class="pb-rd-list">'+list.map(pl => { const th = chosenThumb(pl), full = th && (httpsUrl(th.file) || httpsUrl(th.url)), v = chosenPost(pl), files = f.filter(x => x.platform === pl.key);
+        return '<li class="pb-rd"><span class="pb-pf pb-pf-'+esc(pl.key)+'">'+esc(PLATFORMS[pl.key] || pl.key)+'</span><div class="pb-rd-files">'+files.map(fileLink).join('')+
+          (th ? (full ? '<a href="'+esc(full)+'" target="_blank" rel="noopener noreferrer">Thumbnail: '+esc(th.label || th.id)+' ↗</a>' : '<span>Thumbnail: '+esc(th.label || th.id)+'</span>')+(th.size ? '<small>'+esc(th.size)+'</small>' : '') : '<small>Pick a thumbnail above.</small>')+'</div>'+
+          '<div class="pb-copies pb-rd-copy">'+(v ? copyBtns(pl) : '<small>Pick a post above.</small>')+'</div></li>'; }).join('')+'</ul>'
+      : f.length ? '<ul>'+f.map(x => '<li><span class="pb-pf pb-pf-'+esc(x.platform || '')+'">'+esc(PLATFORMS[x.platform] || x.platform || '')+'</span>'+fileLink(x)+'</li>').join('')+'</ul>' : '';
+    return '<section class="pb-finals" aria-labelledby="pb-fin-h"><h2 id="pb-fin-h" tabindex="-1">'+(ready ? 'Ready to post' : 'Finished')+'</h2>'+(job.finalNote ? '<p class="pb-muted">'+esc(job.finalNote)+'</p>' : '')+rows+
+      '<div class="pb-post"><div><b>Post all</b><p class="pb-muted">Posting needs the YouTube, LinkedIn and Instagram connections, which are not set up yet. Until then, post by hand: open each file, copy each text and paste it in. Nothing has been posted.</p></div><div class="pb-copies"><button type="button" class="pb-go" disabled>Post all</button></div></div></section>';
+  }
+  // A finished job is not opened by itself, so the videos whose posts are ready stay one tap away from the intake.
+  function readyJobs() {
+    const list = jobs.filter(j => j.status === 'final' && j.pack?.platforms?.length).slice(0, 3);
+    return list.length ? '<div class="pb-readyjobs" role="group" aria-label="Ready to post by hand"><span class="micro">Ready to post by hand</span>'+list.map(j => '<button type="button" class="pb-link" data-open-job="'+esc(j.id)+'">'+esc(j.title || j.folderName || 'Job '+j.id)+(j.readyAt ? ' · '+esc(when(j.readyAt)) : '')+'</button>').join('')+'</div>' : '';
   }
   function render() {
     if (root.hidden) return;
@@ -375,7 +474,7 @@
     root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · DRIVE LINKS IN, POSTS OUT</div><h1 id="pb-heading">'+esc(job ? (t?.title || job.title || job.folderName || 'This video') : 'Publish a video')+'</h1><p>Paste the Drive folder, check which file is which, then Generate. Your Variety Pack opens as its own page.</p></div>'+
       (job ? '<button type="button" class="pb-link" id="pb-new"'+(busy() ? ' disabled' : '')+'>Start a new video</button>' : '')+'</div>'+steps()+
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'">'+(copied === 'run' ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
-      (!job || job.status === 'new' ? intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : esc((job.sources || []).length)+' files')+' · started '+esc(when(job.createdAt))+'</p>'+(job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : '')+stages()+pack()+finals());
+      (!job || job.status === 'new' ? readyJobs()+intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : esc((job.sources || []).length)+' files')+' · started '+esc(when(job.createdAt))+'</p>'+(job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : job.status === 'ask' ? askHtml() : '')+stages()+pack()+finals());
     if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
     else if (confirm) root.querySelector('#pb-continue-yes')?.focus();
     else if (changing && focus === 'pb-change') root.querySelector('#pb-change-note')?.focus();
@@ -399,8 +498,8 @@
   }
   // Typing the title or brief refreshes only the checks and the topic question, so the field keeps its caret and list.
   function refreshIntake() { const c = root.querySelector('#pb-check'), q = root.querySelector('#pb-topic-q'); if (c) c.innerHTML = checkHtml(); if (q) q.innerHTML = topicHtml(); }
-  root.addEventListener('input', e => { if (e.target.id === 'pb-change-note') { changeNote = e.target.value; const s = root.querySelector('#pb-change-send'); if (s) s.disabled = !changeNote.trim() || !!starting; return; } if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
-  root.addEventListener('change', e => { if (e.target.id === 'pb-topic') { topicPick = e.target.value; const c = root.querySelector('#pb-check'); if (c) c.innerHTML = checkHtml(); return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
+  root.addEventListener('input', e => { if (e.target.id === 'pb-yt') { ytDraft = e.target.value; const s = root.querySelector('#pb-yt-save'), ok = ytUrl(ytDraft); if (s) s.disabled = !ok || ok === job?.youtubeUrl; const st = root.querySelector('#pb-yt-st'); if (st) st.textContent = ytStatus(); return; } if (e.target.id === 'pb-change-note') { changeNote = e.target.value; const s = root.querySelector('#pb-change-send'); if (s) s.disabled = !changeNote.trim() || !!starting; return; } if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
+  root.addEventListener('change', e => { if (e.target.id === 'pb-buyer' && job) { buyerNow(); buyerPick = e.target.value; render(); return; } if (e.target.id === 'pb-topic') { topicPick = e.target.value; const c = root.querySelector('#pb-check'); if (c) c.innerHTML = checkHtml(); return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
   root.addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b || b.disabled) return;
     if (b.id === 'pb-generate') {
@@ -418,12 +517,17 @@
       b.disabled = true; await generate({packUrl:x.url, status:'pack', reusedFrom:{pack:x.id, url:x.url, title:x.title, at:new Date().toISOString()}}, false); return;
     }
     if (b.id === 'pb-new') { job = null; ck = null; resetIntake(); retry = null; retryExtra = null; confirm = false; changing = null; changeNote = ''; render(); root.querySelector('#pb-links')?.focus(); return; }
-    if (b.dataset.pick) { job.picks = {...(job.picks || {}), [b.dataset.pick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
+    if (b.dataset.pick) { if (!picksOpen()) return; job.picks = {...(job.picks || {}), [b.dataset.pick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
+    if (b.dataset.openJob) { job = jobs.find(j => j.id === b.dataset.openJob) || null; ytDraft = null; render(); root.querySelector('#pb-fin-h')?.focus(); return; }
+    if (b.dataset.copyPart) { const t = partText(b.dataset.copyPart); if (t) await copy(t, b.dataset.copyPart); return; }
+    if (b.id === 'pb-ready' && job?.status === 'posts') { const c = pickCount(); if (c.have < c.need) return; await save({status:'final', readyAt:new Date().toISOString()}); render(); root.querySelector('#pb-fin-h')?.focus(); return; }
+    if (b.id === 'pb-yt-save' && job) { const u = ytUrl(ytDraft ?? ''); if (!u) return; await save({youtubeUrl:u}); ytDraft = null; render(); return; }
+    if (b.id === 'pb-ask-go' && job?.status === 'ask') { if (!askReady() || starting) return; await startSession(job, 'review', {...postInputs(), ask:null}); return; }
     if (starting && /^pb-(continue|start|retry|stop|ck|approve|change-send)/.test(b.id)) return;
     // Pilot and review stops: one press saves Taylor's answer with the session it starts (nothing is saved on a refusal).
     if (['pilot','review'].includes(job?.status)) {
       const kind = job.status, round = +((kind === 'pilot' ? job.pilot : job.cuts)?.round) || 1, at = new Date().toISOString();
-      if (b.id === 'pb-approve') { await startSession(job, kind, {approvals:{...(job.approvals || {}), [kind]:{decision:'approved', round, at}}}); return; }
+      if (b.id === 'pb-approve') { await startSession(job, kind, {approvals:{...(job.approvals || {}), [kind]:{decision:'approved', round, at}}, ...(kind === 'review' ? postInputs() : {})}); return; }
       if (b.id === 'pb-change') { changing = kind; render(); root.querySelector('#pb-change-note')?.focus(); return; }
       if (b.id === 'pb-change-cancel') { changing = null; render(); root.querySelector('#pb-change')?.focus(); return; }
       if (b.id === 'pb-change-send') { const n = changeNote.trim(); if (!n) return; await startSession(job, kind, {approvals:{...(job.approvals || {}), [kind]:{decision:'changes', note:n, round, at}}}); return; }
@@ -443,7 +547,6 @@
     if (b.id === 'pb-retry-step' && failedLater()) { await startSession(job, job.session.step); return; }
     if (b.id === 'pb-stop') { const st = [...(job.stages || [])].reverse().find(x => x.state === 'run')?.name || null; await save({status:'failed', error:'Stopped by Taylor', failedStage:st, stoppedAt:new Date().toISOString()}); render(); return; }
     if (b.hasAttribute('data-copy-run')) { await copy(lineFor(b.dataset.copyRun || 'pack', job.id), 'run'); return; }
-    if (b.dataset.copy) { const pl = job.pack.platforms.find(p => p.key === b.dataset.copy), i = Math.max(0, (pl.posts || []).findIndex((_, n) => job.picks?.[pl.key+'.post'] === 'v'+(n+1))); const v = pl.posts[i]; await copy(((v.title || '')+'\n\n'+(v.body || '')).trim(), pl.key); }
   });
   function resetIntake() { links = []; title = ''; brief = ''; topicPick = ''; note = ''; reuseSeen = ''; reuseOk = ''; }
   // A new job from the intake. With a patch from "Use this pack" it points at the earlier pack and starts no session.
@@ -483,5 +586,8 @@
   setInterval(() => { if (!root.hidden && job && ['starting','running','finishing'].includes(job.status) && !document.activeElement?.closest?.('#publish select')) render(); }, 15000);
   window.addEventListener('ww:route', e => { if (e.detail[0] === 'publish') render(); });
   window.addEventListener('ww:data', render);
+  window.addEventListener('ww:settings', () => { if (!document.activeElement?.closest?.('#publish textarea,#publish input')) render(); });
+  // A thumbnail image that will not load in this page (another page's file) shows as a Full size link instead.
+  root.addEventListener('error', e => { const i = e.target; if (i?.tagName !== 'IMG' || !i.closest('.pb-thumbs,.pb-rd')) return; badImg.add(i.getAttribute('src')); const n = document.createElement('span'); n.className = 'pb-noimg'; n.textContent = 'Preview not available here'; i.replaceWith(n); }, true);
   load();
 })();
