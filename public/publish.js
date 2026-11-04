@@ -8,7 +8,11 @@
    and stops on "check" when anything is unclear or the title came from the folder name; Taylor confirms here.
    Phase 3 (4 November 2026): before any session starts, the page looks for earlier work on the same recording or topic
    (jobs, and the packs index of every Variety Pack so far) and offers Use this pack or Start fresh anyway. The session
-   looks again before downloading and stops on "found" with the links instead of rebuilding. */
+   looks again before downloading and stops on "found" with the links instead of rebuilding.
+   Phase 5 (4 November 2026): Continue keeps its context. Each session saves a small work set (transcript, plan, pack data,
+   guard data) with the pack and the next one restores it. Two stops follow the Variety Pack, by Taylor's decision 2:
+   the pilot (first 60 to 90 s), then the YouTube master and LinkedIn cut together. Approve or Change something here;
+   either starts the next session with a line that names the stop it continues from. */
 (() => {
   'use strict';
   const root = document.querySelector('#publish');
@@ -24,6 +28,9 @@
   // Phase 2 folder intake (4 November 2026): ck holds Taylor's answers on the Check the files screen for one job
   // (title, topic, a role per file) until he presses Confirm and continue.
   let ck = null;
+  // Phase 5 stops: changing is the stop whose "Change something" box is open ('pilot' or 'review'), changeNote its text,
+  // retryExtra the answer to save with the session when Try again starts it after a refusal.
+  let changing = null, changeNote = '', retryExtra = null;
   // Phase 3 existing-work check: packs is the packs/<id> index (every Variety Pack published so far, chat packs included);
   // reuseSeen is the set of matches Taylor has been shown at intake, reuseOk the set he chose to start fresh over.
   let packs = [], reuseSeen = '', reuseOk = '';
@@ -50,7 +57,7 @@
   function steps() {
     // A failed job stays on the step it was working on, marked as stopped, never on Post. Check the files is step 1.
     const s = job?.status || 'new', failed = s === 'failed';
-    const at = s === 'new' || s === 'check' ? 0 : ['queued','starting','running','found','pack'].includes(s) ? 1 : ['finishing','final'].includes(s) ? 2 : failed ? (job.session?.step === 'finals' || job.pickedAt ? 2 : 1) : 3;
+    const at = s === 'new' || s === 'check' ? 0 : ['queued','starting','running','found','pack'].includes(s) ? 1 : ['finishing','pilot','review','final'].includes(s) ? 2 : failed ? (LATER.includes(job.session?.step) || job.pickedAt ? 2 : 1) : 3;
     return '<ol class="pb-steps">'+['Drive links','Variety Pack','Finished edits','Post'].map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+(i === at && failed ? ' <small>stopped</small>' : '')+'</li>').join('')+'</ol>';
   }
   // Every problem at once, re-checked on each change (links, roles and title) and again when Generate is pressed.
@@ -101,7 +108,7 @@
   // recording. Using it starts nothing; starting fresh runs Claude Code from the beginning and uses Taylor's plan again.
   const intakeTopic = () => exactTopic() || (topicPick && topicPick !== 'none' ? topics().find(t => t.id === topicPick) : null);
   const artifactUrl = u => typeof u === 'string' && /^https:\/\/claude\.ai\/(code\/)?artifact\/[\w-]+$/.test(u) ? u : null;
-  const JOB_WORD = {queued:'not started', starting:'starting', running:'Claude Code is working on it', check:'waiting for you to check the files', found:'found earlier work', pack:'Variety Pack ready', finishing:'finals in progress', final:'finished', failed:'stopped, Variety Pack kept'};
+  const JOB_WORD = {queued:'not started', starting:'starting', running:'Claude Code is working on it', check:'waiting for you to check the files', found:'found earlier work', pack:'Variety Pack ready', finishing:'edit in progress', pilot:'pilot ready to watch', review:'master and LinkedIn cut ready to watch', final:'finished', failed:'stopped, Variety Pack kept'};
   const PACK_WORD = {variety:'Variety Pack', katana:'Katana moments', reels:'Reel pack'};
   function earlier() {
     if (!links.length || problems().length) return [];
@@ -152,24 +159,38 @@
   // through the viewer's Claude Code Remote connector. The session follows PUBLISH.md with the skills saved on the
   // job. If the connector is refused or unavailable, the job stays queued with the line to send instead.
   const ENV = 'env_017PLHsTGZVgThRnUnu1eoGG', REPO = 'https://github.com/taylor585/Whiteboard-Wednesdays';
+  // Steps (Phase 5): 'pack' runs the job; 'finals' continues after the Variety Pack picks and builds the pilot; 'pilot' and
+  // 'review' continue after Taylor's answer at those stops. The line names the stop, so PUBLISH.md says what each one does.
+  const LATER = ['finals','pilot','review'];
+  const lineFor = (step, id) => step === 'pack' ? 'Run Publish job '+id : 'Continue Publish job '+id+' from '+(step === 'finals' ? 'pack' : step);
+  function sessionTitle(step, j, extra) {
+    const d = (extra?.approvals || j.approvals || {})[step]?.decision;
+    return (step === 'pack' ? 'Publish: ' : step === 'finals' ? 'Publish pilot: ' : step === 'pilot' ? (d === 'changes' ? 'Publish pilot changes: ' : 'Publish master: ') : (d === 'changes' ? 'Publish master changes: ' : 'Publish finals: '))+(j.title || j.id);
+  }
+  function sessionPrompt(step, j, line) {
+    if (step === 'pack') return line+'. Follow PUBLISH.md in this repository exactly: start with its Check the files stage, run the job with the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything.';
+    const w = j.work?.savedAt ? 'Start by restoring the saved work set (saved '+j.work.savedAt+') as PUBLISH.md says, instead of transcribing, mapping or planning again' : 'Start with the work set as PUBLISH.md says: none is saved yet, so make it once and save it before rendering';
+    return line+'. Follow PUBLISH.md in this repository exactly. '+w+'. Use the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything.';
+  }
   // The job's status moves on only after the session has actually started; a refusal leaves it where it was, with Try again.
-  async function startSession(j, step) {
-    const line = (step === 'finals' ? 'Continue Publish job ' : 'Run Publish job ')+j.id, requestedAt = new Date().toISOString();
-    starting = step; retry = null; note = ''; render();
+  // extra is Taylor's answer at a stop (approvals), saved together with the session so a refusal saves nothing.
+  async function startSession(j, step, extra = null) {
+    const line = lineFor(step, j.id), requestedAt = new Date().toISOString();
+    starting = step; retry = null; retryExtra = null; note = ''; render();
     try {
       const mcp = await window.claude?.use?.('mcp');
       if (!mcp) throw {code:'unavailable'};
-      const r = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:(step === 'finals' ? 'Publish finals: ' : 'Publish: ')+(j.title || j.id),
-        prompt:line+'. Follow PUBLISH.md in this repository exactly: start with its Check the files stage, run the job with the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything.'});
+      const r = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:sessionTitle(step, j, extra), prompt:sessionPrompt(step, j, line)});
       const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       starting = null;
       await save({session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, requestedAt, startedAt:new Date().toISOString()},
-        ...(step === 'finals' ? {status:'finishing', pickedAt:requestedAt} : {status:'starting'}), ...(j.status === 'failed' ? {error:null, failedStage:null} : {})});
+        ...(step === 'pack' ? {status:'starting'} : {status:'finishing', ...(step === 'finals' ? {pickedAt:requestedAt} : {})}), ...(extra || {}), ...(j.status === 'failed' ? {error:null, failedStage:null} : {})});
+      if (!note) { changing = null; changeNote = ''; }
       render(); return true;
     } catch (e) {
       const why = e?.code === 'not_granted' ? 'You did not allow the Claude Code connection, so it could not start by itself.' : e?.code === 'unavailable' ? 'The Claude Code connection is not available in this view.' : 'Claude Code could not be started ('+(e?.code || e?.message || 'error')+').';
-      starting = null; retry = step;
-      note = why+' Nothing has started. Press Try again, or send “'+line+'” in a Claude chat.'; render(); return false;
+      starting = null; retry = step; retryExtra = extra;
+      note = why+' Nothing has started'+(extra ? ' and your answer is not saved yet' : '')+'. Press Try again, or send “'+line+'” in a Claude chat.'; render(); return false;
     }
   }
   // A job that has not reported back: starting for 10 minutes, or running or finishing with no new stage for 90.
@@ -183,10 +204,12 @@
     return min >= lim ? min : 0;
   }
   // Continue is offered on a ready pack, and again on a failed job that has a pack (for example "No picks found yet").
-  const canContinue = () => job?.packUrl && (job.status === 'pack' || job.status === 'failed');
+  // A job that failed after the pilot or the master started is not sent back to the Variety Pack: it offers that step again.
+  const failedLater = () => job?.status === 'failed' && ['pilot','review'].includes(job.session?.step);
+  const canContinue = () => job?.packUrl && (job.status === 'pack' || (job.status === 'failed' && !failedLater()));
   const failedStage = () => job.failedStage || (job.stages || []).find(x => /^fail/.test(x.state || ''))?.name || [...(job.stages || [])].reverse().find(x => x.state === 'run')?.name || '';
   function confirmBar() {
-    return '<div class="pb-bar pb-confirm" role="group" aria-labelledby="pb-confirm-q"><span id="pb-confirm-q"><b>Have you made your picks on the Variety Pack?</b></span><span class="pb-muted">Claude builds only what you approved there. With no picks, it stops and tells you.</span><button type="button" class="pb-link" id="pb-continue-no">Not yet</button><button type="button" class="pb-go" id="pb-continue-yes"'+(starting ? ' disabled' : '')+'>Yes, build the finals →</button></div>';
+    return '<div class="pb-bar pb-confirm" role="group" aria-labelledby="pb-confirm-q"><span id="pb-confirm-q"><b>Have you made your picks on the Variety Pack?</b></span><span class="pb-muted">Claude builds only what you approved there. With no picks, it stops and tells you.</span><button type="button" class="pb-link" id="pb-continue-no">Not yet</button><button type="button" class="pb-go" id="pb-continue-yes"'+(starting ? ' disabled' : '')+'>Yes, build the pilot →</button></div>';
   }
   // ---- Check the files (Phase 2, 4 November 2026) ----------------------------------------------------------------
   // The session's first stage reads each file's real shape and length (scripts/classify-video.py). When anything is
@@ -278,15 +301,50 @@
     const list = job.stages || [];
     const ses = job.session?.url ? ' <a class="pb-link" href="'+esc(job.session.url)+'" target="_blank" rel="noopener noreferrer">Watch the session ↗</a>' : '';
     const stuck = stuckMinutes(), fs = job.status === 'failed' ? failedStage() : '';
-    const head = job.status === 'failed' ? '<div class="pb-warn pb-failed" role="alert"><p><b>This job stopped'+(fs ? ' at “'+esc(fs)+'”' : '')+'.</b> '+esc(job.error || 'Claude Code did not say why.')+'</p><p>Nothing was posted. '+(job.packUrl ? 'Your Variety Pack is still there: fix the problem, then press Continue, or start a new video.' : 'Press Start a new video when you are ready.')+ses+'</p></div>'
+    const head = job.status === 'failed' ? '<div class="pb-warn pb-failed" role="alert"><p><b>This job stopped'+(fs ? ' at “'+esc(fs)+'”' : '')+'.</b> '+esc(job.error || 'Claude Code did not say why.')+'</p><p>Nothing was posted. '+(failedLater() ? 'Your picks, your answers and the saved work are kept: Try again runs that step again from them, or start a new video.' : job.packUrl ? 'Your Variety Pack is still there: fix the problem, then press Continue, or start a new video.' : 'Press Start a new video when you are ready.')+ses+'</p>'+
+        (failedLater() ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry-step"'+(starting ? ' disabled' : '')+'>Try again</button></p>' : '')+'</div>'
       : stuck ? '<div class="pb-warn pb-stuck" role="alert"><p><b>Claude Code has not reported back</b> for '+(stuck >= 120 ? Math.floor(stuck / 60)+' h '+(stuck % 60)+' min' : stuck+' minutes')+'. It may have stopped.</p><p class="pb-acts">'+ses+' <button type="button" class="pb-link" id="pb-retry-stuck">Try again</button> <button type="button" class="pb-link" id="pb-stop">Stop this job</button></p></div>'
       : job.status === 'queued' ? '<p class="pb-queue"><b>Not started yet.</b> <button type="button" class="pb-link" id="pb-start"'+(starting ? ' disabled' : '')+'>Start now</button> or say this in a Claude chat: <code>Run Publish job '+esc(job.id)+'</code> <button type="button" class="pb-link" data-copy-run="pack">'+(copied === 'run' ? 'Copied' : 'Copy')+'</button></p>'
       : job.status === 'starting' ? '<p class="pb-queue"><b>Starting Claude Code.</b> A session is opening in the cloud with your skills; the steps appear here as it works, usually within two minutes.'+ses+'</p>'
-      : ['running','finishing'].includes(job.status) && ses ? '<p class="pb-meta">Claude Code is working on this.'+ses+'</p>' : '';
-    const bar = starting === 'finals' ? '<div class="pb-bar"><span>Starting Claude Code for the finals…</span></div>' : confirm ? confirmBar() : '<div class="pb-bar"><span>Picks made in the Variety Pack?</span><span class="pb-muted">Claude reads them from that page and builds the finished edits.</span><button type="button" class="pb-go" id="pb-continue">Continue · build the finals →</button></div>';
+      : ['running','finishing'].includes(job.status) && ses ? '<p class="pb-meta">Claude Code is working on this'+esc(doing())+'.'+ses+'</p>' : '';
+    const bar = starting === 'finals' ? '<div class="pb-bar"><span>Starting Claude Code for the pilot…</span></div>' : confirm ? confirmBar() : '<div class="pb-bar"><span>Picks made in the Variety Pack?</span><span class="pb-muted">Claude reads them from that page and builds a pilot of the first 60 to 90 seconds for you to watch.</span><button type="button" class="pb-go" id="pb-continue">Continue · build the pilot →</button></div>';
     const pr = job.packRecord || {}, ticked = Number.isFinite(pr.preticked) && pr.preticked > 0 ? ' '+pr.preticked+' designs you approved on earlier videos are already ticked'+(Number.isFinite(pr.fresh) ? '; you decide the '+pr.fresh+' new ones' : '')+'. Untick any you do not want.' : '';
-    const packLink = job.packUrl ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer">Open the Variety Pack ↗</a></p>'+(canContinue() && !job.pack?.platforms?.length ? bar : '') : '';
-    return '<section class="pb-stages" aria-label="Progress">'+head+packLink+(list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(/^fail/.test(s.state || '') ? 'failed' : s.state || 'wait')+'"><span class="pb-st-dot" aria-hidden="true"></span><b>'+esc(s.name)+'</b><small>'+esc(s.detail || '')+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '')+'</section>';
+    const packLink = job.packUrl && !['finishing','pilot','review','final'].includes(job.status) && !failedLater() ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer">Open the Variety Pack ↗</a></p>'+(canContinue() && !job.pack?.platforms?.length ? bar : '') : job.packUrl ? '<p class="pb-meta">Variety Pack '+(job.packRecord?.round ? 'round '+esc(job.packRecord.round)+' ' : '')+'· <a class="pb-link" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer">Open it ↗</a></p>' : '';
+    return '<section class="pb-stages" aria-label="Progress">'+head+packLink+workLine()+(list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(/^fail/.test(s.state || '') ? 'failed' : s.state || 'wait')+'"><span class="pb-st-dot" aria-hidden="true"></span><b>'+esc(s.name)+'</b><small>'+esc(s.detail || '')+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '')+'</section>';
+  }
+  // ---- Pilot and review stops (Phase 5, 4 November 2026) ----------------------------------------------------------
+  // What the running session is doing, from the stop it continues and Taylor's answer there.
+  function doing() {
+    const st = job.session?.step, d = st && job.approvals?.[st]?.decision;
+    return job.status !== 'finishing' ? '' : st === 'finals' ? ': building the pilot from your picks' : st === 'pilot' ? (d === 'changes' ? ': changing the pilot' : ': rendering the YouTube master and the LinkedIn cut') : st === 'review' ? (d === 'changes' ? ': making your changes to the master and the LinkedIn cut' : ': preparing the finished files') : '';
+  }
+  // The saved work set: the next session restores it instead of transcribing, mapping and planning again.
+  function workLine() {
+    const w = job.work; if (!w?.savedAt || job.status === 'final') return '';
+    const n = Array.isArray(w.files) ? w.files.length : 0;
+    return '<p class="pb-meta pb-work">Saved work: '+(n ? n+' files' : 'transcript and plan')+(w.stage ? ' after the '+esc(w.stage) : '')+', '+esc(when(w.savedAt))+'. The next session picks it up, so nothing is transcribed or planned again.</p>';
+  }
+  const STOP_TRACK = ['Pilot','Master and LinkedIn cut','Finished files'];
+  function stopHtml(kind) {
+    const pilot = kind === 'pilot', d = (pilot ? job.pilot : job.cuts) || {}, a = job.approvals?.[kind];
+    const url = artifactUrl(d.url) || artifactUrl(job.reviewUrl), round = +d.round || 1;
+    const after = a?.decision === 'changes' && a.note && (!d.renderedAt || String(a.at) <= String(d.renderedAt)) ? '<p class="pb-muted">Round '+round+', after your note: “'+esc(a.note)+'”</p>' : '';
+    const track = '<ol class="pb-track" aria-label="Stops after the Variety Pack">'+STOP_TRACK.map((n, i) => { const at = pilot ? 0 : 1; return '<li class="'+(i < at ? 'is-done' : i === at ? 'is-on' : '')+'"'+(i === at ? ' aria-current="step"' : '')+'>'+n+'</li>'; }).join('')+'</ol>';
+    const watch = (label, u) => u ? '<a class="pb-go pb-watch" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+label+' ↗</a>' : '';
+    const cut = (k, label, c) => { c = c || {}; const u = artifactUrl(c.url) || url;
+      return '<li><span class="pb-pf pb-pf-'+k+'">'+label+'</span><b>'+esc(c.label || (k === 'youtube' ? 'YouTube master' : 'LinkedIn cut'))+'</b><small>'+esc([c.seconds ? clock(c.seconds) : '', c.detail || ''].filter(Boolean).join(' · ') || 'Length not reported')+'</small>'+watch('Watch it', u)+'</li>'; };
+    const body = pilot
+      ? '<h2 id="pb-stop-h">Your pilot is ready</h2><p class="pb-muted">The first '+(d.seconds ? clock(d.seconds) : '60 to 90 seconds')+' of the YouTube master, edited with the designs you approved. Watch it with sound before Claude Code renders the whole video.'+(d.detail ? ' '+esc(d.detail) : '')+'</p>'+after+watch('Watch the pilot', url)
+      : '<h2 id="pb-stop-h">Your YouTube master and LinkedIn cut are ready</h2><p class="pb-muted">Watch both, then approve them together or say what to change. Nothing has been posted.</p>'+after+'<ul class="pb-cuts">'+cut('youtube', 'YouTube', d.master)+cut('linkedin', 'LinkedIn', d.linkedin)+'</ul>';
+    const missing = url ? '' : '<div class="pb-warn" role="alert"><p>Claude Code did not leave a link to watch '+(pilot ? 'the pilot' : 'them')+'. Open the session to see why, or ask for changes.</p></div>';
+    const off = starting ? ' disabled' : '';
+    const acts = changing === kind
+      ? '<div class="pb-change"><label class="pb-field" for="pb-change-note"><span>What should change?</span><textarea id="pb-change-note" rows="4" maxlength="2000" placeholder="'+(pilot ? 'For example: at 0:42 the caption covers the screen; use the short list instead of the cards at 1:05.' : 'Say which video and where, for example: master 12:30, the Blender shot runs long. LinkedIn: start at the second story.')+'">'+esc(changeNote)+'</textarea></label>'+
+        '<p class="pb-acts"><button type="button" class="pb-go" id="pb-change-send"'+(changeNote.trim() && !starting ? '' : ' disabled')+'>Send the changes</button><button type="button" class="pb-link" id="pb-change-cancel">Cancel</button></p>'+
+        '<p class="pb-muted">Claude Code changes '+(pilot ? 'the pilot' : 'what you asked for')+' from the saved plan and stops here again for you to watch.</p></div>'
+      : '<div class="pb-stop-acts"><button type="button" class="pb-go" id="pb-approve"'+(url ? off : ' disabled')+'>'+(pilot ? 'Approve the pilot' : 'Approve both')+'</button><button type="button" class="pb-link" id="pb-change"'+off+'>Change something</button></div>'+
+        '<p class="pb-muted">'+(pilot ? 'Approving starts Claude Code: it renders the whole YouTube master and the LinkedIn cut from the saved plan, then stops here for you to watch both.' : 'Approving starts Claude Code for the finished files. Nothing is posted.')+'</p>';
+    return '<section class="pb-stop" aria-labelledby="pb-stop-h">'+track+body+missing+acts+'</section>';
   }
   // The pack, one block per platform (PB-A): the video, the edit choices and thumbnails, then the copy with two variations.
   function pack() {
@@ -307,7 +365,7 @@
   function finals() {
     const f = job.finals || []; if (!f.length) return '';
     const copyable = (job.pack?.platforms || []).filter(pl => pl.posts?.length);
-    return '<section class="pb-finals" aria-labelledby="pb-fin-h"><h2 id="pb-fin-h">Finished</h2><ul>'+f.map(x => '<li><span class="pb-pf pb-pf-'+esc(x.platform || '')+'">'+esc(PLATFORMS[x.platform] || x.platform || '')+'</span><a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+' ↗</a>'+(x.detail ? '<small>'+esc(x.detail)+'</small>' : '')+'</li>').join('')+'</ul>'+
+    return '<section class="pb-finals" aria-labelledby="pb-fin-h"><h2 id="pb-fin-h">Finished</h2>'+(job.finalNote ? '<p class="pb-muted">'+esc(job.finalNote)+'</p>' : '')+'<ul>'+f.map(x => '<li><span class="pb-pf pb-pf-'+esc(x.platform || '')+'">'+esc(PLATFORMS[x.platform] || x.platform || '')+'</span><a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+' ↗</a>'+(x.detail ? '<small>'+esc(x.detail)+'</small>' : '')+'</li>').join('')+'</ul>'+
       '<div class="pb-post"><div><b>Post all</b><p class="pb-muted">Posting needs the YouTube, LinkedIn and Instagram connections, which are not set up yet. Until then, copy each post and upload the files from Drive. Nothing has been posted.</p></div><div class="pb-copies">'+copyable.map(pl => '<button type="button" class="pb-link" data-copy="'+esc(pl.key)+'">'+(copied === pl.key ? 'Copied' : 'Copy '+esc(PLATFORMS[pl.key] || pl.key)+' post')+'</button>').join('')+'<button type="button" class="pb-go" disabled>Post all</button></div></div></section>';
   }
   function render() {
@@ -317,9 +375,10 @@
     root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · DRIVE LINKS IN, POSTS OUT</div><h1 id="pb-heading">'+esc(job ? (t?.title || job.title || job.folderName || 'This video') : 'Publish a video')+'</h1><p>Paste the Drive folder, check which file is which, then Generate. Your Variety Pack opens as its own page.</p></div>'+
       (job ? '<button type="button" class="pb-link" id="pb-new"'+(busy() ? ' disabled' : '')+'>Start a new video</button>' : '')+'</div>'+steps()+
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'">'+(copied === 'run' ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
-      (!job || job.status === 'new' ? intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : esc((job.sources || []).length)+' files')+' · started '+esc(when(job.createdAt))+'</p>'+(job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : '')+stages()+pack()+finals());
+      (!job || job.status === 'new' ? intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : esc((job.sources || []).length)+' files')+' · started '+esc(when(job.createdAt))+'</p>'+(job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : '')+stages()+pack()+finals());
     if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
     else if (confirm) root.querySelector('#pb-continue-yes')?.focus();
+    else if (changing && focus === 'pb-change') root.querySelector('#pb-change-note')?.focus();
   }
   function readLinks(text) {
     // Split on spaces, new lines and commas; keep every link (too many are warned about, never dropped). A role belongs to
@@ -340,7 +399,7 @@
   }
   // Typing the title or brief refreshes only the checks and the topic question, so the field keeps its caret and list.
   function refreshIntake() { const c = root.querySelector('#pb-check'), q = root.querySelector('#pb-topic-q'); if (c) c.innerHTML = checkHtml(); if (q) q.innerHTML = topicHtml(); }
-  root.addEventListener('input', e => { if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
+  root.addEventListener('input', e => { if (e.target.id === 'pb-change-note') { changeNote = e.target.value; const s = root.querySelector('#pb-change-send'); if (s) s.disabled = !changeNote.trim() || !!starting; return; } if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
   root.addEventListener('change', e => { if (e.target.id === 'pb-topic') { topicPick = e.target.value; const c = root.querySelector('#pb-check'); if (c) c.innerHTML = checkHtml(); return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
   root.addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b || b.disabled) return;
@@ -358,9 +417,17 @@
       // An indexed pack with no job of its own: a new job that points at it, with no session (it costs nothing).
       b.disabled = true; await generate({packUrl:x.url, status:'pack', reusedFrom:{pack:x.id, url:x.url, title:x.title, at:new Date().toISOString()}}, false); return;
     }
-    if (b.id === 'pb-new') { job = null; ck = null; resetIntake(); retry = null; confirm = false; render(); root.querySelector('#pb-links')?.focus(); return; }
+    if (b.id === 'pb-new') { job = null; ck = null; resetIntake(); retry = null; retryExtra = null; confirm = false; changing = null; changeNote = ''; render(); root.querySelector('#pb-links')?.focus(); return; }
     if (b.dataset.pick) { job.picks = {...(job.picks || {}), [b.dataset.pick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
-    if (starting && /^pb-(continue|start|retry|stop|ck)/.test(b.id)) return;
+    if (starting && /^pb-(continue|start|retry|stop|ck|approve|change-send)/.test(b.id)) return;
+    // Pilot and review stops: one press saves Taylor's answer with the session it starts (nothing is saved on a refusal).
+    if (['pilot','review'].includes(job?.status)) {
+      const kind = job.status, round = +((kind === 'pilot' ? job.pilot : job.cuts)?.round) || 1, at = new Date().toISOString();
+      if (b.id === 'pb-approve') { await startSession(job, kind, {approvals:{...(job.approvals || {}), [kind]:{decision:'approved', round, at}}}); return; }
+      if (b.id === 'pb-change') { changing = kind; render(); root.querySelector('#pb-change-note')?.focus(); return; }
+      if (b.id === 'pb-change-cancel') { changing = null; render(); root.querySelector('#pb-change')?.focus(); return; }
+      if (b.id === 'pb-change-send') { const n = changeNote.trim(); if (!n) return; await startSession(job, kind, {approvals:{...(job.approvals || {}), [kind]:{decision:'changes', note:n, round, at}}}); return; }
+    }
     if (b.id === 'pb-ck-go') { await ckConfirm(); return; }
     if (b.dataset.use !== undefined && job?.status === 'found') {
       const x = (job.existing || []).filter(e => artifactUrl(e.url))[+b.dataset.use]; if (!x) return;
@@ -371,10 +438,11 @@
     if (b.id === 'pb-continue-no') { confirm = false; render(); root.querySelector('.pb-packgo')?.focus(); return; }
     if (b.id === 'pb-continue-yes') { confirm = false; if (canContinue()) await startSession(job, 'finals'); else render(); return; }
     if (b.id === 'pb-start') { await startSession(job, 'pack'); return; }
-    if (b.id === 'pb-retry') { await startSession(job, retry || 'pack'); return; }
-    if (b.id === 'pb-retry-stuck') { await startSession(job, job.status === 'finishing' ? 'finals' : 'pack'); return; }
+    if (b.id === 'pb-retry') { await startSession(job, retry || 'pack', retryExtra); return; }
+    if (b.id === 'pb-retry-stuck') { await startSession(job, job.status === 'finishing' ? (LATER.includes(job.session?.step) ? job.session.step : 'finals') : 'pack'); return; }
+    if (b.id === 'pb-retry-step' && failedLater()) { await startSession(job, job.session.step); return; }
     if (b.id === 'pb-stop') { const st = [...(job.stages || [])].reverse().find(x => x.state === 'run')?.name || null; await save({status:'failed', error:'Stopped by Taylor', failedStage:st, stoppedAt:new Date().toISOString()}); render(); return; }
-    if (b.hasAttribute('data-copy-run')) { await copy((b.dataset.copyRun === 'finals' ? 'Continue' : 'Run')+' Publish job '+job.id, 'run'); return; }
+    if (b.hasAttribute('data-copy-run')) { await copy(lineFor(b.dataset.copyRun || 'pack', job.id), 'run'); return; }
     if (b.dataset.copy) { const pl = job.pack.platforms.find(p => p.key === b.dataset.copy), i = Math.max(0, (pl.posts || []).findIndex((_, n) => job.picks?.[pl.key+'.post'] === 'v'+(n+1))); const v = pl.posts[i]; await copy(((v.title || '')+'\n\n'+(v.body || '')).trim(), pl.key); }
   });
   function resetIntake() { links = []; title = ''; brief = ''; topicPick = ''; note = ''; reuseSeen = ''; reuseOk = ''; }
@@ -400,6 +468,7 @@
       // Follow the job on screen; with none open, show the latest one still in progress.
       job = job ? jobs.find(j => j.id === job.id) || job : jobs.find(j => j.status !== 'posted' && j.status !== 'final') || null;
       if (!canContinue()) confirm = false;
+      if (changing && job?.status !== changing) { changing = null; changeNote = ''; }
       if (document.activeElement?.closest?.('#publish textarea,#publish input')) return;
       render();
     }, () => {});
