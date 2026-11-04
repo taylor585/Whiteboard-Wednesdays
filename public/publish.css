@@ -91,3 +91,24 @@
 #publish .pb-confirm .pb-go{margin-left:0}
 @media(max-width:700px){#publish .pb-confirm .pb-link{margin-left:0}}
 @media(max-width:700px){.pb-src{grid-template-columns:36px minmax(0,1fr)}.pb-src select{grid-column:1/-1;width:100%}}
+/* Folder intake and Check the files (Phase 2, 4 November 2026): the folder row, each file's real shape and length, a role per file. */
+.pb-shape.is-folder{width:28px;height:20px;border-radius:2px 6px 2px 2px;background:#f6df8c}
+.pb-shape.is-ultra{width:32px;height:9px;background:#1c1a17}
+.pb-shape.is-other{width:20px;height:20px;border-style:dashed}
+.pb-src-note{font-size:13px;color:#5c5750}
+.pb-opt-note{font-style:normal;color:#5c5750;font-size:13px}
+.pb-ck{margin-top:24px}
+.pb-ck-head h2{margin:0 0 6px;font:500 24px/1.2 WWBody,Arial,sans-serif}
+.pb-ck-head .pb-muted{max-width:72ch}
+.pb-ck-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:28px;align-items:start}
+.pb-ck-row div{min-width:0}
+.pb-ck-row b{overflow-wrap:anywhere}
+.pb-ck-meta{display:block;font:12px WWMono,monospace;color:#1c1a17;margin-top:2px}
+.pb-ck-why{display:block;font-size:13px;color:#5c5750;margin-top:4px;line-height:1.4;overflow-wrap:anywhere}
+.pb-badge{font:600 10px WWMono,monospace;letter-spacing:.06em;text-transform:uppercase;font-style:normal;padding:2px 6px;border-radius:4px;background:#f5f3ee;color:#1c1a17;margin-right:4px}
+.pb-badge.is-ask{background:#f6df8c}.pb-badge.is-reject{background:#1c1a17;color:#fff}
+.pb-ck-row.is-reject b{color:#5c5750}
+.pb-ck-row select{max-width:280px}
+.pb-ck-row select:disabled{color:#5c5750;background:#f5f3ee}
+@media(max-width:1000px){.pb-ck-grid{grid-template-columns:1fr;gap:8px}}
+@media(max-width:700px){.pb-ck-row select{max-width:none}}
