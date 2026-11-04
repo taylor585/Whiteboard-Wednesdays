@@ -3,7 +3,9 @@
    A Claude Code session runs the job with the skills chosen in Settings and writes the Variety Pack back here,
    laid out one platform at a time (pick PB-A): edit options, five thumbnails and two post variations each.
    Pick, press Continue, and the finished files land on Drive. Everything lives in the artifact database as
-   jobs/<id>; the page never edits video or posts on its own, and it never shows a stage the session has not written. */
+   jobs/<id>; the page never edits video or posts on its own, and it never shows a stage the session has not written.
+   Phase 2 (4 November 2026): one Drive folder link is enough. The session lists it, reads each file's shape and length,
+   and stops on "check" when anything is unclear or the title came from the folder name; Taylor confirms here. */
 (() => {
   'use strict';
   const root = document.querySelector('#publish');
@@ -16,13 +18,19 @@
   // step whose session is being opened right now, confirm shows the "Have you made your picks?" question, topicPick is
   // Taylor's answer to "Which topic is this?" ('' not chosen, 'none', or a topic id).
   let retry = null, starting = null, confirm = false, topicPick = '';
-  // A link is only accepted when it names one Drive file. Folders, Docs, Sheets and Slides are refused with a reason.
+  // Phase 2 folder intake (4 November 2026): ck holds Taylor's answers on the Check the files screen for one job
+  // (title, topic, a role per file) until he presses Confirm and continue.
+  let ck = null;
+  // A link names one Drive file, or one shared Drive folder (Phase 2): the cloud session lists the folder, because the
+  // browser cannot. Docs, Sheets, Slides and Drive's own views (My Drive, Recent) are refused with a reason.
   function parseLink(url) {
     let u; try { u = new URL(url); } catch { return {kind:'bad', id:null}; }
     const host = u.hostname.toLowerCase(), path = u.pathname;
     if (host === 'docs.google.com') return {kind:'doc', id:null};
     if (host !== 'drive.google.com' && host !== 'drive.usercontent.google.com') return {kind:'other', id:null};
-    if (/\/folders?\//.test(path) || /^\/drive\/(u\/\d+\/)?(my-drive|shared-drives|recent|starred)/.test(path)) return {kind:'folder', id:null};
+    const fm = path.match(/^\/drive\/(?:u\/\d+\/)?folders\/([\w-]{20,})(?:\/|$)/) || (/^\/(embedded)?folderview\/?$/.test(path) && [0, u.searchParams.get('id')]);
+    if (fm && /^[\w-]{20,}$/.test(fm[1] || '')) return {kind:'folder', id:null, folderId:fm[1]};
+    if (/\/folders?\//.test(path) || /^\/drive\/(u\/\d+\/)?(my-drive|shared-drives|recent|starred)/.test(path)) return {kind:'folder', id:null, folderId:null};
     const m = path.match(/^\/file\/(?:u\/\d+\/)?d\/([\w-]{20,})(?:\/|$)/);
     if (m) return {kind:'file', id:m[1]};
     const q = u.searchParams.get('id');
@@ -34,23 +42,30 @@
   const topics = () => (window.WWIdeas?.data?.topics || []).filter(t => t.status !== 'posted');
   // Steps: links, Variety Pack, finals, post. The current one follows the job's own status.
   function steps() {
-    // A failed job stays on the step it was working on, marked as stopped, never on Post.
+    // A failed job stays on the step it was working on, marked as stopped, never on Post. Check the files is step 1.
     const s = job?.status || 'new', failed = s === 'failed';
-    const at = s === 'new' ? 0 : ['queued','starting','running','pack'].includes(s) ? 1 : ['finishing','final'].includes(s) ? 2 : failed ? (job.session?.step === 'finals' || job.pickedAt ? 2 : 1) : 3;
+    const at = s === 'new' || s === 'check' ? 0 : ['queued','starting','running','pack'].includes(s) ? 1 : ['finishing','final'].includes(s) ? 2 : failed ? (job.session?.step === 'finals' || job.pickedAt ? 2 : 1) : 3;
     return '<ol class="pb-steps">'+['Drive links','Variety Pack','Finished edits','Post'].map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+(i === at && failed ? ' <small>stopped</small>' : '')+'</li>').join('')+'</ol>';
   }
   // Every problem at once, re-checked on each change (links, roles and title) and again when Generate is pressed.
+  // Folder mode: exactly one folder link and nothing else. The title can wait: Claude suggests it from the folder name.
+  const folderMode = () => links.length === 1 && links[0].kind === 'folder' && !!links[0].folderId;
   function problems() {
     if (!links.length) return [];
+    if (folderMode()) return [];
     const out = [], main = links.filter(l => l.role === 'main').length, reels = links.filter(l => l.role === 'reel').length;
+    const folders = links.filter(l => l.kind === 'folder');
     if (!title.trim()) out.push('Say what the video is about.');
+    if (folders.length > 1) out.push('There are '+folders.length+' folder links. Paste one folder per video.');
+    else if (folders.length && folders[0].folderId) out.push('Paste the folder link on its own: Claude reads the files inside it. Or remove it and paste file links.');
     links.forEach((l, i) => {
-      if (l.kind === 'folder') out.push('Link '+(i+1)+' is a Drive folder. Paste each file’s own link; folders cannot be read yet.');
+      if (l.kind === 'folder') { if (!l.folderId) out.push('Link '+(i+1)+' is not a shared Drive folder link. Open the folder in Drive, choose Share, Copy link, and paste that.'); }
       else if (l.kind === 'doc') out.push('Link '+(i+1)+' is a Google Docs, Sheets or Slides link, not a video file.');
       else if (!l.id) out.push('Link '+(i+1)+' is not a Google Drive file link.');
     });
     const seen = new Map();
     links.forEach((l, i) => { if (!l.id) return; if (seen.has(l.id)) out.push('Link '+(i+1)+' is the same file as link '+(seen.get(l.id)+1)+'. Remove one of them.'); else seen.set(l.id, i); });
+    if (folders.length) return out;
     if (main !== 1) out.push(main ? 'Choose exactly one main recording; '+main+' are marked as main.' : 'Choose which link is the main recording.');
     if (links.length > MAX_REELS + 1) out.push('There are '+links.length+' links. One job takes one main recording and up to '+MAX_REELS+' phone reel recordings, so remove '+(links.length - MAX_REELS - 1)+'.');
     else if (reels > MAX_REELS) out.push('Up to '+MAX_REELS+' phone reel recordings.');
@@ -80,17 +95,18 @@
     const ps = problems();
     return (ps.length ? '<div class="pb-warn" role="alert">'+(ps.length === 1 ? esc(ps[0]) : '<ul>'+ps.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>')+'</div>' : '')+
       '<button type="button" class="pb-go" id="pb-generate"'+(canGenerate() ? '' : ' disabled')+'>Generate Variety Pack</button>'+
-      '<p class="pb-muted">'+(db ? busy() ? 'A job is already running. Wait for it, or start a new one when it finishes.' : 'The job uses the skills in Settings: '+esc(skillLine())+'.' : connecting ? 'Connecting…' : 'Publish jobs are saved in the app’s database, which this preview does not have.')+'</p>';
+      '<p class="pb-muted">'+(db ? busy() ? 'A job is already running. Wait for it, or start a new one when it finishes.' : (links.length ? 'Claude Code first checks each file’s shape and length (a few minutes) and stops to ask you if anything is unclear, before any editing. ' : '')+'The job uses the skills in Settings: '+esc(skillLine())+'.' : connecting ? 'Connecting…' : 'Publish jobs are saved in the app’s database, which this preview does not have.')+'</p>';
   }
-  const linkLabel = l => l.id ? 'Drive file …'+l.id.slice(-6) : l.kind === 'folder' ? 'Drive folder, not a file' : l.kind === 'doc' ? 'Google Docs link, not a video' : 'Not a Drive file link';
+  const linkLabel = l => l.id ? 'Drive file …'+l.id.slice(-6) : l.kind === 'folder' ? (l.folderId ? 'Drive folder …'+l.folderId.slice(-6) : 'Not a shared folder link') : l.kind === 'doc' ? 'Google Docs link, not a video' : 'Not a Drive file link';
   function intake() {
     const ts = topics();
-    return '<section class="pb-intake" aria-labelledby="pb-links-h"><div><h2 id="pb-links-h">Paste the Drive links</h2><p class="pb-muted">One main recording (landscape, 32:9 or 16:9) and up to five phone reel recordings (upright). One link per line, or separate them with commas. Each must be shared “Anyone with the link”.</p>'+
-      '<textarea id="pb-links" rows="6" spellcheck="false" placeholder="https://drive.google.com/file/d/…/view">'+esc(links.map(l => l.url).join('\n'))+'</textarea>'+
-      '<label class="pb-field" for="pb-title"><span>What is this video about?</span><input id="pb-title" list="pb-topic-list" maxlength="200" autocomplete="off" placeholder="Type it, or pick one of your saved topics" value="'+esc(title)+'"><datalist id="pb-topic-list">'+ts.map(t => '<option value="'+esc(t.title)+'">').join('')+'</datalist></label>'+
+    const fm = folderMode();
+    return '<section class="pb-intake" aria-labelledby="pb-links-h"><div><h2 id="pb-links-h">Paste the Drive folder</h2><p class="pb-muted">One shared folder with the main recording (landscape, 32:9 or 16:9) and any phone reel recordings (upright). Or paste file links instead, one per line or separated with commas. Share it “Anyone with the link”.</p>'+
+      '<textarea id="pb-links" rows="6" spellcheck="false" placeholder="https://drive.google.com/drive/folders/…">'+esc(links.map(l => l.url).join('\n'))+'</textarea>'+
+      '<label class="pb-field" for="pb-title"><span>What is this video about?'+(fm ? ' <i class="pb-opt-note">Optional: Claude suggests it from the folder name</i>' : '')+'</span><input id="pb-title" list="pb-topic-list" maxlength="200" autocomplete="off" placeholder="'+(fm ? 'Leave it empty to use the folder name' : 'Type it, or pick one of your saved topics')+'" value="'+esc(title)+'"><datalist id="pb-topic-list">'+ts.map(t => '<option value="'+esc(t.title)+'">').join('')+'</datalist></label>'+
       '<div id="pb-topic-q">'+topicHtml()+'</div>'+
       '<label class="pb-field" for="pb-brief"><span>What you say in it, in your words (optional)</span><textarea id="pb-brief" rows="3" maxlength="2000" placeholder="The main points, any numbers you mention, who it is for. The title, description and posts are written from this and the transcript.">'+esc(brief)+'</textarea></label></div>'+
-      '<div><h2>Check before it renders</h2>'+(links.length ? '<ol class="pb-srcs">'+links.map((l, i) => '<li class="pb-src'+(l.id ? '' : ' is-bad')+'"><span class="pb-shape '+(l.role === 'main' ? 'is-wide' : 'is-tall')+'" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b><small>'+esc(l.url)+'</small></div><select data-role="'+i+'" aria-label="Role of link '+(i+1)+'"><option value="main"'+(l.role === 'main' ? ' selected' : '')+'>Main recording (landscape)</option><option value="reel"'+(l.role === 'reel' ? ' selected' : '')+'>Phone reel recording (upright)</option></select></li>').join('')+'</ol>' : '<p class="pb-empty">Your links appear here so you can mark the main recording before anything renders.</p>')+
+      '<div><h2>Check before it renders</h2>'+(links.length ? '<ol class="pb-srcs">'+links.map((l, i) => l.kind === 'folder' ? '<li class="pb-src'+(fm ? '' : ' is-bad')+'"><span class="pb-shape is-folder" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b><small>'+esc(l.url)+'</small></div><span class="pb-src-note">'+(fm ? 'Claude lists it and reads each file' : 'Not used')+'</span></li>' : '<li class="pb-src'+(l.id ? '' : ' is-bad')+'"><span class="pb-shape '+(l.role === 'main' ? 'is-wide' : 'is-tall')+'" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b><small>'+esc(l.url)+'</small></div><select data-role="'+i+'" aria-label="Role of link '+(i+1)+'"><option value="main"'+(l.role === 'main' ? ' selected' : '')+'>Main recording (landscape)</option><option value="reel"'+(l.role === 'reel' ? ' selected' : '')+'>Phone reel recording (upright)</option></select></li>').join('')+'</ol>' : '<p class="pb-empty">Your folder or links appear here. With a folder, Claude tells the main recording from the phone reel recordings by their shape and length, and you confirm before anything renders.</p>')+
       '<div id="pb-check">'+checkHtml()+'</div></div></section>';
   }
   const skillLine = () => { const s = window.WWSettings?.skills || {}, n = window.WWSettings?.name || (x => x); return [n(s.publishEdit), n(s.publishThumbs), n(s.publishPosts)].filter(Boolean).join(', '); };
@@ -107,7 +123,7 @@
       const mcp = await window.claude?.use?.('mcp');
       if (!mcp) throw {code:'unavailable'};
       const r = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:(step === 'finals' ? 'Publish finals: ' : 'Publish: ')+(j.title || j.id),
-        prompt:line+'. Follow PUBLISH.md in this repository exactly: run the job with the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything.'});
+        prompt:line+'. Follow PUBLISH.md in this repository exactly: start with its Check the files stage, run the job with the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything.'});
       const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       starting = null;
       await save({session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, requestedAt, startedAt:new Date().toISOString()},
@@ -134,6 +150,82 @@
   const failedStage = () => job.failedStage || (job.stages || []).find(x => /^fail/.test(x.state || ''))?.name || [...(job.stages || [])].reverse().find(x => x.state === 'run')?.name || '';
   function confirmBar() {
     return '<div class="pb-bar pb-confirm" role="group" aria-labelledby="pb-confirm-q"><span id="pb-confirm-q"><b>Have you made your picks on the Variety Pack?</b></span><span class="pb-muted">Claude builds only what you approved there. With no picks, it stops and tells you.</span><button type="button" class="pb-link" id="pb-continue-no">Not yet</button><button type="button" class="pb-go" id="pb-continue-yes"'+(starting ? ' disabled' : '')+'>Yes, build the finals →</button></div>';
+  }
+  // ---- Check the files (Phase 2, 4 November 2026) ----------------------------------------------------------------
+  // The session's first stage reads each file's real shape and length (scripts/classify-video.py). When anything is
+  // unclear, or the title came from the folder name, it stops on status "check" and Taylor confirms here with one tap.
+  const KIND = {'youtube-recording':'Main recording (landscape)', 'phone-recording':'Phone reel recording (upright)', 'finished-reel':'A finished reel or post: an output, not a recording', 'linkedin-cut':'A LinkedIn cut: an output, not a recording', other:'Not a recording Claude can use'};
+  const DECIDE = {accept:'Looks right', ask:'Needs you', reject:'Cannot be used'};
+  const ROLE = {main:'Main recording', reel:'Reel recording (later)', skip:'Leave it out'};
+  // Master rule 4 on screen: a phone recording can never be the main, the YouTube recording can never be a reel take,
+  // and an output or anything else can only be left out.
+  const allowedRoles = k => k === 'youtube-recording' ? ['main','skip'] : k === 'phone-recording' ? ['reel','skip'] : ['skip'];
+  const clock = sec => { sec = Math.round(+sec || 0); return sec >= 3600 ? Math.floor(sec/3600)+':'+String(Math.floor(sec%3600/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0') : Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); };
+  const dayName = d => { try { return new Intl.DateTimeFormat('en-GB', {weekday:'short', day:'numeric', month:'short'}).format(new Date(d+'T12:00:00')); } catch { return d; } };
+  // The folder name matched to a topic: an exact match first, then the booked topic (one with a recording date)
+  // sharing the most words with it, then any saved topic sharing words. Nothing is linked on a guess with no shared word.
+  function matchTopic(text) {
+    if (!String(text || '').trim()) return null;
+    const ex = topics().find(t => norm(t.title) === norm(text)); if (ex) return ex;
+    const tw = words(text), near = (a, b) => a === b || (a.length > 3 && b.length > 3 && a.slice(0, 5) === b.slice(0, 5));
+    const r = topics().map(t => ({t, score:words(t.title).filter(w => tw.some(x => near(w, x))).length + (t.recordDate ? 0.5 : 0)})).filter(x => x.score >= 1).sort((a, b) => b.score - a.score);
+    return r[0]?.t || null;
+  }
+  function ckInit() {
+    const key = job.id+'|'+(job.checkAt || '')+'|'+(job.sources || []).length;
+    // Saved topics can arrive after the job: until Taylor changes anything here, the suggestion follows them.
+    if (ck?.key === key && (ck.touched || ck.topicsN === topics().length)) return;
+    const src = job.sources || [], name = job.titleBy === 'taylor' ? job.title : (job.title || job.folderName || '');
+    const m = job.topicId ? topics().concat(window.WWIdeas?.data?.topics || []).find(t => t.id === job.topicId) : matchTopic(name);
+    ck = {key, topicsN:topics().length, touched:false, from:name, title:job.titleBy === 'taylor' ? job.title : (m?.title || name), topicId:m?.id || '', matched:m?.id || '',
+      roles:src.map(x => { const a = allowedRoles(x.kind); return a.includes(x.role) ? x.role : a.length === 1 ? 'skip' : ''; })};
+  }
+  function ckProblems() {
+    const src = job.sources || [], out = [];
+    if (!src.length) out.push('Claude Code has not listed any files yet.');
+    if (!ck.title.trim()) out.push('Say what the video is about.');
+    ck.roles.forEach((r, i) => { if (!r) out.push('Choose what file '+(i+1)+' ('+(src[i].name || 'Drive file')+') is.'); });
+    const mains = ck.roles.filter(r => r === 'main').length, reels = ck.roles.filter(r => r === 'reel').length;
+    if (src.length && mains !== 1) out.push(mains ? 'Choose exactly one main recording; '+mains+' are marked as main.' : 'No main recording: the job needs one landscape recording with sound. Add it to the folder and press Check again, or choose one here.');
+    if (reels > MAX_REELS) out.push('Up to '+MAX_REELS+' phone reel recordings; leave '+(reels - MAX_REELS)+' out.');
+    return out;
+  }
+  const ckCheckHtml = () => { const ps = ckProblems(); return (ps.length ? '<div class="pb-warn" role="alert">'+(ps.length === 1 ? esc(ps[0]) : '<ul>'+ps.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>')+'</div>' : '')+
+    '<button type="button" class="pb-go" id="pb-ck-go"'+(ps.length || starting || !db ? ' disabled' : '')+'>Confirm and continue</button><p class="pb-muted">The main recording is edited for YouTube and LinkedIn: Claude Code makes the Variety Pack from it alone. Reel recordings wait until you pick reel winners, and nothing short is ever cut from the main recording.</p>'; };
+  function ckTopicHtml() {
+    const t = topics().concat(window.WWIdeas?.data?.topics || []).find(x => x.id === ck.topicId);
+    const line = t && ck.topicId === ck.matched ? '<p class="pb-muted">'+(job.folderName ? 'From the folder “'+esc(job.folderName)+'”: ' : '')+'matches your '+(t.recordDate ? 'booked topic for '+esc(dayName(t.recordDate)) : 'saved topic')+'.</p>'
+      : !t && job.folderName && ck.topicId !== 'none' ? '<p class="pb-muted">From the folder name “'+esc(job.folderName)+'”. No saved topic matches it; choose one if it belongs to one.</p>' : '';
+    const opts = topics().map(x => '<option value="'+esc(x.id)+'"'+(ck.topicId === x.id ? ' selected' : '')+'>'+esc(x.title)+(x.recordDate ? ' · '+esc(dayName(x.recordDate)) : '')+'</option>').join('');
+    return line+'<label class="pb-field" for="pb-ck-topic"><span>Topic</span><select id="pb-ck-topic"><option value=""'+(ck.topicId ? '' : ' selected')+'>Choose a topic…</option>'+opts+'<option value="none"'+(ck.topicId === 'none' ? ' selected' : '')+'>None of these</option></select></label>';
+  }
+  function checkFiles() {
+    ckInit();
+    const src = job.sources || [];
+    const shape = p => !p ? 'is-other' : ['tall','feed'].includes(p.band) ? 'is-tall' : p.band === 'ultrawide' ? 'is-ultra' : ['wide','landscape'].includes(p.band) ? 'is-wide' : 'is-other';
+    const meta = p => p ? [p.width && p.height ? p.width+'×'+p.height : '', p.seconds ? clock(p.seconds) : '', p.audio === false ? 'no sound' : p.audio ? 'sound' : ''].filter(Boolean).join(' · ') : 'Not read';
+    const rows = src.map((x, i) => { const a = allowedRoles(x.kind), d = x.decision || 'ask';
+      return '<li class="pb-src pb-ck-row is-'+esc(d)+'"><span class="pb-shape '+shape(x.probe)+'" aria-hidden="true"></span><div><b>'+esc(x.name || 'Drive file …'+String(x.driveId || '').slice(-6))+'</b>'+
+        '<span class="pb-ck-meta">'+esc(meta(x.probe))+' · '+esc(KIND[x.kind] || 'Not checked')+'</span>'+
+        '<span class="pb-ck-why"><em class="pb-badge is-'+esc(d)+'">'+esc(DECIDE[d] || d)+'</em> '+esc(x.reason || '')+'</span></div>'+
+        '<select data-ck="'+i+'" aria-label="What file '+(i+1)+' is"'+(a.length === 1 ? ' disabled' : '')+'>'+(ck.roles[i] ? '' : '<option value="" selected>Choose…</option>')+a.map(r => '<option value="'+r+'"'+(ck.roles[i] === r ? ' selected' : '')+'>'+esc(ROLE[r])+'</option>').join('')+'</select></li>'; }).join('');
+    return '<section class="pb-ck" aria-labelledby="pb-ck-h"><div class="pb-ck-head"><h2 id="pb-ck-h">Check the files</h2><p class="pb-muted">Claude Code read the shape and length of each file'+(job.folderName ? ' in the folder “'+esc(job.folderName)+'”' : '')+'. Nothing has been edited yet. '+esc(job.checkNote || 'Confirm, or change a role, and it carries on.')+'</p></div>'+
+      '<div class="pb-ck-grid"><div><label class="pb-field" for="pb-ck-title"><span>Title</span><input id="pb-ck-title" maxlength="200" autocomplete="off" value="'+esc(ck.title)+'"></label><div id="pb-ck-topic-q">'+ckTopicHtml()+'</div></div>'+
+      '<div><ol class="pb-srcs">'+rows+'</ol><div id="pb-ck-check">'+ckCheckHtml()+'</div></div></div></section>';
+  }
+  function ckChange(e) {
+    if (!ck || job?.status !== 'check') return false;
+    if (e.target.id === 'pb-ck-topic') { ck.touched = true; ck.topicId = e.target.value; const t = topics().find(x => x.id === ck.topicId); if (t) ck.title = t.title; render(); return true; }
+    const r = e.target.closest('[data-ck]'); if (r) { ck.touched = true; ck.roles[+r.dataset.ck] = r.value; render(); return true; }
+    return false;
+  }
+  async function ckConfirm() {
+    if (!ck || ckProblems().length || starting) { render(); return; }
+    const at = new Date().toISOString(), topicId = ck.topicId && ck.topicId !== 'none' ? ck.topicId : null;
+    const sources = (job.sources || []).map((x, i) => ({...x, role:ck.roles[i], roleBy:'taylor', confirmedAt:at}));
+    await save({sources, reelTakes:sources.filter(x => x.role === 'reel').map(x => x.driveId), title:ck.title.trim(), titleBy:'taylor', topicId, checkedAt:at});
+    if (note) return;
+    await startSession(job, 'pack');
   }
   // The stage list is written by the session as it works; nothing here is simulated.
   function stages() {
@@ -175,10 +267,10 @@
     if (root.hidden) return;
     const focus = document.activeElement && root.contains(document.activeElement) ? document.activeElement.id : null;
     const t = job && topics().concat(window.WWIdeas?.data?.topics || []).find(x => x.id === job.topicId);
-    root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · DRIVE LINKS IN, POSTS OUT</div><h1 id="pb-heading">'+esc(job ? (t?.title || job.title || 'This video') : 'Publish a video')+'</h1><p>Paste the Drive links, check which file is which, then Generate. Your Variety Pack opens as its own page.</p></div>'+
+    root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · DRIVE LINKS IN, POSTS OUT</div><h1 id="pb-heading">'+esc(job ? (t?.title || job.title || job.folderName || 'This video') : 'Publish a video')+'</h1><p>Paste the Drive folder, check which file is which, then Generate. Your Variety Pack opens as its own page.</p></div>'+
       (job ? '<button type="button" class="pb-link" id="pb-new"'+(busy() ? ' disabled' : '')+'>Start a new video</button>' : '')+'</div>'+steps()+
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'">'+(copied === 'run' ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
-      (!job || job.status === 'new' ? intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+esc((job.sources || []).length)+' files · started '+esc(when(job.createdAt))+'</p>'+stages()+pack()+finals());
+      (!job || job.status === 'new' ? intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : esc((job.sources || []).length)+' files')+' · started '+esc(when(job.createdAt))+'</p>'+(job.status === 'check' ? checkFiles() : '')+stages()+pack()+finals());
     if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
     else if (confirm) root.querySelector('#pb-continue-yes')?.focus();
   }
@@ -186,10 +278,12 @@
     // Split on spaces, new lines and commas; keep every link (too many are warned about, never dropped). A role belongs to
     // the file, so editing or reordering the list keeps Taylor's choices. A new link is the main only if none is yet.
     const kept = new Map();  // file → its roles in order, so a file pasted twice keeps each copy's own role
-    links.forEach(l => { const k = l.id || l.url; kept.set(k, (kept.get(k) || []).concat(l.role)); });
-    links = text.split(/[\s,]+/).filter(Boolean).map(url => { const p = parseLink(url); return {url, id:p.id, kind:p.kind, role:kept.get(p.id || url)?.shift() || null}; });
-    if (!links.some(l => l.role === 'main')) { const first = links.find(l => !l.role); if (first) first.role = 'main'; }
-    links.forEach(l => { if (!l.role) l.role = 'reel'; });
+    links.forEach(l => { if (l.kind === 'folder') return; const k = l.id || l.url; kept.set(k, (kept.get(k) || []).concat({role:l.role, by:l.by})); });
+    links = text.split(/[\s,]+/).filter(Boolean).map(url => { const p = parseLink(url); if (p.kind === 'folder') return {url, id:null, kind:'folder', folderId:p.folderId, role:null};
+      const k = kept.get(p.id || url)?.shift(); return {url, id:p.id, kind:p.kind, role:k?.role || null, by:k?.by || null}; });
+    const files = links.filter(l => l.kind !== 'folder');
+    if (!files.some(l => l.role === 'main')) { const first = files.find(l => !l.role); if (first) first.role = 'main'; }
+    files.forEach(l => { if (!l.role) l.role = 'reel'; });
   }
   async function save(patch) {
     if (!db || !job) return;
@@ -199,23 +293,29 @@
   }
   // Typing the title or brief refreshes only the checks and the topic question, so the field keeps its caret and list.
   function refreshIntake() { const c = root.querySelector('#pb-check'), q = root.querySelector('#pb-topic-q'); if (c) c.innerHTML = checkHtml(); if (q) q.innerHTML = topicHtml(); }
-  root.addEventListener('input', e => { if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
-  root.addEventListener('change', e => { if (e.target.id === 'pb-topic') { topicPick = e.target.value; return; } const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; render(); } });
+  root.addEventListener('input', e => { if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
+  root.addEventListener('change', e => { if (e.target.id === 'pb-topic') { topicPick = e.target.value; return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
   root.addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b || b.disabled) return;
     if (b.id === 'pb-generate') {
       if (!canGenerate()) { render(); return; }  // checked again here: a bad link can never start a paid session
       const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), at = new Date().toISOString();
       const topic = exactTopic() || (topicPick && topicPick !== 'none' ? topics().find(t => t.id === topicPick) : null);
-      const doc = {id, topicId:topic?.id || null, title:title.trim(), brief:brief.trim(), sources:links.map(l => ({url:l.url, driveId:l.id, role:l.role})), skills:window.WWSettings?.skills || {}, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, startedAt:at, updatedAt:at};
+      // Every source starts unchecked: the session's Check the files stage reads each file's shape and length and
+      // compares it with the role before anything is edited. A folder is listed by the session, so sources start empty.
+      const f = folderMode() ? links[0] : null, tt = title.trim();
+      const doc = {id, topicId:topic?.id || null, title:tt, titleBy:tt ? 'taylor' : null, brief:brief.trim(),
+        source:f ? {kind:'folder', folderId:f.folderId, url:f.url} : {kind:'files'},
+        sources:f ? [] : links.map(l => ({url:l.url, driveId:l.id, role:l.role, roleBy:l.by || 'default', check:'pending'})), skills:window.WWSettings?.skills || {}, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, startedAt:at, updatedAt:at};
       b.disabled = true;
       try { await db.doc('jobs/'+id).set(doc); job = doc; links = []; title = ''; brief = ''; topicPick = ''; note = ''; render(); await startSession(doc, 'pack'); }
       catch (err) { note = 'Could not start the job ('+(err?.code || 'error')+').'; render(); }
       return;
     }
-    if (b.id === 'pb-new') { job = null; links = []; title = ''; brief = ''; topicPick = ''; note = ''; retry = null; confirm = false; render(); root.querySelector('#pb-links')?.focus(); return; }
+    if (b.id === 'pb-new') { job = null; ck = null; links = []; title = ''; brief = ''; topicPick = ''; note = ''; retry = null; confirm = false; render(); root.querySelector('#pb-links')?.focus(); return; }
     if (b.dataset.pick) { job.picks = {...(job.picks || {}), [b.dataset.pick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
-    if (starting && /^pb-(continue|start|retry|stop)/.test(b.id)) return;
+    if (starting && /^pb-(continue|start|retry|stop|ck)/.test(b.id)) return;
+    if (b.id === 'pb-ck-go') { await ckConfirm(); return; }
     if (b.id === 'pb-continue') { confirm = true; render(); return; }
     if (b.id === 'pb-continue-no') { confirm = false; render(); root.querySelector('.pb-packgo')?.focus(); return; }
     if (b.id === 'pb-continue-yes') { confirm = false; if (canContinue()) await startSession(job, 'finals'); else render(); return; }
