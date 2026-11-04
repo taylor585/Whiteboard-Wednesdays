@@ -77,3 +77,17 @@
 /* Automatic start (3 November 2026): the link out to the skill's own Variety Pack page. */
 #publish .pb-queue .pb-packgo{display:inline-flex;align-items:center;margin:10px 0 0;text-decoration:none;min-height:44px}
 #publish .pb-queue .pb-link{min-height:32px;padding:0 2px}
+/* Safety (4 November 2026): every problem listed at once, failed and stuck jobs in the warning style, Try again and Stop. */
+.pb-warn p{margin:0}.pb-warn p+p{margin-top:6px}
+.pb-warn ul{margin:0;padding-left:18px}.pb-warn li+li{margin-top:4px}
+.pb-warn .pb-acts{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:center}
+#publish .pb-warn .pb-link{min-height:40px;font-size:14px}
+.pb-stages>.pb-warn{margin:0 0 12px}
+.pb-steps .is-failed{background:#f6df8c;color:#1c1a17}.pb-steps small{font:11px WWMono,monospace}
+.pb-stages li.is-failed{border-top-color:#8b6002;border-top-style:dashed}
+.pb-src.is-bad b{color:#8b6002}
+.pb-confirm{margin-top:12px}
+#publish .pb-confirm .pb-link{color:#fff;margin-left:auto}
+#publish .pb-confirm .pb-go{margin-left:0}
+@media(max-width:700px){#publish .pb-confirm .pb-link{margin-left:0}}
+@media(max-width:700px){.pb-src{grid-template-columns:36px minmax(0,1fr)}.pb-src select{grid-column:1/-1;width:100%}}
