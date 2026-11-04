@@ -10,7 +10,7 @@ If the connector is refused, Taylor sends the same line in a chat. Either way, f
 - `title`, `brief`: what the video is about, in Taylor's words.
 - `sources`: Drive links, each `{url, driveId, role: "main" | "reel"}`; exactly one main (16:9), up to five reels (9:16).
 - `skills`: the skill chosen for each job in Settings. Use **exactly these skills**, by these names, with the Skill tool:
-  - `publishEdit` (for example `suby-shots-master-poster`): the edit and its **Suby Shots - Variety Pack**.
+  - `publishEdit` (default `suby-shots-with-katana` since 4 November 2026): the edit and its **Suby Shots - Variety Pack**.
   - `publishThumbs` (for example `thumbnail-tracker`): thumbnails.
   - `publishPosts` (for example `performance-poster`): titles, descriptions and posts.
   If a field is missing, use the default from `public/settings.js`. Never swap in a different skill or recreate one from memory.

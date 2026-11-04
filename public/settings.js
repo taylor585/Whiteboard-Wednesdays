@@ -7,22 +7,24 @@
   const root = document.querySelector('#settings');
   if (!root) return;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  // Versions and descriptions checked against the synced skills on 3 November 2026 (PACKAGE-MANIFEST.json and CHANGELOG.md).
   const SKILLS = [
-    {id:'suby-shots-master-poster', name:'Suby Shots · Master Poster', ver:'3.10', kind:'edit', does:'Edits the YouTube master, the LinkedIn cut and the reels, with the Variety Pack first.'},
-    {id:'suby-shots-reels-incorporated', name:'Suby Shots · Reels incorporated', ver:'', kind:'edit', does:'The same edit with the reel steps built in.'},
-    {id:'thumbnail-tracker', name:'Thumbnail Tracker', ver:'3.1', kind:'thumb', does:'Five thumbnails a round, three light and two dark, from the packaging research.'},
+    {id:'suby-shots-master-poster', name:'Suby Shots · Master Poster', ver:'3.10', kind:'edit', does:'Edits the YouTube master, the LinkedIn cut and the reels, with the Variety Pack first. Replaced by With Katana on 3 November.'},
+    {id:'suby-shots-with-katana', name:'Suby Shots · With Katana', ver:'5.0', kind:'edit', does:'The newest edit: Katana, Blender and motion graphics together, the Variety Pack first, and reels from a highlight pack you record on your phone.'},
+    {id:'thumbnail-tracker', name:'Thumbnail Tracker', ver:'3.2', kind:'thumb', does:'Five thumbnails a round, three light and two dark, from the packaging research. Objects only unless you send a phone photo.'},
     {id:'performance-poster', name:'Performance Poster', ver:'1.2.1', kind:'post', does:'Titles, descriptions, posts and captions, checked against each platform.'},
     {id:'finishing-touches-copy-and-scripts', name:'Finishing touches copy and scripts', ver:'', kind:'post', does:'Polishes copy in your voice.'},
-    {id:'whiteboard-wednesdays', name:'Whiteboard Wednesdays', ver:'', kind:'deck', does:'Builds the presentation decks.'},
-    {id:'trending-topics', name:'Trending topics', ver:'', kind:'topic', does:'Finds rising topics for the shortlist.'}];
+    {id:'whiteboard-wednesdays', name:'Whiteboard Wednesdays', ver:'2.0', kind:'deck', does:'Builds the presentation decks. Replaced by Reels and Variety on 20 October.'},
+    {id:'suby-shots-reels-and-variety', name:'Suby Shots · Reels and Variety', ver:'1.0', kind:'deck', does:'The newest deck builder: a Variety Pack and a vision board of every slide, then the full deck in the library.'},
+    {id:'trending-topics', name:'Trending topics', ver:'4.0', kind:'topic', does:'Finds rising topics for the shortlist.'}];
   const JOBS = [
     ['Publish', 'From Drive links to finished, posted videos', [['publishEdit','Video editing','edit','Variety Pack and the finished edits'], ['publishThumbs','Thumbnails','thumb','Five a round for YouTube and LinkedIn'], ['publishPosts','Posts and captions','post','Two variations per platform']]],
     ['Presentations', 'Whiteboard decks', [['decks','Deck building','deck','New decks and slides']]],
     ['Topics', 'Ideas and angles', [['topics','Topic ideas','topic','Angles for the shortlist']]]];
-  const DEFAULTS = {publishEdit:'suby-shots-master-poster', publishThumbs:'thumbnail-tracker', publishPosts:'performance-poster', decks:'whiteboard-wednesdays', topics:'trending-topics'};
+  const DEFAULTS = {publishEdit:'suby-shots-with-katana', publishThumbs:'thumbnail-tracker', publishPosts:'performance-poster', decks:'suby-shots-reels-and-variety', topics:'trending-topics'};
   // Honest connection states: nothing here claims a connection the app has not made.
   const CONNECTIONS = [
-    ['Google Drive','Publish reads your Drive links and puts the finished files in “Whiteboard Wednesdays Studio”.','Links must be shared “Anyone with the link”',false],
+    ['Google Drive','Publish reads your Drive links. Finished files are not put back on Drive yet.','Links must be shared “Anyone with the link”',true],
     ['Claude Code','Runs each Publish job: the edit, the thumbnails and the posts.','Asks you once, the first time you press Generate',false],
     ['YouTube','Uploads for the Creator watchlist, and posting.','Not connected',true],
     ['LinkedIn and Instagram','Posting from Post all.','Not connected',true]];
@@ -36,7 +38,7 @@
     root.innerHTML = '<div class="se-head"><a class="se-back" href="#/library">← Back</a><div class="micro">SETTINGS · SKILLS AND CONNECTIONS</div><h1 id="se-heading">Your skills</h1><p>Pick a skill on the left, then the jobs it should run. A Publish job copies these when it starts, so a change applies to the next video.</p></div>'+
       '<div class="se-lib"><div class="se-shelf" role="group" aria-label="Installed skills">'+SKILLS.map(s => '<button type="button" class="se-card" data-skill="'+s.id+'" aria-pressed="'+(s.id === chosen)+'"><b>'+esc(s.name)+'</b><small>'+(s.ver ? 'v'+s.ver+' · ' : '')+'installed</small><span>'+esc(s.does)+'</span></button>').join('')+'</div>'+
       '<div class="se-slots">'+JOBS.map(([screen, sub, jobs]) => '<section class="se-grp" aria-label="'+esc(screen)+'"><h2>'+esc(screen)+' <span class="micro">'+esc(sub)+'</span></h2><div class="se-row">'+jobs.map(([key, label, kind, note]) => {
-        const hot = pick && pick.kind === kind, now = skill(draft[key]);
+        const hot = pick && pick.kind === kind, now = skill(draft[key]) || {id:draft[key], name:draft[key]};
         return '<button type="button" class="se-job'+(hot ? ' is-hot' : '')+(draft[key] !== saved[key] ? ' is-changed' : '')+'" data-job="'+key+'"'+(hot ? '' : ' aria-disabled="true"')+' aria-label="'+esc(label)+': '+esc(now.name)+(hot && now.id !== pick.id ? '. Press to use '+esc(pick.name) : '')+'"><span class="micro">'+esc(label)+'</span><span class="se-sk"><i aria-hidden="true">'+esc(mono(now.name))+'</i>'+esc(now.name)+'</span><small>'+esc(note)+'</small></button>';
       }).join('')+'</div></section>').join('')+
       '<section class="se-grp" aria-label="Connections"><h2>Connections <span class="micro">What each part of the app needs</span></h2><div class="se-conns">'+CONNECTIONS.map(c => '<div class="se-conn"><i class="se-dot'+(c[3] ? ' is-off' : '')+'" aria-hidden="true"></i><div><b>'+esc(c[0])+'</b><span>'+esc(c[1])+'</span></div><em>'+esc(c[2])+'</em></div>').join('')+'</div></section></div></div>'+
