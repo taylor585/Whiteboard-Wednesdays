@@ -2,7 +2,16 @@
 
 Taylor pastes one Drive folder link (or file links) on **Publish** and presses **Generate Variety Pack**.
 The app saves `jobs/<id>` in its own artifact database (https://claude.ai/artifact/WCzdc2u9RBzuzqz5JhHwea) and starts a Claude Code session in the cloud by itself, through Taylor's Claude Code Remote connector (3 November 2026).
-That session's first message is `Run Publish job <id>`; after Taylor's picks, **Continue** starts another with `Continue Publish job <id>`.
+That session's first message is `Run Publish job <id>`. Every later session starts the same way, by itself, when Taylor presses a button at a stop, and its line names the stop it continues from:
+
+| Taylor presses | Line | The session |
+|---|---|---|
+| Continue (after his Variety Pack picks) | `Continue Publish job <id> from pack` | builds the pilot, stops on `pilot` (or runs a redo round and stops on `pack`) |
+| Approve the pilot, or Change something | `Continue Publish job <id> from pilot` | renders the YouTube master and the LinkedIn cut and stops on `review` (or changes the pilot and stops on `pilot`) |
+| Approve both, or Change something | `Continue Publish job <id> from review` | finishes the job (`final`), or makes the changes and stops on `review` again |
+
+`Continue Publish job <id>` with no stop named (jobs from before 5 November 2026) means `from pack`.
+Each session is new and runs in a new container: it starts by restoring the **work set** (below), never by transcribing or planning again.
 If the connector is refused, Taylor sends the same line in a chat. Either way, follow this file exactly.
 
 ## The job document
@@ -19,7 +28,14 @@ If the connector is refused, Taylor sends the same line in a chat. Either way, f
   - `publishThumbs` (for example `thumbnail-tracker`): thumbnails.
   - `publishPosts` (for example `performance-poster`): titles, descriptions and posts.
   If a field is missing, use the default from `public/settings.js`. Never swap in a different skill or recreate one from memory.
-- `status`: `queued` → `starting` → `running` (→ `check` → `starting` → `running`) (→ `found`) → `pack` → `finishing` → `final`. `failed` with `error` if it cannot finish. The app sets `starting` and `finishing` itself, only after the session has opened.
+- `status`: `queued` → `starting` → `running` (→ `check` → `starting` → `running`) (→ `found`) → `pack` → `finishing` → `pilot` → `finishing` → `review` → `finishing` → `final`. `failed` with `error` if it cannot finish. The app sets `starting` and `finishing` itself, only after the session has opened; `session.step` then says which stop it continues from (`finals` is from the pack, then `pilot`, then `review`).
+- The stops after the pack (Phase 5, 4 November 2026; Taylor's decision 2: keep the pilot stop, then approve the YouTube master and the LinkedIn cut together, in one stop):
+  - `work: {url, archive, manifest, files: [{path, bytes}], bytes, stage, savedAt}`: the saved work set (see "The work set"). Written by the session only.
+  - `reviewUrl`: the job's private review page, a claude.ai artifact link. One per job, made at the pilot and updated in place after that.
+  - `pilot: {url, seconds, round, renderedAt, detail}`: written when the pilot is ready. `url` is the review page.
+  - `cuts: {url, round, renderedAt, master: {label, seconds, detail, url?}, linkedin: {label, seconds, detail, url?}}`: written when the master and the LinkedIn cut are ready.
+  - `approvals: {pilot, review}`: Taylor's answer at each stop, written by the app together with the session it starts: `{decision: "approved" | "changes", note, round, at}`. The session reads it and never changes it. An answer is current when its `at` is later than the `renderedAt` it answers.
+  - `finalNote`: one sentence on the finished job, shown above `finals`.
 - Earlier work (Phase 3, 4 November 2026):
   - `existing: [{url, title, kind, round, decisions, why, createdAt}]` and `foundNote`: written by **Look for earlier work** when it stops on `found`. `kind` is `variety`, `katana` or `reels`.
   - `existingSeen`: links Taylor was already shown in the app and chose to start fresh over (pack links, or `jobs/<id>`). Ignore these when looking.
@@ -89,6 +105,45 @@ The "Thinking With AI" job of 3 November rebuilt a pack for a recording that alr
    Reel pages alone (`kind: "reels"`) do not stop the run: list them in the stage detail for the reels lane, and carry on.
    The Publish screen shows each one with **Open it**, **Use this pack for this job** (sets `packUrl` and `status: "pack"`; no session) and **Start fresh anyway** (sets `skipExisting` and starts a new `Run Publish job <id>`).
 
+## The work set (Phase 5, 4 November 2026)
+
+Every session runs in a new container, so nothing on disk survives it. The first session saves the small working files the later stages need, and every later session restores them first. That is what stops a Continue from downloading checks, transcribing, mapping and planning again (the 3 November job lost all of it: audit bug 8).
+
+**Where it lives: on the job's Variety Pack page, as two published files.** The pack is already a private artifact that the session publishes, Taylor owns, and nobody else sees.
+- `work/work.tar.gz`: one gzipped tar of the files below, at their paths relative to the job folder (`jobs/<job>/…`) and the skill's working copy (`src/v3/…`, `.suby/…`). Published with `contentType: "application/gzip"`, so a read saves it to a file and it never enters the conversation.
+- `work/manifest.json`: `{job, savedAt, stage, source: {driveId, bytes, seconds}, files: [{path, bytes, sha256}]}`. Small enough to read inline.
+
+**Limits, checked before every save:** a published binary file may be 15 MB and a text file 16 MB; one artifact version may hold 511 files and 256 MB in all. Keep `work.tar.gz` under 14 MB (a 40-minute job is about 1 to 2 MB: the transcript is about 150 KB before compression). Before publishing, list the pack's files (`action: "list"`, `scope: "files"`, `url: packUrl`) and add up the sizes: if the pack plus the work set would pass 250 MB, publish the work set to the job's review page instead (the same two paths) and set `work.url` to that page. Never put the work set in the repository (no new folders), on Drive, or in the app's database (it holds up to 25,000 small documents for the screens; a transcript and a plan are working files, not records).
+
+**What goes in it** (text and data only; no video, audio or images):
+- the transcript with word timestamps (`words.json`, `[w, s, e]`) and its sentences (`sentences.tsv`) when made;
+- the map and the beat plan: `src/v3/episode.ts` (`CROPS`, `SECTIONS`, `CHAPTERS`, `BEATS`), `src/v3/corrections.ts`, `plan-export.json`, and any story, Blender (`shot.json`) and Katana (`cut.json`) specs the plan uses;
+- the pack data: `pack/pack.json`, `pack/families.json`, the brand profile (`brand.json`) and the job's `packRecord`;
+- the guard data for this recording: the registry `scripts/youtube_guard.py` keeps (`.suby/youtube-registry.json`, or `SUBI_YT_REGISTRY`), with this recording's fingerprint and speech, so `check-media` and `check-words` on later reel takes know it (master rule 4);
+- the file check (`check.json`) and the main recording's probe;
+- later stages add theirs: the pilot's sound cues, the assembly list, the LinkedIn `rough.json`, `linkedin-plan.json` and `edl.json`, and the QA reports.
+
+**Saving it** (at the end of Run, and again at the end of every later session that changed any of it):
+1. `tar -czf work.tar.gz <files>` and write `manifest.json` with each file's size and `sha256sum`.
+2. Publish to the pack with `url: packUrl`, `file_path` set to the pack page itself, unchanged (in a later session, read it first with `action: "read"`, `path: "index.html"`, which saves it to a file, and publish that file), and only the two work files in `files`. Omit `capabilities` so the pack keeps its `db` and Taylor's decisions; label `Work set: <stage>`. Nothing on the page changes for Taylor.
+3. Write `work` to the job (pinned to the version you read).
+
+**Restoring it** (the first stage of every Continue, named "Restore the saved work"):
+1. Read both files in one call: `action: "read"`, `url: work.url`, `paths: ["work/manifest.json", "work/work.tar.gz"]`. Check every file's `sha256` after `tar -xzf`, then put each back at its path in the job folder and the skill's working copy (set `SUBI_YT_REGISTRY` to the restored registry).
+2. Do not print the transcript or the plan into the conversation: read only the parts a step needs (`jq`, `head`, a short script). A fresh session should start well under 60 k tokens.
+3. If `work` is missing (a job from before 5 November 2026, or a pack Taylor reused from a chat), make the set once: download, transcribe and map as Run would, then save it before anything else, so it is never made twice. If a file fails its check, say so in the stage detail and remake only that file.
+
+**What is not saved, and has to be made again** (machine time, not Taylor's plan usage, as long as the session waits with one Monitor):
+| Stage | Made again in | Why |
+|---|---|---|
+| The main recording (download, about 30 s) | every session that renders: from pack, from pilot, from review with changes | 500 MB to 1 GB: far over the 15 MB file and 256 MB version limits |
+| Base layer (`build_base.py`: `base.mp4`, `cam_full.mp4`, push clips) and the chrome stills | the same sessions, from the saved plan | gigabytes of video, rebuilt in minutes from the recording and the plan |
+| Beat clips (`render-episode.ts beats`) | from pack (the pilot's beats only) and from pilot (every beat, the pilot's again) | renders are resumable inside one container only |
+| The sound mix (`mix-episode.wav`) and the assembled master | from pilot, and from review with changes (the whole master again) | a 38-minute master is about 1 GB; the mix about 400 MB |
+| The LinkedIn cut | from pilot, and from review when the changes touch it | cut from the assembled master's picture and mix, which are not kept |
+
+Never made again: the file check, the transcript, the map, the beat plan, the Variety Pack and its media, and the guard registration.
+
 ## Run Publish job <id>
 
 1. Read `jobs/<id>`. Set `status: "running"` and the first stage. Run **Check the files** above; stop there if it says so.
@@ -129,21 +184,40 @@ The "Thinking With AI" job of 3 November rebuilt a pack for a recording that alr
    **Thumbnails and posts are not on the pack.** The skill's pack has no section for them, in a chat or here. `publishThumbs` and `publishPosts` run later, in Continue. Do not write a stage or a pack line that suggests otherwise.
 7. **Pre-tick what Taylor approved before (Taylor, 4 November 2026: he decides only the new designs, and still presses Continue).** Straight after publishing, write one `decisions/<assetId>` document on the **new** pack for every asset tagged `APPROVED BEFORE`, in one ArtifactData `batch` with the new pack's `url`: `{status: "approved", note: "Approved before on <earlier pack's video>, <date>. Untick it if you do not want it here.", at: <presetAt>, preset: true}`, all with the same `presetAt` (the real time). Never pre-tick a `NEW` design or a caption card, and never write to an earlier pack.
 8. Write to the job: `packUrl` (the pack's claude.ai link), `status: "pack"`, the finished stages, and `packRecord: {date, round, preticked, fresh, presetAt, sections: {<section id>: [{id, tag}]}}` (`preticked` and `fresh` are counts). This is the run record the skill would keep in `notes/variety-pack/runs/`, which this session cannot write.
-   Add `packs/<pack id>` (`kind: "variety"`, the job's `title`, `skill`, `round`, the main `driveIds`, `folderId`, `seconds`, `topicId`, `jobId`, `decisions: "decisions"`, `by: "session"`). The Publish screen then shows **Open the Variety Pack**, the number pre-ticked, and Continue. The session's work ends here.
+   Add `packs/<pack id>` (`kind: "variety"`, the job's `title`, `skill`, `round`, the main `driveIds`, `folderId`, `seconds`, `topicId`, `jobId`, `decisions: "decisions"`, `by: "session"`). The Publish screen then shows **Open the Variety Pack**, the number pre-ticked, and Continue.
+9. **Save the work set** (see "The work set") with `stage: "pack"`, as its own stage, before the session ends. The session's work ends here.
 
-## Continue Publish job <id>
+## Continue Publish job <id> from pack
 
-1. Read `jobs/<id>` and its `packUrl`. Read the pack's `decisions` collection with ArtifactData (the skill's own step "Decide").
+1. Read `jobs/<id>` and its `packUrl`. Run **Restore the saved work** (see "The work set").
+2. Read the pack's `decisions` collection with ArtifactData (the skill's own step "Decide").
    A decision is Taylor's own when it has no `preset`, or its `at` differs from `packRecord.presetAt` (he clicked or wrote a note). A pre-tick he left alone still counts as approved: he saw it and pressed Continue.
    If the job has `reusedFrom` and its sources are not all `check: "done"`, run **Check the files** first (it reads a few MB of each file); stop there if it says so.
-   If `decisions` is empty, or none of them is Taylor's own, fail the job (`status: "failed"`, `failedStage: "Read the picks"`, `error: "No picks found on the Variety Pack yet. Make your picks there, then press Continue again."`) and stop. Never build a final from designs Taylor has not approved. The Publish screen keeps Open the Variety Pack and Continue on a failed job that has a `packUrl`.
-2. If decisions ask for changes, run the skill's redo round on the **same pack URL**, set `status: "pack"` again and stop. This is a new session, so the first session's file path is gone:
-   - read the live pack (`action: "read"` with `url: packUrl`), and rebuild `pack.json` from its `<script id="data">` block with every asset id unchanged;
+   If `decisions` is empty, or none of them is Taylor's own, fail the job (`status: "failed"`, `failedStage: "Read the picks"`, `error: "No picks found on the Variety Pack yet. Make your picks there, then press Continue again."`) and stop. Never build from designs Taylor has not approved. The Publish screen keeps Open the Variety Pack and Continue on a failed job that has a `packUrl`.
+3. If decisions ask for changes, run the skill's redo round on the **same pack URL**, set `status: "pack"` again and stop:
+   - rebuild `pack.json` from the restored work set (or, if it is missing, from the live pack's `<script id="data">` block, with every asset id unchanged);
    - render only what the decisions ask for, run `build.py --redo`, apply the phone playback patch again (Run step 6), and publish with `url: packUrl`, label `Round <n>`;
-   - send only new or changed media in `files` (files left out are kept); never publish a new artifact for a redo, and never change or delete a decision;
-   - update `packRecord` (round, new ids and tags) and that pack's own `packs` document (`round`, `updatedAt`).
+   - send only new or changed media in `files` (files left out are kept, the work set included); never publish a new artifact for a redo, and never change or delete a decision;
+   - update `packRecord` (round, new ids and tags) and that pack's own `packs` document (`round`, `updatedAt`), and save the work set again.
    Wait on renders with Monitor, as in Run step 5.
-3. Otherwise set `status: "finishing"`, build the finals with the same skills, upload them to Drive, and write `finals: [{platform, label, url, detail}]` and `status: "final"`.
+4. **The pilot.** Otherwise lock the beats to the approved styles (the skill's Part 1B step 7, with its rotation rules), then follow the skill's Part 2 from the restored plan: `check-plan.mts`, `export-plan.mts`, download the main recording only (Run step 3), chrome stills, base layer, review stills, the pilot's beat clips, `render-v3.ts` and `sfx_v3.py`. The pilot is the first 60 to 90 seconds (the skill's own pilot; its QA must pass).
+5. **The review page.** Make a 720p review copy of the pilot under 14 MB and publish the job's private review page, once per job, as the skill delivers files (`references/quality-playbooks.md` §11: the file, its SHA-256, a save button through `capabilities: {downloads: true}`; parts of 14 MB when a file is larger, none starting with `<`; videos fetched whole and played from memory, as the pack's phone loader does). Title it `<title> - Review`, label `Pilot round <n>`, `icon: "video"`. Nothing goes to Drive.
+6. Save the work set (`stage: "pilot"`: the locked plan, `plan-export.json`, the sound cues). Write `reviewUrl`, `pilot: {url: reviewUrl, seconds, round, renderedAt, detail}` (`renderedAt` the real time), the finished stages, and `status: "pilot"`. The session ends here. The Publish screen shows **Watch the pilot**, **Approve the pilot** and **Change something**.
+
+## Continue Publish job <id> from pilot
+
+1. Read `jobs/<id>` and `approvals.pilot`. Run **Restore the saved work**.
+2. If `approvals.pilot` is missing or older than `pilot.renderedAt`, fail the job (`failedStage: "Read your answer"`, `error: "No answer on the pilot yet. Approve it or ask for changes on Publish."`).
+3. **Changes** (`decision: "changes"`): apply `note` to the plan (beats, styles, crops or timing; only designs Taylor approved on the pack), re-render the pilot as in "from pack" steps 4 and 5, and publish it to the **same** review page (`url: reviewUrl`, label `Pilot round <n+1>`). Save the work set, write `pilot` (`round` + 1, new `renderedAt`) and `status: "pilot"`, and stop.
+4. **Approved:** render the whole YouTube master from the restored plan (the skill's Part 2: base layer, every beat clip, the approved stories, Blender and Katana shots inserted, `sfx_episode.py`, `assemble.py`, and the full QA, which must all pass), then the LinkedIn cut (Part 3A: the only cut of the YouTube video, master rule 4). Start or end a stage at least every 90 minutes, and wait on each render with one Monitor.
+5. Publish review copies of both to the same review page (`url: reviewUrl`, label `Master and LinkedIn round <n>`): the LinkedIn cut at 1080p when it fits, the master as a 720p review copy, both in 14 MB parts, together under 230 MB. Full-quality delivery to Drive is phase 6 and is not in this file yet: never upload anywhere else.
+6. Save the work set (`stage: "review"`: the assembly list, the LinkedIn plan and `edl.json`, the QA reports). Write `cuts: {url: reviewUrl, round, renderedAt, master: {label, seconds, detail}, linkedin: {label, seconds, detail}}`, the finished stages, and `status: "review"`. The session ends here. The Publish screen shows both, **Approve both** and **Change something**.
+
+## Continue Publish job <id> from review
+
+1. Read `jobs/<id>` and `approvals.review`. Run **Restore the saved work**. If the answer is missing or older than `cuts.renderedAt`, fail the job as in "from pilot" step 2.
+2. **Changes:** apply `note` (it says which video and where), re-render what it touches (the whole master when the master changes, because renders are not kept; the LinkedIn cut when it changes or its source moved), re-run the QA, publish the review copies to the same review page (label `Master and LinkedIn round <n+1>`), save the work set, write `cuts` (`round` + 1) and `status: "review"`, and stop.
+3. **Approved:** the finished files. Full-quality delivery (the master and LinkedIn cut to Drive, Taylor's decision 3) is phase 6, and thumbnails and posts (`publishThumbs`, `publishPosts`) are phase 7; neither is in this file yet. Until they are, do not re-render and do not upload anything: write `finals` with the review page for each cut (`{platform: "youtube" | "linkedin", label, url: reviewUrl, detail: "Approved review copy on your private review page"}`), `finalNote: "Approved. Full-quality delivery and the thumbnails and posts come in the next updates; nothing was posted."`, and `status: "final"`.
 4. Nothing is ever posted. Post all stays off until the platform connections exist.
 
 ## If something fails
