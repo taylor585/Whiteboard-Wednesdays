@@ -20,13 +20,16 @@
    hand: Post all stays off until the platforms are connected. No placeholder such as [BOOKING LINK] is ever copied.
    Phase 8a (4 November 2026): two plain text lanes under the heading, Video (#/publish, this file) and Reels
    (#/publish/reels, public/reels.js). This file draws the lane row and hands the Reels routes to reels.js; a Video job's
-   reels are found from the reel job's jobId (reelsId below), so neither lane ever writes the other's documents. */
+   reels are found from the reel job's jobId (reelsId below), so neither lane ever writes the other's documents.
+   Parts (6 November 2026): Taylor records the main video in parts. Several files with role "main" are still one main
+   recording, saved with "part" 1..n in the order they are joined; Check the files shows them as one main card where a
+   part moves up or down, or is left out, with one tap. A job with a single main has no "part" and reads as before. */
 (() => {
   'use strict';
   const root = document.querySelector('#publish');
   if (!root) return;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const MAX_REELS = 5;
+  const MAX_REELS = 5, MAX_PARTS = 10;
   const PLATFORMS = {youtube:'YouTube', linkedin:'LinkedIn', reels:'Instagram Reels'};
   let db = null, jobs = [], job = null, links = [], connecting = true, note = '', copied = '', title = '', brief = '';
   // Phase 1 safety (4 November 2026): retry is the step to start again after a refused or failed start, starting is the
@@ -74,6 +77,7 @@
   // Every problem at once, re-checked on each change (links, roles and title) and again when Generate is pressed.
   // Folder mode: exactly one folder link and nothing else. The title can wait: Claude suggests it from the folder name.
   const folderMode = () => links.length === 1 && links[0].kind === 'folder' && !!links[0].folderId;
+  const linkParts = () => links.filter(l => l.kind !== 'folder' && l.role === 'main');
   function problems() {
     if (!links.length) return [];
     if (folderMode()) return [];
@@ -90,9 +94,10 @@
     const seen = new Map();
     links.forEach((l, i) => { if (!l.id) return; if (seen.has(l.id)) out.push('Link '+(i+1)+' is the same file as link '+(seen.get(l.id)+1)+'. Remove one of them.'); else seen.set(l.id, i); });
     if (folders.length) return out;
-    if (main !== 1) out.push(main ? 'Choose exactly one main recording; '+main+' are marked as main.' : 'Choose which link is the main recording.');
-    if (links.length > MAX_REELS + 1) out.push('There are '+links.length+' links. One job takes one main recording and up to '+MAX_REELS+' phone reel recordings, so remove '+(links.length - MAX_REELS - 1)+'.');
-    else if (reels > MAX_REELS) out.push('Up to '+MAX_REELS+' phone reel recordings.');
+    // Several links marked main are the parts of one main recording, joined in the order they are pasted.
+    if (!main) out.push('Choose which link is the main recording.');
+    if (main > MAX_PARTS) out.push('Up to '+MAX_PARTS+' parts in one main recording; '+main+' links are marked as main.');
+    if (reels > MAX_REELS) out.push('There are '+links.length+' links. One job takes one main recording (in one or more parts) and up to '+MAX_REELS+' phone reel recordings, so remove '+(reels - MAX_REELS)+'.');
     return out;
   }
   // Topic link: an exact title match links the topic; otherwise Taylor is asked which topic it is (closest first).
@@ -161,7 +166,7 @@
       '<label class="pb-field" for="pb-title"><span>What is this video about?'+(fm ? ' <i class="pb-opt-note">Optional: Claude suggests it from the folder name</i>' : '')+'</span><input id="pb-title" list="pb-topic-list" maxlength="200" autocomplete="off" placeholder="'+(fm ? 'Leave it empty to use the folder name' : 'Type it, or pick one of your saved topics')+'" value="'+esc(title)+'"><datalist id="pb-topic-list">'+ts.map(t => '<option value="'+esc(t.title)+'">').join('')+'</datalist></label>'+
       '<div id="pb-topic-q">'+topicHtml()+'</div>'+
       '<label class="pb-field" for="pb-brief"><span>What you say in it, in your words (optional)</span><textarea id="pb-brief" rows="3" maxlength="2000" placeholder="The main points, any numbers you mention, who it is for. The title, description and posts are written from this and the transcript.">'+esc(brief)+'</textarea></label></div>'+
-      '<div><h2>Check before it renders</h2>'+(links.length ? '<ol class="pb-srcs">'+links.map((l, i) => l.kind === 'folder' ? '<li class="pb-src'+(fm ? '' : ' is-bad')+'"><span class="pb-shape is-folder" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b><small>'+esc(l.url)+'</small></div><span class="pb-src-note">'+(fm ? 'Claude lists it and reads each file' : 'Not used')+'</span></li>' : '<li class="pb-src'+(l.id ? '' : ' is-bad')+'"><span class="pb-shape '+(l.role === 'main' ? 'is-wide' : 'is-tall')+'" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b><small>'+esc(l.url)+'</small></div><select data-role="'+i+'" aria-label="Role of link '+(i+1)+'"><option value="main"'+(l.role === 'main' ? ' selected' : '')+'>Main recording (landscape)</option><option value="reel"'+(l.role === 'reel' ? ' selected' : '')+'>Phone reel recording (upright)</option></select></li>').join('')+'</ol>' : '<p class="pb-empty">Your folder or links appear here. With a folder, Claude tells the main recording from the phone reel recordings by their shape and length, and you confirm before anything renders.</p>')+
+      '<div><h2>Check before it renders</h2>'+(links.length ? '<ol class="pb-srcs">'+links.map((l, i) => l.kind === 'folder' ? '<li class="pb-src'+(fm ? '' : ' is-bad')+'"><span class="pb-shape is-folder" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b><small>'+esc(l.url)+'</small></div><span class="pb-src-note">'+(fm ? 'Claude lists it and reads each file' : 'Not used')+'</span></li>' : '<li class="pb-src'+(l.id ? '' : ' is-bad')+'"><span class="pb-shape '+(l.role === 'main' ? 'is-wide' : 'is-tall')+'" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b>'+(l.role === 'main' && linkParts().length > 1 ? '<span class="pb-ck-meta pb-partof">Part '+(linkParts().indexOf(l)+1)+' of '+linkParts().length+' of the main recording, joined in the order pasted</span>' : '')+'<small>'+esc(l.url)+'</small></div><select data-role="'+i+'" aria-label="Role of link '+(i+1)+'"><option value="main"'+(l.role === 'main' ? ' selected' : '')+'>Main recording (landscape)</option><option value="reel"'+(l.role === 'reel' ? ' selected' : '')+'>Phone reel recording (upright)</option></select></li>').join('')+'</ol>' : '<p class="pb-empty">Your folder or links appear here. With a folder, Claude tells the main recording from the phone reel recordings by their shape and length, and you confirm before anything renders.</p>')+
       '<div id="pb-check">'+checkHtml()+'</div></div></section>';
   }
   const skillLine = () => { const s = window.WWSettings?.skills || {}, n = window.WWSettings?.name || (x => x); return [n(s.publishEdit), n(s.publishThumbs), n(s.publishPosts)].filter(Boolean).join(', '); };
@@ -249,15 +254,23 @@
     const src = job.sources || [], name = job.titleBy === 'taylor' ? job.title : (job.title || job.folderName || '');
     const m = job.topicId ? topics().concat(window.WWIdeas?.data?.topics || []).find(t => t.id === job.topicId) : matchTopic(name);
     ck = {key, topicsN:topics().length, touched:false, from:name, title:job.titleBy === 'taylor' ? job.title : (m?.title || name), topicId:m?.id || '', matched:m?.id || '',
-      roles:src.map(x => { const a = allowedRoles(x.kind); return a.includes(x.role) ? x.role : a.length === 1 ? 'skip' : ''; })};
+      roles:src.map(x => { const a = allowedRoles(x.kind); return a.includes(x.role) ? x.role : a.length === 1 ? 'skip' : ''; }), order:[]};
+    ck.order = ck.roles.map((r, i) => i).filter(i => ck.roles[i] === 'main').sort((a, b) => (src[a].part || 1e3) - (src[b].part || 1e3) || a - b);
   }
+  // The parts of the main recording, in the order they are joined: a file newly set to main joins at the end.
+  function ckSync() { ck.order = ck.order.filter(i => ck.roles[i] === 'main'); ck.roles.forEach((r, i) => { if (r === 'main' && !ck.order.includes(i)) ck.order.push(i); }); }
+  const sizeOf = p => p?.width && p?.height ? p.width+'×'+p.height : '';
   function ckProblems() {
     const src = job.sources || [], out = [];
     if (!src.length) out.push('Claude Code has not listed any files yet.');
     if (!ck.title.trim()) out.push('Say what the video is about.');
     ck.roles.forEach((r, i) => { if (!r) out.push('Choose what file '+(i+1)+' ('+(src[i].name || 'Drive file')+') is.'); });
-    const mains = ck.roles.filter(r => r === 'main').length, reels = ck.roles.filter(r => r === 'reel').length;
-    if (src.length && mains !== 1) out.push(mains ? 'Choose exactly one main recording; '+mains+' are marked as main.' : 'No main recording: the job needs one landscape recording with sound. Add it to the folder and press Check again, or choose one here.');
+    ckSync();
+    const mains = ck.order.length, reels = ck.roles.filter(r => r === 'reel').length;
+    if (src.length && !mains) out.push('No main recording: the job needs one landscape recording with sound. Add it to the folder and press Check again, or choose one here.');
+    if (mains > MAX_PARTS) out.push('Up to '+MAX_PARTS+' parts in one main recording.');
+    const sizes = [...new Set(ck.order.map(i => sizeOf(src[i].probe)).filter(Boolean))];
+    if (sizes.length > 1) out.push('The parts of the main recording are not all one size ('+sizes.join(', ')+'), so they cannot be joined into one recording. Leave out the part that does not belong.');
     if (reels > MAX_REELS) out.push('Up to '+MAX_REELS+' phone reel recordings; leave '+(reels - MAX_REELS)+' out.');
     return out;
   }
@@ -275,7 +288,19 @@
     const src = job.sources || [];
     const shape = p => !p ? 'is-other' : ['tall','feed'].includes(p.band) ? 'is-tall' : p.band === 'ultrawide' ? 'is-ultra' : ['wide','landscape'].includes(p.band) ? 'is-wide' : 'is-other';
     const meta = p => p ? [p.width && p.height ? p.width+'×'+p.height : '', p.seconds ? clock(p.seconds) : '', p.audio === false ? 'no sound' : p.audio ? 'sound' : ''].filter(Boolean).join(' · ') : 'Not read';
-    const rows = src.map((x, i) => { const a = allowedRoles(x.kind), d = x.decision || 'ask';
+    ckSync();
+    const parts = ck.order.length > 1 ? ck.order : [], name = x => x.name || 'Drive file …'+String(x.driveId || '').slice(-6);
+    const why = x => { const d = x.decision || 'ask'; return '<span class="pb-ck-why"><em class="pb-badge is-'+esc(d)+'">'+esc(DECIDE[d] || d)+'</em> '+esc(x.reason || '')+'</span>'; };
+    const total = parts.every(i => +src[i].probe?.seconds > 0) ? parts.reduce((a, i) => a + +src[i].probe.seconds, 0) : null;
+    const allOk = parts.every(i => (src[i].decision || 'ask') === 'accept');
+    // One main card for a main recorded in parts: its parts in the order they are joined, each moved or left out with one tap.
+    const card = parts.length ? '<li class="pb-src pb-ck-row pb-ck-main is-'+(allOk ? 'accept' : 'ask')+'" aria-labelledby="pb-ck-main-h"><span class="pb-shape '+shape(src[parts[0]].probe)+'" aria-hidden="true"></span><div><b id="pb-ck-main-h">Main recording · '+parts.length+' parts</b>'+
+      '<span class="pb-ck-meta">'+esc([sizeOf(src[parts[0]].probe), total ? clock(total)+' in all' : ''].filter(Boolean).join(' · '))+' · joined in this order into one recording</span>'+
+      '<ol class="pb-mparts">'+parts.map((i, k) => { const x = src[i], n = name(x);
+        return '<li class="pb-mpart"><span class="pb-mpart-n" aria-hidden="true">'+(k+1)+'</span><div><b>'+esc(n)+'</b><span class="pb-ck-meta">Part '+(k+1)+' · '+esc(meta(x.probe))+'</span>'+why(x)+'</div>'+
+          '<span class="pb-mpart-acts"><button type="button" class="pb-link pb-mpart-btn" data-part-up="'+i+'" aria-label="Move '+esc(n)+' up"'+(k ? '' : ' disabled')+'>↑</button><button type="button" class="pb-link pb-mpart-btn" data-part-down="'+i+'" aria-label="Move '+esc(n)+' down"'+(k < parts.length - 1 ? '' : ' disabled')+'>↓</button><button type="button" class="pb-link" data-part-drop="'+i+'" aria-label="Leave out '+esc(n)+'">Leave out</button></span></li>'; }).join('')+
+      '</ol></div></li>' : '';
+    const rows = card + src.map((x, i) => { if (parts.includes(i)) return ''; const a = allowedRoles(x.kind), d = x.decision || 'ask';
       return '<li class="pb-src pb-ck-row is-'+esc(d)+'"><span class="pb-shape '+shape(x.probe)+'" aria-hidden="true"></span><div><b>'+esc(x.name || 'Drive file …'+String(x.driveId || '').slice(-6))+'</b>'+
         '<span class="pb-ck-meta">'+esc(meta(x.probe))+' · '+esc(KIND[x.kind] || 'Not checked')+'</span>'+
         '<span class="pb-ck-why"><em class="pb-badge is-'+esc(d)+'">'+esc(DECIDE[d] || d)+'</em> '+esc(x.reason || '')+'</span></div>'+
@@ -287,13 +312,29 @@
   function ckChange(e) {
     if (!ck || job?.status !== 'check') return false;
     if (e.target.id === 'pb-ck-topic') { ck.touched = true; ck.topicId = e.target.value; const t = topics().find(x => x.id === ck.topicId); if (t) ck.title = t.title; render(); return true; }
-    const r = e.target.closest('[data-ck]'); if (r) { ck.touched = true; ck.roles[+r.dataset.ck] = r.value; render(); return true; }
+    const r = e.target.closest('[data-ck]'); if (r) { ck.touched = true; ck.roles[+r.dataset.ck] = r.value; ckSync(); render(); return true; }
     return false;
+  }
+  // One tap on a part: move it up or down the joining order, or leave it out (its file row then offers Main recording
+  // again, which adds it back as the last part). Focus stays on the part, or on the main card after Leave out.
+  function ckPart(b) {
+    if (!ck || job?.status !== 'check') return false;
+    const d = b.dataset, i = +(d.partUp ?? d.partDown ?? d.partDrop); if (d.partUp === undefined && d.partDown === undefined && d.partDrop === undefined) return false;
+    ckSync(); const k = ck.order.indexOf(i); if (k < 0) return true; ck.touched = true;
+    if (d.partDrop !== undefined) { ck.roles[i] = 'skip'; ckSync(); render(); (root.querySelector('#pb-ck-main-h') ? root.querySelector('[data-part-drop]') : root.querySelector('[data-ck="'+i+'"]'))?.focus(); return true; }
+    const to = d.partUp !== undefined ? k - 1 : k + 1; if (to < 0 || to >= ck.order.length) return true;
+    [ck.order[k], ck.order[to]] = [ck.order[to], ck.order[k]]; render();
+    const again = root.querySelector('[data-part-'+(d.partUp !== undefined ? 'up' : 'down')+'="'+i+'"]');
+    (again && !again.disabled ? again : root.querySelector('[data-part-'+(d.partUp !== undefined ? 'down' : 'up')+'="'+i+'"]'))?.focus();
+    return true;
   }
   async function ckConfirm() {
     if (!ck || ckProblems().length || starting) { render(); return; }
     const at = new Date().toISOString(), topicId = ck.topicId && ck.topicId !== 'none' ? ck.topicId : null;
-    const sources = (job.sources || []).map((x, i) => ({...x, role:ck.roles[i], roleBy:'taylor', confirmedAt:at}));
+    ckSync();
+    // A main in parts saves part 1..n in the joining order; a single main has no part (as before 6 November 2026).
+    const sources = (job.sources || []).map((x, i) => { const {part, ...y} = x, k = ck.order.indexOf(i);
+      return {...y, role:ck.roles[i], roleBy:'taylor', confirmedAt:at, ...(ck.order.length > 1 && k >= 0 ? {part:k+1} : {})}; });
     await save({sources, reelTakes:sources.filter(x => x.role === 'reel').map(x => x.driveId), title:ck.title.trim(), titleBy:'taylor', topicId, checkedAt:at});
     if (note) return;
     await startSession(job, 'pack');
@@ -514,6 +555,7 @@
   root.addEventListener('change', e => { if (e.target.id === 'pb-buyer' && job) { buyerNow(); buyerPick = e.target.value; render(); return; } if (e.target.id === 'pb-topic') { topicPick = e.target.value; const c = root.querySelector('#pb-check'); if (c) c.innerHTML = checkHtml(); return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
   root.addEventListener('click', async e => {
     const b = e.target.closest('button'); if (!b || b.disabled) return;
+    if (ckPart(b)) return;
     if (b.id === 'pb-generate') {
       if (!canGenerate()) { render(); return; }  // checked again here: a bad link can never start a paid session
       // Earlier work for this recording or topic: show it first; Generate needs a second, deliberate press.
@@ -570,7 +612,7 @@
     const f = folderMode() ? links[0] : null, tt = title.trim();
     const doc = {id, topicId:topic?.id || null, title:tt, titleBy:tt ? 'taylor' : null, brief:brief.trim(),
       source:f ? {kind:'folder', folderId:f.folderId, url:f.url} : {kind:'files'},
-      sources:f ? [] : links.map(l => ({url:l.url, driveId:l.id, role:l.role, roleBy:l.by || 'default', check:'pending'})), skills:window.WWSettings?.skills || {}, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, startedAt:at, updatedAt:at, ...patch};
+      sources:f ? [] : links.map(l => ({url:l.url, driveId:l.id, role:l.role, roleBy:l.by || 'default', check:'pending', ...(l.role === 'main' && linkParts().length > 1 ? {part:linkParts().indexOf(l)+1} : {})})), skills:window.WWSettings?.skills || {}, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, startedAt:at, updatedAt:at, ...patch};
     try { await db.doc('jobs/'+id).set(doc); job = doc; resetIntake(); render(); if (start) await startSession(doc, 'pack'); else root.querySelector('#pb-heading')?.focus(); }
     catch (err) { note = 'Could not start the job ('+(err?.code || 'error')+').'; render(); }
   }

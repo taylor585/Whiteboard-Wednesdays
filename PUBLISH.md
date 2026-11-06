@@ -21,7 +21,7 @@ If the connector is refused, Taylor sends the same line in a chat. Either way, f
 
 - `title`, `brief`: what the video is about, in Taylor's words. `titleBy: "taylor"` when he typed or confirmed it; null when he pasted a folder and left the title empty (it then comes from the folder name, and he confirms it on Check the files).
 - `source`: `{kind: "folder", folderId, url}` when Taylor pasted one Drive folder, or `{kind: "files"}` for file links.
-- `sources`: the files, each `{url, driveId, role: "main" | "reel" | "skip", roleBy, check, name, kind, decision, reason, probe, confirmedAt}`. For a folder job it starts empty and the Check the files stage fills it. For file links it starts with the role Taylor chose and `check: "pending"`. There is exactly one main recording (landscape, 32:9 or 16:9; the house recording is 3840x1080, screen plus camera). `reel` files are phone reel recordings (upright, 9:16 once the rotation flag is applied), at most five. `skip` files are left out.
+- `sources`: the files, each `{url, driveId, role: "main" | "reel" | "skip", part, roleBy, check, name, kind, decision, reason, probe, confirmedAt}`. `part` (1..n) is only on the parts of a main recorded in parts (see "A main recording in parts"); a single main has none. For a folder job it starts empty and the Check the files stage fills it. For file links it starts with the role Taylor chose and `check: "pending"`. There is exactly one main recording (landscape, 32:9 or 16:9; the house recording is 3840x1080, screen plus camera): one file, or its parts. `reel` files are phone reel recordings (upright, 9:16 once the rotation flag is applied), at most five. `skip` files are left out.
 - `reelTakes`: the `driveId`s of the reel recordings. They wait for the reel winners (see "Main recording and reel recordings").
 - `folderName`, `checkAt`, `checkNote`, `checkedAt`: written by Check the files (the first three) and by Taylor's Confirm (`checkedAt`).
 - `topicId`: the saved topic this video belongs to, or null if Taylor did not link one.
@@ -63,7 +63,7 @@ One document per review pack ever published for Taylor's videos, in the app's da
 
 `{url, title, kind: "variety" | "katana" | "reels", skill, round, driveIds, folderId, seconds, topicId, jobId, decisions, createdAt, updatedAt, by: "session" | "backfill"}`
 
-- `title` is the video's name as the pack shows it; `driveIds` the main recording's Drive file ids; `seconds` its measured length (null when not measured); `decisions` the collection the pack saves picks in (`decisions` for a Variety Pack, `katana` for a Katana moments page, `winners` or `picks` for reel pages, null when the page saves only in the browser).
+- `title` is the video's name as the pack shows it; `driveIds` the main recording's Drive file ids (every part, in part order); `seconds` its measured length (the joined length for a main in parts) (null when not measured); `decisions` the collection the pack saves picks in (`decisions` for a Variety Pack, `katana` for a Katana moments page, `winners` or `picks` for reel pages, null when the page saves only in the browser).
 - The app reads it for its free check before Generate. Sessions add a document for every pack they publish (Run step 7), and for an earlier pack they find that is missing (Look for earlier work). Add documents only: never change or delete another pack's document, and never touch any pack's `decisions`.
 
 ## Main recording and reel recordings (master rule 4)
@@ -74,6 +74,22 @@ One document per review pack ever published for Taylor's videos, in the app's da
 - Reel recordings (`reelTakes`) are used only after Taylor picks the reel winners. Before one is used as a reel's face or voice, it must pass the skill's `youtube_guard check-media` (and `check-words` after transcription).
 - `skip` files are never downloaded or used.
 
+## A main recording in parts (6 November 2026)
+
+Taylor sometimes records the main video in several parts (for example "Top 50 - Part 1.mp4", "Part 2", "Part 3", all 3840x1080 with sound). They are **one** main recording:
+- On the job, every part is a source with `role: "main"` and `part` 1..n, the order they are joined (Taylor can reorder or leave out a part on Check the files). A job with one main has no `part` and nothing below changes for it.
+- Wherever this file says "the main recording", "the main `driveId`" or `role: "main"`, read: every part, joined in `part` order into one file. Never give a single part to any skill.
+- **Join before anything else** (Run step 3, and every later session that downloads the main recording):
+  1. Download every part (the same `curl` line, one file each, `part1.mp4` … `partN.mp4`) and `ffprobe` each: video codec, width, height, pixel format, frame rate and time base; audio codec, sample rate and channels.
+  2. If every part's streams match, join without re-encoding:
+     `for f in part*.mp4; do printf "file '%s'\n" "$PWD/$f"; done > parts.txt` (in part order), then
+     `ffmpeg -hide_banner -f concat -safe 0 -i parts.txt -map 0:v:0 -map 0:a:0 -c copy -movflags +faststart main.mp4`.
+  3. If any stream differs, re-encode once to part 1's settings: `ffmpeg -i part1.mp4 … -i partN.mp4 -filter_complex "[0:v:0][0:a:0]…[N-1:v:0][N-1:a:0]concat=n=N:v=1:a=1[v][a]" -map "[v]" -map "[a]" -c:v libx264 -crf 16 -preset medium -pix_fmt yuv420p -r <part 1 frame rate> -c:a aac -b:a 192k -ar 48000 -movflags +faststart main.mp4`. Parts of different picture sizes never get here: Check the files refuses them.
+  4. Check the joined file: it has one video and one audio stream, its size is part 1's, and its length equals the sum of the parts' lengths (within 0.5 s plus 0.1 s per part). Otherwise fail the job: "The parts of the main recording did not join cleanly (joined <x> s, parts <y> s)."
+  5. From then on `main.mp4` is the main recording everywhere: transcript, map and plan times, the guard's `register-source`, the pack, the pilot, the master and the LinkedIn cut are all on the joined timeline. Name it in the stage detail ("3 parts joined: 21:17").
+- **Records use every part:** `packs/<id>` `driveIds` lists every part id in order and `seconds` is the joined length; the work-set manifest's `source` is `{driveId (part 1), driveIds, bytes (all parts), seconds (joined)}`; Look for earlier work and the work set treat any part id as this recording.
+- The joined file is never saved (it is as large as the parts): a later session downloads the parts and joins them again, which takes a minute or two.
+
 ## Check the files (the first stage of every Run)
 
 This stage only reads a few MB of each file. It never downloads a full file and never starts the edit.
@@ -83,14 +99,16 @@ This stage only reads a few MB of each file. It never downloads a full file and 
    `python3 -I scripts/classify-video.py --drive-folder <folderId> > check.json`.
    It lists the folder from `https://drive.google.com/embeddedfolderview?id=<folderId>` (no key) and classifies every file.
    - Copy its `sources` to the job, each with `check: "done"`, and `folderName`.
-   - Its roles are a proposal only. Exactly one landscape recording with sound, 5 minutes or longer, becomes `main`. Phone recordings become `reel`. Everything else is `skip`. When several files could be the main, none is chosen and each is `ask`.
+   - Its roles are a proposal only. Exactly one landscape recording with sound, 5 minutes or longer, becomes `main`, or (6 November 2026) several landscape recordings with sound whose names carry part numbers ("Part 1", "Pt 2", "- 3", "(2)", "take 2"; the words before the number may differ slightly, such as Make and Create) and that share one picture size become one `main` in parts, with `part` 1..n in number order, judged on their total length, and `accept`. Its `main` is `{parts: [driveId in part order], seconds}`. Phone recordings become `reel`. Everything else is `skip`. When several files could be the main, or the parts are unclear (a missing or repeated number, mixed sizes, a copy of another part, an unnumbered recording beside them, names that differ), none is chosen and each is `ask`.
    - If the folder cannot be listed, fail the job: "The folder is not shared as Anyone with the link, or it is empty."
 3. **File links** (`source.kind: "files"`): for each source run
    `python3 -I scripts/classify-video.py --drive <driveId> --role <role> --json`.
+   When several sources have `role: "main"` (a main in parts, with `part` numbers), check them together instead, in `part` order:
+   `python3 -I scripts/classify-video.py --main-parts <part 1 driveId>,<part 2 driveId>,…`, which judges each part on the total length and asks when the parts are not one size or one is a copy of another. Copy each part's `kind`, `decision`, `reason` and `probe`, and keep Taylor's `part`.
    Write its `kind`, `decision`, `reason` (the reasons after the first, joined with "; "), `probe` (`width`, `height` after rotation, `rotation`, `band`, `seconds`, `audio`) and `check: "done"`.
 4. Carry on to Run step 2 only when all of these hold:
    - every file is `accept`;
-   - there is exactly one `main` and it is a `youtube-recording`;
+   - there is exactly one main recording and it is a `youtube-recording`: one source with `role: "main"`, or its parts, each a `youtube-recording` with `part` numbers running 1 to n with no gap or repeat, all one picture size;
    - every `reel` is a `phone-recording`, and there are at most five;
    - `titleBy` is `"taylor"`.
 5. Otherwise stop here. Write `status: "check"`, `checkAt` (the real time), a one-sentence `checkNote` saying what Taylor must decide (for example "Two files could be the main recording: choose one."), the finished stage, and end the session.
@@ -103,8 +121,8 @@ The "Thinking With AI" job of 3 November rebuilt a pack for a recording that alr
 1. Skip this stage when `skipExisting` is true, or when the job already has `packUrl` (Taylor chose Use this pack: see Run step 2).
 2. Read the `packs` collection and the other `jobs` (ArtifactData `list`, `query.limit: 1000`). Leave out anything in `existingSeen`, failed jobs with no `packUrl`, and this job.
 3. A pack or job is **the same recording** when any of these holds:
-   - its `driveIds` (or a job's `sources[].driveId`) include this job's main `driveId`, or its `folderId` is this job's `source.folderId`;
-   - its `seconds` is within 2 s of the main recording's `probe.seconds` and it shares a topic (`topicId`) or two or more title words with this job's `title`, `folderName` or topic title.
+   - its `driveIds` (or a job's `sources[].driveId`) include this job's main `driveId` (any part's, for a main in parts), or its `folderId` is this job's `source.folderId`;
+   - its `seconds` is within 2 s of the main recording's `probe.seconds` (the parts' total, for a main in parts) and it shares a topic (`topicId`) or two or more title words with this job's `title`, `folderName` or topic title.
    A pack on the **same topic** with a different recording (a re-record) is not a match: note it in the stage detail and carry on.
 4. Then list Taylor's artifacts with the Artifact tool (`action: "list"`, `scope: "mine"`, `limit: 200`, following `page_token`). Take the ones titled `Suby Shots - Variety Pack`, `Katana Kutz - Variety Pack` or `Katana Kutz Variety Pack`, or whose title ends `Reel Highlights` or `Reel Options`, that are not already in `packs`. Read each with `action: "read"` and `path: "index.html"`: the page is saved to a file, so pull out its `<title>`, eyebrow, lede and footer with a short script instead of reading the whole page into the conversation. It is the same recording when the eyebrow or lede names this job's title, folder name or topic, or the recording length it states matches (for example "38-minute", "30:35").
 5. For each match that is a Variety Pack (or a Katana moments page), count its picks: ArtifactData `list` on its `decisions` (or `katana`) collection with that artifact's `url`. Read only.
@@ -119,7 +137,7 @@ Every session runs in a new container, so nothing on disk survives it. The first
 
 **Where it lives: on the job's Variety Pack page, as two published files.** The pack is already a private artifact that the session publishes, Taylor owns, and nobody else sees.
 - `work/work.tar.gz`: one gzipped tar of the files below, at their paths relative to the job folder (`jobs/<job>/…`) and the skill's working copy (`src/v3/…`, `.suby/…`). Published with `contentType: "application/gzip"`, so a read saves it to a file and it never enters the conversation.
-- `work/manifest.json`: `{job, savedAt, stage, source: {driveId, bytes, seconds}, files: [{path, bytes, sha256}]}`. Small enough to read inline.
+- `work/manifest.json`: `{job, savedAt, stage, source: {driveId, driveIds, bytes, seconds}, files: [{path, bytes, sha256}]}` (`driveIds` every part in order, `seconds` the joined length; for a single main, `driveIds` is just its id). Small enough to read inline.
 
 **Limits, checked before every save:** a published binary file may be 15 MB and a text file 16 MB; one artifact version may hold 511 files and 256 MB in all. Keep `work.tar.gz` under 14 MB (a 40-minute job is about 1 to 2 MB: the transcript is about 150 KB before compression). Before publishing, list the pack's files (`action: "list"`, `scope: "files"`, `url: packUrl`) and add up the sizes: if the pack plus the work set would pass 250 MB, publish the work set to the job's review page instead (the same two paths) and set `work.url` to that page. Never put the work set in the repository (no new folders), on Drive, or in the app's database (it holds up to 25,000 small documents for the screens; a transcript and a plan are working files, not records).
 
@@ -156,7 +174,7 @@ Never made again: the file check, the transcript, the map, the beat plan, the Va
 
 1. Read `jobs/<id>`. Set `status: "running"` and the first stage. Run **Check the files** above; stop there if it says so.
 2. If the job already has `packUrl` and `reusedFrom` (Taylor chose Use this pack), nothing is built: write `status: "pack"` and the finished stages, and end. Otherwise run **Look for earlier work** above; stop there if it finds a match.
-3. Download the main recording only (`role: "main"`) from Drive: `curl -L "https://drive.usercontent.google.com/download?id=<driveId>&export=download&confirm=t" -o <file>` into the scratchpad. Check it is a video with `ffprobe`. Do not download `reel` or `skip` files in this run. If a file will not download, fail the job with "File <n> is not shared as Anyone with the link."
+3. Download the main recording only (`role: "main"`) from Drive: `curl -L "https://drive.usercontent.google.com/download?id=<driveId>&export=download&confirm=t" -o <file>` into the scratchpad. Check it is a video with `ffprobe`. A main in parts: download every part and join them in `part` order first, exactly as "A main recording in parts" says; the joined file is the main recording from here on. Do not download `reel` or `skip` files in this run. If a file will not download, fail the job with "File <n> is not shared as Anyone with the link."
 4. **Proven or new, from every earlier pack.** Before planning the pack, read the `decisions` of every `variety` pack in `packs` (and the `katana` picks of every `katana` page) with ArtifactData, read only. This is the record of what Taylor has seen; the skill's `references/style-library.md` in the synced copy is behind it.
    - A design whose library id (or the same design under an older id, such as `fs-list-tickets` for `list-tickets` or `end-wipe` for `tr-end-wipe`) was `approved` in any earlier pack is proven: tag it `APPROVED BEFORE`. A Katana concept picked on a Katana page is proven too (`punch` is `word-punch`).
    - A design shown before and never approved is not fresh: do not tag it `NEW`. Tag `NEW` only designs Taylor has never been shown.
@@ -192,7 +210,7 @@ Never made again: the file check, the transcript, the map, the beat plan, the Va
    **Thumbnails and posts are not on the pack.** The skill's pack has no section for them, in a chat or here. `publishThumbs` and `publishPosts` run later, in Continue. Do not write a stage or a pack line that suggests otherwise.
 7. **Pre-tick what Taylor approved before (Taylor, 4 November 2026: he decides only the new designs, and still presses Continue).** Straight after publishing, write one `decisions/<assetId>` document on the **new** pack for every asset tagged `APPROVED BEFORE`, in one ArtifactData `batch` with the new pack's `url`: `{status: "approved", note: "Approved before on <earlier pack's video>, <date>. Untick it if you do not want it here.", at: <presetAt>, preset: true}`, all with the same `presetAt` (the real time). Never pre-tick a `NEW` design or a caption card, and never write to an earlier pack.
 8. Write to the job: `packUrl` (the pack's claude.ai link), `status: "pack"`, the finished stages, and `packRecord: {date, round, preticked, fresh, presetAt, sections: {<section id>: [{id, tag}]}}` (`preticked` and `fresh` are counts). This is the run record the skill would keep in `notes/variety-pack/runs/`, which this session cannot write.
-   Add `packs/<pack id>` (`kind: "variety"`, the job's `title`, `skill`, `round`, the main `driveIds`, `folderId`, `seconds`, `topicId`, `jobId`, `decisions: "decisions"`, `by: "session"`). The Publish screen then shows **Open the Variety Pack**, the number pre-ticked, and Continue.
+   Add `packs/<pack id>` (`kind: "variety"`, the job's `title`, `skill`, `round`, the main `driveIds` (every part, in order), `folderId`, `seconds`, `topicId`, `jobId`, `decisions: "decisions"`, `by: "session"`). The Publish screen then shows **Open the Variety Pack**, the number pre-ticked, and Continue.
 9. **Save the work set** (see "The work set") with `stage: "pack"`, as its own stage, before the session ends. The session's work ends here.
 
 ## Continue Publish job <id> from pack
@@ -289,7 +307,7 @@ One writer per field. Write with ArtifactData, pinned to the version you read (`
 | `jobId` | app | the Video job it came from, or null |
 | `topicId` | app | the saved topic, or null |
 | `title`, `titleBy: "taylor"` | app | the title, word for word. It governs the pack |
-| `source` | app | `{kind: "job", jobId, driveId, url, fromJob: true}` (that job's main recording), `{kind: "file", driveId, url}` or `{kind: "folder", folderId, url}` |
+| `source` | app | `{kind: "job", jobId, driveId, url, fromJob: true}` (that job's main recording; for a main in parts also `driveIds` and `urls`, every part in `part` order, and `seconds`, their total, with `driveId` part 1), `{kind: "file", driveId, url}` or `{kind: "folder", folderId, url}` |
 | `offsetS` | app | the YouTube trim in seconds, or null |
 | `skills` | app | `{reelsEdit, reelsCopy, reelsPosts}`, copied from Settings at Generate |
 | `existingSeen`, `skipExisting` | app | as on Video jobs: earlier reel work Taylor was shown and chose to start fresh over |
@@ -330,10 +348,10 @@ One writer per field. Write with ArtifactData, pinned to the version you read (`
 
 1. Read `reels/<id>`. Set `status: "running"` and the first stage, **Check the recording**.
 2. Find the main recording, and refuse anything else:
-   - `source.kind: "job"`: read `jobs/<jobId>` (read only). Its source with `role: "main"` must have this `driveId`. Use it as is (Check the files has already passed on it).
+   - `source.kind: "job"`: read `jobs/<jobId>` (read only). Its source with `role: "main"` must have this `driveId`; for a main in parts, its `role: "main"` sources in `part` order must be exactly `source.driveIds`. Use it as is (Check the files has already passed on it).
    - `source.kind: "file"`: `python3 -I scripts/classify-video.py --drive <driveId> --role main --json`. It must be a `youtube-recording` with `accept`. A phone recording, a finished reel or post, or a LinkedIn cut is never a source: fail with one sentence, for example "That file is a phone reel recording; paste the main recording instead."
-   - `source.kind: "folder"`: `python3 -I scripts/classify-video.py --drive-folder <folderId>`. Take the one `youtube-recording` in it. None, or more than one, fails the job ("The folder has no main recording." or "The folder has two main recordings: paste the one you want.").
-   Write `check` and `recordingSeconds`, and finish the stage. In a folder, also write every phone recording you saw (and every other file except the main) to `takesFound` with its `folderId`, and the folder to `foldersListed`: these are Taylor's takes later, offered once he has picked his winners.
+   - `source.kind: "folder"`: `python3 -I scripts/classify-video.py --drive-folder <folderId>`. Take its proposed `main` (one file, or its parts in order, as "A main recording in parts" says). No `main`, or one it asks about, fails the job ("The folder has no main recording." or "The folder has two main recordings: paste the one you want.").
+   Write `check` and `recordingSeconds` (the joined length for a main in parts), and finish the stage. Whenever a reel session downloads the main recording, a main in parts is downloaded and joined in order first (Video's Run step 3). In a folder, also write every phone recording you saw (and every other file except the main) to `takesFound` with its `folderId`, and the folder to `foldersListed`: these are Taylor's takes later, offered once he has picked his winners.
 3. **Look for earlier work** (skip when `skipExisting` is true): read the other `reels` documents and the `packs` index (`kind: "reels"`), and list Taylor's artifacts whose titles end `Reel Highlights` (as Video's step 4 does). It is the same recording when the `driveId`, folder or Video job matches, or the length is within 2 s and the topic or two title words match. Leave out anything in `existingSeen`. On a match, write `existing` (`reelsId` for a reel job, `url` for a page), a one-sentence `foundNote`, the finished stage and `status: "found"`, and end. Nothing is downloaded.
 4. **The words and times.** If the Video job's saved work set has the transcript (`jobs/<jobId>.work`), restore `words.json` and `sentences.tsv` from it as "The work set" says (read only: never write the Video job or its pack). Otherwise download the main recording (Video's Run step 3) and transcribe it with the skill's `scripts/transcribe.py`. This is the only use of the recording.
 5. **The pack** (stage **Draft six reels**, then **Finishing Touches pass**, then **Check the pack**): invoke `reelsEdit` with the Skill tool and run its reel run **step 1 only**, as written, with the title on the document word for word, `offsetS` as the pack's `offset`, and `reelsCopy` for the fluency pass on every hook, highlight line and close. Run `reels.py highlights <highlights.json> <words.json> <out>`. If it refuses the pack, fix the drafts and run it again. Never write a pack it refused. Do **not** publish the skill's own highlights page: Taylor picks in the app (decisions 4 and 6), and the app is the one page for this video.
