@@ -112,6 +112,18 @@
 .pb-ck-row select:disabled{color:#5c5750;background:#f5f3ee}
 @media(max-width:1000px){.pb-ck-grid{grid-template-columns:1fr;gap:8px}}
 @media(max-width:700px){.pb-ck-row select{max-width:none}}
+/* A main recorded in parts (6 November 2026): one main card, its parts in joining order, each moved or left out with one tap. */
+.pb-ck-main{align-items:start}.pb-ck-main>div{grid-column:2/-1}
+.pb-mparts{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid #d8d5cf}
+.pb-mpart{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:4px 10px;align-items:center;padding:8px 0;border-bottom:1px solid #d8d5cf}
+.pb-mpart:last-child{border-bottom:0}
+.pb-mpart-n{display:inline-grid;place-items:center;width:24px;height:24px;border:1px solid #1c1a17;border-radius:50%;font:600 12px WWMono,monospace}
+.pb-mpart-acts{display:flex;gap:4px;align-items:center}
+#publish .pb-mpart-btn{min-width:44px;min-height:44px;padding:0;text-decoration:none;font-size:18px;border:1px solid #d8d5cf;border-radius:8px}
+#publish .pb-mpart-btn:disabled{opacity:.35}
+#publish .pb-mpart-acts [data-part-drop]{min-height:44px;padding:0 6px}
+.pb-partof{color:#5c5750}
+@media(max-width:700px){.pb-ck-main>div{grid-column:1/-1}.pb-mpart{grid-template-columns:28px minmax(0,1fr)}.pb-mpart-acts{grid-column:2/-1}}
 /* Existing-work check (Phase 3, 4 November 2026): earlier work for the same recording or topic, at intake and on "found". */
 .pb-reuse,.pb-found{margin-top:16px;padding:14px 16px;border:1px solid #d8d5cf;border-left:3px solid #8b6002;border-radius:10px;background:#fff}
 .pb-found{margin-top:24px}

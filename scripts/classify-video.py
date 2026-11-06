@@ -20,6 +20,12 @@ usage
   classify-video.py --drive <driveId> [--role R] [--json]      range-reads only the header (and tail if needed)
   classify-video.py --drive-folder <folderId> [--html F]       lists a shared folder (no key) and classifies each
                                                                file; prints the proposed sources as JSON
+  classify-video.py --main-parts <id1>,<id2>,...               checks Drive files as the ordered parts of ONE main
+                                                               recording (file links); prints the sources as JSON
+A main recording may be made in parts (6 November 2026): landscape recordings with sound whose names carry a part
+number ("Part 1", "Pt 2", "- 3", "(2)", "take 2") and that share one picture size are proposed as one main made of
+ordered parts (role "main", "part" 1..n, judged on their total length). Missing or repeated numbers, mixed sizes,
+copies or an unnumbered recording beside them are asked, never guessed.
 Exit codes: 0 accept (folder: nothing to ask), 3 ask (folder: Taylor must check the files), 4 reject.
 Run it with python3 -I. It only reads: a few MB of each file, never a full download.
 """
@@ -102,6 +108,8 @@ def signals(j, name='', folder=''):
     vids = [x for x in st if x.get('codec_type') == 'video' and not (x.get('disposition') or {}).get('attached_pic')]
     s['audio'] = any(x.get('codec_type') == 'audio' for x in st)
     s['container'] = fmt.get('format_name', '')
+    try: s['bytes'] = int(fmt.get('size') or 0)
+    except (TypeError, ValueError): s['bytes'] = 0
     try: s['duration'] = float(fmt.get('duration') or (vids[0].get('duration') if vids else 0) or 0)
     except (TypeError, ValueError): s['duration'] = 0.0
     if not vids: return s
@@ -128,17 +136,22 @@ def signals(j, name='', folder=''):
     s['house_render'] = (s['codec'] == 'h264' and v.get('pix_fmt') == 'yuv420p' and v.get('color_range') == 'tv'
                          and v.get('color_space') == 'bt709' and abs(s['fps'] - 30) < 0.01 and not s['rotation']
                          and (s['w'], s['h']) in ((1080, 1920), (1080, 1350), (1920, 1080)))
-    base = os.path.splitext(os.path.basename(name))[0].lower().replace('_', ' ').replace('-', ' ')
-    base_raw = os.path.basename(name).lower()
-    s['name_hints'] = sorted(k for k, rx in NAME_HINTS.items() if re.search(rx, base) or re.search(rx, base_raw))
+    s['name_hints'] = name_hints(name)
     s['folder_hints'] = sorted(k for k, rx in FOLDER_HINTS.items() if folder and re.search(rx, folder.lower()))
     return s
 
 
-def classify(s, role=None):
+def name_hints(name):
+    base = os.path.splitext(os.path.basename(name))[0].lower().replace('_', ' ').replace('-', ' ')
+    base_raw = os.path.basename(name).lower()
+    return sorted(k for k, rx in NAME_HINTS.items() if re.search(rx, base) or re.search(rx, base_raw))
+
+
+def classify(s, role=None, total=None):
     """Returns (kind, decision, reasons). Order: readable video -> length floor -> displayed shape -> source vs
     output fingerprints -> phone origin -> duration bands -> audio -> name/folder hints (tie-break or conflict only)
-    -> the role Taylor chose."""
+    -> the role Taylor chose. total: for one part of a main recorded in parts, the length of all its parts, which the
+    landscape length bands use instead of the part's own length."""
     R = []
     def out(kind, decision, *why):
         R.extend(why)
@@ -155,7 +168,7 @@ def classify(s, role=None):
     if s.get('error'): return out('other', 'reject', f'not readable as media ({s["error"]})')
     if 'band' not in s: return out('other', 'reject', 'no video stream (audio only)' if s.get('audio') else 'no video stream')
     if s.get('image'): return out('other', 'reject', 'a still image, not a video')
-    d = s['duration']; band = s['band']; R.append(f'{s["w"]}x{s["h"]} rot {s["rotation"]} -> shows {s["dw"]}x{s["dh"]} ({band}, {s["ratio"]}), {d:.1f} s, {s["codec"]}, audio {"yes" if s["audio"] else "no"}')
+    d = s['duration']; band = s['band']; dd = total or d; R.append(f'{s["w"]}x{s["h"]} rot {s["rotation"]} -> shows {s["dw"]}x{s["dh"]} ({band}, {s["ratio"]}), {d:.1f} s, {s["codec"]}, audio {"yes" if s["audio"] else "no"}')
     if d < MIN_S: return out('other', 'reject', f'{d:.1f} s is under {MIN_S:.0f} s')
     phone = bool(s['phone'])
     if band == 'tall':
@@ -171,31 +184,35 @@ def classify(s, role=None):
         if s['house_render'] and not phone: return out('finished-reel', 'reject', '1080x1350 house spec: the 4:5 Instagram post of a finished reel, an output')
         return out('other', 'ask', '4:5 source: reels are recorded 9:16; ask what it is')
     if band == 'ultrawide':
-        if d < MAIN_MIN_S: return out('youtube-recording', 'ask', f'house 32:9-style layout but only {d:.0f} s: a test take? confirm')
+        if dd < MAIN_MIN_S: return out('youtube-recording', 'ask', f'house 32:9-style layout but only {dd:.0f} s{" in all its parts" if total else ""}: a test take? confirm')
         if not s['audio']: return out('youtube-recording', 'ask', 'no audio track: the YouTube master needs the narration')
         return out('youtube-recording', 'accept', f'ultrawide screen + camera layout, {d/60:.1f} min')
     if band == 'wide':
         if phone: return out('other', 'ask', 'landscape phone video (' + ', '.join(s['phone']) + '): not a 9:16 reel recording and not the screen recording; ask')
         if 'linkedin-cut' in s['name_hints'] or 'linkedin-cut' in s['folder_hints']:
             return out('linkedin-cut', 'reject', 'named as the LinkedIn cut: an output of the YouTube master')
-        if d > LINKEDIN_MAX_S:
+        if dd > LINKEDIN_MAX_S:
             if not s['audio']: return out('youtube-recording', 'ask', 'no audio track: the YouTube master needs the narration')
-            return out('youtube-recording', 'accept', f'16:9 and {d/60:.1f} min, longer than any LinkedIn cut (15 min max)')
+            return out('youtube-recording', 'accept', f'16:9 and {dd/60:.1f} min{" in all its parts" if total else ""}, longer than any LinkedIn cut (15 min max)')
         if s['house_render']: return out('linkedin-cut', 'ask', f'exact 1920x1080 30 fps house render and {d/60:.1f} min: looks like the LinkedIn cut or a finished master; confirm')
-        if d < MAIN_MIN_S: return out('youtube-recording', 'ask', f'16:9 but only {d:.0f} s: confirm it is the main recording')
-        return out('youtube-recording', 'ask', f'16:9 {d/60:.1f} min: within LinkedIn-cut length; confirm it is the raw recording')
+        if dd < MAIN_MIN_S: return out('youtube-recording', 'ask', f'16:9 but only {dd:.0f} s: confirm it is the main recording')
+        return out('youtube-recording', 'ask', f'16:9 {dd/60:.1f} min: within LinkedIn-cut length; confirm it is the raw recording')
     if band == 'landscape':
         return out('youtube-recording', 'ask', f'{s["ratio"]}:1 landscape is not the house 32:9 or 16:9 layout; confirm')
     return out('other', 'ask', f'{band} shape ({s["ratio"]}): neither a recording nor a reel')
 
 
 def job_check(files):
-    """Job-level rule on a list of (kind, decision, role, key). Returns the blocking problems."""
+    """Job-level rule on a list of (kind, decision, role, key[, part]). Returns the blocking problems. Several mains are
+    one main recording in parts only when every one has a part number and they run 1..n."""
     p = []
     mains = [f for f in files if f[2] == 'main']; reels = [f for f in files if f[2] == 'reel']
-    if len(mains) != 1: p.append(f'{len(mains)} main videos: exactly one is required')
+    if not mains: p.append('0 main videos: exactly one is required')
+    elif len(mains) > 1:
+        parts = sorted((f[4] if len(f) > 4 else None) or 0 for f in mains)
+        if parts != list(range(1, len(mains) + 1)): p.append(f'{len(mains)} main videos: exactly one is required, or its parts numbered 1 to {len(mains)}')
     if len(reels) > 5: p.append('more than five reels')
-    if mains and mains[0][0] != 'youtube-recording': p.append('the main video is not a YouTube recording')
+    if any(f[0] != 'youtube-recording' for f in mains): p.append('the main video is not a YouTube recording')
     if any(f[0] != 'phone-recording' for f in reels): p.append('a reel source is not a phone recording')
     keys = [f[3] for f in files if f[3]]
     if len(keys) != len(set(keys)): p.append('the same file is listed twice')
@@ -227,41 +244,157 @@ def list_folder(folder_id, html=None):
 def probe_summary(s):
     if 'band' not in s: return {'audio': bool(s.get('audio')), 'seconds': round(s.get('duration') or 0, 1)}
     return {'width': s['dw'], 'height': s['dh'], 'storedWidth': s['w'], 'storedHeight': s['h'], 'rotation': s['rotation'],
-            'band': s['band'], 'seconds': round(s['duration'], 1), 'audio': s['audio'], 'codec': s['codec']}
+            'band': s['band'], 'seconds': round(s['duration'], 1), 'audio': s['audio'], 'codec': s['codec'],
+            **({'bytes': s['bytes']} if s.get('bytes') else {})}
+
+
+WORDNUM = {w: i + 1 for i, w in enumerate('one two three four five six seven eight nine ten'.split())}
+PART_RX = [  # tried in order on the lower-case base name (underscores as spaces); group 1 is the part number
+    r'\b(?:part|pt)\.?\s*[-#]?\s*(\d{1,2}|' + '|'.join(WORDNUM) + r')\b',
+    r'\btake\s*[-#]?\s*(\d{1,2})\b',
+    r'\((\d{1,2})\)\s*$',
+    r'(?:^|\s)[-\u2013\u2014]\s*(\d{1,2})\s*$',
+]
+
+
+def part_of(name):
+    """('Top 50 - Part 2.mp4') -> (2, 'top 50'); a name with no part number -> (None, its words)."""
+    low = os.path.splitext(os.path.basename(name or ''))[0].lower().replace('_', ' ')
+    for rx in PART_RX:
+        m = re.search(rx, low)
+        if m:
+            g = m.group(1); n = WORDNUM.get(g) or int(g)
+            return n, re.sub(r'[\W_]+', ' ', low[:m.start()] + ' ' + low[m.end():]).strip()
+    return None, re.sub(r'[\W_]+', ' ', low).strip()
+
+
+def clock(sec):
+    sec = int(round(sec)); return f'{sec // 3600}:{sec % 3600 // 60:02d}:{sec % 60:02d}' if sec >= 3600 else f'{sec // 60}:{sec % 60:02d}'
+
+
+def _similar(a, b):
+    wa, wb = set(a.split()), set(b.split())
+    return not wa and not wb or (len(wa & wb) / len(wa | wb) if wa | wb else 0) >= 0.5
+
+
+def _recheck(r, total):
+    """A part judged as part of the whole: its name without the part number (so "take 2" is no phone hint) and the
+    total length of all the parts."""
+    s = r.get('_s')
+    if not s: return r['decision'], r['reason']
+    s2 = dict(s, name_hints=name_hints(re.sub(PART_RX[1], ' ', os.path.basename(s.get('name') or r['name']).lower())))
+    k, d, why = classify(s2, total=total)
+    return (d if k == 'youtube-recording' else 'ask'), '; '.join(why[1:] or why)
+
+
+def check_parts(members):
+    """members: the rows of one main recording in part order. Returns the problems that make it ambiguous (empty when
+    they can be joined as they are) and the total length."""
+    issues = []
+    total = round(sum(r['probe'].get('seconds') or 0 for r in members), 1)
+    sizes = {(r['probe'].get('width'), r['probe'].get('height')) for r in members}
+    if len(sizes) > 1: issues.append('the parts are not all one size (' + ', '.join(f'{w}x{h}' for w, h in sorted(sizes, key=str)) + ')')
+    if any(r['kind'] != 'youtube-recording' or not r['probe'].get('audio') for r in members): issues.append('every part must be a landscape recording with sound')
+    seen = {}
+    for r in members:
+        k = (round(r['probe'].get('seconds') or 0), r['probe'].get('bytes') or r['probe'].get('seconds'))
+        if k in seen: issues.append(f'"{r["name"]}" looks like a copy of "{seen[k]}" (same length and size)')
+        else: seen[k] = r['name']
+    if total < MAIN_MIN_S: issues.append(f'the parts add up to only {clock(total)}')
+    return issues, total
 
 
 def propose(rows):
-    """rows: dicts with kind, decision, probe. Sets role (main | reel | skip) and returns the job-level problems.
-    Exactly one landscape recording with sound, 5 minutes or longer, becomes the main; more than one is asked, never
-    guessed. Phone recordings become reel takes. Outputs and anything else are left out."""
-    mains = [r for r in rows if r['kind'] == 'youtube-recording' and r['decision'] != 'reject'
-             and r['probe'].get('audio') and r['probe'].get('seconds', 0) >= MAIN_MIN_S]
+    """rows: dicts with name, kind, decision, reason, probe (and _s, the signals). Sets role (main | reel | skip), and
+    part on the parts of a main recorded in parts, and returns the job-level problems.
+    The main recording is either the one landscape recording with sound, 5 minutes or longer, or (6 November 2026)
+    several landscape recordings with sound named with part numbers, of one size, joined in part order. Anything
+    else with more than one possible main is asked, never guessed. Phone recordings become reel takes. Outputs and
+    anything else are left out."""
+    cands = [r for r in rows if r['kind'] == 'youtube-recording' and r['decision'] != 'reject' and r['probe'].get('audio')]
     for r in rows:
         r['role'] = 'reel' if r['kind'] == 'phone-recording' and r['decision'] != 'reject' else 'skip'
-        if r['kind'] == 'youtube-recording' and r['decision'] != 'reject': r['role'] = 'skip'
+        r.pop('part', None)
     p = []
-    if len(mains) == 1: mains[0]['role'] = 'main'
-    elif not mains: p.append('no main recording found: no landscape recording with sound of 5 minutes or more')
+    numbered = [(part_of(r['name']), r) for r in cands]
+    parts = [(n, stem, r) for (n, stem), r in numbered if n is not None]
+    if len(parts) >= 2:
+        parts.sort(key=lambda x: (x[0], x[2]['name']))
+        members = [r for _, _, r in parts]; ns = [n for n, _, _ in parts]
+        issues, total = check_parts(members)
+        dup = sorted({n for n in ns if ns.count(n) > 1})
+        if dup: issues.append('more than one file is part ' + ', '.join(map(str, dup)))
+        elif ns != list(range(1, len(ns) + 1)): issues.append('the part numbers ' + ', '.join(map(str, ns)) + ' do not run 1 to ' + str(len(ns)))
+        if not all(_similar(parts[0][1], stem) for _, stem, _ in parts[1:]): issues.append('the names before the part numbers differ')
+        loose = [r for (n, _), r in numbered if n is None and (r['probe'].get('seconds') or 0) >= MAIN_MIN_S]
+        if loose: issues.append(', '.join(f'"{r["name"]}"' for r in loose) + ' has no part number: is it a part, or the whole recording?')
+        if issues:
+            p.append(f'The main recording looks like {len(members)} parts, but ' + '; '.join(issues) + ': Taylor checks the parts')
+            for n, _, r in parts: r['role'] = None; r['decision'] = 'ask'; r['part'] = n; r['reason'] += f'; part {n}? ' + '; '.join(issues)
+            for r in loose: r['role'] = None; r['decision'] = 'ask'; r['reason'] += '; it could be the main recording, or a part of it'
+        else:
+            for i, r in enumerate(members, 1):
+                d, why = _recheck(r, total)
+                r['role'] = 'main'; r['part'] = i; r['decision'] = d
+                r['reason'] = why + f'; part {i} of {len(members)} of one main recording, {clock(total)} in all'
     else:
-        p.append(f'{len(mains)} possible main recordings: Taylor chooses one')
-        for r in mains: r['role'] = None; r['decision'] = 'ask'; r['reason'] += '; one of several possible main recordings'
+        mains = [r for r in cands if (r['probe'].get('seconds') or 0) >= MAIN_MIN_S]
+        if len(mains) == 1:
+            mains[0]['role'] = 'main'
+            if parts and parts[0][2] is mains[0] and parts[0][0] > 1:
+                mains[0]['role'] = None; mains[0]['decision'] = 'ask'
+                mains[0]['reason'] += f'; named part {parts[0][0]}, but no other part is in the folder'
+                p.append('The main recording is named as a part, but its other parts are not in the folder')
+        elif not mains: p.append('no main recording found: no landscape recording with sound of 5 minutes or more')
+        else:
+            p.append(f'{len(mains)} possible main recordings: Taylor chooses one')
+            for r in mains: r['role'] = None; r['decision'] = 'ask'; r['reason'] += '; one of several possible main recordings'
     if sum(r['role'] == 'reel' for r in rows) > 5: p.append('more than five phone recordings')
     if any(r['decision'] != 'accept' for r in rows): p.append('some files need Taylor to confirm')
     return p
 
 
+def main_of(rows):
+    """The proposed main recording: {parts: [driveId in part order], seconds: total}, or None."""
+    m = sorted((r for r in rows if r.get('role') == 'main'), key=lambda r: r.get('part') or 0)
+    return {'parts': [r.get('driveId') for r in m], 'seconds': round(sum(r['probe'].get('seconds') or 0 for r in m), 1)} if m else None
+
+
+def drive_row(fid, fname=None, role=None):
+    try: j, dn = drive_probe(fid)
+    except Exception as e: j, dn = {'error': str(e)}, None
+    s = signals(j, fname or dn or fid); kind, decision, why = classify(s, role)
+    return {'driveId': fid, 'name': fname or dn or fid, 'url': f'https://drive.google.com/file/d/{fid}/view',
+            'kind': kind, 'decision': decision, 'reason': '; '.join(why[1:] or why), 'probe': probe_summary(s), '_s': s}
+
+
 def classify_folder(folder_id, html=None):
     name, files, subs = list_folder(folder_id, html)
-    rows = []
-    for fid, fname in files:
-        try: j, dn = drive_probe(fid)
-        except Exception as e: j, dn = {'error': str(e)}, None
-        s = signals(j, fname or dn or fid); kind, decision, why = classify(s)
-        rows.append({'driveId': fid, 'name': fname or dn or fid, 'url': f'https://drive.google.com/file/d/{fid}/view',
-                     'kind': kind, 'decision': decision, 'reason': '; '.join(why[1:] or why), 'probe': probe_summary(s)})
+    rows = [drive_row(fid, fname) for fid, fname in files]
     problems = propose(rows)
+    for r in rows: r.pop('_s', None)
     if subs: problems.append(f'{len(subs)} subfolder(s) not read: put every file directly in the folder')
-    return {'folderId': folder_id, 'folderName': name, 'sources': rows, 'problems': problems, 'needsCheck': bool(problems)}
+    return {'folderId': folder_id, 'folderName': name, 'sources': rows, 'main': main_of(rows), 'problems': problems, 'needsCheck': bool(problems)}
+
+
+def parts_rows(rows):
+    """rows: one main recording's parts in Taylor's order (file links). Each is judged on the total length; returns the
+    problems (empty when the parts can be joined in this order)."""
+    issues, total = check_parts(rows)
+    for i, r in enumerate(rows, 1):
+        d, why = _recheck(r, total) if r['kind'] == 'youtube-recording' else (r['decision'], r['reason'])
+        r['role'] = 'main'; r['part'] = i; r['decision'] = 'ask' if issues and d == 'accept' else d
+        r['reason'] = why + f'; part {i} of {len(rows)} of one main recording, {clock(total)} in all' + ('; ' + '; '.join(issues) if issues else '')
+    p = [f'The {len(rows)} parts of the main recording cannot be joined as they are: ' + '; '.join(issues)] if issues else []
+    if any(r['decision'] != 'accept' for r in rows): p.append('some parts need Taylor to confirm')
+    return p
+
+
+def classify_parts(ids):
+    rows = [drive_row(fid, role='main') for fid in ids]
+    problems = parts_rows(rows)
+    for r in rows: r.pop('_s', None)
+    return {'sources': rows, 'main': main_of(rows), 'problems': problems, 'needsCheck': bool(problems)}
 
 
 def main(a):
@@ -269,11 +402,14 @@ def main(a):
         if n not in a: return default
         i = a.index(n); v = a[i + 1]; del a[i:i + 2]; return v
     name, folder, role, probe, drive = opt('--name', ''), opt('--folder', ''), opt('--role'), opt('--probe'), opt('--drive')
-    dfolder, html = opt('--drive-folder'), opt('--html')
+    dfolder, html, mparts = opt('--drive-folder'), opt('--html'), opt('--main-parts')
     as_json = '--json' in a; a = [x for x in a if x != '--json']
     if dfolder:
         r = classify_folder(dfolder, open(html, encoding='utf-8').read() if html else None)
         print(json.dumps(r, indent=1)); sys.exit(3 if r['needsCheck'] else 0)
+    if mparts:
+        r = classify_parts([x for x in re.split(r'[\s,]+', mparts) if x])
+        print(json.dumps(r, indent=1)); sys.exit(4 if any(x['decision'] == 'reject' for x in r['sources']) else 3 if r['needsCheck'] else 0)
     if drive: j, dn = drive_probe(drive); name = name or dn or drive
     elif probe: j = json.load(open(probe))
     elif a: j = ffprobe(a[0]); name = name or os.path.basename(a[0])

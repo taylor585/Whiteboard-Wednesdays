@@ -48,21 +48,28 @@
 
   // ---- Where a reel job's recording comes from ---------------------------------------------------------------------
   // A Video job offers its main recording only (role main, a real Drive file). A phone reel recording never can.
-  const mainOf = j => (j.sources || []).find(s => s.role === 'main' && s.driveId) || null;
+  // Since 6 November 2026 a main may be recorded in parts (role main, part 1..n): mainParts gives them all, in part order,
+  // and mainOf the first, so a job with one main reads exactly as before.
+  const mainParts = j => (j.sources || []).filter(s => s.role === 'main' && s.driveId).map((s, i) => ({s, i})).sort((a, b) => (a.s.part || 0) - (b.s.part || 0) || a.i - b.i).map(x => x.s);
+  const mainOf = j => mainParts(j)[0] || null;
   const videoJobs = () => jobs.filter(j => mainOf(j) && !(j.status === 'failed' && !j.packUrl && !j.pack)).slice(0, 6);
   const reelTake = id => id && jobs.some(j => (j.reelTakes || []).includes(id) || (j.sources || []).some(s => s.driveId === id && s.role === 'reel'));
   // Until Taylor chooses, the newest Video job with a main recording is offered first (or the link box when there is none).
   const fromNow = () => from ?? (videoJobs()[0]?.id || 'link');
   function source() {
     const from = fromNow();
-    if (from !== 'link') { const j = jobs.find(x => x.id === from), m = j && mainOf(j); return m ? {kind:'job', jobId:j.id, driveId:m.driveId, url:m.url || null, fromJob:true} : null; }
+    if (from !== 'link') { const j = jobs.find(x => x.id === from), m = j && mainOf(j), ps = j ? mainParts(j) : [];
+      return m ? {kind:'job', jobId:j.id, driveId:m.driveId, url:m.url || null, fromJob:true, ...(ps.length > 1 ? {driveIds:ps.map(x => x.driveId), urls:ps.map(x => x.url || null), seconds:partsSeconds(ps)} : {})} : null; }
     const parts = linkText.split(/[\s,]+/).filter(Boolean); if (parts.length !== 1) return parts.length ? {kind:'many', n:parts.length} : null;
     const p = parse(parts[0]);
     return p.kind === 'file' ? {kind:'file', driveId:p.id, url:parts[0], fromJob:false} : p.kind === 'folder' && p.folderId ? {kind:'folder', folderId:p.folderId, url:parts[0], fromJob:false} : {kind:'bad', why:p.kind, url:parts[0]};
   }
-  const srcLabel = s => !s ? '' : s.kind === 'job' ? 'The main recording of “'+(jobs.find(j => j.id === s.jobId)?.title || 'your video')+'” · Drive file …'+String(s.driveId).slice(-6) : s.kind === 'file' ? 'Drive file …'+String(s.driveId).slice(-6) : s.kind === 'folder' ? 'Drive folder …'+String(s.folderId).slice(-6)+' · Claude takes the one main recording in it' : '';
+  const partsSeconds = ps => ps.every(x => Number.isFinite(+x.probe?.seconds) && x.probe.seconds > 0) ? Math.round(ps.reduce((a, x) => a + x.probe.seconds, 0) * 10) / 10 : null;
+  const clockS = sec => { sec = Math.round(+sec || 0); return sec >= 3600 ? Math.floor(sec/3600)+':'+String(Math.floor(sec%3600/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0') : Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); };
+  const partsWord = s => s.driveIds?.length > 1 ? s.driveIds.length+' parts, joined in order'+(s.seconds ? ' · '+clockS(s.seconds)+' in all' : '') : 'Drive file …'+String(s.driveId).slice(-6);
+  const srcLabel = s => !s ? '' : s.kind === 'job' ? 'The main recording of “'+(jobs.find(j => j.id === s.jobId)?.title || 'your video')+'” · '+partsWord(s) : s.kind === 'file' ? 'Drive file …'+String(s.driveId).slice(-6) : s.kind === 'folder' ? 'Drive folder …'+String(s.folderId).slice(-6)+' · Claude takes the one main recording in it' : '';
   const trimVal = () => { const t = String(trim).trim(); if (!t) return null; const n = Number(t); return Number.isFinite(n) && n >= 0 && n <= 600 ? Math.round(n * 10) / 10 : NaN; };
-  const sameSource = (r, s) => s && r.source && ((s.driveId && r.source.driveId === s.driveId) || (s.folderId && r.source.folderId === s.folderId) || (s.jobId && r.jobId === s.jobId));
+  const sameSource = (r, s) => s && r.source && ((s.driveId && (r.source.driveIds || [r.source.driveId]).some(d => (s.driveIds || [s.driveId]).includes(d))) || (s.folderId && r.source.folderId === s.folderId) || (s.jobId && r.jobId === s.jobId));
   const running = s => reels.find(r => BUSY.includes(r.status) && sameSource(r, s));
   function problems() {
     const s = source(), out = [];
@@ -79,9 +86,9 @@
   function earlier() {
     const s = source(); if (!s || ['many','bad'].includes(s.kind) || problems().length) return [];
     const tid = intakeTopic()?.id || null, out = [];
-    const why = (driveIds, folderId, topicId, jobId) => s.driveId && (driveIds || []).includes(s.driveId) ? 'Same Drive file' : s.folderId && folderId === s.folderId ? 'Same Drive folder' : s.jobId && jobId === s.jobId ? 'Same video' : tid && topicId === tid ? 'Same topic' : '';
+    const why = (driveIds, folderId, topicId, jobId) => s.driveId && (driveIds || []).some(d => (s.driveIds || [s.driveId]).includes(d)) ? 'Same Drive file' : s.folderId && folderId === s.folderId ? 'Same Drive folder' : s.jobId && jobId === s.jobId ? 'Same video' : tid && topicId === tid ? 'Same topic' : '';
     reels.forEach(r => { if (r.status === 'failed' && !r.pack) return;
-      const w = why([r.source?.driveId], r.source?.folderId, r.topicId, r.jobId); if (w) out.push({kind:'reel', id:r.id, why:w, title:r.title || 'Reel job '+r.id, detail:STATUS_WORD[r.status] || r.status, at:r.createdAt}); });
+      const w = why(r.source?.driveIds || [r.source?.driveId], r.source?.folderId, r.topicId, r.jobId); if (w) out.push({kind:'reel', id:r.id, why:w, title:r.title || 'Reel job '+r.id, detail:STATUS_WORD[r.status] || r.status, at:r.createdAt}); });
     packs.forEach(p => { if ((p.kind || 'variety') !== 'reels') return; const url = artifactUrl(p.url); if (!url) return;
       const w = why(p.driveIds, p.folderId, p.topicId, p.jobId); if (w) out.push({kind:'page', id:p.id, why:w, title:p.title || 'Reel highlights', url, detail:'Reel highlights page'+(p.decisions ? ', winners saved on it' : ''), at:p.createdAt}); });
     return out;
@@ -107,7 +114,7 @@
     const vj = videoJobs();
     const from = fromNow();
     if (!titleTouched && from !== 'link') { const j = jobs.find(x => x.id === from), t = j && allTopics().find(x => x.id === j.topicId); title = t?.title || j?.title || ''; }
-    const opts = vj.map(j => '<label class="rl-choice"><input type="radio" name="rl-from" value="'+esc(j.id)+'"'+(from === j.id ? ' checked' : '')+'><span><b>'+esc(j.title || j.folderName || 'Video job '+j.id)+'</b><small>Use this video’s main recording · '+esc(when(j.createdAt))+'</small></span></label>').join('');
+    const opts = vj.map(j => '<label class="rl-choice"><input type="radio" name="rl-from" value="'+esc(j.id)+'"'+(from === j.id ? ' checked' : '')+'><span><b>'+esc(j.title || j.folderName || 'Video job '+j.id)+'</b><small>Use this video’s main recording'+(mainParts(j).length > 1 ? ' ('+mainParts(j).length+' parts, in order)' : '')+' · '+esc(when(j.createdAt))+'</small></span></label>').join('');
     const list = reels.slice(0, 5);
     return '<section class="pb-intake rl-intake" aria-labelledby="rl-in-h"><div><h2 id="rl-in-h">Where the reels come from</h2>'+
       '<p class="pb-muted">The main recording of the video (landscape). Claude reads its words and times to find the highlights; your reels are recorded fresh on your phone after you pick.</p>'+
@@ -276,7 +283,7 @@
   // A take is offered from three places: the Video job's own files (Phase 2 classified each one; only phone reel
   // recordings pass, and the others are listed with the reason they cannot be used; the main recording is never listed),
   // the files Claude Code listed in a folder Taylor pasted here (takesFound), and file links pasted here (takeLinks).
-  const mainIds = r => new Set([r.source?.driveId, ...jobs.flatMap(j => (j.sources || []).filter(s => s.role === 'main' || s.kind === 'youtube-recording').map(s => s.driveId))].filter(Boolean));
+  const mainIds = r => new Set([r.source?.driveId, ...(r.source?.driveIds || []), ...jobs.flatMap(j => (j.sources || []).filter(s => s.role === 'main' || s.kind === 'youtube-recording').map(s => s.driveId))].filter(Boolean));
   const known = (r, id) => (r.takesFound || []).find(x => x.driveId === id) || jobs.flatMap(j => j.sources || []).find(x => x.driveId === id && x.probe) || null;
   function takePool(r) {
     const out = [], seen = new Set(), add = t => { if (!t.driveId || seen.has(t.driveId)) return; seen.add(t.driveId); out.push(t); };
@@ -448,7 +455,7 @@
     root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · REELS · '+(EYEBROW[r?.status] || 'REEL HIGHLIGHT PACK')+'</div><h1 id="pb-heading">'+esc(head)+'</h1><p>'+esc(lede)+'</p></div>'+(r ? '<a class="pb-link rl-new" href="#/publish/reels">Start new reels</a>' : '')+'</div>'+tabs()+
       (openId && !r ? '<div class="pb-warn" role="status">'+(db ? 'This reel job isn’t in the app’s database. <a href="#/publish/reels">Start new reels</a>' : connecting ? 'Loading…' : 'Reel jobs are saved in the app’s database, which this preview doesn’t have.')+'</div>' : steps(r))+
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && r ? '<p class="pb-acts"><button type="button" class="pb-link" id="rl-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" id="rl-copy">'+(copied ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
-      (!openId ? intake() : !r ? '' : '<p class="pb-meta">Reel job '+esc(r.id)+' · from '+esc(r.source?.kind === 'job' ? 'the main recording of a Video job · Drive file …'+String(r.source.driveId || '').slice(-6) : r.source?.kind === 'folder' ? 'Drive folder …'+String(r.source.folderId || '').slice(-6) : 'Drive file …'+String(r.source?.driveId || '').slice(-6))+
+      (!openId ? intake() : !r ? '' : '<p class="pb-meta">Reel job '+esc(r.id)+' · from '+esc(r.source?.kind === 'job' ? 'the main recording of a Video job · '+partsWord(r.source) : r.source?.kind === 'folder' ? 'Drive folder …'+String(r.source.folderId || '').slice(-6) : 'Drive file …'+String(r.source?.driveId || '').slice(-6))+
         (r.pack?.skill ? ' · written by '+esc(skillName(r.pack.skill)) : '')+(r.pack?.builtWith ? ' · checked by '+esc(r.pack.builtWith) : '')+(Number.isFinite(+r.offsetS) && +r.offsetS > 0 ? ' · YouTube trim '+esc(r.offsetS)+' s' : '')+' · started '+esc(when(r.createdAt))+'</p>'+
         body(r));
     if (fid) {
@@ -467,7 +474,7 @@
   async function generate(extra = {}) {
     const s = source(); if (!canGenerate()) { render(); return; }
     const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), at = new Date().toISOString(), t = intakeTopic();
-    const src = s.kind === 'job' ? {kind:'job', jobId:s.jobId, driveId:s.driveId, url:s.url, fromJob:true} : s.kind === 'file' ? {kind:'file', driveId:s.driveId, url:s.url, fromJob:false} : {kind:'folder', folderId:s.folderId, url:s.url, fromJob:false};
+    const src = s.kind === 'job' ? {kind:'job', jobId:s.jobId, driveId:s.driveId, url:s.url, fromJob:true, ...(s.driveIds ? {driveIds:s.driveIds, urls:s.urls, seconds:s.seconds} : {})} : s.kind === 'file' ? {kind:'file', driveId:s.driveId, url:s.url, fromJob:false} : {kind:'folder', folderId:s.folderId, url:s.url, fromJob:false};
     const doc = {id, jobId:s.jobId || null, topicId:t?.id || null, title:title.trim(), titleBy:'taylor', source:src, offsetS:trimVal(), skills:reelSkills(), status:'queued', stages:[], winners:{}, createdAt:at, startedAt:at, updatedAt:at, ...extra};
     try { starting = true; await db.doc('reels/'+id).set(doc); reels = [doc, ...reels.filter(x => x.id !== id)]; starting = false;
       from = null; linkText = ''; title = ''; titleTouched = false; trim = ''; reuseSeen = ''; reuseOk = '';
