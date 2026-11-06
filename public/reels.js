@@ -11,7 +11,15 @@
    winners with music: a track from his Drive music folder, or music off; "Continue Reels job <id> from music") and Ready
    to post (the 9:16 reel, the 4:5 post, the cover and the caption with Copy). Nothing is ever posted (decision 8).
    The lane never writes a Video job (jobs/<id>): a reel job points at its video with jobId, and the Video lane finds it
-   from there. Nothing here is ever cut from the main recording: it is read only for its transcript and its times. */
+   from there. Nothing here is ever cut from the main recording: it is read only for its transcript and its times.
+   Two paths (Taylor's decisions 9 to 11, 6 November 2026), chosen by the app from the files, never asked:
+   Path A, only the main recording (in one file or in parts): the ideas-first reels above.
+   Path B, the main recording AND one or more phone takes that Check the files classified as phone recordings: no
+   highlight ideas. The session cuts reel options straight from the take(s) (60 s max each, hook from frame 1, silent
+   face-free screen-share B-roll from the main recording, captions, Katana and Blender), Taylor keeps the ones he wants
+   (each with its Add music switch), then the existing Music and Ready to post steps follow ("Continue Reels job <id>
+   from options"). Confirm and continue on a Video job whose files hold a phone take creates the Path B reel job by
+   itself (WWReels.autoFromJob), linked by jobId: the Video job is never written from here. */
 (() => {
   'use strict';
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -20,8 +28,11 @@
   const BUSY = ['queued','starting','running'];
   const STATUS_WORD = {queued:'not started', starting:'starting', running:'Claude Code is making the highlight pack', found:'found earlier reel work', pack:'highlight pack ready: pick 2 winners', recording:'winners saved: record and match your takes', building:'Claude Code is building your reels', music:'reels built: choose the music', finishing:'Claude Code is finishing your reels', final:'ready to post', failed:'stopped'};
   // The three session lines, one per stop (PUBLISH.md "Reels jobs"), and the status the app sets once each session opened.
-  const LINE = {pack:'Run Reels job <id>', recordings:'Continue Reels job <id> from recordings', music:'Continue Reels job <id> from music'};
-  const NEXT = {pack:'starting', recordings:'building', music:'finishing'};
+  const LINE = {pack:'Run Reels job <id>', recordings:'Continue Reels job <id> from recordings', options:'Continue Reels job <id> from options', music:'Continue Reels job <id> from music'};
+  const NEXT = {pack:'starting', recordings:'building', options:'finishing', music:'finishing'};
+  // Path B (decision 9): its own step names; the music and Ready to post steps are the same as Path A's.
+  const STEPS_B = ['Drive link','Reel options','Pick reels','Music','Ready to post'];
+  const STATUS_B = {running:'Claude Code is cutting reel options from your phone take', options:'reel options ready: pick the ones to keep'};
   let root = null, db = null, connecting = true, reels = [], jobs = [], packs = [];
   // Intake: from is a Video job id or 'link'; link the pasted text; title and trim as typed.
   let from = null, linkText = '', title = '', titleTouched = false, trim = '', reuseSeen = '', reuseOk = '';
@@ -30,6 +41,9 @@
   // Phase 8b: retryStep the line Try again restarts after a refusal; takeText the Drive links being typed; takeWarn the
   // refusals of the last Add; matchNote a refused match {winner, text}; copiedKey which Copy button just copied.
   let retryStep = null, takeText = '', takeWarn = [], matchNote = null, copiedKey = '';
+  // Path B: kd the keeps and music ticks on the reel options before Keep is pressed; retryExtra the answer saved with the
+  // session Try again starts after a refusal (nothing is saved on a refusal).
+  let kd = null, kdFor = null, retryExtra = null, keepNote = '';
   const phone = matchMedia('(max-width: 999px)');
   const parse = u => window.WWPublish?.parseLink ? window.WWPublish.parseLink(u) : {kind:'bad', id:null};
   const artifactUrl = u => typeof u === 'string' && /^https:\/\/claude\.ai\/(code\/)?artifact\/[\w-]+$/.test(u) ? u : null;
@@ -52,6 +66,23 @@
   // and mainOf the first, so a job with one main reads exactly as before.
   const mainParts = j => (j.sources || []).filter(s => s.role === 'main' && s.driveId).map((s, i) => ({s, i})).sort((a, b) => (a.s.part || 0) - (b.s.part || 0) || a.i - b.i).map(x => x.s);
   const mainOf = j => mainParts(j)[0] || null;
+  // ---- Which path (Taylor's decision 11): decided from the files, never asked -----------------------------------------
+  // A phone take is a source Check the files classified as a phone recording and Taylor kept as a reel recording.
+  const phoneTakes = srcs => (srcs || []).filter(s => s && s.driveId && s.role === 'reel' && s.kind === 'phone-recording' && s.decision !== 'reject');
+  const PATH_WHY = {A:'Only the main recording is here, so Claude suggests six reel ideas for you to pick from and record.', B:n => n > 1 ? 'You added '+n+' phone recordings, so reels are cut straight from them.' : 'You added a phone recording, so reels are cut straight from it.'};
+  function choosePath(srcs) {
+    const mains = (srcs || []).filter(s => s && s.role === 'main' && s.driveId), takes = phoneTakes(srcs);
+    if (!mains.length) return {path:null, takes, why:takes.length ? 'A phone recording alone cannot make reels: the main recording has to be in the folder too, for the screen-share B-roll.' : 'There is no main recording.'};
+    return takes.length ? {path:'B', takes, why:PATH_WHY.B(takes.length)} : {path:'A', takes:[], why:PATH_WHY.A};
+  }
+  const isB = r => r?.path === 'B';
+  // Older reel jobs (before 6 November 2026) have no path: they are Path A.
+  const pathWhy = r => r?.pathWhy || (r?.path === 'B' ? PATH_WHY.B((r.takes || []).length || 1) : r?.path === null && r?.source?.kind === 'folder' ? 'Claude Code reads the folder first: with a phone recording beside the main recording, reels are cut straight from it; with the main recording alone, it suggests six reel ideas for you to record.' : PATH_WHY.A);
+  const pathTag = r => r?.path === 'B' ? 'Cut from your phone take' : r?.path === null && r?.source?.kind === 'folder' ? 'Decided from the folder' : 'Ideas first';
+  const pathLine = r => '<p class="rl-path" data-path="'+esc(r?.path === undefined ? 'A' : r.path ?? 'folder')+'"><span class="rl-path-tag">'+esc(pathTag(r))+'</span> <span>'+esc(pathWhy(r))+'</span></p>';
+  const takeOf = t => ({driveId:t.driveId, url:t.url || null, name:t.name || null, kind:t.kind || null, decision:t.decision || null, probe:t.probe || null});
+  const STEPS_OF = r => isB(r) ? STEPS_B : STEPS;
+  const statusWord = r => (isB(r) && STATUS_B[r.status]) || (isB(r) && r.status === 'finishing' && r.session?.step === 'options' ? 'Claude Code is finishing the reels you kept' : '') || STATUS_WORD[r?.status] || r?.status || '';
   const videoJobs = () => jobs.filter(j => mainOf(j) && !(j.status === 'failed' && !j.packUrl && !j.pack)).slice(0, 6);
   const reelTake = id => id && jobs.some(j => (j.reelTakes || []).includes(id) || (j.sources || []).some(s => s.driveId === id && s.role === 'reel'));
   // Until Taylor chooses, the newest Video job with a main recording is offered first (or the link box when there is none).
@@ -59,10 +90,12 @@
   function source() {
     const from = fromNow();
     if (from !== 'link') { const j = jobs.find(x => x.id === from), m = j && mainOf(j), ps = j ? mainParts(j) : [];
-      return m ? {kind:'job', jobId:j.id, driveId:m.driveId, url:m.url || null, fromJob:true, ...(ps.length > 1 ? {driveIds:ps.map(x => x.driveId), urls:ps.map(x => x.url || null), seconds:partsSeconds(ps)} : {})} : null; }
+      const pc = choosePath(j?.sources);
+      return m ? {kind:'job', jobId:j.id, driveId:m.driveId, url:m.url || null, fromJob:true, ...(ps.length > 1 ? {driveIds:ps.map(x => x.driveId), urls:ps.map(x => x.url || null), seconds:partsSeconds(ps)} : {}), path:pc.path, why:pc.why, takes:pc.takes} : null; }
     const parts = linkText.split(/[\s,]+/).filter(Boolean); if (parts.length !== 1) return parts.length ? {kind:'many', n:parts.length} : null;
     const p = parse(parts[0]);
-    return p.kind === 'file' ? {kind:'file', driveId:p.id, url:parts[0], fromJob:false} : p.kind === 'folder' && p.folderId ? {kind:'folder', folderId:p.folderId, url:parts[0], fromJob:false} : {kind:'bad', why:p.kind, url:parts[0]};
+    // A file link is the main recording alone (Path A); a folder is listed by the session, which decides the path from it.
+    return p.kind === 'file' ? {kind:'file', driveId:p.id, url:parts[0], fromJob:false, path:'A', why:PATH_WHY.A, takes:[]} : p.kind === 'folder' && p.folderId ? {kind:'folder', folderId:p.folderId, url:parts[0], fromJob:false, path:null, takes:[]} : {kind:'bad', why:p.kind, url:parts[0]};
   }
   const partsSeconds = ps => ps.every(x => Number.isFinite(+x.probe?.seconds) && x.probe.seconds > 0) ? Math.round(ps.reduce((a, x) => a + x.probe.seconds, 0) * 10) / 10 : null;
   const clockS = sec => { sec = Math.round(+sec || 0); return sec >= 3600 ? Math.floor(sec/3600)+':'+String(Math.floor(sec%3600/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0') : Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0'); };
@@ -107,8 +140,9 @@
     const label = s && !['many','bad'].includes(s.kind) ? '<p class="rl-src"><span class="pb-shape '+(s.kind === 'folder' ? 'is-folder' : 'is-ultra')+'" aria-hidden="true"></span><span>'+esc(srcLabel(s))+'</span></p>' : '<p class="pb-empty">Your link appears here so you can check it before anything runs.</p>';
     return label+(ps.length ? '<div class="pb-warn" role="alert">'+(ps.length === 1 ? esc(ps[0]) : '<ul>'+ps.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>')+'</div>' : '')+
       (run ? '<div class="pb-warn" role="alert">A reel job for this video is already running. <a href="#/publish/reels/'+encodeURIComponent(run.id)+'">Open it</a></div>' : '')+
-      (shown ? reuseHtml(found) : '<button type="button" class="pb-go" id="rl-generate"'+(canGenerate() ? '' : ' disabled')+'>Generate Reel highlight pack</button>')+
-      '<p class="pb-muted">'+(db ? 'Claude Code reads the recording for its words and times only: nothing is cut from it. It writes six reel ideas here, then stops for you to pick two. Uses '+esc(skillLine())+' from Settings.' : connecting ? 'Connecting…' : 'Reel jobs are saved in the app’s database, which this preview doesn’t have.')+'</p>';
+      (s && !['many','bad'].includes(s.kind) && !ps.length ? pathLine({path:s.path, pathWhy:s.path === 'B' ? s.why : null, takes:s.takes, source:{kind:s.kind}}) : '')+
+      (shown ? reuseHtml(found) : '<button type="button" class="pb-go" id="rl-generate"'+(canGenerate() ? '' : ' disabled')+'>'+(s?.path === 'B' ? 'Generate reel options' : 'Generate Reel highlight pack')+'</button>')+
+      '<p class="pb-muted">'+(db ? (s?.path === 'B' ? 'Claude Code checks your phone take, finds its best sections (60 seconds or less each, the hook from the first frame), adds silent screen-share B-roll from the main recording with no face in it, captions, Katana and Blender, then stops for you to keep the reels you want. Nothing short is cut from the YouTube video itself. Uses '+esc(skillLine())+' from Settings.' : 'Claude Code reads the recording for its words and times only: nothing is cut from it. It writes six reel ideas here, then stops for you to pick two. Uses '+esc(skillLine())+' from Settings.') : connecting ? 'Connecting…' : 'Reel jobs are saved in the app’s database, which this preview doesn’t have.')+'</p>';
   }
   function intake() {
     const vj = videoJobs();
@@ -124,49 +158,61 @@
       '<label class="pb-field" for="rl-title"><span>The video’s title, word for word <i class="pb-opt-note">The title decides what the highlights teach</i></span><input id="rl-title" list="rl-topic-list" maxlength="200" autocomplete="off" value="'+esc(title)+'"><datalist id="rl-topic-list">'+topics().map(t => '<option value="'+esc(t.title)+'">').join('')+'</datalist></label>'+
       '<label class="pb-field rl-trim" for="rl-trim"><span>YouTube trim in seconds (optional) <i class="pb-opt-note">If the YouTube video starts later than the recording, times are shown as the YouTube video’s own</i></span><input id="rl-trim" inputmode="decimal" maxlength="6" autocomplete="off" placeholder="0" value="'+esc(trim)+'"></label></div>'+
       '<div><h2>Check before it runs</h2><div id="rl-check">'+checkHtml()+'</div>'+
-      (list.length ? '<div class="rl-jobs" role="group" aria-label="Your reel jobs"><span class="micro">Your reel jobs</span>'+list.map(r => '<a class="pb-link" href="#/publish/reels/'+encodeURIComponent(r.id)+'">'+esc(r.title || 'Reel job '+r.id)+' · '+esc(STATUS_WORD[r.status] || r.status)+'</a>').join('')+'</div>' : '')+'</div></section>';
+      (list.length ? '<div class="rl-jobs" role="group" aria-label="Your reel jobs"><span class="micro">Your reel jobs</span>'+list.map(r => '<a class="pb-link" href="#/publish/reels/'+encodeURIComponent(r.id)+'">'+esc(r.title || 'Reel job '+r.id)+' · '+esc(statusWord(r))+'</a>').join('')+'</div>' : '')+'</div></section>';
   }
 
   // ---- Steps, head and the session ---------------------------------------------------------------------------------
   // The step follows the job's own status; a failed job stays on the step its last session was working on.
   const STEP_OF = {new:0, queued:1, starting:1, running:1, found:1, pack:1, recording:2, building:2, music:3, finishing:4, final:4};
   const stepOfSession = r => ({pack:1, recordings:2, music:3})[r?.session?.step] ?? 1;
+  // Path B: building options (1), pick reels (2, and 2 again while the kept reels are finished), music (3), ready (4).
+  const STEP_OF_B = {new:0, queued:1, starting:1, running:1, found:1, options:2, music:3, final:4};
+  const stepOfB = r => r.status === 'failed' ? ({pack:1, options:2, music:3})[r.session?.step] ?? 1 : r.status === 'finishing' ? (r.session?.step === 'options' ? 2 : 4) : STEP_OF_B[r.status] ?? 1;
   function steps(r) {
-    const s = r?.status || 'new', failed = s === 'failed', at = failed ? stepOfSession(r) : STEP_OF[s] ?? 1, done = s === 'final';
-    const noMusic = r && r.winnersSavedAt && at >= 2 && !winnersOf(r).some(w => w.music);
-    const small = i => i === at && failed ? 'stopped' : i === at && s === 'building' ? 'building' : i === at && s === 'finishing' ? 'finishing' : i === 3 && noMusic ? 'none chosen' : '';
-    return '<ol class="pb-steps rl-steps" aria-label="Reel steps">'+STEPS.map((n, i) => '<li class="'+(i < at || (done && i === at) ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+(small(i) ? ' <small>'+small(i)+'</small>' : '')+'</li>').join('')+'</ol>';
+    const s = r?.status || 'new', failed = s === 'failed', b = isB(r), at = b ? stepOfB(r) : failed ? stepOfSession(r) : STEP_OF[s] ?? 1, done = s === 'final';
+    const noMusic = r && (b ? r.keepSavedAt && at >= 2 && !Object.values(r.keep || {}).some(k => k?.music) : r.winnersSavedAt && at >= 2 && !winnersOf(r).some(w => w.music));
+    const small = i => i === at && failed ? 'stopped' : i === at && s === 'building' ? 'building' : i === at && s === 'finishing' ? 'finishing' : i === at && b && ['queued','starting','running'].includes(s) ? 'building' : i === 3 && noMusic ? 'none chosen' : '';
+    return '<ol class="pb-steps rl-steps" aria-label="Reel steps">'+STEPS_OF(r).map((n, i) => '<li class="'+(i < at || (done && i === at) ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+(small(i) ? ' <small>'+small(i)+'</small>' : '')+'</li>').join('')+'</ol>';
   }
   const lineFor = (id, step = 'pack') => LINE[step].replace('<id>', id);
   // The step a Start, Try again or Copy belongs to: the one the job's last session was on, or the pack for a new job.
-  const stepFor = r => retryStep || (['queued','starting','running','found'].includes(r.status) ? 'pack' : r.session?.step || 'pack');
+  const stepFor = r => retryStep || (['queued','starting','running','found'].includes(r.status) ? 'pack' : r.status === 'options' ? 'options' : r.session?.step || 'pack');
   const RULES = 'use the skills named on the reels document, write every stage back to reels/<id> in the Whiteboard Wednesdays app artifact';
   function prompt(r, step) {
     const rules = RULES.replace('<id>', r.id);
     if (step === 'recordings') return lineFor(r.id, step)+'. Follow PUBLISH.md "Reels jobs" in this repository exactly: '+rules+', check every phone take (upright, with sound, youtube_guard check-media and check-words) before anything is cut, never cut anything from the YouTube recording except the skill\'s own silent, face-free screen share, never use an AI voice, stop on "music" when a winner has music, and never post anything.';
     if (step === 'music') return lineFor(r.id, step)+'. Follow PUBLISH.md "Reels jobs" in this repository exactly: '+rules+', use only the tracks Taylor picked from his Drive music folder (no music where he chose none), never use an AI voice, and never post anything.';
+    if (step === 'options') return lineFor(r.id, step)+'. Follow PUBLISH.md "Reels jobs", "Path B", in this repository exactly: '+rules+', restore the saved work set, finish only the reel options Taylor kept (keep), stop on "music" when a kept reel has music, never use an AI voice, and never post anything.';
+    if (isB(r)) return lineFor(r.id)+'. Follow PUBLISH.md "Reels jobs", "Path B", in this repository exactly: this job has the main recording and a phone take, so make no highlight ideas: '+rules+', check every phone take (upright, with sound, youtube_guard check-media and check-words) before anything is cut, cut reel options straight from the take (60 s or less each, the hook from frame 1), use nothing from the YouTube recording except silent, face-free screen-share B-roll, never use an AI voice, stop on "options" for Taylor to keep the ones he wants, and never post anything.';
+    if (r.path === null && r.source?.kind === 'folder') return lineFor(r.id)+'. Follow PUBLISH.md "Reels jobs" in this repository exactly: '+rules+', decide the path from what the folder holds (Path B when a phone recording is beside the main recording, Path A otherwise) and write it, never cut anything from the YouTube recording except the Path B screen share, stop on "pack" (Path A) or "options" (Path B), and never post anything.';
     return lineFor(r.id)+'. Follow PUBLISH.md "Reels jobs" in this repository exactly: use the skills named on the reels document, read the recording only for its words and times (never cut anything from it), write every stage back to reels/'+r.id+' in the Whiteboard Wednesdays app artifact, stop on "pack" for Taylor to pick two winners, and never post anything.';
   }
-  async function save(r, patch) {
+  async function save(r, patch, quiet = false) {
     if (!db || !r) return false;
     const at = new Date().toISOString();
-    try { await db.doc('reels/'+r.id).update({...patch, updatedAt:at}); Object.assign(r, patch, {updatedAt:at}); note = ''; return true; }
-    catch (e) { note = 'Could not save ('+(e?.code || 'error')+'). Try again.'; render(); return false; }
+    try { await db.doc('reels/'+r.id).update({...patch, updatedAt:at}); Object.assign(r, patch, {updatedAt:at}); if (!quiet) note = ''; return true; }
+    catch (e) { if (!quiet) { note = 'Could not save ('+(e?.code || 'error')+'). Try again.'; render(); } return false; }
   }
   // The status moves on only after the session has opened; a refusal leaves the job where it was, with Try again.
   // Taylor's answers (takes, music) are already saved on the document, so the line also works when sent in a chat.
-  async function startSession(r, step = 'pack') {
-    const requestedAt = new Date().toISOString(); starting = true; retry = false; note = ''; render();
+  // extra is Taylor's answer saved together with the session it starts (Path B's keeps), so a refusal saves nothing.
+  // quiet: started from the Video lane (decision 10), which shows the reel job's state in its own line; a refusal there
+  // leaves the reel job on "queued" with Start now on the Reels lane and changes nothing on screen here.
+  async function startSession(r, step = 'pack', {extra = null, quiet = false} = {}) {
+    const requestedAt = new Date().toISOString(); starting = true; if (!quiet) { retry = false; note = ''; } render();
     try {
       const mcp = await window.claude?.use?.('mcp'); if (!mcp) throw {code:'unavailable'};
-      const res = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:'Reels: '+(r.title || r.id), prompt:prompt(r, step)});
+      const res = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:(step === 'options' ? 'Reels finish: ' : 'Reels: ')+(r.title || r.id), prompt:prompt(r, step)});
       const p = res?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
-      starting = false; retryStep = null;
-      await save(r, {status:NEXT[step], session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, requestedAt, startedAt:new Date().toISOString()}, ...(r.status === 'failed' ? {error:null, failedStage:null} : {})});
+      starting = false; if (!quiet) { retryStep = null; retryExtra = null; }
+      await save(r, {status:NEXT[step], session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, requestedAt, startedAt:new Date().toISOString()}, ...(extra || {}), ...(r.status === 'failed' ? {error:null, failedStage:null} : {})}, quiet);
+      if (extra) kdFor = null;
       render(); return true;
     } catch (e) {
+      starting = false;
+      if (quiet) { render(); return false; }
       const why = e?.code === 'not_granted' ? 'You did not allow the Claude Code connection, so it could not start by itself.' : e?.code === 'unavailable' ? 'The Claude Code connection is not available in this view.' : 'Claude Code could not be started ('+(e?.code || e?.message || 'error')+').';
-      starting = false; retry = true; retryStep = step; note = why+' Nothing has started. Press Try again, or send “'+lineFor(r.id, step)+'” in a Claude chat.'; render(); return false;
+      retry = true; retryStep = step; retryExtra = extra; note = why+' Nothing has started'+(extra ? ' and your choice is not saved yet' : '')+'. Press Try again, or send “'+lineFor(r.id, step)+'” in a Claude chat.'; render(); return false;
     }
   }
   const STUCK_MIN = {starting:10, running:90, building:90, finishing:90};
@@ -183,14 +229,16 @@
   function stages(r, every = false) {
     const list = every ? r.stages || [] : ownStages(r), ses = r.session?.url ? ' <a class="pb-link" href="'+esc(r.session.url)+'" target="_blank" rel="noopener noreferrer">Watch the session ↗</a>' : '';
     const stuck = stuckMinutes(r), off = starting ? ' disabled' : '', later = r.session?.step && r.session.step !== 'pack';
-    const head = r.status === 'failed' ? '<div class="pb-warn pb-failed" role="alert"><p><b>This reel job stopped'+(failedStage(r) ? ' at “'+esc(failedStage(r))+'”' : '')+'.</b> '+esc(r.error || 'Claude Code did not say why.')+'</p><p>'+(later ? 'Nothing was posted. Your winners'+(r.session.step === 'music' ? ', takes and music picks are' : ' and takes are')+' kept.' : 'Nothing was recorded, built or posted.')+ses+'</p><p class="pb-acts"><button type="button" class="pb-link" id="rl-retry"'+off+'>Try again</button></p></div>'
+    const head = r.status === 'failed' ? '<div class="pb-warn pb-failed" role="alert"><p><b>This reel job stopped'+(failedStage(r) ? ' at “'+esc(failedStage(r))+'”' : '')+'.</b> '+esc(r.error || 'Claude Code did not say why.')+'</p><p>'+(isB(r) ? (r.session?.step === 'options' ? 'Nothing was posted. The reels you kept and their music switches are kept.' : r.session?.step === 'music' ? 'Nothing was posted. Your kept reels and music picks are kept.' : r.options ? 'Nothing was posted. Your reel options are kept.' : 'Nothing was posted, and nothing was cut from the YouTube recording.') : later ? 'Nothing was posted. Your winners'+(r.session.step === 'music' ? ', takes and music picks are' : ' and takes are')+' kept.' : 'Nothing was recorded, built or posted.')+ses+'</p><p class="pb-acts"><button type="button" class="pb-link" id="rl-retry"'+off+'>Try again</button></p></div>'
       : stuck ? '<div class="pb-warn pb-stuck" role="alert"><p><b>Claude Code has not reported back</b> for '+(stuck >= 120 ? Math.floor(stuck/60)+' h '+(stuck%60)+' min' : stuck+' minutes')+'. It may have stopped.</p><p class="pb-acts">'+ses+' <button type="button" class="pb-link" id="rl-retry"'+off+'>Try again</button> <button type="button" class="pb-link" id="rl-stop">Stop this job</button></p></div>'
       : r.status === 'queued' ? '<p class="pb-queue"><b>Not started yet.</b> <button type="button" class="pb-link" id="rl-start"'+off+'>Start now</button> or say this in a Claude chat: <code>'+esc(lineFor(r.id))+'</code> <button type="button" class="pb-link" id="rl-copy">'+(copied ? 'Copied' : 'Copy')+'</button></p>'
       : r.status === 'starting' ? '<p class="pb-queue"><b>Starting Claude Code.</b> A session is opening in the cloud with your skills; the steps appear here as it works, usually within two minutes.'+ses+'</p>'
-      : r.status === 'running' ? '<p class="pb-meta">Claude Code is making the highlight pack. You can close this tab.'+ses+'</p>'
+      : r.status === 'running' ? (isB(r) ? '<p class="pb-meta rl-working"><b>Claude Code is cutting reel options from your phone take.</b> It checks the take first (upright, with sound, not from the YouTube video), then finds its best sections, adds the screen-share B-roll, captions, Katana and Blender. This takes a while; you can close this tab.'+ses+'</p>'
+        : r.path === null && r.source?.kind === 'folder' ? '<p class="pb-meta">Claude Code is reading the folder: what it holds decides the path. You can close this tab.'+ses+'</p>' : '<p class="pb-meta">Claude Code is making the highlight pack. You can close this tab.'+ses+'</p>')
+      : r.status === 'finishing' && r.session?.step === 'options' ? '<p class="pb-meta rl-working"><b>Claude Code is finishing the reels you kept.</b> '+(Object.values(r.keep || {}).some(k => k?.music) ? 'It lists your music folder for the reels with music and stops for you to choose; the others get' : 'Each gets')+' the cover, the 4:5 post and the caption. You can close this tab.'+ses+'</p>'
       : r.status === 'building' ? '<p class="pb-meta rl-working"><b>Claude Code is building your reels.</b> It checks each take first, then cuts, adds the B-roll and the sound. This takes a while; you can close this tab.'+ses+'</p>'
       : r.status === 'finishing' ? '<p class="pb-meta rl-working"><b>Claude Code is finishing your reels:</b> the music you chose, the cover, the 4:5 post and the caption. You can close this tab.'+ses+'</p>' : '';
-    const empty = ['building','finishing'].includes(r.status) && !list.length ? '<p class="pb-empty">No stage reported yet. Each one appears here when Claude Code starts it.</p>' : '';
+    const empty = (['building','finishing'].includes(r.status) || (isB(r) && r.status === 'running')) && !list.length ? '<p class="pb-empty">No stage reported yet. Each one appears here when Claude Code starts it.</p>' : '';
     return '<section class="pb-stages" aria-label="Progress">'+head+empty+(list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(/^fail/.test(s.state || '') ? 'failed' : s.state || 'wait')+'"><b>'+esc(s.name)+'</b><small>'+esc(s.detail || '')+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '')+'</section>';
   }
   function foundHtml(r) {
@@ -363,9 +411,62 @@
     return '<ul class="rl-using">'+wins.map((w, k) => '<li><span class="micro">Winner '+(k+1)+(w.music ? ' · ♪ with music' : ' · no music')+'</span><b>'+esc(w.i.name || '')+'</b><small>'+(recs[w.i.id] ? 'Take: '+esc(takeName(recs[w.i.id])) : 'No take matched')+'</small>'+checkLine(r, w, recs[w.i.id])+'</li>').join('')+'</ul>';
   }
 
+  // ---- Path B: reel options cut straight from the phone take; keep the ones you want, music per reel --------------------
+  // The session writes options (PUBLISH.md "Path B"); the app never repairs them: each reel needs a name, a hook, a length
+  // of 60 s or less, its sections of a known take, a preview on the review page and youtube_guard's pass, and every
+  // B-roll moment is silent screen share with no face in it. Otherwise nothing can be kept.
+  const optsOf = r => (Array.isArray(r.options?.reels) ? r.options.reels : []).filter(Boolean);
+  const takeIds = r => new Set([...(r.takes || []), ...(r.options?.takes || [])].map(t => t?.driveId).filter(Boolean));
+  const brollOf = o => Array.isArray(o.broll) ? o.broll : [];
+  const cutsOf = o => Array.isArray(o.cuts) ? o.cuts : [];
+  function optionsOk(r) {
+    const list = optsOf(r), max = +r.options?.maxSeconds || 60, ids = takeIds(r);
+    return list.length > 0 && new Set(list.map(o => o.id)).size === list.length && list.every(o => o.id && String(o.name || '').trim() && String(o.hook || '').trim() &&
+      +o.seconds > 0 && +o.seconds <= max && ids.has(o.take) && httpsUrl(o.preview) && o.guard === 'pass' && cutsOf(o).length > 0 && cutsOf(o).every(c => Number.isFinite(+c.t0) && +c.t1 > +c.t0) &&
+      brollOf(o).every(x => x && x.silent === true && x.face === false && Number.isFinite(+x.src0) && +x.src1 > +x.src0));
+  }
+  function ensureKeep(r) {
+    const key = r.id+'|'+(r.keepSavedAt || '')+'|'+(r.options?.checkedAt || '');
+    if (kdFor === key && kd) return; kdFor = key;
+    const k = r.keep || {}, ids = new Set(optsOf(r).map(o => o.id));
+    kd = {keep:new Set(Object.keys(k).filter(id => ids.has(id) && k[id])), music:Object.fromEntries(Object.entries(k).filter(([id]) => ids.has(id)).map(([id, v]) => [id, !!v?.music]))};
+    keepNote = '';
+  }
+  const keepOpen = r => r.status === 'options' && !starting;
+  const takeLabel = (r, id) => { const t = [...(r.takes || []), ...(r.options?.takes || [])].find(x => x?.driveId === id); return t?.name || 'your phone take'; };
+  function optCard(r, o) {
+    const on = kd.keep.has(o.id), m = !!kd.music[o.id], open = keepOpen(r), b = brollOf(o), cuts = cutsOf(o);
+    const ext = [...(Array.isArray(o.katana) ? o.katana.map(k => 'Katana '+(k.concept || '')+(k.at != null ? ' at '+clock(k.at) : '')) : []), ...(Array.isArray(o.blender) ? o.blender.map(k => 'Blender '+(k.concept || '')+(k.at != null ? ' at '+clock(k.at) : '')) : [])];
+    return '<li class="rl-ocard'+(on ? ' is-kept' : '')+'"><article aria-labelledby="rl-oc-'+esc(o.id)+'">'+previewHtml({preview:o.preview, still:o.still}, 'option '+o.id)+
+      '<div class="rl-oc-main"><span class="micro">Option '+esc(o.id)+' · '+esc(clock(o.seconds))+' · from '+esc(takeLabel(r, o.take))+' '+esc(cuts.map(c => clock(c.t0)+'–'+clock(c.t1)).join(', '))+'</span>'+
+      '<h3 id="rl-oc-'+esc(o.id)+'">'+esc(o.name)+'</h3><p class="rl-oc-hook">'+esc(o.hook)+'</p>'+(o.why ? '<p class="rl-oc-why">'+esc(o.why)+'</p>' : '')+
+      '<ul class="rl-oc-facts">'+(b.length ? '<li><b>Screen-share B-roll</b> '+esc(b.length)+' moment'+(b.length > 1 ? 's' : '')+', silent, no face: '+b.map(x => esc((x.at != null ? clock(x.at)+' ' : '')+(x.what || 'screen')+' (main recording '+(x.yt0 && x.yt1 ? x.yt0+'–'+x.yt1 : clock(x.src0)+'–'+clock(x.src1))+')')).join('; ')+'</li>' : '<li><b>No B-roll</b> your take only</li>')+
+        (ext.length ? '<li><b>Shots</b> '+esc(ext.join(' · '))+'</li>' : '')+'<li><b>Captions</b> '+esc(o.captions || 'style C')+'</li><li class="rl-oc-guard">✓ youtube_guard: your own take, not from the YouTube video</li></ul>'+
+      '<button type="button" class="rl-pick rl-keep" data-rl-keep="'+esc(o.id)+'" aria-pressed="'+on+'"'+(open ? '' : ' disabled')+'>'+(on ? 'Kept ✓' : 'Keep this reel')+'</button>'+
+      musicSwitch('rl-omusic-'+o.id, 'data-rl-omusic', o.id, m, !open || !on, on ? (m ? 'Music goes under this reel, from your Drive music folder. You choose the track next.' : 'Off: this reel has your voice and sound effects only, no music.') : 'Keep this reel to choose music for it.')+
+      '</div></article></li>';
+  }
+  function musicSwitch(id, attr, val, on, off, words) {
+    return '<label class="rl-music'+(on ? ' is-on' : '')+'" for="'+esc(id)+'"><input type="checkbox" class="rl-music-in" id="'+esc(id)+'" '+attr+'="'+esc(val)+'"'+(on ? ' checked' : '')+(off ? ' disabled' : '')+' aria-describedby="'+esc(id)+'-d">'+
+      '<span class="rl-music-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l11-2v12"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/></svg></span>'+
+      '<span class="rl-music-t"><b>Add music</b><small id="'+esc(id)+'-d">'+esc(words)+'</small></span><span class="rl-music-sw" aria-hidden="true"></span></label>';
+  }
+  function optionsHtml(r) {
+    ensureKeep(r);
+    if (!optionsOk(r)) return '<div class="pb-warn rl-badpack" role="alert"><p><b>These reel options didn’t pass the checker.</b> Each needs a name, a hook, 60 seconds or less, its sections of your phone take, a preview on your review page and youtube_guard’s pass, with only silent, face-free screen share from the main recording. Nothing can be kept from options the app cannot show whole.</p><p class="pb-acts"><button type="button" class="pb-link" id="rl-again"'+(starting ? ' disabled' : '')+'>Make the options again</button></p></div>';
+    const list = optsOf(r), n = kd.keep.size, open = keepOpen(r), takes = [...(r.options?.takes || r.takes || [])];
+    const names = list.filter(o => kd.keep.has(o.id)).map(o => 'Option '+o.id+(kd.music[o.id] ? ' (music)' : ''));
+    const bar = r.status === 'options' ? '<div class="pb-bar rl-bar" role="region" aria-label="The reels you keep"><span class="rl-count" aria-live="polite">Keeping <b>'+n+'</b> of '+list.length+(names.length ? '<span class="rl-names"> · '+esc(names.join(', '))+'</span>' : '')+'</span><span class="pb-muted rl-hint">'+(n ? ([...kd.keep].some(id => kd.music[id]) ? 'Claude Code finishes these, then asks you for the music.' : 'Claude Code finishes these: cover, 4:5 post and caption.')+' This uses your Claude plan’s usage.' : 'Keep one or more. Nothing is finished until you press Finish.')+'</span><button type="button" class="pb-go" id="rl-keep-go"'+(n && open && db ? '' : ' disabled')+'>Finish the reels I kept →</button></div>' : '';
+    return '<section class="rl-opts" aria-labelledby="rl-opts-h"><h2 id="rl-opts-h" tabindex="-1">Your reel options</h2><p class="pb-muted">'+esc(r.options?.note || 'Cut straight from '+(takes.length > 1 ? 'your phone takes' : takeLabel(r, takes[0]?.driveId))+'. Each is 60 seconds or less, with your hook from the first frame. Watch them on your review page, then keep the ones you want.')+(httpsUrl(r.reviewUrl) ? ' <a class="pb-link" href="'+esc(httpsUrl(r.reviewUrl))+'" target="_blank" rel="noopener noreferrer">Open the review page ↗</a>' : '')+'</p>'+
+      (keepNote ? '<p class="rl-note" role="alert">'+esc(keepNote)+'</p>' : '')+
+      '<ul class="rl-ogrid" aria-label="Reel options">'+list.map(o => optCard(r, o)).join('')+'</ul>'+bar+'</section>';
+  }
+  const keptSummary = r => { const list = optsOf(r).filter(o => (r.keep || {})[o.id]); return list.length ? '<ul class="rl-using">'+list.map(o => '<li><span class="micro">Option '+esc(o.id)+' · '+esc(clock(o.seconds))+'</span><b>'+esc(o.name)+'</b><small>'+((r.keep || {})[o.id]?.music ? '♪ With music: you choose the track next' : 'No music')+'</small></li>').join('')+'</ul>' : ''; };
+  const takesUsing = r => (r.takes || []).length ? '<ul class="rl-using">'+r.takes.map(t => '<li><span class="micro">Phone take</span><b>'+esc(takeName(t))+'</b><small>'+esc(takeMeta({...t, from:''}) || 'Drive file')+'</small></li>').join('')+'</ul>' : '';
+
   // ---- R6 Music: only the reels whose winner has Add music on (decision 6); a track from the Drive folder, or off ----
   const builtOf = r => (Array.isArray(r.built) ? r.built : []).filter(b => b && b.id);
-  const reelName = (r, b) => { const w = winnersOf(r).find(x => x.i.id === b.winnerId); return w?.i.name || 'Reel '+b.id; };
+  const reelName = (r, b) => { const w = winnersOf(r).find(x => x.i.id === b.winnerId), o = optsOf(r).find(x => x.id === (b.optionId || b.id)); return w?.i.name || (isB(r) && o?.name) || 'Reel '+b.id; };
   const tracks = r => (Array.isArray(r.music?.tracks) ? r.music.tracks : []).filter(t => t && t.n != null);
   const trackLabel = t => String(t.n).padStart(2, '0')+' '+(t.title || 'Track')+(t.seconds ? ' · '+clock(t.seconds) : '');
   const pickOf = (r, id) => (r.musicPicks || {})[id] || null;
@@ -431,8 +532,20 @@
 
   // ---- Render ------------------------------------------------------------------------------------------------------
   const tabs = () => window.WWPublish?.laneTabs ? window.WWPublish.laneTabs('reels') : '';
+  // Path B: building options, pick reels (with the Add music switch), then the same Music and Ready to post as Path A.
+  function bodyB(r) {
+    const s = r.status, step = r.session?.step || 'pack';
+    if (s === 'found') return foundHtml(r)+stages(r);
+    if (s === 'options') return optionsHtml(r);
+    if (s === 'failed') return stages(r)+(step === 'music' && builtOf(r).length ? musicBoard(r) : r.options ? optionsHtml(r) : takesUsing(r));
+    if (s === 'finishing') return stages(r)+(step === 'options' ? keptSummary(r) : musicSummary(r));
+    if (s === 'music') return (r.stages?.length ? '<details class="rl-whole"><summary>How the reels were made</summary>'+stages(r, true)+'</details>' : '')+musicBoard(r);
+    if (s === 'final') return readyHtml(r)+(r.stages?.length ? '<details class="rl-whole"><summary>How it was made</summary>'+stages(r, true)+'</details>' : '');
+    return stages(r)+takesUsing(r);
+  }
   function body(r) {
     const s = r.status, step = r.session?.step || 'pack';
+    if (isB(r)) return bodyB(r);
     if (s === 'found') return foundHtml(r)+stages(r);
     if (s === 'pack') return packHtml(r);
     if (s === 'failed') return step === 'recordings' && r.winnersSavedAt ? stages(r)+recordHtml(r) : step === 'music' && builtOf(r).length ? stages(r)+musicBoard(r) : stages(r)+(r.pack ? packHtml(r) : '');
@@ -444,19 +557,22 @@
     return stages(r);
   }
   function render() {
-    if (!root || root.hidden) return;
+    if (!root || root.hidden || !isReels()) return;
     const a = document.activeElement, fid = a && root.contains(a) ? a.id || (a.dataset?.rlSel ? 'sel:'+a.dataset.rlSel+':'+(a.classList.contains('rl-row') ? 'row' : 'seg') : a.dataset?.rlPick ? 'pick:'+a.dataset.rlPick : '') : '';
     const caret = a && /^(INPUT|TEXTAREA)$/.test(a.tagName) && a.type !== 'checkbox' && a.type !== 'radio' ? [a.selectionStart, a.selectionEnd] : null;
     const r = openId ? current() : null;
     const head = r ? (allTopics().find(t => t.id === r.topicId)?.title || r.title || 'Reels') : 'Reels from this week’s video';
     const LEDE = {recording:'Record your two winners on your phone, then match each take to its reel. Claude Code builds the reels from your takes, never from the YouTube video.', building:'Claude Code is building your reels from your phone takes. Each stage appears below as it happens.', music:'Your reels are built. Choose the music for each reel that has Add music on.', finishing:'Claude Code is finishing your reels. Each stage appears below as it happens.', final:'Your reels, their 4:5 posts, covers and captions, ready to post by hand.'};
     const lede = r ? (LEDE[r.status] || (r.status === 'failed' && LEDE[{recordings:'recording', music:'music'}[r.session?.step]]) || (['pack'].includes(r.status) && packOk(r) ? 'Six reels on the title, three highlights each. Pick the two you’ll record on your phone. Nothing is recorded or built until you save your winners.' : 'Claude Code makes six reel ideas from the recording’s words, three highlights each, and stops for you to pick two.')) : 'Start from a video’s main recording. Claude Code makes six reel ideas on its title, three highlights each, and you pick the two you’ll record on your phone.';
+    const LEDE_B = {queued:'Reels cut straight from your phone take. Claude Code finds the best sections and stops for you to keep the ones you want.', starting:'Reels cut straight from your phone take. Claude Code finds the best sections and stops for you to keep the ones you want.', running:'Claude Code is cutting reel options straight from your phone take. Each stage appears below as it happens.', found:'Claude Code found earlier reel work for this recording.', options:'Reel options cut straight from your phone take, 60 seconds or less each. Keep the ones you want, and add music to any of them.', failed:'This reel job stopped. Nothing was posted.', finishing:'Claude Code is finishing your reels. Each stage appears below as it happens.', music:LEDE.music, final:LEDE.final};
+    const ledeNow = r && isB(r) ? LEDE_B[r.status] || lede : lede;
     const EYEBROW = {recording:'YOUR RECORDINGS', building:'BUILDING YOUR REELS', music:'MUSIC', finishing:'READY TO POST', final:'READY TO POST'};
-    root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · REELS · '+(EYEBROW[r?.status] || 'REEL HIGHLIGHT PACK')+'</div><h1 id="pb-heading">'+esc(head)+'</h1><p>'+esc(lede)+'</p></div>'+(r ? '<a class="pb-link rl-new" href="#/publish/reels">Start new reels</a>' : '')+'</div>'+tabs()+
+    const eyebrow = r && isB(r) ? ({options:'PICK YOUR REELS', music:'MUSIC', final:'READY TO POST'}[r.status] || (r.status === 'finishing' ? (r.session?.step === 'options' ? 'FINISHING YOUR REELS' : 'READY TO POST') : 'REEL OPTIONS')) : EYEBROW[r?.status] || 'REEL HIGHLIGHT PACK';
+    root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · REELS · '+eyebrow+'</div><h1 id="pb-heading">'+esc(head)+'</h1><p>'+esc(ledeNow)+'</p></div>'+(r ? '<a class="pb-link rl-new" href="#/publish/reels">Start new reels</a>' : '')+'</div>'+(window.WWPublishBack ? window.WWPublishBack() : '')+tabs()+
       (openId && !r ? '<div class="pb-warn" role="status">'+(db ? 'This reel job isn’t in the app’s database. <a href="#/publish/reels">Start new reels</a>' : connecting ? 'Loading…' : 'Reel jobs are saved in the app’s database, which this preview doesn’t have.')+'</div>' : steps(r))+
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && r ? '<p class="pb-acts"><button type="button" class="pb-link" id="rl-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" id="rl-copy">'+(copied ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
       (!openId ? intake() : !r ? '' : '<p class="pb-meta">Reel job '+esc(r.id)+' · from '+esc(r.source?.kind === 'job' ? 'the main recording of a Video job · '+partsWord(r.source) : r.source?.kind === 'folder' ? 'Drive folder …'+String(r.source.folderId || '').slice(-6) : 'Drive file …'+String(r.source?.driveId || '').slice(-6))+
-        (r.pack?.skill ? ' · written by '+esc(skillName(r.pack.skill)) : '')+(r.pack?.builtWith ? ' · checked by '+esc(r.pack.builtWith) : '')+(Number.isFinite(+r.offsetS) && +r.offsetS > 0 ? ' · YouTube trim '+esc(r.offsetS)+' s' : '')+' · started '+esc(when(r.createdAt))+'</p>'+
+        (r.pack?.skill ? ' · written by '+esc(skillName(r.pack.skill)) : '')+(r.pack?.builtWith ? ' · checked by '+esc(r.pack.builtWith) : '')+(Number.isFinite(+r.offsetS) && +r.offsetS > 0 ? ' · YouTube trim '+esc(r.offsetS)+' s' : '')+(r.auto ? ' · started by itself when you confirmed the files' : '')+' · started '+esc(when(r.createdAt))+'</p>'+pathLine(r)+
         body(r));
     if (fid) {
       const m = fid.match(/^(sel|pick):([^:]+)(?::(row|seg))?$/), el = m ? root.querySelector(m[1] === 'pick' ? '[data-rl-pick="'+CSS.escape(m[2])+'"]' : (m[3] === 'seg' ? '.rl-seg' : '.rl-row')+'[data-rl-sel="'+CSS.escape(m[2])+'"]') : document.getElementById(fid);
@@ -475,12 +591,35 @@
     const s = source(); if (!canGenerate()) { render(); return; }
     const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), at = new Date().toISOString(), t = intakeTopic();
     const src = s.kind === 'job' ? {kind:'job', jobId:s.jobId, driveId:s.driveId, url:s.url, fromJob:true, ...(s.driveIds ? {driveIds:s.driveIds, urls:s.urls, seconds:s.seconds} : {})} : s.kind === 'file' ? {kind:'file', driveId:s.driveId, url:s.url, fromJob:false} : {kind:'folder', folderId:s.folderId, url:s.url, fromJob:false};
-    const doc = {id, jobId:s.jobId || null, topicId:t?.id || null, title:title.trim(), titleBy:'taylor', source:src, offsetS:trimVal(), skills:reelSkills(), status:'queued', stages:[], winners:{}, createdAt:at, startedAt:at, updatedAt:at, ...extra};
+    const doc = {id, jobId:s.jobId || null, topicId:t?.id || null, title:title.trim(), titleBy:'taylor', source:src, offsetS:trimVal(), skills:reelSkills(), status:'queued', stages:[], winners:{}, createdAt:at, startedAt:at, updatedAt:at,
+      ...pathFields(s.path, s.takes, at), ...extra};
     try { starting = true; await db.doc('reels/'+id).set(doc); reels = [doc, ...reels.filter(x => x.id !== id)]; starting = false;
       from = null; linkText = ''; title = ''; titleTouched = false; trim = ''; reuseSeen = ''; reuseOk = '';
       location.hash = '#/publish/reels/'+id; openId = id; await startSession(doc); }
     catch (e) { starting = false; note = 'Could not start the reel job ('+(e?.code || 'error')+').'; render(); }
   }
+  // The path on a new reel job: written once by the app (a pasted folder leaves it null for the session to decide).
+  const pathFields = (path, takes, at) => ({path:path ?? null, pathWhy:path === 'B' ? PATH_WHY.B(takes.length) : path === 'A' ? PATH_WHY.A : null, pathBy:path ? 'app' : null, pathAt:path ? at : null,
+    ...(path === 'B' ? {takes:takes.map(takeOf), keep:{}} : {})});
+  // Decision 10: Confirm and continue on a Video job whose files hold a phone take starts its reels by itself, on Path B.
+  // One reel job per video (a stopped one with nothing made can be replaced); the Video job is read, never written.
+  // start is false when the Video session was refused: the reel job then waits on "queued" and starts with the next
+  // Video session (startQueued), or from Start now on the Reels lane.
+  async function autoFromJob(j, start = true) {
+    if (!db || !j?.id) return null;
+    const pc = choosePath(j.sources), m = mainOf(j), ps = mainParts(j);
+    if (pc.path !== 'B' || !m) return null;
+    if (reels.some(r => r.jobId === j.id && !(r.status === 'failed' && !r.pack && !r.options))) return null;
+    const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), at = new Date().toISOString();
+    const topic = j.topicId ? allTopics().find(t => t.id === j.topicId) : null;
+    const src = {kind:'job', jobId:j.id, driveId:m.driveId, url:m.url || null, fromJob:true, ...(ps.length > 1 ? {driveIds:ps.map(x => x.driveId), urls:ps.map(x => x.url || null), seconds:partsSeconds(ps)} : {})};
+    const doc = {id, jobId:j.id, topicId:j.topicId || null, title:String(topic?.title || j.title || '').trim(), titleBy:'taylor', source:src, offsetS:null, skills:reelSkills(), status:'queued', stages:[], winners:{},
+      auto:true, createdAt:at, startedAt:at, updatedAt:at, ...pathFields('B', pc.takes, at)};
+    try { await db.doc('reels/'+id).set(doc); reels = [doc, ...reels.filter(x => x.id !== id)]; } catch { return null; }
+    if (start) await startSession(doc, 'pack', {quiet:true});
+    return doc;
+  }
+  const startQueued = async jobId => { const r = reels.find(x => x.jobId === jobId && x.auto && x.status === 'queued'); if (r && !starting) await startSession(r, 'pack', {quiet:true}); return r || null; };
   // ---- Phase 8b actions: add takes, match one with a tap, Build, music picks, Finish, Copy --------------------------
   async function addTakes(r) {
     if (!editTakes(r)) return;
@@ -561,6 +700,7 @@
       const tk = e.target.dataset?.rlTrack ?? e.target.dataset?.rlOther;
       if (tk !== undefined) { const r = current(); if (!r || !editMusic(r)) { render(); return; } const v = e.target.value; if (!v) return;
         const fid = e.target.id; pickMusic(r, tk, v).then(() => document.getElementById(fid)?.focus()); return; }
+      const om = e.target.dataset?.rlOmusic; if (om !== undefined) { const r = current(); if (!r || !keepOpen(r)) { render(); return; } ensureKeep(r); if (!kd.keep.has(om)) { render(); return; } kd.music[om] = e.target.checked; render(); root.querySelector('[data-rl-omusic="'+CSS.escape(om)+'"]')?.focus(); return; }
       const m = e.target.dataset?.rlMusic; if (m !== undefined) { const r = current(); if (!r || locked(r)) { render(); return; } draft.music[m] = e.target.checked; render(); root.querySelector('[data-rl-music="'+CSS.escape(m)+'"]')?.focus(); }
     });
     el.addEventListener('keydown', e => {
@@ -587,7 +727,19 @@
       if (b.id === 'rl-fresh') { const seen = earlier().map(x => x.url || 'reels/'+x.id); reuseOk = reuseSig(); b.disabled = true; await generate({existingSeen:seen}); return; }
       if (!r) return;
       if (b.id === 'rl-start' || b.id === 'rl-again') { if (starting) return; await startSession(r); return; }
-      if (b.id === 'rl-retry') { if (starting) return; await startSession(r, stepFor(r)); return; }
+      if (b.id === 'rl-retry') { if (starting) return; await startSession(r, stepFor(r), {extra:retryStep ? retryExtra : null}); return; }
+      // Path B: keep a reel option (one tap, any number), then Finish saves the keeps with the session it starts.
+      if (b.dataset.rlKeep !== undefined) {
+        if (!keepOpen(r)) return; ensureKeep(r); const id = b.dataset.rlKeep;
+        if (kd.keep.has(id)) { kd.keep.delete(id); kd.music[id] = false; } else kd.keep.add(id);
+        keepNote = ''; render(); root.querySelector('[data-rl-keep="'+CSS.escape(id)+'"]')?.focus(); return;
+      }
+      if (b.id === 'rl-keep-go') {
+        if (!keepOpen(r) || !optionsOk(r)) return; ensureKeep(r);
+        if (!kd.keep.size) { keepNote = 'Keep one or more reels first.'; render(); return; }
+        const at = new Date().toISOString(), keep = Object.fromEntries([...kd.keep].map(id => [id, {music:!!kd.music[id], at}]));
+        await startSession(r, 'options', {extra:{keep, keepSavedAt:at}}); return;
+      }
       if (b.id === 'rl-music-retry') { if (starting || r.status !== 'music') return; await startSession(r, 'music'); return; }
       if (b.id === 'rl-start-fresh' && r.status === 'found') { if (await save(r, {skipExisting:true})) await startSession(r); return; }
       if (b.id === 'rl-stop') { const st = [...(r.stages || [])].reverse().find(x => x.state === 'run')?.name || null; await save(r, {status:'failed', error:'Stopped by Taylor', failedStage:st, stoppedAt:new Date().toISOString()}); render(); return; }
@@ -607,7 +759,7 @@
   function routeTo(bits) {
     // #/publish/reels, #/publish/reels/<id>, #/publish/reels/<id>/reel/<ideaId>
     const id = bits[2] || null;
-    if (id !== openId) { openId = id; note = ''; retry = false; retryStep = null; draftFor = null; sel = null; takeText = ''; takeWarn = []; matchNote = null; copiedKey = ''; }
+    if (id !== openId) { openId = id; note = ''; retry = false; retryStep = null; retryExtra = null; draftFor = null; kdFor = null; keepNote = ''; sel = null; takeText = ''; takeWarn = []; matchNote = null; copiedKey = ''; }
     if (bits[3] === 'reel' && bits[4]) sel = bits[4];
   }
   async function load() {
@@ -626,7 +778,12 @@
     render(el) { if (!root) { root = el; bind(el); } const before = openId; routeTo(location.hash.slice(1).split('/').filter(Boolean).map(s => { try { return decodeURIComponent(s); } catch { return s; } })); if (before === openId && typing()) { refreshCheck(); return; } render(); },
     // The Video lane's link to a job's reels: found from reels.jobId, never stored on the job.
     forJob: jobId => reels.find(r => r.jobId === jobId) || null,
-    label: r => STATUS_WORD[r?.status] || r?.status || ''
+    all: () => reels.slice(),
+    label: r => statusWord(r),
+    // Decision 11: the path a Video job's files decide ({path: "A" | "B" | null, takes, why}), and decision 10: the
+    // Path B reel job made by Confirm and continue, and its start once a refused Video session is started again.
+    choosePath, autoFromJob, startQueued,
+    pathWhy: r => pathWhy(r)
   };
   phone.addEventListener('change', () => { if (isReels()) render(); });
   setInterval(() => { const r = current(); if (root && !root.hidden && isReels() && r && ['starting','running','building','finishing'].includes(r.status) && !typing()) render(); }, 15000);

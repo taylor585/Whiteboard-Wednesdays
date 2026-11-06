@@ -26,6 +26,8 @@ A main recording may be made in parts (6 November 2026): landscape recordings wi
 number ("Part 1", "Pt 2", "- 3", "(2)", "take 2") and that share one picture size are proposed as one main made of
 ordered parts (role "main", "part" 1..n, judged on their total length). Missing or repeated numbers, mixed sizes,
 copies or an unnumbered recording beside them are asked, never guessed.
+A folder's JSON also carries "reels": {path: "A" | "B" | null, takes, why} (Taylor's decision 11): "B" when the main
+recording has one or more accepted phone recordings beside it, "A" with the main recording alone, null with no main.
 Exit codes: 0 accept (folder: nothing to ask), 3 ask (folder: Taylor must check the files), 4 reject.
 Run it with python3 -I. It only reads: a few MB of each file, never a full download.
 """
@@ -360,6 +362,20 @@ def main_of(rows):
     return {'parts': [r.get('driveId') for r in m], 'seconds': round(sum(r['probe'].get('seconds') or 0 for r in m), 1)} if m else None
 
 
+def reels_path(rows):
+    """The reels path the folder's files decide (Taylor's decision 11, 6 November 2026), never asked of Taylor:
+    "A" with only the main recording (six highlight ideas, pick two, record them), "B" with the main recording AND one
+    or more phone recordings (reels cut straight from the takes), None when there is no main recording (a phone take
+    alone is refused: Path B needs the main recording's screen share for its B-roll)."""
+    main = main_of(rows)
+    takes = [r.get('driveId') for r in rows if r.get('role') == 'reel' and r.get('kind') == 'phone-recording' and r.get('decision') == 'accept']
+    if not main:
+        return {'path': None, 'takes': takes, 'why': 'No main recording: a phone take alone cannot make reels' if takes else 'No main recording'}
+    if takes:
+        return {'path': 'B', 'takes': takes, 'why': f'{len(takes)} phone recording{"s" if len(takes) > 1 else ""} beside the main recording: reels are cut straight from {"them" if len(takes) > 1 else "it"}'}
+    return {'path': 'A', 'takes': [], 'why': 'Only the main recording: six highlight ideas to pick from and record'}
+
+
 def drive_row(fid, fname=None, role=None):
     try: j, dn = drive_probe(fid)
     except Exception as e: j, dn = {'error': str(e)}, None
@@ -374,7 +390,7 @@ def classify_folder(folder_id, html=None):
     problems = propose(rows)
     for r in rows: r.pop('_s', None)
     if subs: problems.append(f'{len(subs)} subfolder(s) not read: put every file directly in the folder')
-    return {'folderId': folder_id, 'folderName': name, 'sources': rows, 'main': main_of(rows), 'problems': problems, 'needsCheck': bool(problems)}
+    return {'folderId': folder_id, 'folderName': name, 'sources': rows, 'main': main_of(rows), 'reels': reels_path(rows), 'problems': problems, 'needsCheck': bool(problems)}
 
 
 def parts_rows(rows):
