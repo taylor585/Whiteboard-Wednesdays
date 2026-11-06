@@ -70,7 +70,7 @@ One document per review pack ever published for Taylor's videos, in the app's da
 
 - Only the one source with `role: "main"` goes to the `publishEdit` skill as the recording for YouTube and LinkedIn. Its kind is `youtube-recording`, or Taylor confirmed it on Check the files.
 - Never use a `reel` file as the main, and never give a reel file to the YouTube or LinkedIn edit.
-- Never cut a reel, Short or Instagram or Facebook video from the main recording. The only material from it that may reach a reel is the skill's own silent, face-free screen-share tool.
+- Never cut a reel, Short or Instagram or Facebook video from the main recording. The only material from it that may reach a reel is the skill's own silent, face-free screen-share tool (on Path B, the B-roll over Taylor's phone take: master rule 4's only exception, Taylor's decision 9).
 - Reel recordings (`reelTakes`) are used only after Taylor picks the reel winners. Before one is used as a reel's face or voice, it must pass the skill's `youtube_guard check-media` (and `check-words` after transcription).
 - `skip` files are never downloaded or used.
 
@@ -106,13 +106,16 @@ This stage only reads a few MB of each file. It never downloads a full file and 
    When several sources have `role: "main"` (a main in parts, with `part` numbers), check them together instead, in `part` order:
    `python3 -I scripts/classify-video.py --main-parts <part 1 driveId>,<part 2 driveId>,…`, which judges each part on the total length and asks when the parts are not one size or one is a copy of another. Copy each part's `kind`, `decision`, `reason` and `probe`, and keep Taylor's `part`.
    Write its `kind`, `decision`, `reason` (the reasons after the first, joined with "; "), `probe` (`width`, `height` after rotation, `rotation`, `band`, `seconds`, `audio`) and `check: "done"`.
+   The kind is the file's real shape, whatever role it was pasted with: Taylor often pastes the phone take first, so it arrives as `role: "main"` (for example IMG_3094.MOV, 1920x1080 HEVC with rotation -90, shows upright 1080x1920, is a `phone-recording`; the main 1V9L7Iojg27yDidtlCyUNmCjZTHW412AS, 3840x1080, 38:13, is a `youtube-recording`). Keep Taylor's role on the job and let the mismatch stop on `check`: the Check the files screen offers each file the role its kind gives it (a `youtube-recording` is the main, a `phone-recording` a reel), so one Confirm sets both and starts Path B.
 4. Carry on to Run step 2 only when all of these hold:
    - every file is `accept`;
    - there is exactly one main recording and it is a `youtube-recording`: one source with `role: "main"`, or its parts, each a `youtube-recording` with `part` numbers running 1 to n with no gap or repeat, all one picture size;
    - every `reel` is a `phone-recording`, and there are at most five;
-   - `titleBy` is `"taylor"`.
+   - `titleBy` is `"taylor"`;
+   - there is no `reel` file (6 November 2026, Taylor's decision 10). A phone take beside the main recording always stops here once, even when nothing else is unclear, because Taylor's **Confirm and continue** is what starts its reels (Path B, see "Reels jobs"). Say so in the `checkNote`, for example "Your phone take IMG_3097.MOV will be cut into reels: confirm the files."
 5. Otherwise stop here. Write `status: "check"`, `checkAt` (the real time), a one-sentence `checkNote` saying what Taylor must decide (for example "Two files could be the main recording: choose one."), the finished stage, and end the session.
    The Publish screen then shows each file's real shape, length and reason, the title from the folder name matched to his booked topic, and a role per file. Taylor presses **Confirm and continue**, which starts a fresh session with `Run Publish job <id>`.
+   When the confirmed files hold one or more phone takes (`role: "reel"`, `kind: "phone-recording"`) beside the main recording, the same press also creates the Path B reel job `reels/<id>` (`auto: true`, `jobId` this job) and starts its own session with `Run Reels job <id>` (see "Reels jobs", "Path B"). This job is never written for it. If the connector refuses the Video session, the reel job waits on `queued` and starts with this job's next session (Try again), or from Start now on the Reels lane.
 
 ## Look for earlier work (the second stage of every Run, before any download)
 
@@ -280,10 +283,20 @@ This runs in the same session as "from review" step 3, and again when Taylor pre
 
 Write `status: "failed"`, `error` (one sentence Taylor can act on), `failedStage` (the stage's name) and that stage's `state: "failed"` with its real `endedAt`. Do not leave a job on `running`. The Publish screen shows the error and the stage, and frees Start a new video.
 
-## Reels jobs (Phases 8a and 8b, 4 November 2026)
+## Reels jobs (Phases 8a and 8b, 4 November 2026; Path B, 6 November 2026)
 
-Taylor opens **Publish → Reels** (`#/publish/reels`), chooses a Video job ("Use this video's main recording") or pastes one Drive file or folder link, gives the title word for word (and, optionally, the YouTube trim in seconds), and presses **Generate Reel highlight pack**.
+**Two paths, chosen from the files, never asked (Taylor's decision 11, 6 November 2026).** The reel job's `path` says which:
+- **Path A** (`path: "A"`, and every reel job from before 6 November 2026, which has no `path`): only the main recording, in one file or in parts. The ideas-first reels below: six highlight ideas, Taylor picks two and records them on his phone, then the reels are built from his takes.
+- **Path B** (`path: "B"`): the main recording **and** one or more phone takes, files Check the files classified as `phone-recording` (`scripts/classify-video.py`) and Taylor kept as `reel`. No highlight ideas, no script and no second recording: the session cuts reel options straight from the take(s), Taylor keeps the ones he wants, and the same Music and Ready to post steps follow (decision 9). See "Path B" below.
+- A phone take with no main recording is refused (Check the files will not confirm it, and the Reels lane refuses a phone file as a source): Path B needs the main recording for its screen-share B-roll and for the guard.
+The classifier's folder JSON carries the same answer as `reels: {path, takes, why}`.
+
+**Where a reel job comes from.**
+- Path B starts by itself (decision 10: one Drive folder link runs end to end). When Taylor confirms Check the files on a Video job whose files hold a phone take, the app creates the reel job (`auto: true`) and starts its session with `Run Reels job <id>`. Without a take nothing reel-related starts until Taylor opens Reels.
+- Taylor can also open **Publish → Reels** (`#/publish/reels`), choose a Video job ("Use this video's main recording") or paste one Drive file or folder link, give the title word for word (and, optionally, the YouTube trim in seconds), and press **Generate Reel highlight pack** (Path A) or **Generate reel options** (a Video job with a phone take: Path B). A pasted file is the main recording alone (Path A). A pasted folder is listed by the session, which decides the path from it (`path: null` until then).
 The app saves `reels/<id>` in the same artifact database and starts a session with `Run Reels job <id>`, the same way Generate starts one on Video. If the connector is refused, Taylor sends that line in a chat.
+
+**One session per lane, not one for both (decided 6 November 2026, Taylor's decision 4: keep plan usage low).** The Path B reel job runs in its own session, started by the same Confirm press, rather than inside the Video session. Every turn of a session re-reads its whole conversation, so one session doing both would carry the reel cut, its renders and checks through every later Variety Pack turn (and the pack's planning through every reel turn), and the Variety Pack would wait behind the reel renders. Two sessions each start small (well under 60 k tokens) and run side by side. What they share costs machine time, not plan usage: the main recording is downloaded and joined in each (about a minute), and the reel session restores the Video job's transcript and guard registry from its work set when it has been saved, or makes them once itself and keeps them in its own work set.
 
 A reel job is its own document, never fields on a Video job: the two lanes run at different times, and separate documents mean neither overwrites the other. **Never write `jobs/<id>` from a reel job.** Read the Video job (`jobId`) only. The Video lane finds its reel job from `reels/<id>.jobId`.
 
@@ -307,6 +320,9 @@ One writer per field. Write with ArtifactData, pinned to the version you read (`
 | `jobId` | app | the Video job it came from, or null |
 | `topicId` | app | the saved topic, or null |
 | `title`, `titleBy: "taylor"` | app | the title, word for word. It governs the pack |
+| `path`, `pathWhy`, `pathBy: "app" \| "session"`, `pathAt` | app (the session only when the app left `path` null: a pasted folder) | `"A"` or `"B"` (see "Two paths" above), and the one line the Reels lane shows ("You added a phone recording, so reels are cut straight from it.") |
+| `takes: [{driveId, url, name, kind, decision, probe}]` | app, from the Video job's confirmed phone takes (the session for a pasted folder) | Path B only: the phone takes the reels are cut from |
+| `auto: true` | app | Path B made by Confirm and continue on a Video job |
 | `source` | app | `{kind: "job", jobId, driveId, url, fromJob: true}` (that job's main recording; for a main in parts also `driveIds` and `urls`, every part in `part` order, and `seconds`, their total, with `driveId` part 1), `{kind: "file", driveId, url}` or `{kind: "folder", folderId, url}` |
 | `offsetS` | app | the YouTube trim in seconds, or null |
 | `skills` | app | `{reelsEdit, reelsCopy, reelsPosts}`, copied from Settings at Generate |
@@ -324,14 +340,18 @@ One writer per field. Write with ArtifactData, pinned to the version you read (`
 | `recordings: [{winnerId, driveId, url, name, from: "video" \| "folder" \| "link", probe, by: "taylor", at}]` | app | Taylor's one-tap match: the take for each winner. One take per winner, never one take for two winners |
 | `checks: {"<winnerId>": {driveId, state: "ok" \| "failed", shape, seconds, voice, guard: "pass" \| "blocked", note, at}}`, `checkNote` | session | the check of each matched take before anything is cut, and one sentence when a take is refused |
 | `reviewUrl`, `work` | session | the reel job's private review page (one per reel job) and its saved work set |
-| `built: [{id: "A", winnerId, seconds, music, preview, still}]` | session | the built reels without music: `preview` is the no-music review copy on the review page, `music` the winner's tick |
+| `built: [{id: "A", winnerId, seconds, music, preview, still}]` | session | the built reels without music: `preview` is the no-music review copy on the review page, `music` the winner's tick. On Path B `{id, optionId, seconds, music, preview, still}`, one per kept option, `music` from `keep` |
+| `options` | session | Path B: the reel options cut from the take(s), below |
+| `keep: {"<option id>": {music: true \| false, at}}`, `keepSavedAt` | app | Path B: the options Taylor kept, each with its Add music switch (off means no music), saved together with the session that finishes them |
 | `music: {folder, syncedAt, tracks: [{n, title, folder, seconds, url}], proposals: {"A": [n, …]}, note}` | session | the synced music library and up to three proposed tracks per reel with music |
 | `musicPicks: {"A": {track: n \| null, off: true \| false, by: "taylor", at}}` | app | Taylor's track for each reel with music, or `off: true` for no music |
 | `finals: [{reelId, kind: "reel" \| "post" \| "cover", label, url, detail, image?}]`, `captions: [{reelId, text, check}]`, `finalNote` | session | the finished files on the review page and the checked captions |
 
 `status`: `queued` → `starting` (app, once the session opened) → `running` (session) (→ `found`) → `pack` (session) → `recording` (app, on Save winners with exactly `pack.winnersToPick` picked) → `building` (app, once the "from recordings" session opened) → `music` (session, when a winner has music) → `finishing` (app, once the "from music" session opened) → `final` (session). With no music on any winner, the session goes from `building` straight to `final`. A session that refuses a take, or lists a folder for Taylor to match, writes `recording` again. `failed` with `error` if it cannot finish. Taylor's **Change winners** sets `pack` again (app), only while no take is matched. The session never writes `winners`, `takeLinks`, `takeFolders`, `recordings` or `musicPicks`; the app never writes `pack`, `takesFound`, `checks`, `built`, `music`, `finals`, `captions` or `stages`.
 
-`session: {id, url, step: "pack" | "recordings" | "music", requestedAt, startedAt}`: `step` is the stop the session continues from. Each session adds its own stages to `stages` (never removes earlier ones); the Reels screen shows a later session's stages from its `requestedAt`.
+Path B `status`: `queued` → `starting` (app) → `running` (session) (→ `found`) → `options` (session, the reel options written) → `finishing` (app, once the "from options" session opened) → `music` (session, when a kept reel has music) → `finishing` (app, once "from music" opened) → `final` (session). With no music on any kept reel, the "from options" session goes straight to `final`. `failed` with `error` as on Path A. The session never writes `keep`, `keepSavedAt`, `takes` (except for a pasted folder) or `musicPicks`; the app never writes `options`.
+
+`session: {id, url, step: "pack" | "recordings" | "options" | "music", requestedAt, startedAt}`: `step` is the stop the session continues from. Each session adds its own stages to `stages` (never removes earlier ones); the Reels screen shows a later session's stages from its `requestedAt`.
 
 `pack`:
 ```text
@@ -356,6 +376,36 @@ One writer per field. Write with ArtifactData, pinned to the version you read (`
 4. **The words and times.** If the Video job's saved work set has the transcript (`jobs/<jobId>.work`), restore `words.json` and `sentences.tsv` from it as "The work set" says (read only: never write the Video job or its pack). Otherwise download the main recording (Video's Run step 3) and transcribe it with the skill's `scripts/transcribe.py`. This is the only use of the recording.
 5. **The pack** (stage **Draft six reels**, then **Finishing Touches pass**, then **Check the pack**): invoke `reelsEdit` with the Skill tool and run its reel run **step 1 only**, as written, with the title on the document word for word, `offsetS` as the pack's `offset`, and `reelsCopy` for the fluency pass on every hook, highlight line and close. Run `reels.py highlights <highlights.json> <words.json> <out>`. If it refuses the pack, fix the drafts and run it again. Never write a pack it refused. Do **not** publish the skill's own highlights page: Taylor picks in the app (decisions 4 and 6), and the app is the one page for this video.
 6. Write `pack` (above), the finished stages, and `status: "pack"`. Wait on long steps with one Monitor, as on Video. **Stop here.** Never read `winners`, never ask Taylor to record, and never cut, build, render or pick music.
+
+### Path B: reels cut straight from the phone take (Taylor's decisions 9 and 10, 6 November 2026)
+
+`Run Reels job <id>` on a document with `path: "B"`, or a pasted folder (`path: null`) that turns out to hold a phone take. Use `reelsEdit` (default `suby-shots-with-katana`) with the Skill tool, exactly as its reel run builds a reel, with these differences: **no highlight pack, no script, no second recording.** Never an AI voice, not even as a stand-in or a preview (rule 5). **Nothing short is cut from the YouTube recording: the only material from it in a reel is silent, face-free screen share** (master rule 4's one exception). Re-read the document before each stage and stop at once on `error: "Stopped by Taylor"`. Stage times are real (`date -u`), as on Video jobs, and a stage starts or ends at least every 90 minutes.
+
+1. Read `reels/<id>`. Set `status: "running"` and stage **Check the recording**. Find the main recording as in "Run Reels job" step 2 (for `source.kind: "job"`, read `jobs/<jobId>` only). For a pasted folder, run `python3 -I scripts/classify-video.py --drive-folder <folderId>`: its `reels` says the path. Write `path`, `pathWhy` ("You added a phone recording, so reels are cut straight from it."), `pathBy: "session"`, `pathAt` and `takes` only when the document has `path: null`; with `path: "A"` carry on with "Run Reels job" step 3 instead. No main recording fails the job ("The folder has no main recording: a phone take alone cannot make reels.").
+2. **Look for earlier work** as in "Run Reels job" step 3 (a `reels` document or a reel page for the same take or the same main recording). On a match stop on `found`.
+3. **Restore or make the work set** (stage **Restore the saved work**): the reel job's own (`work`), else nothing. Then **the guard** exactly as "The guard" below: restore the Video job's registry from `jobs/<jobId>.work` (read only) or register the main recording yourself (download every part and join them first: "A main recording in parts").
+4. **Check the takes** (stage **Check the takes**). For each take in `takes`: download it, then refuse it with one sentence in `checks[<driveId>].note` when it is the main recording or any output (`youtube-recording`, `finished-reel`, `linkedin-cut`), is not upright 9:16 after rotation, has no sound, or fails `youtube_guard.py check-media <take> --purpose reel` (exit 4). Transcribe each take that passed with the skill's `scripts/transcribe.py` and run `youtube_guard.py check-words <words.json> --purpose reel`. Write `checks` (keyed by the take's `driveId`: `{driveId, state, shape, seconds, voice, guard, note, at}`). If no take passed, fail the job ("youtube_guard blocked IMG_3097.MOV: …" or the reason) and stop. Never work around a block.
+5. **Find the best sections** (stage **Find the best sections**). From each take's transcript pick the strongest self-contained runs, each **60 s or less**, each opening on its hook in the first frame (the first spoken words are the hook, no lead-in), cuts between sentences only: `reels.py cut <take> <words.json> <job> <id> "s-e,…"`. Usually 2 to 4 options from a 3-minute take; one per strong section, never padding. Never pass the main recording to `reels.py cut`.
+6. **B-roll from the main recording** (stage **Screen-share B-roll**). For each moment where the take talks about something shown in the main recording, find that moment in the main recording's transcript (restored from the Video work set, or transcribed once and saved in the reel work set) and cut only the skill's silent, face-free screen share of it (`reels.py prep` or `screenshare.py`: the screen half of the 3840x1080 frame, never the camera half, never its audio), 1 to 15 s per clip. Record each as `{at, seconds, src0, src1, yt0, yt1, what, silent: true, face: false}`.
+7. **Captions, Katana and Blender** (stages **Katana and Blender shots**, **Render**, **Sound and QA**), as the skill's reel run does: style C captions, the Katana and Blender shots its rules earn, `reel_render.ts final-stills` (look at the sheet), `final`, `reels.py mix` without music (Taylor's voice to −14 LUFS, the house effects), `reels.py qa`. Then `youtube_guard.py check-media <reel> --purpose reel` on every finished option: an option it blocks is dropped, never shown.
+8. **The reels Variety Pack** (stage **Publish the options**). Make the reel job's review page (`<title> - Reels`, see below) and publish each option's no-music copy to it as `reels/<id>-option.mp4` (under 14 MB, 720 × 1280) with a 9:16 still, with `capabilities: {downloads: true}`. Taylor picks in the app: do not publish the skill's own reel board. Write `reviewUrl` and `options`:
+   ```text
+   {skill, builtWith: "reels.py options", checkedAt, maxSeconds: 60, note,
+    takes: [{driveId, name, seconds, guard: "pass"}],
+    reels: [{id: "A", name, hook, why, seconds, take: <take driveId>, cuts: [{t0, t1}],
+             broll: [{at, seconds, src0, src1, yt0, yt1, what, silent: true, face: false}],
+             katana: [{at, concept}], blender: [{at, concept}], captions: "style C",
+             preview: <its address on the review page>, still, guard: "pass"}]}
+   ```
+   The app refuses the whole set (and shows Make the options again) unless every option has a name, a hook, `0 < seconds <= 60`, a `take` in `takes`, `cuts`, an https `preview`, `guard: "pass"`, and every B-roll item `silent: true`, `face: false` with `src0 < src1`. It never repairs options.
+9. Save the work set (the takes' transcripts, the cut lists, each option's `plan.json`, the Katana and Blender specs, the QA reports, the guard registry), write the finished stages and `status: "options"`, and end. Taylor keeps the options he wants (any number, one or more), each with an **Add music** switch (off means no music, decision 6), and presses **Finish the reels I kept**, which saves `keep` and `keepSavedAt` with the session it starts.
+
+### Continue Reels job <id> from options (Path B)
+
+1. Read `reels/<id>`. It must be on `finishing` (or `options` when the line came from a chat: set `finishing`) with `keepSavedAt` and at least one `keep`. Otherwise fail ("Keep one or more reels, then press Finish."). Restore the saved work.
+2. Write `built`: one entry per kept option, in option order, `{id: <option id>, optionId, seconds, music: keep[id].music, preview, still}`. Options not kept are never finished.
+3. A kept reel with `music: true`: run "Continue Reels job from recordings" step 7 (the music library, up to three proposals each) and stop on `music`. Taylor picks there and **Finish my reels** sends `Continue Reels job <id> from music`, which carries on exactly as on Path A.
+4. No kept reel has music: carry on with **Finish** below in this session, then end on `final`.
 
 ### Every later reel session: the work set and the guard
 
@@ -399,7 +449,7 @@ Taylor records his two winners on his phone (front camera, upright, his own word
 
 ### Finish (both paths)
 
-For each built reel (stages **Music**, **Cover and 4:5 post**, **Captions**, **Upload to your review page**):
+For each built reel, on either path (stages **Music**, **Cover and 4:5 post**, **Captions**, **Upload to your review page**):
 1. Music: with a track, `reels.py mix … --music <track from the folder>` then `reels.py qa … --without <the no-music mix>`. With no music (`music: false` on the winner, or `off: true`), keep the no-music mix and run `reels.py qa` on it. Never another music source.
 2. `reels.py cover <final.mp4> <cover.jpg>` (the hook frame at 1.6 s); the 4:5 post with the same choice: `reels.py feed <that mix> <post.mp4>` (1080 × 1350).
 3. The caption with `reelsPosts` (Performance Poster): hook line, 2 or 3 lines, "Full video on YouTube, link in bio.", 3 to 5 registry hashtags, never a client name; run its checker and fix every FAIL. No placeholder: the app refuses to copy a caption that still has one.
@@ -408,4 +458,4 @@ For each built reel (stages **Music**, **Cover and 4:5 post**, **Captions**, **U
 
 ### If a reel job fails
 
-Write `status: "failed"`, `error` (one sentence Taylor can act on), `failedStage` and that stage's `state: "failed"` with its real `endedAt`. Do not leave a reel job on `running`, `building` or `finishing`. The Reels screen shows the error and **Try again**, which restarts the line of the session that failed (`session.step`): `Run Reels job <id>`, `… from recordings` or `… from music`. If a valid `pack` was already written, Taylor can still pick from it; after the winners, his takes and music picks are kept. Taylor's **Stop this job** writes `error: "Stopped by Taylor"`: re-read the document before each stage and stop at once if it says so.
+Write `status: "failed"`, `error` (one sentence Taylor can act on), `failedStage` and that stage's `state: "failed"` with its real `endedAt`. Do not leave a reel job on `running`, `building` or `finishing`. The Reels screen shows the error and **Try again**, which restarts the line of the session that failed (`session.step`): `Run Reels job <id>`, `… from recordings`, `… from options` (Path B) or `… from music`. If a valid `pack` was already written, Taylor can still pick from it; after the winners, his takes and music picks are kept. Taylor's **Stop this job** writes `error: "Stopped by Taylor"`: re-read the document before each stage and stop at once if it says so.
