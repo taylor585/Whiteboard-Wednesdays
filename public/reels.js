@@ -13,7 +13,10 @@
    The lane never writes a Video job (jobs/<id>): a reel job points at its video with jobId, and the Video lane finds it
    from there. Nothing here is ever cut from the main recording: it is read only for its transcript and its times.
    Two paths (Taylor's decisions 9 to 11, 6 November 2026), chosen by the app from the files, never asked:
-   Path A, only the main recording (in one file or in parts): the ideas-first reels above.
+   Path A, only the main recording (in one file or in parts): the ideas-first reels above. Since 7 November 2026 Confirm
+   and continue on a Video job with the main recording alone starts it by itself too, and its pack (version 2) is the
+   skill's reel scripts in full: each with its length at reel pace, why it works and its B-roll plan (the silent,
+   face-free screen share of each highlight's own lines, and the Katana, Blender and motion graphic shots on its words).
    Path B, the main recording AND one or more phone takes that Check the files classified as phone recordings: no
    highlight ideas. The session cuts reel options straight from the take(s) (60 s max each, hook from frame 1, silent
    face-free screen-share B-roll from the main recording, captions, Katana and Blender), Taylor keeps the ones he wants
@@ -185,7 +188,7 @@
     if (step === 'options') return lineFor(r.id, step)+'. Follow PUBLISH.md "Reels jobs", "Path B", in this repository exactly: '+rules+', restore the saved work set, finish only the reel options Taylor kept (keep), stop on "music" when a kept reel has music, never use an AI voice, and never post anything.';
     if (isB(r)) return lineFor(r.id)+'. Follow PUBLISH.md "Reels jobs", "Path B", in this repository exactly: this job has the main recording and a phone take, so make no highlight ideas: '+rules+', check every phone take (upright, with sound, youtube_guard check-media and check-words) before anything is cut, cut reel options straight from the take (60 s or less each, the hook from frame 1), use nothing from the YouTube recording except silent, face-free screen-share B-roll, never use an AI voice, stop on "options" for Taylor to keep the ones he wants, and never post anything.';
     if (r.path === null && r.source?.kind === 'folder') return lineFor(r.id)+'. Follow PUBLISH.md "Reels jobs" in this repository exactly: '+rules+', decide the path from what the folder holds (Path B when a phone recording is beside the main recording, Path A otherwise) and write it, never cut anything from the YouTube recording except the Path B screen share, stop on "pack" (Path A) or "options" (Path B), and never post anything.';
-    return lineFor(r.id)+'. Follow PUBLISH.md "Reels jobs" in this repository exactly: use the skills named on the reels document, read the recording only for its words and times (never cut anything from it), write every stage back to reels/'+r.id+' in the Whiteboard Wednesdays app artifact, stop on "pack" for Taylor to pick two winners, and never post anything.';
+    return lineFor(r.id)+'. Follow PUBLISH.md "Reels jobs", "Run Reels job", in this repository exactly: this job has only the main recording, so write the reel scripts for Taylor to record on his phone in the skill\'s Reel highlight pack format (pack version 2: six scripts on the title word for word, each a hook from frame 1, three highlights with the value given to the end user and their source lines, a close, 60 s or less at reel pace, why it works and its B-roll plan), checked by reels.py highlights; use the skills named on the reels document, read the recording only for its words and times (never cut anything from it), write every stage back to reels/'+r.id+' in the Whiteboard Wednesdays app artifact, stop on "pack" for Taylor to pick two winners, never use an AI voice, and never post anything.';
   }
   async function save(r, patch, quiet = false) {
     if (!db || !r) return false;
@@ -252,10 +255,37 @@
   const ideasOf = r => Array.isArray(r.pack?.ideas) ? r.pack.ideas : [];
   const toPick = r => Math.max(1, +r.pack?.winnersToPick || 2);
   // The app never repairs a pack: the counts, a value under every highlight and real times, or no picking at all.
+  // The skill's own limits hold on every pack: 60 s or less spoken at reel pace (160 words a minute, reels.py highlights).
+  // A version 2 pack (7 November 2026, Path A reel scripts) also carries why each script works and its B-roll plan: every
+  // highlight's B-roll is the silent, face-free screen share of its own lines (master rule 4's one exception), and at
+  // least one Katana shot on the script's words (master rule 8). Older packs (no version) show as they always did.
+  const maxS = r => +r.pack?.maxSeconds > 0 ? Math.min(60, +r.pack.maxSeconds) : 60;
+  const wpm = r => +r.pack?.wpm > 0 ? +r.pack.wpm : 160;
+  const scriptOf = i => [i.hook, ...(i.highlights || []).map(h => h.say), i.close].map(x => String(x || '').trim()).filter(Boolean);
+  const wordsOf = i => scriptOf(i).reduce((a, x) => a + x.split(/\s+/).filter(Boolean).length, 0);
+  const secsOf = (r, i) => Math.round(wordsOf(i) / (wpm(r) / 60));
+  const isV2 = r => +r.pack?.version >= 2;
+  const shotsOf = (i, k) => (Array.isArray(i[k]) ? i[k] : []).filter(x => x && typeof x === 'object');
+  const brollOk = b => b && b.silent === true && b.face === false && String(b.what || '').trim();
   function packOk(r) {
-    const p = r.pack || {}, ideas = ideasOf(r), n = +p.ideaCount || 6, per = +p.highlightsPer || 3;
+    const p = r.pack || {}, ideas = ideasOf(r), n = +p.ideaCount || 6, per = +p.highlightsPer || 3, v2 = isV2(r), max = maxS(r);
     return ideas.length === n && ideas.every(i => i && i.id && i.hook && i.close && Array.isArray(i.highlights) && i.highlights.length === per &&
-      i.highlights.every(h => String(h.value || '').trim() && String(h.say || '').trim() && Number.isFinite(+h.t0) && Number.isFinite(+h.t1) && +h.t1 > +h.t0)) && new Set(ideas.map(i => i.id)).size === ideas.length;
+      i.highlights.every(h => String(h.value || '').trim() && String(h.say || '').trim() && Number.isFinite(+h.t0) && Number.isFinite(+h.t1) && +h.t1 > +h.t0 && (!v2 || brollOk(h.broll))) &&
+      wordsOf(i) <= max * wpm(r) / 60 && !(+i.seconds > max) &&
+      (!v2 || (String(i.why || '').trim() && shotsOf(i, 'katana').length > 0 && shotsOf(i, 'katana').every(k => String(k.words || '').trim() && String(k.concept || '').trim()) &&
+        shotsOf(i, 'blender').every(k => String(k.concept || '').trim())))) && new Set(ideas.map(i => i.id)).size === ideas.length;
+  }
+  // The words to say, one block per part, as the skill's approved pack writes a winning script (§0B).
+  const sayText = (r, i, label) => [label+' · about '+secsOf(r, i)+' s at reel pace (60 s maximum)', '', i.hook, '', ...i.highlights.map((h, n) => (n+1)+'. '+h.say+'\n   Value given to the end user: '+h.value), '', i.close].join('\n');
+  const KATANA = {'word-punch':'word punch', 'stretch-morph':'stretch and morph', 'interface-story':'interface story', 'fly-through':'3D fly-through', 'camera-language':'camera language'};
+  // The B-roll plan of one script: per highlight, the silent screen share of its own lines; then the shots on its words.
+  function planHtml(r, i) {
+    const k = shotsOf(i, 'katana'), bl = shotsOf(i, 'blender'), g = shotsOf(i, 'graphics');
+    const shots = [...k.map(x => '<li><b>Katana</b> '+esc(KATANA[x.concept] || x.concept || '')+' on “'+esc(x.words || '')+'”</li>'),
+      ...bl.map(x => '<li><b>Blender</b> '+esc(x.concept || '')+(x.on ? ' on “'+esc(x.on)+'”' : '')+'</li>'),
+      ...g.map(x => '<li><b>Motion graphic</b> '+esc(x.kind || '')+(x.on ? ': '+esc(x.on) : '')+'</li>')];
+    const per = i.highlights.map((h, n) => brollOk(h.broll) ? '<li><b>Highlight '+(n+1)+'</b> screen share of '+esc(span(r, h))+', silent, no face: '+esc(h.broll.what)+'</li>' : '').join('');
+    return per || shots.length ? '<div class="rl-sec rl-plan"><h4>B-roll plan <span>cut after you record, from your take and the main recording’s silent screen share</span></h4><ul class="rl-plan-l">'+per+shots.join('')+'</ul></div>' : '';
   }
   function ensureDraft(r) {
     if (draftFor === r.id + '|' + (r.winnersSavedAt || '') + '|' + (r.pack?.checkedAt || '')) return;
@@ -293,12 +323,16 @@
     const on = draft.picked.includes(i.id), full = draft.picked.length >= toPick(r) && !on, off = locked(r);
     return '<span class="micro">Reel '+(n+1)+' of '+ideasOf(r).length+(i.seconds ? ' · about '+esc(Math.round(i.seconds))+' s spoken' : '')+(on ? ' · winner' : '')+'</span>'+
       '<h3 class="rl-name">'+esc(i.name || 'Reel '+(n+1))+'</h3>'+(i.angle ? '<p class="rl-angle">'+esc(i.angle)+'</p>' : '')+
+      '<p class="rl-len"><span>About '+esc(secsOf(r, i))+' s</span> at reel pace · '+esc(wordsOf(i))+' words · 60 s maximum · hook from the first frame</p>'+
+      (String(i.why || '').trim() ? '<p class="rl-why"><b>Why it works</b> '+esc(i.why)+'</p>' : '')+
       '<div class="rl-sec"><h4>Hook <span>the title, said as a contrast, on screen from frame 1</span></h4><p class="rl-hook">'+esc(i.hook)+'</p></div>'+
       '<div class="rl-sec"><h4>Three highlights <span>the proof, each one leading into the next</span></h4><ol class="rl-hls">'+i.highlights.map(h => { const ls = lineList(h), still = httpsUrl(h.still);
         return '<li class="rl-hl">'+(h.head ? '<h5>'+esc(h.head)+'</h5>' : '')+'<p class="rl-say">'+esc(h.say)+'</p><p class="rl-value"><b>Value given to the end user:</b> '+esc(h.value)+'</p>'+
           '<div class="rl-from'+(still ? '' : ' no-still')+'"><details'+(phone.matches ? '' : ' open')+'><summary>From the '+timesWord(r)+' <span>'+esc(span(r, h))+'</span></summary>'+(ls.length ? '<ol class="rl-tr">'+ls.map(l => '<li><span class="rl-tc">'+esc(l.t || '')+'</span><span>'+esc(l.text)+'</span></li>').join('')+'</ol>' : '<p class="pb-muted">Claude Code did not write the lines for this section.</p>')+'</details>'+
           (still ? '<figure class="rl-still"><img src="'+esc(still)+'" alt="The screen at '+esc(span(r, h).split('–')[0])+', face-free" loading="lazy"><figcaption>Screen at '+esc(span(r, h).split('–')[0])+'</figcaption></figure>' : '')+'</div></li>'; }).join('')+'</ol></div>'+
       '<div class="rl-sec"><h4>Close <span>back to the title</span></h4><p class="rl-close">'+esc(i.close)+'</p></div>'+
+      planHtml(r, i)+
+      '<p class="pb-acts rl-say-copy"><button type="button" class="pb-link" id="rl-ps-'+esc(i.id)+'" data-rl-pscript="'+esc(i.id)+'">'+(copiedKey === 'pscript:'+i.id ? 'Copied' : 'Copy the words to say')+'</button></p>'+
       musicHtml(r, i)+
       '<button type="button" class="rl-pick" data-rl-pick="'+esc(i.id)+'" aria-pressed="'+on+'"'+(off ? ' disabled' : full ? ' aria-disabled="true"' : '')+'>'+(on ? 'Winner ✓' : 'Pick as a winner')+'</button>'+
       (refused === i.id ? '<p class="rl-note" role="alert">You’ve picked '+toPick(r)+'. Unpick one first.</p>' : full && !off ? '<p class="rl-note">You’ve picked '+toPick(r)+'. Unpick one first.</p>' : '');
@@ -358,7 +392,7 @@
   const takeName = t => t.name || 'Drive file …'+String(t.driveId || '').slice(-6);
   const pendingFolders = r => (r.takeFolders || []).filter(f => !(r.foldersListed || []).includes(f.folderId));
   const editTakes = r => !starting && (r.status === 'recording' || (r.status === 'failed' && r.session?.step === 'recordings'));
-  const scriptText = (i, k) => ['Winner '+(k+1)+': '+(i.name || ''), '', 'Hook: '+i.hook, '', ...i.highlights.map((h, n) => (n+1)+'. '+h.say+'\n   Value given to the end user: '+h.value), '', 'Close: '+i.close].join('\n');
+  const scriptText = (i, k, r) => ['Winner '+(k+1)+': '+(i.name || '')+(r ? ' · about '+secsOf(r, i)+' s at reel pace (60 s maximum)' : ''), '', 'Hook: '+i.hook, '', ...i.highlights.map((h, n) => (n+1)+'. '+h.say+'\n   Value given to the end user: '+h.value), '', 'Close: '+i.close].join('\n');
   function checkLine(r, w, rec) {
     const c = (r.checks || {})[w.i.id]; if (!c || !rec || c.driveId !== rec.driveId) return '';
     if (c.state === 'ok') return '<p class="rl-ck is-ok">✓ '+esc([c.shape || '9:16', c.seconds ? clock(c.seconds) : '', c.voice ? 'voice found' : '', c.guard === 'pass' ? 'not from the YouTube video' : ''].filter(Boolean).join(' · '))+'</p>';
@@ -374,7 +408,7 @@
     return '<article class="rl-sheet" aria-labelledby="rl-sh-'+esc(i.id)+'"><span class="micro">Winner '+(k+1)+(i.seconds ? ' · about '+esc(Math.round(i.seconds))+' s' : '')+' · '+(w.music ? '♪ with music' : 'no music')+'</span>'+
       '<h3 id="rl-sh-'+esc(i.id)+'">'+esc(i.name || 'Reel '+(w.n+1))+'</h3>'+
       '<div class="rl-sh-sec"><h4>Hook <span>say it first: it is on screen from frame 1</span></h4><p class="rl-sh-hook">'+esc(i.hook)+'</p></div>'+
-      '<ol class="rl-sh-hls">'+i.highlights.map((h, n) => '<li><span class="rl-sh-n" aria-hidden="true">'+(n+1)+'</span><div>'+(h.head ? '<h5>'+esc(h.head)+'</h5>' : '')+'<p class="rl-sh-say">'+esc(h.say)+'</p><p class="rl-sh-val"><b>Value given to the end user:</b> '+esc(h.value)+'</p></div></li>').join('')+'</ol>'+
+      '<ol class="rl-sh-hls">'+i.highlights.map((h, n) => '<li><span class="rl-sh-n" aria-hidden="true">'+(n+1)+'</span><div>'+(h.head ? '<h5>'+esc(h.head)+'</h5>' : '')+'<p class="rl-sh-say">'+esc(h.say)+'</p><p class="rl-sh-val"><b>Value given to the end user:</b> '+esc(h.value)+'</p>'+(brollOk(h.broll) ? '<p class="rl-sh-broll">B-roll: the screen at '+esc(span(r, h))+', silent: '+esc(h.broll.what)+'</p>' : '')+'</div></li>').join('')+'</ol>'+
       '<div class="rl-sh-sec"><h4>Close <span>back to the title</span></h4><p class="rl-sh-close">'+esc(i.close)+'</p></div>'+
       '<p class="rl-sh-rules">Front camera · upright 9:16 · your own words · the finished reel is 60 seconds or less, so a longer take is fine</p>'+
       '<p class="pb-acts"><button type="button" class="pb-link" id="rl-cs-'+esc(i.id)+'" data-rl-script="'+esc(i.id)+'">'+(copiedKey === 'script:'+i.id ? 'Copied' : 'Copy script')+'</button></p>'+
@@ -605,16 +639,18 @@
   // One reel job per video (a stopped one with nothing made can be replaced); the Video job is read, never written.
   // start is false when the Video session was refused: the reel job then waits on "queued" and starts with the next
   // Video session (startQueued), or from Start now on the Reels lane.
+  // Path A (7 November 2026): the same Confirm with the main recording alone starts the reel scripts by themselves, so the
+  // suggested scripts to record on the phone are waiting on the Reels lane without opening it first.
   async function autoFromJob(j, start = true) {
     if (!db || !j?.id) return null;
     const pc = choosePath(j.sources), m = mainOf(j), ps = mainParts(j);
-    if (pc.path !== 'B' || !m) return null;
+    if (!['A','B'].includes(pc.path) || !m) return null;
     if (reels.some(r => r.jobId === j.id && !(r.status === 'failed' && !r.pack && !r.options))) return null;
     const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), at = new Date().toISOString();
     const topic = j.topicId ? allTopics().find(t => t.id === j.topicId) : null;
     const src = {kind:'job', jobId:j.id, driveId:m.driveId, url:m.url || null, fromJob:true, ...(ps.length > 1 ? {driveIds:ps.map(x => x.driveId), urls:ps.map(x => x.url || null), seconds:partsSeconds(ps)} : {})};
     const doc = {id, jobId:j.id, topicId:j.topicId || null, title:String(topic?.title || j.title || '').trim(), titleBy:'taylor', source:src, offsetS:null, skills:reelSkills(), status:'queued', stages:[], winners:{},
-      auto:true, createdAt:at, startedAt:at, updatedAt:at, ...pathFields('B', pc.takes, at)};
+      auto:true, createdAt:at, startedAt:at, updatedAt:at, ...pathFields(pc.path, pc.takes, at)};
     try { await db.doc('reels/'+id).set(doc); reels = [doc, ...reels.filter(x => x.id !== id)]; } catch { return null; }
     if (start) await startSession(doc, 'pack', {quiet:true});
     return doc;
@@ -670,7 +706,8 @@
     if (d.rlUnmatch !== undefined) { if (!editTakes(r)) return true; matchNote = null; const wid = d.rlUnmatch; if (await save(r, {recordings:matched(r).filter(x => x.winnerId !== wid)})) { render(); root.querySelector('[data-rl-match="'+CSS.escape(wid)+'"]')?.focus(); } return true; }
     if (d.rlRemove !== undefined) { if (!editTakes(r) || matched(r).some(x => x.driveId === d.rlRemove)) return true; if (await save(r, {takeLinks:(r.takeLinks || []).filter(x => x.driveId !== d.rlRemove)})) { render(); document.getElementById('rl-take-link')?.focus(); } return true; }
     if (d.rlRemoveFolder !== undefined) { if (!editTakes(r)) return true; if (await save(r, {takeFolders:(r.takeFolders || []).filter(x => x.folderId !== d.rlRemoveFolder)})) { render(); document.getElementById('rl-take-link')?.focus(); } return true; }
-    if (d.rlScript !== undefined) { const w = winnersOf(r), k = w.findIndex(x => x.i.id === d.rlScript); if (k >= 0) await copyText('script:'+d.rlScript, scriptText(w[k].i, k)); return true; }
+    if (d.rlScript !== undefined) { const w = winnersOf(r), k = w.findIndex(x => x.i.id === d.rlScript); if (k >= 0) await copyText('script:'+d.rlScript, scriptText(w[k].i, k, r)); return true; }
+    if (d.rlPscript !== undefined) { const ideas = ideasOf(r), k = ideas.findIndex(x => x.id === d.rlPscript); if (k >= 0 && packOk(r)) await copyText('pscript:'+d.rlPscript, sayText(r, ideas[k], 'Reel '+(k+1)+' of '+ideas.length+': '+(ideas[k].name || ''))); return true; }
     if (d.rlCap !== undefined) { const c = (r.captions || []).find(x => x.reelId === d.rlCap); if (c?.text && !PH.test(c.text)) await copyText('cap:'+d.rlCap, c.text); return true; }
     if (b.id === 'rl-build') {
       if (!editTakes(r)) return true;

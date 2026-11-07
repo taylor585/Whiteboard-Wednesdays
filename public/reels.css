@@ -337,3 +337,13 @@ html:has(#publish .rl-bar){scroll-padding-bottom:160px}
   #publish .rl-keep{width:100%}
 }
 @media(max-width:480px){.rl-ocard>article{grid-template-columns:1fr}.rl-ocard .rl-prev{flex-direction:row;align-items:center;gap:12px}.rl-ocard .rl-prev img,.rl-ocard .rl-prev-ph{width:56px;flex:none}}
+
+/* ---- Path A reel scripts (pack version 2, 7 November 2026): length, why it works and the B-roll plan ------------------ */
+.rl-len{margin:10px 0 0;font:12px WWMono,monospace;color:#5c5750;overflow-wrap:anywhere}
+.rl-len span{font-weight:600;color:#1c1a17}
+.rl-why{margin:10px 0 0;max-width:64ch;font-size:15px;line-height:1.5;overflow-wrap:anywhere}
+.rl-why b,.rl-plan-l b{font:500 11px WWMono,monospace;letter-spacing:.6px;text-transform:uppercase;margin-right:6px}
+.rl-plan-l{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:14px;line-height:1.45;max-width:72ch}
+.rl-plan-l li{padding-left:12px;border-left:2px solid #d8d5cf;overflow-wrap:anywhere}
+.rl-say-copy{margin-top:14px}
+.rl-sh-broll{margin:6px 0 0;font-size:13px;line-height:1.45;color:#5c5750;overflow-wrap:anywhere}
