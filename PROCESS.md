@@ -9,8 +9,6 @@ Agreed with Taylor on 16 October 2026, with posting days confirmed on 24 October
 | Wednesday | Recording day (video 1) |
 | Thursday | Post day (last Friday's video), plus editing |
 | Friday | Recording day (video 2) |
-| Saturday | Optional recording day (added 7 November 2026): a weekend video is edited the same day and posts the next day |
-| Sunday | Optional recording or post day (Saturday's video posts on Sunday) |
 
 ## How one video moves through the weeks
 
@@ -25,7 +23,7 @@ Confirmed by Taylor on 24 October 2026, with the week of 26 October:
 
 ## For the Topics planner
 
-- Two regular recording slots a week: Wednesday and Friday, one topic each. Saturday and Sunday are optional extra slots (7 November 2026), one topic each when used.
+- Two recording slots a week: Wednesday and Friday, one topic each.
 - A topic's planning day, editing days and suggested post day follow from its recording day.
 - Statuses: New → Shortlisted → Planned → Slides ready → Recorded → Edited → Posted.
 - Subtopics (a title and a note each) are prepared on Monday with the slides.

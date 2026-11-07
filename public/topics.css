@@ -75,17 +75,15 @@
 #topics .tp-lt[aria-pressed=false]{color:#5c5750;background:#f5f3ee;text-decoration:line-through}
 #topics .tp-follow button{min-height:36px;border-radius:4px;padding:4px 10px;font-size:13px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #topics .tp-follow button[aria-pressed=true]{background:#1c1a17;color:#fff;border-color:#1c1a17}
-/* Big calendar (S2-B): one row per week, seven day columns (Saturday and Sunday added 7 November 2026: a little narrower, on a white ground), full cards. */
+/* Big calendar (S2-B): one row per week, five day columns, full cards. */
 .tp-span{margin:0;font:500 20px/1.3 WWBody,Arial,sans-serif}
 .tp-cal{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-.tp-wk{display:grid;grid-template-columns:96px repeat(5,minmax(0,1fr)) repeat(2,minmax(0,.8fr));gap:8px}
+.tp-wk{display:grid;grid-template-columns:96px repeat(5,minmax(0,1fr));gap:8px}
 .tp-wkl{display:flex;flex-direction:column;gap:2px;padding-top:8px}
 .tp-wkl b{font:600 24px/1.05 WWHand,cursive}
 .tp-wk.is-this .tp-wkl b{color:#8b6002}
 .tp-day{display:flex;flex-direction:column;gap:6px;min-height:140px;padding:8px;border-radius:12px;border:1px solid #d8d5cf;background:#f5f3ee;transition:opacity 200ms}
 .tp-day.is-past{opacity:.6}
-.tp-day.is-weekend{background:#fff}
-#topics .tp-ev-open.is-weekend{border-style:dotted}
 .tp-day.is-today{border:2px solid #8b6002;padding:7px;opacity:1;background:#fff}
 .tp-dayn{font:12px WWMono,monospace;color:#5c5750}
 .tp-dayn b{font-weight:400;color:#1c1a17}
@@ -103,7 +101,7 @@
 #topics .tp-ev-open:not(:disabled):hover{background:#fff;color:#1c1a17}
 #topics .tp-ev.is-dim{opacity:.22}
 #topics .tp-ev.is-sel{outline:3px solid #8b6002;outline-offset:1px}
-@media(max-width:1000px){.tp-wk{grid-template-columns:repeat(5,minmax(0,1fr)) repeat(2,minmax(0,.8fr))}.tp-wkl{grid-column:1/-1;flex-direction:row;align-items:baseline;gap:8px;padding-top:4px}.tp-day{min-height:100px;padding:6px}#topics .tp-ev{padding:6px 8px;font-size:13px}}
+@media(max-width:1000px){.tp-wk{grid-template-columns:repeat(5,minmax(0,1fr))}.tp-wkl{grid-column:1/-1;flex-direction:row;align-items:baseline;gap:8px;padding-top:4px}.tp-day{min-height:100px;padding:6px}#topics .tp-ev{padding:6px 8px;font-size:13px}}
 @media(max-width:700px){.tp-wk{grid-template-columns:1fr}.tp-day{min-height:0}.tp-day:empty{display:none}.tp-cal{gap:18px}}
 @media(max-width:820px){.tp-controls{align-items:flex-start}.tp-follow{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;max-width:100%;padding-bottom:4px}#topics .tp-follow button{flex:none}}
 @media(prefers-reduced-motion:reduce){.tp-day,#topics .tp-ev{transition:none}}
