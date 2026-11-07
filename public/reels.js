@@ -35,6 +35,8 @@
   const NEXT = {pack:'starting', recordings:'building', options:'finishing', music:'finishing'};
   // Path B (decision 9): its own step names; the music and Ready to post steps are the same as Path A's.
   const STEPS_B = ['Drive link','Reel options','Pick reels','Music','Ready to post'];
+  // The shorter step names a phone shows, so no word is broken inside its cell (the full name stays in the page text).
+  const SHORT = {'Highlight pack':'Pack', 'Your recordings':'Record'};
   const STATUS_B = {running:'Claude Code is cutting reel options from your phone take', options:'reel options ready: pick the ones to keep'};
   let root = null, db = null, connecting = true, reels = [], jobs = [], packs = [];
   // Intake: from is a Video job id or 'link'; link the pasted text; title and trim as typed.
@@ -44,6 +46,8 @@
   // Phase 8b: retryStep the line Try again restarts after a refusal; takeText the Drive links being typed; takeWarn the
   // refusals of the last Add; matchNote a refused match {winner, text}; copiedKey which Copy button just copied.
   let retryStep = null, takeText = '', takeWarn = [], matchNote = null, copiedKey = '';
+  // The paste box in each winner's take slot (7 November 2026): slotText the link being typed per winner, slotWarn its refusals.
+  let slotText = {}, slotWarn = {};
   // Path B: kd the keeps and music ticks on the reel options before Keep is pressed; retryExtra the answer saved with the
   // session Try again starts after a refusal (nothing is saved on a refusal).
   let kd = null, kdFor = null, retryExtra = null, keepNote = '';
@@ -62,6 +66,32 @@
   const reelSkills = () => { const s = S(); return {reelsEdit:s.reelsEdit || 'suby-shots-with-katana', reelsCopy:s.reelsCopy || 'finishing-touches-copy-and-scripts', reelsPosts:s.reelsPosts || 'performance-poster'}; };
   const skillLine = () => Object.values(reelSkills()).map(skillName).join(', ');
   const current = () => reels.find(r => r.id === openId) || null;
+  const narrow = matchMedia('(max-width: 700px)');
+
+  // ---- Images and placeholders (7 November 2026 review) --------------------------------------------------------------
+  // A tile shows a real picture only when the document has one: a still, cover, poster or image field, or a url whose path
+  // ends in .jpg, .png or .webp. A page anchor (…#final-A-cover) is the review page, not an image. Otherwise the tile is a
+  // designed placeholder that says where the file opens, never a blank block.
+  const picUrl = u => { const h = httpsUrl(u); if (!h) return null; try { const x = new URL(h); return x.hash ? null : h; } catch { return null; } };
+  const fileImg = u => { const h = picUrl(u); try { return h && /\.(jpe?g|png|webp)$/i.test(new URL(h).pathname) ? h : null; } catch { return null; } };
+  const imageOf = (...xs) => { for (const x of xs) { if (!x || typeof x !== 'object') continue; for (const k of ['still','cover','poster','image']) { const h = picUrl(x[k]); if (h) return h; } const u = fileImg(x.url); if (u) return u; } return null; };
+  const ph = (shape, words) => '<span class="rl-ph" data-shape="'+esc(shape)+'"><span class="rl-ph-sh" aria-hidden="true">'+esc(shape)+'</span><span class="rl-ph-t">'+esc(words)+'</span></span>';
+  const OPENS = 'Opens on your review page';
+  // Title and hook that say the same thing (3 ways… / Three ways…): the hook is shown only when it adds something.
+  const NUMW = {1:'one',2:'two',3:'three',4:'four',5:'five',6:'six',7:'seven',8:'eight',9:'nine',10:'ten'};
+  const toks = s => norm(s).split(' ').filter(Boolean).map(w => NUMW[w] || w);
+  const nearSame = (a, b) => { const x = new Set(toks(a)), y = new Set(toks(b)); if (!x.size || !y.size) return false; let n = 0; x.forEach(w => { if (y.has(w)) n++; }); return n / Math.max(x.size, y.size) >= 0.75; };
+  // How long a running stage usually takes, from the real runs of 6 and 7 November 2026 (Path B options about 1 h,
+  // finishing with music about 1 h 15 min; Path A scripts under 30 min). Shown as "usually …", never as a promise.
+  function waitWord(r) {
+    if (!r) return '';
+    if (r.status === 'starting') return 'usually within two minutes';
+    if (r.status === 'running') return r.path === 'B' ? 'usually about 1 h' : r.path === null && r.source?.kind === 'folder' ? '' : 'usually under 30 min';
+    if (r.status === 'building') return 'usually about 1 h';
+    if (r.status === 'finishing') return 'usually about 1 h 15 min';
+    return '';
+  }
+  const waitHtml = r => { const w = waitWord(r); return w && r.status !== 'starting' ? ' <span class="rl-wait">This '+esc(w.replace(/^usually /, 'usually takes '))+'.</span>' : ''; };
 
   // ---- Where a reel job's recording comes from ---------------------------------------------------------------------
   // A Video job offers its main recording only (role main, a real Drive file). A phone reel recording never can.
@@ -175,7 +205,8 @@
     const s = r?.status || 'new', failed = s === 'failed', b = isB(r), at = b ? stepOfB(r) : failed ? stepOfSession(r) : STEP_OF[s] ?? 1, done = s === 'final';
     const noMusic = r && (b ? r.keepSavedAt && at >= 2 && !Object.values(r.keep || {}).some(k => k?.music) : r.winnersSavedAt && at >= 2 && !winnersOf(r).some(w => w.music));
     const small = i => i === at && failed ? 'stopped' : i === at && s === 'building' ? 'building' : i === at && s === 'finishing' ? 'finishing' : i === at && b && ['queued','starting','running'].includes(s) ? 'building' : i === 3 && noMusic ? 'none chosen' : '';
-    return '<ol class="pb-steps rl-steps" aria-label="Reel steps">'+STEPS_OF(r).map((n, i) => '<li class="'+(i < at || (done && i === at) ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+(small(i) ? ' <small>'+small(i)+'</small>' : '')+'</li>').join('')+'</ol>';
+    // Ready to post is the current step once the reels are final, highlighted like every other current step.
+    return '<ol class="pb-steps rl-steps" aria-label="Reel steps">'+STEPS_OF(r).map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b><span class="rl-st"'+(SHORT[n] ? ' data-short="'+SHORT[n]+'"' : '')+'>'+n+'</span>'+(small(i) ? ' <small>'+small(i)+'</small>' : '')+'</li>').join('')+'</ol>';
   }
   const lineFor = (id, step = 'pack') => LINE[step].replace('<id>', id);
   // The step a Start, Try again or Copy belongs to: the one the job's last session was on, or the pack for a new job.
@@ -236,11 +267,11 @@
       : stuck ? '<div class="pb-warn pb-stuck" role="alert"><p><b>Claude Code has not reported back</b> for '+(stuck >= 120 ? Math.floor(stuck/60)+' h '+(stuck%60)+' min' : stuck+' minutes')+'. It may have stopped.</p><p class="pb-acts">'+ses+' <button type="button" class="pb-link" id="rl-retry"'+off+'>Try again</button> <button type="button" class="pb-link" id="rl-stop">Stop this job</button></p></div>'
       : r.status === 'queued' ? '<p class="pb-queue"><b>Not started yet.</b> <button type="button" class="pb-link" id="rl-start"'+off+'>Start now</button> or say this in a Claude chat: <code>'+esc(lineFor(r.id))+'</code> <button type="button" class="pb-link" id="rl-copy">'+(copied ? 'Copied' : 'Copy')+'</button></p>'
       : r.status === 'starting' ? '<p class="pb-queue"><b>Starting Claude Code.</b> A session is opening in the cloud with your skills; the steps appear here as it works, usually within two minutes.'+ses+'</p>'
-      : r.status === 'running' ? (isB(r) ? '<p class="pb-meta rl-working"><b>Claude Code is cutting reel options from your phone take.</b> It checks the take first (upright, with sound, not from the YouTube video), then finds its best sections, adds the screen-share B-roll, captions, Katana and Blender. This takes a while; you can close this tab.'+ses+'</p>'
-        : r.path === null && r.source?.kind === 'folder' ? '<p class="pb-meta">Claude Code is reading the folder: what it holds decides the path. You can close this tab.'+ses+'</p>' : '<p class="pb-meta">Claude Code is making the highlight pack. You can close this tab.'+ses+'</p>')
-      : r.status === 'finishing' && r.session?.step === 'options' ? '<p class="pb-meta rl-working"><b>Claude Code is finishing the reels you kept.</b> '+(Object.values(r.keep || {}).some(k => k?.music) ? 'It lists your music folder for the reels with music and stops for you to choose; the others get' : 'Each gets')+' the cover, the 4:5 post and the caption. You can close this tab.'+ses+'</p>'
-      : r.status === 'building' ? '<p class="pb-meta rl-working"><b>Claude Code is building your reels.</b> It checks each take first, then cuts, adds the B-roll and the sound. This takes a while; you can close this tab.'+ses+'</p>'
-      : r.status === 'finishing' ? '<p class="pb-meta rl-working"><b>Claude Code is finishing your reels:</b> the music you chose, the cover, the 4:5 post and the caption. You can close this tab.'+ses+'</p>' : '';
+      : r.status === 'running' ? (isB(r) ? '<p class="pb-meta rl-working"><b>Claude Code is cutting reel options from your phone take.</b> It checks the take first (upright, with sound, not from the YouTube video), then finds its best sections, adds the screen-share B-roll, captions, Katana and Blender.'+waitHtml(r)+' You can close this tab.'+ses+'</p>'
+        : r.path === null && r.source?.kind === 'folder' ? '<p class="pb-meta">Claude Code is reading the folder: what it holds decides the path. You can close this tab.'+ses+'</p>' : '<p class="pb-meta rl-working"><b>Claude Code is writing your reel scripts.</b>'+waitHtml(r)+' You can close this tab.'+ses+'</p>')
+      : r.status === 'finishing' && r.session?.step === 'options' ? '<p class="pb-meta rl-working"><b>Claude Code is finishing the reels you kept.</b> '+(Object.values(r.keep || {}).some(k => k?.music) ? 'It lists your music folder for the reels with music and stops for you to choose; the others get' : 'Each gets')+' the cover, the 4:5 post and the caption.'+waitHtml(r)+' You can close this tab.'+ses+'</p>'
+      : r.status === 'building' ? '<p class="pb-meta rl-working"><b>Claude Code is building your reels.</b> It checks each take first, then cuts, adds the B-roll and the sound.'+waitHtml(r)+' You can close this tab.'+ses+'</p>'
+      : r.status === 'finishing' ? '<p class="pb-meta rl-working"><b>Claude Code is finishing your reels:</b> the music you chose, the cover, the 4:5 post and the caption.'+waitHtml(r)+' You can close this tab.'+ses+'</p>' : '';
     const empty = (['building','finishing'].includes(r.status) || (isB(r) && r.status === 'running')) && !list.length ? '<p class="pb-empty">No stage reported yet. Each one appears here when Claude Code starts it.</p>' : '';
     return '<section class="pb-stages" aria-label="Progress">'+head+empty+(list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(/^fail/.test(s.state || '') ? 'failed' : s.state || 'wait')+'"><b>'+esc(s.name)+'</b><small>'+esc(s.detail || '')+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '')+'</section>';
   }
@@ -296,7 +327,12 @@
     refused = '';
   }
   const locked = r => r.status !== 'pack' || starting;
-  const dur = r => { const d = +r.pack?.durationS; if (d > 0) return d; return Math.max(60, ...ideasOf(r).flatMap(i => i.highlights.map(h => +h.t1 || 0))) * 1.02; };
+  // The chart's length is the file's real length (recordingSeconds, written by the session from its probe; else the
+  // Video job's main recording probe or the joined parts), less the YouTube trim when the times are the video's own.
+  // pack.durationS (the transcript's last word) is used only when nothing better is known.
+  const fileSecs = r => { const v = +r.recordingSeconds; if (v > 0) return v; if (+r.source?.seconds > 0) return +r.source.seconds;
+    const j = jobs.find(x => x.id === r.jobId), ps = j ? mainParts(j) : []; const t = ps.length ? partsSeconds(ps) : null; return t > 0 ? t : 0; };
+  const dur = r => { const f = fileSecs(r), off = timesWord(r) === 'video' && +r.offsetS > 0 ? +r.offsetS : 0; if (f > 0) return Math.max(1, f - off); const d = +r.pack?.durationS; if (d > 0) return d; return Math.max(60, ...ideasOf(r).flatMap(i => i.highlights.map(h => +h.t1 || 0))) * 1.02; };
   const pct = (r, t) => (Math.min(Math.max(+t || 0, 0), dur(r)) / dur(r) * 100).toFixed(3)+'%';
   const span = (r, h) => (h.yt0 && h.yt1 ? h.yt0+'–'+h.yt1 : clock(h.t0)+'–'+clock(h.t1));
   const timesWord = r => r.pack?.timesIn === 'youtube' || Number.isFinite(+r.offsetS) && +r.offsetS > 0 ? 'video' : 'recording';
@@ -304,7 +340,9 @@
     const ideas = ideasOf(r), d = dur(r), picked = new Set(draft.picked);
     const lanes = ideas.map((i, n) => '<span class="rl-lab'+(i.id === sel ? ' is-on' : '')+'">R'+(n+1)+'</span><div class="rl-track">'+i.highlights.map(h =>
       '<button type="button" class="rl-seg'+(i.id === sel ? ' is-sel' : picked.has(i.id) ? ' is-win' : '')+'" data-rl-sel="'+esc(i.id)+'" style="left:'+pct(r, h.t0)+';width:'+(Math.max(0, Math.min(+h.t1, d) - Math.max(+h.t0, 0)) / d * 100).toFixed(3)+'%" aria-label="Reel '+(n+1)+' · '+esc(i.name || '')+' · '+esc(h.head || '')+' · '+esc(span(r, h))+'" title="Reel '+(n+1)+' · '+esc(h.head || '')+' · '+esc(span(r, h))+'"></button>').join('')+'</div>').join('');
-    const ticks = [], step = d > 2400 ? 10 : 5; for (let m = 0; m * 60 <= d; m += step) ticks.push('<span style="left:'+pct(r, m*60)+'">'+m+':00</span>');
+    // Ticks far enough apart to read: every 5 or 10 minutes on a wide screen, 10 or 20 on a phone; none in the last 6 %.
+    const ticks = [], mins = d / 60, step = narrow.matches ? (mins > 45 ? 20 : mins > 12 ? 10 : 5) : (mins > 40 ? 10 : 5);
+    for (let m = 0; m * 60 <= d * 0.94 || m === 0; m += step) ticks.push('<span style="left:'+pct(r, m*60)+'">'+m+':00</span>');
     const used = {}; ideas.forEach(i => new Set(i.highlights.map(h => span(r, h).split('–')[0])).forEach(k => { used[k] = (used[k] || 0) + 1; }));
     const shared = Object.entries(used).filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1]);
     return '<section class="rl-map" aria-labelledby="rl-map-h"><div class="rl-map-h"><h2 id="rl-map-h">Where each reel comes from</h2><p>The whole '+timesWord(r)+', 0:00 to '+esc(clock(d))+'. Each block is one highlight’s section.</p></div>'+
@@ -343,12 +381,12 @@
     const ideas = ideasOf(r), picked = new Set(draft.picked), need = toPick(r), n = draft.picked.length;
     const rows = ideas.map((i, k) => { const on = picked.has(i.id), cur = i.id === sel;
       return '<li class="rl-item'+(cur ? ' is-cur' : '')+'"><button type="button" class="rl-row'+(on ? ' is-win' : '')+'" data-rl-sel="'+esc(i.id)+'" aria-'+(phone.matches ? 'expanded' : 'current')+'="'+cur+'"'+(phone.matches ? ' aria-controls="rl-card-'+esc(i.id)+'"' : ' aria-controls="rl-detail"')+'>'+
-        (on ? '<span class="rl-chip">Winner ✓'+(draft.music[i.id] ? ' · ♪' : '')+'</span>' : draft.music[i.id] ? '<span class="rl-chip is-music">♪ music</span>' : '')+'<span class="micro">Reel '+(k+1)+' of '+ideas.length+(i.seconds ? ' · about '+esc(Math.round(i.seconds))+' s' : '')+'</span><b>'+esc(i.name || 'Reel '+(k+1))+'</b>'+(i.angle ? '<small>'+esc(i.angle)+'</small>' : '')+
+        '<span class="rl-row-top"><span class="micro">Reel '+(k+1)+' of '+ideas.length+(i.seconds ? ' · about '+esc(Math.round(i.seconds))+' s' : '')+'</span>'+(on ? '<span class="rl-chip">Winner ✓'+(draft.music[i.id] ? ' · ♪' : '')+'</span>' : draft.music[i.id] ? '<span class="rl-chip is-music">♪ music</span>' : '')+'</span><b>'+esc(i.name || 'Reel '+(k+1))+'</b>'+(i.angle ? '<small>'+esc(i.angle)+'</small>' : '')+
         '<span class="rl-mini" aria-hidden="true">'+i.highlights.map(h => '<i style="left:'+pct(r, h.t0)+';width:'+((+h.t1 - +h.t0) / dur(r) * 100).toFixed(3)+'%"></i>').join('')+'</span></button>'+
         (phone.matches && cur ? '<div class="rl-card" id="rl-card-'+esc(i.id)+'">'+detail(r, i, k)+'</div>' : '')+'</li>'; }).join('');
     const k = ideas.findIndex(i => i.id === sel), names = ideas.filter(i => picked.has(i.id)).map(i => 'Reel '+(ideas.indexOf(i)+1)+' '+(i.name || '')+(draft.music[i.id] ? ' (music)' : ''));
     const bar = r.status === 'pack'
-      ? '<div class="pb-bar rl-bar" role="region" aria-label="Your winners"><span class="rl-count" aria-live="polite">Picked <b>'+n+'</b> of '+need+(names.length ? '<span class="rl-names"> · '+esc(names.join(', '))+'</span>' : '')+'</span><span class="pb-muted rl-hint">'+(n < need ? 'Pick '+(need - n === 1 ? 'one more' : need - n)+'. Nothing is recorded or built until you save.' : 'Ready. Saving starts nothing: your recording sheets come next.')+'</span><button type="button" class="pb-go" id="rl-save"'+(n === need && !starting ? '' : ' disabled')+'>Save my '+need+' winners</button></div>' : '';
+      ? '<div class="pb-bar rl-bar'+(n ? ' is-float' : '')+'" role="region" aria-label="Your winners"><span class="rl-count" aria-live="polite">Picked <b>'+n+'</b> of '+need+(names.length ? '<span class="rl-names"> · '+esc(names.join(', '))+'</span>' : '')+'</span><span class="pb-muted rl-hint">'+(n < need ? 'Pick '+(need - n === 1 ? 'one more' : need - n)+'. Nothing is recorded or built until you save.' : 'Ready. Saving starts nothing: your recording sheets come next.')+'</span><button type="button" class="pb-go" id="rl-save"'+(n === need && !starting ? '' : ' disabled')+'>Save my '+need+' winners</button></div>' : '';
     return mapHtml(r)+'<div class="rl-pack"><ul class="rl-list" id="rl-list" aria-label="Six reels">'+rows+'</ul>'+(phone.matches ? '' : '<section class="rl-detail" id="rl-detail" aria-live="polite" aria-label="The selected reel">'+(k >= 0 ? detail(r, ideas[k], k) : '')+'</section>')+'</div>'+bar;
   }
   // After Save winners: the picks are locked; Change winners only while no take is matched to a winner.
@@ -389,7 +427,14 @@
     return {ok:true, why:'Upright, with sound'};
   }
   const takeMeta = t => { const p = t.probe; return [p?.width && p?.height ? p.width+'×'+p.height : '', p?.seconds ? clock(p.seconds) : '', p ? (p.audio === false ? 'no sound' : p.audio ? 'sound' : '') : '', {video:'in the video’s Drive folder', folder:'in your Drive folder', link:'added by link'}[t.from] || ''].filter(Boolean).join(' · '); };
-  const takeName = t => t.name || 'Drive file …'+String(t.driveId || '').slice(-6);
+  // A take is named by its file name (IMG_3094.MOV) as soon as Claude Code has listed it; until then by its place in the
+  // list and the end of its Drive id, with a line saying the name comes once it is checked (two takes never look alike).
+  const nameOf = (r, t) => t?.name || (r && t?.driveId ? (known(r, t.driveId)?.name || (r.takeLinks || []).find(x => x.driveId === t.driveId)?.name || (r.takes || []).find(x => x.driveId === t.driveId)?.name) : null) || null;
+  const NONAME = 'name appears once Claude Code checks it';
+  const takeName = (t, r = null, k = -1) => nameOf(r, t) || (k >= 0 ? 'Take '+(k+1)+' · ' : '')+'Drive file …'+String(t.driveId || '').slice(-6);
+  const takeNote = (t, r = null) => nameOf(r, t) ? '' : NONAME;
+  const poolIx = (r, id) => takePool(r).findIndex(x => x.driveId === id);
+  const hasFolder = r => { const vj = jobs.find(j => j.id === r.jobId); return !!(vj && (vj.source?.kind === 'folder' || vj.source?.folderId || vj.folderId)) || r.source?.kind === 'folder' || !!(r.takeFolders || []).length; };
   const pendingFolders = r => (r.takeFolders || []).filter(f => !(r.foldersListed || []).includes(f.folderId));
   const editTakes = r => !starting && (r.status === 'recording' || (r.status === 'failed' && r.session?.step === 'recordings'));
   const scriptText = (i, k, r) => ['Winner '+(k+1)+': '+(i.name || '')+(r ? ' · about '+secsOf(r, i)+' s at reel pace (60 s maximum)' : ''), '', 'Hook: '+i.hook, '', ...i.highlights.map((h, n) => (n+1)+'. '+h.say+'\n   Value given to the end user: '+h.value), '', 'Close: '+i.close].join('\n');
@@ -401,30 +446,33 @@
   function sheetHtml(r, w, k, pool, recs, edit) {
     const {i} = w, rec = recs[i.id], other = id => Object.entries(recs).find(([wid, x]) => wid !== i.id && x.driveId === id);
     const usable = pool.filter(t => verdict(r, t).ok);
-    const slot = rec ? '<div class="rl-take is-matched"><span class="pb-shape is-tall" aria-hidden="true"></span><div><b>'+esc(takeName(rec))+'</b><small>'+esc(takeMeta(rec) || 'Drive file …'+String(rec.driveId).slice(-6))+'</small></div>'+(edit ? '<button type="button" class="pb-link" id="rl-un-'+esc(i.id)+'" data-rl-unmatch="'+esc(i.id)+'">Change</button>' : '')+'</div>'+checkLine(r, w, rec)
-      : !usable.length ? '<p class="pb-empty">No phone take yet. Add its Drive link under Your phone takes.</p>'
-      : '<p class="rl-slot-q" id="rl-slot-q-'+esc(i.id)+'">Which take is this reel? Tap it.</p><div class="rl-slot-opts">'+usable.map(t => { const o = other(t.driveId);
-          return '<button type="button" class="rl-takebtn" id="rl-m-'+esc(i.id)+'-'+esc(t.driveId)+'" data-rl-match="'+esc(i.id)+'" data-take="'+esc(t.driveId)+'"'+(edit ? '' : ' disabled')+(o ? ' aria-disabled="true"' : '')+' aria-describedby="rl-slot-q-'+esc(i.id)+'"><b>'+esc(takeName(t))+'</b><small>'+esc(o ? 'Matched to Winner '+(winnersOf(r).findIndex(x => x.i.id === o[0])+1) : takeMeta(t))+'</small></button>'; }).join('')+'</div>';
+    const ix = id => poolIx(r, id);
+    const slot = rec ? '<div class="rl-take is-matched"><span class="pb-shape is-tall" aria-hidden="true"></span><div><b>'+esc(takeName(rec, r, ix(rec.driveId)))+'</b><small>'+esc(takeMeta(rec) || 'Drive file …'+String(rec.driveId).slice(-6))+'</small>'+(takeNote(rec, r) ? '<small class="rl-noname">'+esc(takeNote(rec, r))+'</small>' : '')+'</div>'+(edit ? '<button type="button" class="pb-link" id="rl-un-'+esc(i.id)+'" data-rl-unmatch="'+esc(i.id)+'">Change</button>' : '')+'</div>'+checkLine(r, w, rec)
+      : (!usable.length ? '<p class="pb-empty">No phone take yet. Paste its Drive link here.</p>'
+      : '<p class="rl-slot-q" id="rl-slot-q-'+esc(i.id)+'">Which take is this reel? Tap it, or paste its link below.</p><div class="rl-slot-opts">'+usable.map(t => { const o = other(t.driveId), nn = takeNote(t, r);
+          return '<button type="button" class="rl-takebtn" id="rl-m-'+esc(i.id)+'-'+esc(t.driveId)+'" data-rl-match="'+esc(i.id)+'" data-take="'+esc(t.driveId)+'"'+(edit ? '' : ' disabled')+(o ? ' aria-disabled="true"' : '')+' aria-describedby="rl-slot-q-'+esc(i.id)+'"><b>'+esc(takeName(t, r, ix(t.driveId)))+'</b><small>'+esc(o ? 'Matched to Winner '+(winnersOf(r).findIndex(x => x.i.id === o[0])+1) : takeMeta(t))+'</small>'+(nn && !o ? '<small class="rl-noname">'+esc(nn)+'</small>' : '')+'</button>'; }).join('')+'</div>')+
+        (edit ? '<div class="rl-slot-add"><label class="pb-field" for="rl-slot-link-'+esc(i.id)+'"><span>Paste this take’s Drive link <i class="pb-opt-note">it is added and matched to Winner '+(k+1)+' in one go</i></span><input id="rl-slot-link-'+esc(i.id)+'" data-rl-slotlink="'+esc(i.id)+'" type="url" inputmode="url" spellcheck="false" autocomplete="off" maxlength="500" placeholder="https://drive.google.com/file/d/…" value="'+esc(slotText[i.id] || '')+'"></label><button type="button" class="pb-go rl-add-go" id="rl-slot-add-'+esc(i.id)+'" data-rl-slotadd="'+esc(i.id)+'">Add and match</button></div>'+
+          ((slotWarn[i.id] || []).length ? '<div class="pb-warn" role="alert">'+esc(slotWarn[i.id].join(' '))+'</div>' : '') : '');
     return '<article class="rl-sheet" aria-labelledby="rl-sh-'+esc(i.id)+'"><span class="micro">Winner '+(k+1)+(i.seconds ? ' · about '+esc(Math.round(i.seconds))+' s' : '')+' · '+(w.music ? '♪ with music' : 'no music')+'</span>'+
       '<h3 id="rl-sh-'+esc(i.id)+'">'+esc(i.name || 'Reel '+(w.n+1))+'</h3>'+
       '<div class="rl-sh-sec"><h4>Hook <span>say it first: it is on screen from frame 1</span></h4><p class="rl-sh-hook">'+esc(i.hook)+'</p></div>'+
-      '<ol class="rl-sh-hls">'+i.highlights.map((h, n) => '<li><span class="rl-sh-n" aria-hidden="true">'+(n+1)+'</span><div>'+(h.head ? '<h5>'+esc(h.head)+'</h5>' : '')+'<p class="rl-sh-say">'+esc(h.say)+'</p><p class="rl-sh-val"><b>Value given to the end user:</b> '+esc(h.value)+'</p>'+(brollOk(h.broll) ? '<p class="rl-sh-broll">B-roll: the screen at '+esc(span(r, h))+', silent: '+esc(h.broll.what)+'</p>' : '')+'</div></li>').join('')+'</ol>'+
+      '<ol class="rl-sh-hls">'+i.highlights.map((h, n) => '<li><span class="rl-sh-n" aria-hidden="true">'+(n+1)+'</span><div>'+(h.head ? '<h5>'+esc(h.head)+'</h5>' : '')+'<p class="rl-sh-say">'+esc(h.say)+'</p><p class="rl-sh-val"><b>Value given to the end user:</b> '+esc(h.value)+'</p>'+(brollOk(h.broll) ? '<p class="rl-sh-broll"><span class="rl-lbl">B-roll</span><span>The screen at '+esc(span(r, h))+', silent, no face: '+esc(h.broll.what)+'</span></p>' : '')+'</div></li>').join('')+'</ol>'+
       '<div class="rl-sh-sec"><h4>Close <span>back to the title</span></h4><p class="rl-sh-close">'+esc(i.close)+'</p></div>'+
       '<p class="rl-sh-rules">Front camera · upright 9:16 · your own words · the finished reel is 60 seconds or less, so a longer take is fine</p>'+
-      '<p class="pb-acts"><button type="button" class="pb-link" id="rl-cs-'+esc(i.id)+'" data-rl-script="'+esc(i.id)+'">'+(copiedKey === 'script:'+i.id ? 'Copied' : 'Copy script')+'</button></p>'+
+      '<p class="pb-acts"><button type="button" class="pb-link" id="rl-cs-'+esc(i.id)+'" data-rl-script="'+esc(i.id)+'">'+(copiedKey === 'script:'+i.id ? 'Copied' : 'Copy the words to say')+'</button></p>'+
       '<div class="rl-slot" role="group" aria-label="Your take for Winner '+(k+1)+'"><span class="micro">Your take</span>'+slot+
       (matchNote?.winner === i.id ? '<p class="rl-note" role="alert">'+esc(matchNote.text)+'</p>' : '')+'</div></article>';
   }
   function takesHtml(r, pool, recs, edit) {
     const by = Object.fromEntries(Object.entries(recs).map(([wid, x]) => [x.driveId, wid])), wins = winnersOf(r);
     const rows = pool.map(t => { const v = verdict(r, t), wid = by[t.driveId], k = wins.findIndex(x => x.i.id === wid);
-      return '<li class="rl-take '+(v.ok === true ? 'is-ok' : v.ok ? 'is-unchecked' : 'is-bad')+'"><span class="pb-shape '+(!t.probe ? 'is-other' : +t.probe.height > +t.probe.width ? 'is-tall' : t.probe.band === 'ultrawide' ? 'is-ultra' : 'is-wide')+'" aria-hidden="true"></span><div><b>'+esc(takeName(t))+'</b><small>'+esc(takeMeta(t))+'</small><small class="rl-why">'+(v.ok ? '' : '<em class="pb-badge is-reject">Cannot be used</em> ')+esc(v.why)+'</small></div>'+
+      return '<li class="rl-take '+(v.ok === true ? 'is-ok' : v.ok ? 'is-unchecked' : 'is-bad')+'"><span class="pb-shape '+(!t.probe ? 'is-other' : +t.probe.height > +t.probe.width ? 'is-tall' : t.probe.band === 'ultrawide' ? 'is-ultra' : 'is-wide')+'" aria-hidden="true"></span><div><b>'+esc(takeName(t, r, pool.indexOf(t)))+'</b><small>'+esc(takeMeta(t))+'</small>'+(takeNote(t, r) ? '<small class="rl-noname">'+esc(takeNote(t, r))+'</small>' : '')+'<small class="rl-why">'+(v.ok ? '' : '<em class="pb-badge is-reject">Cannot be used</em> ')+esc(v.why)+'</small></div>'+
         (k >= 0 ? '<span class="rl-chip is-static">Winner '+(k+1)+'</span>' : edit && t.from === 'link' ? '<button type="button" class="pb-link" id="rl-rm-'+esc(t.driveId)+'" data-rl-remove="'+esc(t.driveId)+'">Remove</button>' : '')+'</li>'; });
     const folders = pendingFolders(r).map(f => '<li class="rl-take is-unchecked"><span class="pb-shape is-folder" aria-hidden="true"></span><div><b>Drive folder …'+esc(String(f.folderId).slice(-6))+'</b><small class="rl-why">Claude Code lists it and checks each file (a few MB each), then you match each take here.</small></div>'+(edit ? '<button type="button" class="pb-link" id="rl-rmf-'+esc(f.folderId)+'" data-rl-remove-folder="'+esc(f.folderId)+'">Remove</button>' : '')+'</li>');
     const all = rows.concat(folders);
-    return '<section class="rl-takes" aria-labelledby="rl-takes-h"><h3 id="rl-takes-h">Your phone takes</h3><p class="pb-muted">From the video’s Drive folder and any links you add. The YouTube recording, landscape files and files with no sound are refused.</p>'+
+    return '<section class="rl-takes" aria-labelledby="rl-takes-h"><h3 id="rl-takes-h">Your phone takes</h3><p class="pb-muted">'+(hasFolder(r) ? 'From the video’s Drive folder and any links you add.' : 'From the links you add, here or in each winner’s slot above.')+' The YouTube recording, landscape files and files with no sound are refused.</p>'+
       (all.length ? '<ul class="rl-take-list">'+all.join('')+'</ul>' : '<p class="pb-empty">No phone takes yet. Record each winner, put the takes in Drive, and add the link here.</p>')+
-      (edit ? '<div class="rl-add"><label class="pb-field" for="rl-take-link"><span>Add phone takes from Drive <i class="pb-opt-note">a file link for each take, or the folder they are in</i></span><input id="rl-take-link" type="url" inputmode="url" spellcheck="false" autocomplete="off" maxlength="1000" placeholder="https://drive.google.com/file/d/…" value="'+esc(takeText)+'"></label><button type="button" class="pb-go rl-add-go" id="rl-take-add">Add</button></div>'+
+      (edit ? '<div class="rl-add"><label class="pb-field" for="rl-take-link"><span>Add phone takes from Drive: <i class="pb-opt-note">a file link for each take, or the folder they are in</i></span><input id="rl-take-link" type="url" inputmode="url" spellcheck="false" autocomplete="off" maxlength="1000" placeholder="https://drive.google.com/file/d/…" value="'+esc(takeText)+'"></label><button type="button" class="pb-go rl-add-go" id="rl-take-add">Add</button></div>'+
         (takeWarn.length ? '<div class="pb-warn" id="rl-take-warn" role="alert">'+(takeWarn.length === 1 ? esc(takeWarn[0]) : '<ul>'+takeWarn.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>')+'</div>' : '') : '')+'</section>';
   }
   function recordHtml(r) {
@@ -434,7 +482,7 @@
     const listOnly = good < wins.length && folders > 0;
     const can = db && edit && (good === wins.length || listOnly);
     const hint = good === wins.length ? 'Claude Code checks each take, then builds '+(wins.length === 2 ? 'both reels' : 'your reels')+'. This runs by itself and uses your Claude plan’s usage.' : listOnly ? 'Claude Code lists your folder and checks each file, then stops for you to match them here.' : 'Match a take to each winner. Nothing is built until you press Build.';
-    const bar = edit ? '<div class="pb-bar rl-bar" role="region" aria-label="Your takes"><span class="rl-count" aria-live="polite">Matched <b>'+good+'</b> of '+wins.length+'</span><span class="pb-muted rl-hint">'+esc(hint)+'</span><button type="button" class="pb-go" id="rl-build"'+(can ? '' : ' disabled')+'>'+(listOnly ? 'List my folder →' : 'Build my reels →')+'</button></div>' : '';
+    const bar = edit ? '<div class="pb-bar rl-bar'+(good ? ' is-float' : '')+'" role="region" aria-label="Your takes"><span class="rl-count" aria-live="polite">Matched <b>'+good+'</b> of '+wins.length+'</span><span class="pb-muted rl-hint">'+esc(hint)+'</span><button type="button" class="pb-go" id="rl-build"'+(can ? '' : ' disabled')+'>'+(listOnly ? 'List my folder →' : 'Build my reels →')+'</button></div>' : '';
     return '<section class="rl-rec" aria-labelledby="rl-rec-h"><div class="rl-rec-head"><h2 id="rl-rec-h" tabindex="-1">Record your '+wins.length+' winners</h2><p class="pb-muted">On your phone: front camera, upright, in your own words. Put the takes in Drive, then tap the take that belongs to each reel.</p></div>'+
       (r.checkNote && ['recording','failed'].includes(r.status) ? '<div class="pb-warn" role="alert">'+esc(r.checkNote)+'</div>' : '')+
       '<div class="rl-sheets">'+wins.map((w, k) => sheetHtml(r, w, k, pool, recs, edit)).join('')+'</div>'+takesHtml(r, pool, recs, edit)+bar+'</section>';
@@ -442,7 +490,7 @@
   // R5 Building: the matched takes, under the stages the session writes.
   function takesLine(r) {
     const wins = winnersOf(r), pool = takePool(r), recs = Object.fromEntries(matched(r).map(x => [x.winnerId, {...x, ...(pool.find(t => t.driveId === x.driveId) || {})}]));
-    return '<ul class="rl-using">'+wins.map((w, k) => '<li><span class="micro">Winner '+(k+1)+(w.music ? ' · ♪ with music' : ' · no music')+'</span><b>'+esc(w.i.name || '')+'</b><small>'+(recs[w.i.id] ? 'Take: '+esc(takeName(recs[w.i.id])) : 'No take matched')+'</small>'+checkLine(r, w, recs[w.i.id])+'</li>').join('')+'</ul>';
+    return '<ul class="rl-using">'+wins.map((w, k) => '<li><span class="micro">Winner '+(k+1)+(w.music ? ' · ♪ with music' : ' · no music')+'</span><b>'+esc(w.i.name || '')+'</b><small>'+(recs[w.i.id] ? 'Take: '+esc(takeName(recs[w.i.id], r, pool.findIndex(t => t.driveId === recs[w.i.id].driveId)))+(takeNote(recs[w.i.id], r) ? ' ('+esc(takeNote(recs[w.i.id], r))+')' : '') : 'No take matched')+'</small>'+checkLine(r, w, recs[w.i.id])+'</li>').join('')+'</ul>';
   }
 
   // ---- Path B: reel options cut straight from the phone take; keep the ones you want, music per reel --------------------
@@ -471,9 +519,9 @@
   function optCard(r, o) {
     const on = kd.keep.has(o.id), m = !!kd.music[o.id], open = keepOpen(r), b = brollOf(o), cuts = cutsOf(o);
     const ext = [...(Array.isArray(o.katana) ? o.katana.map(k => 'Katana '+(k.concept || '')+(k.at != null ? ' at '+clock(k.at) : '')) : []), ...(Array.isArray(o.blender) ? o.blender.map(k => 'Blender '+(k.concept || '')+(k.at != null ? ' at '+clock(k.at) : '')) : [])];
-    return '<li class="rl-ocard'+(on ? ' is-kept' : '')+'"><article aria-labelledby="rl-oc-'+esc(o.id)+'">'+previewHtml({preview:o.preview, still:o.still}, 'option '+o.id)+
+    return '<li class="rl-ocard'+(on ? ' is-kept' : '')+'"><article aria-labelledby="rl-oc-'+esc(o.id)+'">'+previewHtml(o, 'option '+o.id)+
       '<div class="rl-oc-main"><span class="micro">Option '+esc(o.id)+' · '+esc(clock(o.seconds))+' · from '+esc(takeLabel(r, o.take))+' '+esc(cuts.map(c => clock(c.t0)+'–'+clock(c.t1)).join(', '))+'</span>'+
-      '<h3 id="rl-oc-'+esc(o.id)+'">'+esc(o.name)+'</h3><p class="rl-oc-hook">'+esc(o.hook)+'</p>'+(o.why ? '<p class="rl-oc-why">'+esc(o.why)+'</p>' : '')+
+      '<h3 id="rl-oc-'+esc(o.id)+'">'+esc(o.name)+'</h3>'+(nearSame(o.name, o.hook) ? '' : '<p class="rl-oc-hook"><span class="rl-lbl">Hook</span>'+esc(o.hook)+'</p>')+(o.why ? '<p class="rl-oc-why">'+esc(o.why)+'</p>' : '')+
       '<ul class="rl-oc-facts">'+(b.length ? '<li><b>Screen-share B-roll</b> '+esc(b.length)+' moment'+(b.length > 1 ? 's' : '')+', silent, no face: '+b.map(x => esc((x.at != null ? clock(x.at)+' ' : '')+(x.what || 'screen')+' (main recording '+(x.yt0 && x.yt1 ? x.yt0+'–'+x.yt1 : clock(x.src0)+'–'+clock(x.src1))+')')).join('; ')+'</li>' : '<li><b>No B-roll</b> your take only</li>')+
         (ext.length ? '<li><b>Shots</b> '+esc(ext.join(' · '))+'</li>' : '')+'<li><b>Captions</b> '+esc(o.captions || 'style C')+'</li><li class="rl-oc-guard">✓ youtube_guard: your own take, not from the YouTube video</li></ul>'+
       '<button type="button" class="rl-pick rl-keep" data-rl-keep="'+esc(o.id)+'" aria-pressed="'+on+'"'+(open ? '' : ' disabled')+'>'+(on ? 'Kept ✓' : 'Keep this reel')+'</button>'+
@@ -490,13 +538,13 @@
     if (!optionsOk(r)) return '<div class="pb-warn rl-badpack" role="alert"><p><b>These reel options didn’t pass the checker.</b> Each needs a name, a hook, 60 seconds or less, its sections of your phone take, a preview on your review page and youtube_guard’s pass, with only silent, face-free screen share from the main recording. Nothing can be kept from options the app cannot show whole.</p><p class="pb-acts"><button type="button" class="pb-link" id="rl-again"'+(starting ? ' disabled' : '')+'>Make the options again</button></p></div>';
     const list = optsOf(r), n = kd.keep.size, open = keepOpen(r), takes = [...(r.options?.takes || r.takes || [])];
     const names = list.filter(o => kd.keep.has(o.id)).map(o => 'Option '+o.id+(kd.music[o.id] ? ' (music)' : ''));
-    const bar = r.status === 'options' ? '<div class="pb-bar rl-bar" role="region" aria-label="The reels you keep"><span class="rl-count" aria-live="polite">Keeping <b>'+n+'</b> of '+list.length+(names.length ? '<span class="rl-names"> · '+esc(names.join(', '))+'</span>' : '')+'</span><span class="pb-muted rl-hint">'+(n ? ([...kd.keep].some(id => kd.music[id]) ? 'Claude Code finishes these, then asks you for the music.' : 'Claude Code finishes these: cover, 4:5 post and caption.')+' This uses your Claude plan’s usage.' : 'Keep one or more. Nothing is finished until you press Finish.')+'</span><button type="button" class="pb-go" id="rl-keep-go"'+(n && open && db ? '' : ' disabled')+'>Finish the reels I kept →</button></div>' : '';
+    const bar = r.status === 'options' ? '<div class="pb-bar rl-bar'+(n ? ' is-float' : '')+'" role="region" aria-label="The reels you keep"><span class="rl-count" aria-live="polite">Keeping <b>'+n+'</b> of '+list.length+(names.length ? '<span class="rl-names"> · '+esc(names.join(', '))+'</span>' : '')+'</span><span class="pb-muted rl-hint">'+(n ? ([...kd.keep].some(id => kd.music[id]) ? 'Claude Code finishes these, then asks you for the music.' : 'Claude Code finishes these: cover, 4:5 post and caption.')+' This uses your Claude plan’s usage.' : 'Keep one or more. Nothing is finished until you press Finish.')+'</span><button type="button" class="pb-go" id="rl-keep-go"'+(n && open && db ? '' : ' disabled')+'>Finish the reels I kept →</button></div>' : '';
     return '<section class="rl-opts" aria-labelledby="rl-opts-h"><h2 id="rl-opts-h" tabindex="-1">Your reel options</h2><p class="pb-muted">'+esc(r.options?.note || 'Cut straight from '+(takes.length > 1 ? 'your phone takes' : takeLabel(r, takes[0]?.driveId))+'. Each is 60 seconds or less, with your hook from the first frame. Watch them on your review page, then keep the ones you want.')+(httpsUrl(r.reviewUrl) ? ' <a class="pb-link" href="'+esc(httpsUrl(r.reviewUrl))+'" target="_blank" rel="noopener noreferrer">Open the review page ↗</a>' : '')+'</p>'+
       (keepNote ? '<p class="rl-note" role="alert">'+esc(keepNote)+'</p>' : '')+
       '<ul class="rl-ogrid" aria-label="Reel options">'+list.map(o => optCard(r, o)).join('')+'</ul>'+bar+'</section>';
   }
   const keptSummary = r => { const list = optsOf(r).filter(o => (r.keep || {})[o.id]); return list.length ? '<ul class="rl-using">'+list.map(o => '<li><span class="micro">Option '+esc(o.id)+' · '+esc(clock(o.seconds))+'</span><b>'+esc(o.name)+'</b><small>'+((r.keep || {})[o.id]?.music ? '♪ With music: you choose the track next' : 'No music')+'</small></li>').join('')+'</ul>' : ''; };
-  const takesUsing = r => (r.takes || []).length ? '<ul class="rl-using">'+r.takes.map(t => '<li><span class="micro">Phone take</span><b>'+esc(takeName(t))+'</b><small>'+esc(takeMeta({...t, from:''}) || 'Drive file')+'</small></li>').join('')+'</ul>' : '';
+  const takesUsing = r => (r.takes || []).length ? '<ul class="rl-using">'+r.takes.map((t, k) => '<li><span class="micro">Phone take</span><b>'+esc(takeName(t, r, r.takes.length > 1 ? k : -1))+'</b>'+(takeNote(t, r) ? '<small>'+esc(takeNote(t, r))+'</small>' : '')+'<small>'+esc(takeMeta({...t, from:''}) || 'Drive file')+'</small></li>').join('')+'</ul>' : '';
 
   // ---- R6 Music: only the reels whose winner has Add music on (decision 6); a track from the Drive folder, or off ----
   const builtOf = r => (Array.isArray(r.built) ? r.built : []).filter(b => b && b.id);
@@ -506,19 +554,26 @@
   const pickOf = (r, id) => (r.musicPicks || {})[id] || null;
   const musicDone = (r, b) => { const p = pickOf(r, b.id); return !!p && (p.off === true || tracks(r).some(t => String(t.n) === String(p.track))); };
   const editMusic = r => !starting && (r.status === 'music' || (r.status === 'failed' && r.session?.step === 'music'));
-  function previewHtml(b, name) {
-    const url = httpsUrl(b.preview), still = httpsUrl(b.still);
-    return url ? '<a class="rl-prev" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+(still ? '<img src="'+esc(still)+'" alt="" loading="lazy">' : '<span class="rl-prev-ph" aria-hidden="true">9:16</span>')+'<span class="rl-prev-t">Watch '+esc(name)+' ↗<small>no music yet</small></span></a>' : '<span class="rl-prev is-none"><span class="rl-prev-ph" aria-hidden="true">9:16</span><span class="rl-prev-t">No preview link</span></span>';
+  // sub: the music line under Watch (no music yet, the picked track, or no music); the picture is the still or cover when
+  // the document has one, else the placeholder that says it opens on the review page.
+  function previewHtml(b, name, sub = 'no music yet') {
+    const url = httpsUrl(b.preview), still = imageOf(b);
+    const pic = still ? '<img src="'+esc(still)+'" alt="" loading="lazy">' : ph('9:16', url ? OPENS : 'No preview yet');
+    return url ? '<a class="rl-prev" href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+pic+'<span class="rl-prev-t"><span class="rl-prev-w">Watch '+esc(name)+' ↗</span>'+(sub ? '<small>'+esc(sub)+'</small>' : '')+'</span></a>' : '<span class="rl-prev is-none">'+pic+'<span class="rl-prev-t">No preview link</span></span>';
   }
+  // Path A reels are named by their winner everywhere (Winner 1, Winner 2), as on the recording sheets; Path B by the
+  // letter of the option they were cut as (Reel A).
+  const reelTag = (r, b) => { const w = isB(r) ? -1 : winnersOf(r).findIndex(x => x.i.id === b.winnerId); return w >= 0 ? 'Winner '+(w+1) : 'Reel '+b.id; };
+  const musicWord = (r, b) => { const p = pickOf(r, b.id); if (b.music === false || p?.off) return 'no music'; const t = p?.track != null ? tracks(r).find(x => String(x.n) === String(p.track)) : null; return t ? '♪ '+(t.title || 'Track '+t.n) : 'no music yet'; };
   function musicCard(r, b, edit) {
     const lib = tracks(r), prop = ((r.music?.proposals || {})[b.id] || []).map(n => lib.find(t => String(t.n) === String(n))).filter(Boolean);
     const p = pickOf(r, b.id), cur = p?.off ? 'off' : p?.track != null ? String(p.track) : '', rest = lib.filter(t => !prop.includes(t)), name = reelName(r, b), dis = edit ? '' : ' disabled';
-    const g = 'rl-tr-'+b.id, w = winnersOf(r).findIndex(x => x.i.id === b.winnerId);
+    const g = 'rl-tr-'+b.id, tag = reelTag(r, b);
     const radio = (val, body, extra = '') => '<div class="rl-trk'+(cur === val ? ' is-on' : '')+'"><label for="'+esc(g+'-'+val)+'"><input type="radio" name="'+esc(g)+'" id="'+esc(g+'-'+val)+'" value="'+esc(val)+'" data-rl-track="'+esc(b.id)+'"'+(cur === val ? ' checked' : '')+dis+'>'+body+'</label>'+extra+'</div>';
     const play = t => httpsUrl(t.url) ? '<a class="pb-link rl-play" href="'+esc(httpsUrl(t.url))+'" target="_blank" rel="noopener noreferrer" aria-label="Play '+esc(trackLabel(t))+' on Drive">Play ↗</a>' : '';
     const other = rest.find(t => String(t.n) === cur);
-    return '<article class="rl-mcard" aria-labelledby="rl-mc-'+esc(b.id)+'">'+previewHtml(b, 'Reel '+b.id)+'<div class="rl-mc-main"><span class="micro">Reel '+esc(b.id)+(b.seconds ? ' · '+esc(clock(b.seconds)) : '')+(w >= 0 ? ' · from Winner '+(w+1) : '')+'</span><h3 id="rl-mc-'+esc(b.id)+'">'+esc(name)+'</h3>'+
-      '<fieldset class="rl-tracks"><legend>Music for Reel '+esc(b.id)+'</legend>'+
+    return '<article class="rl-mcard" aria-labelledby="rl-mc-'+esc(b.id)+'">'+previewHtml(b, tag, musicWord(r, b))+'<div class="rl-mc-main"><span class="micro">'+esc(tag)+(b.seconds ? ' · '+esc(clock(b.seconds)) : '')+'</span><h3 id="rl-mc-'+esc(b.id)+'">'+esc(name)+'</h3>'+
+      '<fieldset class="rl-tracks"><legend>Music for '+esc(tag)+'</legend>'+
       (prop.length ? '<p class="rl-tracks-h">Claude’s picks from your music folder</p>'+prop.map(t => radio(String(t.n), '<span class="rl-tn" aria-hidden="true">'+esc(String(t.n).padStart(2, '0'))+'</span><span class="rl-tt"><b>'+esc(t.title || 'Track')+'</b><small>'+esc([t.folder, t.seconds ? clock(t.seconds) : '', t.why].filter(Boolean).join(' · '))+'</small></span>', play(t))).join('') : '')+
       (rest.length ? '<label class="pb-field rl-other" for="rl-oth-'+esc(b.id)+'"><span>'+(prop.length ? 'Or another track from your folder' : 'A track from your folder')+'</span><select id="rl-oth-'+esc(b.id)+'" data-rl-other="'+esc(b.id)+'"'+dis+'><option value=""'+(other ? '' : ' selected')+'>Choose a track…</option>'+rest.map(t => '<option value="'+esc(String(t.n))+'"'+(other === t ? ' selected' : '')+'>'+esc(trackLabel(t))+'</option>').join('')+'</select></label>'+(other ? '<p class="rl-chosen">Chosen: '+esc(trackLabel(other))+' '+play(other)+'</p>' : '') : '')+
       radio('off', '<span class="rl-tn is-off" aria-hidden="true">—</span><span class="rl-tt"><b>No music for this reel</b><small>Your voice and the sound effects only</small></span>')+
@@ -530,8 +585,8 @@
     return '<section class="rl-music-board" aria-labelledby="rl-mb-h"><h2 id="rl-mb-h" tabindex="-1">Choose the music</h2><p class="pb-muted">'+(withM.length === 1 ? 'One reel has Add music on.' : withM.length+' reels have Add music on.')+' Pick a track from your Drive music folder for each, or switch its music off. '+(r.music?.note ? esc(r.music.note) : '')+'</p>'+
       (!lib.length ? '<div class="pb-warn" role="alert">Claude Code couldn’t list your music folder, so there are no tracks to choose. Check that it is shared as Anyone with the link, then press Try again below; or switch the music off.</div>' : '')+
       '<div class="rl-mgrid">'+withM.map(b => musicCard(r, b, edit)).join('')+'</div>'+
-      (without.length ? '<ul class="rl-nomusic">'+without.map(b => '<li>'+previewHtml(b, 'Reel '+b.id)+'<div><span class="micro">Reel '+esc(b.id)+(b.seconds ? ' · '+esc(clock(b.seconds)) : '')+'</span><b>'+esc(reelName(r, b))+'</b><small>No music: you left Add music off. It is finished as it is.</small></div></li>').join('')+'</ul>' : '')+
-      (edit ? '<div class="pb-bar rl-bar" role="region" aria-label="Your music"><span class="rl-count" aria-live="polite">Chosen <b>'+done+'</b> of '+withM.length+'</span><span class="pb-muted rl-hint">'+(done < withM.length ? 'Choose a track or No music for every reel with music.' : 'Claude Code adds the music, the cover, the 4:5 post and the caption.')+'</span>'+
+      (without.length ? '<ul class="rl-nomusic">'+without.map(b => '<li>'+previewHtml(b, reelTag(r, b), 'no music')+'<div><span class="micro">'+esc(reelTag(r, b))+(b.seconds ? ' · '+esc(clock(b.seconds)) : '')+'</span><b>'+esc(reelName(r, b))+'</b><small>No music: you left Add music off. It is finished as it is.</small></div></li>').join('')+'</ul>' : '')+
+      (edit ? '<div class="pb-bar rl-bar'+(done ? ' is-float' : '')+'" role="region" aria-label="Your music"><span class="rl-count" aria-live="polite">Chosen <b>'+done+'</b> of '+withM.length+'</span><span class="pb-muted rl-hint">'+(done < withM.length ? 'Choose a track or No music for every reel with music.' : 'Claude Code adds the music, the cover, the 4:5 post and the caption.')+'</span>'+
         (!lib.length && r.status === 'music' ? '<button type="button" class="pb-link rl-bar-link" id="rl-music-retry">Try again</button>' : '')+'<button type="button" class="pb-go" id="rl-finish"'+(can ? '' : ' disabled')+'>Finish my reels →</button></div>' : '')+'</section>';
   }
 
@@ -546,9 +601,13 @@
       const music = b.music === false || p?.off ? 'no music' : tr ? 'music: '+trackLabel(tr).replace(/ · .*$/, '') : '';
       const cover = fs.find(f => f.kind === 'cover');
       const bad = c && PH.test(c.text || '');
-      return '<article class="rl-rd" aria-labelledby="rl-rd-'+esc(id)+'"><div class="rl-rd-head"><span class="micro">Reel '+esc(id)+(b.seconds ? ' · '+esc(clock(b.seconds)) : '')+(music ? ' · '+esc(music) : '')+'</span><h3 id="rl-rd-'+esc(id)+'">'+esc(reelName(r, b))+'</h3></div>'+
+      // One picture for the reel's three tiles when the session wrote any (a still, the cover JPG, a poster), else the placeholder.
+      const pic = imageOf(...fs.filter(f => f.kind === 'cover'), ...fs, b, c);
+      const SHAPE = {reel:'9:16', post:'4:5', cover:'9:16'};
+      const frame = (k, on) => '<span class="rl-fr"><span class="rl-fr-in">'+(on && pic ? '<img src="'+esc(pic)+'" alt="" loading="lazy">' : on ? ph(SHAPE[k], OPENS) : ph(SHAPE[k], 'Not written yet'))+'</span></span>';
+      return '<article class="rl-rd" aria-labelledby="rl-rd-'+esc(id)+'"><div class="rl-rd-head"><span class="micro">'+esc(reelTag(r, b))+(b.seconds ? ' · '+esc(clock(b.seconds)) : '')+(music ? ' · '+esc(music) : '')+'</span><h3 id="rl-rd-'+esc(id)+'">'+esc(reelName(r, b))+'</h3></div>'+
         '<div class="rl-rd-body"><div class="rl-files">'+['reel','post','cover'].map(k => { const f = fs.find(x => x.kind === k);
-          return f ? '<a class="rl-file is-'+k+'" href="'+esc(httpsUrl(f.url))+'" target="_blank" rel="noopener noreferrer">'+(k === 'cover' && httpsUrl(f.image || '') ? '<img src="'+esc(httpsUrl(f.image))+'" alt="" loading="lazy">' : '<span class="rl-fr" aria-hidden="true"></span>')+'<b>'+esc(f.label || KIND[k])+' ↗</b>'+(f.detail ? '<small>'+esc(f.detail)+'</small>' : '')+'</a>' : '<span class="rl-file is-'+k+' is-none"><span class="rl-fr" aria-hidden="true"></span><b>'+KIND[k]+'</b><small>Not written yet</small></span>'; }).join('')+'</div>'+
+          return f ? '<a class="rl-file is-'+k+'" href="'+esc(httpsUrl(f.url))+'" target="_blank" rel="noopener noreferrer">'+frame(k, true)+'<b>'+esc(f.label || KIND[k])+' ↗</b>'+(f.detail ? '<small>'+esc(f.detail)+'</small>' : '')+'</a>' : '<span class="rl-file is-'+k+' is-none">'+frame(k, false)+'<b>'+KIND[k]+'</b><small>Not written yet</small></span>'; }).join('')+'</div>'+
         '<div class="rl-cap"><span class="micro">Caption'+(c?.check ? ' · '+(c.check === 'pass' ? 'checked by Performance Poster' : esc(c.check)) : '')+'</span>'+(c?.text ? '<pre class="pb-copy" id="rl-cap-'+esc(id)+'">'+esc(c.text)+'</pre>'+
           (bad ? '<div class="pb-warn" role="alert">This caption still has a placeholder, so it cannot be copied. Ask Claude Code to write it again.</div>' : '<p class="pb-acts"><button type="button" class="pb-go rl-copy-cap" id="rl-cc-'+esc(id)+'" data-rl-cap="'+esc(id)+'">'+(copiedKey === 'cap:'+id ? 'Copied' : 'Copy caption')+'</button></p>') : '<p class="pb-muted">No caption written yet.</p>')+'</div></div></article>'; };
     return '<section class="rl-ready" aria-labelledby="rl-ready-h"><h2 id="rl-ready-h" tabindex="-1">Your reels are ready to post</h2><p class="pb-muted">'+esc(r.finalNote || 'Every file is on your private review page. Nothing has been posted.')+(httpsUrl(r.reviewUrl) ? ' <a class="pb-link" href="'+esc(httpsUrl(r.reviewUrl))+'" target="_blank" rel="noopener noreferrer">Open the review page ↗</a>' : '')+'</p>'+
@@ -559,12 +618,28 @@
   function musicSummary(r) {
     const built = builtOf(r); if (!built.length) return '';
     return '<ul class="rl-using">'+built.map(b => { const p = pickOf(r, b.id), tr = p?.track != null && !p.off ? tracks(r).find(t => String(t.n) === String(p.track)) : null;
-      return '<li><span class="micro">Reel '+esc(b.id)+'</span><b>'+esc(reelName(r, b))+'</b><small>'+(b.music === false || p?.off ? 'No music' : tr ? 'Music: '+esc(trackLabel(tr)) : 'Music not chosen')+'</small></li>'; }).join('')+'</ul>';
+      return '<li><span class="micro">'+esc(reelTag(r, b))+'</span><b>'+esc(reelName(r, b))+'</b><small>'+(b.music === false || p?.off ? 'No music' : tr ? 'Music: '+esc(trackLabel(tr)) : 'Music not chosen')+'</small></li>'; }).join('')+'</ul>';
   }
   // The pack stays one tap away once the winners are saved, closed so the recording sheets come first.
   const packBelow = r => '<details class="rl-whole"><summary>The whole highlight pack</summary>'+packHtml(r)+'</details>';
 
   // ---- Render ------------------------------------------------------------------------------------------------------
+  // Where the reel job's files come from, named as Taylor knows them (7 November 2026 review): on Path B the phone take(s)
+  // by file name (takes[].name, e.g. IMG_3094.MOV) and the video by its title; on Path A the video by its title. Never the
+  // YouTube recording's Drive id where the phone take is meant.
+  function fromLine(r) {
+    const vj = jobs.find(j => j.id === r.jobId), main = vj ? mainOf(vj) : null;
+    const vt = vj?.title || r.source?.title || (main?.name || r.source?.name || '').replace(/\.[a-z0-9]{2,4}$/i, '');
+    const video = vt ? '“'+vt+'”' : 'the YouTube recording';
+    if (isB(r)) {
+      const seen = new Set(), ts = [...(r.takes || []), ...(r.options?.takes || [])].filter(t => t?.driveId && !seen.has(t.driveId) && seen.add(t.driveId));
+      const names = ts.map((t, k) => nameOf(r, t) || 'phone take '+(ts.length > 1 ? (k+1)+' ' : '')+'(…'+String(t.driveId).slice(-6)+', '+NONAME+')');
+      return 'cut from your phone take'+(names.length > 1 ? 's ' : ' ')+(names.join(', ') || '('+NONAME+')')+' · screen-share B-roll from '+video+(r.source?.driveIds?.length > 1 ? ' ('+partsWord(r.source)+')' : '');
+    }
+    if (r.source?.kind === 'job') return 'reel scripts from the words of '+video+(r.source.driveIds?.length > 1 ? ' · '+partsWord(r.source) : '');
+    if (r.source?.kind === 'folder') return 'from Drive folder …'+String(r.source.folderId || '').slice(-6);
+    return 'from '+(r.source?.name ? r.source.name : 'Drive file …'+String(r.source?.driveId || '').slice(-6));
+  }
   const tabs = () => window.WWPublish?.laneTabs ? window.WWPublish.laneTabs('reels') : '';
   // Path B: building options, pick reels (with the Add music switch), then the same Music and Ready to post as Path A.
   function bodyB(r) {
@@ -605,7 +680,7 @@
     root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · REELS · '+eyebrow+'</div><h1 id="pb-heading">'+esc(head)+'</h1><p>'+esc(ledeNow)+'</p></div>'+(r ? '<a class="pb-link rl-new" href="#/publish/reels">Start new reels</a>' : '')+'</div>'+(window.WWPublishBack ? window.WWPublishBack() : '')+tabs()+
       (openId && !r ? '<div class="pb-warn" role="status">'+(db ? 'This reel job isn’t in the app’s database. <a href="#/publish/reels">Start new reels</a>' : connecting ? 'Loading…' : 'Reel jobs are saved in the app’s database, which this preview doesn’t have.')+'</div>' : steps(r))+
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && r ? '<p class="pb-acts"><button type="button" class="pb-link" id="rl-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" id="rl-copy">'+(copied ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
-      (!openId ? intake() : !r ? '' : '<p class="pb-meta">Reel job '+esc(r.id)+' · from '+esc(r.source?.kind === 'job' ? 'the main recording of a Video job · '+partsWord(r.source) : r.source?.kind === 'folder' ? 'Drive folder …'+String(r.source.folderId || '').slice(-6) : 'Drive file …'+String(r.source?.driveId || '').slice(-6))+
+      (!openId ? intake() : !r ? '' : '<p class="pb-meta">Reel job '+esc(r.id)+' · '+esc(fromLine(r))+
         (r.pack?.skill ? ' · written by '+esc(skillName(r.pack.skill)) : '')+(r.pack?.builtWith ? ' · checked by '+esc(r.pack.builtWith) : '')+(Number.isFinite(+r.offsetS) && +r.offsetS > 0 ? ' · YouTube trim '+esc(r.offsetS)+' s' : '')+(r.auto ? ' · started by itself when you confirmed the files' : '')+' · started '+esc(when(r.createdAt))+'</p>'+pathLine(r)+
         body(r));
     if (fid) {
@@ -657,28 +732,33 @@
   }
   const startQueued = async jobId => { const r = reels.find(x => x.jobId === jobId && x.auto && x.status === 'queued'); if (r && !starting) await startSession(r, 'pack', {quiet:true}); return r || null; };
   // ---- Phase 8b actions: add takes, match one with a tap, Build, music picks, Finish, Copy --------------------------
-  async function addTakes(r) {
+  // wid: pasted in that winner's take slot, so the one file it adds (or a take already here) is matched to it at once.
+  async function addTakes(r, wid = null) {
     if (!editTakes(r)) return;
-    const parts = takeText.split(/[\s,]+/).filter(Boolean), out = [], links = [...(r.takeLinks || [])], folders = [...(r.takeFolders || [])], at = new Date().toISOString(), pool = takePool(r);
-    if (!parts.length) { takeWarn = ['Paste the Drive link of a phone take, or of the folder your takes are in.']; render(); document.getElementById('rl-take-link')?.focus(); return; }
-    const left = [];
+    const text = wid ? slotText[wid] || '' : takeText, field = wid ? 'rl-slot-link-'+wid : 'rl-take-link', warn = list => { if (wid) slotWarn = {...slotWarn, [wid]:list}; else takeWarn = list; };
+    const parts = text.split(/[\s,]+/).filter(Boolean), out = [], links = [...(r.takeLinks || [])], folders = [...(r.takeFolders || [])], at = new Date().toISOString(), pool = takePool(r);
+    if (!parts.length) { warn(['Paste the Drive link of a phone take'+(wid ? '.' : ', or of the folder your takes are in.')]); render(); document.getElementById(field)?.focus(); return; }
+    if (wid && parts.length > 1) { warn(['Paste one link here: the take for this reel.']); render(); document.getElementById(field)?.focus(); return; }
+    const left = []; let hit = null;
     for (const u of parts) {
       const p = parse(u);
       if (p.kind === 'file') {
         const t = {driveId:p.id, url:u, from:'link', ...(known(r, p.id) || {})}, v = verdict(r, t);
         if (mainIds(r).has(p.id)) { out.push('That is the YouTube recording, not a phone take. Reels are never cut from it.'); left.push(u); }
-        else if (pool.some(x => x.driveId === p.id) || links.some(x => x.driveId === p.id)) out.push('That take is already here.');
+        else if (pool.some(x => x.driveId === p.id) || links.some(x => x.driveId === p.id)) { if (wid) hit = p.id; else out.push('That take is already here.'); }
         else if (!v.ok) { out.push(v.why); left.push(u); }
         else if (links.length >= 10) { out.push('Up to 10 take links. Remove one first.'); left.push(u); }
-        else links.push({driveId:p.id, url:u, at});
+        else { links.push({driveId:p.id, url:u, at}); hit = p.id; }
       } else if (p.kind === 'folder' && p.folderId) {
-        if (folders.some(f => f.folderId === p.folderId)) out.push('That folder is already here.');
+        if (wid) { out.push('That is a folder. Paste it under Your phone takes below: Claude Code lists it first, then you match each take.'); left.push(u); }
+        else if (folders.some(f => f.folderId === p.folderId)) out.push('That folder is already here.');
         else folders.push({folderId:p.folderId, url:u, at});
       } else { out.push(p.kind === 'doc' ? 'That is a Google Docs, Sheets or Slides link, not a video.' : p.kind === 'folder' ? 'That is not a shared Drive folder link. Open the folder in Drive, choose Share, Copy link, and paste that.' : 'That isn’t a Google Drive link.'); left.push(u); }
     }
-    takeWarn = [...new Set(out)];
+    warn([...new Set(out)]);
     const changed = links.length !== (r.takeLinks || []).length || folders.length !== (r.takeFolders || []).length;
     if (changed && !(await save(r, {takeLinks:links, takeFolders:folders}))) return;
+    if (wid) { slotText = {...slotText, [wid]:left.join(' ')}; if (hit && !out.length) { await matchTake(r, wid, hit); return; } render(); document.getElementById(field)?.focus(); return; }
     takeText = left.join(' '); render(); document.getElementById(takeWarn.length ? 'rl-take-link' : 'rl-take-add')?.focus();
   }
   async function matchTake(r, wid, driveId) {
@@ -702,6 +782,7 @@
   async function clickLater(b, r) {
     const d = b.dataset;
     if (b.id === 'rl-take-add') { await addTakes(r); return true; }
+    if (d.rlSlotadd !== undefined) { await addTakes(r, d.rlSlotadd); return true; }
     if (d.rlMatch !== undefined) { await matchTake(r, d.rlMatch, d.take); return true; }
     if (d.rlUnmatch !== undefined) { if (!editTakes(r)) return true; matchNote = null; const wid = d.rlUnmatch; if (await save(r, {recordings:matched(r).filter(x => x.winnerId !== wid)})) { render(); root.querySelector('[data-rl-match="'+CSS.escape(wid)+'"]')?.focus(); } return true; }
     if (d.rlRemove !== undefined) { if (!editTakes(r) || matched(r).some(x => x.driveId === d.rlRemove)) return true; if (await save(r, {takeLinks:(r.takeLinks || []).filter(x => x.driveId !== d.rlRemove)})) { render(); document.getElementById('rl-take-link')?.focus(); } return true; }
@@ -730,6 +811,7 @@
       if (id === 'rl-title') { title = e.target.value; titleTouched = true; refreshCheck(); return; }
       if (id === 'rl-trim') { trim = e.target.value; refreshCheck(); return; }
       if (id === 'rl-take-link') { takeText = e.target.value; return; }
+      if (e.target.dataset?.rlSlotlink !== undefined) { slotText = {...slotText, [e.target.dataset.rlSlotlink]:e.target.value}; return; }
     });
     el.addEventListener('change', e => {
       if (!isReels()) return;
@@ -742,6 +824,7 @@
     });
     el.addEventListener('keydown', e => {
       if (isReels() && e.key === 'Enter' && e.target.id === 'rl-take-link') { e.preventDefault(); const r = current(); if (r) addTakes(r); return; }
+      if (isReels() && e.key === 'Enter' && e.target.dataset?.rlSlotlink !== undefined) { e.preventDefault(); const r = current(); if (r) addTakes(r, e.target.dataset.rlSlotlink); return; }
       if (!isReels() || !['ArrowDown','ArrowUp'].includes(e.key) || !e.target.closest?.('.rl-row')) return;
       const r = current(); if (!r) return; e.preventDefault();
       const ideas = ideasOf(r), i = Math.max(0, ideas.findIndex(x => x.id === e.target.dataset.rlSel)), j = Math.min(ideas.length - 1, Math.max(0, i + (e.key === 'ArrowDown' ? 1 : -1)));
@@ -793,10 +876,23 @@
     });
   }
   const isReels = () => /^#\/publish\/reels(\/|$)/.test(location.hash);
+  function statusOf(r) {
+    if (!r) return null;
+    const at = isB(r) ? stepOfB(r) : r.status === 'failed' ? stepOfSession(r) : STEP_OF[r.status] ?? 1;
+    return {id:r.id, path:r.path ?? null, status:r.status || null, label:statusWord(r), wait:waitWord(r), step:at + 1, stepName:STEPS_OF(r)[at] || null, updatedAt:r.updatedAt || null, href:'#/publish/reels/'+encodeURIComponent(r.id)};
+  }
+  // When a reel job changes while Taylor is on the Video lane, tell it: "ww:reels" carries every job's status, and the
+  // Video lane, which re-renders on "ww:settings" (keeping a field being typed in), redraws its reels line from WWReels.
+  let reelSig = '';
+  function announce() {
+    const sig = reels.map(r => r.id+':'+r.status+':'+(r.updatedAt || '')).join('|'); if (sig === reelSig) return; reelSig = sig;
+    window.dispatchEvent(new CustomEvent('ww:reels', {detail:{reels:reels.map(statusOf)}}));
+    if (/^#\/publish(\/|$)/.test(location.hash) && !isReels()) window.dispatchEvent(new CustomEvent('ww:settings'));
+  }
   function routeTo(bits) {
     // #/publish/reels, #/publish/reels/<id>, #/publish/reels/<id>/reel/<ideaId>
     const id = bits[2] || null;
-    if (id !== openId) { openId = id; note = ''; retry = false; retryStep = null; retryExtra = null; draftFor = null; kdFor = null; keepNote = ''; sel = null; takeText = ''; takeWarn = []; matchNote = null; copiedKey = ''; }
+    if (id !== openId) { openId = id; note = ''; retry = false; retryStep = null; retryExtra = null; draftFor = null; kdFor = null; keepNote = ''; sel = null; takeText = ''; takeWarn = []; slotText = {}; slotWarn = {}; matchNote = null; copiedKey = ''; }
     if (bits[3] === 'reel' && bits[4]) sel = bits[4];
   }
   async function load() {
@@ -804,7 +900,7 @@
     connecting = false;
     const live = () => { if (!root?.hidden && isReels() && !typing()) render(); else if (isReels() && !openId) refreshCheck(); };
     if (db) {
-      db.collection('reels').onSnapshot(snap => { reels = snap.docs.filter(d => d.exists).map(d => ({...d.data(), id:d.id})).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))); live(); }, () => {});
+      db.collection('reels').onSnapshot(snap => { reels = snap.docs.filter(d => d.exists).map(d => ({...d.data(), id:d.id})).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))); live(); announce(); }, () => {});
       db.collection('jobs').onSnapshot(snap => { jobs = snap.docs.filter(d => d.exists).map(d => ({...d.data(), id:d.id})).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))); live(); }, () => {});
       db.collection('packs').onSnapshot(snap => { packs = snap.docs.filter(d => d.exists).map(d => ({...d.data(), id:d.id})); live(); }, () => {});
     }
@@ -816,7 +912,12 @@
     // The Video lane's link to a job's reels: found from reels.jobId, never stored on the job.
     forJob: jobId => reels.find(r => r.jobId === jobId) || null,
     all: () => reels.slice(),
-    label: r => statusWord(r),
+    // The live words for a reel job, with how long its running stage usually takes ("… · usually about 1 h").
+    label: r => { const w = waitWord(r); return statusWord(r)+(w ? ' · '+w : ''); },
+    // The reel job's live status for the Video lane (7 November 2026): read from the live reels/<id> snapshot, so it moves
+    // on as the session writes. {id, path, status, label, wait, step, stepName, updatedAt, href}, or null.
+    status: jobId => statusOf(reels.find(r => r.jobId === jobId) || null),
+    statusOf: r => statusOf(r),
     // Decision 11: the path a Video job's files decide ({path: "A" | "B" | null, takes, why}), and decision 10: the
     // Path B reel job made by Confirm and continue, and its start once a refused Video session is started again.
     choosePath, autoFromJob, startQueued,

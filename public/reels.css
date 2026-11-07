@@ -32,7 +32,7 @@
 .rl-lab{font:11px WWMono,monospace;color:#5c5750;text-align:right}
 .rl-lab.is-on{color:#1c1a17;font-weight:600}
 .rl-track{position:relative;height:14px;border-radius:3px;background:#f5f3ee}
-#publish .rl-seg{position:absolute;top:0;bottom:0;min-width:6px;border:0;padding:0;border-radius:2px;background:#c9c5bd;transition:background-color .15s}
+#publish .rl-seg{position:absolute;top:0;bottom:0;height:auto;min-height:0;min-width:6px;max-width:100%;box-sizing:border-box;border:0;padding:0;border-radius:2px;background:#c9c5bd;transition:background-color .15s}
 #publish .rl-seg:hover{background:#8a847b}
 #publish .rl-seg.is-win{background:#f6df8c;box-shadow:inset 0 0 0 1.5px #8b6002}
 #publish .rl-seg.is-sel{background:#1c1a17}
@@ -50,7 +50,9 @@
 .rl-list{list-style:none;margin:0;padding:0;border-top:2px solid #1c1a17;min-width:0}
 #publish .rl-row{display:block;width:100%;text-align:left;padding:14px 14px 14px 16px;border:0;border-bottom:1px solid #d8d5cf;background:#fff;position:relative;min-height:48px}
 #publish .rl-row[aria-current=true],#publish .rl-row[aria-expanded=true]{background:#f5f3ee;box-shadow:inset 3px 0 0 #1c1a17}
-.rl-row .micro{display:block;padding-right:96px}
+.rl-row-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 10px}
+.rl-row-top .micro{display:block;min-width:0}
+.rl-row-top .rl-chip{position:static;flex:none}
 .rl-row b{display:block;font-weight:600;font-size:17px;margin-top:2px;overflow-wrap:anywhere}
 .rl-row small{display:block;color:#5c5750;font-size:14px;line-height:1.35;margin-top:2px}
 .rl-mini{display:block;position:relative;height:6px;margin-top:10px;border-radius:2px;background:#f5f3ee}
@@ -112,7 +114,9 @@
 .rl-note{margin:8px 0 0;font-size:14px;color:#5c5750}
 .rl-card{padding:4px 16px 18px;background:#fff;border-bottom:1px solid #d8d5cf;min-width:0}
 /* The bar, as on Publish, kept in view while picking */
-.rl-bar{position:sticky;bottom:12px;z-index:3;box-shadow:0 6px 24px rgba(28,26,23,.18)}
+.rl-bar{position:static}
+/* The bar floats only once something is picked, so it never covers the headings, the chart or the cards on arrival */
+.rl-bar.is-float{position:sticky;bottom:12px;z-index:3;box-shadow:0 6px 24px rgba(28,26,23,.18)}
 .rl-count{font:500 14px WWMono,monospace;overflow-wrap:anywhere;min-width:0}
 .rl-count b{color:#f6df8c}
 /* Saved winners and the honest next step */
@@ -347,3 +351,49 @@ html:has(#publish .rl-bar){scroll-padding-bottom:160px}
 .rl-plan-l li{padding-left:12px;border-left:2px solid #d8d5cf;overflow-wrap:anywhere}
 .rl-say-copy{margin-top:14px}
 .rl-sh-broll{margin:6px 0 0;font-size:13px;line-height:1.45;color:#5c5750;overflow-wrap:anywhere}
+
+/* ---- The 7 November 2026 review ------------------------------------------------------------------------------------ */
+/* Step names wrap inside their own cell on a phone ("Your record-ings"), never out of it */
+#publish .rl-steps .rl-st{min-width:0;max-width:100%;overflow-wrap:break-word}
+@media(max-width:560px){#publish .rl-steps .rl-st[data-short]{font-size:0;line-height:0}#publish .rl-steps .rl-st[data-short]::after{content:attr(data-short);font-size:12px;line-height:1.3}}
+#publish .rl-steps li{min-width:0}
+@media(max-width:700px){#publish .rl-steps small{overflow-wrap:anywhere;max-width:100%}}
+/* How long a running stage usually takes */
+.rl-wait{color:#5c5750}
+/* A small label over session text (B-roll, Hook) */
+.rl-lbl{display:block;margin-bottom:2px;font:500 11px WWMono,monospace;letter-spacing:.6px;text-transform:uppercase;color:#8b6002}
+.rl-sh-broll{display:block}
+.rl-oc-hook .rl-lbl{margin-bottom:1px}
+/* A take with no name yet */
+.rl-noname{font-style:italic}
+#publish .rl-takebtn .rl-noname{font-size:12px}
+/* The paste box inside each winner's take slot: paste and match in one place */
+.rl-slot-add{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:flex-end;margin-top:12px}
+.rl-slot-add .pb-field{flex:1 1 220px;margin:0;min-width:0}
+.rl-slot-add .pb-field>span{font-size:14px}
+.rl-slot-add input{width:100%;box-sizing:border-box}
+.rl-slot .pb-warn{margin-top:8px}
+@media(max-width:700px){.rl-slot-add{flex-direction:column;align-items:stretch}.rl-slot-add .pb-field{flex:none}#publish .rl-slot-add .rl-add-go{width:100%}}
+/* The placeholder for a picture the review page holds: white card, thin ink frame, gold rule, the shape in handwriting */
+.rl-ph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;height:100%;box-sizing:border-box;padding:10px 8px;border:1px solid #d8d5cf;border-top:3px solid #8b6002;border-radius:8px;background:#fff;color:#1c1a17;text-align:center;
+  background-image:linear-gradient(#f5f3ee 1px,transparent 1px);background-size:100% 14px;background-position:0 10px}
+.rl-ph-sh{font:600 26px/1 WWHand,cursive;padding:0 6px;background:#fff}
+.rl-ph-t{font:500 10px/1.35 WWMono,monospace;letter-spacing:.3px;color:#5c5750;padding:2px 4px;background:#fff;max-width:100%;overflow-wrap:anywhere}
+.rl-file.is-none .rl-ph{border-style:dashed;border-top-width:1px;border-color:#c9c5bd;background-image:none;background-color:#f5f3ee}
+.rl-file.is-none .rl-ph-sh,.rl-file.is-none .rl-ph-t{background:#f5f3ee;color:#8a847b}
+/* Option and music previews: the still, or the placeholder, in the 9:16 frame */
+.rl-prev .rl-ph{aspect-ratio:9/16;height:auto}
+.rl-prev img{background:#f5f3ee}
+.rl-prev-t{text-decoration:none}
+.rl-prev-w{text-decoration:underline;text-underline-offset:3px}
+.rl-prev-t small{font-weight:400;color:#5c5750;text-decoration:none}
+.rl-prev.is-none .rl-prev-t{color:#5c5750}
+@media(max-width:480px){.rl-mcard .rl-prev .rl-ph,.rl-ocard .rl-prev .rl-ph{width:56px;flex:none;padding:4px}.rl-mcard .rl-prev .rl-ph-t,.rl-ocard .rl-prev .rl-ph-t{display:none}.rl-mcard .rl-prev .rl-ph-sh,.rl-ocard .rl-prev .rl-ph-sh{font-size:16px}}
+/* Ready to post: three frames of one height (the 4:5 post centred in its 9:16 frame), the labels on one baseline */
+.rl-files .rl-fr{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:9/16;border-radius:8px;background:none;overflow:hidden}
+.rl-files .rl-fr-in{display:block;width:100%;height:100%}
+.rl-files .is-post .rl-fr-in{height:auto;aspect-ratio:4/5}
+.rl-files .rl-fr img{display:block;width:100%;height:100%;object-fit:cover;border-radius:8px;border:1px solid #d8d5cf;box-sizing:border-box}
+.rl-files .rl-file b{margin-top:6px}
+#publish .rl-file.is-reel .rl-fr,#publish .rl-file.is-cover .rl-fr,#publish .rl-file.is-post .rl-fr,#publish .rl-file.is-none .rl-fr{aspect-ratio:9/16;background:none;border:0}
+@media(max-width:480px){.rl-files .rl-ph-t{font-size:9px}.rl-files .rl-ph-sh{font-size:20px}}
