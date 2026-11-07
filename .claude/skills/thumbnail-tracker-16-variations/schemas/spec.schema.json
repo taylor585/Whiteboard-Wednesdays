@@ -1,0 +1,1081 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "spec.schema.json",
+  "title": "Thumbnail spec for scripts/render.cjs",
+  "description": "A render spec: {thumbnails:[...]}. Common fields follow references/design/spec.md. Unknown thumbnail fields are warnings (x-warnUnknown), not errors.",
+  "type": "object",
+  "required": [
+    "thumbnails"
+  ],
+  "properties": {
+    "thumbnails": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/thumbnail"
+      }
+    },
+    "out": {
+      "type": "string"
+    },
+    "keep_html": {
+      "type": "boolean"
+    },
+    "_note": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "thumbnail": {
+      "type": "object",
+      "required": [
+        "id",
+        "archetype"
+      ],
+      "x-warnUnknown": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+          "description": "Output file name (no extension). Letters, digits, dot, dash, underscore."
+        },
+        "title": {
+          "type": "string",
+          "description": "YouTube title shown under the thumbnail in the feed preview."
+        },
+        "archetype": {
+          "enum": [
+            "verdict",
+            "equation",
+            "command",
+            "proof",
+            "syllabus",
+            "marker",
+            "versus",
+            "social",
+            "trend",
+            "repo",
+            "caption",
+            "split",
+            "quote",
+            "scene"
+          ]
+        },
+        "theme": {
+          "enum": [
+            "light",
+            "cream",
+            "dark",
+            "purple",
+            "green",
+            "red"
+          ]
+        },
+        "theme_overrides": {
+          "type": "object",
+          "properties": {
+            "bg": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ink": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sub": {
+              "type": "string",
+              "minLength": 1
+            },
+            "card": {
+              "type": "string",
+              "minLength": 1
+            },
+            "grid": {
+              "type": "boolean"
+            },
+            "glow": {
+              "type": "boolean"
+            },
+            "grad": {
+              "type": [
+                "string",
+                "boolean"
+              ]
+            }
+          }
+        },
+        "accent": {
+          "type": "string",
+          "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+        },
+        "headline": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "headline_color": {
+          "type": "string",
+          "minLength": 1
+        },
+        "highlight": {
+          "type": [
+            "string",
+            "array"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "highlight_style": {
+          "enum": [
+            "underline",
+            "box",
+            "color",
+            "strike"
+          ]
+        },
+        "underline_color": {
+          "type": "string",
+          "minLength": 1
+        },
+        "font": {
+          "enum": [
+            "sans",
+            "marker",
+            "mono",
+            "condensed",
+            "serif",
+            "hand"
+          ]
+        },
+        "headline_size": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 400
+        },
+        "headline_max": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 400
+        },
+        "headline_box": {
+          "type": "object",
+          "required": [
+            "x",
+            "y",
+            "w",
+            "h"
+          ],
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "w": {
+              "type": "number"
+            },
+            "h": {
+              "type": "number"
+            }
+          }
+        },
+        "headline_box_set": {
+          "type": "boolean"
+        },
+        "headline_align": {
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ]
+        },
+        "face": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "src": {
+              "type": "string"
+            },
+            "side": {
+              "enum": [
+                "left",
+                "right",
+                "center"
+              ]
+            },
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "pose": {
+              "type": "string"
+            },
+            "offset": {
+              "type": "number"
+            },
+            "drop": {
+              "type": "number"
+            },
+            "flip": {
+              "type": "boolean"
+            },
+            "cx": {
+              "type": "number"
+            },
+            "cy": {
+              "type": "number"
+            },
+            "d": {
+              "type": "number"
+            },
+            "frame": {
+              "enum": [
+                "circle"
+              ]
+            },
+            "ring": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ring_w": {
+              "type": "number"
+            },
+            "inset": {
+              "type": "string",
+              "minLength": 1
+            },
+            "bust": {
+              "type": "string",
+              "minLength": 1
+            },
+            "ph": {
+              "type": "string"
+            }
+          }
+        },
+        "guest": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "src": {
+              "type": "string"
+            },
+            "pose": {
+              "type": "string"
+            }
+          }
+        },
+        "canvas": {
+          "type": "object",
+          "required": [
+            "w",
+            "h"
+          ],
+          "properties": {
+            "w": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 4000
+            },
+            "h": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 4000
+            }
+          }
+        },
+        "scale": {
+          "type": "number",
+          "minimum": 0.25,
+          "maximum": 4
+        },
+        "format": {
+          "enum": [
+            "png",
+            "jpg"
+          ]
+        },
+        "quality": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "bg_image": {
+          "type": "string"
+        },
+        "bg_dim": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "bg_pattern": {
+          "enum": [
+            "dots"
+          ]
+        },
+        "bg_pattern_color": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bg_pattern_opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "bg_pattern_size": {
+          "type": "number"
+        },
+        "vignette": {
+          "type": [
+            "boolean",
+            "number"
+          ]
+        },
+        "arrow": {
+          "type": [
+            "object",
+            "boolean"
+          ],
+          "properties": {
+            "from": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "to": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "bend": {
+              "type": "number"
+            },
+            "color": {
+              "type": "string",
+              "minLength": 1
+            },
+            "width": {
+              "type": "number"
+            }
+          }
+        },
+        "arrows": {
+          "type": "array",
+          "items": {
+            "type": [
+              "object",
+              "boolean"
+            ],
+            "properties": {
+              "from": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "to": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "bend": {
+                "type": "number"
+              },
+              "color": {
+                "type": "string",
+                "minLength": 1
+              },
+              "width": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "hero": {
+          "type": [
+            "object",
+            "string"
+          ],
+          "properties": {
+            "icon": {
+              "type": "string",
+              "pattern": "^(si:|img:|glyph:|/)",
+              "x-hint": "si:<slug>, img:<path>, glyph:<text> or /command"
+            },
+            "color": {
+              "type": "string",
+              "minLength": 1
+            },
+            "fg": {
+              "type": "string",
+              "minLength": 1
+            },
+            "size": {
+              "type": "number"
+            },
+            "glow": {
+              "type": [
+                "boolean",
+                "string"
+              ]
+            },
+            "crossed": {
+              "type": "boolean"
+            },
+            "label": {
+              "type": "string"
+            },
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "t": {
+              "type": "number"
+            },
+            "tile_color": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "rivals": {
+          "type": "array",
+          "items": {
+            "type": [
+              "object",
+              "string"
+            ],
+            "properties": {
+              "icon": {
+                "type": "string",
+                "pattern": "^(si:|img:|glyph:|/)",
+                "x-hint": "si:<slug>, img:<path>, glyph:<text> or /command"
+              },
+              "color": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fg": {
+                "type": "string",
+                "minLength": 1
+              },
+              "size": {
+                "type": "number"
+              },
+              "glow": {
+                "type": [
+                  "boolean",
+                  "string"
+                ]
+              },
+              "crossed": {
+                "type": "boolean"
+              },
+              "label": {
+                "type": "string"
+              },
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "t": {
+                "type": "number"
+              },
+              "tile_color": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "burst": {
+          "type": "boolean"
+        },
+        "pedestal": {
+          "type": "boolean"
+        },
+        "items": {
+          "type": "array",
+          "description": "equation tiles, syllabus modules or proof items"
+        },
+        "ops": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tile_size": {
+          "type": "number"
+        },
+        "row_y": {
+          "type": "number"
+        },
+        "icon": {
+          "type": [
+            "object",
+            "string"
+          ],
+          "properties": {
+            "icon": {
+              "type": "string",
+              "pattern": "^(si:|img:|glyph:|/)",
+              "x-hint": "si:<slug>, img:<path>, glyph:<text> or /command"
+            },
+            "color": {
+              "type": "string",
+              "minLength": 1
+            },
+            "fg": {
+              "type": "string",
+              "minLength": 1
+            },
+            "size": {
+              "type": "number"
+            },
+            "glow": {
+              "type": [
+                "boolean",
+                "string"
+              ]
+            },
+            "crossed": {
+              "type": "boolean"
+            },
+            "label": {
+              "type": "string"
+            },
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "t": {
+              "type": "number"
+            },
+            "tile_color": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "command": {
+          "type": "string"
+        },
+        "chips": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "string"
+          }
+        },
+        "proof": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "stripe",
+                "payments",
+                "bars",
+                "chart",
+                "card"
+              ]
+            },
+            "items": {
+              "type": "array"
+            },
+            "blur": {
+              "type": "boolean"
+            },
+            "points": {
+              "type": "array"
+            },
+            "curve": {
+              "enum": [
+                "illustrative"
+              ]
+            }
+          }
+        },
+        "board": {
+          "enum": [
+            "whiteboard",
+            "terminal"
+          ]
+        },
+        "tag": {
+          "type": "string"
+        },
+        "doodle": {
+          "type": "boolean"
+        },
+        "doodle_labels": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {
+            "type": "string"
+          }
+        },
+        "smear": {
+          "type": "boolean"
+        },
+        "smear_y": {
+          "type": "number"
+        },
+        "chain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "chain_highlight": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "chain_y": {
+          "type": "number"
+        },
+        "pill": {
+          "type": "string"
+        },
+        "pill_color": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pill_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string"
+        },
+        "label_color": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label_pos": {
+          "type": "string"
+        },
+        "card": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "enum": [
+                "tweet",
+                "comment"
+              ]
+            },
+            "stats": {
+              "type": "array",
+              "maxItems": 3
+            }
+          }
+        },
+        "points": {
+          "type": "array"
+        },
+        "marker": {
+          "type": [
+            "object",
+            "boolean"
+          ]
+        },
+        "icons": {
+          "type": "array",
+          "items": {
+            "type": [
+              "object",
+              "string"
+            ],
+            "properties": {
+              "icon": {
+                "type": "string",
+                "pattern": "^(si:|img:|glyph:|/)",
+                "x-hint": "si:<slug>, img:<path>, glyph:<text> or /command"
+              },
+              "color": {
+                "type": "string",
+                "minLength": 1
+              },
+              "fg": {
+                "type": "string",
+                "minLength": 1
+              },
+              "size": {
+                "type": "number"
+              },
+              "glow": {
+                "type": [
+                  "boolean",
+                  "string"
+                ]
+              },
+              "crossed": {
+                "type": "boolean"
+              },
+              "label": {
+                "type": "string"
+              },
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "t": {
+                "type": "number"
+              },
+              "tile_color": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "curve_from": {
+          "type": "string",
+          "minLength": 1
+        },
+        "curve_to": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repo": {
+          "type": "string",
+          "pattern": "^[^/\\s]+/[^/\\s]+$"
+        },
+        "stats": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "box_color": {
+          "type": "string",
+          "minLength": 1
+        },
+        "box_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "left": {
+          "type": "object"
+        },
+        "right": {
+          "type": "object"
+        },
+        "quote": {
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "label": {
+              "type": "string"
+            },
+            "highlight": {
+              "type": "string"
+            },
+            "highlight_color": {
+              "type": "string",
+              "minLength": 1
+            },
+            "border": {
+              "type": "string",
+              "minLength": 1
+            },
+            "missed": {
+              "type": "string"
+            },
+            "w": {
+              "type": "number"
+            }
+          }
+        },
+        "elements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/element"
+          }
+        },
+        "pair": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Batch only: index into titles[]."
+        },
+        "bg_style": {
+          "enum": [
+            "paper-grid",
+            "cream-grid",
+            "brand-yellow",
+            "flat",
+            "black-glow",
+            "black-spotlight"
+          ],
+          "description": "Background preset (3.1). Colours via bg_color / glow_color."
+        },
+        "bg_color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{3,8}$"
+        },
+        "glow_color": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{3,8}$"
+        },
+        "glow_at": {
+          "type": "string"
+        },
+        "glow_opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "stickers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "enum": [
+                  "emoji",
+                  "mark",
+                  "photo"
+                ]
+              },
+              "text": {
+                "type": "string"
+              },
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "size": {
+                "type": "number",
+                "minimum": 10
+              },
+              "rotate": {
+                "type": "number"
+              },
+              "color": {
+                "type": "string"
+              },
+              "font": {
+                "enum": [
+                  "sans",
+                  "cond",
+                  "marker",
+                  "serif",
+                  "hand"
+                ]
+              },
+              "outline": {
+                "type": "string"
+              },
+              "outline_w": {
+                "type": "number"
+              },
+              "src": {
+                "type": "string"
+              },
+              "cx": {
+                "type": "number"
+              },
+              "cy": {
+                "type": "number"
+              },
+              "d": {
+                "type": "number",
+                "minimum": 20
+              },
+              "ring": {
+                "type": "string"
+              },
+              "ring_w": {
+                "type": "number"
+              },
+              "inset": {
+                "type": "string"
+              },
+              "shadow": {
+                "type": "boolean"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          },
+          "description": "Emoji, punctuation marks and extra face circles drawn over any layout (3.1)."
+        }
+      }
+    },
+    "element": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "enum": [
+            "head",
+            "bubble",
+            "card",
+            "doc",
+            "lens",
+            "highlighter",
+            "sticky",
+            "chip",
+            "glow",
+            "pin",
+            "string"
+          ]
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "rotate": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      }
+    },
+    "tile": {
+      "type": [
+        "object",
+        "string"
+      ],
+      "properties": {
+        "icon": {
+          "type": "string",
+          "pattern": "^(si:|img:|glyph:|/)",
+          "x-hint": "si:<slug>, img:<path>, glyph:<text> or /command"
+        },
+        "color": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fg": {
+          "type": "string",
+          "minLength": 1
+        },
+        "size": {
+          "type": "number"
+        },
+        "glow": {
+          "type": [
+            "boolean",
+            "string"
+          ]
+        },
+        "crossed": {
+          "type": "boolean"
+        },
+        "label": {
+          "type": "string"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "t": {
+          "type": "number"
+        },
+        "tile_color": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "arrow": {
+      "type": [
+        "object",
+        "boolean"
+      ],
+      "properties": {
+        "from": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "to": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "bend": {
+          "type": "number"
+        },
+        "color": {
+          "type": "string",
+          "minLength": 1
+        },
+        "width": {
+          "type": "number"
+        }
+      }
+    },
+    "archetypes": {
+      "enum": [
+        "verdict",
+        "equation",
+        "command",
+        "proof",
+        "syllabus",
+        "marker",
+        "versus",
+        "social",
+        "trend",
+        "repo",
+        "caption",
+        "split",
+        "quote",
+        "scene"
+      ]
+    }
+  }
+}

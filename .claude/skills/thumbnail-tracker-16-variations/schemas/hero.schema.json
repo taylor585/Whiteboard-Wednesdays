@@ -1,0 +1,292 @@
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "$id": "hero.schema.json",
+ "title": "Objects-only thumbnail spec for scripts/hero/build_hero.py",
+ "type": "object",
+ "required": [
+  "id",
+  "studio",
+  "layers"
+ ],
+ "x-warnUnknown": true,
+ "properties": {
+  "id": {
+   "type": "string",
+   "pattern": "^[A-Za-z0-9][A-Za-z0-9-]*$"
+  },
+  "title": {
+   "type": "string",
+   "description": "The paired YouTube title (for the feed mock and the log)."
+  },
+  "words": {
+   "type": "string",
+   "description": "Every word on the image, in reading order. 4 words or fewer."
+  },
+  "studio": {
+   "type": "object",
+   "properties": {
+    "preset": {
+     "type": "string",
+     "enum": [
+      "dark-red",
+      "dark-blue",
+      "warm-white",
+      "cool-grey",
+      "cream-board",
+      "brand-yellow",
+      "dark-purple",
+      "dark-green",
+      "hot-orange",
+      "paper-grid",
+      "sky"
+     ]
+    },
+    "base": {
+     "type": "string",
+     "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "light": {
+     "type": "string",
+     "pattern": "^#[0-9a-fA-F]{6}$"
+    },
+    "at": {
+     "type": "array",
+     "items": {
+      "type": "number"
+     },
+     "minItems": 2,
+     "maxItems": 2
+    },
+    "floor": {
+     "type": "number"
+    },
+    "vignette": {
+     "type": "number"
+    }
+   }
+  },
+  "extra_css": {
+   "type": "string"
+  },
+  "layers": {
+   "type": "array",
+   "minItems": 1,
+   "maxItems": 14,
+   "items": {
+    "type": "object",
+    "required": [
+     "type"
+    ],
+    "properties": {
+     "type": {
+      "type": "string",
+      "enum": [
+       "text",
+       "logo",
+       "clock",
+       "gauge",
+       "keycap",
+       "headset",
+       "handset",
+       "call_button",
+       "ledge",
+       "marker",
+       "cord",
+       "html",
+       "clapperboard",
+       "phone",
+       "coin_stack",
+       "price_tag",
+       "lightbulb",
+       "brain",
+       "speech_bubble",
+       "emoji",
+       "block3d",
+       "circle_mark",
+       "arrow_mark",
+       "dot_grid"
+      ]
+     },
+     "text": {
+      "type": "string",
+      "pattern": "^\\S+(\\s+\\S+){0,3}$",
+      "description": "4 words or fewer"
+     },
+     "finish": {
+      "type": "string",
+      "enum": [
+       "white-outline",
+       "red-outline",
+       "gold",
+       "gold-outline",
+       "charcoal",
+       "ink-serif",
+       "red-serif",
+       "claude-terracotta",
+       "chrome",
+       "grok-black-chrome",
+       "grok-graphite",
+       "black",
+       "brass",
+       "ink",
+       "black-gloss",
+       "black-sans",
+       "white-sans",
+       "purple-glow",
+       "green-outline",
+       "marker-red"
+      ]
+     },
+     "logo": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+\\.svg$"
+     },
+     "x": {
+      "type": "number"
+     },
+     "y": {
+      "type": "number"
+     },
+     "size": {
+      "type": "number"
+     },
+     "r": {
+      "type": "number"
+     },
+     "s": {
+      "type": "number"
+     },
+     "w": {
+      "type": "number"
+     },
+     "h": {
+      "type": "number"
+     },
+     "d": {
+      "type": "number"
+     },
+     "depth": {
+      "type": "integer"
+     },
+     "rot": {
+      "type": "number"
+     },
+     "rim": {
+      "type": "boolean"
+     },
+     "glow": {
+      "type": "string"
+     },
+     "glow_opacity": {
+      "type": "number"
+     },
+     "floor_shadow": {
+      "type": "boolean"
+     },
+     "elapsed_h": {
+      "type": "number"
+     },
+     "value": {
+      "type": "number"
+     },
+     "ghost": {
+      "type": "number"
+     },
+     "dark": {
+      "type": "boolean"
+     },
+     "label": {
+      "type": "string"
+     },
+     "logo_col": {
+      "type": "string"
+     },
+     "blur": {
+      "type": "integer"
+     },
+     "col": {
+      "type": "string"
+     },
+     "x0": {
+      "type": "number"
+     },
+     "y0": {
+      "type": "number"
+     },
+     "x1": {
+      "type": "number"
+     },
+     "y1": {
+      "type": "number"
+     },
+     "loops": {
+      "type": "integer"
+     },
+     "html": {
+      "type": "string"
+     },
+     "op": {
+      "type": "number"
+     },
+     "width": {
+      "type": "number"
+     },
+     "n": {},
+     "symbol": {},
+     "open_deg": {},
+     "progress": {},
+     "tilt": {},
+     "face": {},
+     "edge": {},
+     "ink": {},
+     "string": {},
+     "stripe": {},
+     "body": {},
+     "screen": {},
+     "accent": {},
+     "anchor": {},
+     "char": {},
+     "top": {},
+     "bot": {},
+     "side": {},
+     "rx": {},
+     "ry": {},
+     "font": {},
+     "tail": {},
+     "lit": {},
+     "label_size": {},
+     "step": {},
+     "bend": {}
+    }
+   }
+  },
+  "layout_1080x1350": {
+   "type": "object",
+   "description": "A full spec (studio + layers) re-laid for the LinkedIn 4:5 post."
+  },
+  "look": {
+   "type": "object",
+   "description": "Variety tags checked by scripts/hero/variety_check.py",
+   "properties": {
+    "layout": {
+     "type": "string"
+    },
+    "ground": {
+     "type": "string"
+    },
+    "font": {
+     "type": "string"
+    },
+    "accent": {
+     "type": "string"
+    },
+    "hero": {
+     "type": "string"
+    },
+    "emoji": {
+     "type": "boolean"
+    }
+   }
+  }
+ }
+}

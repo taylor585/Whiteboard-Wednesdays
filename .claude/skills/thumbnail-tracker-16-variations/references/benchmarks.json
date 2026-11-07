@@ -1,0 +1,29 @@
+{
+  "brightness": {
+    "p25": 0.331,
+    "median": 0.481,
+    "p75": 0.719
+  },
+  "contrast": {
+    "p25": 0.522,
+    "median": 0.606,
+    "p75": 0.662
+  },
+  "colourfulness": {
+    "p25": 0.377,
+    "median": 0.492,
+    "p75": 0.718
+  },
+  "clutter": {
+    "p25": 0.152,
+    "median": 0.189,
+    "p75": 0.225
+  },
+  "saturation": {
+    "p25": 0.152,
+    "median": 0.259,
+    "p75": 0.461
+  },
+  "_n": 72,
+  "_source": "Nick Saraev's 72 most recent thumbnails (Oct 2026, current style era, median 66.5K views)"
+}

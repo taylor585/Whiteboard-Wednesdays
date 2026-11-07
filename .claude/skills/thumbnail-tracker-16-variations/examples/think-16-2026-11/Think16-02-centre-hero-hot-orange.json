@@ -1,0 +1,43 @@
+{
+ "id": "Think16-02-centre-hero-hot-orange",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "centre-hero",
+  "ground": "hot-orange",
+  "font": "inter-tight",
+  "accent": "white",
+  "hero": "brain",
+  "emoji": true
+ },
+ "studio": {
+  "preset": "hot-orange"
+ },
+ "words": "YOUR BRAIN + AI",
+ "layers": [
+  {
+   "type": "brain",
+   "x": 640,
+   "y": 260,
+   "w": 560,
+   "glow": "#fff1d6"
+  },
+  {
+   "type": "emoji",
+   "x": 1000,
+   "y": 120,
+   "size": 140,
+   "char": "🤯",
+   "rot": 10
+  },
+  {
+   "type": "text",
+   "text": "Your brain + AI",
+   "x": 640,
+   "y": 650,
+   "size": 150,
+   "finish": "white-sans",
+   "depth": 12,
+   "anchor": "middle"
+  }
+ ]
+}

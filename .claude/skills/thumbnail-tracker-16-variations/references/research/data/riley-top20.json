@@ -1,0 +1,727 @@
+{
+ "creator": "Riley Brown (@rileybrownai)",
+ "source": "research-top/rileybrownai (all.tsv, picks.json, 20 dossiers + thumbnails); compared with research/rileybrownai/teardown.md",
+ "notes": {
+  "bucket": "top_views and top_breakouts in picks.json are disjoint lists. 'both' = a top_views video whose outlier (>=4.52) would also have made the breakout list; 'views' = top_views only; 'breakout' = top_breakouts.",
+  "thumb.words": "All designed overlay text, including logo lettering such as the pixel 'CLAUDE CODE'; excludes UI text inside screenshots and the 05:00 timer.",
+  "outliers": "Every outlier was checked against all.tsv by recomputing views / median of the 10 uploads either side; all 20 match. Index 93–95 have no view counts in all.tsv."
+ },
+ "videos": [
+  {
+   "id": "NnYLzGMk8Tg",
+   "index": 106,
+   "title": "Can I Vibecode a $250M App Better Than a Pro Developer? (With No Code)",
+   "published": "2025-08-18",
+   "views": 1124232,
+   "likes": 23000,
+   "duration_min": 56,
+   "outlier": 38.6,
+   "bucket": "both",
+   "title_formula": "can-i-beat-a-pro (challenge, $ stake, no-code)",
+   "thumb": {
+    "words": 6,
+    "text": "CLAUDE CODE / vibe coder VS expert",
+    "face": "two faces: Riley left (backwards cap), guest Vishal right (glasses)",
+    "objects": "pixel-font orange \"CLAUDE CODE\" lettering; white label pills; orange italic VS",
+    "palette": "black bg, orange, white pills",
+    "layout": "duo versus (two faces, centre tool name, labelled pills)",
+    "line_vs_title": "complements",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "Can a vibe coder make a better app than a senior iOS engineer?\nIn this video, Vishal and I compete to see who can build a better Granola AI App with only five prompts and zero actual coding.",
+    "first_line_job": "hook (question)",
+    "cta": [
+     "own community/offer: agentnative.inc"
+    ],
+    "chapters": "14, from 00:00, plain/narrative (\"Vishal #1 First Prompt…\", \"Final results / Vote\")",
+    "hashtags": "none",
+    "chars": 800
+   }
+  },
+  {
+   "id": "Ju41cQSe7hY",
+   "index": 15,
+   "title": "I Spent 100 Hours Using GPT-6 Astra (This Feels Like AGI)",
+   "published": "2026-09-07",
+   "views": 752423,
+   "likes": 6800,
+   "duration_min": 24,
+   "outlier": 7.52,
+   "bucket": "both",
+   "title_formula": "i-tested (endurance, launch)",
+   "thumb": {
+    "words": 4,
+    "text": "THIS FEELS LIKE AGI",
+    "face": "Riley face-left, mouth open, hand raised, orange rim light",
+    "objects": "glowing OpenAI knot",
+    "palette": "black starfield, white + yellow caps, blue glow",
+    "layout": "face-left + verdict + hero logo",
+    "line_vs_title": "repeats (title parenthetical)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "This is an Agent Native Episode.\nOpenAI just released GPT-6 Astra, and I'm genuinely shook.",
+    "first_line_job": "series label (\"This is an Agent Native Episode.\"), then hook",
+    "cta": [
+     "own resources: agentnative.inc/resources (plain text)"
+    ],
+    "chapters": "8, from 00:00, numbered realisations (\"3. Vibe coding is solved\")",
+    "hashtags": "none",
+    "chars": 901
+   }
+  },
+  {
+   "id": "474wZZHoWN4",
+   "index": 55,
+   "title": "Learn 95% of Codex in 30 minutes",
+   "published": "2026-04-28",
+   "views": 462562,
+   "likes": 9900,
+   "duration_min": 29,
+   "outlier": 6.2,
+   "bucket": "both",
+   "title_formula": "learn-N%-in-time (compressed course)",
+   "thumb": {
+    "words": 2,
+    "text": "Codex Guide",
+    "face": "Riley face-right, neutral, close crop",
+    "objects": "dark app window mock-up with purple Codex cloud icon",
+    "palette": "dark, blue/purple pill, orange and blue blur",
+    "layout": "face-right + UI window + caption pill",
+    "line_vs_title": "repeats (topic)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "Learn 95% of Codex in 28 minutes\nThese are the 7 knowledge work capabilities...",
+    "first_line_job": "keyword sentence (restates title, \"in 28 minutes\")",
+    "cta": [
+     "tool/skill link: chorus.com/skills",
+     "own site rileybrown.xyz",
+     "sponsorship enquiries"
+    ],
+    "chapters": "10, from 00:00, numbered \"Capability 1 - Full File Access\"",
+    "hashtags": "none",
+    "chars": 571
+   }
+  },
+  {
+   "id": "2aldTxnbNt0",
+   "index": 87,
+   "title": "Cursor 2.0 Tutorial for Beginners (Full Course)",
+   "published": "2025-11-10",
+   "views": 384758,
+   "likes": 7900,
+   "duration_min": 154,
+   "outlier": 14.77,
+   "bucket": "both",
+   "title_formula": "full-course (tool + version + \"for Beginners\")",
+   "thumb": {
+    "words": 7,
+    "text": "the last tutorial you'll ever need + cursor",
+    "face": "Riley face-right, hand on chin, slight smile",
+    "objects": "Cursor cube logo + wordmark; blurred Cursor UI behind",
+    "palette": "dark, white lowercase, orange highlight pill on \"last\"",
+    "layout": "face-right + lowercase verdict line + tool logo",
+    "line_vs_title": "complements (finality verdict)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "Complete Cursor Guide with Kehan Zhang\nThis is the Complete Cursor Guide with Kehan Zhang, one of the best developers out there, who uses Cursor extensively. In this comprehensive course, learn how to confidently use Cursor to code landing pages, desktop apps, and more. No prior programming knowledge needed – just a computer.",
+    "first_line_job": "keyword sentence (\"Complete Cursor Guide with Kehan Zhang\")",
+    "cta": [
+     "own app: VibeCode (vibecode.go.link)",
+     "demo app link",
+     "socials (X, Instagram, guest)"
+    ],
+    "chapters": "33, from 00:00, keyword-rich/plain",
+    "hashtags": "none",
+    "chars": 2108
+   }
+  },
+  {
+   "id": "aEdRB2yVK-I",
+   "index": 100,
+   "title": "We Built 2 FULL Video Games In 7 Prompts (Claude Code vs GPT-5 Codex)",
+   "published": "2025-09-22",
+   "views": 325896,
+   "likes": 4700,
+   "duration_min": 66,
+   "outlier": 12.5,
+   "bucket": "both",
+   "title_formula": "we-built-N-in-N (challenge, A vs B in brackets)",
+   "thumb": {
+    "words": 3,
+    "text": "CLAUDE CODE vs",
+    "face": "two faces: Riley left (cap), Vishal right",
+    "objects": "pixel-art fighter avatars of both; OpenAI knot; pixel \"CLAUDE CODE\"",
+    "palette": "black, orange pixel type, green \"vs\", white logo",
+    "layout": "duo versus (fighting-game)",
+    "line_vs_title": "repeats (Claude Code vs …)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "You can build multi-player video games with Claude Code and Codex w/GPT-5...\nWithout writing a single line of code.",
+    "first_line_job": "hook/summary (\"You can build multi-player video games…\")",
+    "cta": [
+     "own offer: agentnative.inc",
+     "comment/RT to vote (prize: $1000 credits)"
+    ],
+    "chapters": "31, from 00:00, plain/narrative",
+    "hashtags": "none",
+    "chars": 1687
+   }
+  },
+  {
+   "id": "_GMtx9EsIKU",
+   "index": 116,
+   "title": "We Made Claude Code Build Lovable in 75 Minutes (With No Code)",
+   "published": "2025-07-08",
+   "views": 313416,
+   "likes": 6500,
+   "duration_min": 83,
+   "outlier": 7.54,
+   "bucket": "both",
+   "title_formula": "we-built-N-in-N (clone a known app, no-code)",
+   "thumb": {
+    "words": 4,
+    "text": "this shouldn't be possible",
+    "face": "two faces: Riley left, guest Kehan right with mic",
+    "objects": "Claude starburst → Lovable heart in dark card, yellow curved arrow",
+    "palette": "black, white lowercase, orange pill on \"shouldn't\", yellow arrow",
+    "layout": "duo + lowercase verdict + logo→logo card",
+    "line_vs_title": "complements (disbelief verdict)",
+    "arrow": true
+   },
+   "desc": {
+    "above_fold": "Want to build your version? Download VibeCode here: https://vibecode.go.link/86Ibo\nCan Claude Code actually beat Cursor?",
+    "first_line_job": "CTA (own app: \"Download VibeCode here\")",
+    "cta": [
+     "own app: VibeCode",
+     "socials (X, guest X)",
+     "GitHub repo",
+     "podcast audio (rss.com)",
+     "subscribe/comment ask"
+    ],
+    "chapters": "16, from 00:00, plain",
+    "hashtags": "none",
+    "chars": 1713
+   }
+  },
+  {
+   "id": "0iGEpx8IeM0",
+   "index": 121,
+   "title": "Claude Code Replaced Cursor for Me… Here’s Why",
+   "published": "2025-06-25",
+   "views": 297818,
+   "likes": 6800,
+   "duration_min": 37,
+   "outlier": 9.9,
+   "bucket": "both",
+   "title_formula": "x-replaced-y (+ \"Here's Why\")",
+   "thumb": {
+    "words": 5,
+    "text": "claude made cursor feel dumb",
+    "face": "two faces: Riley left, guest Ras Mic right",
+    "objects": "Claude icon \">\" Cursor icon",
+    "palette": "black, white lowercase, orange pill on \"dumb\"",
+    "layout": "duo + lowercase verdict + logo>logo",
+    "line_vs_title": "complements (insult verdict)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "The App that Builds Mobile Apps→ https://vibecode.go.link/iEsLU\nIs Claude Code really the best AI coding tool right now? In this episode, I sit down with AI dev expert Ras Mic to break down Claude Code vs Cursor, Windsurf, Codex, and more.",
+    "first_line_job": "CTA (own app: \"The App that Builds Mobile Apps→\")",
+    "cta": [
+     "own app: VibeCode",
+     "own course: vaaps.ai",
+     "guest channel",
+     "watch next",
+     "podcast",
+     "work with us email",
+     "socials"
+    ],
+    "chapters": "9, from 00:00, keyword-rich",
+    "hashtags": "none",
+    "chars": 1509
+   }
+  },
+  {
+   "id": "ifz8NGHuHtY",
+   "index": 13,
+   "title": "28 Insane Things Astra Can Do (2 Hour Course)",
+   "published": "2026-09-14",
+   "views": 283633,
+   "likes": 4300,
+   "duration_min": 115,
+   "outlier": 2.83,
+   "bucket": "views",
+   "title_formula": "listicle-n (+ course length in brackets)",
+   "thumb": {
+    "words": 2,
+    "text": "MASTER ASTRA",
+    "face": "Riley centred at desk, hands on MacBook, neutral stare",
+    "objects": "glossy Codex cloud left, metallic OpenAI knot right",
+    "palette": "black, orange glow, yellow + white caps",
+    "layout": "desk anchor",
+    "line_vs_title": "complements (mastery vs \"28 things\")",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "Codex + GPT-6 Astra: The Complete Guide (28 Things You Need to Know)\nHere is the Codex Complete Guide in Written format: https://agentnative.inc/resources/28-...",
+    "first_line_job": "keyword sentence (\"Codex + GPT-6 Astra: The Complete Guide…\")",
+    "cta": [
+     "own written guide: agentnative.inc/resources/28-…"
+    ],
+    "chapters": "33, from 00:00, numbered 1–28 to match title",
+    "hashtags": "none",
+    "chars": 1165
+   }
+  },
+  {
+   "id": "mHqSBCHEZOY",
+   "index": 19,
+   "title": "How to Use ChatGPT Sites to Build Anything (Insane)",
+   "published": "2026-08-25",
+   "views": 257339,
+   "likes": 3000,
+   "duration_min": 13,
+   "outlier": 2.61,
+   "bucket": "views",
+   "title_formula": "how-to (launch tool + outcome + \"(Insane)\")",
+   "thumb": {
+    "words": 2,
+    "text": "BUILD ANYTHING",
+    "face": "none",
+    "objects": "MacBook showing ChatGPT Sites UI with OpenAI logo; four floating dashboard/store panels",
+    "palette": "dark, blue and orange neon edges, white + yellow caps",
+    "layout": "dashboard spread",
+    "line_vs_title": "repeats (\"Build Anything\")",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "I built an app that replaced 3 SaaS tools I was paying thousands of dollars for in just 3 prompts inside ChatGPT.\nJoin the WebMCP Challenge: https://openai.com/webmcp-challenge/",
+    "first_line_job": "hook (result claim: \"replaced 3 SaaS tools… in just 3 prompts\")",
+    "cta": [
+     "sponsor challenge: openai.com/webmcp-challenge",
+     "sponsor disclosure \"Thanks to @OpenAI for sponsoring this video.\"",
+     "own site",
+     "own resources",
+     "sponsorship email"
+    ],
+    "chapters": "8, from 0:00, keyword-rich",
+    "hashtags": "#codex #agents #ChatGPT_Partner #aiagents (4)",
+    "chars": 984
+   }
+  },
+  {
+   "id": "2FJlhoDYNPE",
+   "index": 102,
+   "title": "AI Coding Masterclass: From Beginner to Expert in 90 Minutes",
+   "published": "2025-09-11",
+   "views": 252475,
+   "likes": 7900,
+   "duration_min": 96,
+   "outlier": 9.69,
+   "bucket": "both",
+   "title_formula": "full-course (masterclass, beginner→expert in N minutes)",
+   "thumb": {
+    "words": 8,
+    "text": "the last tutorial you'll ever need + CLAUDE CODE (pixel)",
+    "face": "Riley face-right in suit, hand on chin",
+    "objects": "OpenAI knot, pixel \"CLAUDE CODE\", Gemini star",
+    "palette": "black, white lowercase, orange pill on \"last\", rainbow Gemini",
+    "layout": "face-right + lowercase verdict line + 3 tool logos",
+    "line_vs_title": "complements (finality verdict)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "Claude Code and Codex are the best AI Coding Agents in the world.\nBuilding the best place to learn AI Agents for business: https://agentnative.inc/",
+    "first_line_job": "claim (\"Claude Code and Codex are the best AI Coding Agents in the world.\")",
+    "cta": [
+     "own offer: agentnative.inc"
+    ],
+    "chapters": "36, from 00:00, keyword-rich, \"Vibe Marketing 1…\", \"PART 3\"",
+    "hashtags": "none",
+    "chars": 1954
+   }
+  },
+  {
+   "id": "2itM7IdThvA",
+   "index": 131,
+   "title": "The 6 Steps to Master AI",
+   "published": "2025-04-21",
+   "views": 250692,
+   "likes": 9400,
+   "duration_min": 111,
+   "outlier": 17.86,
+   "bucket": "breakout",
+   "title_formula": "n-steps-to-master (broad, no tool named)",
+   "thumb": {
+    "words": 0,
+    "text": "(none)",
+    "face": "Riley face-right, hand on chin, real room background",
+    "objects": "Anthropic \"A\\\" tile centre with orbiting app icons (OpenAI, Cursor, n8n, Gemini, DeepSeek)",
+    "palette": "charcoal left panel, warm room right, beige/blue icons",
+    "layout": "face-right + logo orbit, no text",
+    "line_vs_title": "none (no text)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "Struggle to keep up with all the most powerful AI tools?\nIt would mean the world to me if you try out my new app VibeCode: https://vibecode.go.link/g8MGM",
+    "first_line_job": "hook (question: \"Struggle to keep up with all the most powerful AI tools?\")",
+    "cta": [
+     "own app: VibeCode (line 2)",
+     "mind map: learn.vibecodeapp.com"
+    ],
+    "chapters": "57, from 00:00, sectioned A–F (\"B CHAT TOOLS\")",
+    "hashtags": "none",
+    "chars": 3398
+   }
+  },
+  {
+   "id": "kXnW4Hy4Z7o",
+   "index": 178,
+   "title": "Build a FULL Web App With Claude With 2 SCREENSHOTS!",
+   "published": "2024-07-19",
+   "views": 195033,
+   "likes": 5300,
+   "duration_min": 18,
+   "outlier": 16.96,
+   "bucket": "breakout",
+   "title_formula": "build-with-tiny-input (\"FULL Web App … With 2 SCREENSHOTS!\")",
+   "thumb": {
+    "words": 5,
+    "text": "I CREATED THIS / WITHOUT CODING!",
+    "face": "Riley face-right, big grin, pointing at screen",
+    "objects": "tilted laptop showing the notes app; Claude and Replit icons",
+    "palette": "dark, orange caps in white speech bubble, white caps bottom",
+    "layout": "face-right + pointing at proof screenshot",
+    "line_vs_title": "complements (pride + no-code)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "Using Claude to make a fully functional note-taking app with a real-time backend in just 4.5 hours without writing a single line of code.\nPART 2:    • I Used ONLY AI to build a Feature-Rich Not...  ",
+    "first_line_job": "summary (\"…in just 4.5 hours without writing a single line of code.\")",
+    "cta": [
+     "part 2 video",
+     "community: vaaps.ai",
+     "own build: vibecode.go.link",
+     "Replit template fork"
+    ],
+    "chapters": "8, from 00:00, keyword-rich with @mentions",
+    "hashtags": "none",
+    "chars": 875
+   }
+  },
+  {
+   "id": "tR2azlV7RlQ",
+   "index": 146,
+   "title": "Deepseek Explained",
+   "published": "2025-01-27",
+   "views": 206424,
+   "likes": 6500,
+   "duration_min": 10,
+   "outlier": 10.84,
+   "bucket": "breakout",
+   "title_formula": "explained (bare \"X Explained\", launch moment)",
+   "thumb": {
+    "words": 4,
+    "text": "THIS WHALE IS UNSTOPPABLE",
+    "face": "Riley head on body, waving, riding a giant purple whale",
+    "objects": "DeepSeek whale logo tile; 3D whale",
+    "palette": "purple sky + grid, white mono caps",
+    "layout": "meme composite (riding the mascot)",
+    "line_vs_title": "complements (verdict/metaphor)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "Deepseek is actually insane... \nWe are building an open source iOS app that you can build without writing a single line of code using DeepSeek. We're making a video very soon. For more information on this, go to softwarecomposers.com",
+    "first_line_job": "hook (\"Deepseek is actually insane...\")",
+    "cta": [
+     "softwarecomposers.com (plain text)",
+     "own app: vibecode.go.link"
+    ],
+    "chapters": "none",
+    "hashtags": "none",
+    "chars": 301
+   }
+  },
+  {
+   "id": "faezjTHA5SU",
+   "index": 141,
+   "title": "Complete Guide to Cursor For Non-Coders (Vibe Coding 101)",
+   "published": "2025-02-11",
+   "views": 184069,
+   "likes": 4500,
+   "duration_min": 148,
+   "outlier": 9.2,
+   "bucket": "breakout",
+   "title_formula": "full-course (complete guide for non-coders, \"101\")",
+   "thumb": {
+    "words": 4,
+    "text": "CURSOR / IN 3 HOURS",
+    "face": "Riley face-right, neutral",
+    "objects": "Cursor logo large, OpenAI and Perplexity logos small",
+    "palette": "purple grid, purple pill + yellow pill, black text",
+    "layout": "face-right + stacked label pills + logo row",
+    "line_vs_title": "complements (adds duration)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "Everyone is talking about Vibe Coding\n(Using AI to Create Apps Only using AI)",
+    "first_line_job": "hook (\"Everyone is talking about Vibe Coding\")",
+    "cta": [
+     "community: vaaps.ai",
+     "own app: vibecode",
+     "landing page",
+     "tools: Cursor, Firebase, Vercel"
+    ],
+    "chapters": "55, from 00:00, sectioned Part 1A/1B/2/3, casual (\"What the hell is Composer?\")",
+    "hashtags": "none",
+    "chars": 3474
+   }
+  },
+  {
+   "id": "z-zOs02NH44",
+   "index": 172,
+   "title": "How to Use AI to Build a Web App in 10 minutes (Template + Full Guide)",
+   "published": "2024-08-16",
+   "views": 87011,
+   "likes": 2100,
+   "duration_min": 37,
+   "outlier": 7.57,
+   "bucket": "breakout",
+   "title_formula": "how-to (time-bound, \"(Template + Full Guide)\")",
+   "thumb": {
+    "words": 6,
+    "text": "BUILD WEB APP IN 10 MINUTES",
+    "face": "Riley face-right, neutral",
+    "objects": "laptop screenshot of Replit notes app; Replit and Claude icons",
+    "palette": "dark, white + yellow caps, red curved arrow",
+    "layout": "face-right + proof screenshot + arrow",
+    "line_vs_title": "repeats",
+    "arrow": true
+   },
+   "desc": {
+    "above_fold": "You (with zero coding experience) can now create websites from scratch using AI in less than 20 minutes with this template:\nTemplate can be found here: create.inc",
+    "first_line_job": "summary/promise (\"You (with zero coding experience) can now create websites…\")",
+    "cta": [
+     "template: create.inc (plain text)",
+     "guest channel and X"
+    ],
+    "chapters": "3, from 00:00, plain",
+    "hashtags": "none",
+    "chars": 960
+   }
+  },
+  {
+   "id": "p-KM4P-6Hmg",
+   "index": 114,
+   "title": "We Built an $80M App in 47 Minutes (Full Guide)",
+   "published": "2025-07-15",
+   "views": 246604,
+   "likes": 6300,
+   "duration_min": 47,
+   "outlier": 5.93,
+   "bucket": "breakout",
+   "title_formula": "we-built-N-in-N ($ value + minutes)",
+   "thumb": {
+    "words": 7,
+    "text": "idea to app store in one hour",
+    "face": "two faces: Riley left with mic, guest Muhammad right",
+    "objects": "Claude starburst → App Store icon, yellow curved arrow",
+    "palette": "black, white lowercase, orange pill on \"one\"",
+    "layout": "duo + lowercase verdict + logo→logo card",
+    "line_vs_title": "complements (outcome restated as journey)",
+    "arrow": true
+   },
+   "desc": {
+    "above_fold": "Building the best place to learn AI Agents for business: https://agentnative.inc/\nWhere you can find more of us:",
+    "first_line_job": "CTA (\"Building the best place to learn AI Agents for business: agentnative.inc\")",
+    "cta": [
+     "own offer: agentnative.inc",
+     "socials (own and guest X)"
+    ],
+    "chapters": "12, from 00:00, plain with @mentions",
+    "hashtags": "none",
+    "chars": 1133
+   }
+  },
+  {
+   "id": "dzFUOQUSiEI",
+   "index": 82,
+   "title": "Gemini 3 Gives You Superpowers: Here’s How to Unlock Them",
+   "published": "2025-11-22",
+   "views": 147643,
+   "likes": 3200,
+   "duration_min": 25,
+   "outlier": 5.16,
+   "bucket": "breakout",
+   "title_formula": "benefit-claim + how (\"Gives You Superpowers: Here's How to Unlock Them\")",
+   "thumb": {
+    "words": 0,
+    "text": "(none)",
+    "face": "Riley face-left, slight smile, palm up",
+    "objects": "rainbow Gemini star floating above his hand",
+    "palette": "near-black, rainbow logo",
+    "layout": "face-left + held hero logo, no text",
+    "line_vs_title": "none (no text)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "In this video, I cover how Google has finally caught up with OpenAI by launching two groundbreaking AI models, Gemini 3 and Nano Banana.  These models excel in creating advanced viual outputs, multi-modal understand, both things that make them an invaluable tool for content creators, entrepreneurs, and marketers.\nIf you enjoyed this video, the best way to support the continuation of more videos is by liking, sharing and subscribing to my channel.  ",
+    "first_line_job": "summary (\"In this video, I cover how Google has finally caught up…\")",
+    "cta": [
+     "like/share/subscribe ask",
+     "own app: VibeCode with promo code GOOGLE",
+     "socials"
+    ],
+    "chapters": "12, from 00:00, keyword-rich",
+    "hashtags": "none",
+    "chars": 1559
+   }
+  },
+  {
+   "id": "kN08-CXWOJs",
+   "index": 134,
+   "title": "GPT-4 Vision Designed My Entire AI Chat App (No Design Skills Needed)",
+   "published": "2025-03-29",
+   "views": 59531,
+   "likes": 525,
+   "duration_min": 18,
+   "outlier": 4.92,
+   "bucket": "breakout",
+   "title_formula": "ai-did-it-for-me (\"GPT-4 Vision Designed My Entire AI Chat App\")",
+   "thumb": {
+    "words": 3,
+    "text": "DESIGNED BY GPT4o",
+    "face": "Riley as a Ghibli-style illustration, face-right, smiling",
+    "objects": "VibeChat app UI on a Ghibli meadow",
+    "palette": "pastel green/yellow, white caps, purple frame",
+    "layout": "face-right + proof screenshot (styled to match the trend)",
+    "line_vs_title": "repeats (designed by GPT)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "Creating a Vibe-Friendly AI Chat App with GPT-4 Image and Claude\nIn this video, we walk you through the creation of a unique AI chat application using the new GPT-4 Image model and a Cursor. We'll style the app with a Studio Ghibli-inspired aesthetic, add interactive features like a notes panel and music play button, and troubleshoot errors along the way. Join us as we bring 'Vibe Chat' to life, ensuring a smooth and visually appealing user experience.",
+    "first_line_job": "keyword sentence (\"Creating a Vibe-Friendly AI Chat App with GPT-4 Image and Claude\")",
+    "cta": [
+     "none"
+    ],
+    "chapters": "12, from 00:00, keyword-rich",
+    "hashtags": "none",
+    "chars": 880
+   }
+  },
+  {
+   "id": "EZ-Q30WL5L4",
+   "index": 180,
+   "title": "Use Claude to Create a fully deployed web app in less than 5 minutes",
+   "published": "2024-07-16",
+   "views": 61028,
+   "likes": 965,
+   "duration_min": 5,
+   "outlier": 4.69,
+   "bucket": "breakout",
+   "title_formula": "how-to (time-bound, \"in less than 5 minutes\")",
+   "thumb": {
+    "words": 6,
+    "text": "CREATE A WEB APP / NO CODE (+ 05:00 timer)",
+    "face": "Riley face-right, wide-eyed",
+    "objects": "hand holding phone with the app; red 05:00 timer badge",
+    "palette": "dark, white caps, black-on-white pills, yellow brush arrow, red timer",
+    "layout": "face-right + held phone proof + timer",
+    "line_vs_title": "repeats",
+    "arrow": true
+   },
+   "desc": {
+    "above_fold": "Deploy a website in less than 5 minutes without writing a single line of code using Claude.\nFork this to get (most) react (tsx) artifacts to run right away - ",
+    "first_line_job": "summary (\"Deploy a website in less than 5 minutes without writing a single line of code using Claude.\")",
+    "cta": [
+     "Replit template fork",
+     "create.inc (plain text)"
+    ],
+    "chapters": "none",
+    "hashtags": "none",
+    "chars": 287
+   }
+  },
+  {
+   "id": "SYoYo-FZyno",
+   "index": 171,
+   "title": "Coding 100% With AI | The Easiest Way to Use Cursor",
+   "published": "2024-08-23",
+   "views": 52442,
+   "likes": 1300,
+   "duration_min": 27,
+   "outlier": 4.52,
+   "bucket": "breakout",
+   "title_formula": "easiest-way (identity claim + tool)",
+   "thumb": {
+    "words": 13,
+    "text": "I'm now a senior developer / AND I'VE NEVER WRITTEN A LINE OF CODE",
+    "face": "Riley centred, smiling",
+    "objects": "Cursor icon left, Replit icon right",
+    "palette": "black network-line bg, white pill top, white caps bottom, orange Replit",
+    "layout": "centred face flanked by two logos (early desk-anchor ancestor)",
+    "line_vs_title": "complements (identity irony)",
+    "arrow": false
+   },
+   "desc": {
+    "above_fold": "CLAUDE + CURSOR + REPLIT = MAGIC\nYou can now create complex web apps with just english (No copy - paste) using the BEST AI Code generation tool on the market Cursor AI",
+    "first_line_job": "hook (\"CLAUDE + CURSOR + REPLIT = MAGIC\")",
+    "cta": [
+     "guest channel and X"
+    ],
+    "chapters": "6, from 00:00, plain",
+    "hashtags": "none",
+    "chars": 929
+   }
+  }
+ ],
+ "rules": [
+  {
+   "rule": "Package a build challenge with a partner and a stake: 'We Built/Made X in N Minutes' or 'Can I … Better Than a Pro Developer?', with a $ value, a clock or an opponent. The co-builder matters: solo 'I Built a $X App' versions flop.",
+   "evidence": "NnYLzGMk8Tg 38.6 (1.1M views, channel's biggest), aEdRB2yVK-I 12.5, _GMtx9EsIKU 7.54, p-KM4P-6Hmg 5.93. In all.tsv, titles starting 'We built/made/vibe coded' n=6, median outlier 4.18, 4 of 6 at >=2. Titles starting 'I built/made/created/cloned' n=12, median 0.94 (#72 0.33, #73 0.64, #99 0.52). Same series without the breakout: #105 0.84, #84 0.51.",
+   "confidence": "medium",
+   "vs_recent": "new"
+  },
+  {
+   "rule": "Long beginner courses are the most reliable breakout format: 60+ minutes, a tool name plus 'for Beginners', 'Masterclass', 'Complete Guide' or 'Learn 95% of X', and 10 or more chapters.",
+   "evidence": "2itM7IdThvA 17.86 (111 min), 2aldTxnbNt0 14.77 (154 min), 2FJlhoDYNPE 9.69 (96 min), faezjTHA5SU 9.2 (148 min), 474wZZHoWN4 6.2 (29 min), ifz8NGHuHtY 2.83 (115 min). In all.tsv, uploads of 3600s or more: n=18, median 2.58, 10 of 18 at >=2, against a median of 0.87 for uploads under 1800s. 'Beginner/Non-Coders/101' titles: n=8, median 2.66. Misses exist: #78 0.47, #27 0.94, #117 0.82.",
+   "confidence": "high",
+   "vs_recent": "contradicts"
+  },
+  {
+   "rule": "Ride a launch with a first-person verdict, not a roundup: one model or tool, one strong claim ('Feels Like AGI', 'Replaced Cursor for Me', 'Explained', 'Gives You Superpowers').",
+   "evidence": "tR2azlV7RlQ 10.84 (DeepSeek, Jan 2025), 0iGEpx8IeM0 9.9, Ju41cQSe7hY 7.52 (GPT-6 Astra, 752k), dzFUOQUSiEI 5.16 (Gemini 3), kN08-CXWOJs 4.92 (GPT-4o images). None of the 20 uses 'X Is Insane… But Y Is EVEN Bigger' or 'X Just Changed'. In all.tsv, 'Just <verb>' titles n=14, median 1.35, best 3.27. 'Insane… But' titles n=4, median 1.42, best 2.62; all four are in the latest 30.",
+   "confidence": "medium",
+   "vs_recent": "strengthens"
+  },
+  {
+   "rule": "Put the viewer's identity in the promise ('With No Code', 'For Non-Coders', 'Without Coding', 'for Beginners'). It carried most of the 2024–25 breakouts and has not appeared in a title since about #69.",
+   "evidence": "No-code wording sits in the titles of NnYLzGMk8Tg 38.6, _GMtx9EsIKU 7.54, faezjTHA5SU 9.2 and SYoYo-FZyno 4.52, and in the thumbnails of kXnW4Hy4Z7o 16.96 ('WITHOUT CODING!') and EZ-Q30WL5L4 4.69 ('NO CODE'). In all.tsv, no-code titles n=27, median 1.18, 9 at >=2. They are all at index 69 or older, and none is in the latest 68. Within index 61–194, and counting 'Non-Coders' too, no-code titles (n=28) have a median of 1.18 against 0.95 for other titles (n=103). Caveat: its last four rated uses were all below 1 (#69 0.23, #90 0.33, #96 0.84, #99 0.52), so it may have worn out.",
+   "confidence": "low",
+   "vs_recent": "new"
+  },
+  {
+   "rule": "Put a hard number in the title: a count, minutes, hours, $ or %. Time promises work when they are a feat ('in 10 minutes', 'in 90 Minutes'), not a chore.",
+   "evidence": "13 of the 20 have a count, time, money or percent (not counting version numbers), e.g. z-zOs02NH44 'in 10 minutes' 7.57, EZ-Q30WL5L4 'less than 5 minutes' 4.69, 474wZZHoWN4 '95% … 30 minutes' 6.2, 2FJlhoDYNPE '90 Minutes' 9.69. In all.tsv, titles with any digit: n=90, median 1.15. Titles without a digit: n=101, median 0.88.",
+   "confidence": "medium",
+   "vs_recent": "strengthens"
+  },
+  {
+   "rule": "Thumbnail: a face (usually right, or two faces for a duo), 2–7 words that add a verdict rather than repeat the title, dark background, one orange or yellow accent word. The current desk anchor and dashboard spread are the weakest layouts in this set.",
+   "evidence": "19 of 20 show a face, and the median is 4 words. Lines that complement the title: n=11, median 9.69. Lines that repeat it: n=7, median 6.2. The lowercase verdict with an orange pill ('the last tutorial you'll ever need', 'claude made cursor feel dumb', 'this shouldn't be possible', 'idea to app store in one hour') is on 2aldTxnbNt0 14.77, 0iGEpx8IeM0 9.9, 2FJlhoDYNPE 9.69, _GMtx9EsIKU 7.54 and p-KM4P-6Hmg 5.93. Desk anchor: ifz8NGHuHtY 2.83. Dashboard spread: mHqSBCHEZOY 2.61; these are the two lowest ratios of the 20. Two winners have no text: 2itM7IdThvA 17.86 and dzFUOQUSiEI 5.16.",
+   "confidence": "low",
+   "vs_recent": "confirms"
+  },
+  {
+   "rule": "Description: always add chapters, numbered to match the title's count. An own-product link on line 1 did not stop breakouts. Sponsor-led openings and hashtags are almost absent from the winners.",
+   "evidence": "18 of 20 have chapters starting at 0:00. The two without are the 5- and 10-minute videos (EZ-Q30WL5L4, tR2azlV7RlQ). ifz8NGHuHtY numbers chapters 1–28 to match '28 Insane Things'. Line 1 is a CTA on _GMtx9EsIKU 7.54, 0iGEpx8IeM0 9.9 and p-KM4P-6Hmg 5.93, all own products (VibeCode, agentnative.inc). Only mHqSBCHEZOY (2.61) is sponsored, and it is the only one with hashtags (#codex #agents #ChatGPT_Partner #aiagents).",
+   "confidence": "low",
+   "vs_recent": "contradicts"
+  }
+ ]
+}

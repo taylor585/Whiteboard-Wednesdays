@@ -1,0 +1,59 @@
+{
+ "id": "Grok-Bot-G1-objects-dark",
+ "title": "How Good Is Grok Bot Really",
+ "studio": {
+  "preset": "dark-blue"
+ },
+ "words": "£752/MONTH AI SALES REP",
+ "layers": [
+  {
+   "type": "logo",
+   "logo": "grok.svg",
+   "x": 1060,
+   "y": 330,
+   "size": 300,
+   "finish": "grok-black-chrome",
+   "depth": 24,
+   "glow": "#2f8cff",
+   "glow_opacity": 0.75,
+   "rot": -6,
+   "rim": true,
+   "floor_shadow": false
+  },
+  {
+   "type": "headset",
+   "x": 1060,
+   "y": 345,
+   "s": 560,
+   "rot": 0
+  },
+  {
+   "type": "text",
+   "text": "£752/month",
+   "x": 34,
+   "y": 300,
+   "size": 150,
+   "finish": "gold-outline",
+   "depth": 20,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "AI sales rep",
+   "x": 40,
+   "y": 480,
+   "size": 140,
+   "finish": "white-outline",
+   "depth": 12,
+   "rim": true
+  }
+ ],
+ "look": {
+  "layout": "words-left",
+  "ground": "dark-blue",
+  "font": "anton",
+  "accent": "gold",
+  "hero": "logo-headset",
+  "emoji": false
+ }
+}

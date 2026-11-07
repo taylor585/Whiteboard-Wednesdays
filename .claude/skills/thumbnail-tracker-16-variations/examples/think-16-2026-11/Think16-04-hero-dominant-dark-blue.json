@@ -1,0 +1,52 @@
+{
+ "id": "Think16-04-hero-dominant-dark-blue",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "hero-dominant",
+  "ground": "dark-blue",
+  "font": "anton",
+  "accent": "gold",
+  "hero": "claude-logo-giant",
+  "emoji": false
+ },
+ "studio": {
+  "preset": "dark-blue"
+ },
+ "words": "USE AI TO THINK",
+ "layers": [
+  {
+   "type": "logo",
+   "logo": "claude.svg",
+   "x": 1020,
+   "y": 300,
+   "size": 600,
+   "finish": "claude-terracotta",
+   "depth": 30,
+   "rot": 10,
+   "rim": true,
+   "glow": "#ff8a5c",
+   "glow_opacity": 0.6,
+   "floor_shadow": false
+  },
+  {
+   "type": "text",
+   "text": "Use AI",
+   "x": 46,
+   "y": 250,
+   "size": 190,
+   "finish": "white-outline",
+   "depth": 16,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "to think.",
+   "x": 46,
+   "y": 470,
+   "size": 190,
+   "finish": "gold-outline",
+   "depth": 20,
+   "rim": true
+  }
+ ]
+}

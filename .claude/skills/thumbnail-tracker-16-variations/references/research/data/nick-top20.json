@@ -1,0 +1,575 @@
+{
+ "creator": "nicksaraev",
+ "videos": [
+  {
+   "id": "QoQBzR1NIqI",
+   "title": "CLAUDE CODE FULL COURSE 4 HOURS: Build & Sell (2026)",
+   "published": "Feb 12, 2026",
+   "views": 2652869,
+   "outlier": 27.37,
+   "bucket": "views",
+   "title_formula": "full-course",
+   "thumb": {
+    "words": 10,
+    "text": "FULL CLAUDE CODE COURSE + list 1. Setup 2. Subagents 3. Agent teams 4. Context 5. Skills 6. MCP",
+    "face": "right, big smile, eye contact",
+    "objects": "whiteboard, Claude logo, agent diagram",
+    "palette": "white board, black marker, orange logo; hand-drawn underline",
+    "layout": "syllabus (whiteboard)"
+   },
+   "desc": {
+    "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n📁 Get all Claude course resources 100% free: https://skool.com/maker-zero/about",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 35,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "2GZ2SNXWK-c",
+   "title": "N8N FULL COURSE 6 HOURS (Build & Sell AI Automations + Agents)",
+   "published": "Apr 28, 2025",
+   "views": 1364617,
+   "outlier": 35.62,
+   "bucket": "views",
+   "title_formula": "full-course",
+   "thumb": {
+    "words": 4,
+    "text": "FULL AI AUTOMATION COURSE",
+    "face": "centre, neutral, eye contact",
+    "objects": "laptop with n8n workflow, two robots",
+    "palette": "dark green chart bg, white/green caps; no line",
+    "layout": "course card"
+   },
+   "desc": {
+    "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course files for free here: https://www.skool.com/maker-zero",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 7,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "EsTrWCV0Ph4",
+   "title": "AI Agents Full Course 2026: Master Agentic AI (2 Hours)",
+   "published": "Mar 7, 2026",
+   "views": 899045,
+   "outlier": 7.46,
+   "bucket": "views",
+   "title_formula": "full-course",
+   "thumb": {
+    "words": 7,
+    "text": "ZERO TO HERO / ALL AI AGENT PLATFORMS",
+    "face": "centre, hands clasped, eye contact",
+    "objects": "Codex, Claude Code, Antigravity tiles; laptop",
+    "palette": "warm blurred room, orange box, white text; no line",
+    "layout": "course card + tool tiles"
+   },
+   "desc": {
+    "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Check out my SaaS, Clairvo (we 2x your pickup rate): https://clairvo.io?s=nick",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 28,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "YIl-awY250k",
+   "title": "What I'd Learn Instead of Automation in 2026",
+   "published": "Sep 2, 2025",
+   "views": 568397,
+   "outlier": 26.42,
+   "bucket": "views",
+   "title_formula": "what-id-do-instead",
+   "thumb": {
+    "words": 4,
+    "text": "AUTOMATION / THE UGLY TRUTH.",
+    "face": "right, sombre, eye contact",
+    "objects": "none",
+    "palette": "white paper, black brush band, marker type",
+    "layout": "verdict line"
+   },
+   "desc": {
+    "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Check out my SaaS, Clairvo (we 2x your pickup rate): https://clairvo.io?s=nick",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 9,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "UPtmKh1vMN8",
+   "title": "CLAUDE CODE ADVANCED FULL COURSE (3 HOURS)",
+   "published": "Mar 28, 2026",
+   "views": 515352,
+   "outlier": 3.55,
+   "bucket": "views",
+   "title_formula": "full-course",
+   "thumb": {
+    "words": 35,
+    "text": "$ claude --course-outline / CLAUDE CODE ADVANCED — 3 HOURS / 5 numbered modules / Ready to begin...",
+    "face": "left, big smile, microphone",
+    "objects": "terminal, Claude logo",
+    "palette": "black terminal, orange; hand-drawn orange arrow",
+    "layout": "syllabus (terminal)"
+   },
+   "desc": {
+    "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 29,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "dAzs_rU6080",
+   "title": "I Tested The Viral Github Repo To Reverse Engineer Anything",
+   "published": "Oct 10, 2026",
+   "views": 476097,
+   "outlier": 9.22,
+   "bucket": "views",
+   "title_formula": "i-tested",
+   "thumb": {
+    "words": 7,
+    "text": "github/reverse-engineer / 11.5k stars / 1.5k total installs",
+    "face": "peek crop, eyes looking up",
+    "objects": "repo header with proof stats",
+    "palette": "white grid, black type, red underline",
+    "layout": "repo / proof screen"
+   },
+   "desc": {
+    "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 6,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "gcuR_-rzlDw",
+   "title": "VIBE CODING FULL COURSE: Gemini 3.1 + Antigravity (6 Hrs)",
+   "published": "Feb 26, 2026",
+   "views": 380147,
+   "outlier": 5.89,
+   "bucket": "views",
+   "title_formula": "full-course",
+   "thumb": {
+    "words": 7,
+    "text": "VIBE CODING / SaaS Apps / Gemini 3.1 / Antigravity",
+    "face": "right, big smile, microphone",
+    "objects": "Antigravity + Gemini logos, 3 app screenshots",
+    "palette": "dark blue, white type; no line",
+    "layout": "course card + app gallery"
+   },
+   "desc": {
+    "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Check out my SaaS, Clairvo (we 2x your pickup rate): https://clairvo.io?s=nick",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 48,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "wLNw-rpklfE",
+   "title": "Watch me start & sell an AI service in 10 hours",
+   "published": "Apr 22, 2025",
+   "views": 376349,
+   "outlier": 10.74,
+   "bucket": "views",
+   "title_formula": "watch-me",
+   "thumb": {
+    "words": 3,
+    "text": "new ai service",
+    "face": "left, looking down at laptop",
+    "objects": "Payments table with 6x Succeeded (amounts blurred)",
+    "palette": "beige wall, white italic type, green ticks; white hand-drawn arrow",
+    "layout": "proof screen"
+   },
+   "desc": {
+    "above_fold": "Join Maker School & get automation customer #1 + all my templates ⤵️\nhttps://www.skool.com/makerschool/abo...",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 7,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "ZfYvv-0l9NA",
+   "title": "Claude Code + Nano Banana 2 + Kling =  $15K Animated Sites",
+   "published": "Mar 16, 2026",
+   "views": 356296,
+   "outlier": 2.13,
+   "bucket": "views",
+   "title_formula": "stack-equation",
+   "thumb": {
+    "words": 0,
+    "text": "(none; site copy inside screenshot)",
+    "face": "right, big smile, eye contact",
+    "objects": "Claude tile, banana tile, space-themed website, rockets",
+    "palette": "dark space, yellow hand-drawn arrow",
+    "layout": "logos + result screen"
+   },
+   "desc": {
+    "above_fold": "🔥 Link to Kling 3.0 for the visuals: https://bit.ly/higgsfield_ai_kling3\n💎 Get all of my templates/resources 100% free: https://skool.com/maker-zero/about",
+    "cta": "Kling 3.0 via Higgsfield bit.ly link, then free templates (Maker Zero)",
+    "chapters": {
+     "count": 8,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "CxbHw93oWP0",
+   "title": "$2.4M of Prompt Engineering Hacks in 53 Mins (GPT, Claude)",
+   "published": "Mar 4, 2025",
+   "views": 351198,
+   "outlier": 14.33,
+   "bucket": "views",
+   "title_formula": "big-number-hacks",
+   "thumb": {
+    "words": 0,
+    "text": "(none)",
+    "face": "centre, finger on lips, eye contact",
+    "objects": "Anthropic tile vs OpenAI tile",
+    "palette": "dim grey room, tan and green tiles; no line",
+    "layout": "face between logos"
+   },
+   "desc": {
+    "above_fold": "Join Maker School & get automation customer #1 + all my templates ⤵️\nhttps://www.skool.com/makerschool/abo...",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 17,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "P2Y_DVW1TSQ",
+   "title": "This Simple Make.com Automation Generates $20K/mo on Upwork",
+   "published": "Feb 1, 2024",
+   "views": 79100,
+   "outlier": 13.86,
+   "bucket": "breakout",
+   "title_formula": "income-proof",
+   "thumb": {
+    "words": 4,
+    "text": "MAKE $20K/MO ON UPWORK (+ NICK SARAEV tag)",
+    "face": "right, shocked, hands to mouth",
+    "objects": "scared emoji",
+    "palette": "orange sunburst, black/white boxed caps, doodles",
+    "layout": "shock face + boxed text (2024)"
+   },
+   "desc": {
+    "above_fold": "GET THE BLUEPRINT HERE FOR FREE ⤵️\nhttps://leftclicker.gumroad.com/l/ndiwvd",
+    "cta": "free blueprint (Gumroad), then daily channel, then Maker School",
+    "chapters": {
+     "count": 0,
+     "starts_0": false
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "MxyRjL7NG18",
+   "title": "AGENTIC WORKFLOWS: Build & Sell AI Automations (2026)",
+   "published": "Dec 21, 2025",
+   "views": 323053,
+   "outlier": 11.33,
+   "bucket": "breakout",
+   "title_formula": "full-course",
+   "thumb": {
+    "words": 5,
+    "text": "AGENTIC WORKFLOW GUIDE / BEGINNER → PRO",
+    "face": "centre, pointing at laptop, eye contact",
+    "objects": "laptop with Antigravity logo",
+    "palette": "blue-tinted room, white/black boxed type",
+    "layout": "course card"
+   },
+   "desc": {
+    "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 All course files: https://drive.google.com/drive/folder...",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 37,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "5w6Bf5pponE",
+   "title": "How to Scrape Any Website in Make.com (2026)",
+   "published": "Feb 25, 2024",
+   "views": 197159,
+   "outlier": 10.37,
+   "bucket": "breakout",
+   "title_formula": "how-to",
+   "thumb": {
+    "words": 3,
+    "text": "SCRAPE ANY SITE",
+    "face": "right cut-out, hand on chin, eye contact",
+    "objects": "make logo, OpenAI logo",
+    "palette": "dark starfield, teal/white type, doodle marks",
+    "layout": "face + headline + logos"
+   },
+   "desc": {
+    "above_fold": "Update: Redfin has since added anti-scraping protections that invalidate the specific method I showed in this video. Instead, scrape it using a service like Firecrawl.dev, Apify, or Browserless. The HTTP request process I showed still works for the majority of static sites, so don't let that discourage you.\nWATCH ME BUILD MY $300K/mo BUSINESS LIVE WITH DAILY VIDEOS ⤵️",
+    "cta": "update note, then daily channel, free Make.com blueprint, Maker School",
+    "chapters": {
+     "count": 13,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "r0c7RhMFcww",
+   "title": "Build Your First AI Business in 6 Hours (Ultimate Beginner Guide)",
+   "published": "May 26, 2025",
+   "views": 190176,
+   "outlier": 10.27,
+   "bucket": "breakout",
+   "title_formula": "full-course",
+   "thumb": {
+    "words": 4,
+    "text": "START YOUR AI BUSINESS",
+    "face": "centre, pointing at laptop, eye contact",
+    "objects": "laptop with n8n AI agent flow, robot",
+    "palette": "dark green, white/green caps; no line",
+    "layout": "course card"
+   },
+   "desc": {
+    "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n⤵️ All templates & assets below!",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 10,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "jBF48jNWPJE",
+   "title": "5 \"BORING\" AI Automations To Sell For $1.5K+ Each in 2025",
+   "published": "Apr 19, 2025",
+   "views": 281315,
+   "outlier": 7.7,
+   "bucket": "breakout",
+   "title_formula": "listicle-n",
+   "thumb": {
+    "words": 3,
+    "text": "easiest $10,000 ever.",
+    "face": "right, looking down, smirk, cap",
+    "objects": "none",
+    "palette": "dark teal, teal highlight box",
+    "layout": "verdict line"
+   },
+   "desc": {
+    "above_fold": "Join Maker School & get your first automation customer in 90 days guaranteed ⤵️\nhttps://www.skool.com/makerschool/abo...",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 7,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "UVLeX600irk",
+   "title": "My $21K/m Proposal System in Make.com (Free Template)",
+   "published": "Feb 7, 2024",
+   "views": 38922,
+   "outlier": 6.67,
+   "bucket": "breakout",
+   "title_formula": "income-proof",
+   "thumb": {
+    "words": 0,
+    "text": "(none)",
+    "face": "right, neutral, eye contact",
+    "objects": "Make.com proposal workflow screenshot",
+    "palette": "dark bg, yellow hand-drawn arrow",
+    "layout": "face + screen + arrow"
+   },
+   "desc": {
+    "above_fold": "GET THE BLUEPRINT HERE FOR FREE ⤵️\nhttps://leftclicker.gumroad.com/l/mkggi",
+    "cta": "free blueprint (Gumroad), then daily channel, then Maker School",
+    "chapters": {
+     "count": 0,
+     "starts_0": false
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "GBvtrKQfBiY",
+   "title": "How I Made $102,514 Last Month With Automation (Copy Me)",
+   "published": "Oct 22, 2024",
+   "views": 106161,
+   "outlier": 6.62,
+   "bucket": "breakout",
+   "title_formula": "income-proof",
+   "thumb": {
+    "words": 3,
+    "text": "AI ruined me.",
+    "face": "centre, arms crossed, serious, eye contact",
+    "objects": "none",
+    "palette": "real apartment, green bar at top, white type",
+    "layout": "verdict line (contrast)"
+   },
+   "desc": {
+    "above_fold": "Join my community & scale your automation agency to $25K/m ⤵️\nhttps://www.skool.com/makemoneywithma...",
+    "cta": "community (skool makemoneywithmake), then daily channel",
+    "chapters": {
+     "count": 0,
+     "starts_0": false
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "MTkiN_8xJCE",
+   "title": "This Cold Email System Made Me +$100K Last Year",
+   "published": "Feb 8, 2024",
+   "views": 41944,
+   "outlier": 6.41,
+   "bucket": "breakout",
+   "title_formula": "income-proof",
+   "thumb": {
+    "words": 0,
+    "text": "(none; raw spreadsheet UI)",
+    "face": "small webcam inset, smiling",
+    "objects": "lead spreadsheet screen grab",
+    "palette": "white UI; no line",
+    "layout": "raw screen grab"
+   },
+   "desc": {
+    "above_fold": "Here's a breakdown of a real cold email system that makes me over $100K per year. I show you where I source my leads, how I scrape them, how I enrich them, and even how to write copy for them!\nWATCH ME BUILD MY $300K/mo BUSINESS LIVE WITH DAILY VIDEOS ⤵️",
+    "cta": "keyword summary sentence, then daily channel, then Maker School",
+    "chapters": {
+     "count": 0,
+     "starts_0": false
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "ntSbFUQZHJ0",
+   "title": "watch me apply to 1000+ jobs in minutes with AI",
+   "published": "Jun 21, 2025",
+   "views": 118369,
+   "outlier": 6.05,
+   "bucket": "breakout",
+   "title_formula": "watch-me",
+   "thumb": {
+    "words": 4,
+    "text": "apply to 1000+ jobs",
+    "face": "left, looking at laptop",
+    "objects": "3x Gmail \"You Are Hired!\" notifications, laptop",
+    "palette": "beige wall, white italic type; white hand-drawn arrow",
+    "layout": "proof screen"
+   },
+   "desc": {
+    "above_fold": "Join Maker School & get automation customer #1 + all my templates ⤵️\nhttps://www.skool.com/makerschool/abo...",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 4,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  },
+  {
+   "id": "esXXuejofgk",
+   "title": "Clawdbot Sucks, Actually",
+   "published": "Jan 27, 2026",
+   "views": 196978,
+   "outlier": 6.03,
+   "bucket": "breakout",
+   "title_formula": "contrarian-verdict",
+   "thumb": {
+    "words": 3,
+    "text": "it's mostly hype.",
+    "face": "none",
+    "objects": "crying red mascot",
+    "palette": "white bg, black serif, red underline",
+    "layout": "verdict line + mascot"
+   },
+   "desc": {
+    "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n📚 Watch my NEW 2026 Claude Code course:    • CLAUDE CODE FULL COURSE 4 HOURS: Build & S...  ",
+    "cta": "Maker School (paid community)",
+    "chapters": {
+     "count": 12,
+     "starts_0": true
+    },
+    "hashtags": 0
+   }
+  }
+ ],
+ "rules": [
+  {
+   "rule": "Flagship = long ALL-CAPS \"[TOOL] FULL COURSE [N] HOURS\" + \"(Build & Sell)\"/\"(2026)\", with a syllabus or course-card thumbnail.",
+   "evidence": "2GZ2SNXWK-c 35.62, QoQBzR1NIqI 27.37, MxyRjL7NG18 11.33, r0c7RhMFcww 10.27, EsTrWCV0Ph4 7.46, gcuR_-rzlDw 5.89, UPtmKh1vMN8 3.55; \"course\" titles n=11 median 4.15; >=2h n=19 median 3.55 vs channel 0.955; misses #44 0.94, #16 1.14",
+   "confidence": "high",
+   "vs_recent": "strengthens"
+  },
+  {
+   "rule": "Stake the viewer's career with a contrarian \"what I'd do instead\" or blunt verdict; fear about the viewer's path works, fear about model launches does not.",
+   "evidence": "YIl-awY250k 26.42; same skeleton #5 4.72; esXXuejofgk 6.03; GBvtrKQfBiY thumb \"AI ruined me.\" 6.62",
+   "confidence": "medium-high",
+   "vs_recent": "confirms"
+  },
+  {
+   "rule": "For tests/stunts put the result as UI proof in the thumbnail (lowercase line + hand-drawn arrow + screen) and the frame in the title.",
+   "evidence": "wLNw-rpklfE 10.74 (payments Succeeded), ntSbFUQZHJ0 6.05 (You Are Hired!), dAzs_rU6080 9.22 (11.5k stars)",
+   "confidence": "medium-high",
+   "vs_recent": "strengthens"
+  },
+  {
+   "rule": "Thumbnail copy 3-4 words or none, but always show the tool as a logo or screen; no-text is fine when a recognisable logo names the tool.",
+   "evidence": "non-syllabus hits median 3.5 words; no-text hits CxbHw93oWP0 14.33, UVLeX600irk 6.67, MTkiN_8xJCE 6.41, ZfYvv-0l9NA 2.13 all show logos/screens; 3 of 4 pre-2025",
+   "confidence": "medium",
+   "vs_recent": "contradicts"
+  },
+  {
+   "rule": "Do not revive 2024 income-claim titles; money now works as \"sell for $X\".",
+   "evidence": "P2Y_DVW1TSQ 13.86, UVLeX600irk 6.67, MTkiN_8xJCE 6.41, GBvtrKQfBiY 6.62 (all 2024); income keyword titles median 1.36 (#201-320) -> 0.73 (#81-200) -> 0.46 (#1-80); jBF48jNWPJE 7.70; \"sell\" titles n=30 median 1.48",
+   "confidence": "medium",
+   "vs_recent": "confirms"
+  },
+  {
+   "rule": "Date-stamp evergreen titles with next year and refresh the year.",
+   "evidence": "year-in-title n=36 median 1.64; 5w6Bf5pponE published Feb 2024 now titled \"(2026)\" 10.37; YIl-awY250k Sep 2025 \"in 2026\"; #5 Oct 2026 \"in 2027\"",
+   "confidence": "medium",
+   "vs_recent": "new"
+  },
+  {
+   "rule": "Put a duration or scale number (hours, mins, 1000+) in the title rather than a money number.",
+   "evidence": "9/20 hits carry a time span (10 with all.tsv dAzs variant); course hits plus wLNw-rpklfE, ntSbFUQZHJ0, CxbHw93oWP0",
+   "confidence": "low-medium",
+   "vs_recent": "contradicts"
+  },
+  {
+   "rule": "Treat the description as a funnel; it does not decide the click.",
+   "evidence": "hashtags 0/20; chapters 16/20 (none on 2024 breakouts); stale Claude Code summary on dAzs_rU6080 9.22; 7 bare chapters on 2GZ2SNXWK-c 35.62",
+   "confidence": "medium",
+   "vs_recent": "confirms"
+  }
+ ]
+}

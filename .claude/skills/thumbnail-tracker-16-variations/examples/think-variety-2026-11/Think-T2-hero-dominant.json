@@ -1,0 +1,51 @@
+{
+ "id": "Think-T2-hero-dominant",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "hero-dominant",
+  "ground": "brand-yellow",
+  "font": "inter-tight",
+  "accent": "red-block",
+  "hero": "brain",
+  "emoji": false
+ },
+ "studio": {
+  "preset": "brand-yellow"
+ },
+ "words": "DON'T OUTSOURCE THINKING.",
+ "layers": [
+  {
+   "type": "brain",
+   "x": 1010,
+   "y": 380,
+   "w": 760,
+   "rot": -8
+  },
+  {
+   "type": "text",
+   "text": "Don't outsource",
+   "x": 44,
+   "y": 210,
+   "size": 118,
+   "finish": "black-sans",
+   "depth": 8
+  },
+  {
+   "type": "block3d",
+   "x": 30,
+   "y": 268,
+   "w": 790,
+   "h": 190,
+   "rot": -3
+  },
+  {
+   "type": "text",
+   "text": "thinking.",
+   "x": 52,
+   "y": 420,
+   "size": 150,
+   "finish": "white-sans",
+   "depth": 10
+  }
+ ]
+}

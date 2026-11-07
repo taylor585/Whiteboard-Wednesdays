@@ -1,0 +1,346 @@
+{
+ "video": {
+  "title_working": "ICP Buyer Research",
+  "slug": "icp-buyer-research",
+  "duration": "39:19"
+ },
+ "titles": [
+  {
+   "text": "Why Your Meta Ads Land the Wrong People (And How to Fix It)",
+   "formula": "problem-fix",
+   "style": "pecuna",
+   "intent": "both",
+   "score": 88
+  },
+  {
+   "text": "I Built an AI Agent That Finds Your Buyers' Exact Words",
+   "formula": "i-built",
+   "style": "pecuna",
+   "intent": "both",
+   "score": 86
+  },
+  {
+   "text": "Meta's Andromeda Changed Targeting. Here's What Works Now",
+   "formula": "x-just-changed",
+   "style": "pecuna",
+   "intent": "both",
+   "score": 82
+  },
+  {
+   "text": "Stop Writing Meta Ads Until You've Done This Buyer Research",
+   "formula": "do-this-first",
+   "style": "pecuna",
+   "intent": "both",
+   "score": 74
+  },
+  {
+   "text": "Learn ICP Buyer Research for Meta Ads in 39 Minutes",
+   "formula": "time-box",
+   "style": "pecuna",
+   "intent": "both",
+   "score": 80
+  },
+  {
+   "text": "Why AI Ad Scripts Don't Convert (And the 90% Fix)",
+   "formula": "contrarian-reframe",
+   "style": "pecuna",
+   "intent": "both",
+   "score": 84
+  },
+  {
+   "text": "Low-Quality Meta Leads? Your ICP Research Is the Problem",
+   "formula": "diagnosis-question",
+   "style": "pecuna",
+   "intent": "both",
+   "score": 79
+  },
+  {
+   "text": "Write Meta Ads in Your Customer's Own Words (Claude Workflow)",
+   "formula": "how-i-workflow",
+   "style": "pecuna",
+   "intent": "search",
+   "score": 72
+  },
+  {
+   "text": "Your Meta Ads Get Spend. They Still Miss Your Ideal Buyer.",
+   "formula": "problem-statement",
+   "style": "pecuna",
+   "intent": "browse",
+   "score": 65
+  },
+  {
+   "text": "The Buyer Research Agent Behind Our Meta Ads and Landing Pages",
+   "formula": "behind-the-scenes",
+   "style": "pecuna",
+   "intent": "both",
+   "score": 70
+  }
+ ],
+ "thumbnails": [
+  {
+   "id": "t1-ai-cant-speak-human",
+   "pair": 5,
+   "archetype": "caption",
+   "theme": "dark",
+   "theme_overrides": {
+    "bg": "#1C1A17"
+   },
+   "accent": "#CB8E03",
+   "headline": "AI CAN'T SPEAK HUMAN",
+   "highlight": "HUMAN",
+   "box_color": "#F6DF8C",
+   "box_text": "#1C1A17",
+   "headline_color": "#F5EAD8",
+   "label": "90% AI · every word spoken by me",
+   "label_color": "#CB8E03",
+   "label_pos": "left:36px;top:46px",
+   "arrow": {
+    "from": [
+     250,
+     140
+    ],
+    "to": [
+     490,
+     270
+    ],
+    "bend": 0.35,
+    "color": "#CB8E03",
+    "width": 6
+   },
+   "face": {
+    "frame": "circle",
+    "cx": 700,
+    "cy": 290,
+    "d": 390,
+    "ring": "#8B6002",
+    "ring_w": 9,
+    "inset": "#2A2722",
+    "bust": "#4A453D",
+    "ph": "TAYLOR",
+    "pose": "sceptical half-smile"
+   }
+  },
+  {
+   "id": "t2-read-their-mind",
+   "pair": 1,
+   "archetype": "proof",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "headline": "Read their mind.",
+   "highlight": "mind.",
+   "font": "serif",
+   "headline_box": {
+    "x": 56,
+    "y": 36,
+    "w": 760,
+    "h": 170
+   },
+   "headline_align": "left",
+   "headline_color": "#1C1A17",
+   "proof": {
+    "type": "card",
+    "label_top": "ICP REPORT",
+    "rank": "#1",
+    "name": "Growth-stage med spas",
+    "value": "88%",
+    "value_label": "fit score",
+    "x": 70,
+    "y": 245,
+    "rotate": -3,
+    "border": "#8B6002",
+    "rank_bg": "#8B6002"
+   },
+   "arrow": false,
+   "face": {
+    "frame": "circle",
+    "cx": 1050,
+    "cy": 400,
+    "d": 420,
+    "ring": "#8B6002",
+    "ring_w": 9,
+    "inset": "#EADBC1",
+    "bust": "#B9AC95",
+    "ph": "TAYLOR",
+    "pose": "confident small smile"
+   }
+  },
+  {
+   "id": "t3-no-answer-next-clinic",
+   "pair": 0,
+   "archetype": "quote",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "quote": {
+    "label": "REAL BUYER QUOTE",
+    "text": "No answer.\nNext clinic.",
+    "highlight": "Next clinic.",
+    "highlight_color": "#B3261E",
+    "border": "#8B6002",
+    "missed": "missed call"
+   },
+   "arrow": {
+    "from": [
+     935,
+     330
+    ],
+    "to": [
+     850,
+     250
+    ],
+    "bend": -0.35,
+    "color": "#8B6002",
+    "width": 7
+   },
+   "face": {
+    "frame": "circle",
+    "cx": 1075,
+    "cy": 500,
+    "d": 370,
+    "ring": "#8B6002",
+    "ring_w": 9,
+    "inset": "#EADBC1",
+    "bust": "#B9AC95",
+    "ph": "TAYLOR",
+    "pose": "pointing at card"
+   }
+  },
+  {
+   "id": "t4-wrong-people-right-buyers",
+   "pair": 2,
+   "archetype": "split",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "left": {
+    "grid": {
+     "n": 8,
+     "lit": 2,
+     "caption": "only a couple get spend"
+    },
+    "label": "WRONG PEOPLE",
+    "color": "#B3261E"
+   },
+   "right": {
+    "donut": [
+     40,
+     25,
+     15
+    ],
+    "label": "RIGHT BUYERS",
+    "color": "#2E7D4F"
+   },
+   "arrow": {
+    "from": [
+     360,
+     95
+    ],
+    "to": [
+     920,
+     95
+    ],
+    "bend": -0.12,
+    "color": "#8B6002",
+    "width": 8
+   },
+   "face": {
+    "frame": "circle",
+    "cx": 640,
+    "cy": 370,
+    "d": 380,
+    "ring": "#8B6002",
+    "ring_w": 9,
+    "inset": "#EADBC1",
+    "bust": "#B9AC95",
+    "ph": "TAYLOR",
+    "pose": "calm, here’s why"
+   }
+  },
+  {
+   "id": "t5-diagnose-before-you-write",
+   "pair": 3,
+   "archetype": "marker",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "headline": "Diagnose\nbefore you write.",
+   "highlight": "Diagnose",
+   "font": "serif",
+   "headline_color": "#1C1A17",
+   "headline_box": {
+    "x": 56,
+    "y": 50,
+    "w": 760,
+    "h": 340
+   },
+   "chain": [
+    "Quote",
+    "Finding",
+    "Creative"
+   ],
+   "chain_highlight": 0,
+   "chain_y": 470,
+   "face": {
+    "frame": "circle",
+    "cx": 1050,
+    "cy": 400,
+    "d": 420,
+    "ring": "#8B6002",
+    "ring_w": 9,
+    "inset": "#EADBC1",
+    "bust": "#B9AC95",
+    "ph": "TAYLOR",
+    "pose": "hand on chin"
+   },
+   "headline_max": 175
+  }
+ ],
+ "descriptions": [
+  {
+   "style": "pecuna (Sabri structure)",
+   "text": "Your Meta ads keep landing the wrong people. This is the buyer research that fixes it, from a live ICP report to ad scripts that sound human.\nWant this built for your agency or business? Book a call: [BOOKING LINK]\n\nMeta's Andromeda engine now pulls buyers in from every stage of the funnel, not just the top, so who you speak to decides everything. In this video I walk through the exact research we do before writing a single ad, landing page, email or video script.\n\nWhat you'll learn:\n• Why 6–8 ads in an ad set end up with only a couple getting spend, and why even the winners miss your ideal customer\n• How Andromeda works as a top-down and horizontal funnel, and why educated buyers convert faster\n• ICP Research Radar, the AI agent I built to research your top 3 ideal customer profiles\n• A live report for a med spa client (88% fit): fears, desires, buyer questions and real quotes, each with an impact score\n• How one audience splits by objection (40% / 25% / 15%) and why each slice needs its own message\n• Diagnose before you write: tracing every creative decision back to a real buyer quote\n• Turning a buyer's own fear into an opening hook in Claude, using Breakthrough Advertising and the five stages of awareness\n• A script review on a no-show problem worth about £1,000 a month, the reminder sent 24 hours before, and a rebooking workflow in GoHighLevel\n• How to spot the tells that make AI scripts sound off, and why I get scripts 90% done with AI, then speak every word myself\n\nChapters\n0:00 Intro: why your Meta ads land the wrong people\n0:49 Andromeda: the top-down and horizontal funnel\n2:32 Research Radar: the AI research agent\n4:21 The live ICP report\n14:02 Diagnose before you write\n16:01 Into Claude: Breakthrough Advertising and awareness stages\n19:52 Script review: the £1,000 no-show problem\n26:22 The rebooking workflow\n28:27 Sound human: fixing AI scripts\n33:10 Save your skills\n35:47 Wrap-up and how we can help\n\nHow we can help\nIf you'd like help building ICP research for your clients, creating your own video-script skill, or feeling confident speaking on camera, book a call: [BOOKING LINK]\n\nPecuna Factorem: [WEBSITE LINK]\nLinkedIn: [LINKEDIN LINK]\n\n#MetaAds #FacebookAds #ICPResearch #AdCopywriting #ClaudeAI"
+  }
+ ],
+ "ab": {
+  "titles": [
+   0,
+   1,
+   5
+  ],
+  "thumbnails": [
+   "t3-no-answer-next-clinic",
+   "t2-read-their-mind",
+   "t1-ai-cant-speak-human"
+  ]
+ },
+ "notes": "Swap the TAYLOR placeholder in each brass circle for the matching photo (expression noted on each). If you export the video's own 88% card, donut and quote card as PNGs, they can replace the rebuilt versions. LinkedIn: fill [BOOKING LINK] and [YOUTUBE LINK]; choose native video (upload li-video-1920x1080 as the cover) or link share; adapted from YouTube research, so compare reach after a few posts.",
+ "linkedin": [
+  {
+   "angle": "problem",
+   "pair": 0,
+   "mode": "native",
+   "text": "Your Meta ads are getting spend. They're still reaching the wrong people.\n\nPut 6–8 ads in an ad set and only a couple end up getting spend. Even those winners can miss your ideal customer.\n\nMeta's Andromeda engine now pulls buyers in from every stage of the funnel, so who you speak to decides everything.\n\nSo before we write a single ad, we research the buyer:\n→ the top 3 ideal customer profiles, each with a fit score\n→ their fears, desires and the questions they ask before booking\n→ real quotes, each with an impact score\n\nFor a med spa client, the top profile scored an 88% fit. One fear stood out: someone googles a med spa, calls, gets no answer and books at the place next door instead.\n\nThat fear became the hook.\n\nDiagnose before you write. Every creative decision should trace back to a real buyer quote.\n\nThe full walkthrough is in the video. Want this built for your business? Book a call: [BOOKING LINK]\n\n#MetaAds #FacebookAds #ICPResearch #AdCopywriting"
+  },
+  {
+   "angle": "i-built",
+   "pair": 1,
+   "mode": "link",
+   "text": "I built an AI agent that finds your buyers' exact words before we write a single ad.\n\nIt's called ICP Research Radar. It researches a business's top 3 ideal customer profiles and scores each one.\n\nFor a med spa client, the #1 profile came back at 88% fit, with fears, desires, buyer questions and real-life quotes, each with an impact score.\n\nThe part most people miss: one audience isn't one message. In the live report, the audience splits by objection (40%, 25% and 15%), and each slice needs its own angle.\n\nWe use that one report for everything downstream: ads, landing pages, emails and video scripts.\n\nResearch first. Then write in their words, not yours.\n\nFull walkthrough, including the live report: [YOUTUBE LINK]\n\n#MetaAds #ICPResearch #ClaudeAI #AdCopywriting"
+  },
+  {
+   "angle": "contrarian",
+   "pair": 5,
+   "mode": "native",
+   "text": "I get my ad scripts 90% done with AI. Then I speak every word myself.\n\nAI scripts have tells. People can hear them, even when they can't say what's wrong.\n\nSo the fix starts before the script. We take a buyer's real fear from our ICP research and turn it into the opening hook in Claude, using Breakthrough Advertising and the five stages of awareness.\n\nIn the video I review a script about a no-show problem worth about £1,000 a month: the reminder sent 24 hours before, and a rebooking workflow in GoHighLevel.\n\nThen I show the tells that make an AI script sound off, and how to fix them.\n\nAI gets you to 90%. Your buyer's words and your own voice do the rest.\n\nWant help building your own video-script skill? Book a call: [BOOKING LINK]\n\n#ClaudeAI #AdCopywriting #VideoMarketing #MetaAds"
+  }
+ ]
+}

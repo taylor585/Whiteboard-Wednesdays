@@ -1,0 +1,168 @@
+{
+  "about": "Routing eval: give a fresh agent ONLY SKILL.md and each prompt; it must name the section and the key file(s). Pass = every expected file named (extra files allowed). Run by hand or with a subagent; record results in BUILD-STATUS.md.",
+  "cases": [
+    {
+      "prompt": "Give me 10 headlines for my new video about Meta ads.",
+      "section": "Titles only",
+      "expect": [
+        "references/frameworks/headline-framework.md"
+      ]
+    },
+    {
+      "prompt": "Package this video: thumbnails, titles, description and LinkedIn post.",
+      "section": "Package a video",
+      "expect": [
+        "references/frameworks/headline-framework.md",
+        "references/frameworks/thumbnail-framework.md",
+        "references/frameworks/description-framework.md",
+        "references/frameworks/linkedin-framework.md"
+      ]
+    },
+    {
+      "prompt": "Write the YouTube description with chapters, here's the transcript.",
+      "section": "Description only",
+      "expect": [
+        "references/frameworks/description-framework.md",
+        "references/brand/house-style.md"
+      ]
+    },
+    {
+      "prompt": "What makes a good thumbnail?",
+      "section": "Answer from the framework",
+      "expect": [
+        "references/frameworks/thumbnail-framework.md"
+      ]
+    },
+    {
+      "prompt": "Break down the framework we use for choosing headlines.",
+      "section": "Explain the framework",
+      "expect": [
+        "references/frameworks/headline-framework.md"
+      ]
+    },
+    {
+      "prompt": "How do we decide what goes in the description, based on the research?",
+      "section": "Explain the framework",
+      "expect": [
+        "references/frameworks/description-framework.md"
+      ]
+    },
+    {
+      "prompt": "Which experts did we research and what did we find?",
+      "section": "Answer from the research",
+      "expect": [
+        "references/research/overview.md",
+        "references/research/method.md"
+      ]
+    },
+    {
+      "prompt": "This thumbnail is flat, make it darker and make it pop.",
+      "section": "Create thumbnails (pop recipe)",
+      "expect": [
+        "references/design/scene-design.md"
+      ]
+    },
+    {
+      "prompt": "I don't have a photo of myself, make a thumbnail with objects instead.",
+      "section": "Create thumbnails step 5",
+      "expect": [
+        "references/design/scene-design.md",
+        "references/design/spec.md"
+      ]
+    },
+    {
+      "prompt": "Give me the LinkedIn and YouTube versions of the thumbnail we picked.",
+      "section": "Sizes from one design",
+      "expect": [
+        "references/platforms.md"
+      ]
+    },
+    {
+      "prompt": "Write a LinkedIn post to promote the video.",
+      "section": "Package step 6 (LinkedIn)",
+      "expect": [
+        "references/frameworks/linkedin-framework.md"
+      ]
+    },
+    {
+      "prompt": "Make me a thumbnail in Riley Brown's style.",
+      "section": "Creator style",
+      "expect": [
+        "references/research/creators.md",
+        "assets/research/top-hits-riley.jpg"
+      ]
+    },
+    {
+      "prompt": "Is this thumbnail any good? Why isn't it getting clicks?",
+      "section": "Audit",
+      "expect": [
+        "references/workflows.md",
+        "references/frameworks/thumbnail-framework.md"
+      ]
+    },
+    {
+      "prompt": "What's working for @somecreator right now?",
+      "section": "Track",
+      "expect": [
+        "references/workflows.md"
+      ]
+    },
+    {
+      "prompt": "Keep an eye on these three channels and tell me weekly what broke out.",
+      "section": "Watch",
+      "expect": [
+        "references/workflows.md"
+      ]
+    },
+    {
+      "prompt": "Save this call to action and add it to our CTA list.",
+      "section": "Description only / CTA",
+      "expect": [
+        "references/brand/cta-library.md"
+      ]
+    },
+    {
+      "prompt": "It's been two days and the CTR is below average, should I change the title?",
+      "section": "Learning loop",
+      "expect": [
+        "references/learning-loop.md"
+      ]
+    },
+    {
+      "prompt": "Save this batch to the Thumbnails page in the Whiteboard Wednesdays app.",
+      "section": "Package with --vault",
+      "expect": [
+        "references/whiteboard-wednesdays.md"
+      ]
+    },
+    {
+      "prompt": "fetch_videos keeps getting blocked by YouTube, what do I do?",
+      "section": "Troubleshooting",
+      "expect": [
+        "references/troubleshooting.md"
+      ]
+    },
+    {
+      "prompt": "Which layout should I use for a full course video?",
+      "section": "Create thumbnails (layouts)",
+      "expect": [
+        "references/frameworks/thumbnail-framework.md",
+        "references/design/layouts.md"
+      ]
+    },
+    {
+      "prompt": "Give me five different thumbnail variations, a couple black and the rest lighter, with emojis on some.",
+      "section": "Create thumbnails",
+      "expect": [
+        "references/design/variety.md"
+      ]
+    },
+    {
+      "prompt": "These all look the same. Can we get more variety in the fonts and backgrounds?",
+      "section": "Create thumbnails",
+      "expect": [
+        "references/design/variety.md"
+      ]
+    }
+  ]
+}

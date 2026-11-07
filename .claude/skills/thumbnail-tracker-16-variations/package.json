@@ -1,0 +1,19 @@
+{
+  "name": "thumbnail-tracker-16-variations",
+  "version": "4.0.0",
+  "private": true,
+  "description": "Render and package YouTube/LinkedIn thumbnails (Claude skill).",
+  "scripts": {
+    "render": "node scripts/render.cjs",
+    "render:offline": "THUMB_OFFLINE=1 node scripts/render.cjs",
+    "fonts": "python3 scripts/fetch_fonts.py",
+    "gallery": "python3 scripts/gallery.py",
+    "validate": "python3 scripts/validate.py examples/*.json",
+    "verify-research": "python3 scripts/verify_research.py",
+    "test": "python3 -m unittest discover tests",
+    "package": "python3 scripts/package_skill.py"
+  },
+  "dependencies": {
+    "playwright": "1.56.1"
+  }
+}

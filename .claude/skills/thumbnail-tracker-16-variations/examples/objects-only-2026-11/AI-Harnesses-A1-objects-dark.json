@@ -1,0 +1,81 @@
+{
+ "id": "AI-Harnesses-A1-objects-dark",
+ "title": "I Built an AI Harness So Claude Code Can Run for 24 Hours",
+ "studio": {
+  "preset": "dark-red"
+ },
+ "words": "2 HOURS. NOTHING DONE.",
+ "layers": [
+  {
+   "type": "logo",
+   "logo": "claude.svg",
+   "x": 1135,
+   "y": 160,
+   "size": 230,
+   "finish": "claude-terracotta",
+   "depth": 22,
+   "rot": 8,
+   "floor_shadow": false,
+   "rim": true
+  },
+  {
+   "type": "clock",
+   "x": 890,
+   "y": 430,
+   "r": 160,
+   "rot": -9,
+   "finish": "black",
+   "elapsed_h": 2,
+   "rim": true
+  },
+  {
+   "type": "logo",
+   "logo": "openai.svg",
+   "x": 1140,
+   "y": 520,
+   "size": 200,
+   "finish": "chrome",
+   "depth": 18,
+   "rot": -6,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "2 hours.",
+   "x": 46,
+   "y": 205,
+   "size": 170,
+   "finish": "white-outline",
+   "depth": 14,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "Nothing",
+   "x": 46,
+   "y": 385,
+   "size": 160,
+   "finish": "white-outline",
+   "depth": 14,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "done.",
+   "x": 46,
+   "y": 565,
+   "size": 170,
+   "finish": "red-outline",
+   "depth": 16,
+   "rim": true
+  }
+ ],
+ "look": {
+  "layout": "words-left",
+  "ground": "dark-red",
+  "font": "anton",
+  "accent": "red",
+  "hero": "alarm-clock",
+  "emoji": false
+ }
+}

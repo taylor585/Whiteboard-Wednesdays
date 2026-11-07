@@ -1,0 +1,73 @@
+{
+ "id": "Think16-16-words-left-sky",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "words-left",
+  "ground": "sky",
+  "font": "inter-tight",
+  "accent": "blue",
+  "hero": "bulb-keycap",
+  "emoji": true
+ },
+ "studio": {
+  "preset": "sky"
+ },
+ "words": "THINK. THEN PROMPT.",
+ "layers": [
+  {
+   "type": "lightbulb",
+   "x": 1010,
+   "y": 290,
+   "h": 400,
+   "glow": "#ffd84a",
+   "rot": -6
+  },
+  {
+   "type": "keycap",
+   "x": 1170,
+   "y": 560,
+   "size": 130,
+   "logo": "claude.svg",
+   "logo_col": "#D97757",
+   "label": "Claude",
+   "rot": 8
+  },
+  {
+   "type": "emoji",
+   "x": 760,
+   "y": 130,
+   "size": 120,
+   "char": "💡",
+   "rot": -10
+  },
+  {
+   "type": "text",
+   "text": "Think.",
+   "x": 46,
+   "y": 280,
+   "size": 200,
+   "finish": "white-sans",
+   "depth": 12
+  },
+  {
+   "type": "block3d",
+   "x": 36,
+   "y": 330,
+   "w": 700,
+   "h": 190,
+   "top": "#3d8bff",
+   "bot": "#1652c9",
+   "side": "#0a2a6e",
+   "rot": -2
+  },
+  {
+   "type": "text",
+   "text": "Then prompt.",
+   "x": 60,
+   "y": 480,
+   "size": 112,
+   "finish": "white-sans",
+   "depth": 10
+  }
+ ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Thumbnail Tracker 3.0"
+  short_description: "Research-backed YouTube thumbnails, titles, descriptions and LinkedIn posts"
+  default_prompt: "Use Thumbnail Tracker. Package my video: render thumbnail options in YouTube and LinkedIn sizes, write and score 10 titles, write the description in my house style with real chapters, and explain which pair to test first."

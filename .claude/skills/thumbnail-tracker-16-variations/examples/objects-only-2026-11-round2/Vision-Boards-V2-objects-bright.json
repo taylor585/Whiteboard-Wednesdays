@@ -1,0 +1,46 @@
+{
+ "id": "Vision-Boards-V2-objects-bright",
+ "title": "How to Build an App With Claude (Without Rebuilds)",
+ "studio": {
+  "preset": "warm-white"
+ },
+ "words": "BOARD IT FIRST.",
+ "layers": [
+  {
+   "type": "phone",
+   "x": 980,
+   "y": 360,
+   "h": 560,
+   "logo": "claude.svg",
+   "logo_col": "#D97757",
+   "rot": 7,
+   "progress": 0.62
+  },
+  {
+   "type": "text",
+   "text": "Board it",
+   "x": 50,
+   "y": 250,
+   "size": 190,
+   "finish": "charcoal",
+   "depth": 12
+  },
+  {
+   "type": "text",
+   "text": "first.",
+   "x": 40,
+   "y": 520,
+   "size": 260,
+   "finish": "gold-outline",
+   "depth": 24
+  }
+ ],
+ "look": {
+  "layout": "words-left",
+  "ground": "warm-white",
+  "font": "anton",
+  "accent": "gold",
+  "hero": "phone",
+  "emoji": false
+ }
+}

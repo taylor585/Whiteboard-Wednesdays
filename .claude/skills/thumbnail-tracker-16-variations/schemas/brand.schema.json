@@ -1,0 +1,148 @@
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "$id": "brand.schema.json",
+ "title": "Brand profile",
+ "type": "object",
+ "required": [
+  "name",
+  "colours",
+  "fonts"
+ ],
+ "x-warnUnknown": true,
+ "properties": {
+  "name": {
+   "type": "string",
+   "minLength": 1
+  },
+  "owner": {
+   "type": "string"
+  },
+  "language": {
+   "type": "string",
+   "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$"
+  },
+  "colours": {
+   "type": "object",
+   "required": [
+    "ground",
+    "ink",
+    "accent"
+   ],
+   "additionalProperties": {
+    "type": "string",
+    "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+   },
+   "properties": {
+    "ground": {
+     "type": "string",
+     "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+    },
+    "ink": {
+     "type": "string",
+     "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+    },
+    "accent": {
+     "type": "string",
+     "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+    },
+    "accent_bright": {
+     "type": "string",
+     "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+    },
+    "highlight": {
+     "type": "string",
+     "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+    },
+    "problem": {
+     "type": "string",
+     "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+    },
+    "fix": {
+     "type": "string",
+     "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+    },
+    "dark_ground": {
+     "type": "string",
+     "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$"
+    }
+   }
+  },
+  "fonts": {
+   "type": "object",
+   "required": [
+    "headline"
+   ],
+   "additionalProperties": {
+    "type": "string"
+   },
+   "properties": {
+    "headline": {
+     "type": "string",
+     "minLength": 1
+    },
+    "body": {
+     "type": "string",
+     "minLength": 1
+    },
+    "label": {
+     "type": "string",
+     "minLength": 1
+    }
+   }
+  },
+  "logo": {
+   "type": [
+    "string",
+    "object"
+   ],
+   "description": "Logo rule text, or {file, rules[]}.",
+   "properties": {
+    "file": {
+     "type": "string"
+    },
+    "rules": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   }
+  },
+  "logo_rules": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "cta_pinned": {
+   "type": "string",
+   "minLength": 1,
+   "description": "Line 1 of every description, verbatim."
+  },
+  "hashtags": {
+   "type": "object",
+   "properties": {
+    "min": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "max": {
+     "type": "integer",
+     "minimum": 0
+    }
+   }
+  },
+  "hashtags_rule": {
+   "type": "string"
+  },
+  "rules": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "_note": {
+   "type": "string"
+  }
+ }
+}

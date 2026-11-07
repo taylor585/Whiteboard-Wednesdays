@@ -1,0 +1,54 @@
+{
+ "id": "AI-Harnesses-A2-objects-bright",
+ "title": "I Built an AI Harness So Claude Code Can Run for 24 Hours",
+ "studio": {
+  "preset": "warm-white"
+ },
+ "words": "SAME AI. 80%",
+ "layers": [
+  {
+   "type": "gauge",
+   "x": 905,
+   "y": 500,
+   "r": 330,
+   "value": 80,
+   "ghost": 20
+  },
+  {
+   "type": "logo",
+   "logo": "claude.svg",
+   "x": 905,
+   "y": 462,
+   "size": 120,
+   "finish": "claude-terracotta",
+   "depth": 10,
+   "floor_shadow": false
+  },
+  {
+   "type": "text",
+   "text": "Same AI.",
+   "x": 50,
+   "y": 190,
+   "size": 160,
+   "finish": "charcoal",
+   "depth": 10
+  },
+  {
+   "type": "text",
+   "text": "80%",
+   "x": 34,
+   "y": 600,
+   "size": 330,
+   "finish": "gold-outline",
+   "depth": 26
+  }
+ ],
+ "look": {
+  "layout": "words-left",
+  "ground": "warm-white",
+  "font": "anton",
+  "accent": "gold",
+  "hero": "gauge",
+  "emoji": false
+ }
+}

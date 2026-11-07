@@ -1,0 +1,51 @@
+{
+ "id": "Think-T4-words-on-object",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "words-on-object",
+  "ground": "dark-green",
+  "font": "inter-tight",
+  "accent": "green",
+  "hero": "speech-bubble",
+  "emoji": false
+ },
+ "studio": {
+  "preset": "dark-green"
+ },
+ "words": "WHAT DO YOU THINK?",
+ "layers": [
+  {
+   "type": "logo",
+   "logo": "claude.svg",
+   "x": 230,
+   "y": 470,
+   "size": 330,
+   "finish": "claude-terracotta",
+   "depth": 24,
+   "rot": -8,
+   "rim": true
+  },
+  {
+   "type": "speech_bubble",
+   "x": 810,
+   "y": 280,
+   "w": 820,
+   "text": "WHAT DO YOU",
+   "font": "Inter Tight",
+   "size": 96,
+   "tail": "left",
+   "rot": -3,
+   "depth": 16
+  },
+  {
+   "type": "text",
+   "text": "think?",
+   "x": 560,
+   "y": 600,
+   "size": 180,
+   "finish": "green-outline",
+   "depth": 20,
+   "rim": true
+  }
+ ]
+}

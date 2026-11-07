@@ -1,0 +1,80 @@
+{
+ "id": "Grok-B3-objects-on-brand",
+ "title": "Grok Voice Will Replace Your Sales",
+ "studio": {
+  "preset": "cream-board"
+ },
+ "extra_css": ";background-color:#FBF8F1",
+ "words": "20,000 CALLS A DAY.",
+ "layers": [
+  {
+   "type": "marker",
+   "x": 44,
+   "y": 82,
+   "w": 600,
+   "h": 150
+  },
+  {
+   "type": "text",
+   "text": "20,000",
+   "x": 56,
+   "y": 214,
+   "size": 170,
+   "finish": "ink-serif"
+  },
+  {
+   "type": "text",
+   "text": "CALLS",
+   "x": 56,
+   "y": 366,
+   "size": 128,
+   "finish": "ink-serif"
+  },
+  {
+   "type": "text",
+   "text": "A DAY.",
+   "x": 56,
+   "y": 500,
+   "size": 128,
+   "finish": "ink-serif"
+  },
+  {
+   "type": "ledge",
+   "y": 585
+  },
+  {
+   "type": "cord",
+   "x0": 1200,
+   "y0": 515,
+   "x1": 1262,
+   "y1": 600,
+   "loops": 9
+  },
+  {
+   "type": "handset",
+   "x": 1035,
+   "y": 455,
+   "w": 400,
+   "finish": "ink",
+   "rot": -6
+  },
+  {
+   "type": "keycap",
+   "x": 735,
+   "y": 482,
+   "size": 195,
+   "logo": "grok.svg",
+   "logo_col": "#1C1A17",
+   "label": "Grok",
+   "rot": -5
+  }
+ ],
+ "look": {
+  "layout": "on-brand-ledge",
+  "ground": "cream-board",
+  "font": "fraunces",
+  "accent": "gold",
+  "hero": "handset-keycap",
+  "emoji": false
+ }
+}

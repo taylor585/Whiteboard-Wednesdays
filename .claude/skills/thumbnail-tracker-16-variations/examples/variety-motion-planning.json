@@ -1,0 +1,288 @@
+{
+ "thumbnails": [
+  {
+   "title": "How to Build an App With Claude (Without Rebuilds)",
+   "archetype": "scene",
+   "format": "jpg",
+   "headline_align": "left",
+   "id": "VP1-white-caps-underline",
+   "theme": "light",
+   "bg_style": "paper-grid",
+   "font": "condensed",
+   "headline": "MOTION\nPLANNING",
+   "highlight": "PLANNING",
+   "highlight_style": "underline",
+   "accent": "#B3261E",
+   "headline_color": "#1C1A17",
+   "headline_box": {
+    "x": 40,
+    "y": 70,
+    "w": 640,
+    "h": 480
+   },
+   "headline_max": 230,
+   "face": {
+    "frame": "circle",
+    "cx": 960,
+    "cy": 360,
+    "d": 480,
+    "ring": "#B3261E",
+    "ring_w": 12,
+    "inset": "#1C1A17",
+    "pose": "confused, brows down"
+   },
+   "stickers": [
+    {
+     "type": "emoji",
+     "text": "🤯",
+     "x": 700,
+     "y": 40,
+     "size": 110,
+     "rotate": -10
+    },
+    {
+     "type": "mark",
+     "text": "?",
+     "x": 1120,
+     "y": 50,
+     "size": 130,
+     "color": "#B3261E",
+     "rotate": 14,
+     "font": "sans"
+    },
+    {
+     "type": "mark",
+     "text": "?",
+     "x": 670,
+     "y": 410,
+     "size": 150,
+     "color": "#B3261E",
+     "rotate": -12,
+     "font": "sans",
+     "outline": "#FFFFFF"
+    },
+    {
+     "type": "emoji",
+     "text": "🤯",
+     "x": 1110,
+     "y": 480,
+     "size": 90,
+     "rotate": 10
+    }
+   ]
+  },
+  {
+   "title": "How to Build an App With Claude (Without Rebuilds)",
+   "archetype": "scene",
+   "format": "jpg",
+   "headline_align": "left",
+   "id": "VP2-yellow-title-box",
+   "theme": "light",
+   "bg_style": "brand-yellow",
+   "bg_color": "#F6DF8C",
+   "font": "sans",
+   "headline": "Motion\nPlanning???",
+   "highlight": "Planning",
+   "highlight_style": "box",
+   "box_text": "#F6DF8C",
+   "accent": "#1C1A17",
+   "headline_color": "#1C1A17",
+   "headline_box": {
+    "x": 40,
+    "y": 110,
+    "w": 680,
+    "h": 420
+   },
+   "headline_max": 170,
+   "face": {
+    "frame": "circle",
+    "cx": 960,
+    "cy": 360,
+    "d": 480,
+    "ring": "#1C1A17",
+    "ring_w": 12,
+    "inset": "#1C1A17",
+    "pose": "confused, brows down"
+   },
+   "stickers": [
+    {
+     "type": "emoji",
+     "text": "🤯",
+     "x": 700,
+     "y": 40,
+     "size": 110,
+     "rotate": -10
+    },
+    {
+     "type": "mark",
+     "text": "?",
+     "x": 450,
+     "y": 110,
+     "size": 130,
+     "color": "#B3261E",
+     "rotate": 12,
+     "font": "sans"
+    },
+    {
+     "type": "emoji",
+     "text": "🤯",
+     "x": 40,
+     "y": 580,
+     "size": 90,
+     "rotate": -6
+    }
+   ]
+  },
+  {
+   "title": "How to Build an App With Claude (Without Rebuilds)",
+   "archetype": "scene",
+   "format": "jpg",
+   "headline_align": "left",
+   "id": "VP3-cream-marker-colour",
+   "theme": "light",
+   "bg_style": "cream-grid",
+   "font": "marker",
+   "headline": "MOTION\nPLANNING?!",
+   "highlight": "PLANNING?!",
+   "highlight_style": "color",
+   "accent": "#B3261E",
+   "headline_color": "#1C1A17",
+   "headline_box": {
+    "x": 40,
+    "y": 90,
+    "w": 660,
+    "h": 460
+   },
+   "headline_max": 170,
+   "face": {
+    "frame": "circle",
+    "cx": 970,
+    "cy": 370,
+    "d": 460,
+    "ring": "#1C1A17",
+    "ring_w": 12,
+    "inset": "#1C1A17",
+    "pose": "confused, brows down"
+   },
+   "stickers": [
+    {
+     "type": "mark",
+     "text": "?",
+     "x": 690,
+     "y": 40,
+     "size": 140,
+     "color": "#B3261E",
+     "rotate": -12,
+     "font": "marker"
+    },
+    {
+     "type": "mark",
+     "text": "?",
+     "x": 1150,
+     "y": 470,
+     "size": 120,
+     "color": "#1C1A17",
+     "rotate": 12,
+     "font": "marker"
+    }
+   ]
+  },
+  {
+   "title": "How to Build an App With Claude (Without Rebuilds)",
+   "archetype": "scene",
+   "format": "jpg",
+   "headline_align": "left",
+   "id": "VP4-black-caps-box",
+   "theme": "dark",
+   "bg_style": "black-glow",
+   "bg_color": "#0A0908",
+   "glow_color": "#CB8E03",
+   "font": "condensed",
+   "headline": "MOTION\nPLANNING",
+   "highlight": "PLANNING",
+   "highlight_style": "box",
+   "box_text": "#0A0908",
+   "accent": "#F6DF8C",
+   "headline_color": "#FFFFFF",
+   "headline_box": {
+    "x": 40,
+    "y": 90,
+    "w": 640,
+    "h": 460
+   },
+   "headline_max": 220,
+   "face": {
+    "frame": "circle",
+    "cx": 960,
+    "cy": 360,
+    "d": 460,
+    "ring": "#CB8E03",
+    "ring_w": 12,
+    "inset": "#2A2722",
+    "pose": "confused, brows down"
+   }
+  },
+  {
+   "title": "How to Build an App With Claude (Without Rebuilds)",
+   "archetype": "scene",
+   "format": "jpg",
+   "headline_align": "left",
+   "id": "VP5-black-serif-underline",
+   "theme": "dark",
+   "bg_style": "black-spotlight",
+   "bg_color": "#0A0908",
+   "glow_color": "#CB8E03",
+   "font": "serif",
+   "headline": "Motion\nPlanning?",
+   "highlight": "Planning?",
+   "highlight_style": "underline",
+   "accent": "#CB8E03",
+   "headline_color": "#F5EAD8",
+   "headline_box": {
+    "x": 44,
+    "y": 120,
+    "w": 620,
+    "h": 380
+   },
+   "headline_max": 170,
+   "face": {
+    "frame": "circle",
+    "cx": 950,
+    "cy": 370,
+    "d": 450,
+    "ring": "#CB8E03",
+    "ring_w": 12,
+    "inset": "#2A2722",
+    "pose": "confused, brows down"
+   },
+   "stickers": [
+    {
+     "type": "emoji",
+     "text": "🤯",
+     "x": 820,
+     "y": 40,
+     "size": 110,
+     "rotate": -12
+    },
+    {
+     "type": "emoji",
+     "text": "😵‍💫",
+     "x": 1130,
+     "y": 470,
+     "size": 90,
+     "rotate": 8
+    },
+    {
+     "type": "mark",
+     "text": "?",
+     "x": 680,
+     "y": 180,
+     "size": 140,
+     "color": "#CB8E03",
+     "rotate": -12,
+     "font": "serif"
+    }
+   ]
+  }
+ ]
+}

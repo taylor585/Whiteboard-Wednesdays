@@ -1,0 +1,449 @@
+{
+ "thumbnails": [
+  {
+   "id": "yt-A-thought-bubble",
+   "title": "I Built an AI Agent That Finds Your Buyers' Exact Words",
+   "archetype": "scene",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "face": null,
+   "format": "jpg",
+   "headline": "Read their mind.",
+   "highlight": "mind.",
+   "font": "serif",
+   "headline_color": "#1C1A17",
+   "headline_align": "left",
+   "headline_box": {
+    "x": 48,
+    "y": 28,
+    "w": 720,
+    "h": 140
+   },
+   "headline_max": 150,
+   "elements": [
+    {
+     "type": "head",
+     "x": 30,
+     "y": 240,
+     "w": 400,
+     "glow": "#F6DF8C",
+     "stroke": "#8B6002",
+     "icon_text": "“ ”"
+    },
+    {
+     "type": "bubble",
+     "x": 450,
+     "y": 150,
+     "w": 620,
+     "h": 300,
+     "label": "Real buyer quote",
+     "text": "No answer.\nNext clinic.",
+     "red": "Next clinic.",
+     "red_color": "#B3261E",
+     "trail": [
+      [
+       350,
+       290,
+       18
+      ],
+      [
+       388,
+       250,
+       26
+      ],
+      [
+       428,
+       208,
+       34
+      ]
+     ],
+     "z": 5,
+     "max": 96
+    },
+    {
+     "type": "card",
+     "x": 560,
+     "y": 462,
+     "w": 420,
+     "rotate": -3,
+     "label_top": "ICP REPORT",
+     "rank": "#1",
+     "name": "Growth-stage med spas",
+     "name_size": 25,
+     "value": "88%",
+     "value_size": 78,
+     "value_label": "fit score",
+     "z": 6
+    }
+   ]
+  },
+  {
+   "id": "yt-B-report-lens",
+   "title": "I Built an AI Agent That Finds Your Buyers' Exact Words",
+   "archetype": "scene",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "face": null,
+   "format": "jpg",
+   "headline": "Read their mind.",
+   "highlight": "mind.",
+   "font": "serif",
+   "headline_color": "#1C1A17",
+   "headline_align": "left",
+   "headline_box": {
+    "x": 48,
+    "y": 28,
+    "w": 700,
+    "h": 140
+   },
+   "headline_max": 150,
+   "elements": [
+    {
+     "type": "chip",
+     "x": 930,
+     "y": 70,
+     "text": "#1 ICP · 88% fit",
+     "bg": "#8B6002",
+     "fg": "#FFFBF3",
+     "size": 30,
+     "rotate": 3
+    },
+    {
+     "type": "doc",
+     "x": 56,
+     "y": 200,
+     "w": 720,
+     "h": 330,
+     "rotate": -2,
+     "title": "ICP REPORT · MED SPA CLIENT",
+     "lines": [
+      {
+       "tag": "FEAR",
+       "tag_bg": "#B3261E",
+       "text": "Someone googles med spa, tries calling, no answer, books at the place next door instead."
+      },
+      {
+       "kind": "muted",
+       "tag": "DESIRE",
+       "tag_bg": "#8B6002",
+       "text": "Impact scores · real-life quotes"
+      },
+      {
+       "kind": "muted",
+       "tag": "QUESTION",
+       "tag_bg": "#5c5750",
+       "text": "What buyers ask before booking"
+      }
+     ],
+     "highlight": "no answer, books at the place next door instead."
+    },
+    {
+     "type": "lens",
+     "x": 760,
+     "y": 215,
+     "d": 340,
+     "text": "No answer.\nNext clinic.",
+     "red": "Next clinic.",
+     "red_color": "#B3261E",
+     "size": 52,
+     "z": 7
+    },
+    {
+     "type": "highlighter",
+     "x": 440,
+     "y": 520,
+     "w": 320,
+     "rotate": -14,
+     "z": 8
+    }
+   ]
+  },
+  {
+   "id": "yt-C-mind-xray",
+   "title": "I Built an AI Agent That Finds Your Buyers' Exact Words",
+   "archetype": "scene",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "face": null,
+   "format": "jpg",
+   "headline": "Read their mind.",
+   "highlight": "mind.",
+   "font": "serif",
+   "headline_color": "#1C1A17",
+   "headline_align": "left",
+   "headline_box": {
+    "x": 48,
+    "y": 28,
+    "w": 660,
+    "h": 140
+   },
+   "headline_max": 150,
+   "elements": [
+    {
+     "type": "head",
+     "x": 770,
+     "y": 150,
+     "w": 490,
+     "facing": "left",
+     "glow": "#F6DF8C",
+     "stroke": "#8B6002",
+     "icon_text": "“ ”"
+    },
+    {
+     "type": "sticky",
+     "x": 50,
+     "y": 205,
+     "w": 360,
+     "rotate": -4,
+     "color": "#F6DF8C",
+     "label": "Fear",
+     "text": "No answer. Next clinic."
+    },
+    {
+     "type": "sticky",
+     "x": 420,
+     "y": 300,
+     "w": 330,
+     "rotate": 3,
+     "color": "#FFFBF3",
+     "label": "Their words",
+     "text": "“Fed up of not being able to answer calls after seven?”"
+    },
+    {
+     "type": "sticky",
+     "x": 70,
+     "y": 470,
+     "w": 330,
+     "rotate": -2,
+     "color": "#EADBC1",
+     "label": "ICP report",
+     "text": "#1 Growth-stage med spas · 88% fit"
+    }
+   ],
+   "arrows": [
+    {
+     "from": [
+      415,
+      250
+     ],
+     "to": [
+      905,
+      330
+     ],
+     "bend": -0.18,
+     "color": "#8B6002",
+     "width": 6
+    },
+    {
+     "from": [
+      755,
+      420
+     ],
+     "to": [
+      895,
+      400
+     ],
+     "bend": 0.2,
+     "color": "#8B6002",
+     "width": 6
+    },
+    {
+     "from": [
+      405,
+      560
+     ],
+     "to": [
+      900,
+      450
+     ],
+     "bend": 0.15,
+     "color": "#8B6002",
+     "width": 6
+    }
+   ]
+  },
+  {
+   "id": "li-video-1920x1080",
+   "title": "I Built an AI Agent That Finds Your Buyers' Exact Words",
+   "archetype": "scene",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "face": null,
+   "format": "jpg",
+   "headline": "Read their mind.",
+   "highlight": "mind.",
+   "font": "serif",
+   "headline_color": "#1C1A17",
+   "headline_align": "left",
+   "headline_box": {
+    "x": 48,
+    "y": 28,
+    "w": 720,
+    "h": 140
+   },
+   "headline_max": 150,
+   "elements": [
+    {
+     "type": "head",
+     "x": 30,
+     "y": 240,
+     "w": 400,
+     "glow": "#F6DF8C",
+     "stroke": "#8B6002",
+     "icon_text": "“ ”"
+    },
+    {
+     "type": "bubble",
+     "x": 450,
+     "y": 150,
+     "w": 620,
+     "h": 300,
+     "label": "Real buyer quote",
+     "text": "No answer.\nNext clinic.",
+     "red": "Next clinic.",
+     "red_color": "#B3261E",
+     "trail": [
+      [
+       350,
+       290,
+       18
+      ],
+      [
+       388,
+       250,
+       26
+      ],
+      [
+       428,
+       208,
+       34
+      ]
+     ],
+     "z": 5,
+     "max": 96
+    },
+    {
+     "type": "card",
+     "x": 560,
+     "y": 462,
+     "w": 420,
+     "rotate": -3,
+     "label_top": "ICP REPORT",
+     "rank": "#1",
+     "name": "Growth-stage med spas",
+     "name_size": 25,
+     "value": "88%",
+     "value_size": 78,
+     "value_label": "fit score",
+     "z": 6
+    }
+   ],
+   "scale": 1.5
+  },
+  {
+   "id": "li-post-1080x1350",
+   "title": "I Built an AI Agent That Finds Your Buyers' Exact Words",
+   "archetype": "scene",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "face": null,
+   "format": "jpg",
+   "canvas": {
+    "w": 1080,
+    "h": 1350
+   },
+   "headline": "Read their mind.",
+   "highlight": "mind.",
+   "font": "serif",
+   "headline_color": "#1C1A17",
+   "headline_align": "left",
+   "headline_box": {
+    "x": 60,
+    "y": 120,
+    "w": 960,
+    "h": 200
+   },
+   "headline_max": 150,
+   "elements": [
+    {
+     "type": "chip",
+     "x": 60,
+     "y": 52,
+     "text": "NEW VIDEO · 39 MIN",
+     "bg": "#1C1A17",
+     "fg": "#F5EAD8",
+     "size": 26
+    },
+    {
+     "type": "bubble",
+     "x": 290,
+     "y": 380,
+     "w": 730,
+     "h": 380,
+     "label": "Real buyer quote",
+     "text": "No answer.\nNext clinic.",
+     "red": "Next clinic.",
+     "red_color": "#B3261E",
+     "trail": [
+      [
+       250,
+       830,
+       18
+      ],
+      [
+       262,
+       790,
+       26
+      ],
+      [
+       282,
+       742,
+       36
+      ]
+     ],
+     "max": 130,
+     "z": 5
+    },
+    {
+     "type": "head",
+     "x": 20,
+     "y": 860,
+     "w": 440,
+     "glow": "#F6DF8C",
+     "stroke": "#8B6002",
+     "icon_text": "“ ”"
+    },
+    {
+     "type": "card",
+     "x": 520,
+     "y": 880,
+     "w": 500,
+     "rotate": -4,
+     "label_top": "ICP REPORT",
+     "rank": "#1",
+     "name": "Growth-stage med spas",
+     "name_size": 32,
+     "value": "88%",
+     "value_size": 104,
+     "value_label": "fit score",
+     "z": 6
+    }
+   ]
+  }
+ ]
+}

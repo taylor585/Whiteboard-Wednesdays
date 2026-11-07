@@ -1,0 +1,52 @@
+{
+ "id": "Grok-Bot-G2-objects-bright",
+ "title": "How Good Is Grok Bot Really",
+ "studio": {
+  "preset": "cool-grey"
+ },
+ "words": "£752 A MONTH",
+ "layers": [
+  {
+   "type": "coin_stack",
+   "x": 1090,
+   "y": 560,
+   "r": 120,
+   "n": 7
+  },
+  {
+   "type": "logo",
+   "logo": "grok.svg",
+   "x": 1120,
+   "y": 150,
+   "size": 170,
+   "finish": "grok-graphite",
+   "depth": 14,
+   "floor_shadow": false
+  },
+  {
+   "type": "price_tag",
+   "x": 420,
+   "y": 290,
+   "w": 640,
+   "text": "£752",
+   "rot": -10
+  },
+  {
+   "type": "text",
+   "text": "A month",
+   "x": 60,
+   "y": 620,
+   "size": 150,
+   "finish": "charcoal",
+   "depth": 10
+  }
+ ],
+ "look": {
+  "layout": "words-left",
+  "ground": "cool-grey",
+  "font": "anton",
+  "accent": "gold",
+  "hero": "price-tag-coins",
+  "emoji": false
+ }
+}
