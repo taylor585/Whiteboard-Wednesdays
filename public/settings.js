@@ -29,7 +29,7 @@
   const DEFAULTS = {publishEdit:'suby-shots-with-katana', publishThumbs:'thumbnail-tracker-16-variations', publishPosts:'performance-poster', reelsEdit:'suby-shots-with-katana', reelsCopy:'finishing-touches-copy-and-scripts', reelsPosts:'performance-poster', decks:'suby-shots-reels-and-variety', topics:'trending-topics'};
   // Honest connection states: nothing here claims a connection the app has not made.
   const CONNECTIONS = [
-    ['Google Drive','Publish reads your Drive links. Finished files are not put back on Drive yet.','Links must be shared “Anyone with the link”',true],
+    ['Google Drive','Publish reads your Drive links. Full-quality finals go to “Whiteboard Wednesdays finals” in your Drive once the one-time Drive set-up is in the environment settings (PUBLISH.md, Full-quality delivery).','Reading: links shared “Anyone with the link”. Uploading: needs the one-time set-up',true],
     ['Claude Code','Runs each Publish job: the edit, the thumbnails and the posts, and the reel highlight pack.','Asks you once, the first time you press Generate',false],
     ['YouTube','Uploads for the Creator watchlist, and posting.','Not connected',true],
     ['LinkedIn and Instagram','Posting from Post all.','Not connected',true]];

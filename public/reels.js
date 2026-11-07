@@ -101,7 +101,9 @@
   const mainOf = j => mainParts(j)[0] || null;
   // ---- Which path (Taylor's decision 11): decided from the files, never asked -----------------------------------------
   // A phone take is a source Check the files classified as a phone recording and Taylor kept as a reel recording.
-  const phoneTakes = srcs => (srcs || []).filter(s => s && s.driveId && s.role === 'reel' && s.kind === 'phone-recording' && s.decision !== 'reject');
+  // Audit 7 Nov 2026: a take counts only when the classifier accepted it or Taylor chose it on Check the files
+  // (the same rule as the classifier's reels_path), never an unconfirmed "ask".
+  const phoneTakes = srcs => (srcs || []).filter(s => s && s.driveId && s.role === 'reel' && s.kind === 'phone-recording' && (s.decision === 'accept' || (s.roleBy === 'taylor' && s.confirmedAt)));
   const PATH_WHY = {A:'Only the main recording is here, so Claude suggests six reel ideas for you to pick from and record.', B:n => n > 1 ? 'You added '+n+' phone recordings, so reels are cut straight from them.' : 'You added a phone recording, so reels are cut straight from it.'};
   function choosePath(srcs) {
     const mains = (srcs || []).filter(s => s && s.role === 'main' && s.driveId), takes = phoneTakes(srcs);
@@ -724,7 +726,7 @@
     const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), at = new Date().toISOString();
     const topic = j.topicId ? allTopics().find(t => t.id === j.topicId) : null;
     const src = {kind:'job', jobId:j.id, driveId:m.driveId, url:m.url || null, fromJob:true, ...(ps.length > 1 ? {driveIds:ps.map(x => x.driveId), urls:ps.map(x => x.url || null), seconds:partsSeconds(ps)} : {})};
-    const doc = {id, jobId:j.id, topicId:j.topicId || null, title:String(topic?.title || j.title || '').trim(), titleBy:'taylor', source:src, offsetS:null, skills:reelSkills(), status:'queued', stages:[], winners:{},
+    const doc = {id, jobId:j.id, topicId:j.topicId || null, title:String(j.title || topic?.title || '').trim(), titleBy:'taylor', source:src, offsetS:null, skills:reelSkills(), status:'queued', stages:[], winners:{},
       auto:true, createdAt:at, startedAt:at, updatedAt:at, ...pathFields(pc.path, pc.takes, at)};
     try { await db.doc('reels/'+id).set(doc); reels = [doc, ...reels.filter(x => x.id !== id)]; } catch { return null; }
     if (start) await startSession(doc, 'pack', {quiet:true});
