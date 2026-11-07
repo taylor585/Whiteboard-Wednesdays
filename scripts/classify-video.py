@@ -13,6 +13,18 @@ Decision per file
   accept   the signals agree; the role can be set without asking
   ask      signals disagree or are missing: show Taylor the reason and let him choose (never guess silently)
   reject   it can never be a source for this job (not a video, an output, an over-length finished reel)
+  fileDecision is the same answer from the file alone, without the role it was pasted with: the Check the files screen
+  preselects a role only for a file whose fileDecision is accept.
+
+Never silently wrong (classification audit, 7 November 2026): a file is classified correctly or asked.
+  - only camera metadata (an iPhone/iPad model tag, Android tags, or HDR with a rotation flag) proves a phone take;
+    a phone-style name, HEVC in .mov or a rotation flag alone is asked;
+  - the finished-reel check runs first: the exact house reel spec with no camera metadata is an output, whatever
+    its name (over 60 s, or with a length that cannot be read, it is asked);
+  - a 1920x1080 30 fps house render over 15 min is a finished master export: asked;
+  - a header length that does not fit the file size (fragmented MP4) is never trusted: asked;
+  - a phone take recorded more than 21 days ago is asked (WW_CLASSIFY_TODAY pins today for tests);
+  - a proposed take always needs Taylor's confirm (decision 10).
 
 usage
   classify-video.py <media file> [--name N] [--folder F] [--role main|reel] [--json]
@@ -20,8 +32,10 @@ usage
   classify-video.py --drive <driveId> [--role R] [--json]      range-reads only the header (and tail if needed)
   classify-video.py --drive-folder <folderId> [--html F]       lists a shared folder (no key) and classifies each
                                                                file; prints the proposed sources as JSON
+  classify-video.py --drive-files <id>[:role[:part]],...       file links: the same proposal as a folder (propose()),
+                                                               keeping the role (and part) Taylor pasted; prints JSON
   classify-video.py --main-parts <id1>,<id2>,...               checks Drive files as the ordered parts of ONE main
-                                                               recording (file links); prints the sources as JSON
+                                                               recording (older jobs; --drive-files does this too)
 A main recording may be made in parts (6 November 2026): landscape recordings with sound whose names carry a part
 number ("Part 1", "Pt 2", "- 3", "(2)", "take 2") and that share one picture size are proposed as one main made of
 ordered parts (role "main", "part" 1..n, judged on their total length). Missing or repeated numbers, mixed sizes,
@@ -60,6 +74,9 @@ FOLDER_HINTS = {
     'finished-reel':     r'final|ready|export|posted',
 }
 ROLE_KIND = {'main': 'youtube-recording', 'reel': 'phone-recording'}
+MAX_MBPS = 250         # above this the header length cannot be right (iPhone 4K HEVC is ~50, house mains ~2-10)
+TAKE_MAX_AGE_D = 21    # a phone take recorded more than 3 weeks ago is asked: it may belong to another video
+NOW = os.environ.get('WW_CLASSIFY_TODAY')  # tests pin the date
 
 
 def ffprobe(path):
@@ -130,11 +147,18 @@ def signals(j, name='', folder=''):
     tags = {k.lower(): str(val) for k, val in {**(fmt.get('tags') or {}), **(v.get('tags') or {})}.items()}
     s['phone'] = sorted(set(
         (['apple-tags'] if any(k.startswith('com.apple.quicktime.make') or k.startswith('com.apple.quicktime.model') for k in tags) else []) +
+        (['apple-iphone'] if re.search(r'iphone|ipad', tags.get('com.apple.quicktime.model', ''), re.I) else []) +
         (['android-tags'] if any(k.startswith('com.android') for k in tags) else []) +
         (['hdr-' + v['color_transfer']] if v.get('color_transfer') in ('arib-std-b67', 'smpte2084') else []) +
         (['rotation-flag'] if s['rotation'] else []) +
         (['phone-name'] if re.match(r'(img|pxl|vid|mov)_\d', os.path.basename(name).lower()) else []) +
         (['hevc-mov'] if s['codec'] == 'hevc' and 'mov' in s['container'] and fmt.get('format_name', '').startswith('mov') and os.path.splitext(name)[1].lower() == '.mov' else [])))
+    # Audit 7 Nov 2026: only camera metadata proves a phone origin. A phone-style name, HEVC in .mov or a rotation flag
+    # alone can be copied onto any file (a finished reel saved as IMG_3094-reel-A.mp4 was accepted as a take).
+    s['phone_strong'] = bool({'apple-iphone', 'android-tags'} & set(s['phone'])) or (
+        any(x.startswith('hdr-') for x in s['phone']) and 'rotation-flag' in s['phone'])
+    s['recorded'] = (tags.get('com.apple.quicktime.creationdate') or tags.get('creation_time') or '')[:10] or None
+    s['fragmented'] = bool(re.search(r'iso5|iso6|dash|cmf', str((fmt.get('tags') or {}).get('compatible_brands', '')) + str((fmt.get('tags') or {}).get('major_brand', ''))))
     s['house_render'] = (s['codec'] == 'h264' and v.get('pix_fmt') == 'yuv420p' and v.get('color_range') == 'tv'
                          and v.get('color_space') == 'bt709' and abs(s['fps'] - 30) < 0.01 and not s['rotation']
                          and (s['w'], s['h']) in ((1080, 1920), (1080, 1350), (1920, 1080)))
@@ -171,19 +195,32 @@ def classify(s, role=None, total=None):
     if 'band' not in s: return out('other', 'reject', 'no video stream (audio only)' if s.get('audio') else 'no video stream')
     if s.get('image'): return out('other', 'reject', 'a still image, not a video')
     d = s['duration']; band = s['band']; dd = total or d; R.append(f'{s["w"]}x{s["h"]} rot {s["rotation"]} -> shows {s["dw"]}x{s["dh"]} ({band}, {s["ratio"]}), {d:.1f} s, {s["codec"]}, audio {"yes" if s["audio"] else "no"}')
-    if d < MIN_S: return out('other', 'reject', f'{d:.1f} s is under {MIN_S:.0f} s')
+    # Audit 7 Nov 2026: a fragmented MP4 (OBS "Hybrid MP4", iso5/iso6 brands) reports only its first fragments' length
+    # from a header read (a 6-min 1 GB recording read as 2.0 s and was rejected). A length that does not fit the size is
+    # never trusted: asked, and measured after the download.
+    mbps = (s.get('bytes') or 0) * 8 / d / 1e6 if d > 0 else 0
+    trusted = not ((d <= 0 or mbps > MAX_MBPS or s.get('fragmented')) and s.get('bytes', 0) > 4_000_000)
     phone = bool(s['phone'])
+    # The finished-output check runs first, before the length check and before any phone hint: only camera metadata
+    # (phone_strong) can overrule the exact house render spec. A phone-style name on a finished reel proves nothing.
+    if band == 'tall' and s['audio'] and s['house_render'] and not s['phone_strong']:
+        if not trusted: return out('phone-recording', 'ask', f'exact house reel render spec, but the length in the header ({d:.1f} s) does not fit the file size ({s["bytes"] / 1e6:.0f} MB): a finished reel or a converted take? confirm')
+        if d > REEL_MAX_S + 0.05: return out('phone-recording', 'ask', f'exact house reel render spec but {d:.1f} s, longer than any finished reel (60 s max): a phone take converted to H.264, or an export? confirm')
+        return out('finished-reel', 'reject', 'exact 1080x1920 H.264 BT.709 TV-range 30 fps: the house finished-reel spec, an output not a source')
+    if band == 'feed' and s['house_render'] and not s['phone_strong']:
+        return out('finished-reel', 'reject', '1080x1350 house spec: the 4:5 Instagram post of a finished reel, an output')
+    if not trusted and band in ('ultrawide', 'wide', 'landscape', 'tall'):
+        k = 'phone-recording' if band == 'tall' else 'youtube-recording'
+        return out(k, 'ask', f'the length in the header ({d:.1f} s) does not fit the file size ({s["bytes"] / 1e6:.0f} MB, {mbps:.0f} Mbit/s): probably a fragmented recording; Claude measures it after the download, confirm what it is')
+    if d < MIN_S: return out('other', 'reject', f'{d:.1f} s is under {MIN_S:.0f} s')
     if band == 'tall':
         if not s['audio']: return out('other', 'reject', 'silent vertical clip: a B-roll option or screen-share B-roll, not a recording (reels need Taylor\'s own voice)')
-        if s['house_render'] and not phone:
-            if d > REEL_MAX_S + 0.05: return out('finished-reel', 'reject', f'finished-reel render spec but {d:.1f} s is over the 60.0 s maximum (master rule 6)')
-            return out('finished-reel', 'reject', 'exact 1080x1920 H.264 BT.709 TV-range 30 fps: the house finished-reel spec, an output not a source')
         if d > PHONE_TAKE_MAX_S: return out('phone-recording', 'ask', f'{d/60:.1f} min vertical: longer than any reel take so far; confirm it is a reel recording')
         why = 'vertical with phone origin (' + ', '.join(s['phone']) + ')' if phone else 'vertical, not the house render spec'
-        if not phone: return out('phone-recording', 'ask', why + '; no phone metadata, so confirm it is a fresh phone recording, not something made from the YouTube video')
+        if not phone: return out('phone-recording', 'ask', why + '; no phone metadata, so confirm it is a fresh phone recording, not something made from the YouTube video or an AI video')
+        if not s['phone_strong']: return out('phone-recording', 'ask', why + '; no camera metadata (only a phone-style name, codec or rotation), so confirm it is a fresh phone recording, not an export, a crop of the YouTube video or an AI video')
         return out('phone-recording', 'accept', why + ('; over 60 s is fine for a raw take (it is cut to 60 s)' if d > REEL_MAX_S else ''))
     if band == 'feed':
-        if s['house_render'] and not phone: return out('finished-reel', 'reject', '1080x1350 house spec: the 4:5 Instagram post of a finished reel, an output')
         return out('other', 'ask', '4:5 source: reels are recorded 9:16; ask what it is')
     if band == 'ultrawide':
         if dd < MAIN_MIN_S: return out('youtube-recording', 'ask', f'house 32:9-style layout but only {dd:.0f} s{" in all its parts" if total else ""}: a test take? confirm')
@@ -193,6 +230,8 @@ def classify(s, role=None, total=None):
         if phone: return out('other', 'ask', 'landscape phone video (' + ', '.join(s['phone']) + '): not a 9:16 reel recording and not the screen recording; ask')
         if 'linkedin-cut' in s['name_hints'] or 'linkedin-cut' in s['folder_hints']:
             return out('linkedin-cut', 'reject', 'named as the LinkedIn cut: an output of the YouTube master')
+        if dd > LINKEDIN_MAX_S and s['house_render']:
+            return out('youtube-recording', 'ask', f'exact 1920x1080 30 fps house render, {dd/60:.1f} min: looks like a finished YouTube master export, not the raw recording; confirm')
         if dd > LINKEDIN_MAX_S:
             if not s['audio']: return out('youtube-recording', 'ask', 'no audio track: the YouTube master needs the narration')
             return out('youtube-recording', 'accept', f'16:9 and {dd/60:.1f} min{" in all its parts" if total else ""}, longer than any LinkedIn cut (15 min max)')
@@ -306,21 +345,41 @@ def check_parts(members):
     return issues, total
 
 
-def propose(rows):
+def propose(rows, given_main=None):
     """rows: dicts with name, kind, decision, reason, probe (and _s, the signals). Sets role (main | reel | skip), and
     part on the parts of a main recorded in parts, and returns the job-level problems.
     The main recording is either the one landscape recording with sound, 5 minutes or longer, or (6 November 2026)
     several landscape recordings with sound named with part numbers, of one size, joined in part order. Anything
     else with more than one possible main is asked, never guessed. Phone recordings become reel takes. Outputs and
-    anything else are left out."""
+    anything else are left out.
+    Audit 7 Nov 2026: a phone recording is a reel take only when its own evidence is sure (camera metadata) and it was
+    recorded in the last 21 days; anything unsure has role None (Taylor chooses). Every row gets fileDecision, the
+    decision from the file alone (no pasted role), which is what the Check the files screen preselects from.
+    given_main: for file links, the rows Taylor pasted as the main recording's parts, in his order (2 or more). They are
+    judged together as one main (parts_rows) instead of being found by name."""
     cands = [r for r in rows if r['kind'] == 'youtube-recording' and r['decision'] != 'reject' and r['probe'].get('audio')]
     for r in rows:
-        r['role'] = 'reel' if r['kind'] == 'phone-recording' and r['decision'] != 'reject' else 'skip'
+        r['role'] = 'reel' if r['kind'] == 'phone-recording' and r['decision'] == 'accept' else None if r['kind'] == 'phone-recording' and r['decision'] == 'ask' else 'skip'
         r.pop('part', None)
     p = []
+    import datetime as _dt
+    today = _dt.date.fromisoformat(NOW) if NOW else _dt.date.today()
+    for r in rows:
+        rec = (r.get('_s') or {}).get('recorded') or r.get('recorded')
+        if r['role'] == 'reel' and rec:
+            try: age = (today - _dt.date.fromisoformat(rec)).days
+            except ValueError: continue
+            if age > TAKE_MAX_AGE_D:
+                r['role'] = None; r['decision'] = 'ask'; r['reason'] += f'; recorded {rec}, {age} days ago: is it a take for this video?'
     numbered = [(part_of(r['name']), r) for r in cands]
     parts = [(n, stem, r) for (n, stem), r in numbered if n is not None]
-    if len(parts) >= 2:
+    if given_main:
+        p += parts_rows(given_main)
+        others = [r for r in cands if r not in given_main and (r['probe'].get('seconds') or 0) >= MAIN_MIN_S]
+        if others:
+            p.append('another landscape recording could be the main recording: Taylor chooses')
+            for r in others: r['role'] = None; r['decision'] = 'ask'; r['reason'] += '; another possible main recording beside the parts Taylor gave'
+    elif len(parts) >= 2:
         parts.sort(key=lambda x: (x[0], x[2]['name']))
         members = [r for _, _, r in parts]; ns = [n for n, _, _ in parts]
         issues, total = check_parts(members)
@@ -337,7 +396,7 @@ def propose(rows):
         else:
             for i, r in enumerate(members, 1):
                 d, why = _recheck(r, total)
-                r['role'] = 'main'; r['part'] = i; r['decision'] = d
+                r['role'] = 'main'; r['part'] = i; r['decision'] = d  # judged as a part of the whole
                 r['reason'] = why + f'; part {i} of {len(members)} of one main recording, {clock(total)} in all'
     else:
         mains = [r for r in cands if (r['probe'].get('seconds') or 0) >= MAIN_MIN_S]
@@ -352,6 +411,10 @@ def propose(rows):
             p.append(f'{len(mains)} possible main recordings: Taylor chooses one')
             for r in mains: r['role'] = None; r['decision'] = 'ask'; r['reason'] += '; one of several possible main recordings'
     if sum(r['role'] == 'reel' for r in rows) > 5: p.append('more than five phone recordings')
+    if any(r['role'] == 'reel' for r in rows): p.append('phone take(s) beside the main recording: Taylor confirms before the reels start (decision 10)')
+    for r in rows:
+        if r['decision'] == 'ask' and r['role'] == 'skip' and r['kind'] == 'youtube-recording': r['role'] = None
+        r['fileDecision'] = r['decision']  # rows here carry no pasted role: this is the file's own decision
     if any(r['decision'] != 'accept' for r in rows): p.append('some files need Taylor to confirm')
     return p
 
@@ -380,7 +443,8 @@ def drive_row(fid, fname=None, role=None):
     try: j, dn = drive_probe(fid)
     except Exception as e: j, dn = {'error': str(e)}, None
     s = signals(j, fname or dn or fid); kind, decision, why = classify(s, role)
-    return {'driveId': fid, 'name': fname or dn or fid, 'url': f'https://drive.google.com/file/d/{fid}/view',
+    own = classify(s)[1]
+    return {'driveId': fid, 'fileDecision': own, 'recorded': s.get('recorded'), 'name': fname or dn or fid, 'url': f'https://drive.google.com/file/d/{fid}/view',
             'kind': kind, 'decision': decision, 'reason': '; '.join(why[1:] or why), 'probe': probe_summary(s), '_s': s}
 
 
@@ -399,11 +463,60 @@ def parts_rows(rows):
     issues, total = check_parts(rows)
     for i, r in enumerate(rows, 1):
         d, why = _recheck(r, total) if r['kind'] == 'youtube-recording' else (r['decision'], r['reason'])
-        r['role'] = 'main'; r['part'] = i; r['decision'] = 'ask' if issues and d == 'accept' else d
+        r['role'] = 'main'; r['part'] = i; r['decision'] = 'ask' if issues and d == 'accept' else d; r['fileDecision'] = r['decision']
         r['reason'] = why + f'; part {i} of {len(rows)} of one main recording, {clock(total)} in all' + ('; ' + '; '.join(issues) if issues else '')
     p = [f'The {len(rows)} parts of the main recording cannot be joined as they are: ' + '; '.join(issues)] if issues else []
     if any(r['decision'] != 'accept' for r in rows): p.append('some parts need Taylor to confirm')
     return p
+
+
+SEVERITY = {'accept': 0, 'ask': 1, 'reject': 2}
+
+
+def files_rows(rows, specs):
+    """File links (audit 7 Nov 2026): the same proposal as a folder. rows: drive_row(..., role=None) for each pasted file;
+    specs: [(driveId, pasted role or None, pasted part or None)] in Taylor's order. Each row keeps the role Taylor pasted
+    (pastedRole, pastedPart), gets proposedRole from propose() (what the files themselves say), fileDecision (the file
+    alone) and decision (the worse of fileDecision and the file judged against its pasted role). Returns the problems."""
+    for r, (_, role, part) in zip(rows, specs): r['pastedRole'] = role; r['pastedPart'] = part
+    kept = [r for r in rows if r['pastedRole'] != 'skip']   # a file Taylor left out is never proposed for anything
+    # The parts Taylor numbered himself (2 or more) are one main, in his order. A file pasted as main with no part
+    # number beside them (often the phone take, pasted first) is judged by its own shape like any other file.
+    given = [r for r in kept if r['pastedRole'] == 'main' and r['pastedPart']]
+    given = sorted(given, key=lambda r: r['pastedPart']) if len(given) >= 2 else None
+    p = propose(kept, given_main=given)
+    for r in rows:
+        if r['pastedRole'] == 'skip': r['role'] = 'skip'; r['fileDecision'] = r['decision']
+        r['proposedRole'] = r.pop('role')
+        role = r['pastedRole']
+        if role in ROLE_KIND and role != r['proposedRole'] and r.get('_s'):
+            k, d, why = classify(r['_s'], role)   # the file judged against the role it was pasted with
+            if SEVERITY[d] > SEVERITY[r['decision']]:
+                r['decision'] = d; r['reason'] += '; ' + why[-1]
+            if r['decision'] == 'accept':
+                r['decision'] = 'ask'; r['reason'] += '; pasted as ' + role + ', but the files say ' + (r['proposedRole'] or 'Taylor must choose')
+    if any(r['pastedRole'] in ROLE_KIND and r['pastedRole'] != r['proposedRole'] for r in rows):
+        p.append('a file was pasted with a role its shape does not fit: Taylor confirms the roles')
+    if any(r['decision'] != 'accept' for r in rows) and 'some files need Taylor to confirm' not in p:
+        p.append('some files need Taylor to confirm')
+    return p
+
+
+def classify_files(specs):
+    rows = [drive_row(fid) for fid, _, _ in specs]
+    problems = files_rows(rows, specs)
+    for r in rows: r.pop('_s', None)
+    proposal = [dict(r, role=r['proposedRole'], decision=r['fileDecision']) for r in rows]   # what the files alone say
+    return {'sources': rows, 'main': main_of(proposal), 'reels': reels_path(proposal), 'problems': problems, 'needsCheck': bool(problems)}
+
+
+def parse_specs(arg):
+    """'id1:main:1,id2:main:2,id3:reel,id4' -> [(id, role, part)]"""
+    out = []
+    for x in [x for x in re.split(r'[\s,]+', arg) if x]:
+        fid, role, part = (x.split(':') + [None, None])[:3]
+        out.append((fid, role if role in ('main', 'reel', 'skip') else None, int(part) if part and part.isdigit() else None))
+    return out
 
 
 def classify_parts(ids):
@@ -418,11 +531,14 @@ def main(a):
         if n not in a: return default
         i = a.index(n); v = a[i + 1]; del a[i:i + 2]; return v
     name, folder, role, probe, drive = opt('--name', ''), opt('--folder', ''), opt('--role'), opt('--probe'), opt('--drive')
-    dfolder, html, mparts = opt('--drive-folder'), opt('--html'), opt('--main-parts')
+    dfolder, html, mparts, dfiles = opt('--drive-folder'), opt('--html'), opt('--main-parts'), opt('--drive-files')
     as_json = '--json' in a; a = [x for x in a if x != '--json']
     if dfolder:
         r = classify_folder(dfolder, open(html, encoding='utf-8').read() if html else None)
         print(json.dumps(r, indent=1)); sys.exit(3 if r['needsCheck'] else 0)
+    if dfiles:
+        r = classify_files(parse_specs(dfiles))
+        print(json.dumps(r, indent=1)); sys.exit(4 if any(x['decision'] == 'reject' for x in r['sources']) else 3 if r['needsCheck'] else 0)
     if mparts:
         r = classify_parts([x for x in re.split(r'[\s,]+', mparts) if x])
         print(json.dumps(r, indent=1)); sys.exit(4 if any(x['decision'] == 'reject' for x in r['sources']) else 3 if r['needsCheck'] else 0)
@@ -431,7 +547,7 @@ def main(a):
     elif a: j = ffprobe(a[0]); name = name or os.path.basename(a[0])
     else: print(__doc__); sys.exit(2)
     s = signals(j, name, folder); kind, decision, why = classify(s, role)
-    r = {'name': name, 'kind': kind, 'decision': decision, 'reasons': why, 'signals': s}
+    r = {'name': name, 'kind': kind, 'decision': decision, 'fileDecision': classify(s)[1], 'reasons': why, 'signals': s}
     print(json.dumps(r, indent=1) if as_json else f'{name}: {kind} / {decision}\n  ' + '\n  '.join(why))
     sys.exit({'accept': 0, 'ask': 3, 'reject': 4}[decision])
 

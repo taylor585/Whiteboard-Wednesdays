@@ -2,7 +2,9 @@
 
 ## 4.0.0 (7 November 2026): Thumbnail Tracker - 16 Variations
 
-Renamed at Taylor's request: the skill is now **Thumbnail Tracker - 16 Variations** (`name: thumbnail-tracker-16-variations`). It replaces `thumbnail-tracker`; disable or delete the old one on claude.ai so the two don't compete.
+Renamed at Taylor's request: the skill is now **Thumbnail Tracker - 16 Variations** (`name: thumbnail-tracker-16-variations`). It takes over from `thumbnail-tracker`, but under a new name it sits beside it rather than replacing it: disable or delete the old one on claude.ai so the two don't compete.
+
+Docs fixed in the repository copy (7 November 2026, no code change): START-HERE.md no longer says the install replaces the old skill under the same name; SKILL.md no longer says "4–6 concepts", "Make 4 per video" or "3 light + 2 dark" for objects-only rounds (every round is 16).
 
 - **16 variations per round:** all 8 layouts, each on two grounds; 4–6 lines; emoji on 20–50%; at least 4 fonts and 4 accents. Slot table and process: `references/design/objects-only-standard.md` §8.
 - **`variety_check.py` scales with the round:** each layout, ground or hero at most ceil(n/8) times (twice in a 16), each layout + ground pair once, 4 fonts/accents and 4 lines in rounds of 12+.
