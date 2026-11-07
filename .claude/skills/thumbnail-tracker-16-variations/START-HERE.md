@@ -1,6 +1,6 @@
 # Start using Thumbnail Tracker - 16 Variations
 
-Install it by uploading the zip as a skill (claude.ai → Settings → Capabilities → Skills), or extract the `thumbnail-tracker/` folder into `~/.claude/skills/`. It replaces earlier versions, because the name `thumbnail-tracker` is the same.
+Install it by uploading the zip as a skill (claude.ai → Settings → Capabilities → Skills), or extract the `thumbnail-tracker-16-variations/` folder into `~/.claude/skills/`. In the Whiteboard Wednesdays repository it is already at `.claude/skills/thumbnail-tracker-16-variations/`. Its name is new, so it does **not** replace the old `thumbnail-tracker`: the two sit side by side. Disable or delete the old one on claude.ai so they don't compete.
 
 ## What to say to it
 
@@ -33,7 +33,7 @@ It tells you what's left to finish by hand, such as placeholders or a photo to s
 ## First run check (optional)
 
 ```bash
-cd thumbnail-tracker
+cd thumbnail-tracker-16-variations
 python3 -m unittest discover tests
 node scripts/render.cjs "$PWD/examples/read-their-mind-final.json" /tmp/tt-check
 ```
