@@ -1,0 +1,69 @@
+# Text fit fixes for job 2026-11-06-e2e01 (How To Think With AI), found by scripts/text-fit-check.mts on 7 November 2026.
+# Apply in the restored skill working copy: patch -p1 < <this repository>/scripts/text-fit-fixes-2026-11-06-e2e01.patch
+# fs-compass labels grow away from the centre; lower third sized to its longest line; marker notes wrap inside the frame;
+# polaroids never cover each other's captions. The lower-third and marker-note fixes also belong in the synced skill.
+--- a/src/v3/Episode.tsx	2026-11-07 08:30:11.984860297 +0000
++++ b/src/v3/Episode.tsx	2026-11-07 08:32:53.503183320 +0000
+@@ -899,6 +899,7 @@
+         <div style={{width: 8, background: C.brassLight}} />
+         <div style={{padding: '16px 34px 18px 28px', flex: 1}}>
+           {b.eyebrow && <div style={{...eyebrowStyle, fontSize: 18, color: C.brassLight}}>{b.eyebrow}</div>}
++          <div aria-hidden style={{visibility: 'hidden', height: 0, overflow: 'hidden'}}>{b.items.map((it, i) => <div key={i} style={{display: 'flex', alignItems: 'center', gap: 16, whiteSpace: 'nowrap'}}><ToneGlyph tone={it.tone} /><span style={{...sans, fontWeight: 600, fontSize: 40}}>{it.text}</span></div>)}</div>
+           <div style={{position: 'relative', height: 58, overflow: 'hidden', marginTop: 4}}>
+             {b.items.map((it, i) => { const inP = easeAt(f, it.t, 9); const nxt = b.items[i + 1]; const outP = nxt ? easeAt(f, nxt.t, 9) : 0; if (inP <= 0 || outP >= 1) return null; return (
+               <div key={i} style={{position: 'absolute', left: 0, top: 0, display: 'flex', alignItems: 'center', gap: 16, transform: `translateY(${(1 - inP) * 58 - outP * 58}px)`, opacity: inP * (1 - outP), whiteSpace: 'nowrap'}}>
+@@ -930,7 +931,7 @@
+           </svg>
+           <div style={{position: 'relative'}}>
+             {hl > 0 && <div style={{position: 'absolute', left: -8, right: -8, top: '38%', bottom: '4%', background: 'rgba(246,223,140,.9)', borderRadius: 6, transform: `skewX(-8deg) scaleX(${hl})`, transformOrigin: 'left'}} />}
+-            <div style={{position: 'relative', ...display, fontSize: 62, color: it.tone === 'bad' ? C.red : C.ink, clipPath: `inset(-20% ${(1 - r) * 100}% -20% 0)`, paintOrder: 'stroke fill', WebkitTextStroke: '8px #ffffff', whiteSpace: 'nowrap'}}>{it.text}</div>
++            <div style={{position: 'relative', ...display, fontSize: 62, lineHeight: 1.05, textWrap: 'balance', maxWidth: 1920 - 64 - (b.focus?.x ?? 0.59) * 1920 - 84 - (i % 2) * 40, color: it.tone === 'bad' ? C.red : C.ink, clipPath: `inset(-20% ${(1 - r) * 100}% -20% 0)`, paintOrder: 'stroke fill', WebkitTextStroke: '8px #ffffff'}}>{it.text}</div>
+           </div>
+         </div>); })}
+     </div>
+@@ -1239,15 +1240,18 @@
+  *  the item handwritten below; a short pendulum settle (±6° damped). */
+ const ListPolaroids: React.FC<{b: ListB}> = ({b}) => {
+   const f = useAbs(); const head = easeAt(f, Math.min(b.titleT, b.t0 + 0.6), 12); const col = textCol(b.cam); const x0 = col.left as number;
+-  const n = b.items.length; const per = n > 4 ? 3 : n; const gap = ((col.width as number) - 40) / per;
++  // as many cards per row as fit side by side without one covering the next one's caption (250 px card + 24 px air), then a
++  // second row; the rows sit 330 px apart so the second row still ends inside the frame
++  const n = b.items.length; const per = Math.max(1, Math.min(n, Math.floor(((col.width as number) - 40 + 24) / 274))); const gap = ((col.width as number) - 40) / per;
++  const step = Math.ceil(n / per) > 1 ? 330 : 390;
+   return (
+     <div style={{...abs(x0, 150), width: col.width}}>
+       <Eyebrow text={b.eyebrow} t={Math.min(b.t0 + 0.6, b.titleT - 0.3)} />
+       <div style={{...display, fontSize: 70, color: C.ink, opacity: head, marginBottom: 40}}>{b.title}</div>
+       {[0, 1].slice(0, Math.ceil(n / per)).map(row => (
+-        <svg key={row} width={col.width as number} height={60} style={{position: 'absolute', left: 0, top: 230 + row * 390, overflow: 'visible'}}><DrawPath d={`M0 10 C ${(col.width as number) / 3} 50, ${(col.width as number) * 2 / 3} 50, ${col.width} 10`} progress={easeAt(f, b.t0 + 0.3, 18)} stroke={C.muted} width={3} /></svg>))}
++        <svg key={row} width={col.width as number} height={60} style={{position: 'absolute', left: 0, top: 230 + row * step, overflow: 'visible'}}><DrawPath d={`M0 10 C ${(col.width as number) / 3} 50, ${(col.width as number) * 2 / 3} 50, ${col.width} 10`} progress={easeAt(f, b.t0 + 0.3, 18)} stroke={C.muted} width={3} /></svg>))}
+       {b.items.map((it, i) => { const p = usePopAt(it.t, {damping: 8, stiffness: 120, mass: 0.6}); const row = Math.floor(i / per), c = i % per; const swing = (1 - p) * 40 + Math.sin(p * 9) * (1 - p) * 6; return (
+-        <div key={i} style={{position: 'absolute', left: 20 + c * gap, top: 250 + row * 390, width: 250, transformOrigin: '50% 0', transform: `rotate(${swing + (c % 2 ? 2 : -2)}deg)`, opacity: p > 0.02 ? 1 : 0}}>
++        <div key={i} style={{position: 'absolute', left: 20 + c * gap, top: 250 + row * step, width: 250, transformOrigin: '50% 0', transform: `rotate(${swing + (c % 2 ? 2 : -2)}deg)`, opacity: p > 0.02 ? 1 : 0}}>
+           <div style={{position: 'absolute', left: 105, top: -18, width: 40, height: 30, borderRadius: 6, background: C.brass, zIndex: 2}} />
+           <div style={{background: '#FFFDF8', padding: '16px 16px 18px', boxShadow: '0 16px 30px rgba(28,26,23,.25)'}}>
+             <div style={{height: 150, background: C.mutedSurface, display: 'grid', placeItems: 'center'}}><Icon kind={b.icon} n={i + 1} p={p} tone={it.tone} size={84} /></div>
+@@ -1310,7 +1314,7 @@
+  *  in brass and the rest settling to ink; title top-left. */
+ const LadderCompass: React.FC<{b: Extract<Beat, {type: 'ladder'}>}> = ({b}) => {
+   const f = useAbs(); const head = easeAt(f, Math.min(b.titleT, b.t0 + 0.6), 12);
+-  const cx = 1060, cy = 520, L = 210;
++  const cx = 1060, cy = 580, L = 210;
+   let act = -1; b.rungs.forEach((r, i) => { if (f >= F(r.t)) act = i; });
+   const dirOf = (t: string, i: number): [number, number] => /^up/i.test(t) ? [0, -1] : /^down/i.test(t) ? [0, 1] : /^side/i.test(t) ? [1, 0] : ([[0, -1], [1, 0], [0, 1], [-1, 0]][i % 4] as [number, number]);
+   return (
+@@ -1327,8 +1331,12 @@
+         <circle cx={cx} cy={cy} r={30 * easeAt(f, b.t0 + 0.3, 10)} fill={C.brass} />
+       </svg>
+       {b.rungs.map((r, i) => { const [dx, dy] = dirOf(r.text, i); const p = handReveal(f, r.t + 0.2, 12); const on = act === i;
+-        const x = dx > 0 ? cx + L + 36 : cx - 300, y = dy < 0 ? cy - L - 80 : dy > 0 ? cy + L + 22 : cy - 52, al = dx > 0 ? 'left' : 'center';
+-        return <div key={i} style={{...abs(dx === 0 ? cx - 300 : x, y), width: dx > 0 ? 1880 - x : 600, textAlign: al as 'left', ...display, fontSize: 40, color: on ? C.brass : C.ink, clipPath: `inset(-30% ${(1 - p) * 100}% -30% 0)`}}>{r.text}</div>; })}
++        // labels grow away from the centre: right of a right arrow, ending at the tip of a left arrow, centred above/below
++        const W = dx > 0 ? 1840 - (cx + L + 36) : dx < 0 ? cx - L - 36 - 120 : 760;
++        const x = dx > 0 ? cx + L + 36 : dx < 0 ? 120 : cx - W / 2, al = dx > 0 ? 'left' : dx < 0 ? 'right' : 'center';
++        const y = dy < 0 ? cy - L - 80 : dy > 0 ? cy + L + 22 : cy - 26;
++        return <div key={i} style={{...abs(x, y), width: W, textAlign: al as 'left', ...display, fontSize: 40, lineHeight: 1.15, color: on ? C.brass : C.ink, transform: dx !== 0 ? 'translateY(-50%)' : undefined, top: dx !== 0 ? cy : y,
++          clipPath: dx < 0 ? `inset(-30% 0 -30% ${(1 - p) * 100}%)` : `inset(-30% ${(1 - p) * 100}% -30% 0)`}}>{r.text}</div>; })}
+     </AbsoluteFill>
+   );
+ };

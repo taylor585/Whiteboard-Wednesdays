@@ -44,6 +44,8 @@
     "node_modules",
     "examples",
     ".sites-migration",
-    "dist"
+    "dist",
+    "scripts/text-fit-check.mts",
+    "scripts/text-fit-probe.tsx"
   ]
 }

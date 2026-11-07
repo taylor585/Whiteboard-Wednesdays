@@ -173,6 +173,32 @@ Every session runs in a new container, so nothing on disk survives it. The first
 
 Never made again: the file check, the transcript, the map, the beat plan, the Variety Pack and its media, and the guard registration.
 
+## Text fit check (7 November 2026, after the "How To Think With AI" master)
+
+Taylor found, in a master he had approved through Claude, a compass label written across another label and three arrow phrases running off the right edge. Nothing caught them: the QA only measured sound, sync, black frames and banding, the pilot covered the first 77 seconds, and the Variety Pack showed the compass with shorter sample words. This check is the gate that stops it happening again. It is not optional and nothing overrides it.
+
+**What it does.** This repository holds `scripts/text-fit-probe.tsx` (a Remotion entry that renders one beat through the skill's own `EpisodeBeat` and measures every visible line of text in the browser) and `scripts/text-fit-check.mts` (renders every beat in `src/v3/episode.ts` at two settled frames: two thirds in, and the last frame before the exit motion). It fails a beat when:
+- **overlap:** a line of text sits on top of another line from a different element (more than 60 px², after allowing for ascenders and descenders);
+- **off-frame:** any part of a line leaves the 1920 × 1080 frame;
+- **clipped:** a line is cut off by the panel, pill or card that holds it (truncated mid-word, or spilling past a rounded panel).
+It warns, without failing, when text sits inside the outer 40 px of the frame. Giant outline numerals (transparent fill with a stroke, such as the chapter numbers) and anything marked `data-textfit="decor"` are decoration and are skipped; mark a new decorative layer the same way, never a label.
+
+**How to run it**, inside the skill working copy after the work set is restored (the main recording is not needed: the check only measures text):
+```
+mkdir -p src/textfit && cp <this repository>/scripts/text-fit-probe.tsx src/textfit/TextFit.tsx && cp <this repository>/scripts/text-fit-check.mts src/textfit/check.mts
+npx tsx src/textfit/check.mts --out jobs/<id>/qa/text-fit.json --shots jobs/<id>/qa/text-fit     # all beats; --ids a,b for some
+```
+The main recording is not needed: when the live screen, the camera or a push shot's clean clip is missing, the check puts a plain grey stand-in in its place while it runs and removes it again at the end (real files are never touched). Keep `qa/text-fit.json` in the work set.
+
+**When it runs.**
+1. **Before the pilot** ("from pack" step 4): straight after the beats are locked to the approved styles, on every beat of the whole episode, not just the pilot's. Fix every failure before anything is rendered.
+2. **Before the master** ("from pilot" step 4) and after every change round ("from pilot" step 3, "from review" step 2): on every beat, again. A master or a LinkedIn cut is never published to the review page with a failing beat.
+3. **In the Variety Pack** (Run step 6): every overlay and full-screen candidate is rendered with this video's real words at the moment it would be used, never sample text, and the longest real label of each design is the one shown. Run the check on the pack's beats before `build.py`.
+
+**How to fix a failure.** Fix the design, not just the words: a label belongs at the end of its arrow and grows away from the centre (a left label is right-aligned so it ends at the arrow tip), long phrases wrap or step down in size inside a width that fits the frame, a pill or lower third grows to its text or wraps it instead of cutting it off, and wrapped lines in a list keep a full line gap. Shorten the words only when Taylor's own words allow it. Re-run until it passes, and write the result in the stage detail ("Text fit: 110 beats, 220 frames, 0 failing").
+
+**The review stops show it.** Put the result in the `pilot.detail` and `cuts.master.detail` lines, and never write "QA passes" for a master whose text fit check has not passed.
+
 ## Run Publish job <id>
 
 1. Read `jobs/<id>`. Set `status: "running"` and the first stage. Run **Check the files** above; stop there if it says so.
@@ -210,6 +236,7 @@ Never made again: the file check, the transcript, the map, the beat plan, the Va
        document.querySelectorAll('video').forEach(v => { io.observe(v); v.addEventListener('play', () => { if (v.dataset.loaded !== '1') { v.pause(); load(v).then(() => v.play().catch(() => {})); } }); });
      ```
      Add `html,body{overflow-x:clip}` to the end of the page's style block. Then open the page at 390 px and 1280 px (Playwright on the built file is enough) and check that `document.documentElement.scrollWidth` equals `clientWidth`, and that no clip uses `src=` in the media line any more.
+   - **Text fit:** every overlay and full-screen candidate is rendered with this video's real words, and passes **Text fit check** below, before `build.py` runs.
    **Thumbnails and posts are not on the pack.** The skill's pack has no section for them, in a chat or here. `publishThumbs` and `publishPosts` run later, in Continue. Do not write a stage or a pack line that suggests otherwise.
 7. **Pre-tick what Taylor approved before (Taylor, 4 November 2026: he decides only the new designs, and still presses Continue).** Straight after publishing, write one `decisions/<assetId>` document on the **new** pack for every asset tagged `APPROVED BEFORE`, in one ArtifactData `batch` with the new pack's `url`: `{status: "approved", note: "Approved before on <earlier pack's video>, <date>. Untick it if you do not want it here.", at: <presetAt>, preset: true}`, all with the same `presetAt` (the real time). Never pre-tick a `NEW` design or a caption card, and never write to an earlier pack.
 8. Write to the job: `packUrl` (the pack's claude.ai link), `status: "pack"`, the finished stages, and `packRecord: {date, round, preticked, fresh, presetAt, sections: {<section id>: [{id, tag}]}}` (`preticked` and `fresh` are counts). This is the run record the skill would keep in `notes/variety-pack/runs/`, which this session cannot write.
@@ -229,7 +256,7 @@ Never made again: the file check, the transcript, the map, the beat plan, the Va
    - send only new or changed media in `files` (files left out are kept, the work set included); never publish a new artifact for a redo, and never change or delete a decision;
    - update `packRecord` (round, new ids and tags) and that pack's own `packs` document (`round`, `updatedAt`), and save the work set again.
    Wait on renders with Monitor, as in Run step 5.
-4. **The pilot.** Otherwise lock the beats to the approved styles (the skill's Part 1B step 7, with its rotation rules), then follow the skill's Part 2 from the restored plan: `check-plan.mts`, `export-plan.mts`, download the main recording only (Run step 3), chrome stills, base layer, review stills, the pilot's beat clips, `render-v3.ts` and `sfx_v3.py`. The pilot is the first 60 to 90 seconds (the skill's own pilot; its QA must pass).
+4. **The pilot.** Otherwise lock the beats to the approved styles (the skill's Part 1B step 7, with its rotation rules), run **Text fit check** on every beat of the episode and fix every failure, then follow the skill's Part 2 from the restored plan: `check-plan.mts`, `export-plan.mts`, download the main recording only (Run step 3), chrome stills, base layer, review stills, the pilot's beat clips, `render-v3.ts` and `sfx_v3.py`. The pilot is the first 60 to 90 seconds (the skill's own pilot; its QA must pass).
 5. **The review page.** Make a 720p review copy of the pilot under 14 MB and publish the job's private review page, once per job, as the skill delivers files (`references/quality-playbooks.md` §11: the file, its SHA-256, a save button through `capabilities: {downloads: true}`; parts of 14 MB when a file is larger, none starting with `<`; videos fetched whole and played from memory, as the pack's phone loader does). Title it `<title> - Review`, label `Pilot round <n>`, `icon: "video"`. Nothing goes to Drive.
 6. Save the work set (`stage: "pilot"`: the locked plan, `plan-export.json`, the sound cues). Write `reviewUrl`, `pilot: {url: reviewUrl, seconds, round, renderedAt, detail}` (`renderedAt` the real time), the finished stages, and `status: "pilot"`. The session ends here. The Publish screen shows **Watch the pilot**, **Approve the pilot** and **Change something**.
 
@@ -237,15 +264,15 @@ Never made again: the file check, the transcript, the map, the beat plan, the Va
 
 1. Read `jobs/<id>` and `approvals.pilot`. Run **Restore the saved work**.
 2. If `approvals.pilot` is missing or older than `pilot.renderedAt`, fail the job (`failedStage: "Read your answer"`, `error: "No answer on the pilot yet. Approve it or ask for changes on Publish."`).
-3. **Changes** (`decision: "changes"`): apply `note` to the plan (beats, styles, crops or timing; only designs Taylor approved on the pack), re-render the pilot as in "from pack" steps 4 and 5, and publish it to the **same** review page (`url: reviewUrl`, label `Pilot round <n+1>`). Save the work set, write `pilot` (`round` + 1, new `renderedAt`) and `status: "pilot"`, and stop.
-4. **Approved:** render the whole YouTube master from the restored plan (the skill's Part 2: base layer, every beat clip, the approved stories, Blender and Katana shots inserted, `sfx_episode.py`, `assemble.py`, and the full QA, which must all pass), then the LinkedIn cut (Part 3A: the only cut of the YouTube video, master rule 4). Start or end a stage at least every 90 minutes, and wait on each render with one Monitor.
+3. **Changes** (`decision: "changes"`): apply `note` to the plan (beats, styles, crops or timing; only designs Taylor approved on the pack), run **Text fit check** (it must pass), re-render the pilot as in "from pack" steps 4 and 5, and publish it to the **same** review page (`url: reviewUrl`, label `Pilot round <n+1>`). Save the work set, write `pilot` (`round` + 1, new `renderedAt`) and `status: "pilot"`, and stop.
+4. **Approved:** run **Text fit check** on every beat (it must pass), then render the whole YouTube master from the restored plan (the skill's Part 2: base layer, every beat clip, the approved stories, Blender and Katana shots inserted, `sfx_episode.py`, `assemble.py`, and the full QA, which must all pass), then the LinkedIn cut (Part 3A: the only cut of the YouTube video, master rule 4). Start or end a stage at least every 90 minutes, and wait on each render with one Monitor.
 5. Publish review copies of both to the same review page (`url: reviewUrl`, label `Master and LinkedIn round <n>`): the LinkedIn cut at 1080p when it fits, the master as a 720p review copy, both in 14 MB parts, together under 230 MB. Full-quality delivery to Drive is phase 6 and is not in this file yet: never upload anywhere else.
 6. Save the work set (`stage: "review"`: the assembly list, the LinkedIn plan and `edl.json`, the QA reports). Write `cuts: {url: reviewUrl, round, renderedAt, master: {label, seconds, detail}, linkedin: {label, seconds, detail}}`, the finished stages, and `status: "review"`. The session ends here. The Publish screen shows both, **Approve both** and **Change something**.
 
 ## Continue Publish job <id> from review
 
 1. Read `jobs/<id>` and `approvals.review`. Run **Restore the saved work**. If the answer is missing or older than `cuts.renderedAt`, fail the job as in "from pilot" step 2.
-2. **Changes:** apply `note` (it says which video and where), re-render what it touches (the whole master when the master changes, because renders are not kept; the LinkedIn cut when it changes or its source moved), re-run the QA, publish the review copies to the same review page (label `Master and LinkedIn round <n+1>`), save the work set, write `cuts` (`round` + 1) and `status: "review"`, and stop.
+2. **Changes:** apply `note` (it says which video and where), run **Text fit check** on every beat (it must pass), re-render what it touches (the whole master when the master changes, because renders are not kept; the LinkedIn cut when it changes or its source moved), re-run the QA, publish the review copies to the same review page (label `Master and LinkedIn round <n+1>`), save the work set, write `cuts` (`round` + 1) and `status: "review"`, and stop.
 3. **Approved:** the finished files, then the thumbnails and the posts. Full-quality delivery to Drive (Taylor's decision 3) is phase 6 and is not in this file yet: do not re-render and do not upload anywhere else. Write `finals` with the review page for each cut (`{platform: "youtube" | "linkedin", label, url: reviewUrl, detail: "Approved review copy on your private review page"}`), then carry on with **Thumbnails and posts** below.
 4. Nothing is ever posted. Post all stays off until the platform connections exist.
 

@@ -35,7 +35,7 @@
 .pb-queue{margin:0;padding:14px 16px;border-radius:10px;background:#f6df8c;font-size:15px;line-height:1.5}
 .pb-queue code{font:13px WWMono,monospace;background:#fff;padding:2px 6px;border-radius:4px}
 .pb-stages ol{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
-.pb-stages li{display:flex;flex-direction:column;gap:2px;padding-top:8px;border-top:4px solid #d8d5cf;font-size:14px}
+.pb-stages li{display:flex;flex-direction:column;gap:2px;padding-top:8px;border-top:4px solid #d8d5cf;font-size:14px;min-width:0;overflow-wrap:anywhere}
 .pb-stages li.is-done{border-top-color:#1c1a17}.pb-stages li.is-run{border-top-color:#8b6002}
 .pb-stages li b{font-weight:600}.pb-stages small,.pb-stages time{font:11px WWMono,monospace;color:#5c5750}
 .pb-st-dot{display:none}
