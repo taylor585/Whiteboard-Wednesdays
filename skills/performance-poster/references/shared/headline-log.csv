@@ -1,0 +1,50 @@
+id,date,video,kind,text,chars,source,status,formula,pattern_tags,paired_with,ctr_48h,channel_avg_ctr,views_7d,outlier_30d,notes
+1,2026-10-12,ICP Buyer Research,working_title,ICP Buyer Research,18,taylor,replaced,label,keyword-only,,,,,,Working title in the brief.
+2,2026-10-13,ICP Buyer Research,title,I Built an ICP Research AI Agent That Finds Your Ideal Clients On Meta,70,taylor,published,i-built,first-person;keyword-stack;you-your;platform-named;title-case,Read their mind.,,,,,"Taylor rewrote the recommended title to add search terms. 70 chars; ""On Meta"" cut on mobile."
+3,2026-10-12,ICP Buyer Research,title,Why Your Meta Ads Land the Wrong People (And How to Fix It),59,claude,ab-candidate-not-used,problem-fix,,,,,,,Score 88.
+4,2026-10-12,ICP Buyer Research,title,I Built an AI Agent That Finds Your Buyers' Exact Words,55,claude,recommended-not-used,i-built,,,,,,,Score 86.
+5,2026-10-12,ICP Buyer Research,title,Meta's Andromeda Changed Targeting. Here's What Works Now,57,claude,candidate-not-used,x-just-changed,,,,,,,Score 82.
+6,2026-10-12,ICP Buyer Research,title,Stop Writing Meta Ads Until You've Done This Buyer Research,59,claude,candidate-not-used,do-this-first,,,,,,,Score 74.
+7,2026-10-12,ICP Buyer Research,title,Learn ICP Buyer Research for Meta Ads in 39 Minutes,51,claude,candidate-not-used,time-box,,,,,,,Score 80.
+8,2026-10-12,ICP Buyer Research,title,Why AI Ad Scripts Don't Convert (And the 90% Fix),49,claude,ab-candidate-not-used,contrarian-reframe,,,,,,,Score 84.
+9,2026-10-12,ICP Buyer Research,title,Low-Quality Meta Leads? Your ICP Research Is the Problem,56,claude,candidate-not-used,diagnosis-question,,,,,,,Score 79.
+10,2026-10-12,ICP Buyer Research,title,Write Meta Ads in Your Customer's Own Words (Claude Workflow),61,claude,candidate-not-used,how-i-workflow,,,,,,,Score 72.
+11,2026-10-12,ICP Buyer Research,title,Your Meta Ads Get Spend. They Still Miss Your Ideal Buyer.,58,claude,candidate-not-used,problem-statement,,,,,,,Score 65.
+12,2026-10-12,ICP Buyer Research,title,The Buyer Research Agent Behind Our Meta Ads and Landing Pages,62,claude,candidate-not-used,behind-the-scenes,,,,,,,Score 70.
+13,2026-10-12,ICP Buyer Research,thumbnail_line,Read their mind.,16,taylor-spoken,published,curiosity,period-fragment;metaphor;own-words,I Built an ICP Research AI Agent That Finds Your Ideal Clients On Meta,,,,,"From Taylor saying ""This person has just read my mind."" Used on D1 Spotlight."
+14,2026-10-12,ICP Buyer Research,thumbnail_line,No answer. Next clinic.,23,taylor-spoken,published,proof-quote,two-beat;period-fragment;own-words,,,,,,Real buyer quote condensed by Taylor in the video; inside the lens on D1.
+15,2026-10-12,ICP Buyer Research,thumbnail_line,AI doesn't know how to speak to humans.,39,taylor-spoken,candidate,verdict,period-fragment;own-words,,,,,,Strongest lines listed in Taylor's brief.
+16,2026-10-12,ICP Buyer Research,thumbnail_line,Take the words out of their mouth.,34,taylor-spoken,candidate,verdict,period-fragment;own-words,,,,,,Strongest lines listed in Taylor's brief.
+17,2026-10-12,ICP Buyer Research,thumbnail_line,Diagnose before you write.,26,taylor-spoken,candidate,verdict,period-fragment;own-words,,,,,,Strongest lines listed in Taylor's brief.
+18,2026-10-16,AI Vision Boards,working_title,Using AI Vision Boards To Build Apps Faster and Better,54,taylor,replaced,how-i-keyword,keyword-stack;benefit-pair;title-case,,,,,,Working title.
+19,2026-10-16,AI Vision Boards,title,Stop Prompting Apps. Board Them First.,38,taylor,replaced,contrarian-command,imperative;two-beat;period-fragment;coined-verb,,,,,,
+20,2026-10-16,AI Vision Boards,title,I Made AI Draw My App Before It Coded It,40,taylor,replaced,i-built,first-person;sequence;ai-as-actor,,,,,,
+21,2026-10-16,AI Vision Boards,title,This Is a Cheat Code When Using AI,34,taylor,replaced,curiosity-verdict,curiosity;metaphor;short;this-is,Draw it. Then build it.,,,,,"Chosen over the three planned titles. Search-weak (only ""AI""); optional variant ""This Is a Cheat Code When Building Apps With AI"". Moved onto the thumbnail on 16 Oct; title became 'Using AI Vision Boards for Apps and Paid Ads'."
+22,2026-10-16,AI Vision Boards,thumbnail_line,Draw it. Then build it.,23,taylor,chosen,promise,imperative;two-beat;period-fragment,This Is a Cheat Code When Using AI,,,,,Concept 1 (primary).
+23,2026-10-16,AI Vision Boards,thumbnail_line,Zero rebuilds.,14,taylor,on-hold,proof,period-fragment,,,,,,Only if Taylor's numbers back it.
+24,2026-10-16,AI Vision Boards,thumbnail_line,Before the code.,16,taylor,ab-candidate,promise,period-fragment,,,,,,Concept 2.
+25,2026-10-16,AI Vision Boards,thumbnail_line,Stop the rebuild loop.,22,claude,candidate,,,,,,,,"Concept 3; alternative to ""Zero rebuilds."""
+26,2026-10-16,AI Vision Boards,thumbnail_line,Play it first.,14,claude,ab-candidate,,,,,,,,Concept 4 (A/B partner).
+27,2026-10-16,AI Vision Boards,thumbnail_line,Board it.,9,claude,candidate,,,,,,,,Concept 5.
+28,2026-10-16,AI Vision Boards,thumbnail_line,This Is a Cheat Code When Using AI,34,taylor,chosen,curiosity-verdict,curiosity;metaphor;this-is,Using AI Vision Boards for Apps and Paid Ads,,,,,"On-image text for all five HQ thumbnails (8 words; CHEAT CODE dominant). 17 Oct 2026: winning design hq5 (vision board: app card + paid-ad card, gold pins and string); Taylor picked it over the recommended hq2. See examples/ai-vision-boards-hq/."
+29,2026-10-16,AI Vision Boards,title,Using AI Vision Boards for Apps and Paid Ads,44,taylor,chosen,keyword-stack,keyword-stack;ai-named;title-case,This Is a Cheat Code When Using AI,,,,,"Search half of the pair; thumbnail carries the curiosity. 17 Oct 2026: paired with winning thumbnail hq5, whose picture shows the apps and paid ads the title names."
+30,2026-10-17,AI Harnesses,working_title,How AI Harnesses Can 10x Your Quality and Output,48,taylor,replaced,how-to,ai-named;title-case,,,,,,"Working title. 10x isn't said in the video (20% to 80% is), so it scored 20."
+31,2026-10-17,AI Harnesses,title,Your AI Agent Is a Liability Without a Harness,46,claude,recommended,contrarian-verdict,ai-named;his-spoken-line;verdict,Email 10 sank it.,,,,,Score 95. A/B slot A (ship first).
+32,2026-10-17,AI Harnesses,title,11 Harness Parts That Stop AI Agents Making Mistakes,52,claude,ab-candidate,listicle-n,ai-named;count,Ask before it sends.,,,,,Score 95. A/B slot C.
+33,2026-10-17,AI Harnesses,title,I Tracked 58 AI Agent Problems. A Harness Fixes Them.,53,claude,candidate,lessons-learned,first-person;two-beat;count,Same AI. Just add a harness.,,,,,Score 88.
+34,2026-10-17,AI Harnesses,title,Build Your Own AI Harness in Under an Hour (Claude Code),56,claude,candidate,time-box,his-spoken-line;search-terms,Ask before it sends.,,,,,Score 88.
+35,2026-10-17,AI Harnesses,title,Stop Babysitting Claude Code. Give It a Harness.,48,claude,ab-candidate,reframe,two-beat;imperative;search-terms,Busy. Going nowhere.,,,,,Score 87. A/B slot B.
+36,2026-10-17,AI Harnesses,title,I Built an AI Harness So Claude Code Can Run for 24 Hours,57,claude,candidate,i-built,first-person;i-built;search-terms,2 hours. Nothing done.,,,,,Score 80.
+37,2026-10-17,AI Harnesses,title,AI Harnesses: From 20% to 80% Effective,39,claude,candidate,numbers-feat,ai-named;numbers,Busy. Going nowhere.,,,,,Score 80.
+38,2026-10-17,AI Harnesses,title,This Is Why Your AI Agent Gets Nothing Done,43,claude,candidate,curiosity-verdict,this-is;curiosity;ai-named,Same AI. Just add a harness.,,,,,Score 70.
+39,2026-10-17,AI Harnesses,title,Run More Client Work With Claude Code (Without the Mistakes),60,claude,candidate,outcome,you-outcome;search-terms,2 hours. Nothing done.,,,,,Score 57.
+40,2026-10-17,AI Harnesses,thumbnail_line,Email 10 sank it.,17,claude,recommended,two-beat,two-beat;story;full-stop,Your AI Agent Is a Liability Without a Harness,,,,,"Concept h4 (dark, email card). Top pair."
+41,2026-10-17,AI Harnesses,thumbnail_line,Busy. Going nowhere.,20,claude,ab-candidate,two-beat,two-beat;his-metaphor;full-stop,Stop Babysitting Claude Code. Give It a Harness.,,,,,Concept h1 (gym hall). A/B partner.
+42,2026-10-17,AI Harnesses,thumbnail_line,2 hours. Nothing done.,22,claude,candidate,two-beat,two-beat;his-spoken-line;numbers,I Built an AI Harness So Claude Code Can Run for 24 Hours,,,,,Concept h2 (clock + checklist).
+43,2026-10-17,AI Harnesses,thumbnail_line,Same AI. Just add a harness.,28,claude,candidate,two-beat,two-beat;imperative,This Is Why Your AI Agent Gets Nothing Done,,,,,Concept h3 (20% / 80% gauges).
+44,2026-10-17,AI Harnesses,thumbnail_line,Ask before it sends.,20,claude,candidate,imperative,imperative;rule,11 Harness Parts That Stop AI Agents Making Mistakes,,,,,Concept h5 (green/amber/red tier cards).
+45,2026-10-20,AI Harnesses Reel 3,thumbnail_line,Your AI agent crashed. Here's how it picks back up.,51,claude,recommended,,IG hook;story;keyword-first,,,,,,Instagram Reel caption first line (test of Performance Poster PDF). 51 chars.
+46,2026-10-20,AI Harnesses Reel 3,thumbnail_line,6 files that save your AI from a crash,38,claude,ab-candidate,,IG hook;numbers;from-reel-title,,,,,,IG hook A/B option; reuses the Reel's file title. 38 chars.
+47,2026-10-20,AI Harnesses Reel 3,thumbnail_line,Claude Code restarted mid-run. It didn't start again.,53,claude,ab-candidate,,IG hook;two-beat;tool-name,,,,,,IG hook A/B option. 53 chars.
+48,2026-10-22,AI Harnesses,hook_linkedin,"You brief your AI agent, come back two hours later, and nothing's actually happened.",84,claude,candidate,,his-spoken-line;two-beat;you,,,,,,"LinkedIn native-cut post hook, Performance Poster 1.0 example. 84 chars."
+49,2026-10-22,AI Vision Boards,hook_youtube,"This is a cheat code when using AI: make it draw, animate and agree your app on a vision board before it writes a single line of code.",134,claude,candidate,,curiosity-verdict;metaphor;his-line,Using AI Vision Boards for Apps and Paid Ads,,,,,"YouTube description hook (line 3), 22 Oct 2026."

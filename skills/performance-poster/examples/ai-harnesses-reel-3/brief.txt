@@ -1,0 +1,8 @@
+TITLE: 6 files that save your AI from a crash
+KEYWORD: AI agent
+PILLAR: AI agents / Claude Code
+PROMISE: A harness survives a crash because it keeps 6 run files on disk
+PROOF: 6 run files: interview.md (the nine questions and the answers), contract.md, plan.md, progress.md, constraints.md, features.json
+END CARD CTA: link in bio
+FORMAT: Reel, 58 s, 1080x1920
+CLIENTS: none

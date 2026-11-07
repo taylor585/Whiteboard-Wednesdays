@@ -1,0 +1,20 @@
+You brief your AI agent, come back two hours later, and nothing's actually happened.
+
+That's not leverage. It's a liability, because it's cost you tokens.
+
+The agent got stuck on a simple question, invented a bad workaround and burned through the run. Without a harness, it's a tiny ball bouncing round a massive gym hall: busy, going nowhere.
+
+We tracked 58 problems and boiled them down to the 11 harness parts that fix them. A few that matter most:
+
+→ A kickoff interview of 9–15 questions, so the agent knows the job before it starts
+→ A contract of what must stay true, reread after every crash
+→ Decision tiers: green (just do it), amber (log it and keep going), red (ask first before sending, spending or deleting)
+→ An evaluator: a second AI with fresh context that checks the work before anything goes live
+
+Without a harness, AI is about 20% effective. With one, it's closer to 80%, and it can run for 24–36 hours.
+
+You can build your own in Claude Code or Codex in under an hour. The full nine-step walkthrough is in the video, and the link is in the first comment.
+
+Which job would you trust an agent to run overnight first?
+
+#ClaudeCode #AIAgents #AIAutomation
