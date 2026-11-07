@@ -292,10 +292,11 @@
   // beside the main recording is Path B), so the line under Confirm says what will start, without asking.
   const ckSources = () => (job.sources || []).map((x, i) => ({...x, role:ck.roles[i]}));
   const ckPath = () => window.WWReels?.choosePath ? window.WWReels.choosePath(ckSources()) : {path:null, takes:[]};
-  const ckCheckHtml = () => { const ps = ckProblems(), pc = ckPath(), b = pc.path === 'B' && !reelsFor(job);
+  const ckCheckHtml = () => { const ps = ckProblems(), pc = ckPath(), b = pc.path === 'B' && !reelsFor(job), a = pc.path === 'A' && !reelsFor(job);
     return (ps.length ? '<div class="pb-warn" role="alert">'+(ps.length === 1 ? esc(ps[0]) : '<ul>'+ps.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>')+'</div>' : '')+
     '<button type="button" class="pb-go" id="pb-ck-go"'+(ps.length || starting || !db ? ' disabled' : '')+'>Confirm and continue</button><p class="pb-muted">The main recording is edited for YouTube and LinkedIn: Claude Code makes the Variety Pack from it alone'+
     (b ? '. '+esc(pc.why)+' Confirm also starts the reels by themselves, in a separate session: Claude Code cuts reel options from your phone take, with silent screen-share B-roll from the main recording, and stops for you to keep the ones you want. Nothing short is ever cut from the YouTube video itself.</p>'
+      : a ? '. Confirm also starts your reel scripts by themselves, in a separate session: Claude Code reads the main recording for its words and times only and writes six reel scripts on the title (each a hook, three highlights and a close, 60 seconds or less), then stops for you to pick two to record on your phone. Nothing short is ever cut from the main recording.</p>'
       : '. Reel recordings wait until you pick reel winners, and nothing short is ever cut from the main recording.</p>'); };
   const reelsFor = j => j && window.WWReels?.forJob?.(j.id) || null;
   function ckTopicHtml() {
@@ -363,7 +364,8 @@
     // Decision 10: with a phone take beside the main recording, the reels start by themselves on Path B (their own
     // reels/<id>, linked by jobId; this job is never written for them). If the Video session was refused, the reel job
     // waits on "queued" and starts with the Video job's next session.
-    if (window.WWReels?.autoFromJob && window.WWReels.choosePath(j.sources).path === 'B') { await window.WWReels.autoFromJob(j, started); render(); }
+    // Path A (7 November 2026): with the main recording alone, the same Confirm starts the reel scripts by themselves.
+    if (window.WWReels?.autoFromJob && ['A','B'].includes(window.WWReels.choosePath(j.sources).path)) { await window.WWReels.autoFromJob(j, started); render(); }
   }
   // ---- Found earlier work (Phase 3) --------------------------------------------------------------------------------
   // The session's Look for earlier work stage found a pack for this recording and stopped before downloading anything.
@@ -550,11 +552,12 @@
     const r = reelsFor(job);
     if (!r) {
       const pc = job && window.WWReels?.choosePath ? window.WWReels.choosePath(job.sources) : null;
-      if (!pc || pc.path !== 'B' || ['check','queued'].includes(job.status) || !(job.sources || []).every(x => x.check === 'done')) return '';
-      return '<p class="pb-meta pb-reelsline">'+esc(pc.why)+' <button type="button" class="pb-link" id="pb-reels-auto"'+(starting || !db ? ' disabled' : '')+'>Make the reels from it</button></p>';
+      if (!pc || !['A','B'].includes(pc.path) || ['check','queued'].includes(job.status) || (pc.path === 'B' && !(job.sources || []).every(x => x.check === 'done'))) return '';
+      // Path A on a job confirmed before 7 November 2026 (nothing started then): the same reel scripts, one press away.
+      return '<p class="pb-meta pb-reelsline">'+esc(pc.why)+' <button type="button" class="pb-link" id="pb-reels-auto"'+(starting || !db ? ' disabled' : '')+'>'+(pc.path === 'A' ? 'Suggest reel scripts to record' : 'Make the reels from it')+'</button></p>';
     }
     const b = r.path === 'B', q = r.status === 'queued';
-    return '<p class="pb-meta pb-reelsline">'+(b ? 'Reels from your phone take' : 'Reels from this video')+': '+esc(window.WWReels.label(r))+(b ? '. '+esc(window.WWReels.pathWhy(r)) : '')+(q && b ? ' Claude Code has not started them yet.' : '')+' · <a class="pb-link" href="#/publish/reels/'+encodeURIComponent(r.id)+'">'+(q ? 'Open the reel job to start it' : 'Open the reel job')+'</a></p>';
+    return '<p class="pb-meta pb-reelsline">'+(b ? 'Reels from your phone take' : 'Reels from this video')+': '+esc(window.WWReels.label(r))+(b ? '. '+esc(window.WWReels.pathWhy(r)) : '')+(q ? ' Claude Code has not started them yet.' : '')+' · <a class="pb-link" href="#/publish/reels/'+encodeURIComponent(r.id)+'">'+(q ? 'Open the reel job to start it' : 'Open the reel job')+'</a></p>';
   }
   // ---- Every video (Taylor, 6 November 2026) ---------------------------------------------------------------------------
   // The route decides what is on screen; the Back button walks it. A job that is open is never a trap.
