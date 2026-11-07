@@ -76,9 +76,12 @@
   function steps() {
     // A failed job stays on the step it was working on, marked as stopped, never on Post. Check the files is step 1.
     const s = job?.status || 'new', failed = s === 'failed';
-    const at = s === 'new' || s === 'check' ? 0 : ['queued','starting','running','found','pack'].includes(s) ? 1 : ['finishing','pilot','review','ask'].includes(s) || (s === 'final' && !job.pack?.platforms?.length) ? 2 : failed ? (LATER.includes(job.session?.step) || job.pickedAt ? 2 : 1) : 3;
+    // Step 1 stays on until the files are checked: Generate never moves the strip on, and Check the files never moves it back.
+    const at = s === 'new' || s === 'check' || (['queued','starting','running'].includes(s) && !filesChecked(job)) ? 0 : ['queued','starting','running','found','pack'].includes(s) ? 1 : ['finishing','pilot','review','ask'].includes(s) || (s === 'final' && !job.pack?.platforms?.length) ? 2 : failed ? (LATER.includes(job.session?.step) || job.pickedAt ? 2 : 1) : 3;
     return '<ol class="pb-steps">'+['Drive links','Variety Pack','Finished edits','Post'].map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+(i === at && failed ? ' <small>stopped</small>' : '')+'</li>').join('')+'</ol>';
   }
+  // The files are checked once Taylor confirmed them, the session marked each one done, or the job is past the pack.
+  const filesChecked = j => !!j && (!!j.checkedAt || ['found','pack','finishing','pilot','review','ask','posts','final'].includes(j.status) || ((j.sources || []).length > 0 && j.sources.every(x => x.check === 'done')));
   // Every problem at once, re-checked on each change (links, roles and title) and again when Generate is pressed.
   // Folder mode: exactly one folder link and nothing else. The title can wait: Claude suggests it from the folder name.
   const folderMode = () => links.length === 1 && links[0].kind === 'folder' && !!links[0].folderId;
@@ -175,7 +178,7 @@
       '<label class="pb-field" for="pb-title"><span>What is this video about?'+(fm ? ' <i class="pb-opt-note">Optional: Claude suggests it from the folder name</i>' : '')+'</span><input id="pb-title" list="pb-topic-list" maxlength="200" autocomplete="off" placeholder="'+(fm ? 'Leave it empty to use the folder name' : 'Type it, or pick one of your saved topics')+'" value="'+esc(title)+'"><datalist id="pb-topic-list">'+ts.map(t => '<option value="'+esc(t.title)+'">').join('')+'</datalist></label>'+
       '<div id="pb-topic-q">'+topicHtml()+'</div>'+
       '<label class="pb-field" for="pb-brief"><span>What you say in it, in your words (optional)</span><textarea id="pb-brief" rows="3" maxlength="2000" placeholder="The main points, any numbers you mention, who it is for. The title, description and posts are written from this and the transcript.">'+esc(brief)+'</textarea></label></div>'+
-      '<div><h2>Check before it renders</h2>'+(links.length ? '<ol class="pb-srcs">'+links.map((l, i) => l.kind === 'folder' ? '<li class="pb-src'+(fm ? '' : ' is-bad')+'"><span class="pb-shape is-folder" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b><small>'+esc(l.url)+'</small></div><span class="pb-src-note">'+(fm ? 'Claude lists it and reads each file' : 'Not used')+'</span></li>' : '<li class="pb-src'+(l.id ? '' : ' is-bad')+'"><span class="pb-shape '+(l.role === 'main' ? 'is-wide' : 'is-tall')+'" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b>'+(l.role === 'main' && linkParts().length > 1 ? '<span class="pb-ck-meta pb-partof">Part '+(linkParts().indexOf(l)+1)+' of '+linkParts().length+' of the main recording, joined in the order pasted</span>' : '')+'<small>'+esc(l.url)+'</small></div><select data-role="'+i+'" aria-label="Role of link '+(i+1)+'"><option value="main"'+(l.role === 'main' ? ' selected' : '')+'>Main recording (landscape)</option><option value="reel"'+(l.role === 'reel' ? ' selected' : '')+'>Phone reel recording (upright)</option></select></li>').join('')+'</ol>' : '<p class="pb-empty">Your folder or links appear here. With a folder, Claude tells the main recording from the phone reel recordings by their shape and length, and you confirm before anything renders.</p>')+
+      '<div><h2>Check before it renders</h2>'+(links.length ? '<ol class="pb-srcs">'+links.map((l, i) => l.kind === 'folder' ? '<li class="pb-src'+(fm ? '' : ' is-bad')+'"><span class="pb-shape is-folder" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b><small>'+esc(l.url)+'</small></div><span class="pb-src-note">'+(fm ? 'Claude lists it and reads each file' : 'Not used')+'</span></li>' : '<li class="pb-src'+(l.id ? '' : ' is-bad')+'"><span class="pb-shape is-file" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b>'+(l.role === 'main' && linkParts().length > 1 ? '<span class="pb-ck-meta pb-partof">Part '+(linkParts().indexOf(l)+1)+' of '+linkParts().length+' of the main recording, joined in the order pasted</span>' : '')+'<small>'+esc(l.url)+'</small></div><select data-role="'+i+'" aria-label="Role of link '+(i+1)+'"><option value="main"'+(l.role === 'main' ? ' selected' : '')+'>Main recording</option><option value="reel"'+(l.role === 'reel' ? ' selected' : '')+'>Phone reel take</option></select></li>').join('')+'</ol>'+(links.filter(l => l.kind !== 'folder').length > 1 ? '<p class="pb-muted pb-checknote">Checking which file is which after Generate: Claude Code reads each file’s real shape and length, so the order you paste them in does not matter, and you confirm before anything is edited.</p>' : '') : '<p class="pb-empty">Your folder or links appear here. With a folder, Claude tells the main recording from the phone reel recordings by their shape and length, and you confirm before anything renders.</p>')+
       '<div id="pb-check">'+checkHtml()+'</div></div></section>';
   }
   const skillLine = () => { const s = window.WWSettings?.skills || {}, n = window.WWSettings?.name || (x => x); return [n(s.publishEdit), n(s.publishThumbs), n(s.publishPosts)].filter(Boolean).join(', '); };
@@ -243,7 +246,7 @@
   // unclear, or the title came from the folder name, it stops on status "check" and Taylor confirms here with one tap.
   const KIND = {'youtube-recording':'Main recording (landscape)', 'phone-recording':'Phone reel recording (upright)', 'finished-reel':'A finished reel or post: an output, not a recording', 'linkedin-cut':'A LinkedIn cut: an output, not a recording', other:'Not a recording Claude can use'};
   const DECIDE = {accept:'Looks right', ask:'Needs you', reject:'Cannot be used'};
-  const ROLE = {main:'Main recording', reel:'Reel recording (later)', skip:'Leave it out'};
+  const ROLE = {main:'Main recording', reel:'Reel recording (phone take)', skip:'Leave it out'};
   // Master rule 4 on screen: a phone recording can never be the main, the YouTube recording can never be a reel take,
   // and an output or anything else can only be left out.
   // A file link marked with the wrong role (a phone take pasted first, so it defaulted to main) is offered with the role
@@ -334,7 +337,9 @@
   }
   function ckChange(e) {
     if (!ck || job?.status !== 'check') return false;
-    if (e.target.id === 'pb-ck-topic') { ck.touched = true; ck.topicId = e.target.value; const t = topics().find(x => x.id === ck.topicId); if (t) ck.title = t.title; render(); return true; }
+    if (e.target.id === 'pb-ck-topic') { ck.touched = true; ck.topicId = e.target.value; const t = topics().find(x => x.id === ck.topicId);
+      // A title Taylor typed (at the intake or here) is kept: the topic only fills a title that came from the folder name.
+      if (t && !ck.titleTyped && job.titleBy !== 'taylor') ck.title = t.title; render(); return true; }
     const r = e.target.closest('[data-ck]'); if (r) { ck.touched = true; ck.roles[+r.dataset.ck] = r.value; ckSync(); render(); return true; }
     return false;
   }
@@ -388,12 +393,37 @@
         (failedLater() ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry-step"'+(starting ? ' disabled' : '')+'>Try again</button></p>' : '')+'</div>'
       : stuck ? '<div class="pb-warn pb-stuck" role="alert"><p><b>Claude Code has not reported back</b> for '+(stuck >= 120 ? Math.floor(stuck / 60)+' h '+(stuck % 60)+' min' : stuck+' minutes')+'. It may have stopped.</p><p class="pb-acts">'+ses+' <button type="button" class="pb-link" id="pb-retry-stuck">Try again</button> <button type="button" class="pb-link" id="pb-stop">Stop this job</button></p></div>'
       : job.status === 'queued' ? '<p class="pb-queue"><b>Not started yet.</b> <button type="button" class="pb-link" id="pb-start"'+(starting ? ' disabled' : '')+'>Start now</button> or say this in a Claude chat: <code>Run Publish job '+esc(job.id)+'</code> <button type="button" class="pb-link" data-copy-run="pack">'+(copied === 'run' ? 'Copied' : 'Copy')+'</button></p>'
-      : job.status === 'starting' ? '<p class="pb-queue"><b>Starting Claude Code.</b> A session is opening in the cloud with your skills; the steps appear here as it works, usually within two minutes.'+ses+'</p>'
-      : ['running','finishing'].includes(job.status) && ses ? '<p class="pb-meta">Claude Code is working on this'+esc(doing())+'.'+ses+'</p>' : '';
+      : job.status === 'starting' ? '<p class="pb-queue"><b>Starting Claude Code.</b> A session is opening in the cloud with your skills; the steps appear here as it works, usually within two minutes. '+esc(waitLine())+ses+'</p>'
+      : ['running','finishing'].includes(job.status) ? '<p class="pb-queue pb-running"><b>Claude Code is working on this'+esc(doing())+'.</b> '+esc(waitLine())+(job.session?.startedAt ? ' Started '+esc(when(job.session.startedAt))+'.' : '')+' You can close this tab: it carries on.'+ses+'</p>' : '';
     const bar = starting === 'finals' ? '<div class="pb-bar"><span>Starting Claude Code for the pilot…</span></div>' : confirm ? confirmBar() : '<div class="pb-bar"><span>Picks made in the Variety Pack?</span><span class="pb-muted">Claude reads them from that page and builds a pilot of the first 60 to 90 seconds for you to watch.</span><button type="button" class="pb-go" id="pb-continue">Continue · build the pilot →</button></div>';
     const pr = job.packRecord || {}, ticked = Number.isFinite(pr.preticked) && pr.preticked > 0 ? ' '+pr.preticked+' designs you approved on earlier videos are already ticked'+(Number.isFinite(pr.fresh) ? '; you decide the '+pr.fresh+' new ones' : '')+'. Untick any you do not want.' : '';
-    const packLink = job.packUrl && !['finishing','pilot','review','ask','posts','final'].includes(job.status) && !failedLater() ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open the Variety Pack ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'">'+(copied === 'url:'+job.packUrl ? 'Copied' : 'Copy the link')+'</button></p>'+extHtml()+(canContinue() && !job.pack?.platforms?.length ? bar : '') : job.packUrl ? '<p class="pb-meta">Variety Pack '+(job.packRecord?.round ? 'round '+esc(job.packRecord.round)+' ' : '')+'· <a class="pb-link" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open it ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'">'+(copied === 'url:'+job.packUrl ? 'Copied' : 'Copy the link')+'</button></p>'+extHtml() : '';
-    return '<section class="pb-stages" aria-label="Progress">'+head+packLink+workLine()+(list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(/^fail/.test(s.state || '') ? 'failed' : s.state || 'wait')+'"><span class="pb-st-dot" aria-hidden="true"></span><b>'+esc(s.name)+'</b><small>'+esc(s.detail || '')+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '')+'</section>';
+    const packLink = job.packUrl && !['finishing','pilot','review','ask','posts','final'].includes(job.status) && !failedLater() ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open the Variety Pack ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'">'+(copied === 'url:'+job.packUrl ? 'Copied' : 'Copy the link')+'</button></p>'+extHtml()+(canContinue() && !job.pack?.platforms?.length ? bar : '') : '';
+    return head+packLink;
+  }
+  // The Variety Pack once it is behind Taylor: one reference line inside "How it was made".
+  const packRef = () => job.packUrl && !(job.packUrl && !['finishing','pilot','review','ask','posts','final'].includes(job.status) && !failedLater()) ? '<p class="pb-meta">Variety Pack '+(job.packRecord?.round ? 'round '+esc(job.packRecord.round)+' ' : '')+'· <a class="pb-link" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open it ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'">'+(copied === 'url:'+job.packUrl ? 'Copied' : 'Copy the link')+'</button></p>'+extHtml() : '';
+  // The stage list (7 November 2026, action first): below the decision, folded into "How it was made", closed whenever
+  // there is something for Taylor to do or the job is final, open while a session is working.
+  const working = () => !!starting || ['starting','running','finishing'].includes(job?.status);
+  const hasAction = () => !working();
+  function stageList() {
+    const list = job.stages || [], wl = packRef()+workLine();
+    if (!list.length && !wl) return '';
+    const items = list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(/^fail/.test(s.state || '') ? 'failed' : s.state || 'wait')+'"><span class="pb-st-dot" aria-hidden="true"></span><b>'+esc(s.name)+'</b><small>'+esc(stageDetail(s))+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '';
+    const done = list.filter(s => s.state === 'done').length;
+    return '<details class="pb-stages pb-made"'+(hasAction() ? '' : ' open')+'><summary><span>How it was made</span><small>'+(list.length ? done+' of '+list.length+' step'+(list.length === 1 ? '' : 's')+' done' : '')+'</small></summary>'+wl+items+'</details>';
+  }
+  // A stage the session wrote before Taylor confirmed the files never says he did.
+  const stageDetail = s => { const d = String(s.detail || ''); if (job.checkedAt || !/confirmed by (you|taylor)/i.test(d)) return d;
+    return d.replace(/[^.]*confirmed by (you|taylor)[^.]*\.?/ig, '').trim().replace(/\s+/g, ' ') + (job.status === 'check' ? ' Waiting for you to confirm.' : ''); };
+  // How long a running step usually takes, from the real runs (6 and 7 November 2026).
+  function waitLine() {
+    const st = starting || job.session?.step, d = st && job.approvals?.[st]?.decision;
+    if (job.status === 'starting' && st === 'pack' || job.status === 'running' || (starting === 'pack')) return filesChecked(job) ? 'The Variety Pack usually takes about 3 h.' : 'It checks the files first (a few minutes), then makes the Variety Pack: usually about 3 h.';
+    if (st === 'finals') return 'The pilot usually takes about 25 min.';
+    if (st === 'pilot') return d === 'changes' ? 'A change round usually takes about 3–5 h.' : 'The master and LinkedIn cut usually take about 3 h.';
+    if (st === 'review') return d === 'changes' ? 'A change round usually takes about 3–5 h.' : 'The thumbnails and posts usually take about 15 min.';
+    return '';
   }
   // ---- Pilot and review stops (Phase 5, 4 November 2026) ----------------------------------------------------------
   // What the running session is doing, from the stop it continues and Taylor's answer there.
@@ -407,8 +437,9 @@
     const n = Array.isArray(w.files) ? w.files.length : 0;
     return '<p class="pb-meta pb-work">Saved work: '+(n ? n+' files' : 'transcript and plan')+(w.stage ? ' after the '+esc(w.stage) : '')+', '+esc(when(w.savedAt))+'. The next session picks it up, so nothing is transcribed or planned again.</p>';
   }
-  const STOP_TRACK = ['Pilot','Master and LinkedIn cut','Thumbnails and posts','Ready to post'];
-  const trackHtml = at => '<ol class="pb-track" aria-label="Stops after the Variety Pack">'+STOP_TRACK.map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? 'is-on' : '')+'"'+(i === at ? ' aria-current="step"' : '')+'>'+n+'</li>').join('')+'</ol>';
+  const STOP_TRACK = ['Pilot','Master and LinkedIn cut','Thumbnails and posts','Ready to post'], STOP_SHORT = ['Pilot','Master','Thumbnails','Ready'];
+  // On a phone the stops use their short names, so the row stays on one line at 390 px.
+  const trackHtml = at => '<ol class="pb-track" aria-label="Stops after the Variety Pack">'+STOP_TRACK.map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? 'is-on' : '')+'"'+(i === at ? ' aria-current="step"' : '')+' data-short="'+STOP_SHORT[i]+'"><span class="pb-tl">'+n+'</span></li>').join('')+'</ol>';
   function stopHtml(kind) {
     const pilot = kind === 'pilot', d = (pilot ? job.pilot : job.cuts) || {}, a = job.approvals?.[kind];
     const url = artifactUrl(d.url) || artifactUrl(job.reviewUrl), round = +d.round || 1;
@@ -416,7 +447,7 @@
     const track = trackHtml(pilot ? 0 : 1);
     const watch = (label, u) => u ? '<a class="pb-go pb-watch" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+label+' ↗</a>' : '';
     const cut = (k, label, c) => { c = c || {}; const u = artifactUrl(c.url) || url;
-      return '<li><span class="pb-pf pb-pf-'+k+'">'+label+'</span><b>'+esc(c.label || (k === 'youtube' ? 'YouTube master' : 'LinkedIn cut'))+'</b><small>'+esc([c.seconds ? clock(c.seconds) : '', c.detail || ''].filter(Boolean).join(' · ') || 'Length not reported')+'</small>'+watch('Watch it', u)+'</li>'; };
+      return '<li><span class="pb-pf pb-pf-'+k+'">'+label+'</span><b>'+esc(c.label || (k === 'youtube' ? 'YouTube master' : 'LinkedIn cut'))+'</b><small>'+esc([c.seconds && !String(c.detail || '').startsWith(clock(c.seconds)) ? clock(c.seconds) : '', c.detail || ''].filter(Boolean).join(' · ') || 'Length not reported')+'</small>'+watch('Watch it', u)+'</li>'; };
     const body = pilot
       ? '<h2 id="pb-stop-h">Your pilot is ready</h2><p class="pb-muted">The first '+(d.seconds ? clock(d.seconds) : '60 to 90 seconds')+' of the YouTube master, edited with the designs you approved. Watch it with sound before Claude Code renders the whole video.'+(d.detail ? ' '+esc(d.detail) : '')+'</p>'+after+watch('Watch the pilot', url)
       : '<h2 id="pb-stop-h">Your YouTube master and LinkedIn cut are ready</h2><p class="pb-muted">Watch both, then approve them together or say what to change. Nothing has been posted.</p>'+after+'<ul class="pb-cuts">'+cut('youtube', 'YouTube', d.master)+cut('linkedin', 'LinkedIn', d.linkedin)+'</ul>';
@@ -467,6 +498,17 @@
   const plats = () => (job?.pack?.platforms || []).filter(pl => pl && pl.key);
   const chosenPost = pl => { const i = (pl.posts || []).findIndex((v, n) => job.picks?.[pl.key+'.post'] === 'v'+(n+1)); return i < 0 || blocked(pl.posts[i]).length ? null : pl.posts[i]; };
   const chosenThumb = pl => (pl.thumbnails || []).find(t => t.id === job.picks?.[pl.key+'.thumb']) || null;
+  // A thumbnail's image (7 November 2026): preview, image or src is an image link as given; file or url only when it names
+  // a .jpg, .png or .webp file. A link to a place on a page (#thumb-…) is never an image. One that failed to load here is not.
+  const imgUrl = (u, typed = true) => { const s = String(u || '').trim(); if (/^data:image\/(png|jpe?g|webp);/i.test(s)) return badImg.has(s) ? null : s;
+    const h = httpsUrl(s); if (!h || badImg.has(h)) return null; const x = new URL(h);
+    if (/^#thumb-/i.test(x.hash)) return null;
+    return typed || /\.(jpe?g|png|webp)$/i.test(x.pathname) ? h : null; };
+  const thumbImg = t => t ? imgUrl(t.preview) || imgUrl(t.image) || imgUrl(t.src) || imgUrl(t.file, false) || imgUrl(t.url, false) : null;
+  // Full size: the full image file when there is one, else the page the session published it on (anchors included).
+  const thumbFull = t => imgUrl(t.file, false) || imgUrl(t.url, false) || httpsUrl(t.file) || httpsUrl(t.url) || thumbImg(t);
+  // The contact-sheet number: t<n> in the id (Thumbnail Tracker), else its place in the list.
+  const thumbNo = (t, i) => +(String(t?.n ?? '').match(/^\d+$/)?.[0] || String(t?.id || '').match(/^t(\d+)$/i)?.[1] || (i + 1));
   function pickCount() {
     let need = 0, have = 0;
     plats().forEach(pl => { (pl.questions || []).forEach(q => { need++; if (q.options?.some(o => o.id === job.picks?.[pl.key+'.'+q.id])) have++; });
@@ -489,7 +531,7 @@
   }
   const copyBtns = pl => { const v = chosenPost(pl); if (!v) return '';
     return parts(pl, v).map(([part, label]) => { const key = pl.key+'|'+part, off = !partText(key);
-      return '<button type="button" class="pb-link pb-cp" data-copy-part="'+esc(key)+'"'+(off ? ' disabled' : '')+'>'+(copied === key ? 'Copied' : 'Copy the '+esc(PLATFORMS[pl.key] || pl.key)+' '+label)+'</button>'; }).join(''); };
+      return '<button type="button" class="pb-go pb-cp" data-copy-part="'+esc(key)+'"'+(off ? ' disabled' : '')+'>'+(copied === key ? 'Copied' : 'Copy the '+esc(PLATFORMS[pl.key] || pl.key)+' '+label)+'</button>'; }).join(''); };
   const ytStatus = () => { const d = ytDraft ?? job?.youtubeUrl ?? ''; return !String(d).trim() ? 'Post the YouTube video first, then paste its link here.' : !ytUrl(d) ? 'That is not a YouTube video link.' : ytUrl(d) === job?.youtubeUrl ? 'Saved. The first comment uses it.' : 'Not saved yet.'; };
   function ytField() {
     const d = ytDraft ?? job.youtubeUrl ?? '', ok = ytUrl(d);
@@ -501,18 +543,27 @@
   function pack() {
     const p = job.pack, list = plats(); if (!list.length) return '';
     const picks = job.picks || {}, off = !picksOpen();
-    const opt = (key, o, dis) => '<button type="button" class="pb-opt" data-pick="'+esc(key)+'" data-val="'+esc(o.id)+'" aria-pressed="'+(picks[key] === o.id)+'"'+(off || dis ? ' disabled' : '')+'>'+(o.preview ? '<img src="'+esc(o.preview)+'" alt="'+esc(o.alt || '')+'" loading="lazy">' : o.thumb ? '<span class="pb-noimg">Preview not available here</span>' : '')+(o.tag ? '<span class="pb-tag'+(/fresh|motion|new/i.test(o.tag) ? ' is-fresh' : '')+'">'+esc(o.tag)+'</span>' : '')+'<b>'+esc(o.title)+'</b>'+(o.detail ? '<small>'+esc(o.detail)+'</small>' : '')+'</button>';
-    const thumb = (k, t) => { const src = httpsUrl(t.url), full = httpsUrl(t.file) || src;
-      return '<div class="pb-th">'+opt(k+'.thumb', {id:t.id, title:t.label || '', preview:src && !badImg.has(src) ? src : '', thumb:true, alt:'Thumbnail: '+(t.label || ''), tag:t.tag || '', detail:t.size || ''})+(full ? '<a class="pb-link pb-th-open" href="'+esc(full)+'" target="_blank" rel="noopener noreferrer">Full size ↗</a>' : '')+'</div>'; };
+    const opt = (key, o, dis) => '<button type="button" class="pb-opt" data-pick="'+esc(key)+'" data-val="'+esc(o.id)+'" aria-pressed="'+(picks[key] === o.id)+'"'+(off || dis ? ' disabled' : '')+'>'+(o.tag ? '<span class="pb-tag'+(/fresh|motion|new/i.test(o.tag) ? ' is-fresh' : '')+'">'+esc(o.tag)+'</span>' : '')+'<b>'+esc(o.title)+'</b>'+(o.detail ? '<small>'+esc(o.detail)+'</small>' : '')+'</button>';
+    // Thumbnails (7 November 2026, Thumbnail Tracker 4.0.0): image-only tiles numbered by their contact-sheet number,
+    // two columns on a phone and four above 700 px; the label, size and Full size link sit in one line under the grid
+    // for the tile picked. A tile with no image URL shows its number and label, never a blank "no preview" box.
+    const thumb = (k, t, i) => { const src = thumbImg(t), n = thumbNo(t, i), sel = picks[k+'.thumb'] === t.id, label = t.label || 'Thumbnail '+n;
+      return '<button type="button" class="pb-opt pb-th'+(src ? '' : ' is-text')+'" data-pick="'+esc(k+'.thumb')+'" data-val="'+esc(t.id)+'" aria-pressed="'+sel+'" aria-label="Thumbnail '+n+': '+esc(label)+(t.size ? ', '+esc(t.size) : '')+'"'+(off ? ' disabled' : '')+'>'+
+        '<span class="pb-th-n" aria-hidden="true">'+n+'</span>'+(src ? '<img src="'+esc(src)+'" alt="" loading="lazy">' : '<span class="pb-th-txt">'+esc(label)+'</span>')+'</button>'; };
+    const thumbLine = (k, ts) => { const i = ts.findIndex(t => t.id === picks[k+'.thumb']), t = ts[i]; if (!t) return '<p class="pb-th-line pb-muted" id="pb-th-line-'+esc(k)+'">Tap a thumbnail to pick it.</p>';
+      const full = thumbFull(t);
+      return '<p class="pb-th-line" id="pb-th-line-'+esc(k)+'"><b>'+thumbNo(t, i)+'</b> <span>'+esc([t.label, t.tag, t.size].filter(Boolean).join(' · '))+'</span>'+(full ? ' <a class="pb-link pb-th-open" href="'+esc(full)+'" target="_blank" rel="noopener noreferrer">Full size ↗</a>' : '')+'</p>'; };
+    const sheetHtml = (s, alt) => { const u = imgUrl(s); return u ? '<figure class="pb-sheet"><a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(u)+'" alt="'+esc(alt)+'" loading="lazy"></a><figcaption class="pb-muted">Contact sheet: each number matches a tile below. <a class="pb-link" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">Full size ↗</a></figcaption></figure>' : ''; };
     const {need, have} = pickCount();
     const head = '<div class="pb-pack-head"><h2 id="pb-pack-h">Thumbnails and posts</h2><span class="micro">'+esc(p.note || 'Pick one of each per platform')+'</span></div>'+
-      '<p class="pb-muted">One thumbnail and one post for each platform. Every post passed the Performance Poster check for '+(job.buyer && BUYER[job.buyer] ? 'buyer '+esc(BUYER[job.buyer]) : 'its buyer')+(job.bookingLink ? ', with your booking link from Settings' : '')+'.</p>';
+      '<p class="pb-muted">One thumbnail and one post for each platform. Every post passed the Performance Poster check for '+(job.buyer && BUYER[job.buyer] ? 'buyer '+esc(BUYER[job.buyer]) : 'its buyer')+(job.bookingLink ? ', with your booking link from Settings' : '')+'.</p>'+
+      sheetHtml(p.thumbRound?.sheet, 'Contact sheet of every thumbnail, numbered');
     return '<section class="pb-pack" aria-labelledby="pb-pack-h">'+(['posts','final'].includes(job.status) ? trackHtml(job.status === 'final' ? 3 : 2) : '')+head+list.map(pl => {
       const k = pl.key, post = pl.posts || [], v = chosenPost(pl), shown = v || post.find(x => !blocked(x).length);
       const needYt = v && String(v.firstComment || '').includes(YT_PH);
       return '<article class="pb-blk"><div class="pb-blk-side"><span class="pb-pf pb-pf-'+esc(k)+'">'+esc(PLATFORMS[k] || pl.label || k)+'</span>'+(pl.video?.url ? '<a class="pb-vid'+(k === 'reels' ? ' is-tall' : '')+'" href="'+esc(pl.video.url)+'" target="_blank" rel="noopener noreferrer"><span>'+esc(pl.video.label || 'Watch it')+' ↗</span></a>' : '')+(pl.note ? '<small class="pb-muted">'+esc(pl.note)+'</small>' : '')+'</div><div class="pb-blk-main">'+
         (pl.questions || []).map(q => '<div class="pb-q"><span class="micro">'+esc(q.label)+'</span><div class="pb-opts">'+q.options.map(o => opt(k+'.'+q.id, o)).join('')+'</div></div>').join('')+
-        (pl.thumbnails?.length ? '<div class="pb-q"><span class="micro">Thumbnail · pick 1 of '+pl.thumbnails.length+'</span><div class="pb-thumbs" data-own-fallback>'+pl.thumbnails.map(t => thumb(k, t)).join('')+'</div></div>' : '')+
+        (pl.thumbnails?.length ? '<div class="pb-q"><span class="micro">Thumbnail · pick 1 of '+pl.thumbnails.length+'</span>'+(imgUrl(pl.thumbRound?.sheet) !== imgUrl(p.thumbRound?.sheet) ? sheetHtml(pl.thumbRound?.sheet, PLATFORMS[k]+' contact sheet, numbered') : '')+'<div class="pb-thumbs" data-own-fallback>'+pl.thumbnails.map((t, i) => thumb(k, t, i)).join('')+'</div>'+thumbLine(k, pl.thumbnails)+'</div>' : '')+
         (post.length ? '<div class="pb-q"><span class="micro">'+esc(pl.postLabel || 'Post')+' · pick a variation</span><div class="pb-opts pb-two">'+post.map((x, i) => { const bad = blocked(x);
           return opt(k+'.post', {id:'v'+(i+1), tag:'Variation '+(i+1), title:x.title || String(x.body || '').split('\n')[0], detail:bad.length ? 'Cannot be used: it still has '+bad.join(', ')+'.' : x.check || ''}, bad.length); }).join('')+'</div>'+
           (shown ? '<div class="pb-chosen"><span class="micro">'+(v ? 'Your pick · variation '+(post.indexOf(v)+1) : 'Variation '+(post.indexOf(shown)+1)+' · not picked yet')+'</span>'+parts(pl, shown).map(([, label, x]) => '<div class="pb-part"><b>'+esc(label[0].toUpperCase()+label.slice(1))+'</b><pre class="pb-copy">'+esc(fill(x).trim())+'</pre></div>').join('')+
@@ -528,11 +579,18 @@
     const f = job.finals || [], list = plats().filter(pl => pl.thumbnails?.length || pl.posts?.length);
     if (!f.length && !list.length) return '';
     const ready = list.length && job.status === 'final';
-    const fileLink = x => '<a href="'+esc(x.url)+'" target="_blank" rel="noopener noreferrer">'+esc(x.label)+' ↗</a>'+(x.detail ? '<small>'+esc(x.detail)+'</small>' : '');
-    const rows = ready ? '<ul class="pb-rd-list">'+list.map(pl => { const th = chosenThumb(pl), full = th && (httpsUrl(th.file) || httpsUrl(th.url)), v = chosenPost(pl), files = f.filter(x => x.platform === pl.key);
+    // Each file says what it is (7 November 2026): a review copy is named as one, and a full-quality file (download or
+    // file on the final) gets its own link. Old finals with only url and detail read as before, with the review-copy line.
+    const fileLink = x => { const review = /review copy/i.test(String(x.detail || '')) || x.kind === 'review', dl = httpsUrl(x.download) || httpsUrl(x.file), u = httpsUrl(x.url);
+      return '<div class="pb-rd-file"><b>'+esc(x.label || PLATFORMS[x.platform] || 'File')+'</b>'+
+        (dl ? '<a class="pb-link" href="'+esc(dl)+'" target="_blank" rel="noopener noreferrer" data-full>Full-quality file'+(x.size ? ' ('+esc(x.size)+')' : '')+' ↗</a>' : '')+
+        (u && u !== dl ? '<a class="pb-link" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+(review ? 'Watch the review copy' : dl ? 'Watch it' : 'Open it')+' ↗</a>' : '')+
+        (review ? '<small class="pb-rd-what">'+(dl ? 'The link above is the full-quality file to upload. The review copy (720p) is on your private page.' : 'Review copy (720p) on your private page. Full-quality files come with Drive delivery.')+'</small>' : x.detail ? '<small>'+esc(x.detail)+'</small>' : '')+'</div>'; };
+    const rows = ready ? '<ul class="pb-rd-list">'+list.map(pl => { const th = chosenThumb(pl), full = th && thumbFull(th), img = th && thumbImg(th), v = chosenPost(pl), files = f.filter(x => x.platform === pl.key);
+        const no = th ? thumbNo(th, (pl.thumbnails || []).indexOf(th)) : 0;
         return '<li class="pb-rd"><span class="pb-pf pb-pf-'+esc(pl.key)+'">'+esc(PLATFORMS[pl.key] || pl.key)+'</span><div class="pb-rd-files">'+files.map(fileLink).join('')+
-          (th ? (full ? '<a href="'+esc(full)+'" target="_blank" rel="noopener noreferrer">Thumbnail: '+esc(th.label || th.id)+' ↗</a>' : '<span>Thumbnail: '+esc(th.label || th.id)+'</span>')+(th.size ? '<small>'+esc(th.size)+'</small>' : '') : '<small>Pick a thumbnail above.</small>')+'</div>'+
-          '<div class="pb-copies pb-rd-copy">'+(v ? copyBtns(pl) : '<small>Pick a post above.</small>')+'</div></li>'; }).join('')+'</ul>'
+          (th ? '<div class="pb-rd-file pb-rd-thumb">'+(img ? '<img src="'+esc(img)+'" alt="Thumbnail '+no+'" loading="lazy">' : '')+'<b>Thumbnail '+no+'</b><span>'+esc([th.label, th.size].filter(Boolean).join(' · '))+'</span>'+(full ? '<a class="pb-link" href="'+esc(full)+'" target="_blank" rel="noopener noreferrer">Full size ↗</a>' : '')+'</div>' : '<small>Pick a thumbnail below.</small>')+'</div>'+
+          '<div class="pb-copies pb-rd-copy">'+(v ? copyBtns(pl) : '<small>Pick a post below.</small>')+'</div></li>'; }).join('')+'</ul>'
       : f.length ? '<ul>'+f.map(x => '<li><span class="pb-pf pb-pf-'+esc(x.platform || '')+'">'+esc(PLATFORMS[x.platform] || x.platform || '')+'</span>'+fileLink(x)+'</li>').join('')+'</ul>' : '';
     return '<section class="pb-finals" aria-labelledby="pb-fin-h"><h2 id="pb-fin-h" tabindex="-1">'+(ready ? 'Ready to post' : 'Finished')+'</h2>'+(job.finalNote ? '<p class="pb-muted">'+esc(job.finalNote)+'</p>' : '')+rows+
       '<div class="pb-post"><div><b>Post all</b><p class="pb-muted">Posting needs the YouTube, LinkedIn and Instagram connections, which are not set up yet. Until then, post by hand: open each file, copy each text and paste it in. Nothing has been posted.</p></div><div class="pb-copies"><button type="button" class="pb-go" disabled>Post all</button></div></div></section>';
@@ -551,8 +609,14 @@
   function reelsLine() {
     const r = reelsFor(job);
     if (!r) {
+      // Nothing about reels is said before the files are checked: link order never decides Path A or B (7 November 2026).
+      if (job && !filesChecked(job) && ['starting','running'].includes(job.status)) return '<p class="pb-meta pb-reelsline">Reels: checking the files… Claude Code works out which file is the YouTube recording and which is a phone take.</p>';
       const pc = job && window.WWReels?.choosePath ? window.WWReels.choosePath(job.sources) : null;
-      if (!pc || !['A','B'].includes(pc.path) || ['check','queued'].includes(job.status) || (pc.path === 'B' && !(job.sources || []).every(x => x.check === 'done'))) return '';
+      if (!pc || !['A','B'].includes(pc.path) || ['check','queued','failed'].includes(job.status) || !filesChecked(job) || (pc.path === 'B' && !(job.sources || []).every(x => x.check === 'done'))) return '';
+      // Confirm and continue starts the reels by itself (Path B since 6 November, Path A since 7 November 2026): until its
+      // reel job arrives here, say so, and never offer a second start.
+      // After ten minutes with no reel job (none was ever saved), the one start is offered below instead.
+      if (job.checkedAt && job.checkedAt >= (pc.path === 'A' ? '2026-11-07' : '2026-11-06') && Date.now() - Date.parse(job.checkedAt) < 6e5 && window.WWReels?.autoFromJob) return '<p class="pb-meta pb-reelsline">'+(pc.path === 'B' ? 'Reels from your phone take' : 'Reels from this video')+': starting…</p>';
       // Path A on a job confirmed before 7 November 2026 (nothing started then): the same reel scripts, one press away.
       return '<p class="pb-meta pb-reelsline">'+esc(pc.why)+' <button type="button" class="pb-link" id="pb-reels-auto"'+(starting || !db ? ' disabled' : '')+'>'+(pc.path === 'A' ? 'Suggest reel scripts to record' : 'Make the reels from it')+'</button></p>';
     }
@@ -579,13 +643,34 @@
   window.WWPublishBack = backBar;
   function allHtml() {
     const rl = window.WWReels?.all?.() || [];
-    const row = j => { const t = (window.WWIdeas?.data?.topics || []).find(x => x.id === j.topicId);
-      return '<li class="pb-all-row"><div><b>'+esc(t?.title || j.title || j.folderName || 'Video job '+j.id)+'</b><small>'+esc([JOB_WORD[j.status] || j.status, when(j.updatedAt || j.createdAt)].filter(Boolean).join(' · '))+'</small></div>'+
-        '<a class="pb-go pb-open" href="#/publish/job/'+encodeURIComponent(j.id)+'" data-open-route="'+esc(j.id)+'" aria-label="Open '+esc(t?.title || j.title || j.folderName || 'job '+j.id)+'">Open</a></li>'; };
+    const row = j => { const t = (window.WWIdeas?.data?.topics || []).find(x => x.id === j.topicId), n = jobTitle(j);
+      return '<li class="pb-all-row"><div><b>'+esc(n)+'</b><small>'+esc([JOB_WORD[j.status] || j.status, t && norm(t.title) !== norm(n) ? 'Topic: '+t.title : '', when(j.updatedAt || j.createdAt)].filter(Boolean).join(' · '))+'</small></div>'+
+        '<a class="pb-go pb-open" href="#/publish/job/'+encodeURIComponent(j.id)+'" data-open-route="'+esc(j.id)+'" aria-label="Open '+esc(n)+'">Open</a></li>'; };
     return '<section class="pb-all" aria-labelledby="pb-all-h"><div class="pb-all-head"><h2 id="pb-all-h" tabindex="-1">All videos</h2><a class="pb-go pb-all-new" href="#/publish/new" id="pb-all-new">Start a new video</a></div>'+
       '<p class="pb-muted">Every video you have started, newest first. Opening one starts nothing. A job that is running only stops a second job for the same recording.</p>'+
       (jobs.length ? '<ul class="pb-all-list">'+jobs.map(row).join('')+'</ul>' : '<p class="pb-empty">No videos yet. Start a new video to paste its Drive folder.</p>')+
       (rl.length ? '<h3 class="pb-all-sub">Reels</h3><ul class="pb-all-list">'+rl.map(r => '<li class="pb-all-row"><div><b>'+esc(r.title || 'Reel job '+r.id)+'</b><small>'+esc([window.WWReels.label(r), when(r.updatedAt || r.createdAt)].filter(Boolean).join(' · '))+'</small></div><a class="pb-go pb-open" href="#/publish/reels/'+encodeURIComponent(r.id)+'" aria-label="Open the reels of '+esc(r.title || r.id)+'">Open</a></li>').join('')+'</ul>' : '')+'</section>';
+  }
+  // The confirmed title (7 November 2026): what Taylor confirmed, never the topic's name in its place.
+  const jobTitle = j => String(j?.title || '').trim() || (window.WWIdeas?.data?.topics || []).find(x => x.id === j?.topicId)?.title || j?.folderName || (j?.id ? 'Video job '+j.id : 'This video');
+  const plural = (n, w) => n+' '+w+(n === 1 ? '' : 's');
+  // The line under the heading follows the stage, as on the Reels lane.
+  function lede() {
+    const s = job?.status, st = job?.session?.step;
+    if (!job || s === 'new') return 'Paste the Drive folder, or the file links, then Generate. Claude Code checks which file is which first, and your Variety Pack opens as its own page.';
+    if (s === 'check') return 'Check the files Claude Code found, confirm the title, then Confirm and continue.';
+    if (s === 'found') return 'Claude Code found earlier work for this recording: use it, or start fresh.';
+    if (s === 'queued') return 'Nothing has started yet: press Start now.';
+    if (s === 'starting' || s === 'running') return filesChecked(job) ? 'Claude Code is making your Variety Pack. It opens as its own page when it is ready.' : 'Claude Code is checking the files first. It stops here if anything needs you.';
+    if (s === 'pack') return 'Your Variety Pack is ready: make your picks on its page, then press Continue.';
+    if (s === 'finishing') return st === 'finals' ? 'Claude Code is building the pilot from your picks.' : st === 'pilot' ? 'Claude Code is rendering the YouTube master and the LinkedIn cut.' : st === 'review' ? 'Claude Code is making the thumbnails and the posts.' : 'Claude Code is working on the next step.';
+    if (s === 'pilot') return 'Watch the pilot, then approve it or say what to change.';
+    if (s === 'review') return 'Watch the YouTube master and the LinkedIn cut, then approve both or say what to change.';
+    if (s === 'ask') return 'Claude Code needs one answer before it writes the posts.';
+    if (s === 'posts') return 'Pick one thumbnail and one post for each platform, then press Ready to post.';
+    if (s === 'final') return 'Everything is ready to post by hand: copy each text and open each file.';
+    if (s === 'failed') return 'This job stopped. Nothing was posted; what it made so far is kept.';
+    return 'Drive links in, posts out.';
   }
   function render() {
     if (root.hidden) return;
@@ -598,10 +683,13 @@
     }
     const focus = document.activeElement && root.contains(document.activeElement) ? document.activeElement.id : null;
     const t = job && topics().concat(window.WWIdeas?.data?.topics || []).find(x => x.id === job.topicId);
-    root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · DRIVE LINKS IN, POSTS OUT</div><h1 id="pb-heading">'+esc(job ? (t?.title || job.title || job.folderName || 'This video') : 'Publish a video')+'</h1><p>Paste the Drive folder, check which file is which, then Generate. Your Variety Pack opens as its own page.</p></div>'+
+    root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · DRIVE LINKS IN, POSTS OUT</div><h1 id="pb-heading">'+esc(job ? jobTitle(job) : 'Publish a video')+'</h1>'+(t && norm(t.title) !== norm(jobTitle(job)) ? '<p class="pb-topicline">Topic: '+esc(t.title)+'</p>' : '')+'<p class="pb-lede">'+esc(lede())+'</p></div>'+
       '</div>'+(job ? backBar('<button type="button" class="pb-go pb-newvid" id="pb-new">Start a new video</button>') : jobs.length ? backBar('') : '')+laneTabs('video')+steps()+
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'">'+(copied === 'run' ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
-      (!job || job.status === 'new' ? readyJobs()+intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : esc((job.sources || []).length)+' files')+' · started '+esc(when(job.createdAt))+'</p>'+reelsLine()+(job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : job.status === 'ask' ? askHtml() : '')+stages()+pack()+finals());
+      (!job || job.status === 'new' ? readyJobs()+intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : plural((job.sources || []).length, 'file'))+' · started '+esc(when(job.createdAt))+'</p>'+reelsLine()+
+        // Action first (7 November 2026): the decision or picks at the top, the stage list folded below them.
+        (job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : job.status === 'ask' ? askHtml() : '')+stages()+
+        (job.status === 'final' ? finals()+pack() : pack()+finals())+stageList());
     if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
     else if (confirm) root.querySelector('#pb-continue-yes')?.focus();
     else if (changing && focus === 'pb-change') root.querySelector('#pb-change-note')?.focus();
@@ -625,7 +713,7 @@
   }
   // Typing the title or brief refreshes only the checks and the topic question, so the field keeps its caret and list.
   function refreshIntake() { const c = root.querySelector('#pb-check'), q = root.querySelector('#pb-topic-q'); if (c) c.innerHTML = checkHtml(); if (q) q.innerHTML = topicHtml(); }
-  root.addEventListener('input', e => { if (e.target.id === 'pb-yt') { ytDraft = e.target.value; const s = root.querySelector('#pb-yt-save'), ok = ytUrl(ytDraft); if (s) s.disabled = !ok || ok === job?.youtubeUrl; const st = root.querySelector('#pb-yt-st'); if (st) st.textContent = ytStatus(); return; } if (e.target.id === 'pb-change-note') { changeNote = e.target.value; const s = root.querySelector('#pb-change-send'); if (s) s.disabled = !changeNote.trim() || !!starting; return; } if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
+  root.addEventListener('input', e => { if (e.target.id === 'pb-yt') { ytDraft = e.target.value; const s = root.querySelector('#pb-yt-save'), ok = ytUrl(ytDraft); if (s) s.disabled = !ok || ok === job?.youtubeUrl; const st = root.querySelector('#pb-yt-st'); if (st) st.textContent = ytStatus(); return; } if (e.target.id === 'pb-change-note') { changeNote = e.target.value; const s = root.querySelector('#pb-change-send'); if (s) s.disabled = !changeNote.trim() || !!starting; return; } if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.titleTyped = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
   root.addEventListener('change', e => { if (e.target.id === 'pb-buyer' && job) { buyerNow(); buyerPick = e.target.value; render(); return; } if (e.target.id === 'pb-topic') { topicPick = e.target.value; const c = root.querySelector('#pb-check'); if (c) c.innerHTML = checkHtml(); return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
   root.addEventListener('click', async e => {
     const a = e.target.closest('a[data-ext]');
@@ -709,6 +797,8 @@
       if (document.activeElement?.closest?.('#publish textarea,#publish input')) return;
       render();
     }, () => {});
+    // The reel jobs (read only here): the Video lane's reels line follows the reel job's own status as it changes.
+    if (db) db.collection('reels').onSnapshot(() => { if (reelsLane() || !job || document.activeElement?.closest?.('#publish textarea,#publish input,#publish select')) return; setTimeout(render, 0); }, () => {});
     // The packs index (Phase 3): read only here. Sessions add a document for every pack they publish.
     if (db) db.collection('packs').onSnapshot(snap => {
       packs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()}));
@@ -723,7 +813,9 @@
   window.WWPublish = {parseLink, laneTabs};
   window.addEventListener('ww:data', render);
   window.addEventListener('ww:settings', () => { if (!document.activeElement?.closest?.('#publish textarea,#publish input')) render(); });
-  // A thumbnail image that will not load in this page (another page's file) shows as a Full size link instead.
-  root.addEventListener('error', e => { const i = e.target; if (i?.tagName !== 'IMG' || !i.closest('.pb-thumbs,.pb-rd')) return; badImg.add(i.getAttribute('src')); const n = document.createElement('span'); n.className = 'pb-noimg'; n.textContent = 'Preview not available here'; i.replaceWith(n); }, true);
+  // A thumbnail image that will not load in this page shows as its numbered text tile instead (and its Full size link).
+  root.addEventListener('error', e => { const i = e.target; if (i?.tagName !== 'IMG' || !i.closest('.pb-thumbs,.pb-rd,.pb-sheet')) return; const s = i.getAttribute('src'); if (badImg.has(s)) return; badImg.add(s);
+    if (i.closest('.pb-sheet')) { i.closest('.pb-sheet').remove(); return; }
+    const b = i.closest('.pb-th'); if (b) { b.classList.add('is-text'); const n = document.createElement('span'); n.className = 'pb-th-txt'; n.textContent = (b.getAttribute('aria-label') || '').replace(/^Thumbnail \d+: /, '').replace(/, \d+×\d+$/, ''); i.replaceWith(n); } else i.remove(); }, true);
   load();
 })();
