@@ -81,7 +81,7 @@
     return '<ol class="pb-steps">'+['Drive links','Variety Pack','Finished edits','Post'].map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+(i === at && failed ? ' <small>stopped</small>' : '')+'</li>').join('')+'</ol>';
   }
   // The files are checked once Taylor confirmed them, the session marked each one done, or the job is past the pack.
-  const filesChecked = j => !!j && (!!j.checkedAt || ['found','pack','finishing','pilot','review','ask','posts','final'].includes(j.status) || ((j.sources || []).length > 0 && j.sources.every(x => x.check === 'done')));
+  const filesChecked = j => !!j && (!!j.checkedAt || ['found','pack','finishing','pilot','review','ask','thumbs','posts','final'].includes(j.status) || ((j.sources || []).length > 0 && j.sources.every(x => x.check === 'done')));
   // Every problem at once, re-checked on each change (links, roles and title) and again when Generate is pressed.
   // Folder mode: exactly one folder link and nothing else. The title can wait: Claude suggests it from the folder name.
   const folderMode = () => links.length === 1 && links[0].kind === 'folder' && !!links[0].folderId;
@@ -132,7 +132,7 @@
   // recording. Using it starts nothing; starting fresh runs Claude Code from the beginning and uses Taylor's plan again.
   const intakeTopic = () => exactTopic() || (topicPick && topicPick !== 'none' ? topics().find(t => t.id === topicPick) : null);
   const artifactUrl = u => typeof u === 'string' && /^https:\/\/claude\.ai\/(code\/)?artifact\/[\w-]+$/.test(u) ? u : null;
-  const JOB_WORD = {queued:'not started', starting:'starting', running:'Claude Code is working on it', check:'waiting for you to check the files', found:'found earlier work', pack:'Variety Pack ready', finishing:'edit in progress', pilot:'pilot ready to watch', review:'master and LinkedIn cut ready to watch', ask:'waiting for your booking link or buyer', posts:'thumbnails and posts ready to pick', final:'finished', failed:'stopped, Variety Pack kept'};
+  const JOB_WORD = {queued:'not started', starting:'starting', running:'Claude Code is working on it', check:'waiting for you to check the files', found:'found earlier work', pack:'Variety Pack ready', finishing:'edit in progress', pilot:'pilot ready to watch', review:'master and LinkedIn cut ready to watch', ask:'waiting for your booking link or buyer', thumbs:'thumbnails ready to pick', posts:'thumbnails and posts ready to pick', final:'finished', failed:'stopped, Variety Pack kept'};
   const PACK_WORD = {variety:'Variety Pack', katana:'Katana moments', reels:'Reel pack'};
   function earlier() {
     if (!links.length || problems().length) return [];
@@ -190,10 +190,10 @@
   // Steps (Phase 5): 'pack' runs the job; 'finals' continues after the Variety Pack picks and builds the pilot; 'pilot' and
   // 'review' continue after Taylor's answer at those stops. The line names the stop, so PUBLISH.md says what each one does.
   const LATER = ['finals','pilot','review'];
-  const lineFor = (step, id) => step === 'pack' ? 'Run Publish job '+id : 'Continue Publish job '+id+' from '+(step === 'finals' ? 'pack' : step);
+  const lineFor = (step, id) => step === 'pack' ? 'Run Publish job '+id : 'Continue Publish job '+id+' from '+(step === 'finals' ? 'pack' : step === 'thumbs' ? 'thumbnails' : step);
   function sessionTitle(step, j, extra) {
     const d = (extra?.approvals || j.approvals || {})[step]?.decision;
-    return (step === 'pack' ? 'Publish: ' : step === 'finals' ? 'Publish pilot: ' : step === 'pilot' ? (d === 'changes' ? 'Publish pilot changes: ' : 'Publish master: ') : (d === 'changes' ? 'Publish master changes: ' : 'Publish finals: '))+(j.title || j.id);
+    return (step === 'pack' ? 'Publish: ' : step === 'thumbs' ? 'Publish thumbnails: ' : step === 'finals' ? 'Publish pilot: ' : step === 'pilot' ? (d === 'changes' ? 'Publish pilot changes: ' : 'Publish master: ') : (d === 'changes' ? 'Publish master changes: ' : 'Publish finals: '))+(j.title || j.id);
   }
   function sessionPrompt(step, j, line) {
     if (step === 'pack') return line+'. Follow PUBLISH.md in this repository exactly: start with its Check the files stage, run the job with the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything.';
@@ -271,7 +271,10 @@
     const src = job.sources || [], name = job.titleBy === 'taylor' ? job.title : (job.title || job.folderName || '');
     const m = job.topicId ? topics().concat(window.WWIdeas?.data?.topics || []).find(t => t.id === job.topicId) : matchTopic(name);
     ck = {key, topicsN:topics().length, touched:false, from:name, title:job.titleBy === 'taylor' ? job.title : (m?.title || name), topicId:m?.id || '', matched:m?.id || '',
-      roles:src.map(x => { const a = allowedRoles(x.kind); return a.includes(x.role) ? x.role : a.length === 1 ? 'skip' : x.role ? SHAPE_ROLE[x.kind] || '' : ''; }), order:[]};
+      // Audit 7 Nov 2026: only a file the classifier is sure of on its own evidence (fileDecision, without the role it was
+      // pasted with) is preselected. Every unsure file starts on "Choose…", so Confirm cannot pass a guess with one tap.
+      roles:src.map(x => { const a = allowedRoles(x.kind), sure = (x.fileDecision || x.decision) === 'accept';
+        return a.length === 1 ? 'skip' : !sure ? '' : a.includes(x.role) ? x.role : x.role ? SHAPE_ROLE[x.kind] || '' : ''; }), order:[]};
     ck.order = ck.roles.map((r, i) => i).filter(i => ck.roles[i] === 'main').sort((a, b) => (src[a].part || 1e3) - (src[b].part || 1e3) || a - b);
   }
   // The parts of the main recording, in the order they are joined: a file newly set to main joins at the end.
@@ -293,7 +296,7 @@
   }
   // Decision 11: the reels path follows the files as Taylor confirms them here (a phone take kept as a reel recording
   // beside the main recording is Path B), so the line under Confirm says what will start, without asking.
-  const ckSources = () => (job.sources || []).map((x, i) => ({...x, role:ck.roles[i]}));
+  const ckSources = () => (job.sources || []).map((x, i) => ({...x, role:ck.roles[i], ...(ck.roles[i] ? {roleBy:'taylor', confirmedAt:'on screen'} : {})}));
   const ckPath = () => window.WWReels?.choosePath ? window.WWReels.choosePath(ckSources()) : {path:null, takes:[]};
   const ckCheckHtml = () => { const ps = ckProblems(), pc = ckPath(), b = pc.path === 'B' && !reelsFor(job), a = pc.path === 'A' && !reelsFor(job);
     return (ps.length ? '<div class="pb-warn" role="alert">'+(ps.length === 1 ? esc(ps[0]) : '<ul>'+ps.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>')+'</div>' : '')+
@@ -397,11 +400,11 @@
       : ['running','finishing'].includes(job.status) ? '<p class="pb-queue pb-running"><b>Claude Code is working on this'+esc(doing())+'.</b> '+esc(waitLine())+(job.session?.startedAt ? ' Started '+esc(when(job.session.startedAt))+'.' : '')+' You can close this tab: it carries on.'+ses+'</p>' : '';
     const bar = starting === 'finals' ? '<div class="pb-bar"><span>Starting Claude Code for the pilot…</span></div>' : confirm ? confirmBar() : '<div class="pb-bar"><span>Picks made in the Variety Pack?</span><span class="pb-muted">Claude reads them from that page and builds a pilot of the first 60 to 90 seconds for you to watch.</span><button type="button" class="pb-go" id="pb-continue">Continue · build the pilot →</button></div>';
     const pr = job.packRecord || {}, ticked = Number.isFinite(pr.preticked) && pr.preticked > 0 ? ' '+pr.preticked+' designs you approved on earlier videos are already ticked'+(Number.isFinite(pr.fresh) ? '; you decide the '+pr.fresh+' new ones' : '')+'. Untick any you do not want.' : '';
-    const packLink = job.packUrl && !['finishing','pilot','review','ask','posts','final'].includes(job.status) && !failedLater() ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open the Variety Pack ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'">'+(copied === 'url:'+job.packUrl ? 'Copied' : 'Copy the link')+'</button></p>'+extHtml()+(canContinue() && !job.pack?.platforms?.length ? bar : '') : '';
+    const packLink = job.packUrl && !['finishing','pilot','review','ask','thumbs','posts','final'].includes(job.status) && !failedLater() ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open the Variety Pack ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'">'+(copied === 'url:'+job.packUrl ? 'Copied' : 'Copy the link')+'</button></p>'+extHtml()+(canContinue() && !job.pack?.platforms?.length ? bar : '') : '';
     return head+packLink;
   }
   // The Variety Pack once it is behind Taylor: one reference line inside "How it was made".
-  const packRef = () => job.packUrl && !(job.packUrl && !['finishing','pilot','review','ask','posts','final'].includes(job.status) && !failedLater()) ? '<p class="pb-meta">Variety Pack '+(job.packRecord?.round ? 'round '+esc(job.packRecord.round)+' ' : '')+'· <a class="pb-link" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open it ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'">'+(copied === 'url:'+job.packUrl ? 'Copied' : 'Copy the link')+'</button></p>'+extHtml() : '';
+  const packRef = () => job.packUrl && !(job.packUrl && !['finishing','pilot','review','ask','thumbs','posts','final'].includes(job.status) && !failedLater()) ? '<p class="pb-meta">Variety Pack '+(job.packRecord?.round ? 'round '+esc(job.packRecord.round)+' ' : '')+'· <a class="pb-link" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open it ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'">'+(copied === 'url:'+job.packUrl ? 'Copied' : 'Copy the link')+'</button></p>'+extHtml() : '';
   // The stage list (7 November 2026, action first): below the decision, folded into "How it was made", closed whenever
   // there is something for Taylor to do or the job is final, open while a session is working.
   const working = () => !!starting || ['starting','running','finishing'].includes(job?.status);
@@ -423,7 +426,35 @@
     if (st === 'finals') return 'The pilot usually takes about 25 min.';
     if (st === 'pilot') return d === 'changes' ? 'A change round usually takes about 3–5 h.' : 'The master and LinkedIn cut usually take about 3 h.';
     if (st === 'review') return d === 'changes' ? 'A change round usually takes about 3–5 h.' : 'The thumbnails and posts usually take about 15 min.';
+    if (st === 'thumbs') return 'Polishing and sizing your picks usually takes about 15 min.';
     return '';
+  }
+  // ---- Thumbnail picks (7 November 2026, Thumbnail Tracker 4.0.0; PUBLISH.md "Thumbnails and posts") -------------------
+  // The session stops on "thumbs" with sixteen numbered variations (pack.thumbRound). Taylor picks one for YouTube; LinkedIn
+  // uses the same one unless he picks another. Polish my picks saves the picks with the session it starts, which polishes
+  // only those and sizes them, then stops on "posts".
+  const tvars = () => (job.pack?.thumbRound?.variations || []).filter(v => v && v.id);
+  const tpicks = () => ({youtube:job.picks?.['thumbs.youtube'] || null, linkedin:job.picks?.['thumbs.linkedin'] || null});
+  let liOwn = false;
+  function thumbsStop() {
+    const r = job.pack?.thumbRound || {}, vs = tvars(), pk = tpicks(), off = !!starting;
+    const sheet = imgUrl(r.sheet);
+    const tile = (k, v, i) => { const src = thumbImg(v), n = thumbNo(v, i), sel = pk[k] === v.id, label = v.words || v.label || 'Thumbnail '+n;
+      return '<button type="button" class="pb-opt pb-th'+(src ? '' : ' is-text')+'" data-tpick="'+k+'" data-val="'+esc(v.id)+'" aria-pressed="'+sel+'" aria-label="Thumbnail '+n+': '+esc(label)+'"'+(off ? ' disabled' : '')+'>'+
+        '<span class="pb-th-n" aria-hidden="true">'+n+'</span>'+(src ? '<img src="'+esc(src)+'" alt="" loading="lazy">' : '<span class="pb-th-txt">'+esc(label)+'</span>')+'</button>'; };
+    const line = k => { const i = vs.findIndex(v => v.id === pk[k]), v = vs[i]; if (!v) return '<p class="pb-th-line pb-muted">Tap a thumbnail to pick it.</p>';
+      return '<p class="pb-th-line"><b>'+thumbNo(v, i)+'</b> <span>'+esc([v.words, v.layout, v.ground].filter(Boolean).join(' · '))+'</span>'+(thumbFull(v) ? ' <a class="pb-link pb-th-open" href="'+esc(thumbFull(v))+'" target="_blank" rel="noopener noreferrer">Full size ↗</a>' : '')+'</p>'; };
+    const own = liOwn || (pk.linkedin && pk.linkedin !== pk.youtube);
+    const ready = !!pk.youtube && !off;
+    return '<section class="pb-stop pb-tstop" aria-labelledby="pb-tstop-h">'+trackHtml(2)+'<div class="pb-pack-head"><h2 id="pb-tstop-h" tabindex="-1">Pick your thumbnail</h2><span class="micro">'+esc(vs.length+' variations'+(r.version ? ' · Thumbnail Tracker '+r.version : ''))+'</span></div>'+
+      '<p class="pb-muted">Sixteen variations, every one objects only and checked for variety'+(r.check?.line ? ' ('+esc(r.check.line)+')' : '')+'. Pick one for YouTube. LinkedIn uses the same one unless you choose another. Polishing makes the YouTube, LinkedIn and 4:5 sizes of your picks only.</p>'+
+      (sheet ? '<figure class="pb-sheet"><a href="'+esc(sheet)+'" target="_blank" rel="noopener noreferrer"><img src="'+esc(sheet)+'" alt="Contact sheet of all sixteen thumbnails, numbered" loading="lazy"></a><figcaption class="pb-muted">Contact sheet: each number matches a tile below.</figcaption></figure>' : '')+
+      (vs.length ? '<div class="pb-q"><span class="micro">YouTube · pick 1 of '+vs.length+'</span><div class="pb-opts pb-thumbs">'+vs.map((v, i) => tile('youtube', v, i)).join('')+'</div>'+line('youtube')+'</div>' :
+        '<div class="pb-warn" role="alert">Claude Code stopped for your thumbnail pick but wrote no variations. Press Try again below, or send “'+esc(lineFor('review', job.id))+'” in a Claude chat.</div>')+
+      (vs.length ? '<div class="pb-q"><label class="pb-check"><input type="checkbox" id="pb-li-own"'+(own ? ' checked' : '')+(off ? ' disabled' : '')+'> Use a different thumbnail for LinkedIn</label>'+
+        (own ? '<span class="micro">LinkedIn · pick 1 of '+vs.length+'</span><div class="pb-opts pb-thumbs">'+vs.map((v, i) => tile('linkedin', v, i)).join('')+'</div>'+line('linkedin') : '')+'</div>' : '')+
+      '<div class="pb-bar pb-tbar"><span>'+(pk.youtube ? 'Thumbnail '+esc(String(thumbNo(vs.find(v => v.id === pk.youtube), vs.findIndex(v => v.id === pk.youtube))))+' for YouTube'+(own && pk.linkedin && pk.linkedin !== pk.youtube ? ', a different one for LinkedIn' : '') : 'Pick a thumbnail first')+'</span>'+
+      '<span class="pb-muted">Starts Claude Code: about 15 min. Nothing is posted.</span><button type="button" class="pb-go" id="pb-polish"'+(ready ? '' : ' disabled')+'>Polish my picks →</button></div></section>';
   }
   // ---- Pilot and review stops (Phase 5, 4 November 2026) ----------------------------------------------------------
   // What the running session is doing, from the stop it continues and Taylor's answer there.
@@ -663,10 +694,11 @@
     if (s === 'queued') return 'Nothing has started yet: press Start now.';
     if (s === 'starting' || s === 'running') return filesChecked(job) ? 'Claude Code is making your Variety Pack. It opens as its own page when it is ready.' : 'Claude Code is checking the files first. It stops here if anything needs you.';
     if (s === 'pack') return 'Your Variety Pack is ready: make your picks on its page, then press Continue.';
-    if (s === 'finishing') return st === 'finals' ? 'Claude Code is building the pilot from your picks.' : st === 'pilot' ? 'Claude Code is rendering the YouTube master and the LinkedIn cut.' : st === 'review' ? 'Claude Code is making the thumbnails and the posts.' : 'Claude Code is working on the next step.';
+    if (s === 'finishing') return st === 'finals' ? 'Claude Code is building the pilot from your picks.' : st === 'pilot' ? 'Claude Code is rendering the YouTube master and the LinkedIn cut.' : st === 'review' ? 'Claude Code is making the thumbnails and the posts.' : st === 'thumbs' ? 'Claude Code is polishing your thumbnail picks and sizing them.' : 'Claude Code is working on the next step.';
     if (s === 'pilot') return 'Watch the pilot, then approve it or say what to change.';
     if (s === 'review') return 'Watch the YouTube master and the LinkedIn cut, then approve both or say what to change.';
     if (s === 'ask') return 'Claude Code needs one answer before it writes the posts.';
+    if (s === 'thumbs') return 'Pick your thumbnail from the sixteen, then press Polish my picks.';
     if (s === 'posts') return 'Pick one thumbnail and one post for each platform, then press Ready to post.';
     if (s === 'final') return 'Everything is ready to post by hand: copy each text and open each file.';
     if (s === 'failed') return 'This job stopped. Nothing was posted; what it made so far is kept.';
@@ -688,7 +720,7 @@
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'">'+(copied === 'run' ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
       (!job || job.status === 'new' ? readyJobs()+intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : plural((job.sources || []).length, 'file'))+' · started '+esc(when(job.createdAt))+'</p>'+reelsLine()+
         // Action first (7 November 2026): the decision or picks at the top, the stage list folded below them.
-        (job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : job.status === 'ask' ? askHtml() : '')+stages()+
+        (job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : job.status === 'ask' ? askHtml() : job.status === 'thumbs' ? thumbsStop() : '')+stages()+
         (job.status === 'final' ? finals()+pack() : pack()+finals())+stageList());
     if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
     else if (confirm) root.querySelector('#pb-continue-yes')?.focus();
@@ -714,7 +746,8 @@
   // Typing the title or brief refreshes only the checks and the topic question, so the field keeps its caret and list.
   function refreshIntake() { const c = root.querySelector('#pb-check'), q = root.querySelector('#pb-topic-q'); if (c) c.innerHTML = checkHtml(); if (q) q.innerHTML = topicHtml(); }
   root.addEventListener('input', e => { if (e.target.id === 'pb-yt') { ytDraft = e.target.value; const s = root.querySelector('#pb-yt-save'), ok = ytUrl(ytDraft); if (s) s.disabled = !ok || ok === job?.youtubeUrl; const st = root.querySelector('#pb-yt-st'); if (st) st.textContent = ytStatus(); return; } if (e.target.id === 'pb-change-note') { changeNote = e.target.value; const s = root.querySelector('#pb-change-send'); if (s) s.disabled = !changeNote.trim() || !!starting; return; } if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.titleTyped = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
-  root.addEventListener('change', e => { if (e.target.id === 'pb-buyer' && job) { buyerNow(); buyerPick = e.target.value; render(); return; } if (e.target.id === 'pb-topic') { topicPick = e.target.value; const c = root.querySelector('#pb-check'); if (c) c.innerHTML = checkHtml(); return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
+  root.addEventListener('change', e => { if (e.target.id === 'pb-li-own' && job?.status === 'thumbs') { liOwn = e.target.checked; if (!liOwn && job.picks?.['thumbs.linkedin']) { job.picks = {...job.picks, 'thumbs.linkedin':job.picks['thumbs.youtube'] || null}; save({picks:job.picks}); } render(); return; }
+    if (e.target.id === 'pb-buyer' && job) { buyerNow(); buyerPick = e.target.value; render(); return; } if (e.target.id === 'pb-topic') { topicPick = e.target.value; const c = root.querySelector('#pb-check'); if (c) c.innerHTML = checkHtml(); return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
   root.addEventListener('click', async e => {
     const a = e.target.closest('a[data-ext]');
     if (a) { e.preventDefault(); let w = null; try { w = window.open(a.href, '_blank'); } catch { w = null; }
@@ -738,6 +771,10 @@
       b.disabled = true; await generate({packUrl:x.url, status:'pack', reusedFrom:{pack:x.id, url:x.url, title:x.title, at:new Date().toISOString()}}, false); return;
     }
     if (b.id === 'pb-new') { ck = null; resetIntake(); retry = null; retryExtra = null; confirm = false; changing = null; changeNote = ''; go('#/publish/new'); root.querySelector('#pb-links')?.focus(); return; }
+    if (b.dataset.tpick && job?.status === 'thumbs') { if (starting) return; job.picks = {...(job.picks || {}), ['thumbs.'+b.dataset.tpick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
+    if (b.id === 'pb-polish' && job?.status === 'thumbs') { const pk = tpicks(); if (!pk.youtube || starting) return;
+      const picks = {...(job.picks || {}), 'thumbs.youtube':pk.youtube, 'thumbs.linkedin':(liOwn || pk.linkedin) && pk.linkedin ? pk.linkedin : pk.youtube};
+      await startSession(job, 'thumbs', {picks, thumbsPickedAt:new Date().toISOString()}); return; }
     if (b.dataset.pick) { if (!picksOpen()) return; job.picks = {...(job.picks || {}), [b.dataset.pick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
     if (b.dataset.openJob) { ytDraft = null; go('#/publish/job/'+encodeURIComponent(b.dataset.openJob)); root.querySelector('#pb-fin-h')?.focus(); return; }
     if (b.dataset.copyPart) { const t = partText(b.dataset.copyPart); if (t) await copy(t, b.dataset.copyPart); return; }
