@@ -10,8 +10,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "sha256": "c61f1d1ac2fecd0d3f0eaa8fe1d61d675d4f2fd23618e5e28983afbae9a53088",
-   "bytes": 11037
+   "sha256": "770f82e7116839b272f3149b61d29c1e8883f0eb6e07362da5d8965dc81b95b3",
+   "bytes": 11392
   },
   {
    "path": "COVERAGE.md",
@@ -25,13 +25,13 @@
   },
   {
    "path": "SKILL.md",
-   "sha256": "b1ec4230c51302dd95a61e963bd84fd474e261b00b5c9ba9d7faf69a74b2604d",
-   "bytes": 18430
+   "sha256": "de2b05822698a391de2339bdc79960f4cd9a23912717e17d69f106b1155d2fd9",
+   "bytes": 18804
   },
   {
    "path": "START-HERE.md",
-   "sha256": "3dea64a22e14497fd919f83b2710436bfd44eb1d567c7f9502cfd133376bd58d",
-   "bytes": 2916
+   "sha256": "58075a044fa7b5d021c5a4dd2b889c87f279a99a4577b8df8eba761fc73d1414",
+   "bytes": 3137
   },
   {
    "path": "package.json",
