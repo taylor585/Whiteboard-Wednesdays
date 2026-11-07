@@ -1,0 +1,74 @@
+{
+ "id": "Think-T6-on-brand",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "on-brand-ledge",
+  "ground": "cream-board",
+  "font": "fraunces",
+  "accent": "gold-red-circle",
+  "hero": "lightbulb-keycap",
+  "emoji": false
+ },
+ "studio": {
+  "preset": "cream-board"
+ },
+ "extra_css": ";background-color:#FBF8F1",
+ "words": "THINK FIRST. PROMPT SECOND.",
+ "layers": [
+  {
+   "type": "text",
+   "text": "THINK FIRST.",
+   "x": 56,
+   "y": 186,
+   "size": 140,
+   "finish": "ink-serif"
+  },
+  {
+   "type": "text",
+   "text": "PROMPT",
+   "x": 56,
+   "y": 350,
+   "size": 140,
+   "finish": "ink-serif"
+  },
+  {
+   "type": "text",
+   "text": "SECOND.",
+   "x": 56,
+   "y": 500,
+   "size": 140,
+   "finish": "red-serif"
+  },
+  {
+   "type": "circle_mark",
+   "x": 300,
+   "y": 132,
+   "rx": 285,
+   "ry": 96,
+   "col": "#e3170a",
+   "width": 9,
+   "rot": -3
+  },
+  {
+   "type": "ledge",
+   "y": 585
+  },
+  {
+   "type": "lightbulb",
+   "x": 1095,
+   "y": 395,
+   "h": 330,
+   "glow": "#F6DF8C"
+  },
+  {
+   "type": "keycap",
+   "x": 840,
+   "y": 505,
+   "size": 170,
+   "logo": "claude.svg",
+   "logo_col": "#D97757",
+   "label": "Claude",
+   "rot": -6
+  }
+ ]
+}

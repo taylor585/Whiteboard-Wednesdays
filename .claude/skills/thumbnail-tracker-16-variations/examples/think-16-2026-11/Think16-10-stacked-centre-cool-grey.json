@@ -1,0 +1,82 @@
+{
+ "id": "Think16-10-stacked-centre-cool-grey",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "stacked-centre",
+  "ground": "cool-grey",
+  "font": "anton",
+  "accent": "red",
+  "hero": "orbit-keycaps",
+  "emoji": true
+ },
+ "studio": {
+  "preset": "cool-grey"
+ },
+ "words": "STOP COPYING. START THINKING.",
+ "layers": [
+  {
+   "type": "keycap",
+   "x": 110,
+   "y": 120,
+   "size": 130,
+   "logo": "claude.svg",
+   "logo_col": "#D97757",
+   "label": "Claude",
+   "rot": -10
+  },
+  {
+   "type": "keycap",
+   "x": 1170,
+   "y": 120,
+   "size": 130,
+   "logo": "openai.svg",
+   "logo_col": "#1C1A17",
+   "label": "ChatGPT",
+   "rot": 10
+  },
+  {
+   "type": "emoji",
+   "x": 110,
+   "y": 600,
+   "size": 130,
+   "char": "🧠",
+   "rot": -8
+  },
+  {
+   "type": "lightbulb",
+   "x": 1170,
+   "y": 560,
+   "h": 200,
+   "glow": "#ffd84a",
+   "rot": 8
+  },
+  {
+   "type": "text",
+   "text": "Stop copying.",
+   "x": 640,
+   "y": 320,
+   "size": 150,
+   "finish": "charcoal",
+   "depth": 12,
+   "anchor": "middle"
+  },
+  {
+   "type": "block3d",
+   "x": 290,
+   "y": 390,
+   "w": 700,
+   "h": 190,
+   "rot": -2
+  },
+  {
+   "type": "text",
+   "text": "Start thinking.",
+   "x": 640,
+   "y": 545,
+   "size": 140,
+   "finish": "white-outline",
+   "depth": 12,
+   "anchor": "middle"
+  }
+ ]
+}

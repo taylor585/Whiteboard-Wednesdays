@@ -1,0 +1,9 @@
+# Python dependencies for thumbnail-tracker scripts (pip install -r requirements.txt).
+# Node side: Playwright with Chromium (see package.json).
+yt-dlp
+pillow
+numpy
+
+# Optional:
+# faster-whisper      # scripts/transcribe.py (local transcription)
+# rembg[cpu]          # scripts/prep_face.py (background removal)

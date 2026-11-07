@@ -1,0 +1,1302 @@
+{
+ "name": "thumbnail-tracker-16-variations",
+ "version": "4.0.0",
+ "built": "2026-11-07T13:22:36+00:00",
+ "files": [
+  {
+   "path": "BUILD-STATUS.md",
+   "sha256": "9213e550b8c3e85c78251f9cf01e8c67eae0087bda2d74f21f97bb4f71dcaa96",
+   "bytes": 5355
+  },
+  {
+   "path": "CHANGELOG.md",
+   "sha256": "c61f1d1ac2fecd0d3f0eaa8fe1d61d675d4f2fd23618e5e28983afbae9a53088",
+   "bytes": 11037
+  },
+  {
+   "path": "COVERAGE.md",
+   "sha256": "47afccd3c82c20cd6090c5083ef0f48833babc5687ce87059544c31438e72c80",
+   "bytes": 9595
+  },
+  {
+   "path": "README.md",
+   "sha256": "b50db32fac5390354ae02feb63532e7797b5c472c625610016602e1748d82ad0",
+   "bytes": 4984
+  },
+  {
+   "path": "SKILL.md",
+   "sha256": "b1ec4230c51302dd95a61e963bd84fd474e261b00b5c9ba9d7faf69a74b2604d",
+   "bytes": 18430
+  },
+  {
+   "path": "START-HERE.md",
+   "sha256": "3dea64a22e14497fd919f83b2710436bfd44eb1d567c7f9502cfd133376bd58d",
+   "bytes": 2916
+  },
+  {
+   "path": "package.json",
+   "sha256": "a3655fa955d4e950a6c4019ff318cab688db21b378b88e9f2d5ccd41f681a4cf",
+   "bytes": 665
+  },
+  {
+   "path": "requirements.txt",
+   "sha256": "963cef2af6d7daad3c78bae64b356f8e9f28ec777f31eed9f02813ea0cf97710",
+   "bytes": 312
+  },
+  {
+   "path": "agents/openai.yaml",
+   "sha256": "ee33246e36f84098b27b5b2116f973766fda0a4a8c6c22a5170062a27d0e0456",
+   "bytes": 392
+  },
+  {
+   "path": "assets/case-study/1-light-A-thought-bubble.jpg",
+   "sha256": "ed0a2b9a94fda6d1a0606071cc04fe281b5d6b523aeb9093a145814f6354488a",
+   "bytes": 35359
+  },
+  {
+   "path": "assets/case-study/2-light-B-report-lens.jpg",
+   "sha256": "1fb0cfd715a3d57d820b6e61c583f3645e560aa3955ae480ba6e259ae0a0112c",
+   "bytes": 38388
+  },
+  {
+   "path": "assets/case-study/3-light-C-mind-xray.jpg",
+   "sha256": "cb0feb7cde54e8d6ef70a7c3484712c132b09998bfd807011de4f7f6519ad28f",
+   "bytes": 29739
+  },
+  {
+   "path": "assets/case-study/4-dark-D1-spotlight-WINNER.jpg",
+   "sha256": "bb40e6e91b2b028d044cd86cf9711755be6bf6c115f1c6188e4b707809ec9543",
+   "bytes": 36300
+  },
+  {
+   "path": "assets/case-study/5-dark-D2-research-board.jpg",
+   "sha256": "ccaf5d8c98e620e200bcb635757f1bc900d46500c8254de43fc8bd9e18403732",
+   "bytes": 46614
+  },
+  {
+   "path": "assets/case-study/6-dark-D3-redacted-dossier.jpg",
+   "sha256": "94e80205ab1425021b78c924133aaf7f3269b73e821d725458348d9614a4368c",
+   "bytes": 29600
+  },
+  {
+   "path": "assets/case-study/7-D1-linkedin-4x5.jpg",
+   "sha256": "4c2a34f0ab1ac4c8b378413a5e7ff15deb07e65907b9e95e3970ca752d12a944",
+   "bytes": 47211
+  },
+  {
+   "path": "assets/case-study/before-after-B-to-D1.jpg",
+   "sha256": "39601d0b8f9221c9e8fdd643f280cb26932bc85f5c5d50fa7b93b696bfcedcf3",
+   "bytes": 119504
+  },
+  {
+   "path": "assets/cta/Pecuna-Factorem-CTA-Library.pdf",
+   "sha256": "4afa92a9ff15a060a11fb077a208ea005eeff23ab8a4ed244e466b04c1dad6b0",
+   "bytes": 122895
+  },
+  {
+   "path": "assets/cta/cta-library.html",
+   "sha256": "9a4f33779bc2a56df1b746b314194c3376fae8f39fd9272f2dc305790bca400d",
+   "bytes": 4358
+  },
+  {
+   "path": "assets/fonts/LICENSE-anton.txt",
+   "sha256": "ee67e6ee22790b7929f1a3769ca2801d565c64b5a9096942c1adf5596de9c9e4",
+   "bytes": 4484
+  },
+  {
+   "path": "assets/fonts/LICENSE-caveat.txt",
+   "sha256": "1f9d81d094273d82f3898a1ee8b598a717d050ecbf5ff7bede105b704880157b",
+   "bytes": 4385
+  },
+  {
+   "path": "assets/fonts/LICENSE-fraunces.txt",
+   "sha256": "bdf4c22802eaf804f998195871c6b8938aac2ac14b2d78a8bd66a6f1eced833b",
+   "bytes": 4391
+  },
+  {
+   "path": "assets/fonts/LICENSE-ibm-plex-mono.txt",
+   "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+   "bytes": 4456
+  },
+  {
+   "path": "assets/fonts/LICENSE-instrument-sans.txt",
+   "sha256": "9e27a72ed30eb49a08678f6a5d6ed98ec7ba5368f541637ee0683ec9134ef966",
+   "bytes": 4403
+  },
+  {
+   "path": "assets/fonts/LICENSE-inter-tight.txt",
+   "sha256": "50240ab035cf1b6b3307940235481d515c4b6de3ab1fa843dbe59e7892cb9d58",
+   "bytes": 4383
+  },
+  {
+   "path": "assets/fonts/LICENSE-jetbrains-mono.txt",
+   "sha256": "b2fe5e8987594e9ffd1d2ca52a2f5d73eb8335243893c5d6254b5ad69269591d",
+   "bytes": 4399
+  },
+  {
+   "path": "assets/fonts/LICENSE-permanent-marker.txt",
+   "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+   "bytes": 11358
+  },
+  {
+   "path": "assets/fonts/README.md",
+   "sha256": "5bbfbac2361400bcc4edb6fabefb940214f6fe24b62430d0ed46f24fd26abe58",
+   "bytes": 6482
+  },
+  {
+   "path": "assets/fonts/anton-latin-ext.woff2",
+   "sha256": "0d17b7880f389deeb6663a52fa4eadc6d9116bdda725f0aa1f3d404fbb7d3d59",
+   "bytes": 31356
+  },
+  {
+   "path": "assets/fonts/anton-latin.woff2",
+   "sha256": "d0fa07ff63dd60cbc0e2f58e29c802dca2a5ae0276c999f59c6111ab7bbaec3b",
+   "bytes": 18612
+  },
+  {
+   "path": "assets/fonts/caveat-latin-ext.woff2",
+   "sha256": "f626b95c1efa95cf6b7c9b043d3bbe8862b6abbe5f55a082102f33f7de2fd4f9",
+   "bytes": 29472
+  },
+  {
+   "path": "assets/fonts/caveat-latin.woff2",
+   "sha256": "891951df5e8b5b0f0bc760d31375405e795c666b5add70437de12d4a6482b33f",
+   "bytes": 74932
+  },
+  {
+   "path": "assets/fonts/fonts.json",
+   "sha256": "2788ed6f3e4ccf6f249016f6505b08487ef0e686e203af2c28b63d33ec0d23dd",
+   "bytes": 17040
+  },
+  {
+   "path": "assets/fonts/fraunces-italic-latin-ext.woff2",
+   "sha256": "f756964e65d2ea06770276dee8dd0873b4769cc8283dfb0380ad85c31a68c530",
+   "bytes": 20996
+  },
+  {
+   "path": "assets/fonts/fraunces-italic-latin.woff2",
+   "sha256": "23712db611d0799df860504f0e6626ade20588fab2b8f4882d0e711a330da1b7",
+   "bytes": 23032
+  },
+  {
+   "path": "assets/fonts/fraunces-latin-ext.woff2",
+   "sha256": "a21ecfbf41fbc393e24ef9b7e38532a27e8da5e0a074aa7d66802d1b5ccec2f0",
+   "bytes": 33584
+  },
+  {
+   "path": "assets/fonts/fraunces-latin.woff2",
+   "sha256": "7f9d191d999336d3b9790afa72e1358e50a13b06d4f289341e92a311967a80f9",
+   "bytes": 36620
+  },
+  {
+   "path": "assets/fonts/ibm-plex-mono-latin-ext.woff2",
+   "sha256": "6bb06407c97584b0867a959e05e8874693bfeb8c317de190811c51598f2d99ea",
+   "bytes": 13432
+  },
+  {
+   "path": "assets/fonts/ibm-plex-mono-latin.woff2",
+   "sha256": "01d285447409c8a588692162439a038b8cbd7871309ee20267b0d2d91c6e8e22",
+   "bytes": 14888
+  },
+  {
+   "path": "assets/fonts/instrument-sans-latin-ext.woff2",
+   "sha256": "c4fcfea41f2c1cfeea9211fa43679845454a1d0e0d7e95e069c7e73c4ae302d2",
+   "bytes": 11144
+  },
+  {
+   "path": "assets/fonts/instrument-sans-latin.woff2",
+   "sha256": "2ee17598a98d8a59e4df8152d015bec9ab8e4d5672cc0ab42bef806b568e3971",
+   "bytes": 30092
+  },
+  {
+   "path": "assets/fonts/inter-tight-latin-ext.woff2",
+   "sha256": "fd9beddaaec644945809da574cf1caf342073c7e4b46a2ea5bd136c8cf1a9eca",
+   "bytes": 89800
+  },
+  {
+   "path": "assets/fonts/inter-tight-latin.woff2",
+   "sha256": "77fefe8ca19b9f69b5284832c519e0493127c1f091f0a8936884be7721c4e618",
+   "bytes": 44872
+  },
+  {
+   "path": "assets/fonts/jetbrains-mono-latin-ext.woff2",
+   "sha256": "0510d52af61ff67f770d1d1e278fbf16bc15bd5a76b813b327e977217018c49d",
+   "bytes": 35720
+  },
+  {
+   "path": "assets/fonts/jetbrains-mono-latin.woff2",
+   "sha256": "e0175b6a80f19e3cdadaa717dae8e1a3f8080d6b9f9e735ce558d5e2a707c70a",
+   "bytes": 31104
+  },
+  {
+   "path": "assets/fonts/permanent-marker-latin.woff2",
+   "sha256": "4884fec2c73aa52a2461073c1b87d1ceb80f400520391b43f97ca7d3c39eeb24",
+   "bytes": 29564
+  },
+  {
+   "path": "assets/layouts/_index.png",
+   "sha256": "5e8c938e23c06bc201dc43b05017357ec0ed50280d45a0c575d19610f6619ba7",
+   "bytes": 553655
+  },
+  {
+   "path": "assets/layouts/caption.jpg",
+   "sha256": "67023b50eb29dde191603806caa929c9ef7b9dfd9885deef1d2f84d2b6672d89",
+   "bytes": 27433
+  },
+  {
+   "path": "assets/layouts/command.jpg",
+   "sha256": "b0b108b66d18f4cefadba6cbdea73981fdb82fd4eed00f83932bde44b50991f5",
+   "bytes": 22279
+  },
+  {
+   "path": "assets/layouts/equation.jpg",
+   "sha256": "30dddde115045723af9b29ccab0053ea60babe087bc098b394912107990efa33",
+   "bytes": 25898
+  },
+  {
+   "path": "assets/layouts/marker.jpg",
+   "sha256": "b6639a2be57bffe35946b6c8f80c3b25654094ffd5665038218b76d685034b55",
+   "bytes": 26156
+  },
+  {
+   "path": "assets/layouts/proof.jpg",
+   "sha256": "d6b19bad48b524d6d012bd5e90d661cdb396260f3d440e8c38987a87017bcd05",
+   "bytes": 31657
+  },
+  {
+   "path": "assets/layouts/quote.jpg",
+   "sha256": "f600bff29c0577fb39e116e64a594ddcdb947659ef8da1d9c48a8b7975d07b7c",
+   "bytes": 25720
+  },
+  {
+   "path": "assets/layouts/repo.jpg",
+   "sha256": "ed0809660d0e39d85f880e5ea5e5772c260f08a5f802efa2a88f5752193f2c22",
+   "bytes": 21405
+  },
+  {
+   "path": "assets/layouts/scene.jpg",
+   "sha256": "f9d30d21ca74f0f7f00bb16dc144ac466d66cd1ff67e0b536d1ec42248582dd4",
+   "bytes": 34025
+  },
+  {
+   "path": "assets/layouts/social.jpg",
+   "sha256": "dbecbe8389f0575a8b961c5a407270294e3e456dafe9fd96d36070f7b3c9b9cc",
+   "bytes": 22239
+  },
+  {
+   "path": "assets/layouts/split.jpg",
+   "sha256": "22a3661b8859546573d59836ef183bb10d90b28270ac78a3d85d5a0d536ec9c3",
+   "bytes": 27005
+  },
+  {
+   "path": "assets/layouts/syllabus.jpg",
+   "sha256": "0365d3b22f0b130b5446a1a4d8df87e9a28ad5e3af27858b869a66557ec3eaf4",
+   "bytes": 29246
+  },
+  {
+   "path": "assets/layouts/trend.jpg",
+   "sha256": "48157702f27466de5e47c0dc3c8099027b57e76134a837d08fabddb5953058f8",
+   "bytes": 25888
+  },
+  {
+   "path": "assets/layouts/verdict.jpg",
+   "sha256": "1c584357771f91dfa677528836e3af23cb943683709f45600bf02761e4e4b975",
+   "bytes": 29068
+  },
+  {
+   "path": "assets/layouts/versus.jpg",
+   "sha256": "71258edaa2ef02cba8da2022e880a1672277459d136cc7fe02a4cb2b680847e4",
+   "bytes": 18220
+  },
+  {
+   "path": "assets/logos/README.md",
+   "sha256": "4a449062cea0aaec78519e64b657857d96014aff320b4638a7f187d79a72b73c",
+   "bytes": 876
+  },
+  {
+   "path": "assets/logos/claude.svg",
+   "sha256": "2d6fda79eb18ddccca35b799eeb3cece0dfabc22520ce3b10abd25668df9fa93",
+   "bytes": 1921
+  },
+  {
+   "path": "assets/logos/grok.svg",
+   "sha256": "9175fc90c22655160231976c849f25a03b888d7cc0e04c5f1b987b659bb07c95",
+   "bytes": 756
+  },
+  {
+   "path": "assets/logos/openai.svg",
+   "sha256": "2b4a04ddc2395b20d168694d3850ce2050a702c4a0cdeb4d8b31b9a970481a8c",
+   "bytes": 1570
+  },
+  {
+   "path": "assets/research/top-hits-nick.jpg",
+   "sha256": "3e88d78f6dfd75dcf9d8d1f199ea1d64b906d97da0fda49301b1df01d73318f6",
+   "bytes": 544020
+  },
+  {
+   "path": "assets/research/top-hits-riley.jpg",
+   "sha256": "c11c20c02ce2991511d88280fc774d5f11b294f51157ee7950327c745261ed9a",
+   "bytes": 564835
+  },
+  {
+   "path": "assets/research/top-hits-sabri.jpg",
+   "sha256": "66b517d55e83daf29f2bc0543e732fabdd4888f580aaac61954e991f3443ade6",
+   "bytes": 565383
+  },
+  {
+   "path": "assets/variety/_index.jpg",
+   "sha256": "17e65dc808b176653c9294c6ab2a3150aa2ebed10c06d5cf664f06eff74efc7a",
+   "bytes": 154706
+  },
+  {
+   "path": "examples/brand-pecuna.json",
+   "sha256": "be8268d7b440327a5cbbdebce7bb6b7e0f684a31bc36a746b5b65478a54ec679",
+   "bytes": 956
+  },
+  {
+   "path": "examples/packaging-log.csv",
+   "sha256": "6ad6502cb3f3cc91a5b7333883e8c7eff549123c6da56eeb23a151c6a429045b",
+   "bytes": 446
+  },
+  {
+   "path": "examples/read-their-mind-dark.json",
+   "sha256": "d7aeaf3278629dbaba24e79ecc017ac05fa8d2b4c1883beb8de1390513e41e54",
+   "bytes": 6222
+  },
+  {
+   "path": "examples/read-their-mind-final.json",
+   "sha256": "3923800e536a02bf090d2720a7f48747cfbcb6eb59796c74aaa6ea8009c31338",
+   "bytes": 6225
+  },
+  {
+   "path": "examples/read-their-mind.json",
+   "sha256": "e4e513e1abe222e2c4b45f4d9a61a8335cc884bc260c4a296fe1e12ff78d2d8b",
+   "bytes": 8073
+  },
+  {
+   "path": "examples/sample-spec.json",
+   "sha256": "0170b6a6e6229a557b2324501e28337b4a131661c817422f0e181ab3fd75f66e",
+   "bytes": 8031
+  },
+  {
+   "path": "examples/variety-motion-planning.json",
+   "sha256": "276a4d32241a9f4ffbdfef36dc3e6a482e8827a61101e4b2798994ac159771d7",
+   "bytes": 5544
+  },
+  {
+   "path": "examples/icp-buyer-research/README.md",
+   "sha256": "43ef0ec3609e2425a810bc0c3a45707e35f3afbc13e37c5f5788306fe7e2861a",
+   "bytes": 1327
+  },
+  {
+   "path": "examples/icp-buyer-research/batch.json",
+   "sha256": "8410fc3f46dacf58dc707fb06da45c41146177e972d67fb559bc6cf8cce5670a",
+   "bytes": 11766
+  },
+  {
+   "path": "examples/icp-buyer-research/brief.md",
+   "sha256": "00639de29c50fffb0cb4821bd124b0fc49729fe28b0356b8d0afec3dfa12cd7b",
+   "bytes": 5544
+  },
+  {
+   "path": "examples/icp-buyer-research/decisions.md",
+   "sha256": "ea65a9300e4dc52c17f7ddc8dfeea46d8cba771d6943c34292ca4de422045077",
+   "bytes": 3891
+  },
+  {
+   "path": "examples/icp-buyer-research/description-final.txt",
+   "sha256": "6812ec446c972b54083838b8a916814d66f8bae7e1c551d9be209df9a59811b5",
+   "bytes": 2339
+  },
+  {
+   "path": "examples/icp-buyer-research/linkedin-posts.md",
+   "sha256": "c8d048cf99dfacf0ba5ebdc21ea6b7e78eea40b21d7d12622bfb304d00bca563",
+   "bytes": 3130
+  },
+  {
+   "path": "examples/icp-buyer-research/titles-scored.md",
+   "sha256": "b3d2927a8d5c8240d40a8e1ec7bd30bfc029883748fda3b2294465451976585e",
+   "bytes": 2103
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/final/LinkedIn-image-post-1080x1350.jpg",
+   "sha256": "0ea6cfc0b2011add37fe09458965fbfb66cb32999bef56c2e9b688f7a9495faa",
+   "bytes": 141697
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/final/LinkedIn-video-cover-1920x1080.jpg",
+   "sha256": "c20c2233f996bedbc8697be7acc02cef2cfab42efe26e8daa22358f292c17ddf",
+   "bytes": 193997
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/final/YouTube-thumbnail-1280x720.jpg",
+   "sha256": "56c7ac37dfb85bc248f715d1478568387247889ca6f7fc460e1f607dc9e99c8b",
+   "bytes": 111100
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round1-concepts/t1-ai-cant-speak-human.jpg",
+   "sha256": "73969b315e0abbec4f3b43aaa7569eaae5f12f58d5da656bd8c0e05ec6797492",
+   "bytes": 29615
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round1-concepts/t2-read-their-mind.jpg",
+   "sha256": "947232536656e509dab1dea5ac1f654d57444c2992e917af8abc19d224e0841e",
+   "bytes": 28698
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round1-concepts/t3-no-answer-next-clinic.jpg",
+   "sha256": "03db88747d208a998edab833b66d15a6571cf367084c96865caa24052f917b14",
+   "bytes": 28917
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round1-concepts/t4-wrong-people-right-buyers.jpg",
+   "sha256": "5c985eae591cad6d0341216edbcd585261fb3f7428083aedcccc379cae6f2155",
+   "bytes": 28577
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round1-concepts/t5-diagnose-before-you-write.jpg",
+   "sha256": "61fd49a6fec0ac7cff07e8b4c063a373702edbe55a9be6d8afa56487c97379a6",
+   "bytes": 25635
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round2-light/li-post-1080x1350.jpg",
+   "sha256": "3b50b8d9a0ba10335b9a5a7e2a51843ef215d59bf26d93c9aa6fad6609bec30c",
+   "bytes": 62881
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round2-light/li-video-1920x1080.jpg",
+   "sha256": "adc08ed091edddbecc029c763d1904efaeac92b872ffb20a92cfed7ac46fbda5",
+   "bytes": 35662
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round2-light/yt-A-thought-bubble.jpg",
+   "sha256": "ed0a2b9a94fda6d1a0606071cc04fe281b5d6b523aeb9093a145814f6354488a",
+   "bytes": 35359
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round2-light/yt-B-report-lens.jpg",
+   "sha256": "1fb0cfd715a3d57d820b6e61c583f3645e560aa3955ae480ba6e259ae0a0112c",
+   "bytes": 38388
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round2-light/yt-C-mind-xray.jpg",
+   "sha256": "cb0feb7cde54e8d6ef70a7c3484712c132b09998bfd807011de4f7f6519ad28f",
+   "bytes": 29739
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round3-dark/D1-spotlight.jpg",
+   "sha256": "bb40e6e91b2b028d044cd86cf9711755be6bf6c115f1c6188e4b707809ec9543",
+   "bytes": 36300
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round3-dark/D2-research-board.jpg",
+   "sha256": "ccaf5d8c98e620e200bcb635757f1bc900d46500c8254de43fc8bd9e18403732",
+   "bytes": 46614
+  },
+  {
+   "path": "examples/icp-buyer-research/thumbnails/round3-dark/D3-redacted-dossier.jpg",
+   "sha256": "94e80205ab1425021b78c924133aaf7f3269b73e821d725458348d9614a4368c",
+   "bytes": 29600
+  },
+  {
+   "path": "examples/objects-only-2026-11/AI-Harnesses-A1-objects-dark.json",
+   "sha256": "680f9c71233d0b778eac1da490ddeb6b6b5304cd1dc6835fef1280f61db44934",
+   "bytes": 1304
+  },
+  {
+   "path": "examples/objects-only-2026-11/AI-Harnesses-A2-objects-bright.json",
+   "sha256": "a747e7e3347fa34173a59acb4785f76fe1c996c996cdf9061cc91b72e0682e2f",
+   "bytes": 872
+  },
+  {
+   "path": "examples/objects-only-2026-11/AI-Harnesses-A3-objects-on-brand.json",
+   "sha256": "0b7e1cf3e3c23411a8089cf513c8ee1f386855e90197852be6107383516c823c",
+   "bytes": 1326
+  },
+  {
+   "path": "examples/objects-only-2026-11/Grok-B1-objects-dark.json",
+   "sha256": "153f4ce3f2173e59b63cf0cce21486b8e23010d0f544059e85b783bfea31995d",
+   "bytes": 1338
+  },
+  {
+   "path": "examples/objects-only-2026-11/Grok-B2-objects-bright.json",
+   "sha256": "af4d762437835243d615c768564f5becd3202a4be3204dafd70cdba78b58e6a9",
+   "bytes": 843
+  },
+  {
+   "path": "examples/objects-only-2026-11/Grok-B3-objects-on-brand.json",
+   "sha256": "bca356461698b67847fd1e190a5786e1b629058f221530a87ecdcdc4bd1a12c1",
+   "bytes": 1201
+  },
+  {
+   "path": "examples/objects-only-2026-11/before-after-rim-light.jpg",
+   "sha256": "9973a803c9c215078c24c6797ab29444aa390dfe777161ebb9e64ea132c44db0",
+   "bytes": 158824
+  },
+  {
+   "path": "examples/objects-only-2026-11/check-168px.png",
+   "sha256": "12a801b98fbe6b4dc1f0caee6ffffe3f34edb587be035401215414ae16cfc8ee",
+   "bytes": 225232
+  },
+  {
+   "path": "examples/objects-only-2026-11/decisions.md",
+   "sha256": "9b4315a7baad97e1110417d5fec7dfb42b04a5c14d672949f5b5bec1dd05a03a",
+   "bytes": 1786
+  },
+  {
+   "path": "examples/objects-only-2026-11/feed-mock.jpg",
+   "sha256": "4281f8984f332baed7aff6de6dbdc94847e3dee11f905e1fda149fa3496640df",
+   "bytes": 239408
+  },
+  {
+   "path": "examples/objects-only-2026-11/thumbnails/AI-Harnesses-A1-objects-dark-YouTube-1280x720.jpg",
+   "sha256": "efb2dbb532496f90533fa33ae1c63077eee4b484eb5ae777727b5f8100c3065c",
+   "bytes": 167487
+  },
+  {
+   "path": "examples/objects-only-2026-11/thumbnails/AI-Harnesses-A2-objects-bright-YouTube-1280x720.jpg",
+   "sha256": "0f6acff5d36596e91c8056086b645fcf8acb5497e9549493a43e418a33e1da3a",
+   "bytes": 135174
+  },
+  {
+   "path": "examples/objects-only-2026-11/thumbnails/AI-Harnesses-A3-objects-on-brand-YouTube-1280x720.jpg",
+   "sha256": "bf5e12dec5e9b26b84fedeb9db7bbf86b949c4633fa3733facd63cc4b360616b",
+   "bytes": 148511
+  },
+  {
+   "path": "examples/objects-only-2026-11/thumbnails/Grok-B1-objects-dark-YouTube-1280x720.jpg",
+   "sha256": "53437162557818512bb8dde8123f009fad6aa7f4899d73128e3f23cfd517ec48",
+   "bytes": 150106
+  },
+  {
+   "path": "examples/objects-only-2026-11/thumbnails/Grok-B2-objects-bright-YouTube-1280x720.jpg",
+   "sha256": "bab45e89f4133cdd21bffe4a517b2b1beeabdb22029effa0cf6d05f0ac34094d",
+   "bytes": 124555
+  },
+  {
+   "path": "examples/objects-only-2026-11/thumbnails/Grok-B3-objects-on-brand-YouTube-1280x720.jpg",
+   "sha256": "3098268bc4a7ffa73539ac4d6101eb84cbb06be33bbc6b2a92bfea5b96803b81",
+   "bytes": 120102
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/Grok-Bot-G1-objects-dark.json",
+   "sha256": "d787861ad2aeef8ee7abb23eb718a9929f2bd8a23cf736e55cebb15b3ec192a8",
+   "bytes": 962
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/Grok-Bot-G2-objects-bright.json",
+   "sha256": "0b37632c6e64d4335991e2ddd662a8d07fa8778906876cc0fc7119cbb9ea96a2",
+   "bytes": 801
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/Grok-Bot-G3-on-brand.json",
+   "sha256": "27d6c9ee66cd144a2b61d10557e67f7cb9d4d63f2d5eb33a68594f9966e71885",
+   "bytes": 1127
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/Vision-Boards-V1-objects-dark.json",
+   "sha256": "0c5de0b27bf9968d6665cc3048d9531a86a71c41b6fe2898ffab8fe30ef7cb1f",
+   "bytes": 954
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/Vision-Boards-V2-objects-bright.json",
+   "sha256": "9d868836c3a7ef314b5082dc3ae9edb1b98c6526f70f2216a8131d6de8fa815f",
+   "bytes": 755
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/Vision-Boards-V3-on-brand.json",
+   "sha256": "5cbf2a42db215994279728b8486bb879b1cd8920e6322c6bba18146b63d5e65e",
+   "bytes": 1186
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/check-168px.png",
+   "sha256": "32762ced020601aaa83165b898ddb0bab57815aeec6043367fb4c7bda249af6c",
+   "bytes": 209097
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/feed-mock.jpg",
+   "sha256": "fa82556a534a59a6513b895d6e06eb9beba7585611037f0c6e0a2fd03642bf5d",
+   "bytes": 225831
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/thumbnails/Grok-Bot-G1-objects-dark-YouTube-1280x720.jpg",
+   "sha256": "b5d74fa04c0fd94840e3331c42095b42dfd6b3b44faf27722d7a9e0848b9373d",
+   "bytes": 160136
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/thumbnails/Grok-Bot-G2-objects-bright-YouTube-1280x720.jpg",
+   "sha256": "b22d6846bb8c40cea5b3db31840c441be50ee5612003f4b58cb2884d8400ccd6",
+   "bytes": 111032
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/thumbnails/Grok-Bot-G3-on-brand-YouTube-1280x720.jpg",
+   "sha256": "c0058c8078f7d532f4526c773f64cb1df44845f69b52b29c56aae9f5d4f3e7ea",
+   "bytes": 128524
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/thumbnails/Vision-Boards-V1-objects-dark-YouTube-1280x720.jpg",
+   "sha256": "445d1af426dd0103d70cc0918ccc680fc892b661fad2cbd8c492a731a3312e23",
+   "bytes": 156150
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/thumbnails/Vision-Boards-V2-objects-bright-YouTube-1280x720.jpg",
+   "sha256": "394d59df0a51ff609eaae2d61d070babef00d62ffd067993b63e86968b21b3d5",
+   "bytes": 123960
+  },
+  {
+   "path": "examples/objects-only-2026-11-round2/thumbnails/Vision-Boards-V3-on-brand-YouTube-1280x720.jpg",
+   "sha256": "b83823245930ac3700e17f044914e5fc6005a5800dab2d5408f4c9576c4d9429",
+   "bytes": 132515
+  },
+  {
+   "path": "examples/think-16-2026-11/Check-168px-16.png",
+   "sha256": "cbe4351e5eaf62998f40dd6ff338dbfd568c4f9300289fb7c641175af50c651c",
+   "bytes": 573668
+  },
+  {
+   "path": "examples/think-16-2026-11/Contact-sheet-16.jpg",
+   "sha256": "51e2906b23cc3fe40d0774da631e8a5275c9e33fe8179dd0aa15907dcf2a12f8",
+   "bytes": 495866
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-01-centre-hero-dark-purple.json",
+   "sha256": "382bc1a88bc4f6d4ae5c456b74df2fffc4d7f715356d8c2546c0fcbb4243e32a",
+   "bytes": 639
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-02-centre-hero-hot-orange.json",
+   "sha256": "ff5bf446e4c7f13aa3cf3baec7499b7553377e2fad001e2fdbb2f5899a1511fb",
+   "bytes": 674
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-03-hero-dominant-brand-yellow.json",
+   "sha256": "3de70ab643c8b609a6b9a2d0e09609569f901908743bbde2211f528674a0e668",
+   "bytes": 793
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-04-hero-dominant-dark-blue.json",
+   "sha256": "f12e4551f26a65ea0b9bd4616b04f651d023db9e65301e374cbdf7ffac3635a2",
+   "bytes": 874
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-05-versus-sky.json",
+   "sha256": "ad55a87a9331c0af274d1a56de20e634058afcd6d6185448c185da5eea4c4af6",
+   "bytes": 1078
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-06-versus-dark-red.json",
+   "sha256": "1d68f4321041cb8c247c73295a02bb88927067453091b1cbed0aabd66b7f9794",
+   "bytes": 1167
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-07-words-on-object-dark-green.json",
+   "sha256": "03ceb03845cca0349114704e7f503650ae454bb8ec72709099bfb990bf4d1cde",
+   "bytes": 853
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-08-words-on-object-warm-white.json",
+   "sha256": "2898c115c1730013db6b731b76f646a09805fafe9e9983baa171e4e13404f139",
+   "bytes": 817
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-09-stacked-centre-paper-grid.json",
+   "sha256": "39472df46e88fc39f48fab9f09509b3bd431773ce8cd4515ef2524c8389820c2",
+   "bytes": 1287
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-10-stacked-centre-cool-grey.json",
+   "sha256": "f2721c2e44def015e893398d112b0afde2acfe67a796d86943e6ef5914a13cc6",
+   "bytes": 1287
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-11-diagonal-brand-yellow.json",
+   "sha256": "7d9dd895e9455bb3726d2d37d50c7cc71b96fe9afd3cf1502b2ce6670d63566c",
+   "bytes": 830
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-12-diagonal-dark-purple.json",
+   "sha256": "4ea68a08fe013620682f140574317afd376e4d28fec24028cb484e9257d6dcce",
+   "bytes": 942
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-13-on-brand-ledge-cream-board.json",
+   "sha256": "4762324887ceca5a5b88dd64782b63d238e04636b01cb629abc7dc7ac6e11f3d",
+   "bytes": 1181
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-14-on-brand-ledge-paper-grid.json",
+   "sha256": "33902f41ed6d67e147645c4db7f3211a24ef892e45e8ef0485e4334b5d1ad1e3",
+   "bytes": 1200
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-15-words-left-dark-green.json",
+   "sha256": "a12b985e193d6d3b3fc229bfc58d747a4f36c008478ecce3707eb2899b94f16f",
+   "bytes": 718
+  },
+  {
+   "path": "examples/think-16-2026-11/Think16-16-words-left-sky.json",
+   "sha256": "11a2cc2ecc1e7d28bea0734a44ae08a2a6e529b48445aa5e7258f5cbb0b1f235",
+   "bytes": 1101
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-01-centre-hero-dark-purple-YouTube-1280x720.jpg",
+   "sha256": "47854fb0e078389bc9969cf0a53562ee7885b5b2d35ba8ac0502c086966e7b7c",
+   "bytes": 120122
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-02-centre-hero-hot-orange-YouTube-1280x720.jpg",
+   "sha256": "53e7e3f305d4c4324aafe555fcc8037625db4e937a1ebb7a248977625936a030",
+   "bytes": 127223
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-03-hero-dominant-brand-yellow-YouTube-1280x720.jpg",
+   "sha256": "b45fe24038665e02932b993fb3fa3d69c2abf883e27fdf9eea66f573951128cd",
+   "bytes": 140825
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-04-hero-dominant-dark-blue-YouTube-1280x720.jpg",
+   "sha256": "999d66593bfff0bf312abe0b4751ca7e9172a2c89cc79195c126e1b5b97ec5d3",
+   "bytes": 148041
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-05-versus-sky-YouTube-1280x720.jpg",
+   "sha256": "8b3ff70dd082d1202a917a3e74709a98e7e3b3caaef06e0a1437f2e191a779f5",
+   "bytes": 111947
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-06-versus-dark-red-YouTube-1280x720.jpg",
+   "sha256": "70bc699b7a3cb14ffbd08560e03fd37fae4daf0dcc6642fb4c69701706247806",
+   "bytes": 131773
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-07-words-on-object-dark-green-YouTube-1280x720.jpg",
+   "sha256": "e7dfbacc630057a66bed7c55c5e49650d07a07b34b383d7256ad5aa3ee0d0527",
+   "bytes": 130207
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-08-words-on-object-warm-white-YouTube-1280x720.jpg",
+   "sha256": "54f808a1fb0b7ee9199c925b871cfe97d26cbffe385a9fe6bf6f340e891a6f10",
+   "bytes": 102048
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-09-stacked-centre-paper-grid-YouTube-1280x720.jpg",
+   "sha256": "0cf0de577c2fe23260c79a12504f46a5b15be31b9c47bea87c8910836a819fb6",
+   "bytes": 145445
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-10-stacked-centre-cool-grey-YouTube-1280x720.jpg",
+   "sha256": "8304eeab27e6f45f5ff6fca4f7b9c3b4682ba3538d4173659745d44f59a0ea64",
+   "bytes": 136988
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-11-diagonal-brand-yellow-YouTube-1280x720.jpg",
+   "sha256": "8cfa5affebb04ca24347ed72e91fbb822cadaf1c5e13e951e435912c7aa5fd34",
+   "bytes": 132068
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-12-diagonal-dark-purple-YouTube-1280x720.jpg",
+   "sha256": "e71874bf3b232340fb14f44ef606b77959a254ca2de3b329ccc831c781c036a9",
+   "bytes": 158820
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-13-on-brand-ledge-cream-board-YouTube-1280x720.jpg",
+   "sha256": "f01641d6041d116e0453c816da433db9863aec4cfb5fb8771f01083fecc85669",
+   "bytes": 145248
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-14-on-brand-ledge-paper-grid-YouTube-1280x720.jpg",
+   "sha256": "39790b7ff9f8451515b4e22d3860134e8e627e012858337f5f1dc692de6fb27d",
+   "bytes": 137363
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-15-words-left-dark-green-YouTube-1280x720.jpg",
+   "sha256": "94c21b2ddc3e1746760a7d7fe598cb19a98012d352eb4365458a3130b7bc8ffd",
+   "bytes": 127297
+  },
+  {
+   "path": "examples/think-16-2026-11/thumbnails/Think16-16-words-left-sky-YouTube-1280x720.jpg",
+   "sha256": "b9d5856dd97e4bedf9c8e640b6e074547950ce4e080e8d2a4c3cc5fed1fa43da",
+   "bytes": 127698
+  },
+  {
+   "path": "examples/think-variety-2026-11/Check-168px-and-greyscale.png",
+   "sha256": "933377c55ae810ee98091adf85060ac840eb09e938b213cb065ee4340d20b44a",
+   "bytes": 220880
+  },
+  {
+   "path": "examples/think-variety-2026-11/Feed-mock-Think-With-AI.jpg",
+   "sha256": "844725ed581332c236100f3f4bcf4aff036b643c3e134f1eebf604c883c3de1b",
+   "bytes": 223565
+  },
+  {
+   "path": "examples/think-variety-2026-11/Think-T1-centre-hero.json",
+   "sha256": "7627b537c71aeb3beafc00f891333a567af2ffdedba9d9db363a343c323bdf1d",
+   "bytes": 625
+  },
+  {
+   "path": "examples/think-variety-2026-11/Think-T2-hero-dominant.json",
+   "sha256": "dc2af8b7f803c978ceadd8afae98c92bf86079be4967c5dee3666991af3acd9c",
+   "bytes": 778
+  },
+  {
+   "path": "examples/think-variety-2026-11/Think-T3-versus.json",
+   "sha256": "496fc7c86c5883cc941d16cf042d8a6ada938e17ff5f1a26b371295c22e70732",
+   "bytes": 1072
+  },
+  {
+   "path": "examples/think-variety-2026-11/Think-T4-words-on-object.json",
+   "sha256": "b8266d7d36cb094a113a85201d30518b6000f7baaf76937417b2e0c3983ede29",
+   "bytes": 840
+  },
+  {
+   "path": "examples/think-variety-2026-11/Think-T5-stacked-centre.json",
+   "sha256": "7694db9f9e0279090dc39b9e0c82beb52d78b144b23642181e9732f7b35cef48",
+   "bytes": 1274
+  },
+  {
+   "path": "examples/think-variety-2026-11/Think-T6-on-brand.json",
+   "sha256": "d26fc613ad7a46eef18c03397bd5a7aa4bfcb8b4d424edc262d21430cc3b1000",
+   "bytes": 1161
+  },
+  {
+   "path": "examples/think-variety-2026-11/thumbnails/Think-T1-centre-hero-YouTube-1280x720.jpg",
+   "sha256": "47854fb0e078389bc9969cf0a53562ee7885b5b2d35ba8ac0502c086966e7b7c",
+   "bytes": 120122
+  },
+  {
+   "path": "examples/think-variety-2026-11/thumbnails/Think-T2-hero-dominant-YouTube-1280x720.jpg",
+   "sha256": "b45fe24038665e02932b993fb3fa3d69c2abf883e27fdf9eea66f573951128cd",
+   "bytes": 140825
+  },
+  {
+   "path": "examples/think-variety-2026-11/thumbnails/Think-T3-versus-YouTube-1280x720.jpg",
+   "sha256": "8b3ff70dd082d1202a917a3e74709a98e7e3b3caaef06e0a1437f2e191a779f5",
+   "bytes": 111947
+  },
+  {
+   "path": "examples/think-variety-2026-11/thumbnails/Think-T4-words-on-object-YouTube-1280x720.jpg",
+   "sha256": "e7dfbacc630057a66bed7c55c5e49650d07a07b34b383d7256ad5aa3ee0d0527",
+   "bytes": 130207
+  },
+  {
+   "path": "examples/think-variety-2026-11/thumbnails/Think-T5-stacked-centre-YouTube-1280x720.jpg",
+   "sha256": "0cf0de577c2fe23260c79a12504f46a5b15be31b9c47bea87c8910836a819fb6",
+   "bytes": 145445
+  },
+  {
+   "path": "examples/think-variety-2026-11/thumbnails/Think-T6-on-brand-YouTube-1280x720.jpg",
+   "sha256": "f01641d6041d116e0453c816da433db9863aec4cfb5fb8771f01083fecc85669",
+   "bytes": 145248
+  },
+  {
+   "path": "examples/variety/brief.json",
+   "sha256": "67e16ce9f43e4fee0c0a43a3bd19de12658721e67bb6e28c24b753b0b13f23d3",
+   "bytes": 138
+  },
+  {
+   "path": "references/benchmarks.json",
+   "sha256": "8b33ce286831ae6a81d058480120387e79818498a4dc0862e73f09f3f4c1de96",
+   "bytes": 513
+  },
+  {
+   "path": "references/brief-template.md",
+   "sha256": "f3ee49f26aef2ccf7e3b4e9521ff951865ffe4d173a9fe687f97ecd8447e8e22",
+   "bytes": 1916
+  },
+  {
+   "path": "references/learning-loop.md",
+   "sha256": "d481f0a7e522ec6995608f01f9cc5915dcefb29cc500441476ea9d80a7a6149c",
+   "bytes": 2164
+  },
+  {
+   "path": "references/platforms.md",
+   "sha256": "0630db9cc3cd078a42b056886096939aa7ba3147fd0830bfc46af0fb2cc3b445",
+   "bytes": 2103
+  },
+  {
+   "path": "references/quality.md",
+   "sha256": "93eccae9a8f86ad298bc1d33c3b30bcc7a6109acd555a93242b940c33cfee4bb",
+   "bytes": 2269
+  },
+  {
+   "path": "references/troubleshooting.md",
+   "sha256": "752e17d0ef0ebbe8cec4818e9dbc00b98f5a17b378cd845d169a9412538a1d34",
+   "bytes": 17543
+  },
+  {
+   "path": "references/whiteboard-wednesdays.md",
+   "sha256": "98bb11c7f048ffd17fcdfe6ff12403ef15f08bbfb98379083b309708a8ca4df1",
+   "bytes": 1821
+  },
+  {
+   "path": "references/workflows.md",
+   "sha256": "0487dda327509da4b69373f5477d8b794cb5502abc5fd3c54235804969c17a4c",
+   "bytes": 6718
+  },
+  {
+   "path": "references/brand/brand-profile.md",
+   "sha256": "6d367a83f996fb33110c986d0791c13f699f3d6d1cce8d8b9536f48f2bf99fd1",
+   "bytes": 1971
+  },
+  {
+   "path": "references/brand/cta-library.md",
+   "sha256": "21dba9aa6ca1cd7ac04bdffb880dd4656dc34fd61244e7eb5a7ad543bf553e47",
+   "bytes": 2336
+  },
+  {
+   "path": "references/brand/house-style.md",
+   "sha256": "3f5a1b136f29d79c70f425ad414bec8828d2041829b4bc55ce70f4e08fbf0478",
+   "bytes": 3468
+  },
+  {
+   "path": "references/design/image-prompts.md",
+   "sha256": "02aee7a7db5a98f3db561ac7cfebf292047626390db27ff4d8d9520ab91dea30",
+   "bytes": 3091
+  },
+  {
+   "path": "references/design/layouts.md",
+   "sha256": "e25cbd93615308f1482d07765ddcc4336dff5a825e81b4b601b1ae1dfa0df3f9",
+   "bytes": 4046
+  },
+  {
+   "path": "references/design/objects-only-standard.md",
+   "sha256": "f718cd474f9fe3a5b5134d1af02ebf2df058e490cf633fb5379a067fedf831f3",
+   "bytes": 25360
+  },
+  {
+   "path": "references/design/playbook.md",
+   "sha256": "5b6736551beb57f92e8511bad3f6477a59ac09bc083b833662dedceb0879affa",
+   "bytes": 12479
+  },
+  {
+   "path": "references/design/scene-design.md",
+   "sha256": "fd8965f08b742240511f63570350b9967dadc829ca1f6eddde3bb45e2951a91d",
+   "bytes": 10823
+  },
+  {
+   "path": "references/design/spec.md",
+   "sha256": "1794846cf775bb95e5bee003321c17833f52b9cc4319a9538de7713edc7bef89",
+   "bytes": 15248
+  },
+  {
+   "path": "references/design/variety.md",
+   "sha256": "980f3c29175ed922ef07e851132188471ff5c0b08a4b4ce05bdd087db9116373",
+   "bytes": 6292
+  },
+  {
+   "path": "references/frameworks/description-framework.md",
+   "sha256": "fa6f33a9c42fa9ee624fa56586fe30480d00cf4c74d6a907b4a64fcc2ea18fa8",
+   "bytes": 8048
+  },
+  {
+   "path": "references/frameworks/headline-framework.md",
+   "sha256": "849de990a072a9bad69fd7332d6d3e88aebcebedbdde164685bbf904c3807888",
+   "bytes": 13872
+  },
+  {
+   "path": "references/frameworks/linkedin-framework.md",
+   "sha256": "dd438ad482667fa1888df09d1cdb51c221d187d531a329a6f326cffa946db5e9",
+   "bytes": 5409
+  },
+  {
+   "path": "references/frameworks/thumbnail-framework.md",
+   "sha256": "231de586a8ae58bdb007ff0e17e2a17b340047c051253470de626dc9b9d839c9",
+   "bytes": 13451
+  },
+  {
+   "path": "references/research/creators.md",
+   "sha256": "c5d219cf4b915f3baa3735e3949ec29e361d60f9b8753db482bee5501414090b",
+   "bytes": 26178
+  },
+  {
+   "path": "references/research/method.md",
+   "sha256": "8a3f3525028c618e99ffc7a98c6fbd67cc148f10ae0c8fc05aa6610f5de67453",
+   "bytes": 11447
+  },
+  {
+   "path": "references/research/nick-thumbnail-audit.md",
+   "sha256": "f26a03e655cb7155e135fc8d966126bb32c0341fed6f62290c645fa9598b09ba",
+   "bytes": 12996
+  },
+  {
+   "path": "references/research/overview.md",
+   "sha256": "3faacde50138ba6ad02f88012410372cefd1120ab0e462b14137a9405655a32a",
+   "bytes": 24577
+  },
+  {
+   "path": "references/research/data/README.md",
+   "sha256": "9b3598b299b2eca0cf339734a29d29a35a023382241b032bf09072b2a99c139d",
+   "bytes": 2078
+  },
+  {
+   "path": "references/research/data/nick-all-uploads.tsv",
+   "sha256": "0dc64869ff4abec68d8325c4cfee8be21ca82354ce8997eb5740202ec7518af8",
+   "bytes": 27705
+  },
+  {
+   "path": "references/research/data/nick-latest30.json",
+   "sha256": "a8bf54f945a55a471ebe8a4c4425effd0e800a70b7203ca4bb999a824411a20b",
+   "bytes": 70736
+  },
+  {
+   "path": "references/research/data/nick-top20.json",
+   "sha256": "275020909d99aa3c55720a1d2b1fab1c86ba20d36c6f5c2852d8e7df8f7ca014",
+   "bytes": 19809
+  },
+  {
+   "path": "references/research/data/riley-all-uploads.tsv",
+   "sha256": "3b128a7ed4b900919ddbacc9782100d93c3140a027588a70e5531a4ccfe07ac8",
+   "bytes": 16864
+  },
+  {
+   "path": "references/research/data/riley-latest30.json",
+   "sha256": "fe971ae5f01c852da22b4bceeeb3a697cae2ca0d4e143bd6dce1d60c41736edb",
+   "bytes": 56411
+  },
+  {
+   "path": "references/research/data/riley-top20.json",
+   "sha256": "2ffc0c89d73432fbdfb8f8701cccbe61840a6f1bfb5872987845dfbb025ff029",
+   "bytes": 30977
+  },
+  {
+   "path": "references/research/data/sabri-all-uploads.tsv",
+   "sha256": "429177e87fea356aed4faf6bbcb4315954c368d56b2bec0ba2d88e23a9dbfcb9",
+   "bytes": 41624
+  },
+  {
+   "path": "references/research/data/sabri-latest30.json",
+   "sha256": "e6036159d3fcbb45b4a8b2975b2daeef5b084ded1a1f6608aba601b415ee0277",
+   "bytes": 58507
+  },
+  {
+   "path": "references/research/data/sabri-top20.json",
+   "sha256": "48913144d6d15b9ed761c6e2bf6b1f7e8051c246ccd725e6b5301abbb60a275c",
+   "bytes": 31396
+  },
+  {
+   "path": "schemas/batch.schema.json",
+   "sha256": "c6853e6b274a40e519a17baa973e2d20e3d149df6fedbab6cdd97841b2f0acb5",
+   "bytes": 2801
+  },
+  {
+   "path": "schemas/brand.schema.json",
+   "sha256": "bafe90ed861c50285ce865c2329fea2454b91a5c278309459a266672474b46ef",
+   "bytes": 2634
+  },
+  {
+   "path": "schemas/hero.schema.json",
+   "sha256": "7fc6f6f612f8e74454c45ca744c9f4b63ce682900ac85247295a7ed5d0dafd61",
+   "bytes": 5115
+  },
+  {
+   "path": "schemas/spec.schema.json",
+   "sha256": "d15d8f6bc1fc9d4074dd31c1bf8d93c421c8619e624c5dc888583168d4770566",
+   "bytes": 24144
+  },
+  {
+   "path": "scripts/audit.py",
+   "sha256": "36543cf13c0c2e8dd3dffe6194854da7b1e6e4370b0949f21610c3de992264ca",
+   "bytes": 12461
+  },
+  {
+   "path": "scripts/fetch_fonts.py",
+   "sha256": "095b3cdc6340f24ca34fabe88c9719a1c655a87c327c48f94683f945d666da6f",
+   "bytes": 3923
+  },
+  {
+   "path": "scripts/fetch_videos.py",
+   "sha256": "4a5318adef6e7652b8c37abc01cf4947feac32e63a1e3bb7bc069292b2aa547f",
+   "bytes": 7891
+  },
+  {
+   "path": "scripts/gallery.py",
+   "sha256": "c305ac1364943cd15eab823b980fa14d590369fc3c1f91e0c0fd1fdec0549e96",
+   "bytes": 4088
+  },
+  {
+   "path": "scripts/group_stats.py",
+   "sha256": "09617887c175b0fe4240ea517796506bf93fcc909b9e658143a931436dcd432a",
+   "bytes": 2812
+  },
+  {
+   "path": "scripts/imgdiff.py",
+   "sha256": "9a94f2b9c842e526338cbfee9625659c2e7a88c15ba6b4b780cbb7ab8fe9ac58",
+   "bytes": 1976
+  },
+  {
+   "path": "scripts/package.py",
+   "sha256": "b1bf9e05770264e5f79157a3454a7c8c88f5205592efc49d5aa28c1a041a2830",
+   "bytes": 12448
+  },
+  {
+   "path": "scripts/package_skill.py",
+   "sha256": "93c3fbf5c617515b7581380055fcf0050f62c29d9229488c0001a4385ec80bd0",
+   "bytes": 6986
+  },
+  {
+   "path": "scripts/prep_face.py",
+   "sha256": "970d833e56bf99287753e514333ea590ae2bcebf95b759717d0b02300e5cd930",
+   "bytes": 3116
+  },
+  {
+   "path": "scripts/render.cjs",
+   "sha256": "0c393318875931fb23ba0cb8abd7a757894ad2a19a44c9b2feb43063acc5c52d",
+   "bytes": 68353
+  },
+  {
+   "path": "scripts/track_channel.py",
+   "sha256": "274a67b1997f79dd8911e045e7bca237d6a25630e70d9fb269de1e14bb36cccc",
+   "bytes": 10333
+  },
+  {
+   "path": "scripts/transcribe.py",
+   "sha256": "2d0d581722433fef63fcd2bb242803bbcd884999b92f36f68439d16265ae927b",
+   "bytes": 4872
+  },
+  {
+   "path": "scripts/validate.py",
+   "sha256": "4cfe5bfc73971b670bc1eb77d52f45395e1a87eb78b38d4b72b5fac430f9e471",
+   "bytes": 6922
+  },
+  {
+   "path": "scripts/variety.py",
+   "sha256": "1f505288f7c6faefd020794a9bb345c134a73d9a787572ec3ea95bc3a7b99c23",
+   "bytes": 12826
+  },
+  {
+   "path": "scripts/verify_research.py",
+   "sha256": "40823937b6031f44170becd8962d20a37cfbdf6634a376ebcc4791972b3d7e2c",
+   "bytes": 4797
+  },
+  {
+   "path": "scripts/watch.py",
+   "sha256": "d5c327140f8b7d3dae47027ea4f2d4677cf23a4d98245aeaaa1a87078d50ae1c",
+   "bytes": 10195
+  },
+  {
+   "path": "scripts/hero/build_hero.py",
+   "sha256": "2ca66fb3115c5b59fe444f1f744d2ff8da80c9daa0a06d7fba88ea9963e552e4",
+   "bytes": 8554
+  },
+  {
+   "path": "scripts/hero/contact_sheet.py",
+   "sha256": "0e97567510f9e97935788fea6f7f9392ef959dbc1321dc14c0631ba2aee424a0",
+   "bytes": 2859
+  },
+  {
+   "path": "scripts/hero/kit.py",
+   "sha256": "474a0517c367811c52396d6386b668a0496f45b39450a9c9daaacf89eee2b737",
+   "bytes": 44754
+  },
+  {
+   "path": "scripts/hero/palettes.py",
+   "sha256": "07a6914c256e7468cfe65e0650dca2a02db9fd6ca949f28abb7c2a40fa6a7e30",
+   "bytes": 3578
+  },
+  {
+   "path": "scripts/hero/render_hero.cjs",
+   "sha256": "8170df0214d86ac7e835d7e43ef8434e7d8e4a2f04e341fb6fc637f549f55531",
+   "bytes": 1940
+  },
+  {
+   "path": "scripts/hero/variety_check.py",
+   "sha256": "a29e5a079d2d7c0edee1e93dd612c37c6ba4accd9f7c31cc41f99fc566c1f4d4",
+   "bytes": 4985
+  },
+  {
+   "path": "tests/README.md",
+   "sha256": "58ca63b7912b0b11b7910f98561086a980e9afc39b318b0410a4e7709a5bdeca",
+   "bytes": 2733
+  },
+  {
+   "path": "tests/test_hero.py",
+   "sha256": "151d962cd4ceb06a83476d7362567df362e095e4a5efcbd942eca55aed817cd0",
+   "bytes": 5641
+  },
+  {
+   "path": "tests/test_package_checks.py",
+   "sha256": "3ee03dad6b5398c1c93d472199f590102c040b5d736b580c776d1f7f510fb83e",
+   "bytes": 4816
+  },
+  {
+   "path": "tests/test_prep_face_guard.py",
+   "sha256": "d2b7947b8b52462e15148c9ff36f80ace016757ffce6ef12fb0549ff3bff29fa",
+   "bytes": 1631
+  },
+  {
+   "path": "tests/test_render_regression.py",
+   "sha256": "871c91e0844c497fd62be3b09699a9bca94d60f725043fcd9fb0bcd5228ca797",
+   "bytes": 3466
+  },
+  {
+   "path": "tests/test_research_figures.py",
+   "sha256": "8f93b13ba08a8d38923a670eda54dd2878ca9f6dabe9e807ca20fcf7f5807b61",
+   "bytes": 794
+  },
+  {
+   "path": "tests/test_schemas.py",
+   "sha256": "ff7dcda409b34be541814af98fe9d17ebcfa9d70540978dfa22d89093d674520",
+   "bytes": 4757
+  },
+  {
+   "path": "tests/test_variety.py",
+   "sha256": "c082945ffb23caa851f2bfe78803c2137726aef2c894cb3f211a54d161fb2f05",
+   "bytes": 4489
+  },
+  {
+   "path": "tests/test_variety_hero.py",
+   "sha256": "4c644f165839bdff41e87c523d31c9e3afeba20b7c1f818968eab0aca58ce242",
+   "bytes": 4081
+  },
+  {
+   "path": "tests/evals/routing.json",
+   "sha256": "0fc433c9a909b2018271d1b9e44670101360a30ad215e77e4bec836cf04437c2",
+   "bytes": 5172
+  },
+  {
+   "path": "tests/golden/hero-AI-Harnesses-A1-objects-dark-YouTube-1280x720.jpg",
+   "sha256": "efb2dbb532496f90533fa33ae1c63077eee4b484eb5ae777727b5f8100c3065c",
+   "bytes": 167487
+  },
+  {
+   "path": "tests/golden/hero-AI-Harnesses-A2-objects-bright-YouTube-1280x720.jpg",
+   "sha256": "0f6acff5d36596e91c8056086b645fcf8acb5497e9549493a43e418a33e1da3a",
+   "bytes": 135174
+  },
+  {
+   "path": "tests/golden/hero-AI-Harnesses-A3-objects-on-brand-YouTube-1280x720.jpg",
+   "sha256": "bf5e12dec5e9b26b84fedeb9db7bbf86b949c4633fa3733facd63cc4b360616b",
+   "bytes": 148511
+  },
+  {
+   "path": "tests/golden/hero-Grok-B1-objects-dark-YouTube-1280x720.jpg",
+   "sha256": "53437162557818512bb8dde8123f009fad6aa7f4899d73128e3f23cfd517ec48",
+   "bytes": 150106
+  },
+  {
+   "path": "tests/golden/hero-Grok-B2-objects-bright-YouTube-1280x720.jpg",
+   "sha256": "bab45e89f4133cdd21bffe4a517b2b1beeabdb22029effa0cf6d05f0ac34094d",
+   "bytes": 124555
+  },
+  {
+   "path": "tests/golden/hero-Grok-B3-objects-on-brand-YouTube-1280x720.jpg",
+   "sha256": "3098268bc4a7ffa73539ac4d6101eb84cbb06be33bbc6b2a92bfea5b96803b81",
+   "bytes": 120102
+  },
+  {
+   "path": "tests/golden/li-post-D1-1080x1350.jpg",
+   "sha256": "0ea6cfc0b2011add37fe09458965fbfb66cb32999bef56c2e9b688f7a9495faa",
+   "bytes": 141697
+  },
+  {
+   "path": "tests/golden/li-video-D1-1920x1080.jpg",
+   "sha256": "c20c2233f996bedbc8697be7acc02cef2cfab42efe26e8daa22358f292c17ddf",
+   "bytes": 193997
+  },
+  {
+   "path": "tests/golden/yt-D1-spotlight.jpg",
+   "sha256": "56c7ac37dfb85bc248f715d1478568387247889ca6f7fc460e1f607dc9e99c8b",
+   "bytes": 111100
+  }
+ ]
+}

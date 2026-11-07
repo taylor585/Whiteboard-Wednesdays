@@ -1,0 +1,396 @@
+{
+ "_note": "One working example per archetype. Copy, edit and render with: node <skill-dir>/scripts/render.cjs <abs path to spec> <abs out dir>. Proof numbers here are illustrative placeholders; use the creator's real figures.",
+ "thumbnails": [
+  {
+   "id": "verdict",
+   "title": "ChatGPT Ads Just Launched (And Meta Should Be Worried)",
+   "archetype": "verdict",
+   "theme": "dark",
+   "accent": "#10A37F",
+   "headline": "Meta should be worried.",
+   "highlight": "worried.",
+   "highlight_style": "underline",
+   "hero": {
+    "icon": "si:openai",
+    "color": "#10A37F"
+   },
+   "rivals": [
+    {
+     "icon": "si:meta",
+     "color": "#0866FF"
+    }
+   ],
+   "burst": true
+  },
+  {
+   "id": "equation",
+   "title": "Claude Code + Meta Ads API = A 24/7 Media Buyer",
+   "archetype": "equation",
+   "theme": "cream",
+   "accent": "#D97757",
+   "headline": "Fire your media buyer.",
+   "highlight": "media buyer.",
+   "highlight_style": "underline",
+   "items": [
+    {
+     "icon": "si:claude",
+     "color": "#D97757"
+    },
+    {
+     "icon": "si:meta",
+     "color": "#0866FF"
+    }
+   ]
+  },
+  {
+   "id": "command",
+   "title": "This One Claude Skill Writes All My Ad Copy",
+   "archetype": "command",
+   "theme": "light",
+   "accent": "#D97757",
+   "icon": "si:claude",
+   "command": "/adcopy",
+   "chips": [
+    "hooks",
+    "angles",
+    "UGC scripts"
+   ]
+  },
+  {
+   "id": "proof",
+   "title": "I Made $12,500 Selling One AI Automation",
+   "archetype": "proof",
+   "theme": "dark",
+   "accent": "#635BFF",
+   "headline": "just copy this.",
+   "highlight": "copy",
+   "highlight_style": "box",
+   "proof": {
+    "type": "stripe",
+    "items": [
+     "$2,500.00",
+     "$4,000.00",
+     "$6,000.00"
+    ]
+   }
+  },
+  {
+   "id": "syllabus",
+   "title": "CLAUDE CODE FOR MARKETERS: Full Course (4 Hours)",
+   "archetype": "syllabus",
+   "theme": "dark",
+   "accent": "#D97757",
+   "icon": "si:claude",
+   "headline": "Claude Code\nfor marketers",
+   "items": [
+    "Setup",
+    "Skills",
+    "Meta Ads API",
+    "Landing pages",
+    "Reporting",
+    "Agents"
+   ]
+  },
+  {
+   "id": "marker",
+   "title": "AI Agencies: The Ugly Truth Nobody Tells You",
+   "archetype": "marker",
+   "theme": "light",
+   "accent": "#E5251F",
+   "headline": "AI agencies:\nthe ugly\ntruth.",
+   "headline_size": 150
+  },
+  {
+   "id": "versus",
+   "title": "How a Plumber Hit $20K/Mo Selling AI Ads",
+   "archetype": "versus",
+   "theme": "dark",
+   "accent": "#F6B93B",
+   "pill": "$20K/Mo",
+   "pill_color": "#1DB954",
+   "label": "ex-plumber"
+  },
+  {
+   "id": "social",
+   "title": "Is Meta Ads Dead in 2027?",
+   "archetype": "social",
+   "theme": "red",
+   "accent": "#E5251F",
+   "card": {
+    "name": "Your Channel",
+    "handle": "@yourchannel",
+    "text": "Meta ads\nARE DEAD?",
+    "stats": [
+     "752",
+     "1K",
+     "53K"
+    ],
+    "border": "#F6DF8C"
+   }
+  },
+  {
+   "id": "trend",
+   "title": "Here's What I'd Learn Instead of Meta Ads in 2027",
+   "archetype": "trend",
+   "theme": "light",
+   "accent": "#1DB954",
+   "headline": "A reset is coming..",
+   "points": [
+    "Boosted posts",
+    "CBO",
+    "Advantage+"
+   ],
+   "marker": {
+    "label": "You are here",
+    "t": 0.86
+   },
+   "face": {
+    "side": "left",
+    "width": 460
+   }
+  },
+  {
+   "id": "repo",
+   "title": "I Tested The Viral Repo That Writes Your Ads",
+   "archetype": "repo",
+   "theme": "light",
+   "accent": "#E5251F",
+   "repo": "github/ad-engine",
+   "stats": [
+    "24.1k stars",
+    "3.2k installs"
+   ]
+  },
+  {
+   "id": "caption",
+   "archetype": "caption",
+   "theme": "dark",
+   "theme_overrides": {
+    "bg": "#1C1A17"
+   },
+   "accent": "#CB8E03",
+   "headline": "AI CAN'T SPEAK HUMAN",
+   "highlight": "HUMAN",
+   "box_color": "#F6DF8C",
+   "box_text": "#1C1A17",
+   "headline_color": "#F5EAD8",
+   "label": "90% AI · every word spoken by me",
+   "label_color": "#CB8E03",
+   "label_pos": "left:36px;top:46px",
+   "arrow": {
+    "from": [
+     250,
+     140
+    ],
+    "to": [
+     490,
+     270
+    ],
+    "bend": 0.35,
+    "color": "#CB8E03",
+    "width": 6
+   },
+   "face": {
+    "frame": "circle",
+    "cx": 700,
+    "cy": 290,
+    "d": 390,
+    "ring": "#8B6002",
+    "ring_w": 9,
+    "inset": "#2A2722",
+    "bust": "#4A453D",
+    "ph": "TAYLOR",
+    "pose": "sceptical half-smile"
+   },
+   "title": "Why AI Ad Scripts Don't Convert (And the 90% Fix)"
+  },
+  {
+   "id": "split",
+   "archetype": "split",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "left": {
+    "grid": {
+     "n": 8,
+     "lit": 2,
+     "caption": "only a couple get spend"
+    },
+    "label": "WRONG PEOPLE",
+    "color": "#B3261E"
+   },
+   "right": {
+    "donut": [
+     40,
+     25,
+     15
+    ],
+    "label": "RIGHT BUYERS",
+    "color": "#2E7D4F"
+   },
+   "arrow": {
+    "from": [
+     360,
+     95
+    ],
+    "to": [
+     920,
+     95
+    ],
+    "bend": -0.12,
+    "color": "#8B6002",
+    "width": 8
+   },
+   "face": {
+    "frame": "circle",
+    "cx": 640,
+    "cy": 370,
+    "d": 380,
+    "ring": "#8B6002",
+    "ring_w": 9,
+    "inset": "#EADBC1",
+    "bust": "#B9AC95",
+    "ph": "TAYLOR",
+    "pose": "calm, here’s why"
+   },
+   "title": "Meta's Andromeda Changed Targeting. Here's What Works Now"
+  },
+  {
+   "id": "quote",
+   "archetype": "quote",
+   "theme": "cream",
+   "theme_overrides": {
+    "bg": "#F5EAD8"
+   },
+   "accent": "#8B6002",
+   "quote": {
+    "label": "REAL BUYER QUOTE",
+    "text": "No answer.\nNext clinic.",
+    "highlight": "Next clinic.",
+    "highlight_color": "#B3261E",
+    "border": "#8B6002",
+    "missed": "missed call"
+   },
+   "arrow": {
+    "from": [
+     935,
+     330
+    ],
+    "to": [
+     850,
+     250
+    ],
+    "bend": -0.35,
+    "color": "#8B6002",
+    "width": 7
+   },
+   "face": {
+    "frame": "circle",
+    "cx": 1075,
+    "cy": 500,
+    "d": 370,
+    "ring": "#8B6002",
+    "ring_w": 9,
+    "inset": "#EADBC1",
+    "bust": "#B9AC95",
+    "ph": "TAYLOR",
+    "pose": "pointing at card"
+   },
+   "title": "Why Your Meta Ads Land the Wrong People (And How to Fix It)"
+  },
+  {
+   "id": "scene",
+   "title": "I Built an AI Agent That Finds Your Buyers' Exact Words",
+   "archetype": "scene",
+   "theme": "dark",
+   "theme_overrides": {
+    "bg": "#0A0908",
+    "glow": false
+   },
+   "accent": "#CB8E03",
+   "face": null,
+   "format": "jpg",
+   "vignette": 260,
+   "headline": "Read their mind.",
+   "highlight": "mind.",
+   "font": "serif",
+   "headline_color": "#F5EAD8",
+   "headline_align": "left",
+   "headline_box": {
+    "x": 48,
+    "y": 28,
+    "w": 700,
+    "h": 140
+   },
+   "headline_max": 150,
+   "elements": [
+    {
+     "type": "glow",
+     "x": 905,
+     "y": 355,
+     "d": 900,
+     "color": "#CB8E03",
+     "opacity": 0.55,
+     "z": 1
+    },
+    {
+     "type": "chip",
+     "x": 930,
+     "y": 70,
+     "text": "#1 ICP · 88% fit",
+     "bg": "#CB8E03",
+     "fg": "#0A0908",
+     "size": 30,
+     "rotate": 3
+    },
+    {
+     "type": "doc",
+     "dark": true,
+     "x": 56,
+     "y": 205,
+     "w": 720,
+     "h": 330,
+     "rotate": -2,
+     "title": "ICP REPORT · MED SPA CLIENT",
+     "lines": [
+      {
+       "tag": "FEAR",
+       "tag_bg": "#B3261E",
+       "text": "Someone googles med spa, tries calling, no answer, books at the place next door instead."
+      },
+      {
+       "kind": "muted",
+       "tag": "DESIRE",
+       "tag_bg": "#8B6002",
+       "text": "Impact scores · real-life quotes"
+      },
+      {
+       "kind": "muted",
+       "tag": "QUESTION",
+       "tag_bg": "#5c5750",
+       "text": "What buyers ask before booking"
+      }
+     ],
+     "highlight": "no answer, books at the place next door instead.",
+     "highlight_bg": "rgba(246,223,140,.28)"
+    },
+    {
+     "type": "lens",
+     "x": 735,
+     "y": 185,
+     "d": 340,
+     "ring": "#CB8E03",
+     "glow": "#CB8E03",
+     "bg": "radial-gradient(circle at 35% 30%,#FFFDF6,#F6DF8C)",
+     "text": "No answer.\nNext clinic.",
+     "red": "Next clinic.",
+     "red_color": "#B3261E",
+     "size": 52,
+     "z": 7
+    }
+   ]
+  }
+ ]
+}

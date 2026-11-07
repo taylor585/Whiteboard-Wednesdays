@@ -1,0 +1,83 @@
+{
+ "id": "AI-Harnesses-A3-objects-on-brand",
+ "title": "I Built an AI Harness So Claude Code Can Run for 24 Hours",
+ "studio": {
+  "preset": "cream-board"
+ },
+ "extra_css": ";background-color:#FBF8F1",
+ "words": "2 HOURS. NOTHING DONE.",
+ "layers": [
+  {
+   "type": "marker",
+   "x": 44,
+   "y": 70,
+   "w": 520,
+   "h": 128
+  },
+  {
+   "type": "text",
+   "text": "2 HOURS.",
+   "x": 56,
+   "y": 182,
+   "size": 136,
+   "finish": "ink-serif"
+  },
+  {
+   "type": "text",
+   "text": "NOTHING",
+   "x": 56,
+   "y": 330,
+   "size": 136,
+   "finish": "ink-serif"
+  },
+  {
+   "type": "text",
+   "text": "DONE.",
+   "x": 56,
+   "y": 478,
+   "size": 136,
+   "finish": "red-serif"
+  },
+  {
+   "type": "ledge",
+   "y": 585
+  },
+  {
+   "type": "clock",
+   "x": 1110,
+   "y": 355,
+   "r": 140,
+   "rot": -6,
+   "finish": "brass",
+   "elapsed_h": 2
+  },
+  {
+   "type": "keycap",
+   "x": 675,
+   "y": 482,
+   "size": 185,
+   "logo": "claude.svg",
+   "logo_col": "#D97757",
+   "label": "Claude",
+   "rot": -6
+  },
+  {
+   "type": "keycap",
+   "x": 880,
+   "y": 492,
+   "size": 185,
+   "logo": "openai.svg",
+   "logo_col": "#1C1A17",
+   "label": "Codex",
+   "rot": 5
+  }
+ ],
+ "look": {
+  "layout": "on-brand-ledge",
+  "ground": "cream-board",
+  "font": "fraunces",
+  "accent": "gold-red",
+  "hero": "brass-clock-keycaps",
+  "emoji": false
+ }
+}

@@ -1,5 +1,6 @@
 /* Schedule (Taylor's pick S2-B Big calendar, 30 October 2026): four weeks of recording and posting as a calendar, one row per week, built on PROCESS.md (16 October 2026).
-   Monday plan and slides, Tuesday post and edit, Wednesday record, Thursday edit, Friday record. */
+   Monday plan and slides, Tuesday post and edit, Wednesday record, Thursday edit, Friday record.
+   Saturday and Sunday (Taylor, 7 November 2026): every week shows all seven days, and a video can be recorded at the weekend too. */
 (() => {
   'use strict';
   const root = document.querySelector('#topics');
@@ -20,11 +21,14 @@
   const fmt = (d, o={weekday:'short',day:'numeric',month:'short'}) => new Intl.DateTimeFormat('en-GB', o).format(d);
   // Every date follows from the recording day. Wednesday's video is edited on Thursday; Friday's by the next Monday.
   // Wednesday's video posts the next Tuesday and Friday's the next Thursday (Taylor, 24 October), unless set by hand.
+  // A weekend video is edited the day it is recorded and posts the next day (Saturday's on Sunday: Taylor, 7 November).
+  const RECORD_DAYS = [3, 5, 6, 0];
+  const weekend = d => d.getDay() === 6 || d.getDay() === 0;
   function schedule(t) {
     if (!t.recordDate) return null;
-    const r = parse(t.recordDate), wed = r.getDay() === 3;
-    const suggested = add(r, 6);
-    return {plan:monday(r), record:r, edit:add(r, wed ? 1 : 3), post:t.postDate ? parse(t.postDate) : suggested, suggested, custom:Boolean(t.postDate)};
+    const r = parse(t.recordDate), wed = r.getDay() === 3, we = weekend(r);
+    const suggested = add(r, we ? 1 : 6);
+    return {plan:monday(r), record:r, edit:add(r, we ? 0 : wed ? 1 : 3), post:t.postDate ? parse(t.postDate) : suggested, suggested, custom:Boolean(t.postDate)};
   }
   let start = add(monday(today()), -14), lanes = new Set(['record','post']), follow = null, selected = null, mode = 'book', bookDate = null;
   const data = () => window.WWIdeas.data;
@@ -48,7 +52,7 @@
   // 26 October 2026): switch jobs on or off, or follow one video.
   const LANES = [['record','Recording'],['post','Posting'],['edit','Editing'],['plan','Plan + slides']];
   const home = () => add(monday(today()), -14);
-  const days20 = () => Array.from({length:20}, (_, i) => add(start, Math.floor(i/5)*7 + i%5));
+  const days28 = () => Array.from({length:28}, (_, i) => add(start, i));
   function events() {
     const out = [];
     for (const t of topics()) { const s = schedule(t); if (!s) continue; for (const [lane, d] of [['plan',s.plan],['record',s.record],['edit',s.edit],['post',s.post]]) out.push({lane, day:iso(d), t}); }
@@ -57,21 +61,21 @@
   // One card per job, with the full title and the date that follows it.
   const after = (lane, s) => lane === 'record' ? 'Posts '+fmt(s.post) : lane === 'post' ? 'Recorded '+fmt(s.record) : lane === 'edit' ? 'Recorded '+fmt(s.record) : 'Records '+fmt(s.record);
   function calendar() {
-    const twenty = days20(), now = iso(today()), all = events(), atHome = iso(start) === iso(home());
-    $('#tp-span').textContent = fmt(twenty[0],{day:'numeric',month:'long'})+' to '+fmt(twenty[19],{day:'numeric',month:'long'});
+    const twenty = days28(), now = iso(today()), all = events(), atHome = iso(start) === iso(home());
+    $('#tp-span').textContent = fmt(twenty[0],{day:'numeric',month:'long'})+' to '+fmt(twenty[27],{day:'numeric',month:'long'});
     $('#tp-today').disabled = atHome;
     root.querySelectorAll('[data-lane]').forEach(b => b.setAttribute('aria-pressed', lanes.has(b.dataset.lane)));
-    const shown = new Map(); for (const e of all) if (e.day >= iso(twenty[0]) && e.day <= iso(twenty[19])) shown.set(e.t.id, e.t);
+    const shown = new Map(); for (const e of all) if (e.day >= iso(twenty[0]) && e.day <= iso(twenty[27])) shown.set(e.t.id, e.t);
     if (follow && !shown.has(follow)) follow = null;
     $('#tp-follow').innerHTML = shown.size ? '<span class="micro">FOLLOW</span>'+[...shown.values()].map(t => '<button type="button" data-follow="'+esc(t.id)+'" aria-pressed="'+(follow === t.id)+'">'+esc(t.title)+'</button>').join('') : '';
     let html = '';
     for (let w = 0; w < 4; w++) {
-      const mon = twenty[w*5];
-      html += '<div class="tp-wk'+(iso(mon) <= now && now <= iso(add(mon, 6)) ? ' is-this' : '')+'"><div class="tp-wkl"><span class="micro">WEEK OF</span><b>'+fmt(mon,{day:'numeric',month:'short'})+'</b></div>'+twenty.slice(w*5, w*5+5).map(d => {
+      const mon = twenty[w*7];
+      html += '<div class="tp-wk'+(iso(mon) <= now && now <= iso(add(mon, 6)) ? ' is-this' : '')+'"><div class="tp-wkl"><span class="micro">WEEK OF</span><b>'+fmt(mon,{day:'numeric',month:'short'})+'</b></div>'+twenty.slice(w*7, w*7+7).map(d => {
         const day = iso(d), here = all.filter(e => lanes.has(e.lane) && e.day === day);
         let cards = here.map(e => { const s = schedule(e.t); return '<button type="button" class="tp-ev tp-ev-'+e.lane+(follow && follow !== e.t.id ? ' is-dim' : '')+(selected === e.t.id ? ' is-sel' : '')+'" data-select="'+esc(e.t.id)+'" aria-label="'+LANES.find(l => l[0] === e.lane)[1]+': '+esc(e.t.title)+', '+fmt(d)+'"><span class="tp-ev-job">'+LANES.find(l => l[0] === e.lane)[1]+'</span><b>'+esc(e.t.title)+'</b><span class="tp-ev-after">'+after(e.lane, s)+'</span></button>'; }).join('');
-        if (lanes.has('record') && !here.some(e => e.lane === 'record') && [3,5].includes(d.getDay()) && day >= now) cards += '<button type="button" class="tp-ev tp-ev-open" data-book="'+day+'" aria-label="Book a recording for '+fmt(d)+'"'+(ready() ? '' : ' disabled')+'><span class="tp-ev-job">Recording</span><b>Open slot</b><span class="tp-ev-after">+ Book a topic</span></button>';
-        return '<div class="tp-day'+(day === now ? ' is-today' : '')+(day < now ? ' is-past' : '')+'"><span class="tp-dayn"><b>'+fmt(d,{weekday:'short'})+'</b> '+fmt(d,{day:'numeric'})+'</span>'+cards+'</div>';
+        if (lanes.has('record') && !here.some(e => e.lane === 'record') && RECORD_DAYS.includes(d.getDay()) && day >= now) cards += '<button type="button" class="tp-ev tp-ev-open'+(weekend(d) ? ' is-weekend' : '')+'" data-book="'+day+'" aria-label="Book a recording for '+fmt(d)+'"'+(ready() ? '' : ' disabled')+'><span class="tp-ev-job">'+(weekend(d) ? 'Weekend' : 'Recording')+'</span><b>Open slot</b><span class="tp-ev-after">+ Book a topic</span></button>';
+        return '<div class="tp-day'+(day === now ? ' is-today' : '')+(day < now ? ' is-past' : '')+(weekend(d) ? ' is-weekend' : '')+'"><span class="tp-dayn"><b>'+fmt(d,{weekday:'short'})+'</b> '+fmt(d,{day:'numeric'})+'</span>'+cards+'</div>';
       }).join('')+'</div>';
     }
     $('#tp-cal').innerHTML = html;
@@ -79,7 +83,7 @@
   // The topic panel also lists booked days, so a clash can be resolved by swapping the two topics.
   function slotOptions(current, withBooked=false) {
     let slots = openSlots();
-    if (withBooked) { slots = []; for (let d = today(); slots.length < 12; d = add(d, 1)) if ([3,5].includes(d.getDay())) slots.push(d); }
+    if (withBooked) { slots = []; for (let d = today(); slots.length < 16; d = add(d, 1)) if (RECORD_DAYS.includes(d.getDay())) slots.push(d); }
     if (current && !slots.some(d => iso(d) === current)) slots.unshift(parse(current));
     return '<option value="">Not scheduled</option>'+slots.sort((a,b) => a-b).map(d => { const holder = byDate(d), mine = iso(d) === current; return '<option value="'+iso(d)+'"'+(mine ? ' selected' : '')+'>'+fmt(d,{weekday:'long',day:'numeric',month:'short'})+(holder && !mine ? ' · swap with “'+esc(holder.title.length > 28 ? holder.title.slice(0,27)+'…' : holder.title)+'”' : '')+'</option>'; }).join('');
   }
@@ -97,7 +101,7 @@
       '<div class="tp-field-row"><label class="tp-field"><span>Status</span><select id="tp-f-status" data-field="status">'+STATUSES.map(([v,l]) => '<option value="'+v+'"'+(v === t.status ? ' selected' : '')+'>'+l+'</option>').join('')+'</select></label>'+
       '<label class="tp-field"><span>Recording day</span><select id="tp-f-record" data-field="recordDate">'+slotOptions(t.recordDate, true)+'</select></label></div>'+
       (s ? '<dl class="tp-dates"><div><dt>Plan &amp; slides</dt><dd>'+fmt(s.plan)+'</dd></div><div><dt>Record</dt><dd>'+fmt(s.record)+'</dd></div><div><dt>Edit</dt><dd>'+fmt(s.edit)+'</dd></div><div><dt>Post</dt><dd>'+fmt(s.post)+'</dd></div></dl>'+
-        '<label class="tp-field"><span>Post date'+(s.custom ? '' : ' (suggested '+fmt(s.suggested)+')')+'</span><input type="date" id="tp-f-post" data-field="postDate" value="'+(t.postDate || '')+'"></label>'+(s.custom ? '<button type="button" class="tp-link" data-act="post-reset">Use the suggested Tuesday</button>' : '') : '')+
+        '<label class="tp-field"><span>Post date'+(s.custom ? '' : ' (suggested '+fmt(s.suggested)+')')+'</span><input type="date" id="tp-f-post" data-field="postDate" value="'+(t.postDate || '')+'"></label>'+(s.custom ? '<button type="button" class="tp-link" data-act="post-reset">Use the suggested '+fmt(s.suggested,{weekday:'long'})+'</button>' : '') : '')+
       '<label class="tp-field"><span>Who is it for</span><select id="tp-f-buyer" data-field="buyer">'+BUYERS.map(([v,l]) => '<option value="'+v+'"'+(v === (t.buyer || '') ? ' selected' : '')+'>'+l+'</option>').join('')+'</select></label>'+
       (t.buyer ? '' : '<p class="tp-muted tp-buyer-ask">Not set yet. The thumbnails and posts are written for one buyer, so choose A or B before the video goes to Publish. Publish asks again if it is still empty.</p>')+
       '<label class="tp-field"><span>Notes and angle</span><textarea id="tp-f-notes" data-field="notes" rows="5" maxlength="8000">'+esc(t.notes)+'</textarea></label>'+

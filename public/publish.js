@@ -1,7 +1,7 @@
 /* Publish (Taylor, 30 October 2026): one screen from Drive links to posted videos, replacing the separate Studio
    and Post screens. Paste the links, say which file is the main video and which are reels, press Generate.
    A Claude Code session runs the job with the skills chosen in Settings and writes the Variety Pack back here,
-   laid out one platform at a time (pick PB-A): edit options, five thumbnails and two post variations each.
+   laid out one platform at a time (pick PB-A): edit options, sixteen thumbnails (Thumbnail Tracker 4.0.0) and two post variations each.
    Pick, press Continue, and the finished files land on Drive. Everything lives in the artifact database as
    jobs/<id>; the page never edits video or posts on its own, and it never shows a stage the session has not written.
    Phase 2 (4 November 2026): one Drive folder link is enough. The session lists it, reads each file's shape and length,
@@ -14,7 +14,7 @@
    the pilot (first 60 to 90 s), then the YouTube master and LinkedIn cut together. Approve or Change something here;
    either starts the next session with a line that names the stop it continues from.
    Phase 7 (4 November 2026, Taylor's decisions 7 and 8): Approve both starts the session that makes the thumbnails
-   (Thumbnail Tracker, five a platform, objects only) and the posts (Performance Poster, two checked variations a platform).
+   (Thumbnail Tracker - 16 Variations, sixteen a platform, objects only) and the posts (Performance Poster, two checked variations a platform).
    It needs who the video is for (A or B, from the topic) and the booking link saved in Settings; without either it stops
    on "ask" and writes nothing. Taylor picks one thumbnail and one post per platform here, copies each text, and posts by
    hand: Post all stays off until the platforms are connected. No placeholder such as [BOOKING LINK] is ever copied.
@@ -427,7 +427,7 @@
         '<p class="pb-acts"><button type="button" class="pb-go" id="pb-change-send"'+(changeNote.trim() && !starting ? '' : ' disabled')+'>Send the changes</button><button type="button" class="pb-link" id="pb-change-cancel">Cancel</button></p>'+
         '<p class="pb-muted">Claude Code changes '+(pilot ? 'the pilot' : 'what you asked for')+' from the saved plan and stops here again for you to watch.</p></div>'
       : (pilot ? '' : forHtml())+'<div class="pb-stop-acts"><button type="button" class="pb-go" id="pb-approve"'+(url ? off : ' disabled')+'>'+(pilot ? 'Approve the pilot' : 'Approve both')+'</button><button type="button" class="pb-link" id="pb-change"'+off+'>Change something</button></div>'+
-        '<p class="pb-muted">'+(pilot ? 'Approving starts Claude Code: it renders the whole YouTube master and the LinkedIn cut from the saved plan, then stops here for you to watch both.' : 'Approving starts Claude Code: it makes five thumbnails and two checked post variations for YouTube and for LinkedIn, then stops here for you to pick. Nothing is posted.')+'</p>';
+        '<p class="pb-muted">'+(pilot ? 'Approving starts Claude Code: it renders the whole YouTube master and the LinkedIn cut from the saved plan, then stops here for you to watch both.' : 'Approving starts Claude Code: it makes sixteen thumbnails and two checked post variations for YouTube and for LinkedIn, then stops here for you to pick. Nothing is posted.')+'</p>';
     return '<section class="pb-stop" aria-labelledby="pb-stop-h">'+track+body+missing+acts+'</section>';
   }
   // ---- Thumbnails and posts (Phase 7, 4 November 2026) ----------------------------------------------------------
@@ -496,7 +496,7 @@
     return '<div class="pb-yt"><label class="pb-field" for="pb-yt"><span>Your YouTube link, for the LinkedIn first comment</span><input id="pb-yt" type="url" inputmode="url" spellcheck="false" maxlength="300" placeholder="https://www.youtube.com/watch?v=…" value="'+esc(d)+'"></label>'+
       '<button type="button" class="pb-link" id="pb-yt-save"'+(ok && ok !== job.youtubeUrl ? '' : ' disabled')+'>Save link</button><small id="pb-yt-st" role="status">'+esc(ytStatus())+'</small></div>';
   }
-  // The pack, one block per platform (PB-A, the approved design): five thumbnails, then two post variations, each picked
+  // The pack, one block per platform (PB-A, the approved design): the thumbnails (sixteen with Thumbnail Tracker 4.0.0), then two post variations, each picked
   // with a tap. The session writes it after Approve both (PUBLISH.md, Continue from review). Picks stay open on "final".
   function pack() {
     const p = job.pack, list = plats(); if (!list.length) return '';

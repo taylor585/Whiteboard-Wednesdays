@@ -1,0 +1,2044 @@
+[
+ {
+  "index": 1,
+  "id": "UFa8pXW9A3k",
+  "url": "https://youtu.be/UFa8pXW9A3k",
+  "title": "Claude's New Updates Are Insane… But Grok Bot Is EVEN Bigger",
+  "published": "Oct 10, 2026",
+  "views": 157845,
+  "likes": 1400,
+  "outlier": 1.39,
+  "duration_s": 1250,
+  "band": "normal",
+  "title_fields": {
+   "chars": 60,
+   "words": 11,
+   "over_60": false,
+   "front_keyword": "Claude",
+   "front_keyword_pos": 1,
+   "formula": "x-is-insane-but-y",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "Claude",
+    "Grok Bot"
+   ],
+   "caps_words": [
+    "EVEN"
+   ],
+   "punct": [
+    "…"
+   ],
+   "emotion": "awe/FOMO",
+   "promise": "this week's biggest AI updates",
+   "hook_gap": "which Grok Bot change beats Claude"
+  },
+  "thumbnail": {
+   "layout": "desk-anchor (new)",
+   "line": "IT'S OVER.",
+   "line_vs_title": "complements",
+   "face": "centre, neutral stare, hands on keyboard"
+  },
+  "description": {
+   "length": 848,
+   "first_line": "This week in AI: Claude Dashboards, Motion, Projects and Haiku 5.5; ChatGPT Intelligent UI and Codex updates; GrokBot multi-model routing; and the latest from Google, AI video editing and personal agents.",
+   "first_line_job": "summary",
+   "first_link_line": 3,
+   "links": [
+    {
+     "url": "https://agentnative.inc/updates?tab=weekly&id=kn7129egvqjyvzp37gxpchkzdx8g1gz8",
+     "kind": "own offer/resources"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 19,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "C weekly-roundup",
+   "disclosure": null,
+   "above_fold_verbatim": "This week in AI: Claude Dashboards, Motion, Projects and Haiku 5.5; ChatGPT Intelligent UI and Codex updates; GrokBot multi-model routing; and the latest from Google, AI video editing and personal agents.\nAll updates this week https://agentnative.inc/updates?tab=w...",
+   "full_text": "This week in AI: Claude Dashboards, Motion, Projects and Haiku 5.5; ChatGPT Intelligent UI and Codex updates; GrokBot multi-model routing; and the latest from Google, AI video editing and personal agents.\n\nAll updates this week https://agentnative.inc/updates?tab=w...\n\n00:00 Intro\n00:19 Claude Dashboards & Claude Motion\n02:30 AI Video Editing with Opus 5.5\n04:01 Claude Projects Rolls Out\n06:08 Haiku 5.5 Released\n06:45 28 Days of Codex\n08:21 ChatGPT Intelligent UI\n09:20 OpenAI Math Breakthroughs\n09:58 GrokBot Now Uses All Models\n11:28 GrokBot Team & Primary Bots\n12:49 Nano Banana 2.1\n13:41 Google Argon Rumors\n14:07 Prepare with Antigravity\n15:34 AI Is Recreating Adobe Software\n16:50 Video Games Reverse-Engineered & Merged\n17:23 Play Console Games in Your Browser\n18:09 New Personal Agent Products\n19:33 Hermes Agent Raises $90M\n20:35 Outro"
+  },
+  "deep": true,
+  "thumb_detail": {
+   "line_length_case": "2 words, ALL CAPS, full stop",
+   "face_pose": "centred, neutral straight-to-lens stare, hands on keyboard",
+   "hero_object": "glossy orange Claude starburst (left) + brushed-metal GrokBot mascot face (right)",
+   "proof": "none",
+   "colour_accent": "dark bg, orange rim glow, yellow text in glass pill",
+   "arrow_underline": "none",
+   "background": "black with orange backlight",
+   "readability_168px": "good: 2 words, high contrast",
+   "why_click": "\"It's over.\" is a verdict with no subject, so the two logos make you ask who won."
+  },
+  "pair": {
+   "title_carries": "both story names and the ranking (Claude < Grok Bot)",
+   "thumb_carries": "emotion/verdict only",
+   "split": "splits the job",
+   "single_promise": "this week's AI news, with a winner",
+   "desc_first_line": "extends: lists every update (Dashboards, Motion, Projects, Haiku 5.5…)"
+  },
+  "ctas": [
+   "own offer/resources (weekly updates page)"
+  ],
+  "keyword_in_desc": "Claude in line 1 word 5; GrokBot in line 1 and chapters",
+  "performance": {
+   "views": 157845,
+   "likes": 1400,
+   "like_rate_pct": 0.89,
+   "outlier": 1.39,
+   "days_since_publish": 2,
+   "title_change_seen": false
+  }
+ },
+ {
+  "index": 2,
+  "id": "WXhOxfPECnM",
+  "url": "https://youtu.be/WXhOxfPECnM",
+  "title": "ChatGPT Dots Is WAY More Powerful Than You Think",
+  "published": "Oct 9, 2026",
+  "views": 62286,
+  "likes": 828,
+  "outlier": 0.48,
+  "duration_s": 1556,
+  "band": "under",
+  "title_fields": {
+   "chars": 48,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": "ChatGPT Dots",
+   "front_keyword_pos": 1,
+   "formula": "more-than-you-think (new)",
+   "intent": "both",
+   "specifics": [],
+   "named": [
+    "ChatGPT Dots"
+   ],
+   "caps_words": [
+    "WAY"
+   ],
+   "punct": [],
+   "emotion": "curiosity/status",
+   "promise": "hidden power uses of Dots",
+   "hook_gap": "what the extra power is"
+  },
+  "thumbnail": {
+   "layout": "face-left + held object",
+   "line": "I'M OBSESSED",
+   "line_vs_title": "complements",
+   "face": "left, large crop, neutral stare"
+  },
+  "description": {
+   "length": 1167,
+   "first_line": "I've been using Dot as my personal AI agent for 7 days straight, and it's completely changed how I work. In this video, I share my 9 best tips for getting the most out of Dot, from voice mode walks to spinning up Codex sessions on the fly.",
+   "first_line_job": "hook",
+   "first_link_line": 3,
+   "links": [
+    {
+     "url": "http://chatgpt.com/features/dots",
+     "kind": "tools"
+    },
+    {
+     "url": "https://agentnative.inc/resources",
+     "kind": "own offer/resources"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 11,
+    "starts_0": true
+   },
+   "hashtags_real": [
+    "#ChatGPT_Partner"
+   ],
+   "template": "B chatgpt-partner",
+   "disclosure": "@ChatGPT #ChatGPT_Partner",
+   "above_fold_verbatim": "I've been using Dot as my personal AI agent for 7 days straight, and it's completely changed how I work. In this video, I share my 9 best tips for getting the most out of Dot, from voice mode walks to spinning up Codex sessions on the fly.\nDownload ChatGPT: http://chatgpt.com/features/dots",
+   "full_text": "I've been using Dot as my personal AI agent for 7 days straight, and it's completely changed how I work. In this video, I share my 9 best tips for getting the most out of Dot, from voice mode walks to spinning up Codex sessions on the fly.\n\nDownload ChatGPT: http://chatgpt.com/features/dots\n\nWe cover voice chat with Dot on your phone, having Dot spin up Codex sessions to build features while you walk, getting actual work done instead of just planning, asking Dot to drop links and notes in the chat, creating pages and sites in GPT Space, setting up a daily brief automation, heartbeat check-ins, and using Do Not Disturb bypass so Dot is the only app that can reach you.\n\nMore resources from Agent Native: https://agentnative.inc/resources\n\n00:00 Intro\n01:02 What is Dot?\n02:33 #1 Voice Chat with Dot\n05:08 #2 Have Dot Spin Up Codex Sessions\n09:47 #3 Get Things Done While Walking\n11:50 #4 Ask Dot to Drop Things in the Chat\n13:39 #5 Use Pages and Spaces\n17:33 #6 Use Sites\n19:13 #7 Daily Brief\n21:14 #8 Heartbeat Automations\n22:30 #9 Do Not Disturb Bypass\n\nWhich of the 9 tips are you most excited to try? Let me know in the comments.\n\n@ChatGPT #ChatGPT_Partner"
+  },
+  "data_note": "scraper hashtags included chapter numbers #1..#N; removed",
+  "deep": true,
+  "thumb_detail": {
+   "line_length_case": "2 words, ALL CAPS, no punctuation",
+   "face_pose": "large face left, neutral stare",
+   "hero_object": "hand holding phone with glowing \"dots\" + voice waveform; felt plush mascots peeking",
+   "proof": "none",
+   "colour_accent": "warm dark bg, yellow text, rainbow product type",
+   "arrow_underline": "none",
+   "background": "dark brown blur",
+   "readability_168px": "good",
+   "why_click": "Personal obsession + cute mascots signal a lived-in product review."
+  },
+  "pair": {
+   "title_carries": "product name + \"more powerful than you think\" claim",
+   "thumb_carries": "personal emotion",
+   "split": "splits",
+   "single_promise": "Dots tips you are missing",
+   "desc_first_line": "extends: 7 days of use, 9 tips"
+  },
+  "ctas": [
+   "tools (Download ChatGPT)",
+   "own offer/resources",
+   "comment prompt",
+   "partner tag"
+  ],
+  "keyword_in_desc": "\"Dot\" line 1; \"ChatGPT\" line 3 link label",
+  "performance": {
+   "views": 62286,
+   "likes": 828,
+   "like_rate_pct": 1.33,
+   "outlier": 0.48,
+   "days_since_publish": 3,
+   "title_change_seen": false
+  }
+ },
+ {
+  "index": 3,
+  "id": "c9Z7ixVr4CU",
+  "url": "https://youtu.be/c9Z7ixVr4CU",
+  "title": "Grok Bot Just Got 4 HUGE Upgrades (It’s WAY Better Now)",
+  "published": "Oct 5, 2026",
+  "views": 78409,
+  "likes": 997,
+  "outlier": 0.58,
+  "duration_s": 1269,
+  "band": "under",
+  "title_fields": {
+   "chars": 55,
+   "words": 11,
+   "over_60": false,
+   "front_keyword": "Grok Bot",
+   "front_keyword_pos": 1,
+   "formula": "x-just-changed",
+   "intent": "both",
+   "specifics": [
+    "4 "
+   ],
+   "named": [
+    "Grok Bot"
+   ],
+   "caps_words": [
+    "HUGE",
+    "WAY"
+   ],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "FOMO/gain",
+   "promise": "4 new Grok Bot upgrades",
+   "hook_gap": "what the 4 upgrades are"
+  },
+  "thumbnail": {
+   "layout": "desk-anchor (new)",
+   "line": "THE NEW GROKBOT",
+   "line_vs_title": "repeats",
+   "face": "centre, neutral, hands on keyboard"
+  },
+  "description": {
+   "length": 1527,
+   "first_line": "This is an Agent Native Episode.",
+   "first_line_job": "keyword sentence",
+   "first_link_line": 12,
+   "links": [
+    {
+     "url": "/channel/UCE92uOiqod6LtYDwlgJqsug",
+     "kind": "socials/channel"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 6,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "A agent-native-episode",
+   "disclosure": null,
+   "above_fold_verbatim": "This is an Agent Native Episode.\nGrokbot just shipped four big updates that make it the easiest way to run a whole team of AI agents for marketing, coding, or any other kind of work. The last one fixes the biggest reason agents get blocked on the internet.",
+   "full_text": "This is an Agent Native Episode.\n\nGrokbot just shipped four big updates that make it the easiest way to run a whole team of AI agents for marketing, coding, or any other kind of work. The last one fixes the biggest reason agents get blocked on the internet.\n-Primary Bot: Now there's one team leader to talk to, and it hands each task to the right bot for you. I asked for a redesign of my Native Note app, and it passed the job to my dev bot, which used Cursor with Opus 5.5 and pushed the change straight to prod.\n-I called my primary bot from the Grokbot iOS app while out on a walk. Hands-free, it sent YouTube research to my content bot and landing page fixes to the right agent.\n-Team Bots: Shared, isolated bots for your whole team. They start with their own plugins, publish to your team, and live in Slack. When teammates use one, it connects to their own logins like Gmail, so nobody's account gets shared.\n\nThen there are the quieter updates I genuinely love. Inline drafts turn email and Slack messages into little mini apps you can edit, approve, and send right in the chat. And \"Route traffic through this computer\" makes your bot's cloud computer browse from your own internet connection, so sites like Target stop flagging it as a bot.\n\nSubscribe to my new vlog channel:    / @rileybrown-2  \n\nFor Agent Native Resources: agentnative.inc/resources\n\nChapters\n00:00 Intro\n00:20 1. Primary Bot\n07:11 2. Team Bot Feature\n14:30 3. Inline Drafts for Email and Slack\n17:40 4. Local Computer Routing\n19:17 Final Thoughts"
+  },
+  "deep": true,
+  "thumb_detail": {
+   "line_length_case": "3 words, ALL CAPS, yellow+white two-tone",
+   "face_pose": "centred, neutral, hands on white keyboard",
+   "hero_object": "six glossy jelly GrokBot mascots orbiting",
+   "proof": "none",
+   "colour_accent": "multicolour mascots, orange glow, yellow \"THE NEW\"",
+   "arrow_underline": "none",
+   "background": "black",
+   "readability_168px": "good text; mascots busy",
+   "why_click": "Colourful bot squad suggests a team of agents, but the line just names the product."
+  },
+  "pair": {
+   "title_carries": "product + count (4 upgrades) + verdict (WAY better)",
+   "thumb_carries": "product name again",
+   "split": "duplicates",
+   "single_promise": "4 Grok Bot upgrades",
+   "desc_first_line": "\"This is an Agent Native Episode.\" (series label, not the promise); line 3 restates"
+  },
+  "ctas": [
+   "socials/channel (vlog channel)",
+   "own offer/resources"
+  ],
+  "keyword_in_desc": "\"Grokbot\" line 3 word 1",
+  "performance": {
+   "views": 78409,
+   "likes": 997,
+   "like_rate_pct": 1.27,
+   "outlier": 0.58,
+   "days_since_publish": 7,
+   "title_change_seen": false
+  }
+ },
+ {
+  "index": 4,
+  "id": "fSilBzYdHUw",
+  "url": "https://youtu.be/fSilBzYdHUw",
+  "title": "ChatGPT Just Changed A LOT (Here’s What’s New)",
+  "published": "Oct 3, 2026",
+  "views": 168211,
+  "likes": 1400,
+  "outlier": 1.75,
+  "duration_s": 1900,
+  "band": "over",
+  "title_fields": {
+   "chars": 46,
+   "words": 8,
+   "over_60": false,
+   "front_keyword": "ChatGPT",
+   "front_keyword_pos": 1,
+   "formula": "x-just-changed",
+   "intent": "both",
+   "specifics": [],
+   "named": [
+    "ChatGPT"
+   ],
+   "caps_words": [
+    "LOT"
+   ],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "FOMO",
+   "promise": "everything new in ChatGPT",
+   "hook_gap": "what changed"
+  },
+  "thumbnail": {
+   "layout": "desk-anchor (new)",
+   "line": "THE NEW OPENAI",
+   "line_vs_title": "repeats",
+   "face": "centre, neutral, at MacBook"
+  },
+  "description": {
+   "length": 1365,
+   "first_line": "OpenAI just announced 20 new updates at Dev Day, and they change how we use ChatGPT, Codex, and AI in general. In this video, I go through every update and explain why each one matters.",
+   "first_line_job": "summary",
+   "first_link_line": 3,
+   "links": [
+    {
+     "url": "https://chatgpt.com/download/",
+     "kind": "tools"
+    },
+    {
+     "url": "https://agentnative.inc/resources",
+     "kind": "own offer/resources"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 20,
+    "starts_0": true
+   },
+   "hashtags_real": [
+    "#ChatGPT_Partner"
+   ],
+   "template": "B chatgpt-partner",
+   "disclosure": "@ChatGPT #ChatGPT_Partner",
+   "above_fold_verbatim": "OpenAI just announced 20 new updates at Dev Day, and they change how we use ChatGPT, Codex, and AI in general. In this video, I go through every update and explain why each one matters.\nDownload ChatGPT:  https://chatgpt.com/download/",
+   "full_text": "OpenAI just announced 20 new updates at Dev Day, and they change how we use ChatGPT, Codex, and AI in general. In this video, I go through every update and explain why each one matters.\n\nDownload ChatGPT:  https://chatgpt.com/download/\nWe cover Dot, the new named personal agent that runs on its own virtual computer and works through email, calendar, Slack, and phone calls. We also cover the new GPT-6.1 Sol model (about 5x cheaper than Astra), Ultra Fast mode, the $500/month Pro plan, GPT Space, plugin extensions, Sign in with ChatGPT, Codex Cloud, code review, the decisions API, and the Agents API.\n\nMore resources from Agent Native: https://agentnative.inc/resources\n\n00:00 Intro\n00:44 #1 Dot Agent Platform\n01:55 #2 Dot Controls Email & Calendar\n03:58 #3 Call Your Dot\n07:04 #4 Dot in Slack\n09:07 #5 Message Dot via iMessage\n09:37 #6 Dot's Computer & Browser\n10:48 #7 GPT-6.1 Sol Model\n11:59 #8-9 Ultra Fast Mode & $500 Pro Plan\n13:55 #10 GPT Space\n18:28 #11 ChatGPT in Slack\n20:04 #12 Meetings Plugin\n20:49 #13 Plugin Extensions\n23:13 #14 Sign in with ChatGPT\n24:21 #15 Codex CLI Improvements\n24:39 #16 Codex Cloud\n26:38 #17 Code Review in Codex\n27:25 #18 Codex Security Dashboard\n27:51 #19 Decisions API\n28:57 #20 Cloud Computer Use & Agents API\n\nWhich of the 20 updates are you most excited about? Let me know in the comments.\n\n@ChatGPT #ChatGPT_Partner"
+  },
+  "data_note": "scraper hashtags included chapter numbers #1..#N; removed",
+  "deep": true,
+  "thumb_detail": {
+   "line_length_case": "3 words, ALL CAPS, yellow, top band",
+   "face_pose": "centred, neutral, behind MacBook",
+   "hero_object": "blue Dots mascot face (left) + glossy OpenAI knot (right)",
+   "proof": "none",
+   "colour_accent": "yellow text, blue + silver objects, orange glow",
+   "arrow_underline": "none",
+   "background": "black",
+   "readability_168px": "good",
+   "why_click": "\"The new OpenAI\" frames DevDay as a reinvention of the company."
+  },
+  "pair": {
+   "title_carries": "ChatGPT + \"changed a lot\" + what's new",
+   "thumb_carries": "same idea (new OpenAI)",
+   "split": "mostly duplicates",
+   "single_promise": "every DevDay update explained",
+   "desc_first_line": "extends: 20 updates at Dev Day"
+  },
+  "ctas": [
+   "tools (Download ChatGPT)",
+   "own offer/resources",
+   "comment prompt",
+   "partner tag"
+  ],
+  "keyword_in_desc": "\"ChatGPT\" line 1",
+  "performance": {
+   "views": 168211,
+   "likes": 1400,
+   "like_rate_pct": 0.83,
+   "outlier": 1.75,
+   "days_since_publish": 9,
+   "title_change_seen": false
+  }
+ },
+ {
+  "index": 5,
+  "id": "kmo9Mk_gIUk",
+  "url": "https://youtu.be/kmo9Mk_gIUk",
+  "title": "ChatGPT Dots Is Insane... But Gemini’s NEW Argon Is EVEN Bigger",
+  "published": "Oct 2, 2026",
+  "views": 130547,
+  "likes": 1200,
+  "outlier": 1.11,
+  "duration_s": 1475,
+  "band": "normal",
+  "title_fields": {
+   "chars": 63,
+   "words": 11,
+   "over_60": true,
+   "front_keyword": "ChatGPT Dots",
+   "front_keyword_pos": 1,
+   "formula": "x-is-insane-but-y",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "ChatGPT Dots",
+    "Gemini Argon"
+   ],
+   "caps_words": [
+    "NEW",
+    "EVEN"
+   ],
+   "punct": [
+    "..."
+   ],
+   "emotion": "awe/FOMO",
+   "promise": "Dots vs Gemini Argon news",
+   "hook_gap": "why Argon is bigger"
+  },
+  "thumbnail": {
+   "layout": "desk-anchor (new)",
+   "line": "HUGE AI NEWS",
+   "line_vs_title": "complements (generic)",
+   "face": "centre, neutral, hands on keyboard"
+  },
+  "description": {
+   "length": 1296,
+   "first_line": "This is an Agent Native Episode.",
+   "first_line_job": "keyword sentence",
+   "first_link_line": 12,
+   "links": [
+    {
+     "url": "/channel/UCE92uOiqod6LtYDwlgJqsug",
+     "kind": "socials/channel"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 5,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "A agent-native-episode",
+   "disclosure": null,
+   "above_fold_verbatim": "This is an Agent Native Episode.\nGoogle says it's about to release the best model in the world, but only cyber defenders can use it. Meanwhile, OpenAI just launched its own personal agent platform inside ChatGPT.",
+   "full_text": "This is an Agent Native Episode.\n\nGoogle says it's about to release the best model in the world, but only cyber defenders can use it. Meanwhile, OpenAI just launched its own personal agent platform inside ChatGPT.\n-Anthropic dropped Sonnet 5.5 just six days after Opus 5.5. I've put 30+ hours into Opus 5.5 and still haven't hit my limits.\n-I called my OpenAI Dots agent, Bluey. Hands-free, it sent emails and Slack messages, then spun up a local Codex session to redesign my landing page.\n-GPT Space is like Notion built into ChatGPT, where your agent writes docs and diagrams for you. Plus, plugin extensions let ChatGPT work inside other apps like MagicPath.\n\nAnd then the biggest question of the week: is Gemini 4 Argon actually as good as Google says? Google hasn't had a great model since January, and it still hasn't picked one app to use it in. Plus, GrokBot quietly added proactive suggestions, inline email drafts, Slack team bots, and a way to route its traffic through your own computer.\n\nSubscribe to my new vlog channel:    / @rileybrown-2  \n\nFor Agent Native Resources: agentnative.inc/resources\n\nChapters\n00:00 Intro\n00:47 1. Sonnet 5.5 & Opus 5.5\n04:55 2. OpenAI DevDay: Dots, GPT Space & Extensions\n15:13 3. Google Gemini 4 Argon\n19:18 4. GrokBot: Proactivity, Slack & Team Bots"
+  },
+  "deep": true,
+  "thumb_detail": {
+   "line_length_case": "3 words, ALL CAPS, yellow+white",
+   "face_pose": "centred, neutral, hands on keyboard",
+   "hero_object": "rainbow Gemini sparkle (left) + glossy OpenAI knot (right)",
+   "proof": "none",
+   "colour_accent": "yellow, orange glow",
+   "arrow_underline": "none",
+   "background": "blurred dark bokeh",
+   "readability_168px": "good",
+   "why_click": "Two giant rival logos promise a showdown; the line is generic."
+  },
+  "pair": {
+   "title_carries": "two stories and ranking (Dots < Argon)",
+   "thumb_carries": "generic \"huge news\"",
+   "split": "weak split",
+   "single_promise": "Dots vs Gemini Argon",
+   "desc_first_line": "series label; line 3 hook about Google's model"
+  },
+  "ctas": [
+   "socials/channel (vlog channel)",
+   "own offer/resources"
+  ],
+  "keyword_in_desc": "Google/Gemini line 3; OpenAI line 3",
+  "performance": {
+   "views": 130547,
+   "likes": 1200,
+   "like_rate_pct": 0.92,
+   "outlier": 1.11,
+   "days_since_publish": 10,
+   "title_change_seen": false
+  }
+ },
+ {
+  "index": 6,
+  "id": "t0ZwER9Y99c",
+  "url": "https://youtu.be/t0ZwER9Y99c",
+  "title": "The iPhone Duo Needs Apps (AI Can Build Them)",
+  "published": "Oct 1, 2026",
+  "views": 24499,
+  "likes": 261,
+  "outlier": 0.18,
+  "duration_s": 1383,
+  "band": "under",
+  "title_fields": {
+   "chars": 45,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": "iPhone Duo",
+   "front_keyword_pos": 2,
+   "formula": "opportunity (new)",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "iPhone Duo"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "greed/gain",
+   "promise": "build apps for a new device",
+   "hook_gap": "none (title states it)"
+  },
+  "thumbnail": {
+   "layout": "face-left + held object",
+   "line": "GET IN EARLY",
+   "line_vs_title": "complements",
+   "face": "left, talking"
+  },
+  "description": {
+   "length": 1054,
+   "first_line": "Every real app needs a real database, and this one runs on Convex. Install the Convex plugin in Claude Code, ask your agent to build your app, and it sets up the database, backend and file storage for you, with every screen updating in real time. It's free to create an account: https://convex.link/E61LRW5",
+   "first_line_job": "CTA",
+   "first_link_line": 1,
+   "links": [
+    {
+     "url": "https://convex.link/E61LRW5",
+     "kind": "sponsor/affiliate"
+    }
+   ],
+   "chapters": {
+    "present": false,
+    "count": 0,
+    "starts_0": null
+   },
+   "hashtags_real": [],
+   "template": "A agent-native-episode (Convex sponsor line first)",
+   "disclosure": "For sponsorship inquiries: agentnative.inc/sponsorships"
+  }
+ },
+ {
+  "index": 7,
+  "id": "A8ptWsvM3cw",
+  "url": "https://youtu.be/A8ptWsvM3cw",
+  "title": "How to Set Up Your Windows PC for AI (Full Guide)",
+  "published": "Sep 29, 2026",
+  "views": 18772,
+  "likes": 227,
+  "outlier": 0.14,
+  "duration_s": 1226,
+  "band": "under",
+  "title_fields": {
+   "chars": 49,
+   "words": 11,
+   "over_60": false,
+   "front_keyword": "Windows PC",
+   "front_keyword_pos": 6,
+   "formula": "how-to",
+   "intent": "search",
+   "specifics": [],
+   "named": [
+    "Windows"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "relief",
+   "promise": "set up a PC for AI",
+   "hook_gap": "none"
+  },
+  "thumbnail": {
+   "layout": "face-left + hero object (pointing)",
+   "line": "",
+   "line_vs_title": "none",
+   "face": "left, smile, pointing"
+  },
+  "description": {
+   "length": 972,
+   "first_line": "Thanks to ASUS for sponsoring this video!",
+   "first_line_job": "CTA",
+   "first_link_line": 2,
+   "links": [
+    {
+     "url": "https://tools.thenode.gg/r/5nbFIOd0",
+     "kind": "sponsor/affiliate"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 10,
+    "starts_0": true
+   },
+   "hashtags_real": [
+    "#AI",
+    "#AITools",
+    "#ASUS",
+    "#ChatGPT",
+    "#Codex",
+    "#ExpertBookUltra",
+    "#Productivity",
+    "#Windows"
+   ],
+   "template": "one-off",
+   "disclosure": "Thanks to ASUS for sponsoring this video!"
+  }
+ },
+ {
+  "index": 8,
+  "id": "959RFRspIIc",
+  "url": "https://youtu.be/959RFRspIIc",
+  "title": "Opus 5.5 Is JUST the Beginning. Everything Is About to Change.",
+  "published": "Premiered Sep 27, 2026",
+  "views": 96358,
+  "likes": null,
+  "outlier": 0.77,
+  "duration_s": 1348,
+  "band": "normal",
+  "title_fields": {
+   "chars": 62,
+   "words": 11,
+   "over_60": true,
+   "front_keyword": "Opus 5.5",
+   "front_keyword_pos": 1,
+   "formula": "new-era",
+   "intent": "browse",
+   "specifics": [
+    "5.5 "
+   ],
+   "named": [
+    "Opus 5.5"
+   ],
+   "caps_words": [
+    "JUST"
+   ],
+   "punct": [
+    "."
+   ],
+   "emotion": "awe/anticipation",
+   "promise": "what comes after Opus 5.5",
+   "hook_gap": "what is about to change"
+  },
+  "thumbnail": {
+   "layout": "desk-anchor (new)",
+   "line": "IT'S HAPPENING",
+   "line_vs_title": "complements",
+   "face": "centre"
+  },
+  "description": {
+   "length": 341,
+   "first_line": "We have a big week coming. Opus 5.5 is world class. But openAI will answer at Dev Day. Here are my thoughts.",
+   "first_line_job": "hook",
+   "first_link_line": null,
+   "links": [],
+   "chapters": {
+    "present": true,
+    "count": 9,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  },
+  "data_note": "premiere; no likes field in dossier"
+ },
+ {
+  "index": 9,
+  "id": "_NRuT_d1PZE",
+  "url": "https://youtu.be/_NRuT_d1PZE",
+  "title": "Claude Opus 5.5 Is Insane… But Muse is EVEN Bigger",
+  "published": "Sep 25, 2026",
+  "views": 170922,
+  "likes": 1700,
+  "outlier": 1.4,
+  "duration_s": 1521,
+  "band": "normal",
+  "title_fields": {
+   "chars": 50,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": "Claude Opus 5.5",
+   "front_keyword_pos": 1,
+   "formula": "x-is-insane-but-y",
+   "intent": "browse",
+   "specifics": [
+    "5.5 "
+   ],
+   "named": [
+    "Claude Opus 5.5",
+    "Muse"
+   ],
+   "caps_words": [
+    "EVEN"
+   ],
+   "punct": [
+    ".",
+    "…"
+   ],
+   "emotion": "awe/FOMO",
+   "promise": "Opus 5.5 vs Muse news",
+   "hook_gap": "why Muse is bigger"
+  },
+  "thumbnail": {
+   "layout": "desk-anchor (new)",
+   "line": "IT'S OVER.",
+   "line_vs_title": "complements",
+   "face": "centre"
+  },
+  "description": {
+   "length": 1298,
+   "first_line": "This is an Agent Native Episode.",
+   "first_line_job": "keyword sentence",
+   "first_link_line": 4,
+   "links": [
+    {
+     "url": "https://clickhubspot.com/f48898",
+     "kind": "sponsor/affiliate"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 6,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "A agent-native-episode (+HubSpot sponsor)",
+   "disclosure": "Thanks to HubSpot for sponsoring this video."
+  }
+ },
+ {
+  "index": 10,
+  "id": "NDTbUObZTlM",
+  "url": "https://youtu.be/NDTbUObZTlM",
+  "title": "NEW Claude Projects Changes Everything",
+  "published": "Sep 21, 2026",
+  "views": 138244,
+  "likes": 1300,
+  "outlier": 1.16,
+  "duration_s": 1447,
+  "band": "normal",
+  "title_fields": {
+   "chars": 38,
+   "words": 5,
+   "over_60": false,
+   "front_keyword": "Claude Projects",
+   "front_keyword_pos": 2,
+   "formula": "x-just-changed",
+   "intent": "both",
+   "specifics": [],
+   "named": [
+    "Claude Projects"
+   ],
+   "caps_words": [
+    "NEW"
+   ],
+   "punct": [],
+   "emotion": "awe",
+   "promise": "what Claude Projects can do",
+   "hook_gap": "what \"everything\" is"
+  },
+  "thumbnail": {
+   "layout": "command (UI window)",
+   "line": "Projects New",
+   "line_vs_title": "repeats",
+   "face": "none"
+  },
+  "description": {
+   "length": 1489,
+   "first_line": "Claude just shipped Claude Code Projects, and I think it's the best update they've released all year.",
+   "first_line_job": "hook",
+   "first_link_line": 8,
+   "links": [],
+   "chapters": {
+    "present": true,
+    "count": 13,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 11,
+  "id": "o1CogAtWdBk",
+  "url": "https://youtu.be/o1CogAtWdBk",
+  "title": "JEV: How It Works and What You Can Build",
+  "published": "Sep 18, 2026",
+  "views": 196484,
+  "likes": 2100,
+  "outlier": 1.82,
+  "duration_s": 1218,
+  "band": "over",
+  "title_fields": {
+   "chars": 40,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": "JEV",
+   "front_keyword_pos": 1,
+   "formula": "explained",
+   "intent": "search",
+   "specifics": [],
+   "named": [
+    "JEV"
+   ],
+   "caps_words": [],
+   "punct": [
+    ":"
+   ],
+   "emotion": "curiosity",
+   "promise": "how JEV works and uses",
+   "hook_gap": "what you can build"
+  },
+  "thumbnail": {
+   "layout": "title-card (logo + face)",
+   "line": "JEV",
+   "line_vs_title": "repeats",
+   "face": "right, shrug/explaining"
+  },
+  "description": {
+   "length": 312,
+   "first_line": "Typesafe’s Jev: The Ultra-Fast Decision Model That Can’t Write (But Can Route, Classify & Filter Everything)",
+   "first_line_job": "keyword sentence",
+   "first_link_line": null,
+   "links": [],
+   "chapters": {
+    "present": true,
+    "count": 8,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 12,
+  "id": "O8pzzIP1RyM",
+  "url": "https://youtu.be/O8pzzIP1RyM",
+  "title": "Astra Built Me an Entire Product Launch (UGC, Ads, and Website)",
+  "published": "Sep 16, 2026",
+  "views": 28579,
+  "likes": 310,
+  "outlier": 0.26,
+  "duration_s": 784,
+  "band": "under",
+  "title_fields": {
+   "chars": 63,
+   "words": 11,
+   "over_60": true,
+   "front_keyword": "Astra",
+   "front_keyword_pos": 1,
+   "formula": "ai-did-it-for-me (new)",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "Astra"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "awe",
+   "promise": "AI-built product launch",
+   "hook_gap": "how good the output is"
+  },
+  "thumbnail": {
+   "layout": "collage title-card (new)",
+   "line": "ASTRA+BLENDER",
+   "line_vs_title": "complements",
+   "face": "none (UGC actor inset)"
+  },
+  "description": {
+   "length": 2119,
+   "first_line": "Everyone's testing GPT-6 Astra in a chat box. In this video, I actually let it build. With the Higgsfield plugin connected, Astra does the thinking and Higgsfield does the generating: images, video, a full commercial, all live inside ChatGPT with no tabs and no copy-pasting prompts. ",
+   "first_line_job": "hook",
+   "first_link_line": 2,
+   "links": [
+    {
+     "url": "https://mcp.higgsfield.ai/mcp)",
+     "kind": "tools"
+    },
+    {
+     "url": "https://higgsfield.ai/s/astra-rileybrownai-WaDfWa",
+     "kind": "sponsor/affiliate"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 12,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 13,
+  "id": "ifz8NGHuHtY",
+  "url": "https://youtu.be/ifz8NGHuHtY",
+  "title": "28 Insane Things Astra Can Do (2 Hour Course)",
+  "published": "Sep 14, 2026",
+  "views": 282987,
+  "likes": 4300,
+  "outlier": 2.82,
+  "duration_s": 6887,
+  "band": "hit",
+  "title_fields": {
+   "chars": 45,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": "Astra",
+   "front_keyword_pos": 4,
+   "formula": "listicle-n",
+   "intent": "both",
+   "specifics": [
+    "28 ",
+    "2 Hour"
+   ],
+   "named": [
+    "Astra"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "gain/awe",
+   "promise": "28 Astra capabilities, 2-hour course",
+   "hook_gap": "the 28 things"
+  },
+  "thumbnail": {
+   "layout": "desk-anchor (new)",
+   "line": "MASTER ASTRA",
+   "line_vs_title": "complements",
+   "face": "centre"
+  },
+  "description": {
+   "length": 1165,
+   "first_line": "Codex + GPT-6 Astra: The Complete Guide (28 Things You Need to Know)",
+   "first_line_job": "keyword sentence",
+   "first_link_line": 3,
+   "links": [
+    {
+     "url": "https://agentnative.inc/resources/28-things-to-know-about-codex",
+     "kind": "own offer/resources"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 33,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 14,
+  "id": "3cYTWLdHgAE",
+  "url": "https://youtu.be/3cYTWLdHgAE",
+  "title": "Build Anything With Claude (That’s Actually Good)",
+  "published": "Sep 9, 2026",
+  "views": 28977,
+  "likes": 246,
+  "outlier": 0.25,
+  "duration_s": 1503,
+  "band": "under",
+  "title_fields": {
+   "chars": 49,
+   "words": 7,
+   "over_60": false,
+   "front_keyword": "Claude",
+   "front_keyword_pos": 4,
+   "formula": "build-anything (new)",
+   "intent": "search",
+   "specifics": [],
+   "named": [
+    "Claude"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "relief/status",
+   "promise": "good builds with Claude",
+   "hook_gap": "what makes it \"actually good\""
+  },
+  "thumbnail": {
+   "layout": "dashboard spread (new)",
+   "line": "BUILD ANYTHING",
+   "line_vs_title": "repeats",
+   "face": "none"
+  },
+  "description": {
+   "length": 1686,
+   "first_line": "Every real app needs a real database, and this one runs on Convex. Claude Code, Codex, GrokBot, all writing to the same database, and every update shows up instantly for everyone, no refresh. Install the Convex plugin in Claude Code, ask your agent to build something, and see for yourself. It's free to create an account: https://convex.link/E61LRW5",
+   "first_line_job": "CTA",
+   "first_link_line": 1,
+   "links": [
+    {
+     "url": "https://convex.link/E61LRW5",
+     "kind": "sponsor/affiliate"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 10,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "A agent-native-episode (Convex sponsor line first)",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 15,
+  "id": "Ju41cQSe7hY",
+  "url": "https://youtu.be/Ju41cQSe7hY",
+  "title": "I Spent 100 Hours Using GPT-6 Astra (This Feels Like AGI)",
+  "published": "Sep 7, 2026",
+  "views": 752321,
+  "likes": 6800,
+  "outlier": 7.52,
+  "duration_s": 1440,
+  "band": "hit",
+  "title_fields": {
+   "chars": 57,
+   "words": 11,
+   "over_60": false,
+   "front_keyword": "GPT-6 Astra",
+   "front_keyword_pos": 6,
+   "formula": "i-tested",
+   "intent": "browse",
+   "specifics": [
+    "100 Hours",
+    "6 "
+   ],
+   "named": [
+    "GPT-6 Astra"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "awe",
+   "promise": "100-hour verdict on GPT-6 Astra",
+   "hook_gap": "why it feels like AGI"
+  },
+  "thumbnail": {
+   "layout": "face-left + hero logo",
+   "line": "THIS FEELS LIKE AGI",
+   "line_vs_title": "repeats",
+   "face": "left, intense, hand raised"
+  },
+  "description": {
+   "length": 901,
+   "first_line": "This is an Agent Native Episode.",
+   "first_line_job": "keyword sentence",
+   "first_link_line": 9,
+   "links": [],
+   "chapters": {
+    "present": true,
+    "count": 8,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "A agent-native-episode",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 16,
+  "id": "ubzhh4kMCLo",
+  "url": "https://youtu.be/ubzhh4kMCLo",
+  "title": "8 ChatGPT Agents That Do My Work for Me (Steal These)",
+  "published": "Sep 4, 2026",
+  "views": 124384,
+  "likes": 1200,
+  "outlier": 1.24,
+  "duration_s": 1207,
+  "band": "normal",
+  "title_fields": {
+   "chars": 53,
+   "words": 11,
+   "over_60": false,
+   "front_keyword": "ChatGPT Agents",
+   "front_keyword_pos": 2,
+   "formula": "listicle-n",
+   "intent": "both",
+   "specifics": [
+    "8 "
+   ],
+   "named": [
+    "ChatGPT"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "gain",
+   "promise": "8 copyable work agents",
+   "hook_gap": "which 8 agents"
+  },
+  "thumbnail": {
+   "layout": "face-centre + floating UI panels",
+   "line": "STEAL THESE",
+   "line_vs_title": "repeats",
+   "face": "centre, hands clasped"
+  },
+  "description": {
+   "length": 1096,
+   "first_line": "Download ChatGPT: https://chatgpt.com/download/?utm_sou...",
+   "first_line_job": "link",
+   "first_link_line": 1,
+   "links": [
+    {
+     "url": "https://chatgpt.com/download/?utm_source=creator&utm_campaign=youtube&utm_content=partnership-rileybrownai",
+     "kind": "sponsor/affiliate"
+    },
+    {
+     "url": "https://agentnative.inc/resources/how-to-use-scrape-creators",
+     "kind": "own offer/resources"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 10,
+    "starts_0": true
+   },
+   "hashtags_real": [
+    "#ChatGPT_Partner"
+   ],
+   "template": "B chatgpt-partner (variant)",
+   "disclosure": "Thanks to @OpenAI for sponsoring this video."
+  }
+ },
+ {
+  "index": 17,
+  "id": "9lsnEn0tih4",
+  "url": "https://youtu.be/9lsnEn0tih4",
+  "title": "I Gave GrokBot Its Own Email and Credit Card (It Actually Worked)",
+  "published": "Sep 2, 2026",
+  "views": 93649,
+  "likes": 993,
+  "outlier": 0.88,
+  "duration_s": 1128,
+  "band": "normal",
+  "title_fields": {
+   "chars": 65,
+   "words": 12,
+   "over_60": true,
+   "front_keyword": "GrokBot",
+   "front_keyword_pos": 3,
+   "formula": "i-tested",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "GrokBot"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "curiosity/risk",
+   "promise": "agent with email and card",
+   "hook_gap": "what it did with the card"
+  },
+  "thumbnail": {
+   "layout": "mascot arena (new)",
+   "line": "GROKBOT UNLOCKED",
+   "line_vs_title": "complements",
+   "face": "none"
+  },
+  "description": {
+   "length": 708,
+   "first_line": "Give Your GrokBot an Email and a Credit Card (Full Setup)...",
+   "first_line_job": "keyword sentence",
+   "first_link_line": 5,
+   "links": [
+    {
+     "url": "https://agentnative.inc/resources",
+     "kind": "own offer/resources"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 8,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 18,
+  "id": "XgkW4A6lrDY",
+  "url": "https://youtu.be/XgkW4A6lrDY",
+  "title": "11 Insane Things NEW Grok Bot Can Do (Steal These)",
+  "published": "Aug 26, 2026",
+  "views": 119664,
+  "likes": 1200,
+  "outlier": 1.19,
+  "duration_s": 2244,
+  "band": "normal",
+  "title_fields": {
+   "chars": 50,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": "Grok Bot",
+   "front_keyword_pos": 5,
+   "formula": "listicle-n",
+   "intent": "both",
+   "specifics": [
+    "11 "
+   ],
+   "named": [
+    "Grok Bot"
+   ],
+   "caps_words": [
+    "NEW"
+   ],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "gain",
+   "promise": "11 Grok Bot uses to copy",
+   "hook_gap": "the 11 things"
+  },
+  "thumbnail": {
+   "layout": "mascot arena (new)",
+   "line": "",
+   "line_vs_title": "none",
+   "face": "none"
+  },
+  "description": {
+   "length": 831,
+   "first_line": "11 GrokBot Tips Explained...",
+   "first_line_job": "keyword sentence",
+   "first_link_line": 5,
+   "links": [
+    {
+     "url": "https://agentnative.inc/resources/11-tips-for-using-grokbot",
+     "kind": "own offer/resources"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 15,
+    "starts_0": false
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 19,
+  "id": "mHqSBCHEZOY",
+  "url": "https://youtu.be/mHqSBCHEZOY",
+  "title": "How to Use ChatGPT Sites to Build Anything (Insane)",
+  "published": "Aug 25, 2026",
+  "views": 257019,
+  "likes": 3000,
+  "outlier": 2.61,
+  "duration_s": 786,
+  "band": "hit",
+  "title_fields": {
+   "chars": 51,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": "ChatGPT Sites",
+   "front_keyword_pos": 4,
+   "formula": "how-to",
+   "intent": "search",
+   "specifics": [],
+   "named": [
+    "ChatGPT Sites"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "gain/awe",
+   "promise": "build anything with ChatGPT Sites",
+   "hook_gap": "none"
+  },
+  "thumbnail": {
+   "layout": "dashboard spread (new)",
+   "line": "BUILD ANYTHING",
+   "line_vs_title": "repeats",
+   "face": "none"
+  },
+  "description": {
+   "length": 984,
+   "first_line": "I built an app that replaced 3 SaaS tools I was paying thousands of dollars for in just 3 prompts inside ChatGPT.",
+   "first_line_job": "hook",
+   "first_link_line": 3,
+   "links": [
+    {
+     "url": "https://openai.com/webmcp-challenge/",
+     "kind": "sponsor/affiliate"
+    },
+    {
+     "url": "https://agentnative.inc/resources",
+     "kind": "own offer/resources"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 8,
+    "starts_0": true
+   },
+   "hashtags_real": [
+    "#ChatGPT_Partner",
+    "#agents",
+    "#aiagents",
+    "#codex"
+   ],
+   "template": "B chatgpt-partner (variant)",
+   "disclosure": "Thanks to @OpenAI for sponsoring this video. #codex #agents #ChatGPT_Partner #aiagents"
+  }
+ },
+ {
+  "index": 20,
+  "id": "ETa6ZYqoIXo",
+  "url": "https://youtu.be/ETa6ZYqoIXo",
+  "title": "Codex vs Claude vs Grokbot: What's The Best Super App?",
+  "published": "Aug 21, 2026",
+  "views": 33080,
+  "likes": 620,
+  "outlier": 0.31,
+  "duration_s": 1369,
+  "band": "under",
+  "title_fields": {
+   "chars": 54,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": "Codex",
+   "front_keyword_pos": 1,
+   "formula": "versus (new)",
+   "intent": "search",
+   "specifics": [],
+   "named": [
+    "Codex",
+    "Claude",
+    "Grokbot"
+   ],
+   "caps_words": [],
+   "punct": [
+    ":",
+    "?"
+   ],
+   "emotion": "controversy",
+   "promise": "best AI super app verdict",
+   "hook_gap": "which one wins"
+  },
+  "thumbnail": {
+   "layout": "face-left + logo trio",
+   "line": "",
+   "line_vs_title": "none",
+   "face": "left, talking, hand raised"
+  },
+  "description": {
+   "length": 607,
+   "first_line": "The Biggest News this week in AI Agents: Codex iMessage Control, GrokBot's Rise, Claude Cowork on Mobile, Slack Code And more",
+   "first_line_job": "summary",
+   "first_link_line": 3,
+   "links": [
+    {
+     "url": "https://clickhubspot.com/3a38b6",
+     "kind": "sponsor/affiliate"
+    },
+    {
+     "url": "https://open.spotify.com/episode/3Pdyx0JNzMo559VBLwHKGa?si=22_nSm-OS56atI9_MpuN3Q",
+     "kind": "podcast"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 6,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "C weekly-roundup",
+   "disclosure": "Sponsorships: riley@rakugomedia.com"
+  }
+ },
+ {
+  "index": 21,
+  "id": "NR_GMq2lDCE",
+  "url": "https://youtu.be/NR_GMq2lDCE",
+  "title": "Bilawal Sidhu’s God's Eye View",
+  "published": "Aug 16, 2026",
+  "views": 26346,
+  "likes": 501,
+  "outlier": 0.25,
+  "duration_s": 3828,
+  "band": "under",
+  "title_fields": {
+   "chars": 30,
+   "words": 5,
+   "over_60": false,
+   "front_keyword": "Bilawal Sidhu",
+   "front_keyword_pos": 1,
+   "formula": "guest (new)",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "Bilawal Sidhu"
+   ],
+   "caps_words": [],
+   "punct": [],
+   "emotion": "curiosity",
+   "promise": "guest's god's-eye-view project",
+   "hook_gap": "what the view is"
+  },
+  "thumbnail": {
+   "layout": "versus (two faces)",
+   "line": "GOD'S EYE VIEW",
+   "line_vs_title": "repeats",
+   "face": "two faces either side"
+  },
+  "description": {
+   "length": 600,
+   "first_line": "Bilawal Sidhu on Codex vs OpenClaw, In‑App Browsers, AI Agents for YouTube, and Vibe‑Coding a Palantir‑Like Startup.",
+   "first_line_job": "summary",
+   "first_link_line": 3,
+   "links": [
+    {
+     "url": "https://open.spotify.com/episode/1XtWWptEx6GTjDL8vwg3XM?si=g8B9i3ThTEmlEmmd8WuG4A",
+     "kind": "podcast"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 10,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 22,
+  "id": "VWDnptnvFrA",
+  "url": "https://youtu.be/VWDnptnvFrA",
+  "title": "Grok 4.6 is Actually Good… And Claude Keeps Getting Better",
+  "published": "Aug 15, 2026",
+  "views": 40066,
+  "likes": 723,
+  "outlier": 0.41,
+  "duration_s": 1522,
+  "band": "under",
+  "title_fields": {
+   "chars": 58,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": "Grok 4.6",
+   "front_keyword_pos": 1,
+   "formula": "x-and-y-roundup (new)",
+   "intent": "browse",
+   "specifics": [
+    "4.6 "
+   ],
+   "named": [
+    "Grok 4.6",
+    "Claude"
+   ],
+   "caps_words": [],
+   "punct": [
+    ".",
+    "…"
+   ],
+   "emotion": "relief/curiosity",
+   "promise": "Grok 4.6 and Claude news",
+   "hook_gap": "how good each is"
+  },
+  "thumbnail": {
+   "layout": "desk-anchor (new), lowercase labels",
+   "line": "grok4.6 +grokbot / claude updates",
+   "line_vs_title": "repeats",
+   "face": "centre"
+  },
+  "description": {
+   "length": 916,
+   "first_line": "The Biggest News this week in AI: GrokBot, Grok 4.6, Claude Extension Updates, Gemini 3.7 And more",
+   "first_line_job": "summary",
+   "first_link_line": 3,
+   "links": [
+    {
+     "url": "https://shop.genspark.ai/s/rileybrown",
+     "kind": "sponsor/affiliate"
+    },
+    {
+     "url": "https://agentnative.inc/resources",
+     "kind": "own offer/resources"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 9,
+    "starts_0": true
+   },
+   "hashtags_real": [
+    "#Genspark",
+    "#SecondBrain",
+    "#SecondBrainNote"
+   ],
+   "template": "C weekly-roundup",
+   "disclosure": "Get 10% off through my link: https://shop.genspark.ai/s/rileybrown"
+  }
+ },
+ {
+  "index": 23,
+  "id": "8Yf9IoXkROM",
+  "url": "https://youtu.be/8Yf9IoXkROM",
+  "title": "Cursor Just Unleashed GrokBot (Everything You NEED to Know)",
+  "published": "Aug 11, 2026",
+  "views": 104366,
+  "likes": 2100,
+  "outlier": 1.12,
+  "duration_s": 1203,
+  "band": "normal",
+  "title_fields": {
+   "chars": 59,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": "Cursor",
+   "front_keyword_pos": 1,
+   "formula": "x-just-changed",
+   "intent": "both",
+   "specifics": [],
+   "named": [
+    "Cursor",
+    "GrokBot"
+   ],
+   "caps_words": [
+    "NEED"
+   ],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "FOMO",
+   "promise": "what GrokBot is and does",
+   "hook_gap": "what you NEED to know"
+  },
+  "thumbnail": {
+   "layout": "mascot arena (new), crowned",
+   "line": "it's over.",
+   "line_vs_title": "complements",
+   "face": "none"
+  },
+  "description": {
+   "length": 462,
+   "first_line": "GrokBot Explained... ",
+   "first_line_job": "keyword sentence",
+   "first_link_line": null,
+   "links": [],
+   "chapters": {
+    "present": true,
+    "count": 8,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 24,
+  "id": "piOSL8Ms9mY",
+  "url": "https://youtu.be/piOSL8Ms9mY",
+  "title": "Codex Is Winning… So Why Am I Still Paying for Claude?",
+  "published": "Aug 10, 2026",
+  "views": 40294,
+  "likes": 900,
+  "outlier": 0.41,
+  "duration_s": 1491,
+  "band": "under",
+  "title_fields": {
+   "chars": 54,
+   "words": 11,
+   "over_60": false,
+   "front_keyword": "Codex",
+   "front_keyword_pos": 1,
+   "formula": "contrarian-question (new)",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "Codex",
+    "Claude"
+   ],
+   "caps_words": [],
+   "punct": [
+    "?",
+    "…"
+   ],
+   "emotion": "controversy",
+   "promise": "Codex vs Claude subscription verdict",
+   "hook_gap": "why he still pays"
+  },
+  "thumbnail": {
+   "layout": "desk-anchor (new), money rain",
+   "line": "codex / claude",
+   "line_vs_title": "repeats",
+   "face": "centre"
+  },
+  "description": {
+   "length": 745,
+   "first_line": "The 6 biggest AI agent updates from the last 2 weeks:",
+   "first_line_job": "summary",
+   "first_link_line": 9,
+   "links": [
+    {
+     "url": "https://open.spotify.com/episode/1qOB1sOjbeCM1JsySeWGXr?si=TeBSdgRSSkmam-BmN7TJVw",
+     "kind": "podcast"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 13,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "C weekly-roundup",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 25,
+  "id": "zWL6XGP3Em8",
+  "url": "https://youtu.be/zWL6XGP3Em8",
+  "title": "14 Insane Things ChatGPT Work Can Do (Automate Anything)",
+  "published": "Aug 9, 2026",
+  "views": 239789,
+  "likes": 4100,
+  "outlier": 2.57,
+  "duration_s": 3662,
+  "band": "hit",
+  "title_fields": {
+   "chars": 56,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": "ChatGPT Work",
+   "front_keyword_pos": 4,
+   "formula": "listicle-n",
+   "intent": "both",
+   "specifics": [
+    "14 "
+   ],
+   "named": [
+    "ChatGPT Work"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "gain",
+   "promise": "14 ChatGPT Work automations",
+   "hook_gap": "the 14 things"
+  },
+  "thumbnail": {
+   "layout": "command (toggle) + face right",
+   "line": "AUTOMATE ANYTHING",
+   "line_vs_title": "repeats",
+   "face": "right, hand on chin"
+  },
+  "description": {
+   "length": 568,
+   "first_line": "Learn 99% of ChatGPT Work in 61 minutes:",
+   "first_line_job": "hook",
+   "first_link_line": null,
+   "links": [],
+   "chapters": {
+    "present": true,
+    "count": 15,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 26,
+  "id": "HQXi4snP36I",
+  "url": "https://youtu.be/HQXi4snP36I",
+  "title": "The AI Agent Every Company is About to Build | Vercel CEO Guillermo Rauch",
+  "published": "Aug 6, 2026",
+  "views": 108755,
+  "likes": 2300,
+  "outlier": 1.3,
+  "duration_s": 3263,
+  "band": "normal",
+  "title_fields": {
+   "chars": 73,
+   "words": 14,
+   "over_60": true,
+   "front_keyword": "AI Agent",
+   "front_keyword_pos": 2,
+   "formula": "guest (new)",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "Vercel",
+    "Guillermo Rauch"
+   ],
+   "caps_words": [],
+   "punct": [
+    "|"
+   ],
+   "emotion": "status/FOMO",
+   "promise": "company-wide agent playbook from Vercel CEO",
+   "hook_gap": "which agent"
+  },
+  "thumbnail": {
+   "layout": "versus (two faces) + hero object",
+   "line": "it does everything",
+   "line_vs_title": "complements",
+   "face": "two faces either side"
+  },
+  "description": {
+   "length": 882,
+   "first_line": "How do you build an agent that a 1000 person company can use internally? ",
+   "first_line_job": "hook",
+   "first_link_line": null,
+   "links": [],
+   "chapters": {
+    "present": true,
+    "count": 11,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 27,
+  "id": "5DnOOa-5dTU",
+  "url": "https://youtu.be/5DnOOa-5dTU",
+  "title": "Cursor 3.0 Ultimate Guide: Beginner to Pro in 60 min",
+  "published": "Jul 30, 2026",
+  "views": 54141,
+  "likes": 1100,
+  "outlier": 0.58,
+  "duration_s": 3857,
+  "band": "under",
+  "title_fields": {
+   "chars": 52,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": "Cursor 3.0",
+   "front_keyword_pos": 1,
+   "formula": "full-course",
+   "intent": "search",
+   "specifics": [
+    "3.0 ",
+    "60 min"
+   ],
+   "named": [
+    "Cursor"
+   ],
+   "caps_words": [],
+   "punct": [
+    ".",
+    ":"
+   ],
+   "emotion": "gain",
+   "promise": "Cursor beginner to pro in 60 min",
+   "hook_gap": "none"
+  },
+  "thumbnail": {
+   "layout": "title-card (logo + face)",
+   "line": "CURSOR Beginner to Pro",
+   "line_vs_title": "repeats",
+   "face": "left, neutral"
+  },
+  "description": {
+   "length": 1842,
+   "first_line": "The Complete Guide to Cursor for Business (No Coding Required)",
+   "first_line_job": "keyword sentence",
+   "first_link_line": 3,
+   "links": [
+    {
+     "url": "https://cursor.com/?utm_source=youtube&utm_medium=yt-dedicated&utm_campaign=evergreen",
+     "kind": "sponsor/affiliate"
+    },
+    {
+     "url": "https://open.spotify.com/episode/1P6qZ0jpjskzqgQB23wKx7?si=I5QEaVPSShGmQ13e4rpMOA",
+     "kind": "podcast"
+    },
+    {
+     "url": "https://rss.com/podcasts/a-new-vibe/",
+     "kind": "podcast"
+    },
+    {
+     "url": "https://x.com/rileybrown",
+     "kind": "socials/channel"
+    },
+    {
+     "url": "https://www.instagram.com/realrileybrown/",
+     "kind": "socials/channel"
+    },
+    {
+     "url": "https://www.tiktok.com/@rileybrown.ai",
+     "kind": "socials/channel"
+    },
+    {
+     "url": "https://www.linkedin.com/in/riley-brown-7441b1101/",
+     "kind": "tools"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 25,
+    "starts_0": true
+   },
+   "hashtags_real": [
+    "#Cursorcreator",
+    "#Learning",
+    "#agentnative",
+    "#vibecoding"
+   ],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 28,
+  "id": "P1KpxzLVg7c",
+  "url": "https://youtu.be/P1KpxzLVg7c",
+  "title": "Claude Code + Codex Can FINALLY Work Together (Buzz AI)",
+  "published": "Jul 29, 2026",
+  "views": 73384,
+  "likes": 1400,
+  "outlier": 0.92,
+  "duration_s": 3316,
+  "band": "normal",
+  "title_fields": {
+   "chars": 55,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": "Claude Code",
+   "front_keyword_pos": 1,
+   "formula": "finally-together (new)",
+   "intent": "both",
+   "specifics": [],
+   "named": [
+    "Claude Code",
+    "Codex",
+    "Buzz AI"
+   ],
+   "caps_words": [
+    "FINALLY"
+   ],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "relief",
+   "promise": "make Claude Code and Codex cooperate",
+   "hook_gap": "how"
+  },
+  "thumbnail": {
+   "layout": "command (agent chat card) + face-left",
+   "line": "FINALLY.",
+   "line_vs_title": "repeats",
+   "face": "left, pointing"
+  },
+  "description": {
+   "length": 1249,
+   "first_line": "Building an Agent Team on Buzz (Complete Guide)",
+   "first_line_job": "keyword sentence",
+   "first_link_line": 4,
+   "links": [
+    {
+     "url": "/channel/UCHP5Hdx0X-sM0uv2bl_OOqg",
+     "kind": "socials/channel"
+    },
+    {
+     "url": "https://open.spotify.com/episode/5E3HR63yTPoCQlP4VekCXx?si=K8Gm3_haTaGsobqjdK23rg",
+     "kind": "podcast"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 18,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 29,
+  "id": "fZ1Kmuafzzk",
+  "url": "https://youtu.be/fZ1Kmuafzzk",
+  "title": "Master Claude for Excel in 20 Minutes (Full Guide)",
+  "published": "Jul 27, 2026",
+  "views": 9263,
+  "likes": 210,
+  "outlier": 0.13,
+  "duration_s": 1263,
+  "band": "under",
+  "title_fields": {
+   "chars": 50,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": "Claude",
+   "front_keyword_pos": 2,
+   "formula": "full-course",
+   "intent": "search",
+   "specifics": [
+    "20 Minutes"
+   ],
+   "named": [
+    "Claude",
+    "Excel"
+   ],
+   "caps_words": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "gain",
+   "promise": "Claude for Excel in 20 min",
+   "hook_gap": "none"
+  },
+  "thumbnail": {
+   "layout": "face-left + screenshot",
+   "line": "CLAUDE FOR EXCEL",
+   "line_vs_title": "repeats",
+   "face": "left, neutral"
+  },
+  "description": {
+   "length": 641,
+   "first_line": "Using Claude Opus for Excel. ",
+   "first_line_job": "keyword sentence",
+   "first_link_line": 3,
+   "links": [
+    {
+     "url": "https://clickhubspot.com/36ecad",
+     "kind": "sponsor/affiliate"
+    }
+   ],
+   "chapters": {
+    "present": true,
+    "count": 6,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "one-off",
+   "disclosure": null
+  }
+ },
+ {
+  "index": 30,
+  "id": "Hv8YGUXZY1g",
+  "url": "https://youtu.be/Hv8YGUXZY1g",
+  "title": "Opus 5 Is Here… But NEW Claude Voice Is Even Bigger",
+  "published": "Jul 25, 2026",
+  "views": 110608,
+  "likes": 2300,
+  "outlier": 2.34,
+  "duration_s": 1584,
+  "band": "hit",
+  "title_fields": {
+   "chars": 51,
+   "words": 11,
+   "over_60": false,
+   "front_keyword": "Opus 5",
+   "front_keyword_pos": 1,
+   "formula": "x-is-insane-but-y",
+   "intent": "browse",
+   "specifics": [
+    "5 "
+   ],
+   "named": [
+    "Opus 5",
+    "Claude Voice"
+   ],
+   "caps_words": [
+    "NEW"
+   ],
+   "punct": [
+    "…"
+   ],
+   "emotion": "awe/FOMO",
+   "promise": "Opus 5 and Claude Voice news",
+   "hook_gap": "why Voice is bigger"
+  },
+  "thumbnail": {
+   "layout": "desk-anchor (new), lowercase labels",
+   "line": "voice / opus 5",
+   "line_vs_title": "repeats",
+   "face": "centre"
+  },
+  "description": {
+   "length": 506,
+   "first_line": "This is an Agent Native Episode.",
+   "first_line_job": "keyword sentence",
+   "first_link_line": null,
+   "links": [],
+   "chapters": {
+    "present": true,
+    "count": 8,
+    "starts_0": true
+   },
+   "hashtags_real": [],
+   "template": "A agent-native-episode (short)",
+   "disclosure": null
+  }
+ }
+]

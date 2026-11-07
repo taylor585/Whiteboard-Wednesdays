@@ -1,0 +1,85 @@
+{
+ "id": "Think16-09-stacked-centre-paper-grid",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "stacked-centre",
+  "ground": "paper-grid",
+  "font": "anton",
+  "accent": "blue",
+  "hero": "orbit",
+  "emoji": true
+ },
+ "studio": {
+  "preset": "paper-grid"
+ },
+ "words": "AI THINKS. YOU DECIDE.",
+ "layers": [
+  {
+   "type": "dot_grid"
+  },
+  {
+   "type": "brain",
+   "x": 170,
+   "y": 150,
+   "w": 230,
+   "rot": -12
+  },
+  {
+   "type": "lightbulb",
+   "x": 1110,
+   "y": 170,
+   "h": 230,
+   "glow": "#ffd84a",
+   "rot": 12
+  },
+  {
+   "type": "logo",
+   "logo": "claude.svg",
+   "x": 160,
+   "y": 560,
+   "size": 150,
+   "finish": "claude-terracotta",
+   "depth": 12,
+   "rot": -10
+  },
+  {
+   "type": "emoji",
+   "x": 1110,
+   "y": 520,
+   "size": 150,
+   "char": "🤔",
+   "rot": 10
+  },
+  {
+   "type": "text",
+   "text": "AI thinks.",
+   "x": 640,
+   "y": 320,
+   "size": 170,
+   "finish": "charcoal",
+   "depth": 12,
+   "anchor": "middle"
+  },
+  {
+   "type": "block3d",
+   "x": 330,
+   "y": 400,
+   "w": 620,
+   "h": 180,
+   "top": "#3d8bff",
+   "bot": "#1652c9",
+   "side": "#0a2a6e",
+   "rot": 2
+  },
+  {
+   "type": "text",
+   "text": "You decide.",
+   "x": 640,
+   "y": 548,
+   "size": 150,
+   "finish": "white-outline",
+   "depth": 12,
+   "anchor": "middle"
+  }
+ ]
+}

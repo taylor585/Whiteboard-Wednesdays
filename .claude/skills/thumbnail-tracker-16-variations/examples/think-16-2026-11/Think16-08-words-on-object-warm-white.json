@@ -1,0 +1,49 @@
+{
+ "id": "Think16-08-words-on-object-warm-white",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "words-on-object",
+  "ground": "warm-white",
+  "font": "inter-tight-in-bubble",
+  "accent": "yellow",
+  "hero": "yellow-bubble",
+  "emoji": false
+ },
+ "studio": {
+  "preset": "warm-white"
+ },
+ "words": "YOU THINK FIRST.",
+ "layers": [
+  {
+   "type": "speech_bubble",
+   "x": 560,
+   "y": 300,
+   "w": 900,
+   "text": "YOU THINK",
+   "font": "Inter Tight",
+   "size": 150,
+   "tail": "right",
+   "top": "#fff36b",
+   "bot": "#f5b400",
+   "depth": 18,
+   "rot": -3
+  },
+  {
+   "type": "text",
+   "text": "first.",
+   "x": 300,
+   "y": 650,
+   "size": 170,
+   "finish": "charcoal",
+   "depth": 12
+  },
+  {
+   "type": "lightbulb",
+   "x": 1130,
+   "y": 470,
+   "h": 300,
+   "glow": "#ffd84a",
+   "rot": 10
+  }
+ ]
+}

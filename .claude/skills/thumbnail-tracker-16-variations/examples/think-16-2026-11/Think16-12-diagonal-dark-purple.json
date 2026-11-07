@@ -1,0 +1,59 @@
+{
+ "id": "Think16-12-diagonal-dark-purple",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "diagonal",
+  "ground": "dark-purple",
+  "font": "anton",
+  "accent": "gold",
+  "hero": "brain-plus-logo",
+  "emoji": false
+ },
+ "studio": {
+  "preset": "dark-purple"
+ },
+ "words": "AI THINKS. YOU DECIDE.",
+ "layers": [
+  {
+   "type": "brain",
+   "x": 1010,
+   "y": 230,
+   "w": 380,
+   "rot": 12,
+   "glow": "#b98cff"
+  },
+  {
+   "type": "logo",
+   "logo": "claude.svg",
+   "x": 1050,
+   "y": 520,
+   "size": 210,
+   "finish": "claude-terracotta",
+   "depth": 18,
+   "rot": -12,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "AI thinks.",
+   "x": 60,
+   "y": 300,
+   "size": 170,
+   "finish": "white-outline",
+   "depth": 14,
+   "rot": -7,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "You decide.",
+   "x": 90,
+   "y": 500,
+   "size": 170,
+   "finish": "gold-outline",
+   "depth": 18,
+   "rot": -7,
+   "rim": true
+  }
+ ]
+}

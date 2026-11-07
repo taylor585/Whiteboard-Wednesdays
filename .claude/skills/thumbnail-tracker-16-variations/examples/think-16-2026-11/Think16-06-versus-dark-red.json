@@ -1,0 +1,76 @@
+{
+ "id": "Think16-06-versus-dark-red",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "versus",
+  "ground": "dark-red",
+  "font": "inter-tight",
+  "accent": "red-green",
+  "hero": "copy-bubble-vs-brain",
+  "emoji": true
+ },
+ "studio": {
+  "preset": "dark-red"
+ },
+ "words": "COPY VS THINK",
+ "layers": [
+  {
+   "type": "speech_bubble",
+   "x": 290,
+   "y": 300,
+   "w": 420,
+   "text": "COPY",
+   "font": "Inter Tight",
+   "size": 120,
+   "rot": -6,
+   "tail": "left",
+   "top": "#e9ecef",
+   "bot": "#b9bfc9"
+  },
+  {
+   "type": "emoji",
+   "x": 470,
+   "y": 140,
+   "size": 120,
+   "char": "😴",
+   "rot": -10
+  },
+  {
+   "type": "brain",
+   "x": 960,
+   "y": 300,
+   "w": 420,
+   "rot": 6,
+   "glow": "#ff6b8f"
+  },
+  {
+   "type": "emoji",
+   "x": 1160,
+   "y": 130,
+   "size": 120,
+   "char": "🔥",
+   "rot": 10
+  },
+  {
+   "type": "text",
+   "text": "VS",
+   "x": 640,
+   "y": 400,
+   "size": 160,
+   "finish": "white-outline",
+   "depth": 14,
+   "anchor": "middle"
+  },
+  {
+   "type": "text",
+   "text": "Think",
+   "x": 960,
+   "y": 640,
+   "size": 150,
+   "finish": "green-outline",
+   "depth": 16,
+   "anchor": "middle",
+   "rim": true
+  }
+ ]
+}

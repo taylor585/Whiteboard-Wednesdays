@@ -1,0 +1,19 @@
+# Decisions log: ICP Buyer Research (October 2026)
+
+What was made, what Taylor picked, and why. Read this before packaging a similar video. It shows how the frameworks were applied and where the user's judgement overrode them.
+
+| Date | Step | What we made | Decision | Why |
+|---|---|---|---|---|
+| 12 Oct | Brief | `brief.md` | — | Taylor's brief set the rules: UK English, no client name, real figures only, titles < 70 characters, thumbnail text of 2–5 words that doesn't repeat the title, 3–5 hashtags. |
+| 12 Oct | Titles | 10 titles across 10 formulas (`titles-scored.md`) | A/B set: 0, 1, 5 | Different formulas, so a test teaches something. |
+| 12 Oct | Round 1 thumbnails | 5 concepts with a face placeholder (`thumbnails/round1-concepts/`): caption "AI CAN'T SPEAK HUMAN", proof "Read their mind.", quote "No answer. Next clinic.", split "WRONG PEOPLE / RIGHT BUYERS", marker "Diagnose before you write." | Taylor liked **"Read their mind."** | The line adds to the title. It came from Taylor's own words in the video ("This person has just read my mind"). |
+| 12 Oct | Round 1 ranking | Top 3 pairs recommended: (1) "Why Your Meta Ads Land the Wrong People (And How to Fix It)" + "No answer. Next clinic." quote; (2) "I Built an AI Agent That Finds Your Buyers' Exact Words" + "Read their mind." with the 88% card; (3) "Why AI Ad Scripts Don't Convert (And the 90% Fix)" + "AI CAN'T SPEAK HUMAN" caption | — | Each pair has a different layout, so a test teaches something. |
+| 12 Oct | Round 1 lessons | The "Diagnose before you write." step chain (Quote → Finding → Creative) was unreadable at phone size. The renderer had rebuilt the video's own graphics (88% card, donut, quote card) from text. | Advice: export the original on-screen graphics from the edit as PNGs and use them via `img:`/`bg_image` | Small labels die at 168px; real graphics from the video are more authentic. |
+| 12 Oct | Round 2 (no photo) | Taylor had no photos, so we built 3 object-only scenes (`round2-light/`): A thought bubble, B report + magnifying glass, C mind x-ray | Claude recommended A (thought bubble); Taylor picked **the magnifying glass (B)** | The lens acts out the promise: research that finds the exact words. A and C illustrate the topic, and C is too wordy at 168px. |
+| 12 Oct | Round 3 (pop) | "More black, make the background pop": D1 Spotlight, D2 Research board, D3 Redacted dossier (`round3-dark/`) | **D1 Spotlight** won | One light pool on the hero; the evidence is dimmed but readable; the real quote stays visible (D3 hid it). See `references/design/scene-design.md` §1. |
+| 12 Oct | Sizes | D1 as YouTube 1280×720, LinkedIn video cover 1920×1080, LinkedIn post 1080×1350, plus the link-preview crop check | Sent as `thumbnails/final/` | The YouTube version is pixel-identical to the approved D1. |
+| 12 Oct | Lesson | Taylor rejected a written plan for a simple re-send | Deliver files directly | Simple asks get the files straight away, with no plan (`references/brand/house-style.md`, Delivery). |
+| 12 Oct | Lesson | Taylor asked why the 4:5 says "NEW VIDEO · 39 MIN" and which file is which | Always label each file's platform and size; explain teaser chips | The chip belongs only on the LinkedIn image teaser; 39 min = 39:19 running time. |
+| 13 Oct | CTA | Taylor's WhatsApp CTA | Pinned at line 1 of every description, and saved to the CTA library | Taylor's rule. Research supports it: own-offer CTAs on line 1 sat on hits (Riley 5.9–9.9×). |
+| 13 Oct | Layout | Blank line between every bullet, chapter and paragraph; a space after 👉 | Saved as house style | Taylor's preference for neat, well-spaced descriptions. |
+| 13 Oct | Published title | Taylor published "I Built an ICP Research AI Agent That Finds Your Ideal Clients On Meta" | Kept | Stronger for search; 70 characters means "On Meta" is cut on mobile. Check CTR at 48 hours. |

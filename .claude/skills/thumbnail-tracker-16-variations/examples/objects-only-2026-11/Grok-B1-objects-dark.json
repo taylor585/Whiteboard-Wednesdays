@@ -1,0 +1,90 @@
+{
+ "id": "Grok-B1-objects-dark",
+ "title": "Grok Voice Will Replace Your Sales",
+ "studio": {
+  "preset": "dark-blue"
+ },
+ "words": "20,000 CALLS A DAY",
+ "layers": [
+  {
+   "type": "call_button",
+   "x": 1195,
+   "y": 120,
+   "d": 92,
+   "blur": 2,
+   "rot": 10
+  },
+  {
+   "type": "call_button",
+   "x": 700,
+   "y": 600,
+   "d": 70,
+   "blur": 6,
+   "rot": -20
+  },
+  {
+   "type": "call_button",
+   "x": 1215,
+   "y": 470,
+   "d": 78,
+   "blur": 2,
+   "rot": 25
+  },
+  {
+   "type": "logo",
+   "logo": "grok.svg",
+   "x": 930,
+   "y": 330,
+   "size": 340,
+   "finish": "grok-black-chrome",
+   "depth": 24,
+   "glow": "#2f8cff",
+   "rot": -6,
+   "rim": true,
+   "glow_opacity": 0.75
+  },
+  {
+   "type": "call_button",
+   "x": 1080,
+   "y": 590,
+   "d": 120,
+   "rot": -8
+  },
+  {
+   "type": "call_button",
+   "x": 1150,
+   "y": 300,
+   "d": 64,
+   "blur": 2,
+   "rot": 40
+  },
+  {
+   "type": "text",
+   "text": "20,000",
+   "x": 40,
+   "y": 300,
+   "size": 215,
+   "finish": "gold-outline",
+   "depth": 22,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "Calls a day",
+   "x": 46,
+   "y": 470,
+   "size": 130,
+   "finish": "white-outline",
+   "depth": 12,
+   "rim": true
+  }
+ ],
+ "look": {
+  "layout": "words-left",
+  "ground": "dark-blue",
+  "font": "anton",
+  "accent": "gold",
+  "hero": "grok-logo-calls",
+  "emoji": false
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "id": "Think16-05-versus-sky",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "versus",
+  "ground": "sky",
+  "font": "anton",
+  "accent": "red-green",
+  "hero": "bubble-vs-bulb",
+  "emoji": true
+ },
+ "studio": {
+  "preset": "sky"
+ },
+ "words": "PROMPT VS THINK",
+ "layers": [
+  {
+   "type": "speech_bubble",
+   "x": 300,
+   "y": 300,
+   "w": 440,
+   "text": "PROMPT",
+   "font": "Anton",
+   "size": 120,
+   "rot": -5,
+   "tail": "left"
+  },
+  {
+   "type": "emoji",
+   "x": 470,
+   "y": 150,
+   "size": 120,
+   "char": "❌",
+   "rot": -8
+  },
+  {
+   "type": "lightbulb",
+   "x": 960,
+   "y": 280,
+   "h": 380,
+   "glow": "#ffd84a",
+   "rot": 6
+  },
+  {
+   "type": "emoji",
+   "x": 1140,
+   "y": 130,
+   "size": 120,
+   "char": "✅",
+   "rot": 8
+  },
+  {
+   "type": "text",
+   "text": "VS",
+   "x": 640,
+   "y": 390,
+   "size": 170,
+   "finish": "red-outline",
+   "depth": 16,
+   "anchor": "middle"
+  },
+  {
+   "type": "text",
+   "text": "Think",
+   "x": 960,
+   "y": 640,
+   "size": 150,
+   "finish": "green-outline",
+   "depth": 16,
+   "anchor": "middle"
+  }
+ ]
+}

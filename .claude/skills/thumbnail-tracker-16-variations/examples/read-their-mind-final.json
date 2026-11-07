@@ -1,0 +1,295 @@
+{
+ "thumbnails": [
+  {
+   "id": "yt-D1-spotlight",
+   "title": "I Built an AI Agent That Finds Your Buyers' Exact Words",
+   "archetype": "scene",
+   "theme": "dark",
+   "theme_overrides": {
+    "bg": "#0A0908",
+    "glow": false
+   },
+   "accent": "#CB8E03",
+   "face": null,
+   "format": "jpg",
+   "vignette": 260,
+   "headline": "Read their mind.",
+   "highlight": "mind.",
+   "font": "serif",
+   "headline_color": "#F5EAD8",
+   "headline_align": "left",
+   "headline_box": {
+    "x": 48,
+    "y": 28,
+    "w": 700,
+    "h": 140
+   },
+   "headline_max": 150,
+   "elements": [
+    {
+     "type": "glow",
+     "x": 905,
+     "y": 355,
+     "d": 900,
+     "color": "#CB8E03",
+     "opacity": 0.55,
+     "z": 1
+    },
+    {
+     "type": "chip",
+     "x": 930,
+     "y": 70,
+     "text": "#1 ICP · 88% fit",
+     "bg": "#CB8E03",
+     "fg": "#0A0908",
+     "size": 30,
+     "rotate": 3
+    },
+    {
+     "type": "doc",
+     "dark": true,
+     "x": 56,
+     "y": 205,
+     "w": 720,
+     "h": 330,
+     "rotate": -2,
+     "title": "ICP REPORT · MED SPA CLIENT",
+     "lines": [
+      {
+       "tag": "FEAR",
+       "tag_bg": "#B3261E",
+       "text": "Someone googles med spa, tries calling, no answer, books at the place next door instead."
+      },
+      {
+       "kind": "muted",
+       "tag": "DESIRE",
+       "tag_bg": "#8B6002",
+       "text": "Impact scores · real-life quotes"
+      },
+      {
+       "kind": "muted",
+       "tag": "QUESTION",
+       "tag_bg": "#5c5750",
+       "text": "What buyers ask before booking"
+      }
+     ],
+     "highlight": "no answer, books at the place next door instead.",
+     "highlight_bg": "rgba(246,223,140,.28)"
+    },
+    {
+     "type": "lens",
+     "x": 735,
+     "y": 185,
+     "d": 340,
+     "ring": "#CB8E03",
+     "glow": "#CB8E03",
+     "bg": "radial-gradient(circle at 35% 30%,#FFFDF6,#F6DF8C)",
+     "text": "No answer.\nNext clinic.",
+     "red": "Next clinic.",
+     "red_color": "#B3261E",
+     "size": 52,
+     "z": 7
+    }
+   ]
+  },
+  {
+   "id": "li-video-D1-1920x1080",
+   "title": "I Built an AI Agent That Finds Your Buyers' Exact Words",
+   "archetype": "scene",
+   "theme": "dark",
+   "theme_overrides": {
+    "bg": "#0A0908",
+    "glow": false
+   },
+   "accent": "#CB8E03",
+   "face": null,
+   "format": "jpg",
+   "vignette": 260,
+   "headline": "Read their mind.",
+   "highlight": "mind.",
+   "font": "serif",
+   "headline_color": "#F5EAD8",
+   "headline_align": "left",
+   "headline_box": {
+    "x": 48,
+    "y": 28,
+    "w": 700,
+    "h": 140
+   },
+   "headline_max": 150,
+   "elements": [
+    {
+     "type": "glow",
+     "x": 905,
+     "y": 355,
+     "d": 900,
+     "color": "#CB8E03",
+     "opacity": 0.55,
+     "z": 1
+    },
+    {
+     "type": "chip",
+     "x": 930,
+     "y": 70,
+     "text": "#1 ICP · 88% fit",
+     "bg": "#CB8E03",
+     "fg": "#0A0908",
+     "size": 30,
+     "rotate": 3
+    },
+    {
+     "type": "doc",
+     "dark": true,
+     "x": 56,
+     "y": 205,
+     "w": 720,
+     "h": 330,
+     "rotate": -2,
+     "title": "ICP REPORT · MED SPA CLIENT",
+     "lines": [
+      {
+       "tag": "FEAR",
+       "tag_bg": "#B3261E",
+       "text": "Someone googles med spa, tries calling, no answer, books at the place next door instead."
+      },
+      {
+       "kind": "muted",
+       "tag": "DESIRE",
+       "tag_bg": "#8B6002",
+       "text": "Impact scores · real-life quotes"
+      },
+      {
+       "kind": "muted",
+       "tag": "QUESTION",
+       "tag_bg": "#5c5750",
+       "text": "What buyers ask before booking"
+      }
+     ],
+     "highlight": "no answer, books at the place next door instead.",
+     "highlight_bg": "rgba(246,223,140,.28)"
+    },
+    {
+     "type": "lens",
+     "x": 735,
+     "y": 185,
+     "d": 340,
+     "ring": "#CB8E03",
+     "glow": "#CB8E03",
+     "bg": "radial-gradient(circle at 35% 30%,#FFFDF6,#F6DF8C)",
+     "text": "No answer.\nNext clinic.",
+     "red": "Next clinic.",
+     "red_color": "#B3261E",
+     "size": 52,
+     "z": 7
+    }
+   ],
+   "scale": 1.5
+  },
+  {
+   "id": "li-post-D1-1080x1350",
+   "title": "I Built an AI Agent That Finds Your Buyers' Exact Words",
+   "archetype": "scene",
+   "theme": "dark",
+   "theme_overrides": {
+    "bg": "#0A0908",
+    "glow": false
+   },
+   "accent": "#CB8E03",
+   "face": null,
+   "format": "jpg",
+   "canvas": {
+    "w": 1080,
+    "h": 1350
+   },
+   "vignette": 300,
+   "headline": "Read their mind.",
+   "highlight": "mind.",
+   "font": "serif",
+   "headline_color": "#F5EAD8",
+   "headline_align": "left",
+   "headline_box": {
+    "x": 60,
+    "y": 150,
+    "w": 960,
+    "h": 210
+   },
+   "headline_max": 170,
+   "elements": [
+    {
+     "type": "glow",
+     "x": 745,
+     "y": 885,
+     "d": 1000,
+     "color": "#CB8E03",
+     "opacity": 0.55,
+     "z": 1
+    },
+    {
+     "type": "chip",
+     "x": 60,
+     "y": 66,
+     "text": "NEW VIDEO · 39 MIN",
+     "bg": "#CB8E03",
+     "fg": "#0A0908",
+     "size": 28
+    },
+    {
+     "type": "chip",
+     "x": 700,
+     "y": 72,
+     "text": "#1 ICP · 88% fit",
+     "bg": "transparent",
+     "fg": "#CB8E03",
+     "size": 28,
+     "border": "3px solid #CB8E03",
+     "rotate": 3
+    },
+    {
+     "type": "doc",
+     "dark": true,
+     "x": 60,
+     "y": 430,
+     "w": 860,
+     "h": 300,
+     "rotate": -2,
+     "title": "ICP REPORT · MED SPA CLIENT",
+     "lines": [
+      {
+       "tag": "FEAR",
+       "tag_bg": "#B3261E",
+       "text": "Someone googles med spa, tries calling, no answer, books at the place next door instead."
+      },
+      {
+       "kind": "muted",
+       "tag": "DESIRE",
+       "tag_bg": "#8B6002",
+       "text": "Impact scores · real-life quotes"
+      },
+      {
+       "kind": "muted",
+       "tag": "QUESTION",
+       "tag_bg": "#5c5750",
+       "text": "What buyers ask before booking"
+      }
+     ],
+     "highlight": "no answer, books at the place next door instead.",
+     "highlight_bg": "rgba(246,223,140,.28)"
+    },
+    {
+     "type": "lens",
+     "x": 540,
+     "y": 680,
+     "d": 410,
+     "ring": "#CB8E03",
+     "glow": "#CB8E03",
+     "bg": "radial-gradient(circle at 35% 30%,#FFFDF6,#F6DF8C)",
+     "text": "No answer.\nNext clinic.",
+     "red": "Next clinic.",
+     "red_color": "#B3261E",
+     "size": 64,
+     "z": 7
+    }
+   ]
+  }
+ ]
+}

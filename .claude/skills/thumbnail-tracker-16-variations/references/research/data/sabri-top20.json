@@ -1,0 +1,788 @@
+{
+ "creator": "Sabri Suby (@SabriSubyOfficial)",
+ "source": "research-top/SabriSubyOfficial (all.tsv, picks.json, 20 dossiers); compared with research/SabriSubyOfficial/teardown.md",
+ "notes": "No video is in both buckets. Outliers copied from all.tsv and re-computed (views / median of up to 10 uploads either side): all 20 match. Hashtags counted from description text (# followed by a letter); the dossier hashtags field was ignored. JF4rjHOZbLo and mOQbtHp3WBU look like paid book ads (see rules).",
+ "videos": [
+  {
+   "id": "TDmbwAeBOwU",
+   "title": "How Luxury Brands Brainwash You to Buy",
+   "published": "Aug 9, 2024",
+   "views": 3909898,
+   "likes": 75000,
+   "like_rate_pct": 1.92,
+   "duration_s": 801,
+   "all_tsv_index": 99,
+   "outlier": 35.45,
+   "bucket": "views",
+   "title_formula": "brainwash-exposé (secret-or-exposed)",
+   "title_chars": 38,
+   "thumb": {
+    "words": 2,
+    "text": "The trick (white, with arrow to the velvet rope)",
+    "face": "yes: Sabri left, finger to lips (hush), GG-monogram jumper",
+    "objects": "Louis Vuitton storefront, doorman unhooking a red rope, queue of three",
+    "palette": "white/grey stone, black shopfront, gold sign, red rope",
+    "layout": "scene-composite"
+   },
+   "desc": {
+    "above_fold": "Today, I'm going to investigate the top 5 luxury brands in the world, and reveal EXACTLY how they brainwash the masses to buy.\nLouis Vuitton sells over $15 billion worth of products every year — but here’s the wild truth: these brands don’t target the rich... they target the poor.",
+    "cta": "socials (Instagram, X), King Kong agency",
+    "chapters": "none",
+    "hashtags": {
+     "count": 12,
+     "tags": [
+      "#luxurybrands",
+      "#luxurybrandmarketing",
+      "#marketingpsychology",
+      "#louisvuitton",
+      "#consumerpsychology",
+      "#gucci",
+      "#chanel",
+      "#rolex",
+      "#neuromarketing",
+      "#salesstrategies",
+      "#scarcitymarketing",
+      "#sabrisuby"
+     ]
+    },
+    "length_chars": 1048
+   }
+  },
+  {
+   "id": "hASHO5ap1Sw",
+   "title": "17 Years of Marketing Advice in 46 Mins",
+   "published": "Jun 21, 2024",
+   "views": 1685101,
+   "likes": 58000,
+   "like_rate_pct": 3.44,
+   "duration_s": 2807,
+   "all_tsv_index": 103,
+   "outlier": 15.53,
+   "bucket": "views",
+   "title_formula": "time-box (N years of advice in N mins)",
+   "title_chars": 39,
+   "thumb": {
+    "words": 5,
+    "text": "DON'T ASK. MAKE THEM BUY. (black on white tweet card, MAKE THEM BUY. on yellow highlight)",
+    "face": "yes: Sabri right, tight, serious, eye contact",
+    "objects": "fake X/Twitter post card with his avatar, name, verified tick and @sabrisuby",
+    "palette": "black background, white card, yellow highlight",
+    "layout": "tweet-card (new)"
+   },
+   "desc": {
+    "above_fold": "I've worked with thousands of clients, generating them over $7.8 Billion in sales through digital marketing. Today I'm sharing everything I know, so you can shortcut your path to becoming a world class marketer. \nInstagram:   / sabrisuby  ",
+    "cta": "socials (Instagram, X), King Kong agency",
+    "chapters": "none",
+    "hashtags": {
+     "count": 0,
+     "tags": []
+    },
+    "length_chars": 325
+   }
+  },
+  {
+   "id": "ZCw6BhJVe3k",
+   "title": "How Rolex Brainwashes You To Buy $80,000 Watches",
+   "published": "May 23, 2025",
+   "views": 1129324,
+   "likes": 21000,
+   "like_rate_pct": 1.86,
+   "duration_s": 1478,
+   "all_tsv_index": 80,
+   "outlier": 11.06,
+   "bucket": "views",
+   "title_formula": "brainwash-exposé + price",
+   "title_chars": 48,
+   "thumb": {
+    "words": 0,
+    "text": "none (only the ROLEX shop sign)",
+    "face": "yes: Sabri centre-left in a car, finger to lips, holding a green-dial Rolex",
+    "objects": "orange-leather car interior, Rolex shopfront, angry salesman running and pointing",
+    "palette": "orange, green, white, red tie",
+    "layout": "scene-composite"
+   },
+   "desc": {
+    "above_fold": "Instagram:   / sabrisuby  \nX:   / sabrisuby  ",
+    "cta": "socials, King Kong agency, GET KONG (SaaS)",
+    "chapters": "none",
+    "hashtags": {
+     "count": 8,
+     "tags": [
+      "#Rolex",
+      "#RolexWaitlist",
+      "#LuxuryMarketing",
+      "#SmokedOmbre",
+      "#GrayMarket",
+      "#LuxuryWatch",
+      "#RolexHunt",
+      "#MarketingStrategy"
+     ]
+    },
+    "length_chars": 1329
+   }
+  },
+  {
+   "id": "WKbh5AQoqaE",
+   "title": "How Hermès Brainwashes You to Buy $70,000 Handbags",
+   "published": "May 10, 2025",
+   "views": 807701,
+   "likes": 16000,
+   "like_rate_pct": 1.98,
+   "duration_s": 1179,
+   "all_tsv_index": 81,
+   "outlier": 7.02,
+   "bucket": "views",
+   "title_formula": "brainwash-exposé + price",
+   "title_chars": 50,
+   "thumb": {
+    "words": 3,
+    "text": "MADE IN CHINA (on a swing tag with a Chinese flag)",
+    "face": "yes: Sabri centre, finger to lips, GG-monogram tracksuit",
+    "objects": "red crocodile Birkin-style bag held up, Louis Vuitton building, palm trees, police helicopter, two shocked women",
+    "palette": "sky blue, yellow building, red bag, black/white jacket",
+    "layout": "scene-composite"
+   },
+   "desc": {
+    "above_fold": "Instagram:   / sabrisuby  \nX:   / sabrisuby  ",
+    "cta": "socials, King Kong agency, GET KONG (SaaS), free cheat sheet (Google Doc)",
+    "chapters": "none",
+    "hashtags": {
+     "count": 12,
+     "tags": [
+      "#luxurybrands",
+      "#luxurybrandmarketing",
+      "#marketingpsychology",
+      "#louisvuitton",
+      "#consumerpsychology",
+      "#gucci",
+      "#chanel",
+      "#rolex",
+      "#neuromarketing",
+      "#salesstrategies",
+      "#scarcitymarketing",
+      "#sabrisuby"
+     ]
+    },
+    "length_chars": 1154
+   }
+  },
+  {
+   "id": "JF4rjHOZbLo",
+   "title": "Sell Like Crazy: Stop Praying To The Internet Gods",
+   "published": "Feb 26, 2023",
+   "views": 642808,
+   "likes": 2400,
+   "like_rate_pct": 0.37,
+   "duration_s": 281,
+   "all_tsv_index": 139,
+   "outlier": 32.92,
+   "bucket": "views",
+   "title_formula": "ad headline (series: Sell Like Crazy)",
+   "title_chars": 50,
+   "thumb": {
+    "words": 0,
+    "text": "none",
+    "face": "no: a man seen from behind; no readable face of Sabri",
+    "objects": "altar with candles and two framed \"saint\" portraits of tech founders",
+    "palette": "warm amber, gold, cream",
+    "layout": "cinematic skit, no text"
+   },
+   "desc": {
+    "above_fold": "“It’s like baby unicorn tears for getting clients”...\nComplicated webinar funnels.",
+    "cta": "book offer (sales-letter description, one link repeated)",
+    "chapters": "none",
+    "hashtags": {
+     "count": 0,
+     "tags": []
+    },
+    "length_chars": 2086
+   }
+  },
+  {
+   "id": "SBkY-hQyY2U",
+   "title": "How Luxury Car Brands Brainwash You to Buy",
+   "published": "Dec 28, 2024",
+   "views": 474868,
+   "likes": 12000,
+   "like_rate_pct": 2.53,
+   "duration_s": 939,
+   "all_tsv_index": 89,
+   "outlier": 4.37,
+   "bucket": "views",
+   "title_formula": "brainwash-exposé",
+   "title_chars": 42,
+   "thumb": {
+    "words": 2,
+    "text": "The trick (white, with arrow to a suited man by a car)",
+    "face": "yes: Sabri left, finger to lips, silver chain",
+    "objects": "Lamborghini showroom, yellow supercar with scissor doors, man in a black suit and sunglasses",
+    "palette": "blue sky, yellow car, black building, gold logo",
+    "layout": "scene-composite"
+   },
+   "desc": {
+    "above_fold": "I've worked with thousands of clients, generating them over $7.8 Billion in sales through digital marketing. Today, I'm going to investigate the top 5 luxury car brands in the world, and reveal EXACTLY how they brainwash the masses to buy.\nInstagram:   / sabrisuby  ",
+    "cta": "socials (Instagram, X), King Kong agency",
+    "chapters": "none",
+    "hashtags": {
+     "count": 0,
+     "tags": []
+    },
+    "length_chars": 352
+   }
+  },
+  {
+   "id": "NTmWqnPIb2s",
+   "title": "Learn 97% of Meta Ads in Under 19 minutes",
+   "published": "Jun 12, 2026",
+   "views": 461867,
+   "likes": 14000,
+   "like_rate_pct": 3.03,
+   "duration_s": 1132,
+   "all_tsv_index": 28,
+   "outlier": 11.82,
+   "bucket": "views",
+   "title_formula": "time-box (Learn 97% of X in N minutes)",
+   "title_chars": 41,
+   "thumb": {
+    "words": 8,
+    "text": "DON'T RUN VIDEO ADS (caption bar, VIDEO ADS in red box) + handwritten \"$300M in ad spend\" with curved line",
+    "face": "yes: Sabri centre, speaking, eye contact",
+    "objects": "none (dark green-black studio)",
+    "palette": "dark green/black, white caps, red box",
+    "layout": "caption-bar"
+   },
+   "desc": {
+    "above_fold": "Download your free Meta ads playbook here: https://go.kingkong.co/meta-ads-playb...\nPaid ads have changed forever and if you're not using these tactics, you're already falling behind the competition.",
+    "cta": "Meta ads playbook (lead magnet, line 1), socials, King Kong agency, Kong SaaS",
+    "chapters": "none",
+    "hashtags": {
+     "count": 0,
+     "tags": []
+    },
+    "length_chars": 352
+   }
+  },
+  {
+   "id": "J2ASNvEyfTs",
+   "title": "How To Brainwash Yourself to Make Millions (8 Minute Training)",
+   "published": "Nov 24, 2023",
+   "views": 451829,
+   "likes": 21000,
+   "like_rate_pct": 4.65,
+   "duration_s": 519,
+   "all_tsv_index": 124,
+   "outlier": 14.09,
+   "bucket": "views",
+   "title_formula": "how-to + time-box parenthetical (\"(8 Minute Training)\")",
+   "title_chars": 62,
+   "thumb": {
+    "words": 2,
+    "text": "$100 MILLION (white in a red box)",
+    "face": "yes: Sabri centre, hypnotic spiral eyes and a third eye on the forehead",
+    "objects": "black-and-white hypnotic spiral, flying dollar bills",
+    "palette": "black/white, green bills, red box",
+    "layout": "caption-bar variant (proof in red box)"
+   },
+   "desc": {
+    "above_fold": "This is the exact step-by-step process I used to brainwash myself from being broke to making over $100 million.\n👉 Subscribe to my channel: https://bit.ly/3qaAwkn",
+    "cta": "subscribe link, website, Instagram, Facebook, TikTok",
+    "chapters": "none",
+    "hashtags": {
+     "count": 0,
+     "tags": []
+    },
+    "length_chars": 296
+   }
+  },
+  {
+   "id": "mOQbtHp3WBU",
+   "title": "Algorithm’s Secret Sauce | Sell Like Crazy Ad",
+   "published": "Mar 5, 2025",
+   "views": 431985,
+   "likes": 1200,
+   "like_rate_pct": 0.28,
+   "duration_s": 256,
+   "all_tsv_index": 86,
+   "outlier": 4.63,
+   "bucket": "views",
+   "title_formula": "ad headline (title says \"Sell Like Crazy Ad\")",
+   "title_chars": 45,
+   "thumb": {
+    "words": 0,
+    "text": "none",
+    "face": "profile only: Sabri lying on grass",
+    "objects": "two men in white singlets and headbands standing over him, one holding a red object; park",
+    "palette": "green grass, white, black",
+    "layout": "cinematic skit, no text"
+   },
+   "desc": {
+    "above_fold": "I hope you guys enjoy this one 🙂\nP.S. If for some strange reason you haven’t got my book yet, grab a free copy here: https://go.kingkong.co/YT-Organic",
+    "cta": "free book (one link)",
+    "chapters": "none",
+    "hashtags": {
+     "count": 0,
+     "tags": []
+    },
+    "length_chars": 151
+   }
+  },
+  {
+   "id": "IBjTr6ILJF0",
+   "title": "How To Sell Anything For 23x More Than The Competition",
+   "published": "Dec 6, 2024",
+   "views": 428103,
+   "likes": 16000,
+   "like_rate_pct": 3.74,
+   "duration_s": 661,
+   "all_tsv_index": 91,
+   "outlier": 3.71,
+   "bucket": "views",
+   "title_formula": "how-to + multiplier (\"For 23x More\")",
+   "title_chars": 54,
+   "thumb": {
+    "words": 1,
+    "text": "$4,225? (white, with red curved arrow to the jar)",
+    "face": "yes: Sabri right, calm, eye contact",
+    "objects": "skincare jar of gold cream held up to camera",
+    "palette": "dark blurred background, white jar, gold, red arrow",
+    "layout": "hold-the-product"
+   },
+   "desc": {
+    "above_fold": "I've worked with thousands of clients, generating them over $7.8 Billion in sales through digital marketing. Today, I'm going to reveal the darkest marketing secrets of the skincare industry, so you can use their same strategies to 5x your profits 🔥\n⚡️ GET KONG → https://go.kingkong.co/kong ⚡️",
+    "cta": "GET KONG (SaaS, line 3), socials, King Kong agency",
+    "chapters": "none",
+    "hashtags": {
+     "count": 0,
+     "tags": []
+    },
+    "length_chars": 408
+   }
+  },
+  {
+   "id": "Yc8Ulva-imw",
+   "title": "🔥 The Ultimate Step-By-Step Guide To Cold-Calling 🔥  (High Ticket Sales Secrets Revealed)",
+   "published": "Jul 28, 2020",
+   "views": 279386,
+   "likes": 10000,
+   "like_rate_pct": 3.58,
+   "duration_s": 2079,
+   "all_tsv_index": 316,
+   "outlier": 84.55,
+   "bucket": "breakout",
+   "title_formula": "ultimate-guide + emoji + hype parenthetical",
+   "title_chars": 89,
+   "thumb": {
+    "words": 5,
+    "text": "EVERY SINGLE COLD CALL SECRET (white condensed italic caps, right half)",
+    "face": "yes: Sabri left, looking down, unsmiling",
+    "objects": "none",
+    "palette": "dark grey/black, white text",
+    "layout": "text-wall"
+   },
+   "desc": {
+    "above_fold": "🔥 🚀  Coaches, Consultants And Service Businesses 🔥 🚀\nFREE Training Reveals: The 5-step 'selling system’ we use to flood businesses with 50+ high-value clients in 42-days or less.",
+    "cta": "FREE Training (lead magnet, line 3), subscribe, website, Instagram, Facebook, related videos",
+    "chapters": "5, starts 0:00",
+    "hashtags": {
+     "count": 8,
+     "tags": [
+      "#heysabri",
+      "#SalesCall",
+      "#ColdCalls",
+      "#ColdCallsSecret",
+      "#SabriSuby",
+      "#KingKong",
+      "#DigitalMarketing",
+      "#KingKongAgency"
+     ]
+    },
+    "length_chars": 2129
+   }
+  },
+  {
+   "id": "RhK4S2Dj1p8",
+   "title": "How To Become Master of Sales & Marketing",
+   "published": "Mar 24, 2021",
+   "views": 254202,
+   "likes": 9200,
+   "like_rate_pct": 3.62,
+   "duration_s": 425,
+   "all_tsv_index": 228,
+   "outlier": 75.82,
+   "bucket": "breakout",
+   "title_formula": "how-to (mastery)",
+   "title_chars": 41,
+   "thumb": {
+    "words": 2,
+    "text": "SELL ANYTHING (handwritten on a whiteboard, plus illegible diagram)",
+    "face": "yes: Sabri right, serious, eye contact",
+    "objects": "whiteboard with red marker flowchart, marker pen",
+    "palette": "warm brown background, white board, red ink",
+    "layout": "whiteboard-hold (hold-the-product variant)"
+   },
+   "desc": {
+    "above_fold": "🔥 🚀  Coaches, Consultants And Service Businesses 🔥 🚀\nFREE Training Reveals: The 5-step 'selling system’ we use to flood businesses with 50+ high-value clients in 42-days or less.",
+    "cta": "FREE Training (lead magnet), subscribe, website, Instagram, Facebook",
+    "chapters": "none",
+    "hashtags": {
+     "count": 1,
+     "tags": [
+      "#heysabri"
+     ]
+    },
+    "length_chars": 848
+   }
+  },
+  {
+   "id": "zpTsCrOvGao",
+   "title": "🔥The Ultimate Step-By-Step Landing Page Guide🔥(My $1.33 Billion Secret Selling System REVEALED)",
+   "published": "Oct 4, 2021",
+   "views": 323585,
+   "likes": 11000,
+   "like_rate_pct": 3.4,
+   "duration_s": 1660,
+   "all_tsv_index": 193,
+   "outlier": 46.14,
+   "bucket": "breakout",
+   "title_formula": "ultimate-guide + emoji + hype parenthetical with proof ($1.33 Billion)",
+   "title_chars": 95,
+   "thumb": {
+    "words": 7,
+    "text": "HOW TO BUILD A LANDING PAGE + red STEP-BY-STEP underlined, dashed white arrow to laptop",
+    "face": "yes: Sabri left, speaking, gesturing",
+    "objects": "MacBook",
+    "palette": "dark office, white text, red accent",
+    "layout": "text-wall"
+   },
+   "desc": {
+    "above_fold": "In this video I reveal:\n▫️Why You Don't Need Fancy Business Cards, Logos, Or Websites",
+    "cta": "FREE Training (lead magnet), subscribe, website, Instagram, Facebook",
+    "chapters": "none",
+    "hashtags": {
+     "count": 1,
+     "tags": [
+      "#heysabri"
+     ]
+    },
+    "length_chars": 1343
+   }
+  },
+  {
+   "id": "kGKC0VEYkj0",
+   "title": "The BEST Cold Call Opening Lines | Killer Cold Call Openers",
+   "published": "Jul 10, 2020",
+   "views": 158174,
+   "likes": 4100,
+   "like_rate_pct": 2.59,
+   "duration_s": 390,
+   "all_tsv_index": 327,
+   "outlier": 45.14,
+   "bucket": "breakout",
+   "title_formula": "keyword list + pipe (\"The BEST X | Killer X\")",
+   "title_chars": 59,
+   "thumb": {
+    "words": 4,
+    "text": "KILLER COLD CALL OPENERS (white condensed italic caps, left half)",
+    "face": "yes: Sabri right, speaking, hand out",
+    "objects": "MacBook",
+    "palette": "dark office, white text",
+    "layout": "text-wall"
+   },
+   "desc": {
+    "above_fold": "🔥 🚀  Coaches, Consultants And Service Businesses 🔥 🚀\nFREE Training Reveals: The 5-step 'selling system’ we use to flood businesses with 50+ high-value clients in 42-days or less.",
+    "cta": "FREE Training (lead magnet, line 3), subscribe, website, Instagram, Facebook, related videos",
+    "chapters": "none",
+    "hashtags": {
+     "count": 10,
+     "tags": [
+      "#heysabri",
+      "#ColdCallOpeningLines",
+      "#ColdCalls",
+      "#SabriSuby",
+      "#SalesCall",
+      "#ColdCallingTips",
+      "#SalesTips",
+      "#KingKong",
+      "#DigitalMarketing",
+      "#KingKongAgency"
+     ]
+    },
+    "length_chars": 2289
+   }
+  },
+  {
+   "id": "OE4u-PFYSns",
+   "title": "How To Craft A Godfather Offer (Dramatically Increase Your Sales!) - Sell Like Crazy Masterclass",
+   "published": "Feb 24, 2021",
+   "views": 216080,
+   "likes": 7500,
+   "like_rate_pct": 3.47,
+   "duration_s": 1512,
+   "all_tsv_index": 241,
+   "outlier": 44.54,
+   "bucket": "breakout",
+   "title_formula": "how-to + hype parenthetical + series tag",
+   "title_chars": 96,
+   "thumb": {
+    "words": 10,
+    "text": "SELL LIKE CRAZY MASTERCLASS / HOW TO CRAFT A GODFATHER OFFER (lower-third caps)",
+    "face": "yes: Sabri centre on a sofa, neutral",
+    "objects": "two copies of the red Sell Like Crazy book, framed plaques, plants",
+    "palette": "grey brick, red books, white text",
+    "layout": "text-wall (lower-third caption)"
+   },
+   "desc": {
+    "above_fold": "🔥 Get Your Free Copy Of Sell Like Crazy 📕 here: http://bit.ly/3uqnXnL \nHope you enjoyed this video. Make sure that you click the like button and video share with your friends. We’re dropping a video on YouTube every other day. Don’t forget to subscribe to my channel and click the bell icon for instant notification when new video published. ",
+    "cta": "free book (line 1), subscribe, website, Instagram, Facebook",
+    "chapters": "none",
+    "hashtags": {
+     "count": 3,
+     "tags": [
+      "#heysabri",
+      "#SellLikeCrazy",
+      "#SabriSuby"
+     ]
+    },
+    "length_chars": 699
+   }
+  },
+  {
+   "id": "Z_H08RpYKgg",
+   "title": "Tonality: How To Build 'Master Level Authority' On a Sales Call",
+   "published": "May 14, 2019",
+   "views": 363385,
+   "likes": 10000,
+   "like_rate_pct": 2.75,
+   "duration_s": 289,
+   "all_tsv_index": 472,
+   "outlier": 38.62,
+   "bucket": "breakout",
+   "title_formula": "keyword-colon how-to (\"Tonality: How To …\")",
+   "title_chars": 63,
+   "thumb": {
+    "words": 5,
+    "text": "DON'T SOUND LIKE A SALESMAN (white condensed italic caps, left)",
+    "face": "yes: Sabri right, mid-speech, candid meeting shot",
+    "objects": "blurred colleague in foreground",
+    "palette": "dark brick, white text",
+    "layout": "text-wall"
+   },
+   "desc": {
+    "above_fold": "🔥 🚀  Coaches, Consultants And Service Businesses 🔥 🚀\nFREE Training Reveals: The 5-step 'selling system’ we use to flood businesses with 50+ high-value clients in 42-days or less.",
+    "cta": "FREE Training (lead magnet), subscribe, website, Instagram, Facebook, related videos",
+    "chapters": "none",
+    "hashtags": {
+     "count": 4,
+     "tags": [
+      "#HowToSell",
+      "#Tonality",
+      "#MasterLevelAuthority",
+      "#SubriSuby"
+     ]
+    },
+    "length_chars": 2304
+   }
+  },
+  {
+   "id": "M2OOM_rexzM",
+   "title": "Ninja Tactics For Getting Past The Gatekeeper Every Time (Step-By-Step Guide For Cold Calling)",
+   "published": "Jul 8, 2020",
+   "views": 91671,
+   "likes": 3800,
+   "like_rate_pct": 4.15,
+   "duration_s": 507,
+   "all_tsv_index": 329,
+   "outlier": 27.58,
+   "bucket": "breakout",
+   "title_formula": "how-to + hype + parenthetical (\"Ninja Tactics … (Step-By-Step Guide …)\")",
+   "title_chars": 94,
+   "thumb": {
+    "words": 8,
+    "text": "COLD CALLS (ghosted grey, behind head) + HOW TO GET PAST THE GATEKEEPER (white caps, bottom)",
+    "face": "yes: Sabri centre, speaking",
+    "objects": "MacBook",
+    "palette": "dark office, grey and white text",
+    "layout": "text-wall"
+   },
+   "desc": {
+    "above_fold": "🔥 🚀  Coaches, Consultants And Service Businesses 🔥 🚀\nFREE Training Reveals: The 5-step 'selling system’ we use to flood businesses with 50+ high-value clients in 42-days or less.",
+    "cta": "FREE Training (lead magnet, line 4), subscribe, website, Instagram, Facebook, related videos",
+    "chapters": "none",
+    "hashtags": {
+     "count": 10,
+     "tags": [
+      "#heysabri",
+      "#ColdCalls",
+      "#GateKeeper",
+      "#SabriSuby",
+      "#HowToSale",
+      "#SalesCall",
+      "#SellLikeCrazy",
+      "#KingKong",
+      "#DigitalMarketing",
+      "#KingKongAgency"
+     ]
+    },
+    "length_chars": 2202
+   }
+  },
+  {
+   "id": "jgrdV2e6Zko",
+   "title": "How To Write Facebook & Instagram Ads That Suck In Sales Like Crazy (Extremely Potent)",
+   "published": "May 10, 2020",
+   "views": 66527,
+   "likes": 3100,
+   "like_rate_pct": 4.66,
+   "duration_s": 1048,
+   "all_tsv_index": 358,
+   "outlier": 19.13,
+   "bucket": "breakout",
+   "title_formula": "how-to + hype parenthetical (\"(Extremely Potent)\")",
+   "title_chars": 86,
+   "thumb": {
+    "words": 4,
+    "text": "YOUR ADS SUCK (white caps) + handwritten red \"What?!?\"",
+    "face": "yes: Sabri centre, King Kong hoodie, speaking",
+    "objects": "Instagram post screenshot with red circle and arrow, MacBook, brass bull",
+    "palette": "dark brick, white text, red handwriting",
+    "layout": "screenshot-board + text-wall"
+   },
+   "desc": {
+    "above_fold": "🔥 🚀  Coaches, Consultants And Service Businesses 🔥 🚀\nFREE Training Reveals: The 5-step 'selling system’ we use to flood businesses with 50+ high-value clients in 42-days or less.",
+    "cta": "FREE Training (lead magnet, line 4), subscribe, website, Instagram, related videos",
+    "chapters": "none",
+    "hashtags": {
+     "count": 7,
+     "tags": [
+      "#FacebookAds",
+      "#InstagramAds",
+      "#SubriSuby",
+      "#KingKongMarketing",
+      "#SalesTechniques",
+      "#DigitalMarketing",
+      "#KingKong"
+     ]
+    },
+    "length_chars": 2749
+   }
+  },
+  {
+   "id": "K9kYwUWUjLc",
+   "title": "How To Fix Your Funnels & Landing Pages To Convert Like CRAZY (Full Breakdown)",
+   "published": "Sep 15, 2021",
+   "views": 133802,
+   "likes": 5000,
+   "like_rate_pct": 3.74,
+   "duration_s": 1225,
+   "all_tsv_index": 198,
+   "outlier": 13.85,
+   "bucket": "breakout",
+   "title_formula": "how-to + hype parenthetical (\"(Full Breakdown)\")",
+   "title_chars": 78,
+   "thumb": {
+    "words": 0,
+    "text": "none as a headline (only the screenshot's own text)",
+    "face": "yes: Sabri left, both hands up, speaking",
+    "objects": "landing-page screenshot covered in red neon scribbles, crosses and arrows; white arrow to laptop",
+    "palette": "dark brick, red neon, white",
+    "layout": "screenshot-board"
+   },
+   "desc": {
+    "above_fold": "In a world where everyone is funnel hacking, it's easy to get lost in the crowd with vanilla click funnel templates. In this video, I do a full breakdown review of your funnel & landing page, and show you how to fix it to convert more prospects. You'll discover how to design an effective landing page that is optimised for consumption, and much more. I hope you get some value out of it.\nIf so, please drop me a comment and share it with a friend who could benefit from his info.",
+    "cta": "FREE Training (lead magnet, line 8, after a summary), subscribe, website, Instagram, Facebook",
+    "chapters": "none",
+    "hashtags": {
+     "count": 1,
+     "tags": [
+      "#heysabri"
+     ]
+    },
+    "length_chars": 1296
+   }
+  },
+  {
+   "id": "NvOaoP_OuvE",
+   "title": "Step-By-Step Tutorial On How To Write Wildly Powerful Facebook Ad Copy (Crazy)",
+   "published": "Feb 4, 2021",
+   "views": 51661,
+   "likes": 2100,
+   "like_rate_pct": 4.06,
+   "duration_s": 360,
+   "all_tsv_index": 251,
+   "outlier": 10.85,
+   "bucket": "breakout",
+   "title_formula": "step-by-step tutorial + hype parenthetical (\"(Crazy)\")",
+   "title_chars": 78,
+   "thumb": {
+    "words": 6,
+    "text": "HOW TO WRITE FACEBOOK AD COPY + red STEP-BY-STEP underlined",
+    "face": "yes: Sabri left, looking down at laptop",
+    "objects": "laptop on a dark table",
+    "palette": "grey/black, white text, red accent",
+    "layout": "text-wall"
+   },
+   "desc": {
+    "above_fold": "🔥 🚀  Coaches, Consultants And Service Businesses 🔥 🚀\nFREE Training Reveals: The 5-step 'selling system’ we use to flood businesses with 50+ high-value clients in 42-days or less.",
+    "cta": "FREE Training (lead magnet, line 4), subscribe, website, Instagram, Facebook",
+    "chapters": "none",
+    "hashtags": {
+     "count": 1,
+     "tags": [
+      "#heysabri"
+     ]
+    },
+    "length_chars": 901
+   }
+  }
+ ],
+ "rules": [
+  {
+   "rule": "Use the mastery time-box title on a core money skill (marketing, sales, ads): 'N Years of X Advice in N Mins', 'Learn 97% of X in N Minutes', 'Give Me N Minutes and I'll Make You Disgustingly Good at X'. Keep it off self-help topics.",
+   "evidence": "All 10 long-form mastery time-box titles in all.tsv: median outlier 3.39. The 8 on marketing/sales/ads: median 4.15, lowest 1.71 (hASHO5ap1Sw 15.53, Jun 21 2024; NTmWqnPIb2s 11.82, Jun 12 2026; HsjuAvqs3zU 8.6; rsgvkkpNg7Y 4.68; QN_LVgvik-k 3.62; 7xtRHa7b96w 3.16; bFR1y5_kAB4 1.91; oEVLJsgQg0s 1.71). The 2 on self-help: k9vfmiklBDc 'Give me 23 minutes, and I'll improve your communication skills by 87%' 0.66 and d-TCqFl0b5k 'Give me 18 Minutes and I'll Make you Dangerously Confident' 0.53. hASHO5ap1Sw beat a 103,000-view neighbour median, so era cannot explain it.",
+   "confidence": "high",
+   "vs_recent": "strengthens"
+  },
+  {
+   "rule": "The 'How [Iconic Brand] Brainwashes You to Buy [$price item]' exposé was his biggest engine in 2024 to 2025 but has faded. A remake of the biggest hit did not repeat it, so treat the series as saturated rather than as a template.",
+   "evidence": "4 of the top 6 by views: TDmbwAeBOwU 3.9M, 35.45 (Aug 9 2024); ZCw6BhJVe3k 1.1M, 11.06 (May 23 2025); WKbh5AQoqaE 807K, 7.02 (May 10 2025); SBkY-hQyY2U 474K, 4.37 (Dec 28 2024). The 7 'How X Brainwash(es) You' titles at all.tsv index 75 to 99 have a median of 5.35; the 5 at index 1 to 68 have a median of 1.15. KvzazRPcwVY (index 1, Oct 10 2026) reuses the title 'How Luxury Brands Brainwash You To Buy' and an almost identical thumbnail (the trick, hush pose, LV queue) and sits at 0.65.",
+   "confidence": "medium",
+   "vs_recent": "contradicts"
+  },
+  {
+   "rule": "For an exposé, stage his face in the 'secret' pose (finger to lips) in front of the brand's own storefront, with 0 to 3 words. The scene does the work, not the text.",
+   "evidence": "All 4 brainwash hits use it: TDmbwAeBOwU ('The trick', 2 words), SBkY-hQyY2U ('The trick', 2), ZCw6BhJVe3k (no added words), WKbh5AQoqaE ('MADE IN CHINA' tag, 3). Median outlier of the four 9.04. But the same layout on KvzazRPcwVY got 0.65, and the earlier teardown measured scene-composite at median 0.62 (n=3) in the latest 30, so it only works when the topic is fresh.",
+   "confidence": "medium",
+   "vs_recent": "contradicts"
+  },
+  {
+   "rule": "On modern thumbnails, keep the headline to 5 words or fewer and make it add something the title lacks: a command, a price, a verdict or a proof number.",
+   "evidence": "All 8 organic top-view thumbnails (2023 to 2026, median outlier 11.44) have a headline of 0 to 5 words, and every headline complements the title: 'The trick' (TDmbwAeBOwU, SBkY-hQyY2U), 'DON'T ASK. MAKE THEM BUY.' (hASHO5ap1Sw), 'DON'T RUN VIDEO ADS' + '$300M in ad spend' (NTmWqnPIb2s), '$100 MILLION' (J2ASNvEyfTs 14.09), '$4,225?' (IBjTr6ILJF0 3.71). The 2019 to 2021 breakouts used 4 to 10 words that mostly repeat the title, but their ratios are inflated (see the era rule).",
+   "confidence": "medium",
+   "vs_recent": "confirms"
+  },
+  {
+   "rule": "Put a money figure in the package, either a price in the title or a single dollar figure on the thumbnail.",
+   "evidence": "Price in title: ZCw6BhJVe3k '$80,000 Watches' 11.06, WKbh5AQoqaE '$70,000 Handbags' 7.02. Dollar figure as the thumbnail's only word: J2ASNvEyfTs '$100 MILLION' 14.09, IBjTr6ILJF0 '$4,225?' 3.71. Proof label: NTmWqnPIb2s '$300M in ad spend' 11.82. Counter-evidence: 6T0UTS8GrSE 'How Disney Brainwashes You To Spend $950k' 1.15, and the earlier teardown found numbers in titles did not separate hits from misses (median 0.75 with vs 1.06 without).",
+   "confidence": "low",
+   "vs_recent": "confirms"
+  },
+  {
+   "rule": "Do not copy the 2019 to 2021 breakout formula (long keyword how-to, 🔥 emojis, 'Step-By-Step' and a hype parenthetical such as '(Extremely Potent)' or '(Crazy)'). Its huge ratios come from tiny neighbours, and the same formula underperforms today.",
+   "evidence": "All 10 top breakouts were published May 2019 to Oct 2021, with neighbour medians of only 3,300 to 9,600 views; several windows hold 3 or 4 sub-3-minute testimonial clips. Yc8Ulva-imw is 84.55 on 279K views against a median of 3,300. Z_H08RpYKgg sits at index 472 of 473, so its window has 11 neighbours, not 20. Recent 'Step-By-Step' titles score 0.77 (GLB4XrLGX5A), 0.56 (9Z28xv4YVmw) and 0.91 (yr5DnEE2kyI). Title length: breakouts median 82 characters vs 46.5 for the top-view list.",
+   "confidence": "medium",
+   "vs_recent": "confirms"
+  },
+  {
+   "rule": "Exclude the paid book ads from any packaging lesson. Two of the top 10 by views are Sell Like Crazy ads, not organic uploads.",
+   "evidence": "mOQbtHp3WBU is titled 'Algorithm’s Secret Sauce | Sell Like Crazy Ad' (256s, 431K views, like rate 0.28%). JF4rjHOZbLo 'Sell Like Crazy: Stop Praying To The Internet Gods' (281s, 642K views, 0.37%) has a description that is a sales letter for the book with one go.kingkong.co link. The 8 organic top-view videos have like rates of 1.86% to 4.65%. Neither thumbnail has text, and neither shows Sabri's face from the front.",
+   "confidence": "high",
+   "vs_recent": "new"
+  },
+  {
+   "rule": "The description did not make the hits. Keep it short, with a proof plus promise first line; chapters and hashtags are optional.",
+   "evidence": "Chapters appear on 1 of 20 (Yc8Ulva-imw, 5 chapters from 0:00). Real hashtags range from 0 to 12: 8 to 12 on 3 of the 4 brainwash hits and 0 on hASHO5ap1Sw (15.53), NTmWqnPIb2s (11.82) and J2ASNvEyfTs (14.09). Lengths run from 296 to 1,329 characters on the organic top views. The 2023 to 2025 proof line 'I've worked with thousands of clients, generating them over $7.8 Billion in sales' opens hASHO5ap1Sw, SBkY-hQyY2U and IBjTr6ILJF0. The 2019 to 2021 breakouts opened with the same 'FREE Training' lead-magnet ad on 7 of 10.",
+   "confidence": "low",
+   "vs_recent": "confirms"
+  }
+ ]
+}

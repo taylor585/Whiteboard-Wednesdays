@@ -1,0 +1,73 @@
+{
+ "id": "Grok-Bot-G3-on-brand",
+ "title": "How Good Is Grok Bot Really",
+ "studio": {
+  "preset": "cream-board"
+ },
+ "extra_css": ";background-color:#FBF8F1",
+ "words": "£752/MONTH AI SALES REP",
+ "layers": [
+  {
+   "type": "marker",
+   "x": 44,
+   "y": 62,
+   "w": 700,
+   "h": 140
+  },
+  {
+   "type": "text",
+   "text": "£752/MONTH",
+   "x": 56,
+   "y": 186,
+   "size": 124,
+   "finish": "ink-serif"
+  },
+  {
+   "type": "text",
+   "text": "AI SALES",
+   "x": 56,
+   "y": 340,
+   "size": 128,
+   "finish": "ink-serif"
+  },
+  {
+   "type": "text",
+   "text": "REP.",
+   "x": 56,
+   "y": 490,
+   "size": 128,
+   "finish": "red-serif"
+  },
+  {
+   "type": "ledge",
+   "y": 585
+  },
+  {
+   "type": "coin_stack",
+   "x": 1110,
+   "y": 545,
+   "r": 105,
+   "n": 6,
+   "face": "#f0d58a",
+   "edge": "#8B6002"
+  },
+  {
+   "type": "keycap",
+   "x": 860,
+   "y": 500,
+   "size": 175,
+   "logo": "grok.svg",
+   "logo_col": "#1C1A17",
+   "label": "Grok",
+   "rot": -5
+  }
+ ],
+ "look": {
+  "layout": "on-brand-ledge",
+  "ground": "cream-board",
+  "font": "fraunces",
+  "accent": "gold-red",
+  "hero": "coins-keycap",
+  "emoji": false
+ }
+}

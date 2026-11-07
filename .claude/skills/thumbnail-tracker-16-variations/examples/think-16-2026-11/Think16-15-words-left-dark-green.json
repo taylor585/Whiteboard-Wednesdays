@@ -1,0 +1,46 @@
+{
+ "id": "Think16-15-words-left-dark-green",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "words-left",
+  "ground": "dark-green",
+  "font": "anton",
+  "accent": "green",
+  "hero": "glowing-brain",
+  "emoji": false
+ },
+ "studio": {
+  "preset": "dark-green"
+ },
+ "words": "THINK FIRST.",
+ "layers": [
+  {
+   "type": "brain",
+   "x": 960,
+   "y": 340,
+   "w": 520,
+   "rot": -6,
+   "glow": "#2fd15a"
+  },
+  {
+   "type": "text",
+   "text": "Think",
+   "x": 46,
+   "y": 300,
+   "size": 220,
+   "finish": "white-outline",
+   "depth": 16,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "first.",
+   "x": 46,
+   "y": 520,
+   "size": 220,
+   "finish": "green-outline",
+   "depth": 20,
+   "rim": true
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+{
+ "id": "Grok-B2-objects-bright",
+ "title": "Grok Voice Will Replace Your Sales",
+ "studio": {
+  "preset": "cool-grey"
+ },
+ "words": "70% NO HUMAN.",
+ "layers": [
+  {
+   "type": "headset",
+   "x": 915,
+   "y": 395,
+   "s": 450,
+   "logo": "grok.svg",
+   "rot": -8
+  },
+  {
+   "type": "logo",
+   "logo": "grok.svg",
+   "x": 1165,
+   "y": 120,
+   "size": 150,
+   "finish": "grok-graphite",
+   "depth": 14,
+   "floor_shadow": false
+  },
+  {
+   "type": "text",
+   "text": "70%",
+   "x": 40,
+   "y": 345,
+   "size": 300,
+   "finish": "red-outline",
+   "depth": 24
+  },
+  {
+   "type": "text",
+   "text": "No human.",
+   "x": 46,
+   "y": 545,
+   "size": 150,
+   "finish": "charcoal",
+   "depth": 10
+  }
+ ],
+ "look": {
+  "layout": "words-left",
+  "ground": "cool-grey",
+  "font": "anton",
+  "accent": "red",
+  "hero": "headset",
+  "emoji": false
+ }
+}

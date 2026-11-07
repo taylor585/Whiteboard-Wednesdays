@@ -1,0 +1,2851 @@
+[
+ {
+  "index": 1,
+  "id": "dAzs_rU6080",
+  "url": "https://youtu.be/dAzs_rU6080",
+  "title": "I Tested The Viral Github Repo To Reverse Engineer Anything",
+  "views": 415726,
+  "likes": 7900,
+  "like_rate": 1.9,
+  "outlier": 8.22,
+  "band": "hit",
+  "published": "Oct 10, 2026",
+  "days_since_publish": 2,
+  "duration_s": 647,
+  "title_fields": {
+   "chars": 59,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Github",
+    "position": 5
+   },
+   "formula": "i-tested",
+   "formula_family": "first-person test",
+   "intent": "both",
+   "specifics": [],
+   "named": [
+    "GitHub"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [],
+   "emotion": "FOMO + curiosity",
+   "promise": "whether the viral repo really clones anything",
+   "hook_gap": "does it work / what did it rebuild"
+  },
+  "thumbnail": {
+   "layout": "repo",
+   "line": "github/reverse-engineer | 11.5k stars | 1.5k total installs",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 6,
+    "starts_0_00": true,
+    "style": "curiosity (short, uses acronym 'REA')",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": true,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3592,
+   "keyword": {
+    "term": "reverse engineer",
+    "in_description": false,
+    "section": "absent",
+    "char_offset": null
+   }
+  },
+  "deep_five": true,
+  "thumbnail_detail": {
+   "line_length_case": "2 words + stats line; lowercase repo slug, exactly as GitHub shows it",
+   "face_pose": "NEW 'peek' crop: only forehead and eyes, looking UP at the repo header; no mouth, no eye contact",
+   "hero_object": "the repo header itself (native audience language)",
+   "proof": "11.5k stars, 1.5k total installs (exact-looking, real-format numbers)",
+   "colour_accent": "white grid background, black type, one red hand-drawn underline",
+   "arrow_underline": "single red marker underline under 'reverse-engineer'",
+   "background": "light grid",
+   "readability_168px": "high: one line, huge type",
+   "click_reason": "A trending repo with visible social proof plus his upward gaze says 'look what everyone is using' before you know what it does.",
+   "playbook_additions": [
+    "Peek crop (eyes looking up at the text) beats a full face here: the gaze is the arrow.",
+    "Thumb line = the literal repo slug; the title carries the verdict frame ('I Tested ... Anything')."
+   ]
+  },
+  "pair": {
+   "title_carries": "first-person test frame + 'viral' social proof + search noun (Github repo, reverse engineer) + 'Anything' scope",
+   "thumbnail_carries": "the object itself and its proof (stars, installs)",
+   "split_or_duplicate": "split",
+   "single_promise": "Is the viral reverse-engineering repo real?",
+   "description_first_line": "does not restate or extend: Maker School CTA; and the Summary is a stale Claude Code course blurb"
+  },
+  "title_changes": [
+   "Oct 11: I Tested The Viral Github Repo That Reverse Engineers Anything",
+   "Oct 12 morning: I Spent 24 Hrs Testing The Viral Reverse Engineering Repo (also the title in this dossier snapshot)",
+   "Oct 12 later: I Tested The Viral Github Repo To Reverse Engineer Anything (baseline.tsv)"
+  ]
+ },
+ {
+  "index": 2,
+  "id": "LD0NxqDcDiY",
+  "url": "https://youtu.be/LD0NxqDcDiY",
+  "title": "HOLY SH*T.. I Just Built an ATTACK ON TITAN Video Game w/ AI",
+  "views": 44779,
+  "likes": 524,
+  "like_rate": 1.17,
+  "outlier": 0.49,
+  "band": "under",
+  "published": "Oct 9, 2026",
+  "days_since_publish": 3,
+  "duration_s": 1407,
+  "title_fields": {
+   "chars": 60,
+   "words": 13,
+   "over_60": false,
+   "front_keyword": {
+    "word": "ATTACK ON TITAN",
+    "position": 6
+   },
+   "formula": "holy-built",
+   "formula_family": "first-person stunt",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "Attack on Titan"
+   ],
+   "caps_words": [
+    "HOLY",
+    "SH*T",
+    "ATTACK",
+    "ON",
+    "TITAN"
+   ],
+   "acronyms": [
+    "AI"
+   ],
+   "punct": [
+    "..",
+    "/",
+    "*"
+   ],
+   "emotion": "awe",
+   "promise": "an AI-built Attack on Titan game",
+   "hook_gap": "how good the game is / how it was built"
+  },
+  "thumbnail": {
+   "layout": "scene (new: full-bleed AI render, no face, no text)",
+   "line": null,
+   "line_vs_title": "none"
+  },
+  "description": {
+   "above_fold": "🔥 Check out the game: https://attack-on-titancraft.netlify.app\n💎 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "demo (the built game)",
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 3,
+    "kinds": {
+     "demo (the built game)": 1,
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 16,
+    "starts_0_00": true,
+    "style": "plain step-by-step",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": true,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 4035,
+   "keyword": {
+    "term": "attack on titan",
+    "in_description": true,
+    "section": "chapters only",
+    "char_offset": 3981
+   }
+  },
+  "deep_five": true,
+  "thumbnail_detail": {
+   "line_length_case": "no text",
+   "face_pose": "no face",
+   "hero_object": "voxel Colossal Titan vs Scout (AI-rendered scene)",
+   "proof": "none (the render implies 'the game looks like this')",
+   "colour_accent": "red/white, high contrast",
+   "arrow_underline": "none",
+   "background": "full-bleed scene",
+   "readability_168px": "image reads, but nothing says AI, Claude or 'I built this'",
+   "click_reason": "Fans of Attack on Titan/Minecraft see a cool scene; AI-builder viewers get no signal it is for them.",
+   "playbook_additions": [
+    "No-text, no-face scene thumbnails fail for this audience (#2 0.49; also #7 0.59 logo-only and #3 0.41 headline-less)."
+   ]
+  },
+  "pair": {
+   "title_carries": "the whole job: the reaction (HOLY SH*T..), the IP and 'w/ AI'",
+   "thumbnail_carries": "spectacle only",
+   "split_or_duplicate": "title does everything; thumbnail is decorative",
+   "single_promise": "I built an AoT game with AI",
+   "description_first_line": "extends: line 1 links the playable game"
+  },
+  "title_changes": [
+   "HOLY SH*T.. I Just Built an ATTACK ON TITAN Video Game w/ AI",
+   "HOLY SH*T.. Claude just built me AOT x Minecraft video game",
+   "reverted to the first (current)"
+  ]
+ },
+ {
+  "index": 3,
+  "id": "DMQEPzSxGVk",
+  "url": "https://youtu.be/DMQEPzSxGVk",
+  "title": "I Spent 24 Hours Testing Haiku 5.5: Here Are The Results",
+  "views": 29029,
+  "likes": 381,
+  "like_rate": 1.31,
+  "outlier": 0.41,
+  "band": "under",
+  "published": "Oct 8, 2026",
+  "days_since_publish": 4,
+  "duration_s": 1968,
+  "title_fields": {
+   "chars": 56,
+   "words": 11,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Haiku 5.5",
+    "position": 6
+   },
+   "formula": "i-tested",
+   "formula_family": "first-person test",
+   "intent": "both",
+   "specifics": [
+    "24 Hours",
+    "5.5"
+   ],
+   "named": [
+    "Haiku 5.5"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [
+    ":"
+   ],
+   "emotion": "curiosity",
+   "promise": "what Haiku 5.5 can and can't do",
+   "hook_gap": "the results"
+  },
+  "thumbnail": {
+   "layout": "tile-lineup (new: face right, three floating model tiles with labels, no headline)",
+   "line": "SONNET / HAIKU / OPUS + NEW badge (labels only)",
+   "line_vs_title": "none"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool\n💎 Get the demo files free (first link in Classroom): https://skool.com/maker-zero",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 12,
+    "starts_0_00": true,
+    "style": "plain demo list",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 2996,
+   "keyword": {
+    "term": "haiku",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2501
+   }
+  },
+  "deep_five": true,
+  "thumbnail_detail": {
+   "line_length_case": "no headline; three tile labels in pixel caps (SONNET, HAIKU, OPUS) + red NEW badge",
+   "face_pose": "warm, neutral, eye contact, hand offering the tile",
+   "hero_object": "Haiku tile glowing in his palm",
+   "proof": "none",
+   "colour_accent": "orange on dark brown bokeh",
+   "arrow_underline": "none",
+   "background": "dark",
+   "readability_168px": "tiles read; labels small",
+   "click_reason": "Only if you already care about Haiku; no verdict or result is promised.",
+   "playbook_additions": [
+    "Dark background + no verdict line breaks two playbook rules at once; it underperformed (0.41)."
+   ]
+  },
+  "pair": {
+   "title_carries": "test frame, model name, 'Here Are The Results'",
+   "thumbnail_carries": "model lineup (repeats the subject, adds no verdict)",
+   "split_or_duplicate": "duplicate (both say 'Haiku, new'); neither gives the verdict",
+   "single_promise": "Haiku 5.5 test results",
+   "description_first_line": "no; the CTA, demo files on line 2"
+  },
+  "title_changes": []
+ },
+ {
+  "index": 4,
+  "id": "lNum1UFDYn0",
+  "url": "https://youtu.be/lNum1UFDYn0",
+  "title": "AI Harness, Explained",
+  "views": 50016,
+  "likes": 848,
+  "like_rate": 1.7,
+  "outlier": 0.56,
+  "band": "under",
+  "published": "Oct 7, 2026",
+  "days_since_publish": 5,
+  "duration_s": 1478,
+  "title_fields": {
+   "chars": 21,
+   "words": 3,
+   "over_60": false,
+   "front_keyword": {
+    "word": "AI Harness",
+    "position": 1
+   },
+   "formula": "explained",
+   "formula_family": "how-to/explainer",
+   "intent": "search",
+   "specifics": [],
+   "named": [],
+   "caps_words": [],
+   "acronyms": [
+    "AI"
+   ],
+   "punct": [
+    ","
+   ],
+   "emotion": "curiosity",
+   "promise": "what an AI harness is",
+   "hook_gap": "none"
+  },
+  "thumbnail": {
+   "layout": "syllabus (chalkboard, face left)",
+   "line": "AI HARNESS 101",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 12,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3196,
+   "keyword": {
+    "term": "harness",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2507
+   }
+  },
+  "deep_five": true,
+  "thumbnail_detail": {
+   "line_length_case": "3 words, ALL CAPS chalk",
+   "face_pose": "face left, slight smirk, eye contact, pointing with a marker",
+   "hero_object": "chalkboard",
+   "proof": "none",
+   "colour_accent": "green board, white chalk",
+   "arrow_underline": "one chalk underline",
+   "background": "chalkboard",
+   "readability_168px": "high",
+   "click_reason": "Signals a lesson; nothing tells you why you need it now.",
+   "playbook_additions": [
+    "Syllabus look on a single-concept explainer = a course signal without course value; repeats the title (0.56)."
+   ]
+  },
+  "pair": {
+   "title_carries": "the term + 'Explained'",
+   "thumbnail_carries": "the term + '101'",
+   "split_or_duplicate": "duplicate",
+   "single_promise": "learn what an AI harness is",
+   "description_first_line": "no; CTA"
+  },
+  "title_changes": []
+ },
+ {
+  "index": 5,
+  "id": "638GQZ9UZ4w",
+  "url": "https://youtu.be/638GQZ9UZ4w",
+  "title": "Here's What I'd Learn Instead of AI Automation in 2027",
+  "views": 307421,
+  "likes": 4700,
+  "like_rate": 1.53,
+  "outlier": 4.65,
+  "band": "hit",
+  "published": "Oct 5, 2026",
+  "days_since_publish": 7,
+  "duration_s": 1440,
+  "title_fields": {
+   "chars": 54,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": {
+    "word": "AI Automation",
+    "position": 7
+   },
+   "formula": "what-id-do-instead",
+   "formula_family": "opinion/contrarian",
+   "intent": "both",
+   "specifics": [
+    "2027"
+   ],
+   "named": [],
+   "caps_words": [],
+   "acronyms": [
+    "AI"
+   ],
+   "punct": [],
+   "emotion": "fear/loss",
+   "promise": "what to learn instead of AI automation",
+   "hook_gap": "what the replacement skill is"
+  },
+  "thumbnail": {
+   "layout": "trend",
+   "line": "A Reset is Coming..",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 19,
+    "starts_0_00": true,
+    "style": "curiosity + keyword",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3721,
+   "keyword": {
+    "term": "automation",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2482
+   }
+  },
+  "deep_five": true,
+  "thumbnail_detail": {
+   "line_length_case": "4 words, title case, two trailing dots",
+   "face_pose": "concerned, eye contact, face left third",
+   "hero_object": "curve with n8n, Make and Claude tiles; the line turns red past Claude",
+   "proof": "none (a trend chart)",
+   "colour_accent": "white grid, green to red gradient",
+   "arrow_underline": "one hand-drawn arrow to the Claude tile",
+   "background": "light grid",
+   "readability_168px": "high",
+   "click_reason": "A 'reset' warning aimed at the viewer's own career choice, with the tool they use shown as the turning point.",
+   "playbook_additions": [
+    "Trend archetype confirmed again (4.65x), now with real tool tiles on the curve."
+   ]
+  },
+  "pair": {
+   "title_carries": "the personal-advice frame + the year (2027) + the search noun (AI automation)",
+   "thumbnail_carries": "the threat (Reset is coming)",
+   "split_or_duplicate": "split",
+   "single_promise": "AI automation is ending; here's what to learn next",
+   "description_first_line": "no; CTA. The Summary (below the 1.9K bio) restates it: 'Is AI automation still worth it in 2027?'"
+  },
+  "title_changes": []
+ },
+ {
+  "index": 6,
+  "id": "FSXHk4hMrY8",
+  "url": "https://youtu.be/FSXHk4hMrY8",
+  "title": "How I Learn Complex Skills & Difficult Subjects So Fast with AI",
+  "views": 106023,
+  "likes": 2000,
+  "like_rate": 1.89,
+  "outlier": 1.31,
+  "band": "normal",
+  "published": "Oct 3, 2026",
+  "days_since_publish": 9,
+  "duration_s": 1776,
+  "title_fields": {
+   "chars": 63,
+   "words": 12,
+   "over_60": true,
+   "front_keyword": {
+    "word": "Complex Skills",
+    "position": 4
+   },
+   "formula": "how-i",
+   "formula_family": "how-to/explainer",
+   "intent": "search",
+   "specifics": [],
+   "named": [],
+   "caps_words": [],
+   "acronyms": [
+    "AI"
+   ],
+   "punct": [
+    "&"
+   ],
+   "emotion": "gain",
+   "promise": "learn hard subjects fast with AI",
+   "hook_gap": "the method"
+  },
+  "thumbnail": {
+   "layout": "equation (logo tiles around face)",
+   "line": "Learn Anything",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 13,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3179,
+   "keyword": {
+    "term": "learn",
+    "in_description": true,
+    "section": "bio",
+    "char_offset": 930
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 7,
+  "id": "KtMMRcEj1sk",
+  "url": "https://youtu.be/KtMMRcEj1sk",
+  "title": "GPT-6-Astra on The New ULTRAFAST $500 Plan Is Scary...",
+  "views": 51918,
+  "likes": 563,
+  "like_rate": 1.08,
+  "outlier": 0.59,
+  "band": "under",
+  "published": "Sep 30, 2026",
+  "days_since_publish": 12,
+  "duration_s": 764,
+  "title_fields": {
+   "chars": 54,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": {
+    "word": "GPT-6-Astra",
+    "position": 1
+   },
+   "formula": "warning",
+   "formula_family": "fear/warning",
+   "intent": "browse",
+   "specifics": [
+    "6",
+    "$500"
+   ],
+   "named": [
+    "GPT-6-Astra"
+   ],
+   "caps_words": [
+    "ULTRAFAST"
+   ],
+   "acronyms": [],
+   "punct": [
+    "..."
+   ],
+   "emotion": "fear",
+   "promise": "what the $500 plan can do",
+   "hook_gap": "why it is scary"
+  },
+  "thumbnail": {
+   "layout": "logo-burst (new: lone glowing logo, no face, no text)",
+   "line": null,
+   "line_vs_title": "none"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": false,
+    "count": 0,
+    "starts_0_00": false,
+    "style": "none (empty header)",
+    "empty_header": true
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": true,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3461,
+   "keyword": {
+    "term": "astra",
+    "in_description": false,
+    "section": "absent",
+    "char_offset": null
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 8,
+  "id": "x55Fj_syFcI",
+  "url": "https://youtu.be/x55Fj_syFcI",
+  "title": "Why You Should Stop Listening To AI News",
+  "views": 39147,
+  "likes": 694,
+  "like_rate": 1.77,
+  "outlier": 0.47,
+  "band": "under",
+  "published": "Sep 27, 2026",
+  "days_since_publish": 15,
+  "duration_s": 642,
+  "title_fields": {
+   "chars": 40,
+   "words": 8,
+   "over_60": false,
+   "front_keyword": {
+    "word": "AI News",
+    "position": 6
+   },
+   "formula": "stop-doing",
+   "formula_family": "fear/warning",
+   "intent": "browse",
+   "specifics": [],
+   "named": [],
+   "caps_words": [],
+   "acronyms": [
+    "AI"
+   ],
+   "punct": [],
+   "emotion": "controversy",
+   "promise": "permission to ignore AI news",
+   "hook_gap": "why"
+  },
+  "thumbnail": {
+   "layout": "versus-collage (new: tech CEO faces around his face)",
+   "line": "ignore the hype",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 12,
+    "starts_0_00": true,
+    "style": "curiosity",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3245,
+   "keyword": {
+    "term": "news",
+    "in_description": true,
+    "section": "chapters only",
+    "char_offset": 2887
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 9,
+  "id": "45K3zHckCnQ",
+  "url": "https://youtu.be/45K3zHckCnQ",
+  "title": "I Spent $31,141 & 1,000 Hours On Claude Code To Learn This",
+  "views": 121857,
+  "likes": 1700,
+  "like_rate": 1.4,
+  "outlier": 1.66,
+  "band": "over",
+  "published": "Sep 24, 2026",
+  "days_since_publish": 18,
+  "duration_s": 1560,
+  "title_fields": {
+   "chars": 58,
+   "words": 12,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Claude Code",
+    "position": 7
+   },
+   "formula": "i-tested",
+   "formula_family": "first-person test",
+   "intent": "both",
+   "specifics": [
+    "$31,141",
+    "1,000 Hours"
+   ],
+   "named": [
+    "Claude Code"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [
+    ",",
+    "&"
+   ],
+   "emotion": "status + gain",
+   "promise": "lessons from 1,000 hours of Claude Code",
+   "hook_gap": "what he learned"
+  },
+  "thumbnail": {
+   "layout": "command (Claude app window + tile + face)",
+   "line": "(app UI only, no headline)",
+   "line_vs_title": "none"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 17,
+    "starts_0_00": true,
+    "style": "keyword-rich tips",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3349,
+   "keyword": {
+    "term": "claude code",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2508
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 10,
+  "id": "DtfwNoL7Ndw",
+  "url": "https://youtu.be/DtfwNoL7Ndw",
+  "title": "I Love AI, But GPT-6-Astra Terrifies Me",
+  "views": 41637,
+  "likes": 927,
+  "like_rate": 2.23,
+  "outlier": 0.51,
+  "band": "under",
+  "published": "Sep 20, 2026",
+  "days_since_publish": 22,
+  "duration_s": 198,
+  "title_fields": {
+   "chars": 39,
+   "words": 7,
+   "over_60": false,
+   "front_keyword": {
+    "word": "GPT-6-Astra",
+    "position": 5
+   },
+   "formula": "warning",
+   "formula_family": "fear/warning",
+   "intent": "browse",
+   "specifics": [
+    "6"
+   ],
+   "named": [
+    "GPT-6-Astra"
+   ],
+   "caps_words": [],
+   "acronyms": [
+    "AI"
+   ],
+   "punct": [
+    ","
+   ],
+   "emotion": "fear",
+   "promise": "why Astra worries him",
+   "hook_gap": "what terrifies him"
+  },
+  "thumbnail": {
+   "layout": "marker/verdict (baby + knife image)",
+   "line": "Warning: Astra",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": false,
+    "count": 0,
+    "starts_0_00": false,
+    "style": "none (empty header)",
+    "empty_header": true
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": true,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3461,
+   "keyword": {
+    "term": "astra",
+    "in_description": false,
+    "section": "absent",
+    "char_offset": null
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 11,
+  "id": "IJS08TVGut0",
+  "url": "https://youtu.be/IJS08TVGut0",
+  "title": "I Found a Way To Use AI Agents Like Codex Completely For FREE",
+  "views": 92735,
+  "likes": 1000,
+  "like_rate": 1.08,
+  "outlier": 1.26,
+  "band": "normal",
+  "published": "Sep 15, 2026",
+  "days_since_publish": 27,
+  "duration_s": 581,
+  "title_fields": {
+   "chars": 61,
+   "words": 13,
+   "over_60": true,
+   "front_keyword": {
+    "word": "AI Agents",
+    "position": 6
+   },
+   "formula": "i-found-free",
+   "formula_family": "first-person stunt",
+   "intent": "both",
+   "specifics": [],
+   "named": [
+    "Codex"
+   ],
+   "caps_words": [
+    "FREE"
+   ],
+   "acronyms": [
+    "AI"
+   ],
+   "punct": [],
+   "emotion": "greed",
+   "promise": "use AI agents for free",
+   "hook_gap": "which tool"
+  },
+  "thumbnail": {
+   "layout": "proof ($0 terminal, blurred tool name)",
+   "line": "$0",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 FreeBuff link here: https://freebuff.com",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "tool"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "tool": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 9,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 2995,
+   "keyword": {
+    "term": "free",
+    "in_description": true,
+    "section": "above fold",
+    "char_offset": 88
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 12,
+  "id": "GmCbzlb091A",
+  "url": "https://youtu.be/GmCbzlb091A",
+  "title": "I Uploaded A Fruit Fly Brain To Reply To My Emails",
+  "views": 89351,
+  "likes": 952,
+  "like_rate": 1.07,
+  "outlier": 1.22,
+  "band": "normal",
+  "published": "Sep 13, 2026",
+  "days_since_publish": 29,
+  "duration_s": 760,
+  "title_fields": {
+   "chars": 50,
+   "words": 11,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Fruit Fly Brain",
+    "position": 4
+   },
+   "formula": "i-did-stunt",
+   "formula_family": "first-person stunt",
+   "intent": "browse",
+   "specifics": [],
+   "named": [],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [],
+   "emotion": "awe",
+   "promise": "a fruit fly brain answering email",
+   "hook_gap": "does it work"
+  },
+  "thumbnail": {
+   "layout": "proof/hero object (laptop with brain scan)",
+   "line": "real fly brain.",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": false,
+    "count": 0,
+    "starts_0_00": false,
+    "style": "none (empty header)",
+    "empty_header": true
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 2745,
+   "keyword": {
+    "term": "fruit fly",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2559
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 13,
+  "id": "MujaqZS9wtM",
+  "url": "https://youtu.be/MujaqZS9wtM",
+  "title": "I Think GPT-6-Astra Just Changed YouTube",
+  "views": 50696,
+  "likes": 687,
+  "like_rate": 1.36,
+  "outlier": 0.58,
+  "band": "under",
+  "published": "Sep 10, 2026",
+  "days_since_publish": 32,
+  "duration_s": 1256,
+  "title_fields": {
+   "chars": 40,
+   "words": 6,
+   "over_60": false,
+   "front_keyword": {
+    "word": "GPT-6-Astra",
+    "position": 3
+   },
+   "formula": "x-just-changed",
+   "formula_family": "news/launch",
+   "intent": "browse",
+   "specifics": [
+    "6"
+   ],
+   "named": [
+    "GPT-6-Astra",
+    "YouTube"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [],
+   "emotion": "FOMO",
+   "promise": "animate your own videos with AI",
+   "hook_gap": "how it changed YouTube"
+  },
+  "thumbnail": {
+   "layout": "command (/animate window)",
+   "line": "/animate",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🪄 Get Genjutsu & Wan 3.0 here: https://higgsfield.ai/s/wqcOCK\n💎 Get all prompts 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "affiliate (Higgsfield referral)",
+    "lead magnet (Maker Zero, free)",
+    "course/community offer (Maker School, paid)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 3,
+    "kinds": {
+     "affiliate (Higgsfield referral)": 1,
+     "lead magnet (Maker Zero, free)": 1,
+     "course/community offer (Maker School, paid)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 14,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "none",
+   "length": 3335,
+   "keyword": {
+    "term": "animat",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2573
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 14,
+  "id": "QLLuZbuTIRc",
+  "url": "https://youtu.be/QLLuZbuTIRc",
+  "title": "The most important video you'll ever watch in the age of AI",
+  "views": 226507,
+  "likes": 4400,
+  "like_rate": 1.94,
+  "outlier": 2.76,
+  "band": "hit",
+  "published": "Sep 2, 2026",
+  "days_since_publish": 40,
+  "duration_s": 18140,
+  "title_fields": {
+   "chars": 59,
+   "words": 12,
+   "over_60": false,
+   "front_keyword": {
+    "word": "video",
+    "position": 4
+   },
+   "formula": "most-important",
+   "formula_family": "course",
+   "intent": "browse",
+   "specifics": [],
+   "named": [],
+   "caps_words": [],
+   "acronyms": [
+    "AI"
+   ],
+   "punct": [],
+   "emotion": "status + FOMO",
+   "promise": "how to think clearly in the AI age",
+   "hook_gap": "what the video is"
+  },
+  "thumbnail": {
+   "layout": "minimal-type (new: purple mono line + cursor on white)",
+   "line": "how to think",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get the Thinking Clearly doc 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 57,
+    "starts_0_00": true,
+    "style": "keyword-rich (57 chapters)",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 4925,
+   "keyword": {
+    "term": "think",
+    "in_description": true,
+    "section": "above fold",
+    "char_offset": 96
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 15,
+  "id": "yeWi6YdDOMM",
+  "url": "https://youtu.be/yeWi6YdDOMM",
+  "title": "Fable 5.1 Just Dropped. It's Not Even Close.",
+  "views": 81450,
+  "likes": 1200,
+  "like_rate": 1.47,
+  "outlier": 0.94,
+  "band": "normal",
+  "published": "Sep 1, 2026",
+  "days_since_publish": 41,
+  "duration_s": 623,
+  "title_fields": {
+   "chars": 44,
+   "words": 8,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Fable 5.1",
+    "position": 1
+   },
+   "formula": "x-just-changed",
+   "formula_family": "news/launch",
+   "intent": "both",
+   "specifics": [
+    "5.1"
+   ],
+   "named": [
+    "Fable 5.1"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [],
+   "emotion": "awe",
+   "promise": "Fable 5.1 benchmark verdict",
+   "hook_gap": "compared to what"
+  },
+  "thumbnail": {
+   "layout": "verdict (podium + tile)",
+   "line": "Fable 5.1 is here.",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": false,
+    "count": 0,
+    "starts_0_00": false,
+    "style": "none (empty header)",
+    "empty_header": true
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 2550,
+   "keyword": {
+    "term": "fable",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2476
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 16,
+  "id": "DJZISqryDfw",
+  "url": "https://youtu.be/DJZISqryDfw",
+  "title": "The Only Codex Course You Need in 2026 (4.5 Hours)",
+  "views": 83286,
+  "likes": 1700,
+  "like_rate": 2.04,
+  "outlier": 1.14,
+  "band": "normal",
+  "published": "Aug 23, 2026",
+  "days_since_publish": 50,
+  "duration_s": 16635,
+  "title_fields": {
+   "chars": 50,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Codex",
+    "position": 3
+   },
+   "formula": "full-course",
+   "formula_family": "course",
+   "intent": "search",
+   "specifics": [
+    "2026",
+    "4.5 Hours"
+   ],
+   "named": [
+    "Codex"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "gain",
+   "promise": "learn Codex for business in one sitting",
+   "hook_gap": "none"
+  },
+  "thumbnail": {
+   "layout": "syllabus (blackboard)",
+   "line": "CODEX FULL COURSE",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 12,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3715,
+   "keyword": {
+    "term": "codex",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2516
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 17,
+  "id": "yulWjh3rq28",
+  "url": "https://youtu.be/yulWjh3rq28",
+  "title": "CLAUDE CODE MARKETING FULL COURSE (6 HOURS)",
+  "views": 174052,
+  "likes": 4800,
+  "like_rate": 2.76,
+  "outlier": 2.76,
+  "band": "hit",
+  "published": "Aug 8, 2026",
+  "days_since_publish": 65,
+  "duration_s": 21769,
+  "title_fields": {
+   "chars": 43,
+   "words": 7,
+   "over_60": false,
+   "front_keyword": {
+    "word": "CLAUDE CODE",
+    "position": 1
+   },
+   "formula": "full-course",
+   "formula_family": "course",
+   "intent": "search",
+   "specifics": [
+    "6 HOURS"
+   ],
+   "named": [
+    "Claude Code"
+   ],
+   "caps_words": [
+    "CLAUDE",
+    "CODE",
+    "MARKETING",
+    "FULL",
+    "COURSE",
+    "HOURS"
+   ],
+   "acronyms": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "gain",
+   "promise": "use Claude Code for all marketing",
+   "hook_gap": "none"
+  },
+  "thumbnail": {
+   "layout": "syllabus (whiteboard)",
+   "line": "FULL CLAUDE CODE MARKETING COURSE",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)",
+    "tool",
+    "affiliate (Higgsfield referral)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 5,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1,
+     "tool": 2,
+     "affiliate (Higgsfield referral)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 17,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "none",
+   "length": 3527,
+   "keyword": {
+    "term": "claude code",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2580
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 18,
+  "id": "KDkR0cJRiJk",
+  "url": "https://youtu.be/KDkR0cJRiJk",
+  "title": "The Viral $1 Website Effect That Looks Like $10K (Tutorial)",
+  "views": 30101,
+  "likes": 1100,
+  "like_rate": 3.65,
+  "outlier": 0.37,
+  "band": "under",
+  "published": "Jul 28, 2026",
+  "days_since_publish": 76,
+  "duration_s": 1373,
+  "title_fields": {
+   "chars": 59,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Website Effect",
+    "position": 4
+   },
+   "formula": "how-to",
+   "formula_family": "how-to/explainer",
+   "intent": "both",
+   "specifics": [
+    "$1",
+    "$10K"
+   ],
+   "named": [],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "greed",
+   "promise": "a $10K-looking site effect",
+   "hook_gap": "which effect"
+  },
+  "thumbnail": {
+   "layout": "proof (stacked site screens)",
+   "line": "Viral effect.",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Here is how I generated the images/videos (Higgsfield: https://higgsfield.ai/s/jGNCEZ)\n💎 Here is where you can get all the prompts 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "affiliate (Higgsfield referral)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "affiliate (Higgsfield referral)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 15,
+    "starts_0_00": true,
+    "style": "plain",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": false,
+   "disclosure": "none",
+   "length": 3103,
+   "keyword": {
+    "term": "website",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2546
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 19,
+  "id": "k1DTxuBur-Y",
+  "url": "https://youtu.be/k1DTxuBur-Y",
+  "title": "I Spent $400 Benching Opus-5. Here's What It Can Do",
+  "views": 65235,
+  "likes": 1500,
+  "like_rate": 2.3,
+  "outlier": 0.79,
+  "band": "normal",
+  "published": "Jul 24, 2026",
+  "days_since_publish": 80,
+  "duration_s": 953,
+  "title_fields": {
+   "chars": 51,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Opus-5",
+    "position": 5
+   },
+   "formula": "i-tested",
+   "formula_family": "first-person test",
+   "intent": "both",
+   "specifics": [
+    "$400",
+    "5"
+   ],
+   "named": [
+    "Opus-5"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [],
+   "emotion": "curiosity",
+   "promise": "what Opus-5 can do",
+   "hook_gap": "what it can do"
+  },
+  "thumbnail": {
+   "layout": "verdict (trophy mascot)",
+   "line": "not even close.",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 18,
+    "starts_0_00": true,
+    "style": "plain demo list",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": true,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3943,
+   "keyword": {
+    "term": "opus",
+    "in_description": true,
+    "section": "chapters only",
+    "char_offset": 3467
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 20,
+  "id": "ikxxjRWX0Yg",
+  "url": "https://youtu.be/ikxxjRWX0Yg",
+  "title": "Do not talk to Claude's new voice mode",
+  "views": 28098,
+  "likes": 904,
+  "like_rate": 3.22,
+  "outlier": 0.38,
+  "band": "under",
+  "published": "Jul 23, 2026",
+  "days_since_publish": 81,
+  "duration_s": 423,
+  "title_fields": {
+   "chars": 38,
+   "words": 8,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Claude",
+    "position": 4
+   },
+   "formula": "warning",
+   "formula_family": "fear/warning",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "Claude"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [],
+   "emotion": "fear",
+   "promise": "why to avoid Claude voice mode",
+   "hook_gap": "why"
+  },
+  "thumbnail": {
+   "layout": "verdict (illustrated tile whispering in ear)",
+   "line": "your AI companion.",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all course resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 15,
+    "starts_0_00": true,
+    "style": "curiosity",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": true,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3975,
+   "keyword": {
+    "term": "voice",
+    "in_description": false,
+    "section": "absent",
+    "char_offset": null
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 21,
+  "id": "0zlwXSVmoeg",
+  "url": "https://youtu.be/0zlwXSVmoeg",
+  "title": "Kimi K3 Designs Websites That Feel Like MOVIES For Just $1",
+  "views": 141241,
+  "likes": 4400,
+  "like_rate": 3.12,
+  "outlier": 2.17,
+  "band": "hit",
+  "published": "Jul 21, 2026",
+  "days_since_publish": 83,
+  "duration_s": 1299,
+  "title_fields": {
+   "chars": 58,
+   "words": 11,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Kimi K3",
+    "position": 1
+   },
+   "formula": "cheap-result",
+   "formula_family": "news/launch",
+   "intent": "both",
+   "specifics": [
+    "$1"
+   ],
+   "named": [
+    "Kimi K3"
+   ],
+   "caps_words": [
+    "MOVIES"
+   ],
+   "acronyms": [
+    "K3"
+   ],
+   "punct": [],
+   "emotion": "greed + awe",
+   "promise": "cinematic websites for $1",
+   "hook_gap": "how"
+  },
+  "thumbnail": {
+   "layout": "verdict (K tile + phone screens)",
+   "line": "less than $1.",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "➡️ Higgsfield: https://higgsfield.ai/s/ACwcay ➡️ Kimi: https://www.kimi.com\n🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "affiliate (Higgsfield referral)",
+    "tool",
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 4,
+    "kinds": {
+     "affiliate (Higgsfield referral)": 1,
+     "tool": 1,
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": false,
+    "count": 0,
+    "starts_0_00": false,
+    "style": "none (empty header)",
+    "empty_header": true
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": true,
+   "disclosure": "none",
+   "length": 3538,
+   "keyword": {
+    "term": "kimi",
+    "in_description": true,
+    "section": "above fold",
+    "char_offset": 49
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 22,
+  "id": "eCx3SSCcISo",
+  "url": "https://youtu.be/eCx3SSCcISo",
+  "title": "Cerebras Killed Notion, Obsidian, and Your \"Second Brain\"",
+  "views": 125458,
+  "likes": 3200,
+  "like_rate": 2.55,
+  "outlier": 1.98,
+  "band": "over",
+  "published": "Jul 19, 2026",
+  "days_since_publish": 85,
+  "duration_s": 1428,
+  "title_fields": {
+   "chars": 57,
+   "words": 8,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Cerebras",
+    "position": 1
+   },
+   "formula": "x-killed-y",
+   "formula_family": "news/launch",
+   "intent": "browse",
+   "specifics": [],
+   "named": [
+    "Cerebras",
+    "Notion",
+    "Obsidian"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [
+    ",",
+    "\""
+   ],
+   "emotion": "controversy",
+   "promise": "replace your second-brain app",
+   "hook_gap": "with what"
+  },
+  "thumbnail": {
+   "layout": "verdict (rival tiles crossed out)",
+   "line": "no more second brains.",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get this system for FREE here: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 2,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1
+    }
+   },
+   "chapters": {
+    "present": false,
+    "count": 0,
+    "starts_0_00": false,
+    "style": "none (empty header)",
+    "empty_header": true
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": false,
+    "bio_says": "agency"
+   },
+   "stale_summary": true,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3456,
+   "keyword": {
+    "term": "second brain",
+    "in_description": false,
+    "section": "absent",
+    "char_offset": null
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 23,
+  "id": "To0kYStFS3I",
+  "url": "https://youtu.be/To0kYStFS3I",
+  "title": "I Tested Kimi K3 So You Don't Have To...",
+  "views": 118130,
+  "likes": 2700,
+  "like_rate": 2.29,
+  "outlier": 1.93,
+  "band": "over",
+  "published": "Jul 16, 2026",
+  "days_since_publish": 88,
+  "duration_s": 592,
+  "title_fields": {
+   "chars": 40,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Kimi K3",
+    "position": 3
+   },
+   "formula": "i-tested",
+   "formula_family": "first-person test",
+   "intent": "both",
+   "specifics": [],
+   "named": [
+    "Kimi K3"
+   ],
+   "caps_words": [],
+   "acronyms": [
+    "K3"
+   ],
+   "punct": [
+    "..."
+   ],
+   "emotion": "curiosity + relief",
+   "promise": "the Kimi K3 verdict",
+   "hook_gap": "the verdict"
+  },
+  "thumbnail": {
+   "layout": "verdict (leaderboard + face)",
+   "line": "This is not a drill.",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n📁 Get all my free resources: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)",
+    "socials"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 5,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1,
+     "socials": 3
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 4,
+    "starts_0_00": true,
+    "style": "plain",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": true,
+    "bio_says": "consultancy"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3313,
+   "keyword": {
+    "term": "kimi",
+    "in_description": true,
+    "section": "chapters only",
+    "char_offset": 3212
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 24,
+  "id": "8rVQuZlRaqo",
+  "url": "https://youtu.be/8rVQuZlRaqo",
+  "title": "A Practical AI Agent Workflow For Companies In 2027 (Guide)",
+  "views": 61304,
+  "likes": 1500,
+  "like_rate": 2.45,
+  "outlier": 0.84,
+  "band": "normal",
+  "published": "Jul 13, 2026",
+  "days_since_publish": 91,
+  "duration_s": 1162,
+  "title_fields": {
+   "chars": 59,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": {
+    "word": "AI Agent Workflow",
+    "position": 3
+   },
+   "formula": "how-to",
+   "formula_family": "how-to/explainer",
+   "intent": "search",
+   "specifics": [
+    "2027"
+   ],
+   "named": [],
+   "caps_words": [],
+   "acronyms": [
+    "AI"
+   ],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "gain",
+   "promise": "an agent workflow for your company",
+   "hook_gap": "none"
+  },
+  "thumbnail": {
+   "layout": "command (task board + tiles + face)",
+   "line": "Agents can do it all.",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get the AI agent workflow here (free): https://www.skool.com/maker-zero",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)",
+    "socials"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 5,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1,
+     "socials": 3
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 17,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": true,
+    "bio_says": "consultancy"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3904,
+   "keyword": {
+    "term": "workflow",
+    "in_description": true,
+    "section": "above fold",
+    "char_offset": 105
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 25,
+  "id": "rbUFFMtKcaQ",
+  "url": "https://youtu.be/rbUFFMtKcaQ",
+  "title": "I Gave GPT-5.6-Sol Unlimited Money to Make Ads (+ Results)",
+  "views": 34769,
+  "likes": 1000,
+  "like_rate": 2.88,
+  "outlier": 0.52,
+  "band": "under",
+  "published": "Jul 12, 2026",
+  "days_since_publish": 92,
+  "duration_s": 1213,
+  "title_fields": {
+   "chars": 58,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": {
+    "word": "GPT-5.6-Sol",
+    "position": 3
+   },
+   "formula": "i-did-stunt",
+   "formula_family": "first-person stunt",
+   "intent": "browse",
+   "specifics": [
+    "5.6"
+   ],
+   "named": [
+    "GPT-5.6-Sol"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "curiosity + greed",
+   "promise": "AI-made ads, with results",
+   "hook_gap": "the results"
+  },
+  "thumbnail": {
+   "layout": "hero-device (new: phone with logo + face)",
+   "line": "5.6 SOL",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get the full setup + instructions here free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)",
+    "affiliate (Higgsfield referral)",
+    "socials"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 6,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1,
+     "affiliate (Higgsfield referral)": 1,
+     "socials": 3
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 13,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": true,
+    "bio_says": "consultancy"
+   },
+   "stale_summary": false,
+   "disclosure": "none",
+   "length": 3677,
+   "keyword": {
+    "term": "sol",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 3045
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 26,
+  "id": "DbZotE0Ch0g",
+  "url": "https://youtu.be/DbZotE0Ch0g",
+  "title": "$20,354/m, solo, while working a 9-to-5",
+  "views": 22390,
+  "likes": 503,
+  "like_rate": 2.25,
+  "outlier": 0.35,
+  "band": "under",
+  "published": "Jul 9, 2026",
+  "days_since_publish": 95,
+  "duration_s": 2764,
+  "title_fields": {
+   "chars": 39,
+   "words": 6,
+   "over_60": false,
+   "front_keyword": {
+    "word": "$20,354/m",
+    "position": 1
+   },
+   "formula": "income-proof",
+   "formula_family": "income proof",
+   "intent": "browse",
+   "specifics": [
+    "$20,354/m",
+    "9",
+    "5"
+   ],
+   "named": [],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [
+    ",",
+    "/"
+   ],
+   "emotion": "greed + status",
+   "promise": "how a solo 9-to-5er makes $20K/m",
+   "hook_gap": "how"
+  },
+  "thumbnail": {
+   "layout": "versus",
+   "line": "HOW HE MADE $20,354 IN ONE MONTH",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Check out Clairvo & 2x your rev: https://clairvo.io/",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "own product (Clairvo)",
+    "socials"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 5,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "own product (Clairvo)": 1,
+     "socials": 3
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 29,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": true,
+    "bio_says": "consultancy"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 4611,
+   "keyword": {
+    "term": "20,354",
+    "in_description": true,
+    "section": "chapters only",
+    "char_offset": 3427
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 27,
+  "id": "aPUvTP5NIUI",
+  "url": "https://youtu.be/aPUvTP5NIUI",
+  "title": "How to Use Fable In Every Aspect Of Your Life",
+  "views": 25635,
+  "likes": 926,
+  "like_rate": 3.61,
+  "outlier": 0.41,
+  "band": "under",
+  "published": "Jul 8, 2026",
+  "days_since_publish": 96,
+  "duration_s": 382,
+  "title_fields": {
+   "chars": 45,
+   "words": 10,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Fable",
+    "position": 4
+   },
+   "formula": "how-to",
+   "formula_family": "how-to/explainer",
+   "intent": "search",
+   "specifics": [],
+   "named": [
+    "Fable"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [],
+   "emotion": "gain",
+   "promise": "use Fable everywhere in life",
+   "hook_gap": "none"
+  },
+  "thumbnail": {
+   "layout": "marker (minimal serif line, face centre)",
+   "line": "IT WATCHES EVERYTHING",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get the full setup + instructions here free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)",
+    "socials"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 5,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1,
+     "socials": 3
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 10,
+    "starts_0_00": true,
+    "style": "curiosity",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": true,
+    "bio_says": "consultancy"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3886,
+   "keyword": {
+    "term": "fable",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2927
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 28,
+  "id": "h6G9R4UxR6g",
+  "url": "https://youtu.be/h6G9R4UxR6g",
+  "title": "Fable 5 Is Back. Use It To Print With These $10K Websites",
+  "views": 86866,
+  "likes": 2800,
+  "like_rate": 3.22,
+  "outlier": 2.69,
+  "band": "hit",
+  "published": "Jul 7, 2026",
+  "days_since_publish": 97,
+  "duration_s": 636,
+  "title_fields": {
+   "chars": 57,
+   "words": 12,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Fable 5",
+    "position": 1
+   },
+   "formula": "x-just-changed",
+   "formula_family": "news/launch",
+   "intent": "both",
+   "specifics": [
+    "5",
+    "$10K"
+   ],
+   "named": [
+    "Fable 5"
+   ],
+   "caps_words": [],
+   "acronyms": [],
+   "punct": [],
+   "emotion": "greed + FOMO",
+   "promise": "$10K websites with Fable 5",
+   "hook_gap": "which sites"
+  },
+  "thumbnail": {
+   "layout": "proof (site screens + face)",
+   "line": "Fable is back. Use it wisely.",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all assets/resources for free here: https://www.skool.com/maker-zero",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)",
+    "socials"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 5,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1,
+     "socials": 3
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 12,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": true,
+    "bio_says": "consultancy"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3737,
+   "keyword": {
+    "term": "fable",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2916
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 29,
+  "id": "dzfFN0RgPlI",
+  "url": "https://youtu.be/dzfFN0RgPlI",
+  "title": "NEW Fable 5 API Usage Exploit (Reduce Costs Immediately)",
+  "views": 20323,
+  "likes": 551,
+  "like_rate": 2.71,
+  "outlier": 0.33,
+  "band": "under",
+  "published": "Jul 6, 2026",
+  "days_since_publish": 98,
+  "duration_s": 404,
+  "title_fields": {
+   "chars": 56,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": {
+    "word": "Fable 5 API",
+    "position": 2
+   },
+   "formula": "exploit",
+   "formula_family": "secret/hack",
+   "intent": "both",
+   "specifics": [
+    "5"
+   ],
+   "named": [
+    "Fable 5"
+   ],
+   "caps_words": [
+    "NEW"
+   ],
+   "acronyms": [
+    "API"
+   ],
+   "punct": [
+    "(",
+    ")"
+   ],
+   "emotion": "greed",
+   "promise": "cut Fable 5 API costs",
+   "hook_gap": "the exploit"
+  },
+  "thumbnail": {
+   "layout": "equation (Claude tile + pixelated tile)",
+   "line": "No one is doing this.",
+   "line_vs_title": "complements"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n💎 Get all resources 100% free: https://skool.com/maker-zero/about",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "lead magnet (Maker Zero, free)",
+    "socials"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 5,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "lead magnet (Maker Zero, free)": 1,
+     "socials": 3
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 7,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": true,
+    "bio_says": "consultancy"
+   },
+   "stale_summary": false,
+   "disclosure": "n/a (no affiliate links)",
+   "length": 3320,
+   "keyword": {
+    "term": "fable",
+    "in_description": true,
+    "section": "summary",
+    "char_offset": 2993
+   }
+  },
+  "deep_five": false
+ },
+ {
+  "index": 30,
+  "id": "7Su6W_FlUbk",
+  "url": "https://youtu.be/7Su6W_FlUbk",
+  "title": "The BEST AI Video Strategy No One Is Using",
+  "views": 28324,
+  "likes": 1000,
+  "like_rate": 3.53,
+  "outlier": 0.59,
+  "band": "under",
+  "published": "Jul 6, 2026",
+  "days_since_publish": 98,
+  "duration_s": 914,
+  "title_fields": {
+   "chars": 42,
+   "words": 9,
+   "over_60": false,
+   "front_keyword": {
+    "word": "AI Video Strategy",
+    "position": 3
+   },
+   "formula": "secret",
+   "formula_family": "secret/hack",
+   "intent": "browse",
+   "specifics": [],
+   "named": [],
+   "caps_words": [
+    "BEST"
+   ],
+   "acronyms": [
+    "AI"
+   ],
+   "punct": [],
+   "emotion": "FOMO",
+   "promise": "an AI video-editing strategy",
+   "hook_gap": "which strategy"
+  },
+  "thumbnail": {
+   "layout": "command/equation (icon pipeline + face)",
+   "line": "My AI Video Pipeline",
+   "line_vs_title": "repeats"
+  },
+  "description": {
+   "above_fold": "🔥 Join Maker School & get customer #1 guaranteed: https://skool.com/makerschool/about\n➡️ Link to Omni: https://higgsfield.ai/s/general-nicks...",
+   "first_line_job": "CTA",
+   "ctas": [
+    "course/community offer (Maker School, paid)",
+    "affiliate (Higgsfield referral)",
+    "lead magnet (Maker Zero, free)",
+    "socials"
+   ],
+   "first_link_line": 1,
+   "links": {
+    "count": 6,
+    "kinds": {
+     "course/community offer (Maker School, paid)": 1,
+     "affiliate (Higgsfield referral)": 1,
+     "lead magnet (Maker Zero, free)": 1,
+     "socials": 3
+    }
+   },
+   "chapters": {
+    "present": true,
+    "count": 18,
+    "starts_0_00": true,
+    "style": "keyword-rich",
+    "empty_header": false
+   },
+   "hashtags": {
+    "count": 0,
+    "which": [],
+    "note": "dossier '#1' is a parse false positive from 'customer #1'"
+   },
+   "boilerplate": {
+    "maker_school_line": true,
+    "bio_block": true,
+    "summary_header": true,
+    "socials_block": true,
+    "bio_says": "consultancy"
+   },
+   "stale_summary": true,
+   "disclosure": "none",
+   "length": 4216,
+   "keyword": {
+    "term": "video",
+    "in_description": true,
+    "section": "bio",
+    "char_offset": 245
+   }
+  },
+  "deep_five": false
+ }
+]

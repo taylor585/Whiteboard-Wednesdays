@@ -1,0 +1,38 @@
+{
+ "id": "Think16-01-centre-hero-dark-purple",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "centre-hero",
+  "ground": "dark-purple",
+  "font": "anton",
+  "accent": "purple",
+  "hero": "lightbulb",
+  "emoji": false
+ },
+ "studio": {
+  "preset": "dark-purple"
+ },
+ "words": "THINK FIRST.",
+ "layers": [
+  {
+   "type": "lightbulb",
+   "x": 640,
+   "y": 270,
+   "h": 440,
+   "logo": "claude.svg",
+   "logo_col": "#D97757",
+   "glow": "#b98cff"
+  },
+  {
+   "type": "text",
+   "text": "Think first.",
+   "x": 640,
+   "y": 660,
+   "size": 190,
+   "finish": "purple-glow",
+   "depth": 18,
+   "anchor": "middle",
+   "rim": true
+  }
+ ]
+}

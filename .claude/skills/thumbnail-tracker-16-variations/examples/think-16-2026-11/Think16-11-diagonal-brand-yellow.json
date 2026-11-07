@@ -1,0 +1,54 @@
+{
+ "id": "Think16-11-diagonal-brand-yellow",
+ "title": "How To Think With AI",
+ "look": {
+  "layout": "diagonal",
+  "ground": "brand-yellow",
+  "font": "inter-tight",
+  "accent": "black-red",
+  "hero": "tilted-bulb",
+  "emoji": false
+ },
+ "studio": {
+  "preset": "brand-yellow"
+ },
+ "words": "DON'T JUST PROMPT.",
+ "layers": [
+  {
+   "type": "lightbulb",
+   "x": 1020,
+   "y": 330,
+   "h": 480,
+   "glow": "#fff3b0",
+   "rot": 14
+  },
+  {
+   "type": "text",
+   "text": "Don't just",
+   "x": 60,
+   "y": 300,
+   "size": 150,
+   "finish": "black-sans",
+   "depth": 10,
+   "rot": -8
+  },
+  {
+   "type": "block3d",
+   "x": 60,
+   "y": 360,
+   "w": 600,
+   "h": 180,
+   "rot": -8
+  },
+  {
+   "type": "text",
+   "text": "prompt.",
+   "x": 90,
+   "y": 515,
+   "size": 160,
+   "finish": "white-sans",
+   "depth": 10,
+   "rot": -8
+  }
+ ]
+}

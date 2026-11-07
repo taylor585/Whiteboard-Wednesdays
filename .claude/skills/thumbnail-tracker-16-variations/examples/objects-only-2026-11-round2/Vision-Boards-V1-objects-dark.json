@@ -1,0 +1,58 @@
+{
+ "id": "Vision-Boards-V1-objects-dark",
+ "title": "How to Build an App With Claude (Without Rebuilds)",
+ "studio": {
+  "preset": "dark-red"
+ },
+ "words": "MOTION PLANNING???",
+ "layers": [
+  {
+   "type": "clapperboard",
+   "x": 920,
+   "y": 335,
+   "w": 420,
+   "logo": "claude.svg",
+   "logo_col": "#D97757",
+   "rot": -8,
+   "open_deg": -20
+  },
+  {
+   "type": "text",
+   "text": "???",
+   "x": 990,
+   "y": 200,
+   "size": 150,
+   "finish": "red-outline",
+   "depth": 16,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "Motion",
+   "x": 46,
+   "y": 290,
+   "size": 220,
+   "finish": "white-outline",
+   "depth": 16,
+   "rim": true
+  },
+  {
+   "type": "text",
+   "text": "Planning",
+   "x": 46,
+   "y": 480,
+   "size": 165,
+   "finish": "gold-outline",
+   "depth": 18,
+   "rim": true
+  }
+ ],
+ "look": {
+  "layout": "words-left",
+  "ground": "dark-red",
+  "font": "anton",
+  "accent": "gold-red",
+  "hero": "clapperboard",
+  "emoji": false
+ }
+}
