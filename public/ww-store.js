@@ -102,7 +102,7 @@
       // Who the video is for (Taylor's decision 7, 4 November 2026): A wants AI built, B buys paid ads; null clears it.
       if (body.buyer !== undefined) { if (body.buyer !== null && body.buyer !== 'A' && body.buyer !== 'B') fail('Choose who the video is for: A or B.'); patch.buyer = body.buyer; }
       if (body.recordDate !== undefined) {
-        if (body.recordDate !== null) { const d = day(body.recordDate); if (!d || ![3,5,6,0].includes(d.getUTCDay())) fail('Recording days are Wednesday, Friday, Saturday and Sunday.'); }
+        if (body.recordDate !== null) { const d = day(body.recordDate); if (!d || ![3,5].includes(d.getUTCDay())) fail('Recording days are Wednesday and Friday.'); }
         const holder = body.recordDate === null ? null : topics.find(x => x.recordDate === body.recordDate && x.id !== t.id);
         if (holder && body.swap !== true) fail('“'+holder.title+'” is already booked for that day.', 409, {conflict:{id:holder.id, title:holder.title}});
         if (holder) {

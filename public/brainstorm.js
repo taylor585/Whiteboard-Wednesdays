@@ -2,7 +2,7 @@
    The four-column idea board takes the page (Sparks, Shortlist, then the Recording and Posting
    schedules side by side) and the creators sit beside it as cards; choosing one opens its profile
    over the rail, so the board never moves. Wednesday's video posts
-   the next Tuesday and Friday's the next Thursday (PROCESS.md), and a weekend video the next day, unless a post date is set by hand. */
+   the next Tuesday and Friday's the next Thursday (PROCESS.md), unless a post date is set by hand. */
 (() => {
   'use strict';
   const root = document.querySelector('#brainstorm');
@@ -24,7 +24,7 @@
   const data = () => window.WWIdeas.data;
   const topics = () => data().topics || [];
   const status = message => { $('#bs-status').textContent = message; };
-  const postOf = t => { if (t.postDate) return parse(t.postDate); if (!t.recordDate) return null; const r = parse(t.recordDate); return add(r, [6, 0].includes(r.getDay()) ? 1 : 6); };
+  const postOf = t => t.postDate ? parse(t.postDate) : t.recordDate ? add(parse(t.recordDate), 6) : null;
   // One index per data load: each creator's uploads newest first, the last 14 days, and a per-day count.
   // Built once and reused, so a tap on a card costs nothing measurable even with 600+ videos loaded.
   let idxFor = null, idx = new Map(), sortedAll = [];
@@ -238,7 +238,7 @@
     event.preventDefault();
     const input = $('#bs-title'), title = input.value.trim();
     if (!title) { status('Write the angle first.'); input.focus(); return; }
-    const done = await mutate('/topic', spark ? {title, videoId:spark} : {title}, 'Angle added. Book it into a Wednesday, a Friday or the weekend when you are ready.');
+    const done = await mutate('/topic', spark ? {title, videoId:spark} : {title}, 'Angle added. Book it into Wednesday or Friday when you are ready.');
     if (done) { input.value = ''; spark = null; render(); input.focus(); }
   });
   root.addEventListener('dragstart', event => { const st = event.target.closest?.('.bs-stk'); if (!st) return; drag = st.dataset.topic; event.dataTransfer.setData('text/plain', drag); event.dataTransfer.effectAllowed = 'move'; st.classList.add('is-dragging'); });
