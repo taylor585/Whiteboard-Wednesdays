@@ -45,3 +45,23 @@
 .se-link-st,.se-links .se-note{grid-column:1/-1;margin:0}
 .se-link-st{font-size:14px}.se-link-st.is-bad{color:#8b6002;font-weight:600}
 @media(max-width:700px){.se-links{grid-template-columns:1fr}#settings .se-btn-sm{width:100%}}
+/* Connect GitHub, direction A (Taylor, 9 November 2026): one status line under the heading, one action beside it. */
+.se-gh{display:grid;grid-template-columns:10px minmax(0,1fr) auto;align-items:center;gap:12px 14px;margin-top:20px;padding-top:16px;border-top:1px solid #d8d5cf;max-width:880px;font-size:15px}
+.se-gh p{min-width:0;margin:0;line-height:1.5}
+.se-gh p b{font-weight:600}.se-gh p span{color:#5c5750}
+.se-gh .se-gh-repo{font:13px WWMono,monospace;color:#5c5750;overflow-wrap:anywhere}
+.se-gh-dot{width:10px;height:10px;border-radius:50%;box-sizing:border-box}
+.se-gh-dot.is-on{background:#1c1a17}
+.se-gh-dot.is-off{background:#fff;box-shadow:inset 0 0 0 2px #8b6002}
+.se-gh-dot.is-wait{background:linear-gradient(90deg,#1c1a17 50%,#fff 50%);box-shadow:inset 0 0 0 2px #1c1a17}
+.se-gh-dot.is-err{background:#8b6002;border-radius:2px;transform:rotate(45deg) scale(.9)}
+#settings .se-gh-btn{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:12px 22px;border:0;border-radius:8px;background:#1c1a17;color:#fff;font:16px WWBody,Arial,sans-serif;text-decoration:none;white-space:nowrap}
+#settings .se-gh-btn.is-ghost{background:#fff;color:#1c1a17;box-shadow:inset 0 0 0 1px #1c1a17}
+#settings .se-gh-btn:disabled{opacity:.55;cursor:progress}
+.se-gh-link{display:inline-flex;align-items:center;gap:4px;min-height:44px;color:#1c1a17;font-size:15px;text-decoration:underline;text-underline-offset:4px}
+.se-gh-x{font-size:.85em;text-decoration:none}
+.se-gh .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media(prefers-reduced-motion:no-preference){#settings .se-gh-btn{transition:background-color .15s,box-shadow .15s}}
+@media(hover:hover){#settings .se-gh-btn:not(:disabled):hover{background:#3a3631}#settings .se-gh-btn.is-ghost:not(:disabled):hover{background:#f5f3ee}}
+@media(max-width:700px){.se-gh{grid-template-columns:10px minmax(0,1fr)}.se-gh-dot{align-self:start;margin-top:7px}#settings .se-gh-btn{grid-column:1/-1;width:100%}.se-gh-link{grid-column:2;justify-self:start}}
+.se-gh p:focus{outline:none}

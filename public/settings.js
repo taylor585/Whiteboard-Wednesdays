@@ -3,7 +3,10 @@
    Choose a skill and every job it can do lights up; choose a job to hand it that skill; Save writes the choice to
    the artifact database (settings/skills). A Publish job copies these when it starts, so a change applies to the next video.
    Phase 7 (4 November 2026, Taylor's decision 7): the booking link is saved here once (settings/links) and goes into
-   every post's book-a-call line. It must be a real https link: posts never carry a placeholder such as [BOOKING LINK]. */
+   every post's book-a-call line. It must be a real https link: posts never carry a placeholder such as [BOOKING LINK].
+   Connect GitHub (Taylor's pick, direction A, 9 November 2026): one status line under the heading. It reads Claude Code
+   Remote's list_repos with Taylor's own connector and says Connected only when the repo comes back with can_push true.
+   Connect opens claude.ai/connect-github in a new tab; the line checks again on open and on return to the tab, never on a timer. */
 (() => {
   'use strict';
   const root = document.querySelector('#settings');
@@ -45,7 +48,7 @@
   function mono(name) { return name.replace(/[^\p{L} ]/gu, '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase(); }
   function render() {
     const pick = skill(chosen), n = changes();
-    root.innerHTML = '<div class="se-head"><a class="se-back" href="#/library">← Back</a><div class="micro">SETTINGS · SKILLS AND CONNECTIONS</div><h1 id="se-heading">Your skills</h1><p>Pick a skill on the left, then the jobs it should run. A Publish job copies these when it starts, so a change applies to the next video.</p></div>'+
+    root.innerHTML = '<div class="se-head"><a class="se-back" href="#/library">← Back</a><div class="micro">SETTINGS · SKILLS AND CONNECTIONS</div><h1 id="se-heading">Your skills</h1><p>Pick a skill on the left, then the jobs it should run. A Publish job copies these when it starts, so a change applies to the next video.</p>'+ghHtml()+'</div>'+
       '<div class="se-lib"><div class="se-shelf" role="group" aria-label="Installed skills">'+SKILLS.map(s => '<button type="button" class="se-card" data-skill="'+s.id+'" aria-pressed="'+(s.id === chosen)+'"><b>'+esc(s.name)+'</b><small>'+(s.ver ? 'v'+s.ver+' · ' : '')+'installed</small><span>'+esc(s.does)+'</span></button>').join('')+'</div>'+
       '<div class="se-slots">'+JOBS.map(([screen, sub, jobs]) => '<section class="se-grp" aria-label="'+esc(screen)+'"><h2>'+esc(screen)+' <span class="micro">'+esc(sub)+'</span></h2><div class="se-row">'+jobs.map(([key, label, kind, note]) => {
         const hot = pick && pick.kind === kind, now = skill(draft[key]) || {id:draft[key], name:draft[key]};
@@ -81,6 +84,8 @@
     if (p && bookingDraft.trim()) e.target.setAttribute('aria-invalid', 'true'); else e.target.removeAttribute('aria-invalid');
   });
   root.addEventListener('click', async e => {
+    const ga = e.target.closest('[data-gh]');
+    if (ga) { const a = ga.dataset.gh; if (a === 'connect') { gh = {s:'wait'}; setTimeout(ghPaint); } else if (a === 'manage') {} else if (a === 'allow') ghAllow(); else ghCheck(true); return; }
     const card = e.target.closest('[data-skill]');
     if (card) { chosen = card.dataset.skill; render(); root.querySelector('[data-skill="'+chosen+'"]').focus(); return; }
     const job = e.target.closest('[data-job]');
@@ -105,8 +110,87 @@
     catch { linksRef = null; }
     loaded = true; if (!root.hidden) render();
   }
+  // ---- Connect GitHub: one honest status line. ----
+  const GH_REPO = 'taylor585/Whiteboard-Wednesdays', GH_LINK = 'https://claude.ai/connect-github', CCR = 'Claude Code Remote';
+  let gh = {s:'checking'}, ghToken = 0, ghBusy = false;
+  const GH = {
+    checking:['wait','Checking GitHub…','',null],
+    on:['on','GitHub connected.','<span class="se-gh-repo">'+GH_REPO+' · can push</span>',['link','Manage']],
+    off:['off','GitHub is not connected.','Publish jobs need it to open your repo.',['btn','Connect GitHub']],
+    wait:['wait','Connecting GitHub.','Finish in the claude.ai tab, then come back.',['check','Check now']],
+    readonly:['err','GitHub can’t push to your repo.','Publish jobs need to push to '+GH_REPO+'. Give the Claude GitHub App access to it.',['btn','Fix on claude.ai']],
+    ask:['off','GitHub not checked yet.','Checking asks you once to allow Claude Code Remote.',['check','Check GitHub',true]],
+    perm:['err','GitHub check is switched off.','Allow Claude Code Remote for this app so it can check.',['allow','Allow',true]],
+    permMenu:['err','GitHub check is switched off.','Turn Claude Code Remote on in this app’s Permissions menu, then check again.',['check','Check again']],
+    reauth:['err','GitHub can’t be checked.','Reconnect Claude Code Remote in claude.ai Settings, Connectors.',['check','Check again',true]],
+    noserver:['err','GitHub can’t be checked.','Add Claude Code Remote in claude.ai Settings, Connectors.',['check','Check again',true]],
+    down:['err','GitHub can’t be checked right now.','Claude Code Remote didn’t answer. Nothing has changed.',['check','Check again']],
+    notool:['off','GitHub can’t be checked from here.','Your Claude Code Remote connection doesn’t offer the repo check in this view.',['link','Open GitHub settings']],
+    preview:['off','GitHub can’t be checked in this preview.','The app checks it when it is opened in Claude.',null]};
+  const ext = '<span class="se-gh-x" aria-hidden="true">↗</span>', newTab = ' target="_blank" rel="noopener noreferrer" data-gh="connect"';
+  function ghHtml() {
+    const [dot, lead, text, act] = GH[gh.s] || GH.down;
+    const a = !act ? '' : act[0] === 'link' ? '<a class="se-gh-link" id="se-gh-act" href="'+GH_LINK+'"'+newTab.replace('connect', 'manage')+'>'+act[1]+ext+'<span class="sr">(opens claude.ai in a new tab)</span></a>'
+      : act[0] === 'btn' ? '<a class="se-gh-btn" id="se-gh-act" href="'+GH_LINK+'"'+newTab+'>'+act[1]+ext+'<span class="sr">(opens claude.ai in a new tab)</span></a>'
+      : '<button type="button" class="se-gh-btn'+(act[2] ? '' : ' is-ghost')+'" id="se-gh-act" data-gh="'+act[0]+'"'+(ghBusy ? ' disabled' : '')+'>'+act[1]+'</button>';
+    return '<div class="se-gh" id="se-gh" data-state="'+gh.s+'"><i class="se-gh-dot is-'+dot+'" aria-hidden="true"></i><p role="status" tabindex="-1"><b>'+lead+'</b>'+(text ? ' <span>'+text+'</span>' : '')+'</p>'+a+'</div>';
+  }
+  // Repaint only the line, so typing elsewhere keeps its caret; focus follows the action if it had it.
+  function ghPaint() {
+    const el = root.querySelector('#se-gh'); if (!el) return;
+    const had = el.contains(document.activeElement);
+    el.outerHTML = ghHtml();
+    if (had) (root.querySelector('#se-gh-act') || root.querySelector('#se-gh p'))?.focus?.();
+  }
+  const permCodes = ['not_in_manifest','not_granted','approval_required','consent_required'];
+  function ghFromError(c) {
+    return c === 'needs_reauth' ? 'reauth' : ['server_not_connected','selection_required','server_not_found'].includes(c) ? 'noserver'
+      : permCodes.includes(c) ? 'perm' : ['blocked_by_policy','capability_disabled','capability_removed'].includes(c) ? 'notool' : 'down';
+  }
+  // manual: a press of Check now / Check GitHub / Check again. Without it, a viewer not yet asked is not asked.
+  async function ghCheck(manual) {
+    if (ghBusy) return;
+    const t = ++ghToken, was = gh.s; ghBusy = true;
+    if (!['on','wait'].includes(was) || manual) { if (was !== 'wait') gh = {s:'checking'}; ghPaint(); }
+    let next;
+    try {
+      const mcp = await window.claude?.use?.('mcp');
+      if (!mcp) next = 'preview';
+      else {
+        const perms = await Promise.resolve(window.claude.use('permissions')).catch(() => null);
+        const ps = perms?.state ? await perms.state('mcp:'+CCR).catch(() => 'unavailable') : null;
+        if (ps === 'denied') next = 'perm';
+        else if (ps === 'prompt' && !manual) next = 'ask';
+        else {
+          const lt = await mcp.listTools(CCR), srv = (lt?.servers || []).find(x => x.server === CCR);
+          if (!srv || !(srv.tools || []).length) next = 'noserver';
+          else if (srv.authStatus === 'needs_reauth') next = 'reauth';
+          else if (!srv.tools.some(x => x.name === 'list_repos')) next = 'notool';
+          else {
+            const r = await mcp.callTool(CCR, 'list_repos', {query:'Whiteboard-Wednesdays', limit:20}, {cache:false});
+            const repos = r?.payload?.repos;
+            if (!Array.isArray(repos)) next = 'notool';
+            else { const hit = repos.find(x => String(x?.full_name || '').toLowerCase() === GH_REPO.toLowerCase());
+              next = !hit ? 'off' : hit.can_push === true ? 'on' : 'readonly'; }
+          }
+        }
+      }
+    } catch (e) { next = ghFromError(e?.code); }
+    if (t !== ghToken) return;
+    ghBusy = false;
+    // Coming back mid-connect is not a failure: the line keeps waiting until GitHub answers yes or Taylor presses Check now.
+    if (was === 'wait' && !manual && next === 'off') next = 'wait';
+    gh = {s:next, at:new Date().toISOString()}; ghPaint();
+  }
+  async function ghAllow() {
+    const perms = await Promise.resolve(window.claude?.use?.('permissions')).catch(() => null);
+    try { if (!perms?.manage) throw 0; await perms.manage(); ghCheck(true); }
+    catch { gh = {s:'permMenu'}; ghPaint(); }
+  }
+  const settingsOpen = () => !root.hidden && /^#\/settings/.test(location.hash);
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && settingsOpen()) ghCheck(false); });
   // links.booking is null until a valid https link is saved; Publish copies it into the job with Approve both.
   window.WWSettings = {get skills() { return {...saved}; }, get links() { return {...links}; }, bookingProblem, name: id => skill(id)?.name || id};
-  window.addEventListener('ww:route', e => { if (e.detail[0] === 'settings') render(); });
+  window.addEventListener('ww:route', e => { if (e.detail[0] === 'settings') { render(); ghCheck(false); } });
   load();
 })();
