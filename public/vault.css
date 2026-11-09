@@ -1,0 +1,111 @@
+/* Vault (direction B "Lanes", Taylor's pick, 9 November 2026): every finished video, thumbnail and caption.
+   Plain text lanes like Publish's Video and Reels, bubbles beneath, assets grouped by video. */
+#vault{max-width:1600px;margin:auto;padding:48px 4vw 64px;color:#1c1a17;font-family:WWBody,Arial,sans-serif}
+#vault :focus-visible{outline:3px solid #8b6002;outline-offset:3px}
+.va-head h1{margin:8px 0;font:500 clamp(36px,4vw,54px)/1.1 WWBody,Arial,sans-serif;letter-spacing:-1.8px}
+.va-head p{margin:0;color:#5c5750;max-width:62ch}
+
+/* Lanes and bubbles stay pinned while a long list scrolls. */
+.va-bar{position:sticky;top:0;z-index:4;margin:26px -4vw 0;padding:0 4vw 14px;background:#fff}
+.va-bar.is-stuck{box-shadow:0 1px 0 #d8d5cf}
+.va-lanes{display:flex;gap:28px;border-bottom:1px solid #d8d5cf;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}
+.va-lanes::-webkit-scrollbar{display:none}
+.va-lanes a{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:10px 0;border-bottom:2px solid transparent;margin-bottom:-1px;text-decoration:none;font-size:16px;color:#5c5750;white-space:nowrap}
+.va-lanes a[aria-current=page]{border-bottom-color:#1c1a17;color:#1c1a17}
+.va-lanes a:hover{color:#1c1a17}
+.va-bubbles{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.va-bubbles a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:1px solid #d8d5cf;border-radius:999px;text-decoration:none;font-size:15px;color:#1c1a17;white-space:nowrap;background:#fff}
+.va-bubbles a:hover{border-color:#1c1a17}
+.va-bubbles a[aria-current=true]{background:#1c1a17;border-color:#1c1a17;color:#fff}
+.va-bubbles i{font:normal 12px WWMono,monospace;color:#5c5750}
+.va-bubbles a[aria-current=true] i{color:#d8d5cf}
+
+.va-status{margin:28px 0 0;color:#5c5750;font-size:15px}
+.va-empty{margin:28px 0 0;font:13px/1.5 WWMono,monospace;color:#5c5750}
+.va-status button{margin-left:12px}
+
+/* Video grid (YouTube and LinkedIn lanes): one card per finished edit. */
+.va-videos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px 24px;margin-top:22px}
+
+/* Groups: one per video, newest open. */
+.va-group{margin-top:22px}
+.va-group+.va-group{margin-top:6px}
+.va-gh-h{margin:0;font:inherit}
+.va-gh{display:flex;align-items:center;gap:16px;width:100%;min-height:56px;padding:12px 0;border:0;border-bottom:1px solid #d8d5cf;border-radius:0;background:none;color:#1c1a17;text-align:left;font:inherit;cursor:pointer}
+#vault .va-gh:hover{background:none}
+.va-gh[aria-expanded=true]{border-bottom:2px solid #1c1a17}
+.va-gt{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 16px}
+.va-gn{min-width:0;font:500 22px/1.25 WWBody,Arial,sans-serif;letter-spacing:-.3px}
+.va-gh[aria-expanded=false] .va-gn{font-size:18px}
+.va-gm{flex:none;font:12px/1.5 WWMono,monospace;color:#5c5750;white-space:nowrap}
+.va-chev{flex:none;width:10px;height:10px;margin-right:4px;border-right:2px solid #1c1a17;border-bottom:2px solid #1c1a17;transform:translateY(-3px) rotate(45deg);transition:transform 200ms ease}
+.va-gh[aria-expanded=true] .va-chev{transform:translateY(2px) rotate(-135deg)}
+.va-gbody{padding-top:20px}
+.va-grid{display:grid;gap:28px 20px;grid-template-columns:repeat(4,minmax(0,1fr));align-items:start}
+.va-grid.is-tall{grid-template-columns:repeat(5,minmax(0,1fr))}
+.va-grid.is-text{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+.va-more{display:flex;justify-content:center;margin-top:20px}
+#vault .va-more button{min-height:44px;padding:0 20px;border:1px solid #d8d5cf;border-radius:999px;background:#fff;font-size:15px;color:#1c1a17}
+#vault .va-more button:hover{border-color:#1c1a17}
+
+/* Cards */
+.va-card{display:flex;flex-direction:column;gap:10px;min-width:0}
+.va-media{position:relative;display:block;width:100%;overflow:hidden;border-radius:8px;background:#f5f3ee;box-shadow:0 0 0 1px #d8d5cf}
+.va-media img{display:block;width:100%;height:100%;object-fit:cover}
+.va-dur{position:absolute;right:8px;bottom:8px;padding:2px 6px;border-radius:4px;background:#1c1a17;color:#fff;font:11px/1.4 WWMono,monospace}
+/* Plain title tile, used when an edit has no frame to show (never a cover). */
+.va-tile{display:flex;flex-direction:column;justify-content:space-between;gap:12px;padding:clamp(14px,1.6vw,22px);color:#1c1a17;background:#f5f3ee repeating-linear-gradient(0deg,transparent 0 27px,rgba(28,26,23,.045) 27px 28px)}
+.va-tile .va-k{font:11px/1.4 WWMono,monospace;letter-spacing:1px;text-transform:uppercase;color:#5c5750}
+.va-tile .va-k::after{content:"";display:block;width:24px;height:2px;margin-top:8px;background:#8b6002}
+.va-tile b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;font:500 clamp(18px,1.7vw,26px)/1.2 WWBody,Arial,sans-serif;letter-spacing:-.3px;padding-right:44px}
+.va-tall .va-tile b{font-size:clamp(16px,1.4vw,21px);-webkit-line-clamp:6;padding-right:0;padding-bottom:22px}
+.va-info{display:flex;flex-direction:column;gap:2px;min-width:0}
+.va-info b{font-weight:600;font-size:15px;line-height:1.3}
+.va-meta{font:12px/1.5 WWMono,monospace;color:#5c5750}
+.va-act{display:flex;align-items:center;flex-wrap:wrap;gap:4px 16px}
+#vault .va-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border:1px solid #1c1a17;border-radius:8px;background:#fff;color:#1c1a17;font:500 15px WWBody,Arial,sans-serif;text-decoration:none;cursor:pointer;transition:background-color 200ms ease}
+#vault .va-btn:hover{background:#f5f3ee}
+#vault .va-btn.is-done{background:#f6df8c}
+.va-link{display:inline-flex;align-items:center;min-height:44px;padding:0 2px;font-size:14px;color:#5c5750;text-underline-offset:4px}
+.va-link:hover{color:#1c1a17}
+
+/* Post copy */
+.va-copy{display:flex;flex-direction:column;gap:12px;min-width:0;padding:18px;border:1px solid #d8d5cf;border-radius:10px;background:#fff}
+.va-pf{font:12px/1.5 WWMono,monospace;letter-spacing:.06em;text-transform:uppercase;color:#5c5750}
+.va-text{margin:0;font:15px/1.55 WWBody,Arial,sans-serif;white-space:pre-wrap;overflow-wrap:anywhere}
+.va-text.is-clamped{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden}
+#vault .va-toggle{align-self:flex-start;min-height:44px;padding:0 2px;border:0;background:none;font-size:14px;color:#1c1a17;text-decoration:underline;text-underline-offset:4px}
+.va-fc{display:flex;flex-direction:column;gap:2px;padding-top:12px;border-top:1px solid #d8d5cf}
+.va-fc p{margin:0;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+.va-fc .va-act{justify-content:flex-start}
+#vault .va-fc .va-toggle{color:#5c5750}
+.va-copy>.va-act{margin-top:auto;justify-content:space-between}
+
+/* Entrance: short, staggered for the first eight items only, once per change. */
+.va-in{animation:va-in 220ms cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i,0) * 30ms)}
+@keyframes va-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.va-in{animation:none}.va-chev,#vault .va-btn{transition:none}}
+
+@media(max-width:1199px){.va-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.va-grid.is-tall{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:1023px){.va-videos{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:899px){.va-grid.is-text{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:767px){.va-grid,.va-grid.is-tall{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 12px}}
+@media(max-width:640px){
+ #vault{padding:32px 20px 48px}
+ .va-head h1{font-size:36px;letter-spacing:-1px}
+ .va-head p{font-size:15px}
+ .va-bar{margin:22px -20px 0;padding:0 20px 12px}
+ .va-lanes{gap:20px;margin:0 -20px;padding:0 20px}
+ .va-lanes a{font-size:15px}
+ .va-bubbles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+ .va-bubbles a{justify-content:center;padding:0 8px;font-size:14px}
+ .va-bubbles i{display:none}
+ .va-videos{grid-template-columns:minmax(0,1fr);gap:28px}
+ .va-gn{font-size:18px}
+ .va-gh[aria-expanded=false] .va-gn{font-size:16px}
+ .va-gt{flex-direction:column;align-items:flex-start}
+ .va-gm{font-size:11px}
+ .va-grid .va-act{flex-wrap:nowrap;gap:12px}
+ .va-grid .va-btn{padding:0 16px}
+ .va-copy{padding:16px}
+}
