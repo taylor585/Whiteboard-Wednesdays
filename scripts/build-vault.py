@@ -14,8 +14,9 @@ Run from the repository root with an isolated interpreter:
                                                  each opening its artifactUrl (never YouTube)
 
 Rules (Taylor, 9 November 2026):
-  - No reel covers and no thumbnails as video posters. A video shows a poster frame only when the staging
-    notes say it is a frame of the edit; otherwise the app draws a plain title tile.
+  - No reel covers. A YouTube video card shows the thumbnail posted with it on YouTube (a LinkedIn cut shows its
+    LinkedIn video cover, else that YouTube thumbnail); a frame of the edit is used where the staging notes say so;
+    otherwise the app draws a plain title tile.
   - App test runs are test fixtures and are never published: finals status "app-test" (the Thinking reels on
     SQbLAx1sAsJASHxFkPdQEy) and anything from the How To Think test job (2026-11-06-e2e01, DJavZzVFrCvg2w1imwYXn1),
     including its thumbnails, LinkedIn cut and post copy. "alternate" and "candidate" edits stay out of the lanes.
@@ -224,6 +225,18 @@ def main(stage):
             continue
         items.append(dict(id=r['id'], lane='post-copy', bubble='linkedin', group=group_of(r['id']), label='LinkedIn link post',
                           text=r['body'].strip(), firstComment=(r.get('firstComment') or '').strip() or None, limit=LIMITS['linkedin']))
+
+    # Video cards show the thumbnail that went out with the video (Taylor, 9 November 2026).
+    # Only a long video's own posted thumbnail: the 50 Niches Short's live thumbnail is YouTube's frame of Taylor.
+    posted = {i['group'] for i in items if i['lane'] == 'youtube' and i.get('posted')}
+    def thumb_for(g, lane):
+        th = [i for i in items if i['lane'] == 'thumbnails' and i['group'] == g and i.get('width', 0) > i.get('height', 0)]
+        pref = ([i for i in th if i['bubble'] == 'linkedin' and i['kind'] == 'final'] if lane == 'linkedin' else []) + \
+               [i for i in th if i['kind'] == 'posted-on-youtube' and g in posted] + [i for i in th if i['kind'] == 'final']
+        return pref[0]['src'] if pref else None
+    for it in items:
+        if it['lane'] in ('youtube', 'linkedin') and not it.get('poster'):
+            it['poster'] = thumb_for(it['group'], it['lane'])
 
     used = {i['group'] for i in items}
     out = dict(version=1,
