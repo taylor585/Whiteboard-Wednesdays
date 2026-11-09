@@ -45,6 +45,7 @@ Use the Creator watchlist’s simple Instrument Sans heading style across the ap
 
 - `public/index.html`: application header, navigation, Creator watchlist, Topics and Schedule markup.
 - `public/library.css`, `public/library.js`: library styling, routing and presentation shell.
+- `public/vault.css`, `public/vault.js`, `public/vault.json`, `public/vault/`: the Vault (`#/vault`, Taylor's pick B "Lanes", 9 November 2026): every finished video (Open goes to the Claude artifact holding the edit), thumbnail and post caption, grouped by video. Static content only; rebuild it with `python3 -I scripts/build-vault.py <staging-dir>` (the script's header lists the staging inputs and rules).
 - `public/video-ideas.css`, `public/video-ideas.js`: Creator watchlist (`#/watchlist`), the upload inbox (Taylor's pick W2-B, 26 October 2026): creators by name, uploads grouped by week, Spark a topic, Seen (kept in this browser only) and the Topics tray.
 - `public/brainstorm.css`, `public/brainstorm.js`: Topics tab (`#/topics`), creators and ideas (Taylor's pick BC, 26 October 2026): the creator database with a profile and private note, then Sparks, Shortlist, Recording schedule and Posting schedule side by side.
 - `public/creator.css`, `public/creator.js`: creator page (`#/creator/@handle`, Taylor's pick C-A): channel banner, upload rhythm, latest uploads with Spark a topic, and the private note. Stats only come from stored uploads.
