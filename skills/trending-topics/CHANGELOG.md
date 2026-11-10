@@ -1,5 +1,10 @@
 # Trending Topics releases
 
+## 5.1.0 — 10 November 2026
+
+- **16 giants:** 8 AI and 8 paid media, about 160 posts a run. Ralph Burns and John Moran (Tier 11) are added. The other 16 move to a bench that is not scanned.
+- **Month run:** the 160 posts are whittled down to the best 30, giving one video per day (`## This month: 30 videos`). `check_picks.py` checks the 30 days.
+
 ## 5.0.0 — 10 November 2026
 
 - **Three engines, in this order:** 1. Twitter engine, 2. My work engine (was Table One), 3. YouTube engine (was Table Two).

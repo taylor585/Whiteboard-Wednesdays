@@ -8,7 +8,8 @@ Usage:
 Checks (v5, three engines):
   1. "**Locked in:**" line present; every locked or planned title in the register appears on the
      sheet word for word.
-  2. "## This week: 7 videos" with at least 7 day rows (Mon to Sun), each naming its engine row
+  2. "## This week: 7 videos" with at least 7 day rows (Mon to Sun), or, for the month run,
+     "## This month: 30 videos" with at least 30 day rows. Each row names its engine row
      (T1, A2, C3...) or "locked".
   3. "## 1. Twitter engine", "## 2. My work engine", "## 3. YouTube engine", in that order.
   4. Every engine row has a score n/50 with 0 <= n <= 50. Twitter rows carry a source link
@@ -27,6 +28,7 @@ import re
 import sys
 
 WEEK = '## This week: 7 videos'
+MONTH = '## This month: 30 videos'
 ENGINES = (('Twitter engine', '## 1. Twitter engine', 'T'),
            ('My work engine', '## 2. My work engine', 'A'),
            ('YouTube engine', '## 3. YouTube engine', 'C'))
@@ -59,13 +61,14 @@ def check(text, locked_titles=(), scrub=()):
     for t in locked_titles:
         if t not in text:
             errs.append(f'locked title missing or changed: "{t}" (keep it word for word)')
-    wk = section(text, WEEK)
+    head, need = (MONTH, 30) if MONTH in text else (WEEK, 7)
+    wk = section(text, head)
     if wk is None:
-        errs.append(f'missing heading "{WEEK}"')
+        errs.append(f'missing heading "{WEEK}" (or "{MONTH}" for the month run)')
     else:
         days = [m for m in (DAY.match(l) for l in wk.splitlines()) if m]
-        if len(days) < 7:
-            errs.append(f'"{WEEK}" has {len(days)} day rows; it needs at least 7 (one per day)')
+        if len(days) < need:
+            errs.append(f'"{head}" has {len(days)} day rows; it needs at least {need} (one per day)')
         for m in days:
             if not re.search(r'\b[TAC]\d+\b|locked', m.group(2), re.I):
                 errs.append(f'week row "{m.group(1)}" does not name its engine row (T1, A2, C3) or "locked"')
@@ -126,7 +129,7 @@ def main(argv=None):
         print(f'FAIL  {a.sheet}: {len(errs)} problem(s). Fix them and re-run.')
         return 1
     n = [len([m for m in rows(section(text, h) or '') if m.group(1).startswith(p)]) for _, h, p in ENGINES]
-    print(f'PASS  {a.sheet}: {len(locked)} locked, 7-day plan, Twitter {n[0]}, My work {n[1]}, '
+    print(f'PASS  {a.sheet}: {len(locked)} locked, {"30" if MONTH in text else "7"}-day plan, Twitter {n[0]}, My work {n[1]}, '
           f'YouTube {n[2]} rows. Deliver it.')
     return 0
 

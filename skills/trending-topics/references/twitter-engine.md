@@ -4,7 +4,22 @@ Section 1 of every pick sheet. We build videos on the back of a giant: take what
 
 ## The framework: each giant's last 10 posts
 
-For every giant in `references/giants.json` (15 AI, 15 paid media), study their **last 10 posts**: the 10 most recent we can find.
+For every giant in `references/giants.json` (**8 AI and 8 paid media**), study their **last 10 posts**: the 10 most recent we can find. That gives about **160 posts** a run.
+- **Month run:** whittle the 160 down to the **best 30** and give one video per day for 30 days.
+- **Sunday run:** take the best 7 of the fresh ones for next week, combined with the other two engines.
+
+The bench in `giants.json` is not scanned. Swap people between the bench and the 16 when someone goes quiet.
+
+## Whittling 160 posts down to the best 30
+
+1. **Drop the noise:** replies with no substance, jokes, personal posts, job moves and rows. Expect about half to go.
+2. **Keep the posts a business owner can use:** a launch, a method, a prompt, a number, a result, a warning, or a platform change.
+3. **Merge posts on the same thread into one topic,** for example five giants on one model launch. Spread is the strongest signal.
+4. **Score each topic with Part T.** Keep the top 30, with at least 10 from paid media. Don't let one giant supply more than 5.
+5. **Order the 30 days:**
+   - Anything that expires (a launch, a platform change with a date) goes first.
+   - Evergreen methods (a prompt, a framework, an AI team story) fill the later days.
+   - Alternate AI and paid media.
 
 **How we read X without logging in:**
 - Web search only. Search engines save public X posts, and news sites quote the big ones.
@@ -20,7 +35,7 @@ For every giant in `references/giants.json` (15 AI, 15 paid media), study their 
 
 ## Steps (runs alongside the other two engines)
 
-1. **Start the agents.** Send 5 research agents in one message, about 6 giants each (3 AI, 2 paid media). Each one:
+1. **Start the agents.** Send 4 research agents in one message, 4 giants each (2 AI and 2 paid-media agents). Each one:
    - gets the prompt in `references/agent-prompts.md` § Twitter engine;
    - writes `<scratchpad>/x/batchN.json`.
 2. **Build the table:**

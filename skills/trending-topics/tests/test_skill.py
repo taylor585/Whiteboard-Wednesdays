@@ -179,6 +179,14 @@ class CheckPicks(unittest.TestCase):
         errs = self.cp.check(bad)
         self.assertTrue(any('7' in e and 'day rows' in e for e in errs), errs)
 
+    def test_month_run_needs_thirty_days(self):
+        month = self.good.replace('## This week: 7 videos', '## This month: 30 videos')
+        errs = self.cp.check(month)
+        self.assertTrue(any('30' in e and 'day rows' in e for e in errs), errs)
+        rows = '\n'.join(f'| Mon {d} | Video {d} | T1 |' for d in range(30))
+        full = month.replace('| Mon | Fable 5.2', rows + '\n| Mon | Fable 5.2', 1)
+        self.assertEqual(self.cp.check(full), [])
+
     def test_twitter_row_needs_link(self):
         bad = self.good.replace('https://x.com/karpathy/status/2116957135661945283', 'his post')
         errs = self.cp.check(bad)

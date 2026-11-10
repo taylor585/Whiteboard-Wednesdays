@@ -88,7 +88,7 @@ Keep it under 2,000 words.
 
 ## Twitter engine: last 10 posts per giant
 
-Send 5 of these agents in one message, about 6 giants each. Paste each giant's name, handle and `also_read` from `giants.json`.
+Send 4 of these agents in one message, 4 giants each. Paste each giant's name, handle and `also_read` from `giants.json`.
 
 ```
 Today is [date]. For EACH person below, find their LAST 10 X posts (the 10 most recent you can find), using only the WebSearch tool (mode "extended", several searches per turn). Do NOT open x.com pages, and do NOT use nitter, xcancel, syndication endpoints, scrapers or mirrors: web search results only.

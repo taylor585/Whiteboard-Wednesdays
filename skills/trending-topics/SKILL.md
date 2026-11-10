@@ -1,6 +1,6 @@
 ---
 name: trending-topics
-description: 'Find the week''s video topics (at least 7, one a day) and turn the locked ones into record-ready briefs. Three engines: 1. Twitter engine (the last 10 X posts of 15 AI and 15 paid-media giants, such as Karpathy, Altman, Alex Albert, Jeremy Haynes and Jon Loomer, via web search), 2. My work engine (every Claude Code session, repo and skill from the last 30 days, read by parallel agents), 3. YouTube engine (breakouts from Nick Saraev, Sabri Suby, Riley Brown, Jeremy Haynes, Alex Finn and other core creators). The Sunday run plans 7 videos, Monday to Sunday. Locks Taylor''s titles word for word and writes Trending Topic Briefs with ACT 1 to 3 and PACKAGING. Use whenever someone asks what to record, film or post, for video or YouTube topics, trending topics, next week''s 7 videos, what the giants are saying on X, to study someone''s last 10 posts, to lock a title, to plan the week, for a brief, titles or a description, even if they never say "trending".'
+description: 'Find the week''s video topics (at least 7, one a day) and turn the locked ones into record-ready briefs. Three engines: 1. Twitter engine (the last 10 X posts of 8 AI and 8 paid-media giants, such as Karpathy, Altman, Alex Albert, Ralph Burns and Jeremy Haynes, via web search; the month run turns those 160 posts into the best 30 videos), 2. My work engine (every Claude Code session, repo and skill from the last 30 days, read by parallel agents), 3. YouTube engine (breakouts from Nick Saraev, Sabri Suby, Riley Brown, Jeremy Haynes, Alex Finn and other core creators). The Sunday run plans 7 videos, Monday to Sunday. Locks Taylor''s titles word for word and writes Trending Topic Briefs with ACT 1 to 3 and PACKAGING. Use whenever someone asks what to record, film or post, for video or YouTube topics, trending topics, next week''s 7 videos, what the giants are saying on X, to study someone''s last 10 posts, to lock a title, to plan the week, for a brief, titles or a description, even if they never say "trending".'
 ---
 
 # Trending Topics (v5)
@@ -8,6 +8,8 @@ description: 'Find the week''s video topics (at least 7, one a day) and turn the
 Find at least 7 videos a week, one for every day, from three engines: what the giants are saying on X, everything we built, and what our creators have already proven. Then make each chosen video ready to record and publish.
 
 **Run it every Sunday** ("Sunday run", "plan next week"): it researches all three engines and returns the pick sheet with **This week: 7 videos**, Monday to Sunday.
+
+**Month run** ("plan the month", "30 videos"): the Twitter engine's 16 giants × last 10 posts (about 160) are whittled down to the best 30 (`references/twitter-engine.md`). The sheet opens with **This month: 30 videos**, one per day, with locked titles and the best My work and YouTube rows in their place.
 
 ## The weekly loop
 
@@ -74,6 +76,7 @@ Find at least 7 videos a week, one for every day, from three engines: what the g
 | **Package** | "titles for this", "write the description" | The PACKAGING section only |
 | **Recorded** | "we recorded X", "X is live" | `topics.py status` updated |
 | **Video topics list** | "save this topic", "add it to the list", "take X off the list" | `video-plans/Video topics list.md` updated (see below) |
+| **Month run** | "plan the month", "30 videos from the giants" | The pick sheet with **This month: 30 videos**, checked |
 | **Study a giant** | "study Karpathy's last 10 posts" | That giant's last 10 posts, what's useful in them, and videos built on them (`examples/twitter-study-karpathy.md`) |
 | **Giants** | "add X as a giant", "swap out Y" | An updated `references/giants.json` |
 | **Scan only** | "what's working for my creators" | Core winners and themes, no picks |
@@ -84,7 +87,7 @@ Find at least 7 videos a week, one for every day, from three engines: what the g
 Run all three engines at the same time: start the giant agents, the work research agents and the creator scan in one message.
 
 **1. Twitter engine** (`references/twitter-engine.md`):
-1. Send 5 agents with the prompt in `references/agent-prompts.md` § Twitter engine, about 6 giants each. Each writes `<scratchpad>/x/batchN.json`.
+1. Send 4 agents with the prompt in `references/agent-prompts.md` § Twitter engine, 4 giants each. Each writes `<scratchpad>/x/batchN.json`.
 2. Run `python3 <skill-dir>/scripts/x_posts.py build <scratchpad>/x/batch*.json --giants <skill-dir>/references/giants.json --out <scratchpad>/x`.
 3. Read `posts.md`, group the posts into threads, make each one ours, and score it with Part T. Save `posts.md` to `video-plans/Twitter engine - last 10 posts (<date>).md` for Taylor.
 
@@ -198,7 +201,7 @@ When Taylor says a video was recorded or published, run `topics.py status "<titl
 | `references/skill-integrations.md` | Hand-offs to thumbnail-tracker, whiteboard-wednesdays, suby-shots and others |
 | `references/quality.md` | Acceptance checks and honest status |
 | `references/creators.json` | Core creators with verified handles and channel IDs |
-| `references/giants.json` | The Twitter engine's 30 giants: handles, why they matter, how well search finds them |
+| `references/giants.json` | The Twitter engine's 16 giants (8 AI, 8 paid media) plus the bench: handles, why they matter, how well search finds them |
 | `references/twitter-engine.md` | The Twitter engine: last 10 posts per giant, web search only, threads, Part T |
 | `scripts/x_posts.py` | Agent batches → each giant's last 10 posts, dated from X post IDs (posts.md) |
 | `examples/twitter-study-karpathy.md` | A one-giant study: last 10 posts, what's useful, videos |

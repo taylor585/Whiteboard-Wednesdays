@@ -14,6 +14,10 @@ The sheet has a **7-day plan** and **three engines, never mixed**, with these ex
 
 Taylor swaps any day for another row, or locks a title of their own.
 
+## The month run
+
+Swap the 7-day table for `## This month: 30 videos`: 30 rows, one per date (for example `| Mon 16 Nov | [title] | T4 |`). Fill them using the whittling rules in `references/twitter-engine.md`. The Twitter engine table then lists every row the plan uses.
+
 ## Filling the 7 days
 
 1. Booked recordings and locked titles with a date take their days first.

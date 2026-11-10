@@ -1,38 +1,246 @@
 {
-  "about": "The Twitter engine's giants. Each run studies each giant's last 10 posts found by web search. x_coverage is how well search engines index their X posts (from the 10 Nov 2026 test): good = 10 posts findable; thin = few X posts indexed, so also read also_read. Swap anyone in or out here.",
+  "about": "The Twitter engine's giants: 8 AI and 8 paid media (16 people, about 160 posts a run at 10 each). Each run studies each giant's last 10 posts found by web search. x_coverage is how well search engines index their X posts: good = 10 recent posts findable; thin = few, so also read also_read. The bench is not scanned: swap people between the bench and the 16 here.",
   "updated": "2026-11-10",
   "ai": [
-    {"name": "Andrej Karpathy", "handle": "karpathy", "why": "Sets the AI conversation; builds things with Claude Code in public", "x_coverage": "good"},
-    {"name": "Sam Altman", "handle": "sama", "why": "OpenAI announcements first", "x_coverage": "good"},
-    {"name": "Greg Brockman", "handle": "gdb", "why": "OpenAI product and model updates", "x_coverage": "good"},
-    {"name": "Nick Turley", "handle": "nickaturley", "why": "Head of ChatGPT", "x_coverage": "thin"},
-    {"name": "Thibault Sottiaux", "handle": "thsottiaux", "why": "Codex lead", "x_coverage": "good"},
-    {"name": "Cat Wu", "handle": "_catwu", "why": "Ex Claude Code product, now OpenAI Core Products (Nov 2026)", "x_coverage": "good"},
-    {"name": "Boris Cherny", "handle": "bcherny", "why": "Created Claude Code", "x_coverage": "good"},
-    {"name": "Alex Albert", "handle": "alexalbert__", "why": "Anthropic: Claude updates and tips", "x_coverage": "good"},
-    {"name": "Logan Kilpatrick", "handle": "OfficialLoganK", "why": "Google AI and Gemini", "x_coverage": "good"},
-    {"name": "Simon Willison", "handle": "simonw", "why": "Tests every release in public", "x_coverage": "good", "also_read": ["https://simonwillison.net/"]},
-    {"name": "swyx", "handle": "swyx", "why": "AI engineering trends", "x_coverage": "thin", "also_read": ["https://latent.space/"]},
-    {"name": "Ethan Mollick", "handle": "emollick", "why": "AI for business and work", "x_coverage": "good", "also_read": ["https://www.oneusefulthing.org/"]},
-    {"name": "McKay Wrigley", "handle": "mckaywrigley", "why": "Building with AI agents", "x_coverage": "thin"},
-    {"name": "Riley Brown", "handle": "rileybrown", "why": "Vibe coding; one of our YouTube creators", "x_coverage": "good"},
-    {"name": "Kevin Weil", "handle": "kevinweil", "why": "Left OpenAI April 2026 (Warp Sciences): swap candidate", "x_coverage": "thin"}
+    {
+      "name": "Andrej Karpathy",
+      "handle": "karpathy",
+      "why": "Sets the AI conversation; builds things with Claude Code in public",
+      "x_coverage": "good"
+    },
+    {
+      "name": "Sam Altman",
+      "handle": "sama",
+      "why": "OpenAI announcements first",
+      "x_coverage": "good"
+    },
+    {
+      "name": "Greg Brockman",
+      "handle": "gdb",
+      "why": "OpenAI product and model updates",
+      "x_coverage": "good"
+    },
+    {
+      "name": "Boris Cherny",
+      "handle": "bcherny",
+      "why": "Created Claude Code",
+      "x_coverage": "good"
+    },
+    {
+      "name": "Alex Albert",
+      "handle": "alexalbert__",
+      "why": "Anthropic: Claude updates and tips",
+      "x_coverage": "good"
+    },
+    {
+      "name": "Logan Kilpatrick",
+      "handle": "OfficialLoganK",
+      "why": "Google AI and Gemini",
+      "x_coverage": "good"
+    },
+    {
+      "name": "Ethan Mollick",
+      "handle": "emollick",
+      "why": "AI for business and work",
+      "x_coverage": "good",
+      "also_read": [
+        "https://www.oneusefulthing.org/"
+      ]
+    },
+    {
+      "name": "Riley Brown",
+      "handle": "rileybrown",
+      "why": "Vibe coding; one of our YouTube creators",
+      "x_coverage": "good"
+    }
   ],
   "paid_media": [
-    {"name": "Jeremy Haynes", "handle": "TheJeremyHaynes", "why": "Ads and agency scaling", "x_coverage": "thin", "also_read": ["https://jeremyhaynes.com/blog/"]},
-    {"name": "Eddie Maalouf", "handle": "imakeBADads", "why": "Meta ads", "x_coverage": "thin"},
-    {"name": "Sabri Suby", "handle": "sabrisuby", "why": "Direct response and Meta ads", "x_coverage": "thin"},
-    {"name": "Sergio Cardenas", "handle": null, "why": "Meta ads after Andromeda; X handle unverified", "x_coverage": "thin", "also_read": ["https://www.youtube.com/@ImSergioCardenas"]},
-    {"name": "Nick Shackelford", "handle": "iamshackelford", "why": "DTC paid social", "x_coverage": "thin"},
-    {"name": "Savannah Sanchez", "handle": "social_savannah", "why": "UGC and TikTok creative", "x_coverage": "thin"},
-    {"name": "Barry Hott", "handle": "binghott", "why": "Ad creative; Meta delivery changes", "x_coverage": "thin"},
-    {"name": "Dara Denney", "handle": "DenneyDara", "why": "Ad creative and testing", "x_coverage": "thin"},
-    {"name": "Ben Heath", "handle": "BHeathMarketing", "why": "Meta ads", "x_coverage": "thin"},
-    {"name": "Charley Tichenor", "handle": "CTtheDisrupter", "why": "Meta ads structure", "x_coverage": "thin"},
-    {"name": "Andrew Foxwell", "handle": "andrewfoxwell", "why": "Meta ads, Foxwell Founders", "x_coverage": "thin"},
-    {"name": "Depesh Mandalia", "handle": "DepeshMandalia", "why": "Meta ads (UK); handle unverified", "x_coverage": "thin"},
-    {"name": "Jon Loomer", "handle": "jonloomer", "why": "Meta ads platform changes", "x_coverage": "thin", "also_read": ["https://www.jonloomer.com/blog/", "https://pubcast.jonloomer.com/"]},
-    {"name": "Taylor Holiday", "handle": "TaylorHoliday", "why": "Ecommerce growth and measurement (Common Thread)", "x_coverage": "thin", "also_read": ["https://commonthreadco.com/blogs/ecommerce-playbook"]},
-    {"name": "Cody Plofker", "handle": "codyplof", "why": "DTC brand marketing", "x_coverage": "thin"}
+    {
+      "name": "Ralph Burns",
+      "handle": null,
+      "why": "Tier 11 founder; Perpetual Traffic podcast",
+      "x_coverage": "unknown",
+      "also_read": [
+        "https://perpetualtraffic.com/"
+      ]
+    },
+    {
+      "name": "John Moran",
+      "handle": null,
+      "why": "Tier 11; Perpetual Traffic co-host",
+      "x_coverage": "unknown",
+      "also_read": [
+        "https://perpetualtraffic.com/"
+      ]
+    },
+    {
+      "name": "Jeremy Haynes",
+      "handle": "TheJeremyHaynes",
+      "why": "Ads and agency scaling",
+      "x_coverage": "thin",
+      "also_read": [
+        "https://jeremyhaynes.com/blog/"
+      ]
+    },
+    {
+      "name": "Eddie Maalouf",
+      "handle": "imakeBADads",
+      "why": "Meta ads",
+      "x_coverage": "thin"
+    },
+    {
+      "name": "Nick Shackelford",
+      "handle": "iamshackelford",
+      "why": "DTC paid social",
+      "x_coverage": "thin"
+    },
+    {
+      "name": "Barry Hott",
+      "handle": "binghott",
+      "why": "Ad creative; Meta delivery changes",
+      "x_coverage": "thin"
+    },
+    {
+      "name": "Charley Tichenor",
+      "handle": "CTtheDisrupter",
+      "why": "Meta ads structure",
+      "x_coverage": "thin"
+    },
+    {
+      "name": "Taylor Holiday",
+      "handle": "TaylorHoliday",
+      "why": "Ecommerce growth and measurement (Common Thread)",
+      "x_coverage": "thin",
+      "also_read": [
+        "https://commonthreadco.com/blogs/ecommerce-playbook"
+      ]
+    }
+  ],
+  "bench": [
+    {
+      "name": "Nick Turley",
+      "handle": "nickaturley",
+      "why": "Head of ChatGPT",
+      "x_coverage": "thin",
+      "group": "ai"
+    },
+    {
+      "name": "Thibault Sottiaux",
+      "handle": "thsottiaux",
+      "why": "Codex lead",
+      "x_coverage": "good",
+      "group": "ai"
+    },
+    {
+      "name": "Cat Wu",
+      "handle": "_catwu",
+      "why": "Ex Claude Code product, now OpenAI Core Products (Nov 2026)",
+      "x_coverage": "good",
+      "group": "ai"
+    },
+    {
+      "name": "Simon Willison",
+      "handle": "simonw",
+      "why": "Tests every release in public",
+      "x_coverage": "good",
+      "also_read": [
+        "https://simonwillison.net/"
+      ],
+      "group": "ai"
+    },
+    {
+      "name": "swyx",
+      "handle": "swyx",
+      "why": "AI engineering trends",
+      "x_coverage": "thin",
+      "also_read": [
+        "https://latent.space/"
+      ],
+      "group": "ai"
+    },
+    {
+      "name": "McKay Wrigley",
+      "handle": "mckaywrigley",
+      "why": "Building with AI agents",
+      "x_coverage": "thin",
+      "group": "ai"
+    },
+    {
+      "name": "Kevin Weil",
+      "handle": "kevinweil",
+      "why": "Left OpenAI April 2026 (Warp Sciences): swap candidate",
+      "x_coverage": "thin",
+      "group": "ai"
+    },
+    {
+      "name": "Sabri Suby",
+      "handle": "sabrisuby",
+      "why": "Direct response and Meta ads",
+      "x_coverage": "thin",
+      "group": "paid_media"
+    },
+    {
+      "name": "Sergio Cardenas",
+      "handle": null,
+      "why": "Meta ads after Andromeda; X handle unverified",
+      "x_coverage": "thin",
+      "also_read": [
+        "https://www.youtube.com/@ImSergioCardenas"
+      ],
+      "group": "paid_media"
+    },
+    {
+      "name": "Savannah Sanchez",
+      "handle": "social_savannah",
+      "why": "UGC and TikTok creative",
+      "x_coverage": "thin",
+      "group": "paid_media"
+    },
+    {
+      "name": "Dara Denney",
+      "handle": "DenneyDara",
+      "why": "Ad creative and testing",
+      "x_coverage": "thin",
+      "group": "paid_media"
+    },
+    {
+      "name": "Ben Heath",
+      "handle": "BHeathMarketing",
+      "why": "Meta ads",
+      "x_coverage": "thin",
+      "group": "paid_media"
+    },
+    {
+      "name": "Andrew Foxwell",
+      "handle": "andrewfoxwell",
+      "why": "Meta ads, Foxwell Founders",
+      "x_coverage": "thin",
+      "group": "paid_media"
+    },
+    {
+      "name": "Depesh Mandalia",
+      "handle": "DepeshMandalia",
+      "why": "Meta ads (UK); handle unverified",
+      "x_coverage": "thin",
+      "group": "paid_media"
+    },
+    {
+      "name": "Jon Loomer",
+      "handle": "jonloomer",
+      "why": "Meta ads platform changes",
+      "x_coverage": "thin",
+      "also_read": [
+        "https://www.jonloomer.com/blog/",
+        "https://pubcast.jonloomer.com/"
+      ],
+      "group": "paid_media"
+    },
+    {
+      "name": "Cody Plofker",
+      "handle": "codyplof",
+      "why": "DTC brand marketing",
+      "x_coverage": "thin",
+      "group": "paid_media"
+    }
   ]
 }
