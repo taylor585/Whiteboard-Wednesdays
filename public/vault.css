@@ -81,6 +81,7 @@
 .va-fc .va-act{justify-content:flex-start}
 #vault .va-fc .va-toggle{color:#5c5750}
 .va-copy>.va-act{margin-top:auto;justify-content:space-between}
+.va-also{display:block}
 
 /* Entrance: short, staggered for the first eight items only, once per change. */
 .va-in{animation:va-in 220ms cubic-bezier(.2,.7,.2,1) backwards;animation-delay:calc(var(--i,0) * 30ms)}

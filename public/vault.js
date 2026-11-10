@@ -8,11 +8,12 @@
     { id: 'youtube', label: 'YouTube' },
     { id: 'linkedin', label: 'LinkedIn' },
     { id: 'instagram', label: 'Instagram', subs: [['posts', 'Posts'], ['reels', 'Reels']] },
+    { id: 'facebook', label: 'Facebook', subs: [['posts', 'Posts'], ['reels', 'Reels']] },
     { id: 'thumbnails', label: 'Thumbnails', subs: [['youtube', 'YouTube'], ['linkedin', 'LinkedIn']] },
     { id: 'post-copy', label: 'Post copy', subs: [['youtube', 'YouTube descriptions'], ['instagram-posts', 'Instagram posts'], ['instagram-reels', 'Instagram reels'], ['linkedin', 'LinkedIn posts'], ['x', 'X posts']] },
   ];
   const LANE = Object.fromEntries(LANES.map(l => [l.id, l]));
-  const EMPTY = { posts: 'No Instagram posts yet.', reels: 'No Instagram reels yet.', 'instagram-posts': 'No Instagram post captions yet.', 'instagram-reels': 'No Instagram reel captions yet.', x: 'No X posts yet.' };
+  const EMPTY = { 'instagram-posts': 'No Instagram post captions yet.', 'instagram-reels': 'No Instagram reel captions yet.', x: 'No X posts yet.' };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const num = n => n.toLocaleString('en-GB');
@@ -33,7 +34,12 @@
       .catch(e => { loading = null; throw e; });
     return loading;
   }
-  const items = (l, b) => data.items.filter(i => i.lane === l && (!b || i.bubble === b));
+  // The same reel and 4:5 post go to Instagram and Facebook (Taylor, 10 November 2026): vault.json's "shared" names the
+  // lane each shared lane takes its items from, so the Facebook lane shows the Instagram records and nothing is stored twice.
+  const from = l => (data && data.shared && data.shared[l]) || l;
+  const items = (l, b) => data.items.filter(i => i.lane === from(l) && (!b || i.bubble === b));
+  // A caption written for a lane that others share is their caption too.
+  const also = it => Object.entries((data && data.shared) || {}).filter(([, src]) => it.bubble.startsWith(src + '-')).map(([to]) => LANE[to] && LANE[to].label).filter(Boolean);
   // Columns per grid at the current width, so "one row" is exactly one row.
   function cols(shape) {
     const w = innerWidth;
@@ -98,7 +104,9 @@
     (it.replies || []).forEach((r, k) => { const name = it.kind === 'thread' ? 'Post ' + (k + 2) + ' of ' + (it.replies.length + 1) : 'Reply with the link';
       h += '<div class="va-fc va-xr"><span class="va-pf">' + name + ' · ' + count(it, r) + ' of ' + num(it.limit) + '</span><p>' + esc(r) + '</p>'
         + '<div class="va-act"><button type="button" class="va-toggle" data-copy="' + esc(it.id) + '" data-part="r' + k + '" aria-label="Copy ' + name.toLowerCase() + '">Copy ' + (it.kind === 'thread' ? 'post ' + (k + 2) : 'reply') + '</button></div></div>'; });
-    return h + '<div class="va-act"><span class="va-meta">' + num(n) + ' of ' + num(it.limit) + ' characters</span>'
+    const too = also(it);
+    return h + '<div class="va-act"><span class="va-meta">' + num(n) + ' of ' + num(it.limit) + ' characters'
+      + (too.length ? '<span class="va-also">Also the ' + esc(too.join(' and ')) + ' caption</span>' : '') + '</span>'
       + '<button type="button" class="va-btn" data-copy="' + esc(it.id) + '">Copy</button></div></article>';
   }
   let fxi = 0;
@@ -132,8 +140,8 @@
       return list.length ? '<div class="va-videos">' + list.map(videoCard).join('') + '</div>' : '<p class="va-empty">No finished ' + LANE[lane].label + ' videos yet.</p>';
     }
     const list = items(lane, sub);
-    if (!list.length) return '<p class="va-empty">' + esc(EMPTY[sub] || 'Nothing here yet.') + '</p>';
-    if (lane === 'instagram') return groups(list, 'tall', igCard);
+    if (!list.length) return '<p class="va-empty">' + esc(EMPTY[sub] || (from(lane) === 'instagram' ? 'No ' + LANE[lane].label + ' ' + sub + ' yet.' : 'Nothing here yet.')) + '</p>';
+    if (from(lane) === 'instagram') return groups(list, 'tall', igCard);
     if (lane === 'thumbnails') return groups(list, 'wide', thumbCard);
     return groups(list, 'text', copyCard);
   }
@@ -194,7 +202,7 @@
     const g = e.target.closest('[data-group]');
     if (g) { const set = open.get(lane + '/' + sub); set.has(g.dataset.group) ? set.delete(g.dataset.group) : set.add(g.dataset.group); const y = g.getBoundingClientRect().top; repaint(); const n = root.querySelector('[data-group="' + CSS.escape(g.dataset.group) + '"]'); n.focus({ preventScroll: true }); scrollBy(0, n.getBoundingClientRect().top - y); return; }
     const a = e.target.closest('[data-all]');
-    if (a) { full.add(lane + '/' + sub + '|' + a.dataset.all); const gid = a.dataset.all; repaint(); root.querySelector('[data-group="' + CSS.escape(gid) + '"]').closest('.va-group').querySelectorAll('.va-card,.va-copy')[cols(lane === 'instagram' ? 'tall' : lane === 'thumbnails' ? 'wide' : 'text')]?.querySelector('a,button')?.focus({ preventScroll: true }); return; }
+    if (a) { full.add(lane + '/' + sub + '|' + a.dataset.all); const gid = a.dataset.all; repaint(); root.querySelector('[data-group="' + CSS.escape(gid) + '"]').closest('.va-group').querySelectorAll('.va-card,.va-copy')[cols(from(lane) === 'instagram' ? 'tall' : lane === 'thumbnails' ? 'wide' : 'text')]?.querySelector('a,button')?.focus({ preventScroll: true }); return; }
     const m = e.target.closest('[data-more]');
     if (m) { const id = m.dataset.more, t = document.getElementById(m.getAttribute('aria-controls')); full.has(id) ? full.delete(id) : full.add(id); const on = full.has(id); t.classList.toggle('is-clamped', !on); m.setAttribute('aria-expanded', String(on)); m.textContent = on ? 'Show less' : 'Show all'; return; }
     const c = e.target.closest('[data-copy]');
