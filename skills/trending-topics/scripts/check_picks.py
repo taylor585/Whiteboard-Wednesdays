@@ -34,7 +34,7 @@ ENGINES = (('Twitter engine', '## 1. Twitter engine', 'T'),
            ('YouTube engine', '## 3. YouTube engine', 'C'))
 END = "Swap any of the 7 and I'll write the briefs."
 ROW = re.compile(r'^\|\s*([TAC]\d+)\s*\|(.*)\|\s*$')
-DAY = re.compile(r'^\|\s*\**(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*\**\b[^|]*\|(.*)\|\s*$', re.I)
+DAY = re.compile(r'^\|\s*(?:(?:[TAC]\d+|locked)\s*\|\s*)?\**(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[a-z]*\**\b[^|]*\|(.*)\|\s*$', re.I)
 LINK = re.compile(r'https?://\S+')
 SCORE = re.compile(r'\*?\*?(\d{1,2})/50')
 YT = re.compile(r'https://(www\.)?youtube\.com/watch\?v=[\w-]+|https://youtu\.be/[\w-]+')
@@ -70,7 +70,7 @@ def check(text, locked_titles=(), scrub=()):
         if len(days) < need:
             errs.append(f'"{head}" has {len(days)} day rows; it needs at least {need} (one per day)')
         for m in days:
-            if not re.search(r'\b[TAC]\d+\b|locked', m.group(2), re.I):
+            if not re.search(r'\b[TAC]\d+\b|locked', m.group(0), re.I):
                 errs.append(f'week row "{m.group(1)}" does not name its engine row (T1, A2, C3) or "locked"')
     pos = []
     for name, head, prefix in ENGINES:

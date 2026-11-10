@@ -241,6 +241,24 @@ class XPosts(unittest.TestCase):
         self.assertIn('nothing found', self.xp.md(by, order, dt.date(2026, 11, 2)))
 
 
+class PlanSheet(unittest.TestCase):
+    def test_week_plan_renders_and_passes(self):
+        ps = load('plan_sheet')
+        tw = {'giants': ['Andrej Karpathy', 'Riley Brown'], 'evidence': 'Karpathy, 1 Nov: "quote"',
+              'url': 'https://x.com/karpathy/status/2116957135661945283', 'ours': 'ours', 'score': 40}
+        days = ['Mon 16 Nov', 'Tue 17 Nov', 'Wed 18 Nov', 'Thu 19 Nov', 'Fri 20 Nov', 'Sat 21 Nov', 'Sun 22 Nov']
+        topics = [dict(tw, day=d, title=f'Video {i}') for i, d in enumerate(days[:6])]
+        topics.append({'day': days[6], 'title': 'A locked title', 'from': 'locked'})
+        plan = {'kind': 'week', 'period': '16 to 22 November',
+                'research': {'giants': '16 of 16', 'our_work': '12 Claude Code sessions', 'creators': '11 of 11'},
+                'topics': topics, 'work_rows': ['| A1 | T | W | working | w | p | **40/50** |'],
+                'youtube_rows': ['| C1 | T | P | Nick, https://www.youtube.com/watch?v=abc | o | **40/50** |']}
+        text = ps.render(plan)
+        self.assertIn('| T1 | Mon 16 Nov | Video 0 | Andrej Karpathy +1 | AI | 40 |', text)
+        self.assertIn('| locked | Sun 22 Nov | A locked title |', text)
+        self.assertEqual(load('check_picks').check(text), [])
+
+
 class TopicRegister(unittest.TestCase):
     def test_lock_status_recent(self):
         tp = load('topics')

@@ -9,7 +9,9 @@ Find at least 7 videos a week, one for every day, from three engines: what the g
 
 **Run it every Sunday** ("Sunday run", "plan next week"): it researches all three engines and returns the pick sheet with **This week: 7 videos**, Monday to Sunday.
 
-**Month run** ("plan the month", "30 videos"): the Twitter engine's 16 giants × last 10 posts (about 160) are whittled down to the best 30 (`references/twitter-engine.md`). The sheet opens with **This month: 30 videos**, one per day, with locked titles and the best My work and YouTube rows in their place.
+**Month run** ("plan the month", "30 videos"): the Twitter engine's 16 giants × last 10 posts (about 160) are whittled down to the best 30, following the exact steps in `references/twitter-engine.md` § The month run. The sheet opens with **This month: 30 videos**, one line per video (# · Day · Video · Giant · Lane · Score).
+
+**Every month and week sheet is rendered by `scripts/plan_sheet.py`** from a plan file, so the format never drifts. Never hand-write the plan table. The sheet is then checked by `check_picks.py`.
 
 ## The weekly loop
 
@@ -104,8 +106,8 @@ Run all three engines at the same time: start the giant agents, the work researc
 
 **Deliver** (`references/pick-output.md`):
 1. Locked titles first, then **This week: 7 videos**, then 1. Twitter engine, 2. My work engine, 3. YouTube engine, then the details and "Things we noticed".
-2. Save the sheet to `video-plans/` and run `python3 <skill-dir>/scripts/check_picks.py "video-plans/Picks - week NN.md" --scrub <scratchpad>/scrub.txt` until it passes.
-3. Send the sheet and show the 7-day plan and the three engine tables in the chat.
+2. Write the plan file and render the sheet with `python3 <skill-dir>/scripts/plan_sheet.py <plan.json> --out "video-plans/<name>.md" --scrub <scratchpad>/scrub.txt` (it runs `check_picks.py`). Fix and re-render until it passes.
+3. Send the sheet and paste the one-line plan table (7 or 30 rows) into the chat.
 4. End with "Swap any of the 7 and I'll write the briefs." Then stop.
 
 ## Lock
@@ -203,6 +205,7 @@ When Taylor says a video was recorded or published, run `topics.py status "<titl
 | `references/creators.json` | Core creators with verified handles and channel IDs |
 | `references/giants.json` | The Twitter engine's 16 giants (8 AI, 8 paid media) plus the bench: handles, why they matter, how well search finds them |
 | `references/twitter-engine.md` | The Twitter engine: last 10 posts per giant, web search only, threads, Part T |
+| `scripts/plan_sheet.py` | Plan file → the month (30) or week (7) sheet, one line per video, then checked |
 | `scripts/x_posts.py` | Agent batches → each giant's last 10 posts, dated from X post IDs (posts.md) |
 | `examples/twitter-study-karpathy.md` | A one-giant study: last 10 posts, what's useful, videos |
 | `examples/picks-three-engines.md` | A v5 pick sheet with the 7-day plan, passing `check_picks.py` |

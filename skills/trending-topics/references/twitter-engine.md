@@ -90,3 +90,29 @@ Name the giant in the title only when they are widely known to business owners, 
   - flag giants with nothing found in 30 days as swap candidates on the sheet;
   - correct handles the agents verified.
 - Never commit post text: `giants.json` holds names, handles and coverage only.
+
+## The month run, step by step (the exact framework)
+
+1. **Scan.** Send 4 agents with the Twitter engine prompt (`agent-prompts.md`), 4 giants each, covering all 16 in `giants.json`. Each writes `<scratchpad>/x/batchN.json`.
+2. **Table.** Run `x_posts.py build ... --out <scratchpad>/x`. That gives about 160 posts, dated from their IDs, 10 per giant. Save `posts.md` to `video-plans/`.
+3. **Whittle** (above): drop the noise, keep what a business owner can use, merge threads, and score with Part T. Keep the best 30, with at least 10 paid media and no more than 3 per giant.
+4. **Order:** things that expire first, evergreen later, alternating AI and ads, starting the day after the run.
+5. **Plan file.** Write `<scratchpad>/plan-month.json` in the format at the top of `scripts/plan_sheet.py`:
+   - one topic per day: title, giants, evidence (quote or marked paraphrase), URL, our version, score and score parts;
+   - the My work and YouTube rows;
+   - "whittled" lines and "notes".
+6. **Render and check:**
+   ```bash
+   python3 <skill-dir>/scripts/plan_sheet.py <scratchpad>/plan-month.json --out "video-plans/30 videos - <first day> to <last day>.md" --scrub <scratchpad>/scrub.txt
+   ```
+   Fix the plan and re-render until it passes. Copy the plan file into `video-plans/` next to the sheet.
+7. **Deliver.** Send the sheet and `posts.md` with SendUserFile, and paste the one-line table of 30 into the chat.
+
+**The Sunday run** follows the same steps with `"kind": "week"` and 7 days, Monday to Sunday:
+- Booked and locked titles go in as `{"day", "title", "from": "locked"}`.
+- The rest come from the freshest Twitter threads and the best My work and YouTube rows.
+
+**Title rules for the 30:**
+- Every title promises the viewer something.
+- Name a giant only when they are the news, or when business owners know them.
+- No two titles open with the same words.

@@ -14,9 +14,21 @@ The sheet has a **7-day plan** and **three engines, never mixed**, with these ex
 
 Taylor swaps any day for another row, or locks a title of their own.
 
-## The month run
+## The plan table (week and month)
 
-Swap the 7-day table for `## This month: 30 videos`: 30 rows, one per date (for example `| Mon 16 Nov | [title] | T4 |`). Fill them using the whittling rules in `references/twitter-engine.md`. The Twitter engine table then lists every row the plan uses.
+Rendered by `scripts/plan_sheet.py`, never by hand. Each video is one line:
+
+| # | Day | Video | Giant | Lane | Score |
+|---|---|---|---|---|---|
+| T1 | Thu 12 Nov | Fable 5.2 Just Launched a Business. So I Gave It Mine. | Ethan Mollick +3 | AI | 44 |
+| locked | Fri 13 Nov | [a locked or booked title] | - | booked | - |
+
+- **Giant:** the lead giant, plus how many others posted the same thread.
+- **Lane:** AI or Ads.
+- **Score:** Part T, out of 50.
+- **Mix line** underneath: how many AI, paid media and locked.
+- Quotes and links stay out of this table and go in the Twitter engine table below it, so every row reads on one line on a phone.
+- **Month run:** `## This month: 30 videos`, 30 rows. **Sunday run:** `## This week: 7 videos`, 7 rows.
 
 ## Filling the 7 days
 

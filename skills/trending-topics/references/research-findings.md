@@ -285,3 +285,40 @@ Each lesson below came from a real moment in weeks 42 and 43. Each is now a rule
 | 15 | The harness video needed one live example and one built-not-run example ("not running to save credits") | Kept in `brief-format.md` appendices and Build one step 4 |
 | 16 | A 14-day creator window was too thin to see breakouts | Core winners from each creator's latest 30 uploads, ranked by outlier ratio (`scan_creators.py`) |
 
+
+## 11. The Twitter engine and 30 videos a month (v5, 10 November 2026)
+
+**What Taylor asked for:**
+- Build videos "on the back of a giant": take what the biggest names in AI and paid media are posting, and turn it into videos for business owners.
+- Twitter goes first, because people post breaking news there all the time.
+- Post every day: 7 videos a week from a Sunday run, and a full month from one scan.
+
+**What we tried, in order:**
+1. **Grok or the X API.** Rejected: Taylor wants it to run inside Claude. The X API costs money, and Composio needs his own X developer app.
+2. **Opening X directly** (x.com, syndication endpoints, nitter, xcancel). Blocked by the session's safety check, and rightly so: X walls posts behind a login. Never try this again.
+3. **Web search.** It works. Search engines save public X posts, and news sites quote the big ones. Three agents found posts from 19 of 30 giants for the last fortnight.
+4. **"Last 10 posts" per giant.** This is Taylor's framework, and it works. The Karpathy study had 10 posts spanning 7 months. Across 30 giants, five agents found 279 posts, with 29 of 30 giants found.
+5. **Cut to 8 AI and 8 paid media,** about 160 posts, whittled down to the best 30. This gives one video a day for a month. Taylor: "That is more than enough to do a full month's worth of content."
+
+**What we learned:**
+- **Dates come from the post ID.** An X status ID holds its posting time. Search-result date labels are often wrong. `scripts/x_posts.py` decodes the ID.
+- **No like counts.** Search results rarely show engagement, so Part T scores spread (how many giants are on a thread), freshness and fit.
+- **AI giants are well indexed; most paid-media giants are not.** For thin giants, also read their blog, podcast or YouTube. For example, Tier 11's Ralph Burns and John Moran come through Perpetual Traffic episodes, and Jon Loomer through his podcast.
+- **Snippets cut words off,** and agents sometimes fill a post in from its topic. Mark paraphrases, and open the post before quoting it on camera.
+- **The strongest topics are threads,** the same thing posted by several giants:
+  - Fable 5.2 launch day: 5 AI giants.
+  - "Don't pause your best ads": Barry Hott, John Moran and Ralph Burns.
+  - "One person replaces a team": Taylor Holiday and Jeremy Haynes.
+- **"Here's what Karpathy said" is not a video.** "Karpathy built X in 2 hours, here's the business version" is. Every row needs our version.
+- **Quiet giants go to the bench:**
+  - Nick Turley (nothing since April).
+  - Kevin Weil (left OpenAI).
+  - McKay Wrigley.
+  - Savannah Sanchez, Dara Denney, Ben Heath and Andrew Foxwell (nothing since the summer).
+  - Sergio C (no X account found).
+
+**The output Taylor liked:** one table of 30, one line per video:
+
+`# · Day · Video · Giant · Lane · Score`
+
+Quotes and links go in the Twitter engine table underneath, so the top table stays clean. `scripts/plan_sheet.py` renders it from a plan file the same way every time, then runs `check_picks.py`.

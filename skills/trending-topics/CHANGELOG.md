@@ -1,5 +1,10 @@
 # Trending Topics releases
 
+## 5.2.0 — 10 November 2026
+
+- **The one-line plan table** (# · Day · Video · Giant · Lane · Score), rendered by the new `scripts/plan_sheet.py` from a plan file, so every week and month sheet looks the same. It runs `check_picks.py` itself.
+- The exact month-run steps are in `references/twitter-engine.md`, and everything learned is in `references/research-findings.md` §11.
+
 ## 5.1.0 — 10 November 2026
 
 - **16 giants:** 8 AI and 8 paid media, about 160 posts a run. Ralph Burns and John Moran (Tier 11) are added. The other 16 move to a bench that is not scanned.
