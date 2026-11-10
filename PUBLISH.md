@@ -442,6 +442,10 @@ Taylor's one-time setup (the app's Settings and this file say the same; a job se
 4. **Record it:** `cuts.master.full` and `cuts.linkedin.full` (`{driveId, url: "https://drive.google.com/file/d/<id>/view", name, bytes, width, height, seconds, round, uploadedAt}`), and `drive: {driveId, url}` on each uploaded `pack.thumbFinals.files[]` entry. "from review" step 3 then writes `finals` with `quality: "full"` for the approved round.
 5. **Key added after the cuts were rendered:** the approved master is not on disk any more (renders are not kept). Ready to post stays on review copies; Taylor can send `Deliver full quality for Publish job <id>` in a chat, which restores the work set, renders the approved master and LinkedIn cut again from the saved plan exactly as "from pilot" step 4 (no change of any kind; each must match its review copy's length within 0.1 s), uploads them as above, and rewrites `finals` and `finalNote`. Nothing else changes.
 
+## Check connections and Connect <account> (10 November 2026)
+
+The lines `Check connections`, `Check connections with X` and `Connect <account>` come from Settings, Connections, when the app page cannot reach Composio by itself. They are not Publish jobs: follow **CONNECTIONS.md** exactly (only `COMPOSIO_MANAGE_CONNECTIONS` and `COMPOSIO_WAIT_FOR_CONNECTIONS`, write `connections/status`, never post, never print a secret).
+
 ## If something fails
 
 Write `status: "failed"`, `error` (one sentence Taylor can act on), `failedStage` (the stage's name) and that stage's `state: "failed"` with its real `endedAt`. Do not leave a job on `running`. The Publish screen shows the error and the stage, and frees Start a new video.

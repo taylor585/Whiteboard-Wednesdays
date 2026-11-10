@@ -36,8 +36,50 @@
   const WEEK = ['mon','tue','wed','thu','fri','sat','sun'];
   const PLATFORMS = [['youtube','YouTube'],['linkedin','LinkedIn'],['instagram','Instagram'],['facebook','Facebook'],['x','X']];
   const POSTING_DEFAULTS = Object.freeze({days:['tue','thu'], gap:5, time:'15:00', mode:'manual', platforms:{youtube:true, linkedin:true, instagram:true, facebook:true, x:false}, from:null, history:[], updatedAt:null});
-  // No account is connected and no code here posts anything. The automatic poster flips these when it exists.
-  const CONNECTED = Object.freeze({youtube:false, linkedin:false, instagram:false, facebook:false, x:false});
+  // ---- Connections (Taylor, 10 November 2026): what the app knows about each account, from a real check only. ----
+  // Every account is its own connection. Sign-ins are kept by Composio on Taylor's Claude account, never in the app.
+  // Two sources, both real checks, neither saved by the page:
+  //   direct   the Connections screen asked Composio itself (settings.js) and called connections.set(key, {...}).
+  //   session  a Claude Code session ran "Check connections" (CONNECTIONS.md) and wrote the document connections/status:
+  //     {updatedAt:'…', by:'session',
+  //      googledrive|youtube|linkedin|instagram|facebook|x:
+  //        {state:'connected'|'not_connected'|'connecting'|'attention'|'unknown',
+  //         account:'name the platform returned'|null, checkedAt:'…', error:'plain words'|null,
+  //         link:{url:'https://… sign-in link from Composio', createdAt:'…'}|null}}
+  // A direct result wins while there is one; otherwise the session's document stands. Kept in memory only.
+  // States here: 'unknown' (never checked) | 'off' | 'connecting' | 'on' | 'attention' | 'blind' (could not be checked).
+  const CONN_KEYS = ['googledrive','youtube','linkedin','instagram','facebook','x'];
+  const CONN_TOOLKITS = Object.freeze({googledrive:'googledrive', youtube:'youtube', linkedin:'linkedin', instagram:'instagram', facebook:'facebook', x:'twitter'});
+  const DOC_STATE = {connected:'on', not_connected:'off', connecting:'connecting', attention:'attention', unknown:'blind'};
+  const UNKNOWN = Object.freeze({state:'unknown', account:null, checkedAt:null, error:null, link:null, via:null});
+  let connDirect = {}, connDoc = null, connRef = null;
+  const str = (v, max) => typeof v === 'string' && v.trim() ? v.trim().slice(0, max) : null;
+  const httpsUrl = v => { try { const u = new URL(String(v)); return u.protocol === 'https:' ? u.href : null; } catch { return null; } };
+  function connFromDoc(raw) {
+    if (!raw || typeof raw !== 'object') return null;
+    const out = {updatedAt:str(raw.updatedAt, 40), platforms:{}};
+    for (const k of CONN_KEYS) { const r = raw[k]; if (!r || typeof r !== 'object' || !DOC_STATE[r.state]) continue;
+      const url = httpsUrl(r.link?.url);
+      out.platforms[k] = {state:DOC_STATE[r.state], account:r.state === 'connected' ? str(r.account, 120) : null, checkedAt:str(r.checkedAt, 40) || out.updatedAt, error:str(r.error, 300), link:url ? {url, createdAt:str(r.link.createdAt, 40)} : null, via:'session'}; }
+    return out;
+  }
+  const connGet = k => connDirect[k] || connDoc?.platforms[k] || UNKNOWN;
+  const connChanged = () => window.dispatchEvent(new CustomEvent('ww:connections'));
+  const connectionsApi = {KEYS:CONN_KEYS, TOOLKITS:CONN_TOOLKITS, get:connGet,
+    get all() { return Object.fromEntries(CONN_KEYS.map(k => [k, connGet(k)])); },
+    isConnected: k => connGet(k).state === 'on',
+    // A direct check's answer for one account. Only the Connections screen calls this, and only with what Composio returned.
+    set(k, v) { if (!CONN_KEYS.includes(k)) return; const s = ['off','connecting','on','attention','blind'].includes(v?.state) ? v.state : 'blind';
+      connDirect[k] = {state:s, account:s === 'on' ? str(v.account, 120) : null, checkedAt:str(v.checkedAt, 40) || new Date().toISOString(), error:str(v.error, 300), link:null, via:'direct', extra:Number.isInteger(v.extra) ? v.extra : 0}; },
+    // The direct route is gone (switched off, signed out): forget what it said, so nothing stale reads as Connected.
+    clearDirect(keys) { for (const k of keys || CONN_KEYS) delete connDirect[k]; },
+    changed:connChanged,
+    get doc() { return connDoc; }, get canReadDoc() { return Boolean(connRef); },
+    // Read the session's document once more (the screen calls it on open and on return to the tab; never on a timer).
+    async reload() { if (!connRef) return connDoc; try { const got = await connRef.get(); connDoc = connFromDoc(got?.data?.()); } catch { /* keep what we had */ } return connDoc; },
+    fromDoc:connFromDoc};
+  // Posting reads this: true only for an account a real check found connected. Nothing here posts anything.
+  const CONNECTED = Object.freeze(Object.defineProperties({}, Object.fromEntries(['youtube','linkedin','instagram','facebook','x'].map(k => [k, {enumerable:true, get:() => connGet(k).state === 'on'}]))));
   const isoDay = v => typeof v === 'string' && Boolean(day(v));
   const plus = (iso, n) => { const d = new Date(iso+'T12:00:00Z'); d.setUTCDate(d.getUTCDate()+n); return d.toISOString().slice(0,10); };
   const dow = iso => new Date(iso+'T12:00:00Z').getUTCDay();
@@ -90,11 +132,16 @@
     return 'Wednesday’s video posts '+say(wed, p.get('w'))+', Friday’s '+say(fri, p.get('f'))+'.';
   }
   const dayList = keys => { const n = WEEK.filter(k => keys.includes(k)).map(k => DAY_NAMES[DAY_KEYS.indexOf(k)]); return n.length < 2 ? n.join('') : n.slice(0, -1).join(', ')+' and '+n[n.length-1]; };
-  // Auto is only live once it is chosen AND a switched-on platform is connected. Today that is never.
-  const autoLive = settings => { const s = normalise(settings); return s.mode === 'auto' && PLATFORMS.some(([k]) => s.platforms[k] && CONNECTED[k]); };
+  // Auto is only live once it is chosen AND a switched-on platform is connected (a real check said so) AND the automatic
+  // poster exists. The poster is not built yet (plan Step 5), so posterLive is false and Auto stays an intent: the build
+  // that adds the poster sets WWStore.posting.posterLive = true, and nothing else has to change.
+  let posterLive = false;
+  const connectedOn = s => PLATFORMS.filter(([k]) => s.platforms[k] && CONNECTED[k]);
+  const autoLive = settings => { const s = normalise(settings); return posterLive && s.mode === 'auto' && connectedOn(s).length > 0; };
   function modeLine(settings) {
     const s = normalise(settings);
-    return autoLive(s) ? 'Auto posting: each video goes out at '+s.time+' on its posting day.' : s.mode === 'auto' ? 'Auto posting is chosen, but no account is connected yet, so you still press Post on the day.' : 'Manual posting: you press Post on the day.';
+    return autoLive(s) ? 'Auto posting: each video goes out at '+s.time+' on its posting day.' : s.mode !== 'auto' ? 'Manual posting: you press Post on the day.'
+      : connectedOn(s).length ? 'Auto posting is chosen, but the automatic poster is not running yet, so you still press Post on the day.' : 'Auto posting is chosen, but no account is connected yet, so you still press Post on the day.';
   }
   let posting = normalise(null), postingRef = null, planKey = null, planMap = null;
   const postingChanged = () => { planKey = null; window.dispatchEvent(new CustomEvent('ww:settings')); };
@@ -122,6 +169,7 @@
     dateFor(list, recordDate) { return postingSlot(list, posting, recordDate); },
     // Was (or is) this date a posting day under the rule in force on it? Weeks before a change keep their old posting days.
     isPostingDay(iso) { let rule = posting.history[0] || posting; for (const r of [...posting.history.slice(1), ...(posting.history.length ? [posting] : [])]) if (!r.from || r.from <= iso) rule = r; return rule.days.includes(DAY_KEYS[dow(iso)]); },
+    get posterLive() { return posterLive; }, set posterLive(v) { posterLive = v === true; postingChanged(); },
     get mode() { return posting.mode; }, get effectiveMode() { return autoLive(posting) ? 'auto' : 'manual'; }};
   // Latest uploads per creator, fetched from YouTube's public channel feeds by scripts/scan-watchlist.mjs and
   // published next to the page as uploads.json (see SCAN.md). Nothing here comes from the page itself.
@@ -157,6 +205,12 @@
         const got = await postingRef.get(); posting = normalise(got?.data?.()); postingChanged();
         if (typeof postingRef.onSnapshot === 'function') postingRef.onSnapshot(snap => { const n = normalise(snap?.data?.()); if (JSON.stringify(n) !== JSON.stringify(posting)) { posting = n; postingChanged(); } }, () => {});
       } catch { /* the defaults stand */ }
+      // Connections: the document a Claude Code session writes after "Check connections". Read once, then followed.
+      try {
+        connRef = db.doc('connections/status');
+        const got = await connRef.get(); connDoc = connFromDoc(got?.data?.()); connChanged();
+        if (typeof connRef.onSnapshot === 'function') connRef.onSnapshot(snap => { const n = connFromDoc(snap?.data?.()); if (JSON.stringify(n) !== JSON.stringify(connDoc)) { connDoc = n; connChanged(); } }, () => {});
+      } catch { /* nothing known: every account reads as not checked */ }
       // Private notes on creators, one document per handle.
       db.collection('creatorNotes').onSnapshot(snap => {
         notes = new Map(snap.docs.filter(d => d.exists).map(d => [d.id, String(d.data().note || '')]));
@@ -304,5 +358,5 @@
   }
   const api = {call, get topics() { return sorted(); }, reloadUploads: async () => { await loadUploads(); window.dispatchEvent(new CustomEvent('ww:store')); }};
   // Settings and Publish keep their own documents in the same database.
-  window.WWStore = {connect, db: () => db, posting:postingApi};
+  window.WWStore = {connect, db: () => db, posting:postingApi, connections:connectionsApi};
 })();
