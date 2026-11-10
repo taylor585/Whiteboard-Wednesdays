@@ -56,7 +56,7 @@
 .vi-group{--i0:1}.bs-board{--i0:2}.se-slots{--i0:1}
 .vi-cmd{--i:0}.vi-shelf{--i:1}.vi-tray{--i:2}.cr-layout>.cr-note{--i:1}.bs-rail{--i:0}.bs-weekrow{--i:1}.tp-layout{--i:4}.se-shelf{--i:0}.se-lib+.se-save{--i:5}#library-card{--i:5}
 /* Presentations wall, Creator watchlist, creator page, Topics, Schedule, Settings, Publish and Reels. Never more than 12 of a list. */
-:is([data-enter=screen],[data-enter=lane]) :is(.pins,.cr-grid,.se-slots,.po)>:nth-child(-n+12),
+:is([data-enter=screen],[data-enter=lane]) :is(.pins,.cr-grid,.se-slots,.po,.cx)>:nth-child(-n+12),
 [data-enter=screen] .vi-group>.vi-mail:nth-child(-n+9),
 :is([data-enter=screen],[data-enter=lane]) :is(#library-card,.vi-cmd,.vi-shelf,.vi-tray,.cr-note,.se-shelf,.se-lib+.se-save,.tp-layout),
 [data-enter] .tp-cal>.tp-wk,
