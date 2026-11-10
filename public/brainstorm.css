@@ -127,7 +127,7 @@
 @media(max-width:700px){.bs-board{grid-template-columns:minmax(0,1fr);gap:26px;padding:16px;border-width:6px}.bs-stk:nth-child(n){transform:none}}
 /* Skill ideas inside Sparks (SI-A, Taylor's pick, 2 November 2026). */
 .bs-seg{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ww-ink);border-radius:var(--ww-radius-media);overflow:hidden}
-#brainstorm .bs-seg button{min-height:40px;border:0;border-radius:0;padding:6px 10px;font-size:14px;background:var(--ww-surface);display:inline-flex;align-items:center;justify-content:center;gap:6px}
+#brainstorm .bs-seg button{min-height:44px;border:0;border-radius:0;padding:6px 10px;font-size:14px;background:var(--ww-surface);display:inline-flex;align-items:center;justify-content:center;gap:6px}
 #brainstorm .bs-seg button[aria-pressed=true]{background:var(--ww-ink);color:var(--ww-on-ink)}
 .bs-seg b{font:600 11px var(--ww-font-mono);background:var(--ww-highlight);color:var(--ww-ink);padding:1px 6px;border-radius:var(--ww-radius-badge)}
 .bs-seg b[hidden]{display:none}

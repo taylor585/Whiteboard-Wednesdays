@@ -83,7 +83,7 @@
 .po-tag{display:inline-flex;align-items:center;gap:6px;font:11px var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-muted)}
 .po-tag::before{content:"";width:10px;height:10px;border-radius:var(--ww-radius-mark);border:1px solid var(--ww-ink);box-sizing:border-box}
 .po-tag.is-rec::before{background:var(--ww-ink)}
-.po-tag.is-post{color:var(--ww-ink)}.po-tag.is-post::before{background:var(--ww-surface);border-color:var(--ww-ink)}
+.po-tag.is-post{color:var(--ww-ink)}.po-tag.is-post::before{background:var(--ww-gold);border-color:var(--ww-gold)}
 .po-tag.is-off{visibility:hidden}
 #settings .po-day[aria-pressed=true]{background:var(--ww-highlight);border-color:var(--ww-ink);box-shadow:inset 3px 0 0 var(--ww-gold)}
 @media(hover:hover){#settings .po-day:hover{border-color:var(--ww-ink)}}
@@ -131,10 +131,10 @@
 .pm-note .se-dot{flex:none;margin:0;transform:translateY(1px) rotate(45deg)}
 .po-honest[hidden]{display:none}
 .pm-a{box-sizing:border-box;display:inline-grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:340px;max-width:100%;padding:4px;border:1px solid var(--pm-ink);border-radius:var(--pm-radius);background:var(--pm-bg)}
-.pm-a::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:calc(var(--pm-radius) - 4px);background:var(--pm-ink)}
+.pm-a::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:max(1px,calc(var(--pm-radius) - 4px));background:var(--pm-ink)}
 .pm-a:has(input[value=auto]:checked)::before{transform:translateX(100%)}
 .pm-a:active::before{scale:.98}
-.pm-a label{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 12px;border-radius:calc(var(--pm-radius) - 4px);white-space:nowrap}
+.pm-a label{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 12px;border-radius:max(1px,calc(var(--pm-radius) - 4px));white-space:nowrap}
 .pm-a label:has(:checked){color:var(--pm-on)}
 /* The ring goes round the whole control, clear of the frame line. */
 .pm-a:has(:focus-visible){outline:3px solid var(--pm-gold);outline-offset:3px}
