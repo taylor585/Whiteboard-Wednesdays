@@ -2,7 +2,7 @@
    The four-column idea board takes the page (Sparks, Shortlist, then the Recording and Posting
    schedules side by side) and the creators sit beside it as cards; choosing one opens its profile
    over the rail, so the board never moves. Wednesday's video posts
-   the next Tuesday and Friday's the next Thursday (PROCESS.md), unless a post date is set by hand. */
+   on the day Posting settings give it (WWStore.posting in ww-store.js; Tuesday and Thursday by default), unless a post date is set by hand. */
 (() => {
   'use strict';
   const root = document.querySelector('#brainstorm');
@@ -24,7 +24,10 @@
   const data = () => window.WWIdeas.data;
   const topics = () => data().topics || [];
   const status = message => { $('#bs-status').textContent = message; };
-  const postOf = t => t.postDate ? parse(t.postDate) : t.recordDate ? add(parse(t.recordDate), 6) : null;
+  // Posting days come from the one rule in ww-store.js: postOf for a topic, postFor for a recording day (booked or not).
+  const posting = () => window.WWStore.posting;
+  const postOf = t => { const d = posting().dates(topics()).get(t.id); return d ? parse(d) : null; };
+  const postFor = day => parse(posting().dateFor(topics(), typeof day === 'string' ? day : iso(day)));
   // One index per data load: each creator's uploads newest first, the last 14 days, and a per-day count.
   // Built once and reused, so a tap on a card costs nothing measurable even with 600+ videos loaded.
   let idxFor = null, idx = new Map(), sortedAll = [];
@@ -143,7 +146,7 @@
       '<span class="bs-stk-actions">'+open.map(s => '<button type="button" data-book="'+iso(s.day)+'">Book '+esc(fmt(s.day,{weekday:'short',day:'numeric'}))+'</button>').join('')+'<button type="button" class="bs-quiet" data-remove="'+esc(t.id)+'" aria-label="Remove “'+esc(t.title)+'”">Remove</button></span></li>';
   }
   function slotHtml(s) {
-    return '<div class="bs-slot'+(s.topic ? ' is-booked' : '')+(s.past ? ' is-past' : '')+'" data-slot="'+iso(s.day)+'"><span class="bs-slot-day">'+esc(fmt(s.day))+'</span><span class="bs-meta">Posts '+esc(fmt(add(s.day, 6)))+'</span>'+
+    return '<div class="bs-slot'+(s.topic ? ' is-booked' : '')+(s.past ? ' is-past' : '')+'" data-slot="'+iso(s.day)+'"><span class="bs-slot-day">'+esc(fmt(s.day))+'</span><span class="bs-meta">Posts '+esc(fmt(postFor(s.day)))+'</span>'+
       (s.topic ? '<div class="bs-booked"><span>'+esc(s.topic.title)+'</span><span class="bs-booked-actions"><a href="#/schedule">Schedule →</a>'+(s.past ? '' : '<button type="button" data-unbook="'+esc(s.topic.id)+'">Unbook</button>')+'</span></div>'
         : '<p class="bs-put">'+(s.past ? 'Nothing was recorded.' : 'Drop an angle here, or press Book on the shortlist.')+'</p>')+'</div>';
   }
@@ -153,13 +156,14 @@
     if (!list.length) return '';
     return '<h3 class="bs-post-sub micro">BOOKED LATER</h3><ul class="bs-later">'+list.map(t => '<li><button type="button" data-goto="'+esc(t.recordDate)+'"><span class="bs-slot-day">'+esc(fmt(parse(t.recordDate)))+'</span><span class="bs-later-title">'+esc(t.title)+'</span><span class="bs-meta">Posts '+esc(fmt(postOf(t)))+'</span></button></li>').join('')+'</ul>';
   }
-  // Posting runs alongside: this week's Tuesday and Thursday, then the following week's, when this week's recordings go out.
+  // Posting runs alongside: this week's posting days (from Posting settings), then the following week's.
   function postHtml() {
-    const days = [add(week, 1), add(week, 3), add(week, 8), add(week, 10)];
+    const out = new Set(topics().map(t => postOf(t)).filter(Boolean).map(iso));
+    const days = Array.from({length:14}, (_, i) => add(week, i)).filter(d => posting().isPostingDay(iso(d)) || out.has(iso(d))), split = days.findIndex(d => d >= add(week, 7));
     return days.map((d, i) => {
       const going = topics().filter(t => { const p = postOf(t); return p && iso(p) === iso(d); });
       const past = iso(d) < iso(today());
-      return (i === 2 ? '<h3 class="bs-post-sub micro">FROM THIS WEEK’S RECORDINGS</h3>' : '')+'<div class="bs-post'+(going.length ? ' is-set' : '')+(past ? ' is-past' : '')+'"><span class="bs-slot-day">'+esc(fmt(d))+'</span>'+
+      return (i === split ? '<h3 class="bs-post-sub micro">THE WEEK AFTER</h3>' : '')+'<div class="bs-post'+(going.length ? ' is-set' : '')+(past ? ' is-past' : '')+'"><span class="bs-slot-day">'+esc(fmt(d))+'</span>'+
         (going.length ? going.map(t => '<span class="bs-post-title">'+esc(t.title)+'</span><span class="bs-meta">'+(t.recordDate ? (t.recordDate < iso(today()) ? 'Recorded ' : 'Records ')+esc(fmt(parse(t.recordDate))) : '')+(t.status === 'posted' ? ' · Posted' : '')+'</span>').join('') : '<p class="bs-put">'+(past ? 'Nothing was posted.' : 'Nothing booked to post.')+'</p>')+'</div>';
     }).join('');
   }
@@ -184,7 +188,7 @@
   async function book(id, day) {
     const t = topics().find(x => x.id === id);
     if (!t) return;
-    await mutate('/topic-update', {id, recordDate:day, ...(t.status === 'new' ? {status:'planned'} : {})}, '“'+t.title+'” booked for '+fmt(parse(day))+'. It posts '+fmt(add(parse(day), 6))+'.');
+    await mutate('/topic-update', {id, recordDate:day, ...(t.status === 'new' ? {status:'planned'} : {})}, '“'+t.title+'” booked for '+fmt(parse(day))+'. It posts '+fmt(postFor(day))+'.');
   }
   root.addEventListener('click', async event => {
     const el = event.target.closest('button');
@@ -248,5 +252,6 @@
   root.addEventListener('drop', async event => { const slot = event.target.closest('.bs-slot'); if (!slot || !drag || slot.classList.contains('is-past')) return; event.preventDefault(); slot.classList.remove('is-over'); const id = drag; drag = null; await book(id, slot.dataset.slot); });
   // Do not redraw under someone typing a note; the next data change catches up.
   window.addEventListener('ww:data', () => { if (document.activeElement?.id !== 'bs-note-text') render(); });
+  window.addEventListener('ww:settings', () => { if (!root.hidden && document.activeElement?.id !== 'bs-note-text') render(); });
   window.addEventListener('ww:route', event => { if (event.detail[0] === 'topics') render(); });
 })();

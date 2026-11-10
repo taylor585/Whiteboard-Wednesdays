@@ -21,6 +21,108 @@
       fail('Your change could not be saved. Please try again.', 503);
     }
   }
+  // ---- Posting settings and the one rule that gives a video its posting day (Taylor, 10 November 2026). ----
+  // Saved as settings/posting. When the document is missing the defaults apply, which are the dates the app always
+  // showed: posting days Tuesday and Thursday, at least 5 days after recording (Wednesday → next Tuesday, Friday → next Thursday).
+  //   {days:['tue','thu'],            posting days, any of mon tue wed thu fri sat sun
+  //    gap:5,                         editing gap: a video posts at least this many days after its recording day (1 to 14)
+  //    time:'15:00',                  one posting time, UK time, for the automatic poster later
+  //    mode:'manual',                 'manual' | 'auto'. Auto is saved as the intent; nothing posts itself until accounts connect
+  //    platforms:{youtube,linkedin,instagram,facebook,x},   each true or false
+  //    from:'2026-11-10'|null,        the day this rule started; videos that went out before it keep their dates
+  //    history:[{days,gap,from}],     earlier rules, oldest first, so past weeks never move when the rule changes
+  //    updatedAt:'…'}
+  const DAY_KEYS = ['sun','mon','tue','wed','thu','fri','sat'], DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const WEEK = ['mon','tue','wed','thu','fri','sat','sun'];
+  const PLATFORMS = [['youtube','YouTube'],['linkedin','LinkedIn'],['instagram','Instagram'],['facebook','Facebook'],['x','X']];
+  const POSTING_DEFAULTS = Object.freeze({days:['tue','thu'], gap:5, time:'15:00', mode:'manual', platforms:{youtube:true, linkedin:true, instagram:true, facebook:true, x:false}, from:null, history:[], updatedAt:null});
+  // No account is connected and no code here posts anything. The automatic poster flips these when it exists.
+  const CONNECTED = Object.freeze({youtube:false, linkedin:false, instagram:false, facebook:false, x:false});
+  const isoDay = v => typeof v === 'string' && Boolean(day(v));
+  const plus = (iso, n) => { const d = new Date(iso+'T12:00:00Z'); d.setUTCDate(d.getUTCDate()+n); return d.toISOString().slice(0,10); };
+  const dow = iso => new Date(iso+'T12:00:00Z').getUTCDay();
+  const cleanDays = v => { const out = WEEK.filter(k => Array.isArray(v) && v.includes(k)); return out.length ? out : null; };
+  const cleanGap = v => Number.isInteger(v) && v >= 1 && v <= 14 ? v : null;
+  function normalise(raw) {
+    const r = raw && typeof raw === 'object' ? raw : {}, d = POSTING_DEFAULTS;
+    const platforms = {}; for (const [k] of PLATFORMS) platforms[k] = typeof r.platforms?.[k] === 'boolean' ? r.platforms[k] : d.platforms[k];
+    const history = (Array.isArray(r.history) ? r.history : []).map(h => ({days:cleanDays(h?.days), gap:cleanGap(h?.gap), from:isoDay(h?.from) ? h.from : null})).filter(h => h.days && h.gap).slice(-20);
+    return {days:cleanDays(r.days) || d.days.slice(), gap:cleanGap(r.gap) || d.gap, time:typeof r.time === 'string' && /^([01]\d|2[0-3]):[0-5]\d$/.test(r.time) ? r.time : d.time,
+      mode:r.mode === 'auto' ? 'auto' : 'manual', platforms, from:isoDay(r.from) ? r.from : null, history, updatedAt:typeof r.updatedAt === 'string' ? r.updatedAt : null};
+  }
+  // THE rule. Each recorded video posts on the next posting day that is at least `gap` days after its recording day,
+  // one video per posting day, earlier recording first. A post date saved on a topic always wins and holds its day.
+  // A posted video, or one whose day had already passed when the rule changed, keeps the day the earlier rule gave it.
+  // Returns Map(topic id → 'YYYY-MM-DD'). Pure: dates in, dates out, no clock and no time zone.
+  function postingPlan(list, settings) {
+    const s = normalise(settings), out = new Map(), fixed = new Set();
+    for (const t of list || []) if (isoDay(t.postDate)) { out.set(t.id, t.postDate); fixed.add(t.postDate); }
+    const rest = (list || []).filter(t => !out.has(t.id) && isoDay(t.recordDate)).sort((a,b) => a.recordDate.localeCompare(b.recordDate) || String(a.createdAt || '').localeCompare(String(b.createdAt || '')) || String(a.id).localeCompare(String(b.id)));
+    let given = new Map();
+    [...s.history, {days:s.days, gap:s.gap, from:s.from}].forEach((rule, i) => {
+      const from = i ? rule.from : null, taken = new Set(fixed), next = new Map();
+      for (const t of rest) { const was = given.get(t.id); if (was && i && (t.status === 'posted' || (from && was < from))) { next.set(t.id, was); taken.add(was); } }
+      for (const t of rest) {
+        if (next.has(t.id)) continue;
+        let d = plus(t.recordDate, rule.gap); if (from && d < from) d = from;
+        while (!rule.days.includes(DAY_KEYS[dow(d)]) || taken.has(d)) d = plus(d, 1);
+        next.set(t.id, d); taken.add(d);
+      }
+      given = next;
+    });
+    for (const [id, d] of given) out.set(id, d);
+    return out;
+  }
+  // The posting day a recording on `recordDate` would get if it were booked now (the booked topic's own day if one is there).
+  function postingSlot(list, settings, recordDate) {
+    const holder = (list || []).find(t => t.recordDate === recordDate);
+    if (holder) return postingPlan(list, settings).get(holder.id);
+    return postingPlan([...(list || []), {id:'\u0000slot', recordDate, postDate:null, createdAt:'￿'}], settings).get('\u0000slot');
+  }
+  // In words, for the Schedule heading: "Wednesday’s video posts the next Tuesday, Friday’s the next Thursday."
+  // Worked out on an empty week, so it states the rule itself; bookings can move a single video (one per day).
+  function postingSentence(settings) {
+    const s = normalise(settings), wed = '2026-01-07', fri = '2026-01-09';
+    const p = postingPlan([{id:'w', recordDate:wed}, {id:'f', recordDate:fri}], {days:s.days, gap:s.gap});
+    const mon = iso => Date.parse(plus(iso, -((dow(iso)+6) % 7)));
+    const say = (rec, post) => { const name = DAY_NAMES[dow(post)], weeks = Math.round((mon(post) - mon(rec)) / 6048e5);
+      return weeks === 0 ? 'that '+name : weeks === 1 ? 'the next '+name : name+' '+weeks+' weeks later'; };
+    return 'Wednesday’s video posts '+say(wed, p.get('w'))+', Friday’s '+say(fri, p.get('f'))+'.';
+  }
+  const dayList = keys => { const n = WEEK.filter(k => keys.includes(k)).map(k => DAY_NAMES[DAY_KEYS.indexOf(k)]); return n.length < 2 ? n.join('') : n.slice(0, -1).join(', ')+' and '+n[n.length-1]; };
+  // Auto is only live once it is chosen AND a switched-on platform is connected. Today that is never.
+  const autoLive = settings => { const s = normalise(settings); return s.mode === 'auto' && PLATFORMS.some(([k]) => s.platforms[k] && CONNECTED[k]); };
+  function modeLine(settings) {
+    const s = normalise(settings);
+    return autoLive(s) ? 'Auto posting: each video goes out at '+s.time+' on its posting day.' : s.mode === 'auto' ? 'Auto posting is chosen, but no account is connected yet, so you still press Post on the day.' : 'Manual posting: you press Post on the day.';
+  }
+  let posting = normalise(null), postingRef = null, planKey = null, planMap = null;
+  const postingChanged = () => { planKey = null; window.dispatchEvent(new CustomEvent('ww:settings')); };
+  const localToday = () => { const n = new Date(), p = v => String(v).padStart(2, '0'); return n.getFullYear()+'-'+p(n.getMonth()+1)+'-'+p(n.getDate()); };
+  // Save from the Posting screen. A change to the days or the gap starts a new rule today and files the old one in history.
+  function nextPosting(next, today = localToday()) {
+    const n = normalise({...posting, ...next, platforms:{...posting.platforms, ...(next?.platforms || {})}}), ruleChanged = n.days.join() !== posting.days.join() || n.gap !== posting.gap;
+    let from = posting.from, history = posting.history.slice();
+    if (ruleChanged) { if (posting.from !== today) history.push({days:posting.days, gap:posting.gap, from:posting.from}); from = today; }
+    return {days:n.days, gap:n.gap, time:n.time, mode:n.mode, platforms:n.platforms, from, history:history.slice(-20), updatedAt:new Date().toISOString()};
+  }
+  async function savePosting(next, today = localToday()) {
+    if (!postingRef) fail('Saving needs the app’s database, which this preview does not have.', 503);
+    const doc = nextPosting(next, today);
+    await write(() => postingRef.set(doc));
+    posting = normalise(doc); postingChanged();
+    return posting;
+  }
+  const postingApi = {DEFAULTS:POSTING_DEFAULTS, WEEK, DAY_KEYS, DAY_NAMES, PLATFORMS, CONNECTED, normalise, plan:postingPlan, slot:postingSlot, sentence:postingSentence, dayList, autoLive, modeLine,
+    get settings() { return JSON.parse(JSON.stringify(posting)); }, get canSave() { return Boolean(postingRef); }, save:savePosting,
+    // The document a save would write, for the Posting screen's preview line before anything is saved.
+    draft:nextPosting,
+    // What every screen calls: the posting day of each topic in `list`, under the saved settings. One plan per data load.
+    dates(list) { if (planKey !== list) { planMap = postingPlan(list, posting); planKey = list; } return planMap; },
+    dateFor(list, recordDate) { return postingSlot(list, posting, recordDate); },
+    // Was (or is) this date a posting day under the rule in force on it? Weeks before a change keep their old posting days.
+    isPostingDay(iso) { let rule = posting.history[0] || posting; for (const r of [...posting.history.slice(1), ...(posting.history.length ? [posting] : [])]) if (!r.from || r.from <= iso) rule = r; return rule.days.includes(DAY_KEYS[dow(iso)]); },
+    get mode() { return posting.mode; }, get effectiveMode() { return autoLive(posting) ? 'auto' : 'manual'; }};
   // Latest uploads per creator, fetched from YouTube's public channel feeds by scripts/scan-watchlist.mjs and
   // published next to the page as uploads.json (see SCAN.md). Nothing here comes from the page itself.
   async function loadUploads() {
@@ -49,6 +151,12 @@
         runs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()}));
         window.dispatchEvent(new CustomEvent('ww:store'));
       }, () => {});
+      // Posting settings: one document. Read once, then followed where the database offers it (other tabs and devices).
+      try {
+        postingRef = db.doc('settings/posting');
+        const got = await postingRef.get(); posting = normalise(got?.data?.()); postingChanged();
+        if (typeof postingRef.onSnapshot === 'function') postingRef.onSnapshot(snap => { const n = normalise(snap?.data?.()); if (JSON.stringify(n) !== JSON.stringify(posting)) { posting = n; postingChanged(); } }, () => {});
+      } catch { /* the defaults stand */ }
       // Private notes on creators, one document per handle.
       db.collection('creatorNotes').onSnapshot(snap => {
         notes = new Map(snap.docs.filter(d => d.exists).map(d => [d.id, String(d.data().note || '')]));
@@ -196,5 +304,5 @@
   }
   const api = {call, get topics() { return sorted(); }, reloadUploads: async () => { await loadUploads(); window.dispatchEvent(new CustomEvent('ww:store')); }};
   // Settings and Publish keep their own documents in the same database.
-  window.WWStore = {connect, db: () => db};
+  window.WWStore = {connect, db: () => db, posting:postingApi};
 })();
