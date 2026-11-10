@@ -1,6 +1,6 @@
 /* Settings, design SE-B Skill library (Taylor, 30 October 2026). */
 #settings{max-width:1600px;margin:auto;padding:48px 4vw;color:var(--ww-ink);font-family:var(--ww-font-body)}
-.se-head h1{margin:10px 0 12px;font:var(--ww-display-weight) var(--ww-size-title)/1 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
+.se-head h1{margin:10px 0 12px;font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
 .se-head p{margin:0;color:var(--ww-muted);max-width:62ch}
 .se-back{display:inline-block;margin-bottom:12px;color:var(--ww-ink);text-underline-offset:4px;font-size:15px}
 .se-lib{display:grid;grid-template-columns:340px minmax(0,1fr);gap:28px;margin-top:28px;align-items:start}
@@ -12,7 +12,7 @@
 #settings .se-card span{color:var(--ww-muted)}
 #settings .se-card[aria-pressed=true]{border-color:var(--ww-ink);box-shadow:inset 3px 0 0 var(--ww-ink);background:var(--ww-highlight)}
 .se-slots{display:flex;flex-direction:column;gap:24px;min-width:0}
-.se-grp h2{margin:0 0 10px;font:var(--ww-display-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding-top:12px;border-top:var(--ww-ledger)}
+.se-grp h2{margin:0 0 10px;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding-top:12px;border-top:var(--ww-ledger)}
 .se-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 #settings .se-job{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;min-height:120px;padding:14px;border:1px dashed var(--ww-field-edge);border-radius:var(--ww-radius-card);background:var(--ww-surface);font-size:13px;min-width:0}
 #settings .se-job[aria-disabled=true]{cursor:default}
@@ -61,7 +61,7 @@
 .se-gh-link{display:inline-flex;align-items:center;gap:4px;min-height:44px;color:var(--ww-ink);font-size:15px;text-decoration:underline;text-underline-offset:4px}
 .se-gh-x{font-size:.85em;text-decoration:none}
 .se-gh .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@media(prefers-reduced-motion:no-preference){#settings .se-gh-btn{transition:background-color .15s,box-shadow .15s}}
+@media(prefers-reduced-motion:no-preference){#settings .se-gh-btn{transition:background-color var(--m-press) linear}}
 @media(hover:hover){#settings .se-gh-btn:not(:disabled):hover{background:var(--ww-ink-hover)}#settings .se-gh-btn.is-ghost:not(:disabled):hover{background:var(--ww-stage)}}
 @media(max-width:700px){.se-gh{grid-template-columns:10px minmax(0,1fr)}.se-gh-dot{align-self:start;margin-top:7px}#settings .se-gh-btn{grid-column:1/-1;width:100%}.se-gh-link{grid-column:2;justify-self:start}}
 .se-gh p:focus{outline:none}
@@ -69,12 +69,12 @@
 .se-lanes{display:flex;gap:28px;margin-top:22px;border-bottom:1px solid var(--ww-line);overflow-x:auto;scrollbar-width:none}
 .se-lanes::-webkit-scrollbar{display:none}
 #settings .se-lanes a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:10px 0;border-bottom:2px solid transparent;margin-bottom:-1px;text-decoration:none;font-size:16px;color:var(--ww-muted);white-space:nowrap}
-#settings .se-lanes a[aria-current=page]{border-bottom-color:var(--ww-ink);color:var(--ww-ink)}
+#settings .se-lanes a[aria-current=page]{color:var(--ww-ink)}
 #settings .se-lanes a:hover{color:var(--ww-ink)}
 .se-lanes+.se-gh{margin-top:0;border-top:0}
 /* Posting (direction A "The week", 10 November 2026): the week as the Schedule draws it, then time, mode and platforms. */
 .po{max-width:880px;display:flex;flex-direction:column;gap:36px;margin-top:32px}
-.po-grp h2{margin:0 0 12px;font:var(--ww-display-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.po-grp h2{margin:0 0 12px;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
 .po-grp h2 .micro{margin:0}
 .po-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
 #settings .po-day{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:10px;min-height:104px;padding:10px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);text-align:left}
@@ -111,7 +111,7 @@
 .po-honest{display:flex;gap:10px;align-items:baseline;margin:12px 0 0;font-size:14px;color:var(--ww-muted)}
 .po-honest .se-dot{flex:none;margin:0;transform:translateY(1px) rotate(45deg)}
 .po .se-save{margin-top:0}
-@media(prefers-reduced-motion:no-preference){#settings .po-day{transition:background-color .18s ease,border-color .18s ease}}
+@media(prefers-reduced-motion:no-preference){#settings .po-day{transition:background-color var(--m-ui) linear,border-color var(--m-ui) linear}}
 @media(max-width:700px){.po{gap:30px;margin-top:24px}.po-week{gap:0;margin-inline:-8px}#settings .po-day{min-height:92px;padding:8px 2px;align-items:center;border-radius:0;margin-left:-1px}#settings .po-day:first-child{border-radius:var(--ww-radius-control) 0 0 var(--ww-radius-control);margin-left:0}#settings .po-day:last-child{border-radius:0 var(--ww-radius-control) var(--ww-radius-control) 0}#settings .po-day[aria-pressed=true],#settings .po-day:focus-visible{position:relative;z-index:1}.po-tags{align-items:center}.po-tag{flex-direction:column;gap:3px;font-size:11px;letter-spacing:0}.po-preview{font-size:16px}.po-plat{grid-template-columns:24px minmax(0,1fr)}.po-plat em{grid-column:2}}
 /* Posting mode toggle: Manual posting | Auto posting, segmented, with an ink thumb that slides under the word in force.
    <div class="pm pm-a" role="radiogroup" data-live="false"> two <label><input type="radio"><i></i><span>…</span></label> </div>
@@ -133,11 +133,11 @@
 .pm-a{box-sizing:border-box;display:inline-grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:340px;max-width:100%;padding:4px;border:1px solid var(--pm-ink);border-radius:var(--pm-radius);background:var(--pm-bg)}
 .pm-a::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:max(1px,calc(var(--pm-radius) - 4px));background:var(--pm-ink)}
 .pm-a:has(input[value=auto]:checked)::before{transform:translateX(100%)}
-.pm-a:active::before{scale:.98}
+
 .pm-a label{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 12px;border-radius:max(1px,calc(var(--pm-radius) - 4px));white-space:nowrap}
 .pm-a label:has(:checked){color:var(--pm-on)}
 /* The ring goes round the whole control, clear of the frame line. */
 .pm-a:has(:focus-visible){outline:3px solid var(--pm-gold);outline-offset:3px}
 @media(hover:hover) and (pointer:fine){.pm-a label:has(input:not(:checked)):hover{background:var(--pm-hover)}}
 @media(max-width:700px){.pm-a{display:grid;width:100%}}
-@media(prefers-reduced-motion:no-preference){.pm-a::before{transition:transform .18s cubic-bezier(.2,.8,.2,1),scale .18s cubic-bezier(.2,.8,.2,1)}.pm-a label{transition:color .18s cubic-bezier(.2,.8,.2,1)}}
+@media(prefers-reduced-motion:no-preference){.pm-a::before{transition:transform var(--m-ui) var(--m-ease)}.pm-a label{transition:color var(--m-press) linear}}

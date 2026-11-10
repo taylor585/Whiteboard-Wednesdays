@@ -15,6 +15,7 @@
   const LANE = Object.fromEntries(LANES.map(l => [l.id, l]));
   const EMPTY = { 'instagram-posts': 'No Instagram post captions yet.', 'instagram-reels': 'No Instagram reel captions yet.', x: 'No X posts yet.' };
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const M = window.WWMotion;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
   const num = n => n.toLocaleString('en-GB');
   const day = d => d ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(d + 'T12:00')) : '';
@@ -55,9 +56,9 @@
   function bar() {
     const L = LANE[lane];
     let h = '<div class="va-bar"><nav class="va-lanes" aria-label="Vault sections">'
-      + LANES.map(l => '<a href="#/vault/' + l.id + '"' + (l.id === lane ? ' aria-current="page"' : '') + '>' + esc(l.label) + '</a>').join('') + '</nav>';
+      + LANES.map(l => '<a href="#/vault/' + l.id + '"' + (l.id === lane ? ' aria-current="page"' + M.attr('va-lane', 'draw') : '') + '>' + esc(l.label) + '</a>').join('') + '</nav>';
     if (L.subs) h += '<nav class="va-bubbles" aria-label="' + esc(L.label) + ' filter">' + L.subs.map(([id, label]) =>
-      '<a href="#/vault/' + lane + '/' + id + '"' + (id === sub ? ' aria-current="true"' : '') + '>' + esc(label) + ' <i>' + (data ? items(lane, id).length : '') + '</i></a>').join('') + '</nav>';
+      '<a href="#/vault/' + lane + '/' + id + '"' + (id === sub ? ' aria-current="true"' + M.attr('va-bubble', 'fill') : '') + '>' + esc(label) + ' <i>' + (data ? items(lane, id).length : '') + '</i></a>').join('') + '</nav>';
     return h + '</div>';
   }
 
@@ -99,18 +100,19 @@
       + '<p class="va-text' + (long ? ' is-clamped' : '') + '" id="t-' + esc(it.id) + '">' + esc(it.text) + '</p>'
       + '<button type="button" class="va-toggle" data-more="' + esc(it.id) + '" aria-controls="t-' + esc(it.id) + '" aria-expanded="' + !long + '" hidden>' + (long ? 'Show all' : 'Show less') + '</button>';
     if (it.firstComment) h += '<div class="va-fc"><span class="va-pf">First comment</span><p>' + esc(it.firstComment) + '</p>'
-      + '<div class="va-act"><button type="button" class="va-toggle" data-copy="' + esc(it.id) + '" data-part="comment">Copy comment</button></div></div>';
+      + '<div class="va-act"><button type="button" class="va-toggle" data-copy="' + esc(it.id) + '" data-part="comment">' + M.label(false, 'Copy comment', 'Copied') + '</button></div></div>';
     // X: the posts after the first one (the link reply of a single, or the rest of a thread), each with its own count and Copy.
     (it.replies || []).forEach((r, k) => { const name = it.kind === 'thread' ? 'Post ' + (k + 2) + ' of ' + (it.replies.length + 1) : 'Reply with the link';
       h += '<div class="va-fc va-xr"><span class="va-pf">' + name + ' · ' + count(it, r) + ' of ' + num(it.limit) + '</span><p>' + esc(r) + '</p>'
-        + '<div class="va-act"><button type="button" class="va-toggle" data-copy="' + esc(it.id) + '" data-part="r' + k + '" aria-label="Copy ' + name.toLowerCase() + '">Copy ' + (it.kind === 'thread' ? 'post ' + (k + 2) : 'reply') + '</button></div></div>'; });
+        + '<div class="va-act"><button type="button" class="va-toggle" data-copy="' + esc(it.id) + '" data-part="r' + k + '" aria-label="Copy ' + name.toLowerCase() + '">' + M.label(false, 'Copy ' + (it.kind === 'thread' ? 'post ' + (k + 2) : 'reply'), 'Copied') + '</button></div></div>'; });
     const too = also(it);
     return h + '<div class="va-act"><span class="va-meta">' + num(n) + ' of ' + num(it.limit) + ' characters'
       + (too.length ? '<span class="va-also">Also the ' + esc(too.join(' and ')) + ' caption</span>' : '') + '</span>'
-      + '<button type="button" class="va-btn" data-copy="' + esc(it.id) + '">Copy</button></div></article>';
+      + '<button type="button" class="va-btn" data-copy="' + esc(it.id) + '">' + M.label(false, 'Copy', 'Copied') + '</button></div></article>';
   }
   let fxi = 0;
-  const fx = () => { const i = fxi++; return animate && !reduced.matches && i < 8 ? ' va-in" style="--i:' + i : ''; };
+  // The first twelve cards settle (20ms apart for the first six, the rest with the sixth), and only on a paint that follows a real change.
+  const fx = () => { const i = fxi++; return animate && !reduced.matches && i < 12 ? ' va-in" style="--i:' + Math.min(i, 5) : ''; };
 
   function groups(list, shape, card) {
     const key = lane + '/' + sub;
@@ -122,7 +124,7 @@
     return order.map(g => {
       const list = by.get(g.id), on = isOpen.has(g.id), all = full.has(key + '|' + g.id), show = all ? list : list.slice(0, c);
       const id = 'vg-' + lane + '-' + sub + '-' + g.id;
-      let h = '<section class="va-group"><h2 class="va-gh-h"><button type="button" class="va-gh" data-group="' + esc(g.id) + '" aria-expanded="' + on + '" aria-controls="' + id + '">'
+      let h = '<section class="va-group"' + M.attr('va-open:' + key + '/' + g.id, 'open') + '><h2 class="va-gh-h"><button type="button" class="va-gh" data-group="' + esc(g.id) + '" aria-expanded="' + on + '" aria-controls="' + id + '">'
         + '<span class="va-gt"><span class="va-gn">' + esc(g.title) + '</span><span class="va-gm">' + day(g.date) + ' · ' + list.length + (list.length === 1 ? ' item' : ' items') + '</span></span>'
         + '<span class="va-chev" aria-hidden="true"></span></button></h2><div class="va-gbody" id="' + id + '"' + (on ? '' : ' hidden') + '>';
       if (on) {
@@ -175,6 +177,9 @@
     const same = l === lane && s === sub && root.querySelector('.va-body');
     const barTop = root.querySelector('.va-bar') ? root.querySelector('.va-bar').getBoundingClientRect().top + scrollY : null;
     const wasInside = prevHash.startsWith('#/vault');
+    // A lane or bubble that really changed: the lane underline draws, the bubble takes its fill, the cards settle.
+    // Not while the Vault itself is arriving: a cold link shows one arrival.
+    if (!same && root.querySelector('.va-body') && !M.arriving(root)) { M.stamp(l !== lane ? 'va-lane' : 'va-bubble'); M.enter(root, 'lane'); }
     lane = l; sub = s; animate = !same;
     paint();
     // Inside the Vault, keep the filters where they were instead of jumping to the top of the page.
@@ -194,13 +199,15 @@
     const t = document.getElementById('toast');
     if (t) { t.textContent = ok ? 'Copied to the clipboard.' : 'Copy did not work here. Select the text and copy it instead.'; t.hidden = false; clearTimeout(copy.timer); copy.timer = setTimeout(() => { t.hidden = true; }, 2400); }
     if (!ok) return;
-    const was = btn.textContent; btn.textContent = done; btn.classList.add('is-done');
-    setTimeout(() => { btn.textContent = was; btn.classList.remove('is-done'); }, 1600);
+    // The label swaps at once in a box that already has room for both, the highlight fades in, and after 1.8s fades back.
+    if (!btn.dataset.label) btn.dataset.label = btn.textContent;
+    btn.innerHTML = M.label(true, esc(btn.dataset.label), done); btn.classList.add('is-done'); clearTimeout(btn.backTimer);
+    btn.backTimer = setTimeout(() => { btn.innerHTML = M.label(false, esc(btn.dataset.label), done); btn.classList.remove('is-done'); }, 1800);
   }
 
   root.addEventListener('click', e => {
     const g = e.target.closest('[data-group]');
-    if (g) { const set = open.get(lane + '/' + sub); set.has(g.dataset.group) ? set.delete(g.dataset.group) : set.add(g.dataset.group); const y = g.getBoundingClientRect().top; repaint(); const n = root.querySelector('[data-group="' + CSS.escape(g.dataset.group) + '"]'); n.focus({ preventScroll: true }); scrollBy(0, n.getBoundingClientRect().top - y); return; }
+    if (g) { const set = open.get(lane + '/' + sub); if (set.has(g.dataset.group)) set.delete(g.dataset.group); else { set.add(g.dataset.group); M.stamp('va-open:' + lane + '/' + sub + '/' + g.dataset.group); } const y = g.getBoundingClientRect().top; repaint(); const n = root.querySelector('[data-group="' + CSS.escape(g.dataset.group) + '"]'); n.focus({ preventScroll: true }); scrollBy(0, n.getBoundingClientRect().top - y); return; }
     const a = e.target.closest('[data-all]');
     if (a) { full.add(lane + '/' + sub + '|' + a.dataset.all); const gid = a.dataset.all; repaint(); root.querySelector('[data-group="' + CSS.escape(gid) + '"]').closest('.va-group').querySelectorAll('.va-card,.va-copy')[cols(from(lane) === 'instagram' ? 'tall' : lane === 'thumbnails' ? 'wide' : 'text')]?.querySelector('a,button')?.focus({ preventScroll: true }); return; }
     const m = e.target.closest('[data-more]');

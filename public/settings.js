@@ -49,7 +49,11 @@
   function mono(name) { return name.replace(/[^\p{L} ]/gu, '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase(); }
   // Two plain text lanes under the heading, like Publish's Video and Reels: Skills (#/settings) and Posting (#/settings/posting).
   let lane = 'skills';
-  const laneTabs = () => '<nav class="se-lanes" aria-label="Settings lanes"><a href="#/settings"'+(lane === 'skills' ? ' aria-current="page"' : '')+'>Skills</a><a href="#/settings/posting"'+(lane === 'posting' ? ' aria-current="page"' : '')+'>Posting</a></nav>';
+  const laneTabs = () => '<nav class="se-lanes" aria-label="Settings lanes"><a href="#/settings"'+(lane === 'skills' ? ' aria-current="page"'+M.attr('se-lane', 'draw') : '')+'>Skills</a><a href="#/settings/posting"'+(lane === 'posting' ? ' aria-current="page"'+M.attr('se-lane', 'draw') : '')+'>Posting</a></nav>';
+  // Motion (motion.js): the change chip fades in when the first change is made, and a save shows Saved on its button for 1.8s.
+  const M = window.WWMotion; let chgN = 0, pChgN = 0, flash = '';
+  const chip = (n, was, key) => { if (n && !was) M.stamp(key); return n ? '<span class="se-chg"'+M.attr(key, 'fade')+'>'+n+' change'+(n > 1 ? 's' : '')+'</span>' : ''; };
+  function savedFlash(key, id, text) { flash = key; M.stamp('on:'+key); M.stamp('se-saved'); setTimeout(() => { if (flash !== key) return; flash = ''; const b = document.getElementById(id); if (!b || !b.hasAttribute('data-done')) return; b.removeAttribute('data-done'); b.style.removeProperty('--m-skip'); b.dataset.m = 'unfill'; b.innerHTML = M.label(false, text, 'Saved'); }, 1800); }
   function render() {
     if (lane === 'posting') return renderPosting();
     const pick = skill(chosen), n = changes();
@@ -61,7 +65,8 @@
       }).join('')+'</div></section>').join('')+
       linksHtml()+
       '<section class="se-grp" aria-label="Connections"><h2>Connections <span class="micro">What each part of the app needs</span></h2><div class="se-conns">'+CONNECTIONS.map(c => '<div class="se-conn"><i class="se-dot'+(c[3] ? ' is-off' : '')+'" aria-hidden="true"></i><div><b>'+esc(c[0])+'</b><span>'+esc(c[1])+'</span></div><em>'+esc(c[2])+'</em></div>').join('')+'</div></section></div></div>'+
-      '<div class="se-save">'+(n ? '<span class="se-chg">'+n+' change'+(n > 1 ? 's' : '')+'</span>' : '')+'<span class="se-when" role="status">'+(n ? 'Not saved yet' : savedAt ? 'Saved '+esc(when(savedAt)) : ref ? 'Using the defaults' : loaded ? 'Saving needs the app’s database, which this preview does not have' : 'Loading…')+'</span><span class="se-note">Jobs already running keep their skills.</span><button type="button" class="se-btn" id="se-save"'+(n && ref ? '' : ' disabled')+'>Save skills</button></div>';
+      '<div class="se-save">'+chip(n, chgN, 'se-chg')+'<span class="se-when" role="status"'+(n ? '' : M.attr('se-saved', 'fade'))+'>'+(n ? 'Not saved yet' : savedAt ? 'Saved '+esc(when(savedAt)) : ref ? 'Using the defaults' : loaded ? 'Saving needs the app’s database, which this preview does not have' : 'Loading…')+'</span><span class="se-note">Jobs already running keep their skills.</span><button type="button" class="se-btn" id="se-save"'+(n && ref ? '' : ' disabled')+M.done('skills', flash === 'skills' && !n)+'>'+M.label(flash === 'skills' && !n, 'Save skills', 'Saved')+'</button></div>';
+    chgN = n;
   }
   function linkState() {
     const p = bookingProblem(bookingDraft), same = bookingDraft.trim() === (links.booking || '');
@@ -106,7 +111,7 @@
     }
     if (e.target.closest('#se-save') && ref && changes()) {
       const btn = root.querySelector('#se-save'); btn.disabled = true; btn.textContent = 'Saving…';
-      try { const at = new Date().toISOString(); await ref.set({slots:draft, updatedAt:at}); saved = {...draft}; savedAt = at; render(); }
+      try { const at = new Date().toISOString(); await ref.set({slots:draft, updatedAt:at}); saved = {...draft}; savedAt = at; savedFlash('skills', 'se-save', 'Save skills'); render(); }
       catch { render(); root.querySelector('.se-when').textContent = 'Could not save. Try again.'; }
     }
   });
@@ -120,7 +125,8 @@
   const MODE_NOTE = {manual:'<span><b>Manual posting.</b> You press Post on the day. Nothing goes out by itself.</span>', auto:'<i class="se-dot is-off" aria-hidden="true"></i><span><b>Auto is chosen, but not running yet.</b> No account is connected, so you still press Post on the day.</span>'};
   const modeNote = d => P().autoLive(d) ? '<i class="se-dot" aria-hidden="true"></i><span><b>Auto posting.</b> Each video goes out at '+esc(d.time)+' on its posting day.</span>' : MODE_NOTE[d.mode];
   const saveBar = () => { const p = P(), n = pChanges(), at = p.settings.updatedAt;
-    return (n ? '<span class="se-chg">'+n+' change'+(n > 1 ? 's' : '')+'</span>' : '')+'<span class="se-when" id="po-when" role="status">'+esc(pMsg || (n ? 'Not saved yet' : at ? 'Saved '+when(at) : p.canSave ? 'Using the defaults: Tuesday and Thursday' : loaded ? 'Saving needs the app’s database, which this preview does not have' : 'Loading…'))+'</span><span class="se-note">Videos already posted keep their dates.</span><button type="button" class="se-btn" id="po-save"'+(n && p.canSave && !pBusy ? '' : ' disabled')+'>'+(pBusy ? 'Saving…' : 'Save posting settings')+'</button>'; };
+    const c = chip(n, pChgN, 'po-chg'); pChgN = n;
+    return c+'<span class="se-when" id="po-when" role="status"'+(n || pMsg ? '' : M.attr('se-saved', 'fade'))+'>'+esc(pMsg || (n ? 'Not saved yet' : at ? 'Saved '+when(at) : p.canSave ? 'Using the defaults: Tuesday and Thursday' : loaded ? 'Saving needs the app’s database, which this preview does not have' : 'Loading…'))+'</span><span class="se-note">Videos already posted keep their dates.</span><button type="button" class="se-btn" id="po-save"'+(n && p.canSave && !pBusy ? '' : ' disabled')+M.done('posting', flash === 'posting' && !n)+'>'+(pBusy ? 'Saving…' : M.label(flash === 'posting' && !n, 'Save posting settings', 'Saved'))+'</button>'; };
   // With Auto chosen and nothing connected the toggle's note already says so, so the line under Platforms steps back.
   const honestHidden = d => d.mode === 'auto' && !P().autoLive(d);
   let pDraft = null, pBase = '', pMsg = '', pBusy = false;
@@ -174,7 +180,7 @@
     if (gap) { pDraft.gap = Math.max(1, Math.min(14, pDraft.gap + Number(gap.dataset.gap))); pMsg = ''; renderPosting(); const b = document.getElementById(gap.id); (b && !b.disabled ? b : document.getElementById(gap.id === 'po-gap-less' ? 'po-gap-more' : 'po-gap-less'))?.focus({preventScroll:true}); return; }
     if (e.target.closest('#po-save') && pChanges() && P().canSave && !pBusy) {
       pBusy = true; pMsg = ''; renderPosting();
-      try { await P().save(pDraft); pReset(); } catch (err) { pMsg = err?.message || 'Could not save. Try again.'; }
+      try { await P().save(pDraft); pReset(); savedFlash('posting', 'po-save', 'Save posting settings'); } catch (err) { pMsg = err?.message || 'Could not save. Try again.'; }
       pBusy = false; renderPosting(); document.getElementById('po-save')?.blur?.();
     }
   }
@@ -196,7 +202,7 @@
   }
   // ---- Connect GitHub: one honest status line. ----
   const GH_REPO = 'taylor585/Whiteboard-Wednesdays', GH_LINK = 'https://claude.ai/connect-github', CCR = 'Claude Code Remote';
-  let gh = {s:'checking'}, ghToken = 0, ghBusy = false;
+  let gh = {s:'checking'}, ghToken = 0, ghBusy = false, ghShown = null;
   const GH = {
     checking:['wait','Checking GitHub…','',null],
     on:['on','GitHub connected.','<span class="se-gh-repo">'+GH_REPO+' · can push</span>',['link','Manage']],
@@ -217,11 +223,13 @@
     const a = !act ? '' : act[0] === 'link' ? '<a class="se-gh-link" id="se-gh-act" href="'+GH_LINK+'"'+newTab.replace('connect', 'manage')+'>'+act[1]+ext+'<span class="sr">(opens claude.ai in a new tab)</span></a>'
       : act[0] === 'btn' ? '<a class="se-gh-btn" id="se-gh-act" href="'+GH_LINK+'"'+newTab+'>'+act[1]+ext+'<span class="sr">(opens claude.ai in a new tab)</span></a>'
       : '<button type="button" class="se-gh-btn'+(act[2] ? '' : ' is-ghost')+'" id="se-gh-act" data-gh="'+act[0]+'"'+(ghBusy ? ' disabled' : '')+'>'+act[1]+'</button>';
-    return '<div class="se-gh" id="se-gh" data-state="'+gh.s+'"><i class="se-gh-dot is-'+dot+'" aria-hidden="true"></i><p role="status" tabindex="-1"><b>'+lead+'</b>'+(text ? ' <span>'+text+'</span>' : '')+'</p>'+a+'</div>';
+    ghShown = gh.s;
+    return '<div class="se-gh" id="se-gh" data-state="'+gh.s+'"><i class="se-gh-dot is-'+dot+'" aria-hidden="true"'+M.attr('se-gh', 'fade')+'></i><p role="status" tabindex="-1"'+M.attr('se-gh', 'fade')+'><b>'+lead+'</b>'+(text ? ' <span>'+text+'</span>' : '')+'</p>'+a+'</div>';
   }
   // Repaint only the line, so typing elsewhere keeps its caret; focus follows the action if it had it.
   function ghPaint() {
     const el = root.querySelector('#se-gh'); if (!el) return;
+    if (gh.s !== ghShown) M.stamp('se-gh');   // the words cross-fade when the state changes; the dot with them
     const had = el.contains(document.activeElement);
     el.outerHTML = ghHtml();
     if (had) (root.querySelector('#se-gh-act') || root.querySelector('#se-gh p'))?.focus?.();
@@ -278,6 +286,6 @@
   // postingLive is what actually happens today: 'manual' until an account is connected, whatever was chosen.
   window.WWSettings = {get skills() { return {...saved}; }, get links() { return {...links}; }, bookingProblem, name: id => skill(id)?.name || id,
     get posting() { return P()?.settings || null; }, get postingMode() { return P()?.mode || 'manual'; }, get postingLive() { return P()?.effectiveMode || 'manual'; }};
-  window.addEventListener('ww:route', e => { if (e.detail[0] === 'settings') { lane = e.detail[1] === 'posting' ? 'posting' : 'skills'; if (lane === 'posting' && P() && pUntouched()) pReset(); render(); if (lane === 'skills') ghCheck(false); } });
+  window.addEventListener('ww:route', e => { if (e.detail[0] === 'settings') { const was = lane; lane = e.detail[1] === 'posting' ? 'posting' : 'skills'; if (was !== lane && !M.arriving(root)) { M.stamp('se-lane'); M.enter(root, 'lane'); } if (lane === 'posting' && P() && pUntouched()) pReset(); render(); if (lane === 'skills') ghCheck(false); } });
   load();
 })();

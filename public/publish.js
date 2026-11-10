@@ -30,6 +30,7 @@
 (() => {
   'use strict';
   const root = document.querySelector('#publish');
+  const M = window.WWMotion;
   if (!root) return;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const MAX_REELS = 5, MAX_PARTS = 10;
@@ -398,16 +399,16 @@
     const head = job.status === 'failed' ? '<div class="pb-warn pb-failed" role="alert"><p><b>This job stopped'+(fs ? ' at “'+esc(fs)+'”' : '')+'.</b> '+esc(job.error || 'Claude Code did not say why.')+'</p><p>Nothing was posted. '+(failedLater() ? 'Your picks, your answers and the saved work are kept: Try again runs that step again from them, or start a new video.' : job.packUrl ? 'Your Variety Pack is still there: fix the problem, then press Continue, or start a new video.' : 'Press Start a new video when you are ready.')+ses+'</p>'+
         (failedLater() ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry-step"'+(starting ? ' disabled' : '')+'>Try again</button></p>' : '')+'</div>'
       : stuck ? '<div class="pb-warn pb-stuck" role="alert"><p><b>Claude Code has not reported back</b> for '+(stuck >= 120 ? Math.floor(stuck / 60)+' h '+(stuck % 60)+' min' : stuck+' minutes')+'. It may have stopped.</p><p class="pb-acts">'+ses+' <button type="button" class="pb-link" id="pb-retry-stuck">Try again</button> <button type="button" class="pb-link" id="pb-stop">Stop this job</button></p></div>'
-      : job.status === 'queued' ? '<p class="pb-queue"><b>Not started yet.</b> <button type="button" class="pb-link" id="pb-start"'+(starting ? ' disabled' : '')+'>Start now</button> or say this in a Claude chat: <code>Run Publish job '+esc(job.id)+'</code> <button type="button" class="pb-link" data-copy-run="pack">'+(copied === 'run' ? 'Copied' : 'Copy')+'</button></p>'
+      : job.status === 'queued' ? '<p class="pb-queue"><b>Not started yet.</b> <button type="button" class="pb-link" id="pb-start"'+(starting ? ' disabled' : '')+'>Start now</button> or say this in a Claude chat: <code>Run Publish job '+esc(job.id)+'</code> <button type="button" class="pb-link" data-copy-run="pack"'+M.done('run', copied === 'run')+'>'+M.label(copied === 'run', 'Copy', 'Copied')+'</button></p>'
       : job.status === 'starting' ? '<p class="pb-queue"><b>Starting Claude Code.</b> A session is opening in the cloud with your skills; the steps appear here as it works, usually within two minutes. '+esc(waitLine())+ses+'</p>'
       : ['running','finishing'].includes(job.status) ? '<p class="pb-queue pb-running"><b>Claude Code is working on this'+esc(doing())+'.</b> '+esc(waitLine())+(job.session?.startedAt ? ' Started '+esc(when(job.session.startedAt))+'.' : '')+' You can close this tab: it carries on.'+ses+'</p>' : '';
     const bar = starting === 'finals' ? '<div class="pb-bar"><span>Starting Claude Code for the pilot…</span></div>' : confirm ? confirmBar() : '<div class="pb-bar"><span>Picks made in the Variety Pack?</span><span class="pb-muted">Claude reads them from that page and builds a pilot of the first 60 to 90 seconds for you to watch.</span><button type="button" class="pb-go" id="pb-continue">Continue · build the pilot →</button></div>';
     const pr = job.packRecord || {}, ticked = Number.isFinite(pr.preticked) && pr.preticked > 0 ? ' '+pr.preticked+' designs you approved on earlier videos are already ticked'+(Number.isFinite(pr.fresh) ? '; you decide the '+pr.fresh+' new ones' : '')+'. Untick any you do not want.' : '';
-    const packLink = job.packUrl && !['finishing','pilot','review','ask','thumbs','posts','final'].includes(job.status) && !failedLater() ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open the Variety Pack ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'">'+(copied === 'url:'+job.packUrl ? 'Copied' : 'Copy the link')+'</button></p>'+extHtml()+(canContinue() && !job.pack?.platforms?.length ? bar : '') : '';
+    const packLink = job.packUrl && !['finishing','pilot','review','ask','thumbs','posts','final'].includes(job.status) && !failedLater() ? '<p class="pb-queue"><b>'+(job.reusedFrom ? 'Using your earlier Variety Pack.' : 'Your Variety Pack is ready.')+'</b> '+(job.reusedFrom ? 'Nothing was rebuilt: your picks on that page carry over. Check them there, then come back and press Continue.' : 'It opens as its own page: make your picks there, then come back and press Continue.')+esc(ticked)+' <a class="pb-go pb-packgo" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open the Variety Pack ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'"'+M.done('url:'+job.packUrl, copied === 'url:'+job.packUrl)+'>'+M.label(copied === 'url:'+job.packUrl, 'Copy the link', 'Copied')+'</button></p>'+extHtml()+(canContinue() && !job.pack?.platforms?.length ? bar : '') : '';
     return head+packLink;
   }
   // The Variety Pack once it is behind Taylor: one reference line inside "How it was made".
-  const packRef = () => job.packUrl && !(job.packUrl && !['finishing','pilot','review','ask','thumbs','posts','final'].includes(job.status) && !failedLater()) ? '<p class="pb-meta">Variety Pack '+(job.packRecord?.round ? 'round '+esc(job.packRecord.round)+' ' : '')+'· <a class="pb-link" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open it ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'">'+(copied === 'url:'+job.packUrl ? 'Copied' : 'Copy the link')+'</button></p>'+extHtml() : '';
+  const packRef = () => job.packUrl && !(job.packUrl && !['finishing','pilot','review','ask','thumbs','posts','final'].includes(job.status) && !failedLater()) ? '<p class="pb-meta">Variety Pack '+(job.packRecord?.round ? 'round '+esc(job.packRecord.round)+' ' : '')+'· <a class="pb-link" href="'+esc(job.packUrl)+'" target="_blank" rel="noopener noreferrer" data-ext>Open it ↗</a> <button type="button" class="pb-link pb-copyurl" data-copy-url="'+esc(job.packUrl)+'"'+M.done('url:'+job.packUrl, copied === 'url:'+job.packUrl)+'>'+M.label(copied === 'url:'+job.packUrl, 'Copy the link', 'Copied')+'</button></p>'+extHtml() : '';
   // The stage list (7 November 2026, action first): below the decision, folded into "How it was made", closed whenever
   // there is something for Taylor to do or the job is final, open while a session is working.
   const working = () => !!starting || ['starting','running','finishing'].includes(job?.status);
@@ -415,7 +416,7 @@
   function stageList() {
     const list = job.stages || [], wl = packRef()+workLine();
     if (!list.length && !wl) return '';
-    const items = list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(/^fail/.test(s.state || '') ? 'failed' : s.state || 'wait')+'"><span class="pb-st-dot" aria-hidden="true"></span><b>'+esc(s.name)+'</b><small>'+esc(stageDetail(s))+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '';
+    const items = list.length ? '<ol>'+list.map(s => '<li class="is-'+esc(/^fail/.test(s.state || '') ? 'failed' : s.state || 'wait')+'"'+M.stage('job:'+job.id, s)+'><span class="pb-st-dot" aria-hidden="true"></span><b>'+esc(s.name)+'</b><small>'+esc(stageDetail(s))+'</small><time>'+(s.state === 'done' ? elapsed(s.startedAt, s.endedAt) : s.state === 'run' ? 'running '+elapsed(s.startedAt) : '')+'</time></li>').join('')+'</ol>' : '';
     const done = list.filter(s => s.state === 'done').length;
     return '<details class="pb-stages pb-made"'+(hasAction() ? '' : ' open')+'><summary><span>How it was made</span><small>'+(list.length ? done+' of '+list.length+' step'+(list.length === 1 ? '' : 's')+' done' : '')+'</small></summary>'+wl+items+'</details>';
   }
@@ -579,7 +580,7 @@
     return t && window.WWX ? '<a class="pb-link pb-xopen" href="'+esc(window.WWX.intent(t))+'" target="_blank" rel="noopener noreferrer">Open X with '+(chosenPost(pl).kind === 'thread' ? 'post 1' : 'this post')+' ↗</a>' : ''; };
   const copyBtns = pl => { const v = chosenPost(pl); if (!v) return '';
     return parts(pl, v).map(([part, label]) => { const key = pl.key+'|'+part, off = !partText(key);
-      return '<button type="button" class="pb-go pb-cp" data-copy-part="'+esc(key)+'"'+(off ? ' disabled' : '')+'>'+(copied === key ? 'Copied' : 'Copy the '+esc(PLATFORMS[pl.key] || pl.key)+' '+label)+'</button>'; }).join('')+xOpen(pl); };
+      return '<button type="button" class="pb-go pb-cp" data-copy-part="'+esc(key)+'"'+(off ? ' disabled' : '')+M.done(key, copied === key)+'>'+M.label(copied === key, 'Copy the '+esc(PLATFORMS[pl.key] || pl.key)+' '+label, 'Copied')+'</button>'; }).join('')+xOpen(pl); };
   const hasX = () => plats().some(pl => pl.key === 'x' && pl.posts?.length);
   const ytStatus = () => { const d = ytDraft ?? job?.youtubeUrl ?? ''; return !String(d).trim() ? 'Post the YouTube video first, then paste its link here.' : !ytUrl(d) ? 'That is not a YouTube video link.' : ytUrl(d) === job?.youtubeUrl ? (hasX() ? 'Saved. The LinkedIn first comment and the X reply use it.' : 'Saved. The first comment uses it.') : 'Not saved yet.'; };
   function ytField() {
@@ -653,7 +654,7 @@
     return list.length ? '<div class="pb-readyjobs" role="group" aria-label="Ready to post by hand"><span class="micro">Ready to post by hand</span>'+list.map(j => '<button type="button" class="pb-link" data-open-job="'+esc(j.id)+'">'+esc(j.title || j.folderName || 'Job '+j.id)+(j.readyAt ? ' · '+esc(when(j.readyAt)) : '')+'</button>').join('')+'</div>' : '';
   }
   // The lanes: the same plain text tabs with the thin dark underline, one size down. Never a sixth top-level tab.
-  const laneTabs = lane => '<nav class="pb-lanes" aria-label="Publish lanes"><a href="#/publish"'+(lane === 'video' ? ' aria-current="page"' : '')+'>Video</a><a href="#/publish/reels"'+(lane === 'reels' ? ' aria-current="page"' : '')+'>Reels</a></nav>';
+  const laneTabs = lane => '<nav class="pb-lanes" aria-label="Publish lanes"><a href="#/publish"'+(lane === 'video' ? ' aria-current="page"'+M.attr('pb-lane', 'draw') : '')+'>Video</a><a href="#/publish/reels"'+(lane === 'reels' ? ' aria-current="page"'+M.attr('pb-lane', 'draw') : '')+'>Reels</a></nav>';
   const reelsLane = () => /^#\/publish\/reels(\/|$)/.test(location.hash);
   // A Video job's reel job, if one started from its main recording (read from reels/<id>.jobId; nothing is stored on the job).
   // Path B (decision 9 to 11): the reels made from this video's phone take say so, with the reason in one line. A job whose
@@ -725,10 +726,23 @@
     if (s === 'failed') return 'This job stopped. Nothing was posted; what it made so far is kept.';
     return 'Drive links in, posts out.';
   }
+  // Motion (motion.js). This function rewrites the whole screen on every database snapshot and on a 15 second timer, so
+  // nothing here may animate because it was drawn: the content settles only when the view on screen changed (lane, list,
+  // job or reel job, read from the route), the lane underline draws only when the lane changed, and a stage bar only
+  // when its stage did. Everything else is drawn finished.
+  let viewKey = null, laneKey = null;
+  function moved() {
+    const b = location.hash.slice(1).split('/').filter(Boolean), ln = b[1] === 'reels' ? 'reels' : 'video';
+    const key = ln === 'reels' ? 'reels/'+(b[2] || '') : b[1] === 'all' || b[1] === 'new' ? b[1] : b[1] === 'job' && b[2] ? 'job/'+b[2] : 'auto';
+    if (key !== viewKey && viewKey !== null && !M.arriving(root)) { if (ln !== laneKey) M.stamp('pb-lane'); M.enter(root, 'lane'); }
+    viewKey = key; laneKey = ln;
+  }
   function render() {
     if (root.hidden) return;
+    moved();
     if (reelsLane()) { window.WWReels?.render(root); return; }
     readRoute();
+    if (job) M.stages('job:'+job.id, job.stages, M.arriving(root));
     if (view === 'all' || (view === 'job' && !job)) {
       root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · ALL VIDEOS</div><h1 id="pb-heading">'+(view === 'all' ? 'Your videos' : 'This video')+'</h1><p>Open a video to carry on where it stopped, or start a new one.</p></div></div>'+backBar(view === 'all' ? '' : undefined)+laneTabs('video')+
         (view === 'all' ? (connecting ? '<p class="pb-empty">Loading…</p>' : allHtml()) : '<div class="pb-warn" role="status">'+(connecting ? 'Loading…' : db ? 'This video isn’t in the app’s database. <a href="#/publish/all">All videos</a>' : 'Publish jobs are saved in the app’s database, which this preview does not have.')+'</div>');
@@ -738,7 +752,7 @@
     const t = job && topics().concat(window.WWIdeas?.data?.topics || []).find(x => x.id === job.topicId);
     root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · DRIVE LINKS IN, POSTS OUT</div><h1 id="pb-heading">'+esc(job ? jobTitle(job) : 'Publish a video')+'</h1>'+(t && norm(t.title) !== norm(jobTitle(job)) ? '<p class="pb-topicline">Topic: '+esc(t.title)+'</p>' : '')+'<p class="pb-lede">'+esc(lede())+'</p></div>'+
       '</div>'+(job ? backBar('<button type="button" class="pb-go pb-newvid" id="pb-new">Start a new video</button>') : jobs.length ? backBar('') : '')+laneTabs('video')+steps()+
-      (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'">'+(copied === 'run' ? 'Copied' : 'Copy the line')+'</button></p>' : '')+'</div>' : '')+
+      (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'"'+M.done('run', copied === 'run')+'>'+M.label(copied === 'run', 'Copy the line', 'Copied')+'</button></p>' : '')+'</div>' : '')+
       (!job || job.status === 'new' ? readyJobs()+intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : plural((job.sources || []).length, 'file'))+' · started '+esc(when(job.createdAt))+'</p>'+reelsLine()+
         // Action first (7 November 2026): the decision or picks at the top, the stage list folded below them.
         (job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : job.status === 'ask' ? askHtml() : job.status === 'thumbs' ? thumbsStop() : '')+stages()+
@@ -842,7 +856,7 @@
     try { await db.doc('jobs/'+id).set(doc); job = doc; jobs = [doc, ...jobs.filter(x => x.id !== id)]; resetIntake(); go('#/publish/job/'+encodeURIComponent(id)); if (start) await startSession(doc, 'pack'); else root.querySelector('#pb-heading')?.focus(); }
     catch (err) { note = 'Could not start the job ('+(err?.code || 'error')+').'; render(); }
   }
-  async function copy(text, key) { try { await navigator.clipboard.writeText(text); copied = key; } catch { note = 'Copy was blocked by the browser. Select the text and copy it instead.'; } render(); setTimeout(() => { copied = ''; render(); }, 2000); }
+  async function copy(text, key) { try { await navigator.clipboard.writeText(text); copied = key; M.stamp('on:'+key); } catch { note = 'Copy was blocked by the browser. Select the text and copy it instead.'; } render(); setTimeout(() => { if (copied === key) { M.stamp('off:'+key); copied = ''; } render(); }, 1800); }
   async function load() {
     try { await window.WWStore?.connect(); db = window.WWStore?.db?.() || null; } catch { db = null; }
     connecting = false;
