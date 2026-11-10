@@ -184,7 +184,7 @@ class CheckPicks(unittest.TestCase):
         errs = self.cp.check(month)
         self.assertTrue(any('30' in e and 'day rows' in e for e in errs), errs)
         rows = '\n'.join(f'| Mon {d} | Video {d} | T1 |' for d in range(30))
-        full = month.replace('| Mon | Fable 5.2', rows + '\n| Mon | Fable 5.2', 1)
+        full = month.replace('| Mon | Fable 5.2', rows + '\n| Mon | Fable 5.2', 1).replace('any of the 7', 'any of the 30')
         self.assertEqual(self.cp.check(full), [])
 
     def test_twitter_row_needs_link(self):

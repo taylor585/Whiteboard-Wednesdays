@@ -18,7 +18,7 @@ Checks (v5, three engines):
      "**Creators researched:**" are present.
   6. Nothing from the scrub list (client names, private details) appears anywhere. Keep the scrub
      file in the scratchpad: it holds confidential names and must never be committed.
-  7. Ends with "Swap any of the 7 and I'll write the briefs."
+  7. Ends with "Swap any of the 7 and I'll write the briefs." ("...the 30..." for the month run).
 Prints BLOCKING lines and exits 1 on any failure.
 """
 import argparse
@@ -103,8 +103,9 @@ def check(text, locked_titles=(), scrub=()):
     for w in scrub:
         if w and w.lower() in low:
             errs.append(f'confidential word on the sheet: "{w}"')
-    if not text.rstrip().endswith(END):
-        errs.append(f'must end with "{END}"')
+    end = END.replace('7', '30') if MONTH in text else END
+    if not text.rstrip().endswith(end):
+        errs.append(f'must end with "{end}"')
     return errs
 
 

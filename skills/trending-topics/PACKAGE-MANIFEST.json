@@ -109,8 +109,8 @@
     },
     {
       "path": "references/giants.json",
-      "sha256": "ed6612b21ed9f33d38dee4bc4ffa406f48d74afc2f7caa1049cbfd30bdc4aa71",
-      "bytes": 6225
+      "sha256": "a1f7ce5c7f242806c3edf9677648638beed6daf00df099cf6e7cce9c588241bf",
+      "bytes": 6245
     },
     {
       "path": "references/headlines.md",
@@ -174,8 +174,8 @@
     },
     {
       "path": "scripts/check_picks.py",
-      "sha256": "fdff5b818693463b03a7b46ec83fd309ff3f027554e167aaca9624937c68f81d",
-      "bytes": 6198
+      "sha256": "d79cc3a2683a0b452eec074848dd5259847a944056e82ebc5a0d66461f21404a",
+      "bytes": 6293
     },
     {
       "path": "scripts/index_sessions.py",
@@ -204,8 +204,8 @@
     },
     {
       "path": "tests/test_skill.py",
-      "sha256": "ebe2c03acbd0208afc66865ab0cf4d2b4999a52de6574b54349b25453a745fa2",
-      "bytes": 15828
+      "sha256": "db303ba14ef7cd0947402b77c56e31bd733ab46d8adc2d2798d0d6b5f5d5daf8",
+      "bytes": 15869
     }
   ]
 }

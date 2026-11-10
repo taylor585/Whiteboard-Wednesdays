@@ -57,9 +57,9 @@
   "paid_media": [
     {
       "name": "Ralph Burns",
-      "handle": null,
+      "handle": "ralphhb",
       "why": "Tier 11 founder; Perpetual Traffic podcast",
-      "x_coverage": "unknown",
+      "x_coverage": "thin",
       "also_read": [
         "https://perpetualtraffic.com/"
       ]
@@ -67,8 +67,8 @@
     {
       "name": "John Moran",
       "handle": null,
-      "why": "Tier 11; Perpetual Traffic co-host",
-      "x_coverage": "unknown",
+      "why": "Tier 11; Perpetual Traffic co-host; X handle unverified",
+      "x_coverage": "thin",
       "also_read": [
         "https://perpetualtraffic.com/"
       ]
