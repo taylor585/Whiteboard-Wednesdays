@@ -1,6 +1,6 @@
 /* Settings, design SE-B Skill library (Taylor, 30 October 2026). */
 #settings{max-width:1600px;margin:auto;padding:48px 4vw;color:var(--ww-ink);font-family:var(--ww-font-body)}
-.se-head h1{margin:10px 0 12px;font:var(--ww-display-weight) var(--ww-size-title)/1 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
+.se-head h1{margin:10px 0 12px;font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
 .se-head p{margin:0;color:var(--ww-muted);max-width:62ch}
 .se-back{display:inline-block;margin-bottom:12px;color:var(--ww-ink);text-underline-offset:4px;font-size:15px}
 .se-lib{display:grid;grid-template-columns:340px minmax(0,1fr);gap:28px;margin-top:28px;align-items:start}
@@ -12,7 +12,7 @@
 #settings .se-card span{color:var(--ww-muted)}
 #settings .se-card[aria-pressed=true]{border-color:var(--ww-ink);box-shadow:inset 3px 0 0 var(--ww-ink);background:var(--ww-highlight)}
 .se-slots{display:flex;flex-direction:column;gap:24px;min-width:0}
-.se-grp h2{margin:0 0 10px;font:var(--ww-display-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding-top:12px;border-top:var(--ww-ledger)}
+.se-grp h2{margin:0 0 10px;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding-top:12px;border-top:var(--ww-ledger)}
 .se-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 #settings .se-job{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;min-height:120px;padding:14px;border:1px dashed var(--ww-field-edge);border-radius:var(--ww-radius-card);background:var(--ww-surface);font-size:13px;min-width:0}
 #settings .se-job[aria-disabled=true]{cursor:default}
@@ -74,7 +74,7 @@
 .se-lanes+.se-gh{margin-top:0;border-top:0}
 /* Posting (direction A "The week", 10 November 2026): the week as the Schedule draws it, then time, mode and platforms. */
 .po{max-width:880px;display:flex;flex-direction:column;gap:36px;margin-top:32px}
-.po-grp h2{margin:0 0 12px;font:var(--ww-display-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.po-grp h2{margin:0 0 12px;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
 .po-grp h2 .micro{margin:0}
 .po-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
 #settings .po-day{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:10px;min-height:104px;padding:10px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);text-align:left}
