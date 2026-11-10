@@ -2,12 +2,16 @@
 @font-face{font-family:WWBody;src:url(ww-body.ttf);font-display:swap}
 @font-face{font-family:WWEditorial;src:url(ww-display.ttf);font-display:swap}
 @font-face{font-family:WWMono;src:url(ww-mono.ttf);font-display:swap}
-/* Brand upgrade faces (10 November 2026), all SIL OFL 1.1, licence texts beside them. Instrument Serif has one weight: never ask it for more than 400. */
-@font-face{font-family:WWSerif;src:url(ww-serif.ttf);font-display:swap;font-weight:400;font-style:normal}
-@font-face{font-family:WWSerif;src:url(ww-serif-italic.ttf);font-display:swap;font-weight:400;font-style:italic}
-@font-face{font-family:WWGeist;src:url(ww-geist.ttf);font-display:swap;font-weight:100 900}
-@font-face{font-family:WWGeistMono;src:url(ww-geist-mono.ttf);font-display:swap;font-weight:100 900}
-/* App chrome tokens: the brand upgrade of 10 November 2026 (Brand A "Brass Rule", type T2 "Launch Editorial", logo L3 "Wednesday Tile").
+/* App screen faces (10 November 2026, Taylor's pick: the L1 "Highlighter" logo and its typography), all SIL OFL 1.1, licence texts beside them.
+   WWSans is the Instrument Sans variable font, so 400, 500, 600 and 700 are drawn weights, never synthesised; WWPlex is IBM Plex Mono in four static weights.
+   WWBody and WWMono above are the single Regular files the decks were approved with: leave them as they are. */
+@font-face{font-family:WWSans;src:url(ww-sans.ttf);font-display:swap;font-weight:400 700;font-stretch:75% 100%;font-style:normal}
+@font-face{font-family:WWSans;src:url(ww-sans-italic.ttf);font-display:swap;font-weight:400 700;font-stretch:75% 100%;font-style:italic}
+@font-face{font-family:WWPlex;src:url(ww-mono.ttf);font-display:swap;font-weight:400;font-style:normal}
+@font-face{font-family:WWPlex;src:url(ww-mono-medium.ttf);font-display:swap;font-weight:500;font-style:normal}
+@font-face{font-family:WWPlex;src:url(ww-mono-semibold.ttf);font-display:swap;font-weight:600;font-style:normal}
+@font-face{font-family:WWPlex;src:url(ww-mono-bold.ttf);font-display:swap;font-weight:700;font-style:normal}
+/* App chrome tokens: the brand upgrade of 10 November 2026 (Brand A "Brass Rule"), with the L1 "Highlighter" logo and its typography Taylor chose the same day.
    Every colour, radius, face and key size the app screens use is named here. White page, ink and gold stay; gold is a measuring mark, never a fill.
    The decks do not use these: they keep --surface, --ink, --accent and --heading, which library.js sets per deck. */
 :root{
@@ -24,10 +28,11 @@
  --ww-ledger:3px double var(--ww-ink);--ww-rule-gold:3px solid var(--ww-gold);
  /* radii: square and hairline. Only true circles (creator avatars, lamps) stay round. */
  --ww-radius-mark:1px;--ww-radius-chip:2px;--ww-radius-control:3px;--ww-radius-media:3px;--ww-radius-badge:2px;--ww-radius-card:3px;--ww-radius-panel:0px;--ww-radius-board:0px;--ww-radius-pill:3px;--ww-radius-round:50%;
- /* faces: serif display (400 only, never bolder), Geist for body and controls, Geist Mono for labels, figures and dates. Caveat stays for the Presentations wall and the Topics board. */
- --ww-font-body:WWGeist,"Helvetica Neue",Arial,sans-serif;--ww-font-display:WWSerif,Georgia,serif;--ww-font-mono:WWGeistMono,ui-monospace,monospace;--ww-font-hand:WWHand,cursive;--ww-display-weight:400;
- /* key sizes */
- --ww-size-title:clamp(44px,5.7vw,72px);--ww-title-track:-.015em;--ww-size-h2:30px;--ww-size-h3:26px;--ww-size-h4:24px;--ww-size-body:17px;--ww-size-micro:11px}
+ /* faces: Instrument Sans for headings, body and controls, IBM Plex Mono for labels, figures and dates. Caveat stays for the Presentations wall and the Topics board.
+    The heading voice is the logo's: page titles and section headings in Regular 400, tightly tracked ("Whiteboard"); card titles, small headings and figures in Bold 700 ("Wednesdays"). */
+ --ww-font-body:WWSans,"Helvetica Neue",Arial,sans-serif;--ww-font-display:WWSans,"Helvetica Neue",Arial,sans-serif;--ww-font-mono:WWPlex,ui-monospace,monospace;--ww-font-hand:WWHand,cursive;--ww-display-weight:400;--ww-strong-weight:700;
+ /* key sizes and tracking */
+ --ww-size-title:clamp(38px,4.4vw,58px);--ww-title-track:-.04em;--ww-head-track:-.03em;--ww-strong-track:-.02em;--ww-size-h2:26px;--ww-size-h3:20px;--ww-size-h4:18px;--ww-size-body:17px;--ww-size-micro:11px}
 :root{--surface:#ffffff;--ink:#1c1a17;--accent:#8b6002;--heading:WWBody;--tint:color-mix(in srgb,var(--accent) 7%,var(--surface));--line:color-mix(in srgb,var(--ink) 17%,var(--surface));--muted:color-mix(in srgb,var(--ink) 75%,var(--surface))}
 *{box-sizing:border-box}body{margin:0;background:var(--surface);color:var(--ink);font:var(--ww-size-body)/1.5 var(--ww-font-body)}button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button{border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);padding:10px 16px;background:var(--surface);color:var(--ink);min-height:44px;cursor:pointer}button:hover{background:var(--tint)}button.primary{background:var(--ink);color:var(--surface);border-color:var(--ink)}button:disabled{opacity:.4;cursor:default}a{color:inherit;text-underline-offset:4px}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:4px}[hidden]{display:none!important}.skip{position:absolute;left:16px;top:-80px;background:var(--surface);padding:16px;z-index:10}.skip:focus{top:8px}
 .site-header{padding:20px 4vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:24px}.site-name{text-decoration:none;font-family:var(--ww-font-body);font-size:18px;line-height:1.05;letter-spacing:-.6px}.site-name b{font-weight:600}.site-name .micro{display:block;font-size:9px;letter-spacing:1.3px;margin-top:9px}.header-actions{display:flex;gap:8px;flex-wrap:wrap}.header-actions button{font-size:13px}.micro{font:var(--ww-size-micro)/1.5 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--muted)}

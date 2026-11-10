@@ -5,7 +5,7 @@
 #topics :focus-visible,#tp-pick-dialog :focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
 #topics .tp-dark{background:var(--ww-ink);border-color:var(--ww-ink);color:var(--ww-on-ink)}
 .tp-head{display:flex;gap:24px;justify-content:space-between;align-items:flex-end;flex-wrap:wrap}
-.tp-head h1{margin:10px 0 12px;font:var(--ww-display-weight) var(--ww-size-title)/1 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
+.tp-head h1{margin:10px 0 12px;font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
 .tp-head h1 em{font-style:normal;color:inherit}
 .tp-head p{margin:0;color:var(--ww-muted);max-width:60ch}
 .tp-weeknav-links{display:flex;gap:4px 16px;flex-wrap:wrap}
@@ -18,7 +18,7 @@
 .tp-pill-recorded{background:var(--ww-stage);border-color:var(--ww-muted)}
 .tp-pill-edited{background:var(--ww-ink);border-color:var(--ww-ink);color:var(--ww-on-ink)}
 .tp-pill-posted{background:var(--ww-surface);border-color:var(--ww-ink);color:var(--ww-ink)}
-.tp-sub{margin:36px 0 12px;font:var(--ww-display-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);padding-top:12px;border-top:var(--ww-ledger)}
+.tp-sub{margin:36px 0 12px;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);padding-top:12px;border-top:var(--ww-ledger)}
 .tp-unscheduled{display:flex;flex-direction:column}
 .tp-card{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--ww-line)}
 .tp-card.is-selected{border-bottom-color:var(--ww-ink);box-shadow:0 1px 0 var(--ww-ink)}
@@ -30,7 +30,7 @@
 .tp-field textarea,.tp-point-body textarea{min-height:0;resize:vertical;line-height:1.45}
 .tp-empty,.tp-muted{color:var(--ww-muted);font-size:14px}
 .tp-panel{position:sticky;top:16px;border:1px solid var(--ww-ink);border-top:var(--ww-ledger);border-radius:0;padding:20px;display:flex;flex-direction:column;gap:14px;max-height:calc(100vh - 32px);overflow:auto}
-.tp-panel-empty h2{margin:0 0 6px;font:var(--ww-display-weight) var(--ww-size-h2)/1.2 var(--ww-font-display)}.tp-panel-empty p{margin:0;color:var(--ww-muted)}
+.tp-panel-empty h2{margin:0 0 6px;font:var(--ww-display-weight) var(--ww-size-h2)/1.2 var(--ww-font-display);letter-spacing:var(--ww-head-track)}.tp-panel-empty p{margin:0;color:var(--ww-muted)}
 .tp-panel-head{display:flex;justify-content:space-between;align-items:center}
 #topics .tp-close{min-height:44px;min-width:44px;padding:0;border:0;font-size:24px;line-height:1}
 .tp-field{display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--ww-muted)}
@@ -76,11 +76,11 @@
 #topics .tp-follow button{min-height:44px;border-radius:var(--ww-radius-chip);padding:4px 10px;font-size:13px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #topics .tp-follow button[aria-pressed=true]{background:var(--ww-ink);color:var(--ww-on-ink);border-color:var(--ww-ink)}
 /* Big calendar (S2-B): one row per week, five day columns, full cards. */
-.tp-span{margin:0;font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:-.01em}
+.tp-span{margin:0;font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
 .tp-cal{display:flex;flex-direction:column;margin-top:20px;border-top:var(--ww-ledger)}
 .tp-wk{display:grid;grid-template-columns:96px repeat(var(--tp-cols,5),minmax(0,1fr));border-bottom:1px solid var(--ww-line)}
 .tp-wkl{display:flex;flex-direction:column;gap:2px;padding-top:10px}
-.tp-wkl b{font:italic 400 26px/1.05 var(--ww-font-display)}
+.tp-wkl b{font:var(--ww-strong-weight) 20px/1.1 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
 .tp-wk.is-this .tp-wkl b{color:var(--ww-gold)}
 .tp-day{display:flex;flex-direction:column;gap:6px;min-height:140px;padding:10px;border-left:1px solid var(--ww-line);transition:opacity var(--m-ui) linear}
 .tp-day.is-past{opacity:.72}.tp-day.is-past .tp-dayn,.tp-day.is-past .tp-ev-job,.tp-day.is-past .tp-ev-after{color:var(--ww-ink)}.tp-day.is-past .tp-ev-record :is(.tp-ev-job,.tp-ev-after){color:var(--ww-on-ink)}

@@ -1,5 +1,5 @@
-.site-header,.tabs-wrap{background:var(--ww-surface);color:var(--ww-ink)}.site-header button{background:var(--ww-surface);color:var(--ww-ink);border-color:var(--ww-field-edge)}.tabs-wrap{padding:0 4vw;border-bottom:1px solid var(--ww-line)}.tabs-wrap nav{display:flex;gap:24px;overflow-x:auto;scrollbar-width:thin}.tabs-wrap button{white-space:nowrap;border:0;border-radius:0;background:var(--ww-surface);color:var(--ww-ink);border-bottom:3px solid transparent;padding:18px 4px}.tabs-wrap button[aria-selected=true]{border-bottom-color:var(--ww-gold)}.tabs-hint{font:11px var(--ww-font-mono);display:block;padding:8px 0}.library-heading{display:flex;justify-content:space-between;align-items:center;gap:32px;padding:56px 0 40px}.library-heading h1{font:var(--ww-display-weight) var(--ww-size-title)/1 var(--ww-font-display);letter-spacing:var(--ww-title-track);margin:10px 0 14px}.library-heading h1 em{color:inherit;font-style:normal}.library-heading img{width:112px;height:112px}.library-heading p{max-width:460px}#message{padding:64px 0;min-height:50vh}#brand-preview{color:var(--accent)}body.presentation .tabs-wrap{display:none}.asset-error{padding:16px;border:1px solid var(--line);font-size:14px}.asset-error a{display:block}.connector{height:48px}.site-header .micro{color:var(--ww-muted)}
-@media(max-width:640px){.tabs-wrap{padding:0 20px}.library-heading{padding:32px 0;align-items:start;gap:16px}.library-heading img{width:76px;height:76px}.library-heading h1{font-size:44px}.under-controls{align-items:start}.library-heading p{font-size:16px}}
+.site-header,.tabs-wrap{background:var(--ww-surface);color:var(--ww-ink)}.site-header button{background:var(--ww-surface);color:var(--ww-ink);border-color:var(--ww-field-edge)}.tabs-wrap{padding:0 4vw;border-bottom:1px solid var(--ww-line)}.tabs-wrap nav{display:flex;gap:24px;overflow-x:auto;scrollbar-width:thin}.tabs-wrap button{white-space:nowrap;border:0;border-radius:0;background:var(--ww-surface);color:var(--ww-ink);border-bottom:3px solid transparent;padding:18px 4px}.tabs-wrap button[aria-selected=true]{border-bottom-color:var(--ww-gold)}.tabs-hint{font:11px var(--ww-font-mono);display:block;padding:8px 0}.library-heading{display:flex;justify-content:space-between;align-items:center;gap:32px;padding:56px 0 40px}.library-heading h1{font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track);margin:10px 0 14px}.library-heading h1 em{color:inherit;font-style:normal}.library-heading img{width:112px;height:112px}.library-heading p{max-width:460px}#message{padding:64px 0;min-height:50vh}#brand-preview{color:var(--accent)}body.presentation .tabs-wrap{display:none}.asset-error{padding:16px;border:1px solid var(--line);font-size:14px}.asset-error a{display:block}.connector{height:48px}.site-header .micro{color:var(--ww-muted)}
+@media(max-width:640px){.tabs-wrap{padding:0 20px}.library-heading{padding:32px 0;align-items:start;gap:16px}.library-heading img{width:76px;height:76px}.library-heading h1{font-size:38px}.under-controls{align-items:start}.library-heading p{font-size:16px}}
 .tabs-wrap{position:sticky;top:0;z-index:5}
 
 /* Clean underline navigation selected by Taylor, 12 October 2026. */
@@ -8,9 +8,9 @@
 .app-nav a[aria-current=page]{color:var(--ww-ink)}
 .app-nav a:hover{color:var(--ww-ink)}
 .app-nav a:focus-visible{outline:3px solid var(--ww-gold);outline-offset:4px}
-.tabs-wrap{position:static}.ideas-intro{padding:56px 0;max-width:640px}.ideas-intro h1{font:var(--ww-display-weight) var(--ww-size-title)/1 var(--ww-font-display);letter-spacing:var(--ww-title-track);margin:20px 0}.ideas-intro p{color:var(--ww-muted)}.ideas-connection{margin-top:36px;padding-top:24px;border-top:var(--ww-ledger);font-weight:600}
+.tabs-wrap{position:static}.ideas-intro{padding:56px 0;max-width:640px}.ideas-intro h1{font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track);margin:20px 0}.ideas-intro p{color:var(--ww-muted)}.ideas-connection{margin-top:36px;padding-top:24px;border-top:var(--ww-ledger);font-weight:600}
 body.presentation .app-nav{display:none}
-@media(max-width:640px){.app-nav{padding:0 20px;gap:24px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}.app-nav::-webkit-scrollbar{display:none}.app-nav a{flex:none;white-space:nowrap;padding:16px 0;font-size:16px}.ideas-intro{padding:36px 0}.ideas-intro h1{font-size:44px}}
+@media(max-width:640px){.app-nav{padding:0 20px;gap:24px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}.app-nav::-webkit-scrollbar{display:none}.app-nav a{flex:none;white-space:nowrap;padding:16px 0;font-size:16px}.ideas-intro{padding:36px 0}.ideas-intro h1{font-size:38px}}
 @media print{.app-nav{display:none}}
 
 /* Whiteboard wall (L2-C). Handwriting only on the group titles and marker notes. */
@@ -37,7 +37,7 @@ body.presentation .app-nav{display:none}
 .ptitle{font:600 14px/1.25 var(--ww-font-body);letter-spacing:-.005em}
 .wall-card{margin:20px 0 40px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;padding:18px 0 0;border-top:var(--ww-ledger)}.wall-card:empty{display:none}
 .wall-card img{width:100%;aspect-ratio:4/3;object-fit:contain;background:var(--ww-surface);box-shadow:0 0 0 1px var(--ww-line)}
-.wall-card h2{margin:4px 0 6px;font:var(--ww-display-weight) clamp(28px,2.8vw,36px)/1.1 var(--ww-font-display);letter-spacing:-.01em}
+.wall-card h2{margin:4px 0 6px;font:var(--ww-strong-weight) clamp(22px,2.1vw,27px)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
 .wall-card p{margin:0;max-width:60ch;color:var(--ww-muted)}
 .wall-actions{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-top:14px}
 .wall-actions .present{display:inline-block;padding:12px 20px;background:var(--ww-ink);color:var(--ww-on-ink);border-radius:var(--ww-radius-control);text-decoration:none}
@@ -58,14 +58,14 @@ body.presentation .app-nav{display:none}
    From 768px the untouched official coin sits after a hairline, 40px. On phones it stays on the Presentations heading and signs the foot of each screen. */
 .site-brand{display:flex;align-items:center;gap:20px;min-width:0}
 .site-name{display:block;line-height:0;flex:none}
-.site-logo{display:block;height:60px;width:auto}
+.site-logo{display:block;height:60px;width:auto;margin-left:-3px}.site-mark{display:none;width:42px;height:42px}
 .site-name-text{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .site-rule{flex:none;width:1px;height:40px;background:var(--ww-line)}
 .site-coin{flex:none;display:block;width:40px;height:40px}
 .site-foot{display:none}
 @media(max-width:767px){.site-rule,.site-coin{display:none}.site-foot{display:flex;justify-content:center;padding:4px 0 28px}.site-foot img{display:block;width:28px;height:28px}
  body.presentation .site-foot,body:has(#player:not([hidden])) .site-foot{display:none}}
-@media(max-width:640px){.site-header{align-items:center}.site-name{min-width:0}.site-logo{height:42px}
+@media(max-width:640px){.site-header{align-items:center}.site-name{min-width:0}.site-logo{height:48px;margin-left:-2px}
  /* When a deck's buttons share the row there is no room for the words: the tile stands alone. */
- .site-header:has(.header-actions button:not([hidden])) .site-logo{width:42px;object-fit:cover;object-position:left}}
+ .site-header:has(.header-actions button:not([hidden])) .site-logo{display:none}.site-header:has(.header-actions button:not([hidden])) .site-mark{display:block}}
 @media print{.site-foot{display:none}}
