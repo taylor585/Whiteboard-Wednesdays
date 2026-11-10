@@ -1,0 +1,17 @@
+[
+ {"text": "", "n": 0, "why": "empty"},
+ {"text": "Most people open AI and freeze.", "n": 31, "why": "plain ASCII counts 1 each"},
+ {"text": "Line one\nLine two", "n": 17, "why": "a line break counts 1"},
+ {"text": "Watch it: https://www.youtube.com/watch?v=6t7FzrHykfA", "n": 33, "why": "a link counts 23 whatever its length"},
+ {"text": "Watch it: https://youtu.be/6t7FzrHykfA.", "n": 34, "why": "the full stop after a link is not part of it"},
+ {"text": "Full video: [YOUTUBE LINK]", "n": 35, "why": "the placeholder counts as the link it becomes"},
+ {"text": "See pecunafactorem.com/contact today", "n": 33, "why": "X also turns a bare domain into a link"},
+ {"text": "Start here 👉", "n": 13, "why": "an emoji counts 2"},
+ {"text": "👨‍👩‍👧‍👦", "n": 2, "why": "a joined emoji sequence counts 2"},
+ {"text": "👍🏽 🇬🇧 1️⃣", "n": 8, "why": "skin tone, flag and keycap sequences count 2 each"},
+ {"text": "Ask → answer…", "n": 15, "why": "arrows and the ellipsis character count 2"},
+ {"text": "Don’t guess — ask “why”", "n": 23, "why": "curly quotes and dashes count 1"},
+ {"text": "cafe\u0301", "n": 4, "why": "decomposed accents are measured after NFC"},
+ {"text": "日本語", "n": 6, "why": "Chinese, Japanese and Korean count 2"},
+ {"text": "£100 for 10% more", "n": 17, "why": "the pound sign counts 1"}
+]

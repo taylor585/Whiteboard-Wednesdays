@@ -77,6 +77,7 @@
 #vault .va-toggle{align-self:flex-start;min-height:44px;padding:0 2px;border:0;background:none;font-size:14px;color:#1c1a17;text-decoration:underline;text-underline-offset:4px}
 .va-fc{display:flex;flex-direction:column;gap:2px;padding-top:12px;border-top:1px solid #d8d5cf}
 .va-fc p{margin:0;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+.va-xr p{white-space:pre-wrap}
 .va-fc .va-act{justify-content:flex-start}
 #vault .va-fc .va-toggle{color:#5c5750}
 .va-copy>.va-act{margin-top:auto;justify-content:space-between}

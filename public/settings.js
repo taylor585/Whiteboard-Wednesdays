@@ -35,7 +35,8 @@
     ['Google Drive','Publish reads your Drive links. Full-quality finals go to “Whiteboard Wednesdays finals” in your Drive once the one-time Drive set-up is in the environment settings (PUBLISH.md, Full-quality delivery).','Reading: links shared “Anyone with the link”. Uploading: needs the one-time set-up',true],
     ['Claude Code','Runs each Publish job: the edit, the thumbnails and the posts, and the reel highlight pack.','Asks you once, the first time you press Generate',false],
     ['YouTube','Uploads for the Creator watchlist, and posting.','Not connected',true],
-    ['LinkedIn and Instagram','Posting from Post all.','Not connected',true]];
+    ['LinkedIn and Instagram','Posting from Post all.','Not connected',true],
+    ['X','Posting from Post all. Until then, Open X on Publish fills in the post for you to post yourself.','Not connected',true]];
   // The booking link (settings/links). A placeholder, a bare word or anything that is not https is refused.
   const bookingProblem = v => { v = String(v || '').trim(); if (!v) return 'Paste your booking link.'; if (/[\[\]{}<>\s]/.test(v)) return 'That looks like a placeholder, not a link. Paste the real booking page address.';
     let u; try { u = new URL(v); } catch { return 'That is not a link. It should start with https://'; }
