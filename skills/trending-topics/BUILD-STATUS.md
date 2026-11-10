@@ -1,4 +1,6 @@
-# Trending Topics v4 build status
+# Trending Topics v5 build status
+
+Version 5.0.0, 10 November 2026: the Twitter engine (last 10 posts of 30 giants by web search, tested live on 10 Nov: 279 posts, 29 of 30 giants found), three engines in order and the 7-day plan for the Sunday run. Open: no like counts from search; most paid-media giants are thinly indexed on X.
 
 Version 4.0.0, 19 October 2026: Table One: Your own work and Table Two: Ideas from creators, the topic register, the session indexer, the pick sheet gate and the version check. Version 3.1.0 (19 October) first split the two tables. Version 3.0.0 was rebuilt creators-first on 17 October 2026 in the shared cloud workspace (v2.0.0 was 13 October).
 

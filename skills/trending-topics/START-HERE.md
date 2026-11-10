@@ -1,12 +1,12 @@
-# Start using Trending Topics v4
+# Start using Trending Topics v5
 
 Say this to Claude Code:
 
-> Use Trending Topics. Give me this week's two tables: our own work from the last 30 days, and what our creators have proven.
+> Use Trending Topics. Sunday run: give me next week's 7 videos.
 
-When the pick sheet arrives, reply with your three, from either table:
+When the pick sheet arrives, swap any day you don't like, then:
 
-> Lock in A1 and C2. Plan the week.
+> Lock them in. Write the briefs.
 
 Or lock your own title at any time:
 
@@ -18,7 +18,17 @@ After recording:
 
 That marks it recorded, so it never comes back as a suggestion.
 
-Table One comes from reading every session, repo and skill from the last 30 days; Table Two from the creators' breakout videos. Once you pick, you get a week overview and three Trending Topic Briefs in the chat. Each brief has a READ BEFORE YOU RECORD block at the top: read it, open what it lists, and record. Each brief ends with PACKAGING: three titles to A/B test, a thumbnail line for each, and the description.
+Every Sunday:
+
+> Sunday run: plan next week's 7 videos.
+
+You get **This week: 7 videos** (one per day, Monday to Sunday) drawn from three engines: 1. Twitter engine (the last 10 X posts of 30 AI and paid-media giants), 2. My work engine (every session, repo and skill from the last 30 days), 3. YouTube engine (the creators' breakout videos). Swap any day, then you get a Trending Topic Brief for each in the chat.
+
+To study one giant:
+
+> Study Karpathy's last 10 posts.
+
+Each brief has a READ BEFORE YOU RECORD block at the top: read it, open what it lists, and record. Each brief ends with PACKAGING: three titles to A/B test, a thumbnail line for each, and the description.
 
 Other things you can ask:
 
@@ -39,8 +49,8 @@ python3 tests/test_skill.py
 python3 scripts/check_brief.py examples/harness-brief.md
 ```
 
-Table One uses Claude Code's session tools and GitHub; if those are missing, the skill reads local transcripts or asks you for a short note of what we did on the topic.
+My work engine uses Claude Code's session tools and GitHub; if those are missing, the skill reads local transcripts or asks you for a short note of what we did on the topic.
 
 ## Install on claude.ai
 
-Upload `trending-topics.skill` in Settings > Capabilities > Skills. The scanner needs network access to YouTube; Table One works best in Claude Code.
+Upload `trending-topics.skill` in Settings > Capabilities > Skills. The scanner needs network access to YouTube; My work engine works best in Claude Code.

@@ -1,4 +1,4 @@
-# Trending Topics v4
+# Trending Topics v5
 
 A Claude Code skill that finds Whiteboard Wednesdays video topics in two separate tables: our own work (every Claude Code session, GitHub repo and skill from the last 30 days) and what our creator list has already proven (each creator's breakout videos). It scores each table with its own rubric, then writes record-ready Trending Topic Briefs with titles and descriptions for the topics Taylor picks.
 
@@ -17,7 +17,7 @@ trending-topics/
   scripts/                 scan_creators.py, index_sessions.py, topics.py, check_picks.py,
                            check_brief.py, version_check.py, build_manifest.py
   tests/                   offline tests
-  examples/                gold brief, pick sheets (v2, v3, v4 two tables), first scan
+  examples/                gold brief, pick sheets (v2, v3, v4 two tables, v5 three engines), a giant study, first scan
 ```
 
 ## Commands
@@ -32,7 +32,7 @@ python3 scripts/scan_creators.py --out <dir> --no-ytdlp           # RSS only
 python3 scripts/version_check.py                       # is this copy the newest?
 python3 scripts/topics.py list                         # locked, planned, recorded titles
 
-# Table One: index every session from saved list_sessions pages, then read each group with an agent
+# My work engine: index every session from saved list_sessions pages, then read each group with an agent
 python3 scripts/index_sessions.py --out <dir> --days 30 --exclude <this session id> page1.txt page2.txt
 
 # Lock, plan, record
@@ -67,5 +67,5 @@ python3 scripts/build_manifest.py
 ## Data sources
 
 - Creators (topics): public YouTube channel RSS and listings. No API key needed.
-- Our work (Table One and talking points): Claude Code remote session tools (`list_sessions`, `list_events`), GitHub (`list_repos`, read-only clones) and the synced skills manifest.
+- Our work (My work engine and talking points): Claude Code remote session tools (`list_sessions`, `list_events`), GitHub (`list_repos`, read-only clones) and the synced skills manifest.
 - Packaging research: the thumbnail-tracker skill's study of Nick Saraev, Sabri Suby and Riley Brown, summarised in `references/research-findings.md`.

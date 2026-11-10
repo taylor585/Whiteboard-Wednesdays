@@ -1,5 +1,13 @@
 # Trending Topics releases
 
+## 5.0.0 — 10 November 2026
+
+- **Three engines, in this order:** 1. Twitter engine, 2. My work engine (was Table One), 3. YouTube engine (was Table Two).
+- **The Twitter engine.** It studies the last 10 X posts of 15 AI giants and 15 paid-media giants (`references/giants.json`, with handles verified on 10 Nov), using web search only. `scripts/x_posts.py` dates every post from its X ID, keeps the 10 newest per giant and lists anyone with nothing found. Part T scoring: spread ×3 · fresh ×2 · fit ×2 · proof · promise · open.
+- **7 videos a week.** The pick sheet now opens with "This week: 7 videos", one per day, Monday to Sunday, for the Sunday run. `check_picks.py` checks the 7 days, the three engines in order, a link on every Twitter row and the "Giants researched" line.
+- **New modes:** Study a giant ("study Karpathy's last 10 posts") and Giants (swap people in or out).
+- Learned from the 10 Nov test: the AI giants are well indexed and most paid-media giants are not, so for those the engine also reads their blogs, podcasts and YouTube. Search results rarely show likes, so Twitter rows score on spread, not engagement.
+
 ## 4.0.0 — 19 October 2026
 
 Everything learned while picking weeks 42 and 43, built in. See `references/research-findings.md` §10.

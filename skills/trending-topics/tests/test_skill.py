@@ -153,7 +153,7 @@ def load(name):
     return mod
 
 
-PICKS = os.path.join(ROOT, 'examples', 'picks-two-tables.md')
+PICKS = os.path.join(ROOT, 'examples', 'picks-three-engines.md')
 
 
 class CheckPicks(unittest.TestCase):
@@ -165,9 +165,28 @@ class CheckPicks(unittest.TestCase):
     def test_example_passes(self):
         self.assertEqual(self.cp.check(self.good, ["Claude Code WILL Replace Your Video Editor (Here's Proof)"]), [])
 
-    def test_tables_need_taylors_headings(self):
-        errs = self.cp.check(self.good.replace('## Table Two: Ideas from creators', '## Creators'))
-        self.assertTrue(any('Table Two' in e for e in errs), errs)
+    def test_engines_need_taylors_headings(self):
+        errs = self.cp.check(self.good.replace('## 3. YouTube engine', '## Creators'))
+        self.assertTrue(any('YouTube engine' in e for e in errs), errs)
+
+    def test_engines_in_order(self):
+        bad = self.good.replace('## 1. Twitter engine', '## 0. tmp').replace('## 2. My work engine', '## 1. Twitter engine').replace('## 0. tmp', '## 2. My work engine')
+        errs = self.cp.check(bad)
+        self.assertTrue(any('order' in e for e in errs), errs)
+
+    def test_week_needs_seven_days(self):
+        bad = self.good.replace('| Sun | I Analysed', '| (cut) | I Analysed')
+        errs = self.cp.check(bad)
+        self.assertTrue(any('7' in e and 'day rows' in e for e in errs), errs)
+
+    def test_twitter_row_needs_link(self):
+        bad = self.good.replace('https://x.com/karpathy/status/2116957135661945283', 'his post')
+        errs = self.cp.check(bad)
+        self.assertTrue(any('T2' in e and 'link' in e for e in errs), errs)
+
+    def test_giants_line_required(self):
+        errs = self.cp.check(self.good.replace('**Giants researched:**', '**Giants:**'))
+        self.assertTrue(any('Giants researched' in e for e in errs), errs)
 
     def test_locked_title_must_be_word_for_word(self):
         errs = self.cp.check(self.good, ['Grok Voice WILL Replace Sales Reps! (Reworded)'])
@@ -189,7 +208,29 @@ class CheckPicks(unittest.TestCase):
 
     def test_must_end_with_prompt(self):
         errs = self.cp.check(self.good.rstrip() + '\n\nThanks!')
-        self.assertTrue(any('Pick from either table' in e for e in errs), errs)
+        self.assertTrue(any('Swap any of the 7' in e for e in errs), errs)
+
+
+class XPosts(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.xp = load('x_posts')
+
+    def test_status_id_gives_date(self):
+        d = self.xp.id_to_date(2116957135661945283)
+        self.assertEqual((d.year, d.month, d.day), (2026, 11, 1))
+
+    def test_build_keeps_ten_newest_dedupes_and_lists_missing(self):
+        base = 2116957135661945283
+        posts = [{'giant': 'A', 'url': f'https://x.com/a/status/{base - i * (1 << 22) * 86400000}', 'text': str(i)} for i in range(12)]
+        posts.append(dict(posts[0]))
+        posts.append({'giant': 'A', 'url': 'https://example.com/blog', 'date': '2026-10-31', 'source': 'blog', 'text': 'b'})
+        giants = {'ai': [{'name': 'A'}, {'name': 'B'}], 'paid_media': []}
+        by, order = self.xp.build(posts, giants, dt.date(2026, 11, 2))
+        self.assertEqual(len(by['A']), 10)
+        self.assertEqual(by['A'][0]['date'], '2026-11-01')
+        self.assertEqual(by['A'][0]['band'], 'FRESH')
+        self.assertIn('nothing found', self.xp.md(by, order, dt.date(2026, 11, 2)))
 
 
 class TopicRegister(unittest.TestCase):

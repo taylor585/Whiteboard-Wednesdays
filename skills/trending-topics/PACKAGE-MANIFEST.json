@@ -1,6 +1,6 @@
 {
   "name": "trending-topics",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "files": [
     {
       "path": ".gitignore",
@@ -9,28 +9,28 @@
     },
     {
       "path": "BUILD-STATUS.md",
-      "sha256": "ef7c740cf801d72d5344ad36562fa41c7b9cae9f9aeb77f7778e242fa06cbd40",
-      "bytes": 2183
+      "sha256": "21a452f6d8a14d4fceee2a90a7df6d3f98d5c337a4a0f5ba81a011b3a01ebe50",
+      "bytes": 2481
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "456eace115ae95126a2d977870d87187a5f37df2e208895112ce8456a31b8ef9",
-      "bytes": 6039
+      "sha256": "8f6c38104d42d10bb75aad9a0bf5e141dc724e4e8b50d46e22577c495da558e8",
+      "bytes": 7185
     },
     {
       "path": "README.md",
-      "sha256": "56d81ec15f3d268ffa368d8b238b67f43109dc72e5eb08d8d95fae2a7404344d",
-      "bytes": 3550
+      "sha256": "ee5af636cf16a923c60431e80d5745f8065927e9f82a9a1b4660b98718eff96a",
+      "bytes": 3593
     },
     {
       "path": "SKILL.md",
-      "sha256": "6cb0076bff7b58a850e002033e018eb6e2caa466fd0fec9a23cfa834e4fcf04a",
-      "bytes": 17584
+      "sha256": "44ec54bc587c1a69b350c06339916e0ed256b78dfcad632e0ead96fe7dbc50dc",
+      "bytes": 20262
     },
     {
       "path": "START-HERE.md",
-      "sha256": "3633d1bc2929b94a1325b3d30acdc672329f3043bece26d8d451e175f49dafb4",
-      "bytes": 1978
+      "sha256": "5b2e4dd98458c7adfc8b1845478be6657ac3dd2143feb1a9502684ef82f24643",
+      "bytes": 2178
     },
     {
       "path": "requirements.txt",
@@ -58,6 +58,11 @@
       "bytes": 12811
     },
     {
+      "path": "examples/picks-three-engines.md",
+      "sha256": "3288908fe0f5eba8b7bdb085b5462a3ffa8a0ed7b8e3a195bcf2b7e38cb88a29",
+      "bytes": 6698
+    },
+    {
       "path": "examples/picks-two-tables.md",
       "sha256": "99f42f8ae695956fb4665084063fe286218ded34e716138d321da8b57be538b8",
       "bytes": 5235
@@ -68,9 +73,14 @@
       "bytes": 11705
     },
     {
+      "path": "examples/twitter-study-karpathy.md",
+      "sha256": "44f1a525070e20defca554b0f068636fa34d88becff091abbd1d38c0278131f4",
+      "bytes": 5860
+    },
+    {
       "path": "references/agent-prompts.md",
-      "sha256": "ea7fca695b44ddd62d080a3353efa21634562c3810c0dddfc5c40100882337c7",
-      "bytes": 5477
+      "sha256": "3b86e5df78b894a603cc7c38c8dbd4fcb6f106cd541e9b3c8d525b9bc90a25dc",
+      "bytes": 6983
     },
     {
       "path": "references/brief-format.md",
@@ -79,8 +89,8 @@
     },
     {
       "path": "references/chat-research.md",
-      "sha256": "b09045ddfc242763bd9e459bbc88077cb5451439ae76944191a9904cfa043c0f",
-      "bytes": 7381
+      "sha256": "f27e08b174ac3b569af06ad41211a3a066ac5f8102a937649debd88e5bd6c034",
+      "bytes": 7401
     },
     {
       "path": "references/creator-research.md",
@@ -98,19 +108,24 @@
       "bytes": 4818
     },
     {
+      "path": "references/giants.json",
+      "sha256": "e3f89080cc0d6d48a1307366a87734363a904798a5d74bc30b45add68d82b997",
+      "bytes": 4225
+    },
+    {
       "path": "references/headlines.md",
       "sha256": "c736061e47c3acad10feb95710822bd115e8605ae3ebbed89761bcfc45d2c201",
       "bytes": 9435
     },
     {
       "path": "references/pick-output.md",
-      "sha256": "e63427850d6c776e65545d7c9ebb92ebc7edb126fd689d561ee1677d68d9f02e",
-      "bytes": 4293
+      "sha256": "c06ffa3d2169382bbe03aa9c389dd857d799f77dd7091c8066a466223ca936a9",
+      "bytes": 6158
     },
     {
       "path": "references/quality.md",
-      "sha256": "d9acd44cf625672481e8e10b703313d850f238d8190fe5770c38c4419fba6005",
-      "bytes": 3321
+      "sha256": "1ad7b6e180e25a153428244e24bf6f21c1a6a14861ab3e08d74558620b989841",
+      "bytes": 3349
     },
     {
       "path": "references/research-findings.md",
@@ -119,8 +134,8 @@
     },
     {
       "path": "references/research-framework.md",
-      "sha256": "e82121eedfdec7330b589c74cdea6045e06fbf6c6a4cc332a61351acdf27323e",
-      "bytes": 6014
+      "sha256": "993a4f005390d2e532924255800e10d6511cc5ad499ba8a24491c43a0a0b2e70",
+      "bytes": 6024
     },
     {
       "path": "references/research-to-topics.md",
@@ -129,13 +144,18 @@
     },
     {
       "path": "references/scoring.md",
-      "sha256": "73e28af5fa7ee0d2079442bb34c33fcffbab1922b9e5404d5ac235ad14487f5d",
-      "bytes": 4530
+      "sha256": "c493e38d2c9f4cd761a0aca5ba4737be90340f3eb9f2cec5393e9b561e498d76",
+      "bytes": 5737
     },
     {
       "path": "references/skill-integrations.md",
-      "sha256": "7c90d3efa4e9f23b5102660c5f466a113888c78b88e181fb2500cc5b9a0b592d",
-      "bytes": 2445
+      "sha256": "ac0452ab21c99912a54288cb5782ef01ea0252fed04ef5407c06d7427b594219",
+      "bytes": 2455
+    },
+    {
+      "path": "references/twitter-engine.md",
+      "sha256": "e12989daa6a1e394847f52b1917ed255a50847f2abe2b64f02d36c29e1cd1ca1",
+      "bytes": 4648
     },
     {
       "path": "references/week-pack.md",
@@ -144,7 +164,7 @@
     },
     {
       "path": "scripts/build_manifest.py",
-      "sha256": "92139f159b6c266c4f7eb6773cc016014ba398978dca4fcca0fc58283cfc813f",
+      "sha256": "a78512ff713c2ecfeb41cb9febb9f6087ea282ef01495c75daa69396623bb6e7",
       "bytes": 1271
     },
     {
@@ -154,8 +174,8 @@
     },
     {
       "path": "scripts/check_picks.py",
-      "sha256": "8c1e2c429ff128492384f5ae03bfe93689e2a6353da76411f9cbef297b789660",
-      "bytes": 4851
+      "sha256": "09e1499a824425a7ecf7a8d0c18fa8668ad118e4c811bb7348764689930afd00",
+      "bytes": 5945
     },
     {
       "path": "scripts/index_sessions.py",
@@ -178,9 +198,14 @@
       "bytes": 2380
     },
     {
+      "path": "scripts/x_posts.py",
+      "sha256": "5da4ba26108b1fdefcaa98cc0b6ff67b22f3c3bbe1296f8d0fe15297ea92b216",
+      "bytes": 6179
+    },
+    {
       "path": "tests/test_skill.py",
-      "sha256": "1a508d64e0679b5be181c931a0f2762b6eddf76838c0b9deadad55853c7522b3",
-      "bytes": 13320
+      "sha256": "45523b93e35dfac1ff495a30844e43e5c74c5961cdc9b59c7d7f55d861b561f3",
+      "bytes": 15365
     }
   ]
 }

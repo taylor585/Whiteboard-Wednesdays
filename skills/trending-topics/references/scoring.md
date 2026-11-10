@@ -1,13 +1,35 @@
-# Scoring: two rubrics, two tables
+# Scoring: three rubrics, three engines
 
-The pick sheet has two tables that are scored separately and never mixed:
+The pick sheet has three engines, scored separately and never mixed:
 
-- **Table One: Your own work:** scored on how much it would blow a business owner away (Part A).
-- **Table Two: Ideas from creators:** scored on how proven it is with a real audience (Part B).
+- **1. Twitter engine:** scored on how many giants are saying it and how fresh it is (Part T).
+- **2. My work engine:** scored on how much it would blow a business owner away (Part A).
+- **3. YouTube engine:** scored on how proven it is with a real audience (Part B).
 
-Neither gates the other.
+None gates the others. The 7-day plan draws from all three.
 
-# Part A: our work (Table One)
+# Part T: the giants (1. Twitter engine)
+
+## Score each thread 1 to 5
+
+| Factor | Weight | 5 means | 1 means |
+|---|---|---|---|
+| **Spread** | ×3 | 4 or more giants posted it this fortnight | one giant, once |
+| **Fresh** | ×2 | posted in the last 3 days | over 30 days old |
+| **Fit** | ×2 | a business owner can use it this week | AI insider gossip |
+| **Our proof** | ×1 | we have work that shows it | nothing of ours fits |
+| **Promise** | ×1 | a clear "you will be able to..." | news with no takeaway |
+| **Open lane** | ×1 | none of our YouTube creators has covered it yet | already a creator video |
+
+Out of 50. Engagement counts only as a tie-break, and only where a source showed it (search results rarely do).
+
+## Twitter gates (fail any, and it is not a pick)
+
+- Every row links to a real post or the giant's own page. No link, no row.
+- No drama for its own sake: a job move, a row or a meme is not a video unless it changes what a business owner should do.
+- Never put words in a giant's mouth. Quotes are their words; anything else is marked as a paraphrase.
+
+# Part A: our work (2. My work engine)
 
 ## Score each thing we built 1 to 5
 
@@ -29,7 +51,7 @@ Total out of 50.
 - **It was not already recorded or fully planned** in the last 4 weeks. Being on an earlier pick sheet does not count.
 - **It has a viewer promise.** At least one title option promises the viewer a result.
 
-# Part B: the creators (Table Two)
+# Part B: the creators (3. YouTube engine)
 
 Our creators have already tested topics on a real audience. A breakout (a video that beat the creator's own normal) is that test passing.
 

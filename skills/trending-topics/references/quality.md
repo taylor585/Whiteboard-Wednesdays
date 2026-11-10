@@ -6,20 +6,20 @@ A pick sheet or brief is delivered only when every applicable check below passes
 
 - [ ] `python3 scripts/check_picks.py <sheet> --scrub <scratchpad>/scrub.txt` exits 0 (locked titles word for word, both table headings in order, scores, creator URLs, research counts, no confidential words, the closing line).
 - [ ] `version_check.py` was run, and Taylor was told if the attached copy is old.
-- [ ] Every Table One row has a claim-ladder status, and no title or hook claims more than it allows.
+- [ ] Every My work engine row has a claim-ladder status, and no title or hook claims more than it allows.
 - [ ] "Left out as already done" matches `topics.py recent`.
 
-- [ ] Two tables, never mixed: Table One (your own work) and Table Two (ideas from creators); locked titles shown above both.
-- [ ] Table One: every session updated in the last 30 days indexed and every non-trivial one read; repos pushed in the window read; skills updated listed; counts and anything unreadable stated.
-- [ ] Table One: nothing dropped for being on an earlier sheet; only recorded or fully planned topics left out.
-- [ ] Table Two: scan date, channels and failures stated; `lane-b.md` written; every row has a core creator winner (1.4× or more) with its URL.
+- [ ] Two tables, never mixed: My work engine (your own work) and YouTube engine (ideas from creators); locked titles shown above both.
+- [ ] My work engine: every session updated in the last 30 days indexed and every non-trivial one read; repos pushed in the window read; skills updated listed; counts and anything unreadable stated.
+- [ ] My work engine: nothing dropped for being on an earlier sheet; only recorded or fully planned topics left out.
+- [ ] YouTube engine: scan date, channels and failures stated; `lane-b.md` written; every row has a core creator winner (1.4× or more) with its URL.
 - [ ] Every title promises the viewer something.
 - [ ] No client names, private links or personal data in either table.
 - [ ] Listing views are labelled rounded; provisional ratios (under about 3 weeks) labelled.
 - [ ] Score breakdown shown for every topic; hard gates applied.
 - [ ] Client names and confidential details flagged, not on camera unchecked.
 - [ ] Proven themes left out are listed with the reason.
-- [ ] Ends with the recommended picks and "Pick from either table and I'll plan the week."
+- [ ] Ends with the recommended picks and "Swap any of the 7 and I'll write the briefs."
 
 ## Trending Topic Brief
 

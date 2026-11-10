@@ -1,6 +1,6 @@
-# Research agent prompts (Table One)
+# Research agent prompts
 
-Table One is built by parallel research agents: one per session group from `index_sessions.py`, plus one for repos. Start them all in one message so they run at the same time.
+My work engine is built by parallel research agents: one per session group from `index_sessions.py`, plus one for repos. Start them all in one message so they run at the same time.
 
 Fill in the `{placeholders}` and paste each prompt as it stands. These prompts found 11 things we built on 19 October 2026, including the biggest project of the month, which was in a repo with no session. Change them only with a reason.
 
@@ -85,3 +85,21 @@ Keep it under 2,000 words.
 3. **Status sets the claim** (`chat-research.md`, "The claim ladder"). Something that has only been rehearsed is never described as working with real customers.
 4. Put every confidential word the agents name into `<scratchpad>/scrub.txt`, one per line. Pass it to `check_picks.py --scrub`. Never commit that file.
 5. Collect the agents' SECURITY NOTES for the pick sheet's "Things we noticed" section.
+
+## Twitter engine: last 10 posts per giant
+
+Send 5 of these agents in one message, about 6 giants each. Paste each giant's name, handle and `also_read` from `giants.json`.
+
+```
+Today is [date]. For EACH person below, find their LAST 10 X posts (the 10 most recent you can find), using only the WebSearch tool (mode "extended", several searches per turn). Do NOT open x.com pages, and do NOT use nitter, xcancel, syndication endpoints, scrapers or mirrors: web search results only.
+
+Search ideas: "site:x.com <handle> status", "<name> X post", "<name> tweet <month> <year>", "<name> said on X" (news quoting posts). For thin-coverage people, top up from their also_read sources (blog, podcast, YouTube, LinkedIn) and label the source. Stop at 10 per person or after about 6 searches.
+
+Write ONE JSON list to [scratchpad]/x/batchN.json, one object per post:
+{"giant", "handle", "url" (the x.com/<handle>/status/<id> URL if seen, else the source URL), "source": x | x-reply | blog | podcast | youtube | news, "date": "YYYY-MM-DD" only when there is no status URL, "text", "kind": quote | paraphrase, "engagement" (only if a result showed it, else null), "about": 3 to 6 words}
+Never invent posts, URLs, dates or numbers. Never fill in text you did not see: if you only know a post's topic, mark it a paraphrase and say so.
+
+Final reply: one line per person ("<name>: <n> posts, newest <date>"), then the 3 most useful posts for business-owner AI or ads videos, with URLs.
+
+People: [name @handle (also_read)]...
+```

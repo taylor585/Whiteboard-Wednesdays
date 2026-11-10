@@ -1,20 +1,24 @@
 ---
 name: trending-topics
-description: 'Find this week''s video topics and turn the locked ones into record-ready briefs. Returns two ranked tables: Table One, your own work (every Claude Code session, GitHub repo and skill from the last 30 days, read in full by parallel agents), and Table Two, ideas from creators (breakout videos from Nick Saraev, Sabri Suby, Riley Brown, Jeremy Haynes, Alex Finn, The Calum Johnson Show, Skill Leap AI, Paul J Lipsky, Daniel Priestley, Sergio C). Locks Taylor''s titles word for word and writes a Trending Topic Brief for each: ACT 1 problems, ACT 2 cards with 5 to 10 word one-liners, ACT 3 proof, examples and PACKAGING (A/B titles, thumbnail lines, description). Use whenever someone asks what to record or film, for video or YouTube topics, trending topics, to lock a title, to plan the week''s recordings, for a topic brief or run sheet, video titles, a YouTube description, breaking a skill into a video, or what our creators are posting, even if they never say "trending".'
+description: 'Find the week''s video topics (at least 7, one a day) and turn the locked ones into record-ready briefs. Three engines: 1. Twitter engine (the last 10 X posts of 15 AI and 15 paid-media giants, such as Karpathy, Altman, Alex Albert, Jeremy Haynes and Jon Loomer, via web search), 2. My work engine (every Claude Code session, repo and skill from the last 30 days, read by parallel agents), 3. YouTube engine (breakouts from Nick Saraev, Sabri Suby, Riley Brown, Jeremy Haynes, Alex Finn and other core creators). The Sunday run plans 7 videos, Monday to Sunday. Locks Taylor''s titles word for word and writes Trending Topic Briefs with ACT 1 to 3 and PACKAGING. Use whenever someone asks what to record, film or post, for video or YouTube topics, trending topics, next week''s 7 videos, what the giants are saying on X, to study someone''s last 10 posts, to lock a title, to plan the week, for a brief, titles or a description, even if they never say "trending".'
 ---
 
-# Trending Topics (v4)
+# Trending Topics (v5)
 
-Find what to record from two separate sources: everything we built, and what our creators have already proven. Then make each chosen video ready to record and publish.
+Find at least 7 videos a week, one for every day, from three engines: what the giants are saying on X, everything we built, and what our creators have already proven. Then make each chosen video ready to record and publish.
+
+**Run it every Sunday** ("Sunday run", "plan next week"): it researches all three engines and returns the pick sheet with **This week: 7 videos**, Monday to Sunday.
 
 ## The weekly loop
 
 0. **Start right.**
    - Run `scripts/version_check.py`. If it says OLD COPY, use the repo copy for the run and tell Taylor to upload the new zip.
    - Read the topic register with `scripts/topics.py list`.
-1. **Pick.** Return two ranked tables, never mixed:
-   - **Table One: Your own work.** Every Claude Code session, GitHub repo and skill from the last **30 days**, read in full, ranked by how much it would blow a business owner away.
-   - **Table Two: Ideas from creators.** The core creators' breakouts (videos that beat their own normal), ranked by how proven they are.
+1. **Pick.** Return three engines, never mixed, in this order, then a 7-day plan drawn from all three:
+   - **1. Twitter engine.** The last 10 posts of every giant in `references/giants.json`, ranked by how many giants are saying it and how fresh it is (`references/twitter-engine.md`).
+   - **2. My work engine.** Every Claude Code session, GitHub repo and skill from the last **30 days**, read in full, ranked by how much it would blow a business owner away.
+   - **3. YouTube engine.** The core creators' breakouts (videos that beat their own normal), ranked by how proven they are.
+   - **This week: 7 videos.** One per day, Monday to Sunday. Booked recordings and locked titles take their days first; the rest come from the engines, with the freshest giant news earliest in the week.
 2. **Lock.** Taylor picks from either table or names a title. Lock it word for word with `scripts/topics.py lock`.
 3. **Plan the week.** Write a Trending Topic Brief for each locked title, including PACKAGING.
 4. **Deliver** the week pack in the chat and in `video-plans/`.
@@ -32,15 +36,17 @@ Find what to record from two separate sources: everything we built, and what our
 
 ## Master rules
 
-- **Two tables, two scores** (`references/scoring.md`). Neither gates the other. A creator idea needs no work of ours, and our work needs no creator video.
+- **Three engines, three scores** (`references/scoring.md`). None gates the others. A creator idea needs no work of ours, and our work needs no creator video.
+- **The giants: last 10 posts each, web search only** (`references/twitter-engine.md`). Never open x.com pages or use mirrors or scrapers: X needs a login, and the safety check rightly refuses it. Dates come from the post ID (`scripts/x_posts.py`). Never put words in a giant's mouth: mark paraphrases, and tell Taylor to open a post before quoting it on camera.
+- **At least 7 a week.** Taylor posts every day. If fewer than 7 strong topics pass, fill the gaps with the best locked titles and say which days are weak. Never pad with filler.
 - **Read everything we did** (`references/chat-research.md`, `references/agent-prompts.md`):
   - Index every session updated in 30 days with `scripts/index_sessions.py`, until it says "Complete".
   - Read every non-trivial session with parallel research agents, one per group.
   - Read every repo pushed in the window that has no session. Work done in Codex, on the desktop or by scheduled routines leaves no session at all.
   - List the skills updated in the window.
 - **Only the register decides what is "done".** Leave out only what `topics.py recent` lists (planned, recorded or published in the last 4 weeks). Being on an earlier pick sheet is never a reason.
-- **The claim ladder.** Every Table One row has a status: live, working, rehearsed, half-built or blocked. Titles, hooks and briefs never claim more than that status allows. Something rehearsed has not "made sales".
-- **Creators: the core list only, breakouts over size.** Table Two comes from `references/creators.json`, ranked by outlier ratio across each creator's latest 30 long-form uploads. The app watchlist only supports a theme.
+- **The claim ladder.** Every My work engine row has a status: live, working, rehearsed, half-built or blocked. Titles, hooks and briefs never claim more than that status allows. Something rehearsed has not "made sales".
+- **Creators: the core list only, breakouts over size.** The YouTube engine comes from `references/creators.json`, ranked by outlier ratio across each creator's latest 30 long-form uploads. The app watchlist only supports a theme.
 - **Every title promises the viewer something.** Borrow proven formats ("X WILL Replace Y", "I Built", "I Tested", "Learn 97% of X in N Minutes"). Never describe our process ("76 sessions").
 - **Sell what we built.** When a topic is our own skill or system, the brief shows its most advanced capabilities as their own showcase segments, with proof on screen, not as a passing mention.
 - **Never invent.**
@@ -61,36 +67,43 @@ Find what to record from two separate sources: everything we built, and what our
 
 | Mode | Taylor says something like | You produce |
 |---|---|---|
-| **Pick** (default) | "find this week's topics", "what should we record" | The pick sheet with Table One and Table Two, checked. Then stop for the choice |
+| **Pick** (default, and every Sunday) | "find this week's topics", "the Sunday run", "7 videos for next week" | The pick sheet: the 7-day plan and the three engines, checked. Then stop for swaps |
 | **Lock** | "lock in A1", "X is locked in", "save this topic, we'll think of titles" | The title in the register and in `video-plans/Week NN - chosen topics.md`, word for word, with what we have for it and "Before you record" tasks |
 | **Plan the week** | "plan the week", "build the briefs" | The week pack: an overview plus a validated brief per locked title |
 | **Build one** | "build the brief for X", "break this skill into a video" | One validated Trending Topic Brief |
 | **Package** | "titles for this", "write the description" | The PACKAGING section only |
 | **Recorded** | "we recorded X", "X is live" | `topics.py status` updated |
 | **Video topics list** | "save this topic", "add it to the list", "take X off the list" | `video-plans/Video topics list.md` updated (see below) |
+| **Study a giant** | "study Karpathy's last 10 posts" | That giant's last 10 posts, what's useful in them, and videos built on them (`examples/twitter-study-karpathy.md`) |
+| **Giants** | "add X as a giant", "swap out Y" | An updated `references/giants.json` |
 | **Scan only** | "what's working for my creators" | Core winners and themes, no picks |
 | **Creators** | "add @handle", "remove X" | An updated `references/creators.json` |
 
-## Pick
+## Pick (and the Sunday run)
 
-Run both tables at the same time: start the research agents and the creator scan in one message.
+Run all three engines at the same time: start the giant agents, the work research agents and the creator scan in one message.
 
-**Table One: Your own work** (`references/chat-research.md`):
+**1. Twitter engine** (`references/twitter-engine.md`):
+1. Send 5 agents with the prompt in `references/agent-prompts.md` § Twitter engine, about 6 giants each. Each writes `<scratchpad>/x/batchN.json`.
+2. Run `python3 <skill-dir>/scripts/x_posts.py build <scratchpad>/x/batch*.json --giants <skill-dir>/references/giants.json --out <scratchpad>/x`.
+3. Read `posts.md`, group the posts into threads, make each one ours, and score it with Part T. Save `posts.md` to `video-plans/Twitter engine - last 10 posts (<date>).md` for Taylor.
+
+**2. My work engine** (`references/chat-research.md`):
 1. **Index.** Call `list_sessions` (`mine: true`, `limit: 100`), then run `scripts/index_sessions.py` on the saved pages. Fetch more pages until `index.md` says "Complete".
 2. **Read.** Start one research agent per group file, plus one repo agent for every repo from `list_repos` pushed in the window without a session group. Use the prompts in `references/agent-prompts.md`, and send them all in one message.
 3. **Skills.** List the skills updated in the window from the synced skills manifest.
 4. **Merge.** Write one line per distinct thing we built into `<scratchpad>/lane-a.md`, give each a status from the claim ladder, score it with Part A and rank it. Drop only what `topics.py recent` lists.
 
-**Table Two: Ideas from creators** (`references/creator-research.md`):
+**3. YouTube engine** (`references/creator-research.md`):
 1. **Scan.** Run `python3 <skill-dir>/scripts/scan_creators.py --out <scratchpad>/scan --days 14`. Read the **Core winners** table first.
 2. **Group.** Put the winners into proven themes by subject and by promise and format (`<scratchpad>/lane-b.md`).
-3. **Make it ours.** Write our version of each theme (`references/research-to-topics.md`), score it with Part B and rank it. Note the matching Table One rows as ready talking points.
+3. **Make it ours.** Write our version of each theme (`references/research-to-topics.md`), score it with Part B and rank it. Note the matching My work engine rows as ready talking points.
 
 **Deliver** (`references/pick-output.md`):
-1. Locked titles first, then Table One, then Table Two, then the details, "Things we noticed" and the recommended picks.
+1. Locked titles first, then **This week: 7 videos**, then 1. Twitter engine, 2. My work engine, 3. YouTube engine, then the details and "Things we noticed".
 2. Save the sheet to `video-plans/` and run `python3 <skill-dir>/scripts/check_picks.py "video-plans/Picks - week NN.md" --scrub <scratchpad>/scrub.txt` until it passes.
-3. Send the sheet and show both tables in the chat.
-4. End with "Pick from either table and I'll plan the week." Then stop.
+3. Send the sheet and show the 7-day plan and the three engine tables in the chat.
+4. End with "Swap any of the 7 and I'll write the briefs." Then stop.
 
 ## Lock
 
@@ -108,7 +121,7 @@ A topic can be locked under a **working title** while Taylor decides; say so in 
 Follow `references/week-pack.md`:
 
 1. Take the locked titles from `topics.py list --status locked` and confirm the recording order.
-2. **Talking points from our work** (`references/chat-research.md`): for a creator topic, search the Table One research (`lane-a.md`, the 30-day index) and our skills for stories, numbers, demos and examples that fit it; for an our-work topic, read its sessions and source in full. Write them to `<scratchpad>/talking-points-[slug].md`. If we have nothing, list what to do before recording.
+2. **Talking points from our work** (`references/chat-research.md`): for a creator topic, search the My work engine research (`lane-a.md`, the 30-day index) and our skills for stories, numbers, demos and examples that fit it; for an our-work topic, read its sessions and source in full. Write them to `<scratchpad>/talking-points-[slug].md`. If we have nothing, list what to do before recording.
 3. For each topic, read its sources in full (the creators' winning videos' titles and angles; for a skill: SKILL.md and every reference file, line by line) and build the brief with `references/brief-format.md`, including PACKAGING (`references/headlines.md`, `references/descriptions.md`) and any example appendices.
 4. Link briefs through NEXT VIDEO.
 5. Run `python3 <skill-dir>/scripts/check_brief.py <all three>`. Fix and re-run until it exits 0.
@@ -141,7 +154,7 @@ Add or remove entries in `references/creators.json` using the criteria in `refer
 
 ## When something is blocked
 
-- **Session tools unavailable:** read the local transcripts (`chat-research.md`). If they are missing too, say so on the sheet, ask Taylor for a short note of what we built, and still deliver Table Two.
+- **Session tools unavailable:** read the local transcripts (`chat-research.md`). If they are missing too, say so on the sheet, ask Taylor for a short note of what we built, and still deliver the Twitter and YouTube engines.
 - **A repo is refused:** list it as not read on the sheet.
 - **yt-dlp missing:** the scan runs RSS-only; say outlier ratios are absent.
 - **A channel fails:** the scan logs it and continues; name it on the pick sheet.
@@ -176,15 +189,20 @@ When Taylor says a video was recorded or published, run `topics.py status "<titl
 | `references/research-findings.md` | All research done so far: what, why it mattered, what we found |
 | `references/research-to-topics.md` | How research becomes a topic, angle, format and title |
 | `references/research-framework.md` | How many videos, which creators, which numbers, how often |
-| `references/chat-research.md` | Table One: reading every session, repo and skill from the last 30 days; the claim ladder; talking points |
+| `references/chat-research.md` | My work engine: reading every session, repo and skill from the last 30 days; the claim ladder; talking points |
 | `references/agent-prompts.md` | The research agent prompts: session groups, sensitive client groups, repos |
 | `references/creator-research.md` | The creator scan, core winners and proven themes |
-| `references/scoring.md` | The two rubrics (Table One, Table Two), weights, gates |
-| `references/pick-output.md` | The pick sheet: Table One: Your own work, and Table Two: Ideas from creators |
+| `references/scoring.md` | The three rubrics (Twitter, My work, YouTube), weights, gates |
+| `references/pick-output.md` | The pick sheet: the 7-day plan and the three engines |
 | `references/week-pack.md` | Plan-the-week steps and overview template |
 | `references/skill-integrations.md` | Hand-offs to thumbnail-tracker, whiteboard-wednesdays, suby-shots and others |
 | `references/quality.md` | Acceptance checks and honest status |
 | `references/creators.json` | Core creators with verified handles and channel IDs |
+| `references/giants.json` | The Twitter engine's 30 giants: handles, why they matter, how well search finds them |
+| `references/twitter-engine.md` | The Twitter engine: last 10 posts per giant, web search only, threads, Part T |
+| `scripts/x_posts.py` | Agent batches → each giant's last 10 posts, dated from X post IDs (posts.md) |
+| `examples/twitter-study-karpathy.md` | A one-giant study: last 10 posts, what's useful, videos |
+| `examples/picks-three-engines.md` | A v5 pick sheet with the 7-day plan, passing `check_picks.py` |
 | `scripts/scan_creators.py` | Creator uploads in the window → scan.json and scan.md |
 | `scripts/check_brief.py` | The gate every brief must pass |
 | `scripts/check_picks.py` | The gate every pick sheet must pass |
