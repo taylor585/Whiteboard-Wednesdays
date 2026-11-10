@@ -146,6 +146,8 @@ Both are fresh sessions in the app's environment (`env_017PLHsTGZVgThRnUnu1eoGG`
 ```
 The posting time is a scheduled minute, not a jittered one: it is the time Taylor chose for his posts.
 
+Once the daily poster is created, write `settings/poster: {daily: true, triggerId: <its trig_ id>, watchdogId: <the watchdog's trig_ id>, time: <the cron's HH:MM>, createdAt}` with ArtifactData. The page reads it (`public/posting.js` sets `WWStore.posting.posterLive`), and only then says "Posts by itself"; with `daily` missing or false it tells Taylor to press Post now. Disabling or deleting the daily poster writes `daily: false` in the same step.
+
 **2. The watchdog**
 ```json
 {"name": "Whiteboard Wednesdays: watchdog",

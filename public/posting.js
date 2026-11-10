@@ -16,9 +16,12 @@
   const settings = () => store()?.settings || {days:['tue','thu'], time:'15:00', mode:'manual', platforms:{youtube:true, linkedin:true, instagram:true, facebook:true, x:false}};
   // Read on every draw: today a frozen object of false, later a live one from the Connections screen.
   const connected = () => { const c = store()?.CONNECTED; return c && typeof c === 'object' ? c : {}; };
-  // Auto is live once it is chosen and a switched-on platform is connected (the same test as WWStore.posting.autoLive, read
-  // against whichever CONNECTED object is there now).
-  const live = () => { const s = settings(); return s.mode === 'auto' && C.ORDER.some(k => s.platforms?.[k] && C.isConnected(connected(), k)); };
+  // Auto is live once it is chosen, a switched-on platform is connected, and the daily poster is running. The poster runs
+  // as a scheduled task the main session creates once accounts are connected (POSTING.md); it then writes
+  // settings/poster {daily: true}, which this file reads and hands to WWStore.posting.posterLive. Until then Auto is an intent.
+  const anyConnected = () => { const s = settings(); return C.ORDER.some(k => s.platforms?.[k] && C.isConnected(connected(), k)); };
+  const posterOn = () => store()?.posterLive === true;
+  const live = () => settings().mode === 'auto' && anyConnected() && posterOn();
   const now = () => new Date().toISOString();
   const allJobs = () => jobs;
   const reelFor = j => (window.WWReels?.forJob?.(j.id)) || reels.find(r => r.jobId === j.id && r.status !== 'failed') || null;
@@ -81,7 +84,7 @@
     const late = s.late && s.planned ? ' It was ready after its planned day ('+dayWord(s.planned)+'), so it moved to the next posting day.' : '';
     const mode = store()?.mode === 'auto' ? 'auto' : 'manual';
     if (live()) return (passed ? 'Its posting time ('+at+') has come: it posts on the next run, or press Post now.' : 'Posts by itself on '+at+'. Hold it or change a pick before then.')+late;
-    if (mode === 'auto') return 'Auto posting is chosen, but no account is connected yet, so press Post now on the day: '+at+'.'+late;
+    if (mode === 'auto') return (anyConnected() ? 'Auto posting is chosen, but the daily poster is not running yet, so press Post now on the day: ' : 'Auto posting is chosen, but no account is connected yet, so press Post now on the day: ')+at+'.'+late;
     return (passed ? 'Manual posting: its posting day was '+at+'. Press Post now when you are ready.' : 'Manual posting: nothing goes out until you press Post now. Its posting day is '+at+'.')+late;
   }
   // ---- The posting block on a Ready to post job (replaces the old disabled Post all) ---------------------------------------
@@ -178,9 +181,13 @@
     if (!db) return;
     db.collection('jobs').onSnapshot(snap => { jobs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()})); sync(); redraw(); }, () => {});
     db.collection('reels').onSnapshot(snap => { reels = snap.docs.filter(d => d.exists).map(d => ({...d.data(), id:d.id})); redraw(); }, () => {});
+    // The daily poster's switch (POSTING.md "The scheduled tasks"): written by the main session, read here only.
+    try { const ref = db.doc('settings/poster'), apply = snap => { const on = snap?.data?.()?.daily === true; if (store() && store().posterLive !== on) store().posterLive = on; };
+      apply(await ref.get()); if (typeof ref.onSnapshot === 'function') ref.onSnapshot(apply, () => {}); } catch { /* the poster reads as not running */ }
   }
   window.addEventListener('ww:settings', () => { sync(); });
   window.addEventListener('ww:store', () => { sync(); });
+  window.addEventListener('ww:connections', redraw);
   window.WWPosting = {panel, reelPanel, badge, receipts, lockedPick, scheduleFields, scheduleOf, rows:rowsOf, postNow, get jobs() { return allJobs().slice(); }};
   load();
 })();
