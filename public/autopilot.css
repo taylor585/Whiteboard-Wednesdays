@@ -1,0 +1,27 @@
+/* Autopilot (10 November 2026): the Hands-off panel on a job and a reel job, the switch on the new-video screen and the
+   Hands-off defaults in Settings. Tokens only (whiteboard.css): ink and hairlines, gold as the 3px measuring rule, square
+   corners. Nothing animates here: the panel is redrawn finished on every snapshot (motion's play-once rule). */
+.ap{margin:18px 0 0;padding:14px 16px 6px;border-left:var(--ww-rule-gold);background:var(--ww-stage);border-radius:var(--ww-radius-card)}
+.ap-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.ap-head h2{margin:0;font:var(--ww-strong-weight) var(--ww-size-h4)/1.2 var(--ww-font-display);letter-spacing:var(--ww-strong-track)}
+.ap-now{margin:8px 0 0;font-size:15px;line-height:1.45;overflow-wrap:anywhere}
+.ap-time{font:13px var(--ww-font-mono);color:var(--ww-muted)}
+.ap .ap-needs{margin:10px 0 0;background:var(--ww-surface)}
+.ap-off,.ap-none{margin:8px 0 0;font-size:14px}
+.ap-picks{list-style:none;margin:10px 0 0;padding:0}
+.ap-pick{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:4px 12px;padding:10px 0;border-top:1px solid var(--ww-line)}
+.ap-pick>div{flex:1 1 260px;min-width:0}
+.ap-pick b{display:block;font:var(--ww-strong-weight) 15px/1.3 var(--ww-font-body)}
+.ap-why{display:block;margin-top:2px;font-size:15px;line-height:1.45;overflow-wrap:anywhere}
+.ap-pick small{display:block;margin-top:4px;font:12px/1.4 var(--ww-font-mono);color:var(--ww-muted);overflow-wrap:anywhere}
+#publish .ap-change{min-height:44px;padding:0 4px;white-space:nowrap}
+.ap-switch b{font-weight:600}
+.ap-switch small{display:block;font-size:13px;font-weight:400;color:var(--ww-muted)}
+.ap-intake-d{margin:4px 0 12px;font-size:14px}
+#settings .ap-switch{display:flex;align-items:flex-start;gap:10px;min-height:44px;font-size:15px;cursor:pointer}
+#settings .ap-switch input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--ww-ink)}
+.ap-set-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 20px;align-items:start;padding:6px 0 0}
+.ap-set .se-field select{min-height:48px;padding:10px 12px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-media);font:400 16px var(--ww-font-body);color:var(--ww-ink);background:var(--ww-surface);min-width:0;width:100%}
+.ap-set-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:8px 0 0}
+@media(max-width:900px){.ap-set-grid{grid-template-columns:1fr}}
+@media(max-width:700px){.ap{padding:12px 12px 4px}#settings .ap-set-bar .se-btn{width:100%}}
