@@ -16,6 +16,9 @@ from fontTools.varLib.instancer import instantiateVariableFont
 
 PUB = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'public')
 INK, GOLD, WHITE, MUTED = '#1C1A17', '#8B6002', '#FFFFFF', '#5C5750'
+# The serif's hairlines broke up on standard-resolution screens (Taylor, 10 November 2026: "pixelated"), so the
+# outlined letters carry a thin same-colour stroke that thickens every hairline evenly.
+BOLD = f' stroke="{INK}" stroke-width="0.45" stroke-linejoin="round"'
 
 
 def outline(font_file, text, size, x, y, tracking=0.0, weight=None):
@@ -64,8 +67,8 @@ def lockup():
     W = round(x0 + wa + 8.5 + wb + 2)
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {S}" width="{W}" height="{S}" role="img" aria-labelledby="t">'
            f'<title id="t">Whiteboard Wednesdays. Plan, record, post.</title>'
-           + tile(S, f'<path d="{d}" fill="{INK}"/>') +
-           f'<path d="{a}" fill="{INK}"/><path d="{b}" fill="{INK}"/><path d="{t}" fill="{MUTED}"/></svg>\n')
+           + tile(S, f'<path d="{d}" fill="{INK}"{BOLD}/>') +
+           f'<path d="{a}" fill="{INK}"{BOLD}/><path d="{b}" fill="{INK}"{BOLD}/><path d="{t}" fill="{MUTED}"/></svg>\n')
     open(os.path.join(PUB, 'ww-logo.svg'), 'w').write(svg)
     return W, S
 
