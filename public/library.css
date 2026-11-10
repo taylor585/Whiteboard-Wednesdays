@@ -54,18 +54,24 @@ body.presentation .app-nav{display:none}
 .cog:focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
 .header-actions{align-items:center}
 
-/* Logo L3 "Wednesday Tile" (brand upgrade, 10 November 2026): ww-logo.svg is the lockup, outlined to paths. The words stay in the page for screen readers.
-   From 768px the untouched official coin sits after a hairline, 40px. On phones it stays on the Presentations heading and signs the foot of each screen. */
+/* Logo L1 "Highlighter" (Taylor, 10 November 2026). The header lockup is LIVE TEXT, not a picture: a picture of letters
+   loses the screen's own text sharpening and blurs whenever the page is shown scaled (the claude.ai panel does), which is
+   what made it look pixelated. ww-logo.svg stays only for use outside the page. The tagline is never under 11px, so it is
+   hidden on phones. From 768px the untouched official coin sits after a hairline, 40px. */
 .site-brand{display:flex;align-items:center;gap:20px;min-width:0}
-.site-name{display:block;line-height:0;flex:none}
-.site-logo{display:block;height:60px;width:auto;margin-left:-3px}.site-mark{display:none;width:42px;height:42px}
-.site-name-text{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.site-name{display:block;flex:none;color:var(--ww-ink);text-decoration:none}
+.site-mark{display:none;width:42px;height:42px}
+.site-name-text{display:block;font:400 24px/1 var(--ww-font-body);letter-spacing:-.04em;padding-left:.12em;white-space:nowrap}
+.site-name-text .w1,.site-name-text .w2{display:block}
+.site-name-text .w2{position:relative;z-index:0;font-weight:700;width:max-content;margin-top:.04em}
+.site-name-text .w2::before{content:"";position:absolute;z-index:-1;left:-.12em;right:-.16em;bottom:.02em;height:.48em;background:var(--ww-highlight);transform:skewX(-10deg);transform-origin:0 100%}
+.site-name-text .tag{display:block;font:500 11px/1 var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-muted);margin-top:10px}
 .site-rule{flex:none;width:1px;height:40px;background:var(--ww-line)}
 .site-coin{flex:none;display:block;width:40px;height:40px}
 .site-foot{display:none}
 @media(max-width:767px){.site-rule,.site-coin{display:none}.site-foot{display:flex;justify-content:center;padding:4px 0 28px}.site-foot img{display:block;width:28px;height:28px}
  body.presentation .site-foot,body:has(#player:not([hidden])) .site-foot{display:none}}
-@media(max-width:640px){.site-header{align-items:center}.site-name{min-width:0}.site-logo{height:48px;margin-left:-2px}
+@media(max-width:640px){.site-header{align-items:center}.site-name{min-width:0}.site-name-text{font-size:20px}.site-name-text .tag{display:none}
  /* When a deck's buttons share the row there is no room for the words: the tile stands alone. */
- .site-header:has(.header-actions button:not([hidden])) .site-logo{display:none}.site-header:has(.header-actions button:not([hidden])) .site-mark{display:block}}
+ .site-header:has(.header-actions button:not([hidden])) .site-name-text{display:none}.site-header:has(.header-actions button:not([hidden])) .site-mark{display:block}}
 @media print{.site-foot{display:none}}
