@@ -9,6 +9,9 @@ Run from the repository root with an isolated interpreter:
   vault-videos/youtube/manifest.json + posters/  finished YouTube videos (+ _src/yt-meta.json: public descriptions)
   vault-videos/linkedin/manifest.json + posters/ finished LinkedIn cuts (+ link-posts.json)
   vault-videos/instagram/manifest.json + posters/ finished reels and 4:5 posts with captions
+  vault-videos/x/manifest.json                   X posts as they were posted (optional): [{id, series, kind: "single" |
+                                                 "thread", body, replies: [...]}], the shape a Publish job writes
+                                                 (PUBLISH.md "The X post"), with the real YouTube link in place
   vault-videos/finals.json                       the authoritative list of finished edits inside Claude: the YouTube,
                                                  LinkedIn and Instagram lanes show exactly its records with status "final",
                                                  each opening its artifactUrl (never YouTube)
@@ -23,6 +26,8 @@ Rules (Taylor, 9 November 2026):
   - A finished video with no reachable file in Claude has no finals record and no card; its thumbnails and post copy
     still appear under Thumbnails and Post copy.
   - Text is copied verbatim. Nothing is written to any database.
+  - X posts (10 November 2026) appear under Post copy, "X posts", only when the staging set holds them. Videos from
+    before X was added have none, and none is written for them: the bubble then shows its empty line.
 """
 import json, os, re, sys, unicodedata
 from PIL import Image
@@ -73,7 +78,11 @@ FRAME_POSTERS = {n + '.jpg' for n in (
     'ig-aih-reel-1', 'ig-aih-reel-2', 'ig-aih-reel-3', 'ig-vb-reel-1', 'ig-vb-reel-2', 'ig-vb-reel-3', 'ig-icp-legacy-reel-3')}
 # Not thumbnails: the 4:5 card filed under LinkedIn is the vision-board Instagram feed video's cover image.
 SKIP_THUMBS = {'linkedin-how-to-use-claude-like-the-top-1-post-4x5-draw-animate-agree'}
-LIMITS = {'youtube': 5000, 'instagram-posts': 2200, 'instagram-reels': 2200, 'linkedin': 3000}
+# Lanes that show another lane's items. The same reel and 4:5 post, with the same caption, go to Instagram and
+# Facebook (Taylor, 10 November 2026), so the Facebook lane reads the Instagram records: nothing is stored twice.
+SHARED = {'facebook': 'instagram'}
+LIMITS = {'youtube': 5000, 'instagram-posts': 2200, 'instagram-reels': 2200, 'linkedin': 3000, 'x': 280}
+PLACEHOLDER = re.compile(r'\[(?:[A-Z][A-Z0-9 _/-]{2,}|your [^\]\n]{2,40})\]')
 
 
 def load(p, default=None):
@@ -226,6 +235,26 @@ def main(stage):
         items.append(dict(id=r['id'], lane='post-copy', bubble='linkedin', group=group_of(r['id']), label='LinkedIn link post',
                           text=r['body'].strip(), firstComment=(r.get('firstComment') or '').strip() or None, limit=LIMITS['linkedin']))
 
+    # X posts, verbatim and only when staged: nothing is written for a video that never had one.
+    xs = load(os.path.join(vv, 'x', 'manifest.json'), [])
+    if xs:
+        import importlib.util
+        sp = importlib.util.spec_from_file_location('check_x_post', os.path.join(ROOT, 'scripts', 'check-x-post.py'))
+        cx = importlib.util.module_from_spec(sp); sp.loader.exec_module(cx)
+    for r in xs:
+        body = (r.get('body') or '').strip()
+        if is_test_run(r) or not body:
+            continue
+        replies = [t.strip() for t in (r.get('replies') or []) if (t or '').strip()]
+        for t in [body] + replies:
+            if PLACEHOLDER.search(t):
+                raise SystemExit('X copy for %s still has a placeholder: stage the posts as they were posted.' % r['id'])
+            if cx.x_len(t) > LIMITS['x']:
+                raise SystemExit('X copy for %s has a post over %d as X counts it.' % (r['id'], LIMITS['x']))
+        thread = r.get('kind') == 'thread'
+        items.append(dict(id='x-' + r['id'], lane='post-copy', bubble='x', group=group_of(r.get('series'), r['id']), kind='thread' if thread else 'single',
+                          label='X thread · %d posts' % (len(replies) + 1) if thread else 'X post', text=body, replies=replies, limit=LIMITS['x']))
+
     # Video cards show the thumbnail that went out with the video (Taylor, 9 November 2026).
     # Only a long video's own posted thumbnail: the 50 Niches Short's live thumbnail is YouTube's frame of Taylor.
     posted = {i['group'] for i in items if i['lane'] == 'youtube' and i.get('posted')}
@@ -239,7 +268,7 @@ def main(stage):
             it['poster'] = thumb_for(it['group'], it['lane'])
 
     used = {i['group'] for i in items}
-    out = dict(version=1,
+    out = dict(version=1, shared=SHARED,
                groups=[g for g in groups if g['id'] in used], items=items)
     with open(OUT_JSON, 'w', encoding='utf-8') as f:
         json.dump(out, f, ensure_ascii=False, indent=1)

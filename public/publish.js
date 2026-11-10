@@ -23,14 +23,17 @@
    reels are found from the reel job's jobId (reelsId below), so neither lane ever writes the other's documents.
    Parts (6 November 2026): Taylor records the main video in parts. Several files with role "main" are still one main
    recording, saved with "part" 1..n in the order they are joined; Check the files shows them as one main card where a
-   part moves up or down, or is left out, with one tap. A job with a single main has no "part" and reads as before. */
+   part moves up or down, or is left out, with one tap. A job with a single main has no "part" and reads as before.
+   X (10 November 2026): every job's pack also carries an X platform (key "x"): a single post and a short thread, each
+   post counted the way X counts it (x-count.js) against 280. Taylor copies each post, or opens X's own compose box with the
+   first post filled in; the link reply waits for his YouTube link. Nothing is posted from here. */
 (() => {
   'use strict';
   const root = document.querySelector('#publish');
   if (!root) return;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const MAX_REELS = 5, MAX_PARTS = 10;
-  const PLATFORMS = {youtube:'YouTube', linkedin:'LinkedIn', reels:'Instagram Reels'};
+  const PLATFORMS = {youtube:'YouTube', linkedin:'LinkedIn', x:'X', reels:'Instagram Reels'};
   let db = null, jobs = [], job = null, links = [], connecting = true, note = '', copied = '', title = '', brief = '';
   // Phase 1 safety (4 November 2026): retry is the step to start again after a refused or failed start, starting is the
   // step whose session is being opened right now, confirm shows the "Have you made your picks?" question, topicPick is
@@ -524,10 +527,18 @@
   const httpsUrl = u => { try { const x = new URL(String(u || '').trim()); return x.protocol === 'https:' ? x.href : null; } catch { return null; } };
   const ytUrl = u => { const h = httpsUrl(u); if (!h) return null; const x = new URL(h), host = x.hostname.replace(/^(www|m)\./, '');
     return (host === 'youtube.com' && (x.searchParams.get('v') || /^\/(shorts|live)\/[\w-]{6,}/.test(x.pathname))) || (host === 'youtu.be' && /^\/[\w-]{6,}/.test(x.pathname)) ? h : null; };
-  const blocked = v => [...placeholders(v.title), ...placeholders(v.body), ...placeholders(v.firstComment, true)];
+  // X (key "x"): body is the first post, replies the posts after it (one link reply for a single, the rest of a thread).
+  // Each is counted the way X counts it; one over 280 cannot be used. [YOUTUBE LINK] is allowed in a reply until it is filled.
+  const xLen = t => window.WWX ? window.WWX.len(String(t || '').trim()) : [...String(t || '').trim()].length, X_MAX = 280;
+  const xPosts = v => [v.body || '', ...(Array.isArray(v.replies) ? v.replies : [])];
+  const xLong = v => xPosts(v).map((t, i) => xLen(t) > X_MAX ? 'post '+(i+1)+' is '+xLen(t)+' of '+X_MAX : '').filter(Boolean);
+  const needsYt = v => [v.firstComment, ...(Array.isArray(v.replies) ? v.replies : [])].some(t => String(t || '').includes(YT_PH));
+  const blocked = (v, key) => [...placeholders(v.title), ...placeholders(v.body), ...placeholders(v.firstComment, true), ...(Array.isArray(v.replies) ? v.replies : []).flatMap(r => placeholders(r, true))];
+  // Why a variation cannot be used, in words: a placeholder left in it, or (X) a post over the limit.
+  const unusable = (v, key) => { const ph = blocked(v), long = key === 'x' ? xLong(v) : []; return [ph.length ? 'it still has '+ph.join(', ') : '', ...long].filter(Boolean); };
   const picksOpen = () => ['posts','final'].includes(job?.status) && !starting;
   const plats = () => (job?.pack?.platforms || []).filter(pl => pl && pl.key);
-  const chosenPost = pl => { const i = (pl.posts || []).findIndex((v, n) => job.picks?.[pl.key+'.post'] === 'v'+(n+1)); return i < 0 || blocked(pl.posts[i]).length ? null : pl.posts[i]; };
+  const chosenPost = pl => { const i = (pl.posts || []).findIndex((v, n) => job.picks?.[pl.key+'.post'] === 'v'+(n+1)); return i < 0 || unusable(pl.posts[i], pl.key).length ? null : pl.posts[i]; };
   const chosenThumb = pl => (pl.thumbnails || []).find(t => t.id === job.picks?.[pl.key+'.thumb']) || null;
   // A thumbnail's image (7 November 2026): preview, image or src is an image link as given; file or url only when it names
   // a .jpg, .png or .webp file. A link to a place on a page (#thumb-…) is never an image. One that failed to load here is not.
@@ -549,6 +560,8 @@
   // The texts one variation gives Taylor to paste: the YouTube title and description, or the LinkedIn post and first comment.
   function parts(pl, v) {
     const yt = pl.key === 'youtube', out = [];
+    if (pl.key === 'x') { const r = Array.isArray(v.replies) ? v.replies : [], thread = v.kind === 'thread', n = r.length + 1;
+      return [['body', thread ? 'post 1 of '+n : 'post', v.body || ''], ...r.map((t, i) => ['reply'+(i+1), thread ? 'post '+(i+2)+' of '+n : 'reply with the link', t])]; }
     if (yt && v.title) out.push(['title', 'title', v.title]);
     out.push(['body', yt ? 'description' : pl.key === 'reels' ? 'caption' : 'post', v.body || '']);
     if (v.firstComment) out.push(['comment', 'first comment', v.firstComment]);
@@ -560,13 +573,18 @@
     if (!x) return null; const t = fill(x[2]);
     return placeholders(t).length ? null : t.trim();  // nothing with a placeholder is ever copied
   }
+  // Open X (10 November 2026): X's own compose box in a new tab with the first post filled in. Taylor presses Post there
+  // himself and adds each reply under it by hand; the page never posts.
+  const xOpen = pl => { const t = pl.key === 'x' && chosenPost(pl) ? partText('x|body') : null;
+    return t && window.WWX ? '<a class="pb-link pb-xopen" href="'+esc(window.WWX.intent(t))+'" target="_blank" rel="noopener noreferrer">Open X with '+(chosenPost(pl).kind === 'thread' ? 'post 1' : 'this post')+' ↗</a>' : ''; };
   const copyBtns = pl => { const v = chosenPost(pl); if (!v) return '';
     return parts(pl, v).map(([part, label]) => { const key = pl.key+'|'+part, off = !partText(key);
-      return '<button type="button" class="pb-go pb-cp" data-copy-part="'+esc(key)+'"'+(off ? ' disabled' : '')+'>'+(copied === key ? 'Copied' : 'Copy the '+esc(PLATFORMS[pl.key] || pl.key)+' '+label)+'</button>'; }).join(''); };
-  const ytStatus = () => { const d = ytDraft ?? job?.youtubeUrl ?? ''; return !String(d).trim() ? 'Post the YouTube video first, then paste its link here.' : !ytUrl(d) ? 'That is not a YouTube video link.' : ytUrl(d) === job?.youtubeUrl ? 'Saved. The first comment uses it.' : 'Not saved yet.'; };
+      return '<button type="button" class="pb-go pb-cp" data-copy-part="'+esc(key)+'"'+(off ? ' disabled' : '')+'>'+(copied === key ? 'Copied' : 'Copy the '+esc(PLATFORMS[pl.key] || pl.key)+' '+label)+'</button>'; }).join('')+xOpen(pl); };
+  const hasX = () => plats().some(pl => pl.key === 'x' && pl.posts?.length);
+  const ytStatus = () => { const d = ytDraft ?? job?.youtubeUrl ?? ''; return !String(d).trim() ? 'Post the YouTube video first, then paste its link here.' : !ytUrl(d) ? 'That is not a YouTube video link.' : ytUrl(d) === job?.youtubeUrl ? (hasX() ? 'Saved. The LinkedIn first comment and the X reply use it.' : 'Saved. The first comment uses it.') : 'Not saved yet.'; };
   function ytField() {
     const d = ytDraft ?? job.youtubeUrl ?? '', ok = ytUrl(d);
-    return '<div class="pb-yt"><label class="pb-field" for="pb-yt"><span>Your YouTube link, for the LinkedIn first comment</span><input id="pb-yt" type="url" inputmode="url" spellcheck="false" maxlength="300" placeholder="https://www.youtube.com/watch?v=…" value="'+esc(d)+'"></label>'+
+    return '<div class="pb-yt"><label class="pb-field" for="pb-yt"><span>Your YouTube link, for the LinkedIn first comment'+(hasX() ? ' and the X reply' : '')+'</span><input id="pb-yt" type="url" inputmode="url" spellcheck="false" maxlength="300" placeholder="https://www.youtube.com/watch?v=…" value="'+esc(d)+'"></label>'+
       '<button type="button" class="pb-link" id="pb-yt-save"'+(ok && ok !== job.youtubeUrl ? '' : ' disabled')+'>Save link</button><small id="pb-yt-st" role="status">'+esc(ytStatus())+'</small></div>';
   }
   // The pack, one block per platform (PB-A, the approved design): the thumbnails (sixteen with Thumbnail Tracker 4.0.0), then two post variations, each picked
@@ -590,15 +608,18 @@
       '<p class="pb-muted">One thumbnail and one post for each platform. Every post passed the Performance Poster check for '+(job.buyer && BUYER[job.buyer] ? 'buyer '+esc(BUYER[job.buyer]) : 'its buyer')+(job.bookingLink ? ', with your booking link from Settings' : '')+'.</p>'+
       sheetHtml(p.thumbRound?.sheet, 'Contact sheet of every thumbnail, numbered');
     return '<section class="pb-pack" aria-labelledby="pb-pack-h">'+(['posts','final'].includes(job.status) ? trackHtml(job.status === 'final' ? 3 : 2) : '')+head+list.map(pl => {
-      const k = pl.key, post = pl.posts || [], v = chosenPost(pl), shown = v || post.find(x => !blocked(x).length);
-      const needYt = v && String(v.firstComment || '').includes(YT_PH);
+      const k = pl.key, post = pl.posts || [], v = chosenPost(pl), shown = v || post.find(x => !unusable(x, k).length);
+      // One YouTube link field on the screen: under the first platform whose pick needs it. The others say where it is.
+      const needYt = v && needsYt(v), ytHere = needYt && list.find(q => { const c = chosenPost(q); return c && needsYt(c); }) === pl;
+      const xn = x => { const n = xLen(fill(x)); return '<small class="pb-xn'+(n > X_MAX ? ' is-over' : '')+'">'+n+' of '+X_MAX+' characters, counted the way X counts them</small>'; };
       return '<article class="pb-blk"><div class="pb-blk-side"><span class="pb-pf pb-pf-'+esc(k)+'">'+esc(PLATFORMS[k] || pl.label || k)+'</span>'+(pl.video?.url ? '<a class="pb-vid'+(k === 'reels' ? ' is-tall' : '')+'" href="'+esc(pl.video.url)+'" target="_blank" rel="noopener noreferrer"><span>'+esc(pl.video.label || 'Watch it')+' ↗</span></a>' : '')+(pl.note ? '<small class="pb-muted">'+esc(pl.note)+'</small>' : '')+'</div><div class="pb-blk-main">'+
         (pl.questions || []).map(q => '<div class="pb-q"><span class="micro">'+esc(q.label)+'</span><div class="pb-opts">'+q.options.map(o => opt(k+'.'+q.id, o)).join('')+'</div></div>').join('')+
         (pl.thumbnails?.length ? '<div class="pb-q"><span class="micro">Thumbnail · pick 1 of '+pl.thumbnails.length+'</span>'+(imgUrl(pl.thumbRound?.sheet) !== imgUrl(p.thumbRound?.sheet) ? sheetHtml(pl.thumbRound?.sheet, PLATFORMS[k]+' contact sheet, numbered') : '')+'<div class="pb-thumbs" data-own-fallback>'+pl.thumbnails.map((t, i) => thumb(k, t, i)).join('')+'</div>'+thumbLine(k, pl.thumbnails)+'</div>' : '')+
-        (post.length ? '<div class="pb-q"><span class="micro">'+esc(pl.postLabel || 'Post')+' · pick a variation</span><div class="pb-opts pb-two">'+post.map((x, i) => { const bad = blocked(x);
-          return opt(k+'.post', {id:'v'+(i+1), tag:'Variation '+(i+1), title:x.title || String(x.body || '').split('\n')[0], detail:bad.length ? 'Cannot be used: it still has '+bad.join(', ')+'.' : x.check || ''}, bad.length); }).join('')+'</div>'+
-          (shown ? '<div class="pb-chosen"><span class="micro">'+(v ? 'Your pick · variation '+(post.indexOf(v)+1) : 'Variation '+(post.indexOf(shown)+1)+' · not picked yet')+'</span>'+parts(pl, shown).map(([, label, x]) => '<div class="pb-part"><b>'+esc(label[0].toUpperCase()+label.slice(1))+'</b><pre class="pb-copy">'+esc(fill(x).trim())+'</pre></div>').join('')+
-            (v ? '<div class="pb-copies pb-cps">'+copyBtns(pl)+'</div>'+(needYt ? ytField() : '') : '<p class="pb-muted">Pick a variation to copy it.</p>')+'</div>' : '<div class="pb-warn" role="alert">No variation here can be used: each still has a placeholder. Ask Claude Code to write them again.</div>')+'</div>' : '')+
+        (post.length ? '<div class="pb-q"><span class="micro">'+esc(pl.postLabel || 'Post')+' · pick a variation</span><div class="pb-opts pb-two">'+post.map((x, i) => { const bad = unusable(x, k);
+          return opt(k+'.post', {id:'v'+(i+1), tag:'Variation '+(i+1)+(k === 'x' ? (x.kind === 'thread' ? ' · thread of '+xPosts(x).length : ' · single post') : ''), title:x.title || String(x.body || '').split('\n')[0], detail:bad.length ? 'Cannot be used: '+bad.join('; ')+'.' : x.check || ''}, bad.length); }).join('')+'</div>'+
+          (shown ? '<div class="pb-chosen"><span class="micro">'+(v ? 'Your pick · variation '+(post.indexOf(v)+1) : 'Variation '+(post.indexOf(shown)+1)+' · not picked yet')+'</span>'+parts(pl, shown).map(([, label, x]) => '<div class="pb-part"><b>'+esc(label[0].toUpperCase()+label.slice(1))+'</b><pre class="pb-copy">'+esc(fill(x).trim())+'</pre>'+(k === 'x' ? xn(x) : '')+'</div>').join('')+
+            (v ? '<div class="pb-copies pb-cps">'+copyBtns(pl)+'</div>'+(k === 'x' ? '<p class="pb-muted pb-xnote">Open X fills in the first post for you to post yourself. Add '+(v.kind === 'thread' ? 'each later post' : 'the reply')+' under it by hand. Nothing is posted from here.</p>' : '')+
+              (ytHere ? ytField() : needYt ? '<p class="pb-muted pb-ytref">'+(job.youtubeUrl ? 'Uses the YouTube link you saved.' : 'Waits for your YouTube link: save it in the field above, after the video is live.')+'</p>' : '') : '<p class="pb-muted">Pick a variation to copy it.</p>')+'</div>' : '<div class="pb-warn" role="alert">No variation here can be used: each still has a placeholder'+(k === 'x' ? ' or a post over '+X_MAX : '')+'. Ask Claude Code to write them again.</div>')+'</div>' : '')+
         '</div></article>';
     }).join('')+(job.status === 'posts'
       ? '<div class="pb-bar"><span>'+have+' of '+need+' picked</span><span class="pb-muted">Picking costs nothing: no session runs. Nothing is posted.</span><button type="button" class="pb-go" id="pb-ready"'+(have >= need && !starting ? '' : ' disabled')+'>Ready to post →</button></div>'
@@ -620,11 +641,11 @@
     const rows = ready ? '<ul class="pb-rd-list">'+list.map(pl => { const th = chosenThumb(pl), full = th && thumbFull(th), img = th && thumbImg(th), v = chosenPost(pl), files = f.filter(x => x.platform === pl.key);
         const no = th ? thumbNo(th, (pl.thumbnails || []).indexOf(th)) : 0;
         return '<li class="pb-rd"><span class="pb-pf pb-pf-'+esc(pl.key)+'">'+esc(PLATFORMS[pl.key] || pl.key)+'</span><div class="pb-rd-files">'+files.map(fileLink).join('')+
-          (th ? '<div class="pb-rd-file pb-rd-thumb">'+(img ? '<img src="'+esc(img)+'" alt="Thumbnail '+no+'" loading="lazy">' : '')+'<b>Thumbnail '+no+'</b><span>'+esc([th.label, th.size].filter(Boolean).join(' · '))+'</span>'+(full ? '<a class="pb-link" href="'+esc(full)+'" target="_blank" rel="noopener noreferrer">Full size ↗</a>' : '')+'</div>' : '<small>Pick a thumbnail below.</small>')+'</div>'+
+          (th ? '<div class="pb-rd-file pb-rd-thumb">'+(img ? '<img src="'+esc(img)+'" alt="Thumbnail '+no+'" loading="lazy">' : '')+'<b>Thumbnail '+no+'</b><span>'+esc([th.label, th.size].filter(Boolean).join(' · '))+'</span>'+(full ? '<a class="pb-link" href="'+esc(full)+'" target="_blank" rel="noopener noreferrer">Full size ↗</a>' : '')+'</div>' : pl.thumbnails?.length ? '<small>Pick a thumbnail below.</small>' : pl.note ? '<small class="pb-rd-what">'+esc(pl.note)+'</small>' : '')+'</div>'+
           '<div class="pb-copies pb-rd-copy">'+(v ? copyBtns(pl) : '<small>Pick a post below.</small>')+'</div></li>'; }).join('')+'</ul>'
       : f.length ? '<ul>'+f.map(x => '<li><span class="pb-pf pb-pf-'+esc(x.platform || '')+'">'+esc(PLATFORMS[x.platform] || x.platform || '')+'</span>'+fileLink(x)+'</li>').join('')+'</ul>' : '';
     return '<section class="pb-finals" aria-labelledby="pb-fin-h"><h2 id="pb-fin-h" tabindex="-1">'+(ready ? 'Ready to post' : 'Finished')+'</h2>'+(job.finalNote ? '<p class="pb-muted">'+esc(job.finalNote)+'</p>' : '')+rows+
-      '<div class="pb-post"><div><b>Post all</b><p class="pb-muted">Posting needs the YouTube, LinkedIn and Instagram connections, which are not set up yet. Until then, post by hand: open each file, copy each text and paste it in. Nothing has been posted.</p></div><div class="pb-copies"><button type="button" class="pb-go" disabled>Post all</button></div></div></section>';
+      '<div class="pb-post"><div><b>Post all</b><p class="pb-muted">Posting needs the YouTube, LinkedIn, Instagram and X connections, which are not set up yet. Until then, post by hand: open each file, copy each text and paste it in. Nothing has been posted.</p></div><div class="pb-copies"><button type="button" class="pb-go" disabled>Post all</button></div></div></section>';
   }
   // A finished job is not opened by itself, so the videos whose posts are ready stay one tap away from the intake.
   function readyJobs() {

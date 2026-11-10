@@ -52,6 +52,7 @@ Use the Creator watchlist’s simple Instrument Sans heading style across the ap
 - `public/topics.css`, `public/topics.js`: Schedule tab (`#/schedule`), a four-week calendar with one row per week (Taylor's pick S2-B, 30 October 2026) and calendar-lens filters, the topic panel (including who the video is for: buyer A or B) and the not-scheduled list, built on PROCESS.md.
 - `public/publish.css`, `public/publish.js`: Publish tab (`#/publish`): Drive links in, the Variety Pack platform by platform, finals and Post all. Jobs are artifact database documents `jobs/<id>` (fields: sources, skills, status `queued|running|check|found|pack|finishing|pilot|review|ask|posts|final`, stages, pack, picks, finals; PUBLISH.md lists them all) that a Claude Code session fills in. On `posts` Taylor picks one of five thumbnails and one of two posts per platform and copies each text; posting stays by hand.
 - `public/reels.css`, `public/reels.js`: the Reels lane inside Publish (`#/publish/reels`, `#/publish/reels/<id>`): one main recording in (a Video job's, or a Drive file or folder link), the Reel highlight pack (six reels, three highlights each with the value to the viewer and its times), and Taylor's two winners with an optional Add music tick each. Reel jobs are artifact database documents `reels/<id>` (PUBLISH.md "Reels jobs"), never fields on `jobs/<id>`.
+- `public/x-count.js`, `scripts/check-x-post.py`: X (Twitter), added 10 November 2026. Every Publish job writes an X post from the video transcript (a single post and a short thread; PUBLISH.md "The X post"). `check-x-post.py` is the pass/fail check the session runs on each variation; `x-count.js` counts a post the way X does (links 23, emoji 2, limit 280) for the Publish screen and the Vault's "X posts" bubble, and builds the Open X compose link. The two are held to one set of vectors in `scripts/tests/fixtures/x/`. Nothing is ever posted automatically, and X is not connected.
 - `public/settings.css`, `public/settings.js`: Settings (`#/settings`, the cog top right): the skill library and the jobs that use each skill, saved as `settings/skills`, and the booking link for posts, saved once as `settings/links`.
 - `public/ww-store.js`: when the app runs as a Claude artifact with no server, topics and creator notes are saved in the artifact's own database (collections `topics` and `creatorNotes`).
 - `public/presentations.js`: presentation register.
@@ -72,6 +73,8 @@ Use the Creator watchlist’s simple Instrument Sans heading style across the ap
 
 ```sh
 node --test youtube-api.test.mjs
+node --test scripts/tests/test_x_count.mjs
+python3 -I scripts/tests/test_check_x_post.py
 node node_modules/typescript/bin/tsc --noEmit
 npm run build
 ```

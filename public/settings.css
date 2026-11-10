@@ -65,3 +65,79 @@
 @media(hover:hover){#settings .se-gh-btn:not(:disabled):hover{background:#3a3631}#settings .se-gh-btn.is-ghost:not(:disabled):hover{background:#f5f3ee}}
 @media(max-width:700px){.se-gh{grid-template-columns:10px minmax(0,1fr)}.se-gh-dot{align-self:start;margin-top:7px}#settings .se-gh-btn{grid-column:1/-1;width:100%}.se-gh-link{grid-column:2;justify-self:start}}
 .se-gh p:focus{outline:none}
+/* Settings lanes (Taylor, 10 November 2026): Skills | Posting, the same plain text tabs with the thin dark underline as Publish. */
+.se-lanes{display:flex;gap:28px;margin-top:22px;border-bottom:1px solid #d8d5cf;overflow-x:auto;scrollbar-width:none}
+.se-lanes::-webkit-scrollbar{display:none}
+#settings .se-lanes a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:10px 0;border-bottom:2px solid transparent;margin-bottom:-1px;text-decoration:none;font-size:16px;color:#5c5750;white-space:nowrap}
+#settings .se-lanes a[aria-current=page]{border-bottom-color:#1c1a17;color:#1c1a17}
+#settings .se-lanes a:hover{color:#1c1a17}
+.se-lanes+.se-gh{margin-top:0;border-top:0}
+/* Posting (direction A "The week", 10 November 2026): the week as the Schedule draws it, then time, mode and platforms. */
+.po{max-width:880px;display:flex;flex-direction:column;gap:36px;margin-top:32px}
+.po-grp h2{margin:0 0 12px;font:500 22px/1.2 WWBody,Arial,sans-serif;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.po-grp h2 .micro{margin:0}
+.po-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+#settings .po-day{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:10px;min-height:104px;padding:10px;border:1px solid #d8d5cf;border-radius:12px;background:#f5f3ee;text-align:left}
+.po-day b{font:400 12px WWMono,monospace}
+.po-tags{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.po-tag{display:inline-flex;align-items:center;gap:6px;font:10px WWMono,monospace;letter-spacing:.08em;text-transform:uppercase;color:#5c5750}
+.po-tag::before{content:"";width:10px;height:10px;border-radius:3px;border:1px solid #1c1a17;box-sizing:border-box}
+.po-tag.is-rec::before{background:#1c1a17}
+.po-tag.is-post{color:#1c1a17}.po-tag.is-post::before{background:#8b6002;border-color:#8b6002}
+.po-tag.is-off{visibility:hidden}
+#settings .po-day[aria-pressed=true]{background:#f6df8c;border-color:#8b6002}
+@media(hover:hover){#settings .po-day:hover{border-color:#1c1a17}}
+.po-preview{margin:14px 0 0;font-size:18px;line-height:1.7}
+.po-preview mark{background:#f6df8c;color:#1c1a17;padding:1px 6px;border-radius:3px;white-space:nowrap}
+.po-two{display:flex;flex-wrap:wrap;gap:20px 48px}
+.po-field{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:0;min-height:0;background:none;cursor:default;font-size:14px;font-weight:600}
+.po-field small{display:block;margin:0;font:400 13px/1.4 WWBody,Arial,sans-serif;color:#5c5750}
+.po-field input[type=time]{box-sizing:border-box;min-height:48px;min-width:150px;padding:8px 12px;border:1px solid #d8d5cf;border-radius:8px;background:#fff;color:#1c1a17;font:400 18px WWMono,monospace;font-variant-numeric:tabular-nums}
+.po-step{display:inline-flex;align-items:center;border:1px solid #d8d5cf;border-radius:8px;background:#fff}
+#settings .po-step button{width:48px;height:48px;min-height:48px;padding:0;border:0;border-radius:7px;background:#fff;font-size:22px;line-height:1}
+#settings .po-step button:disabled{color:#d8d5cf;cursor:not-allowed}
+@media(hover:hover){#settings .po-step button:not(:disabled):hover{background:#f5f3ee}}
+.po-step output{min-width:44px;text-align:center;font:600 18px WWMono,monospace}
+.po-plats{display:flex;flex-direction:column;border-top:1px solid #d8d5cf}
+.po-plat{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:4px 14px;align-items:center;min-height:56px;padding:8px 0;border-bottom:1px solid #d8d5cf;background:none;cursor:pointer;font-size:16px}
+.po-plat-text b{display:block;font-weight:600}
+.po-plat small{display:block;margin:0;font:400 13px/1.4 WWBody,Arial,sans-serif;color:#5c5750}
+.po-plat em{font:normal 11px WWMono,monospace;letter-spacing:.06em;text-transform:uppercase;color:#8b6002;white-space:nowrap}
+.po-tick{position:absolute;opacity:0;width:1px;height:1px}
+.po-box{box-sizing:border-box;width:24px;height:24px;border-radius:6px;border:1.5px solid #1c1a17;background:#fff;display:inline-flex;align-items:center;justify-content:center}
+.po-tick:checked+.po-box{background:#1c1a17}
+.po-tick:checked+.po-box::after{content:"";width:11px;height:6px;border-left:2px solid #f6df8c;border-bottom:2px solid #f6df8c;transform:rotate(-45deg) translate(1px,-1px)}
+.po-tick:focus-visible+.po-box{outline:3px solid #8b6002;outline-offset:3px}
+.po-honest{display:flex;gap:10px;align-items:baseline;margin:12px 0 0;font-size:14px;color:#5c5750}
+.po-honest .se-dot{flex:none;margin:0;transform:translateY(1px)}
+.po .se-save{margin-top:0}
+@media(prefers-reduced-motion:no-preference){#settings .po-day{transition:background-color .18s ease,border-color .18s ease}}
+@media(max-width:700px){.po{gap:30px;margin-top:24px}.po-week{gap:0;margin-inline:-8px}#settings .po-day{min-height:92px;padding:8px 2px;align-items:center;border-radius:0;margin-left:-1px}#settings .po-day:first-child{border-radius:12px 0 0 12px;margin-left:0}#settings .po-day:last-child{border-radius:0 12px 12px 0}#settings .po-day[aria-pressed=true],#settings .po-day:focus-visible{position:relative;z-index:1}.po-tags{align-items:center}.po-tag{flex-direction:column;gap:3px;font-size:8px;letter-spacing:.04em}.po-preview{font-size:16px}.po-plat{grid-template-columns:24px minmax(0,1fr)}.po-plat em{grid-column:2}}
+/* Posting mode toggle: Manual posting | Auto posting, segmented, with an ink thumb that slides under the word in force.
+   <div class="pm pm-a" role="radiogroup" data-live="false"> two <label><input type="radio"><i></i><span>…</span></label> </div>
+   The toggle stays in the page when the mode changes (settings.js pModeInPlace), which is what lets the thumb slide.
+   data-live="true" is for the day an account is connected and Auto really posts; until then Auto shows as chosen, not live.
+   A rebrand restyles it with the --pm-* variables alone. */
+.pm{--pm-ink:#1c1a17;--pm-gold:#8b6002;--pm-hi:#f6df8c;--pm-muted:#5c5750;--pm-bg:#fff;--pm-on:#fff;--pm-hover:#f5f3ee;--pm-radius:12px;position:relative;font:16px/1.3 WWBody,Arial,sans-serif;color:var(--pm-ink)}
+.pm input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
+.pm label{padding:0;min-height:0;background:none;gap:0;cursor:pointer}
+.pm small{display:none}
+/* The dot's space is always there, so choosing Auto never moves or widens anything. */
+.pm i{flex:none;width:8px;height:8px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--pm-hi);visibility:hidden}
+.pm label:has(:checked) i{visibility:visible}
+.pm[data-live=true] i{background:var(--pm-hi)}
+.pm-note{display:flex;gap:10px;align-items:baseline;margin:12px 0 0;font-size:14px;color:#5c5750;max-width:60ch}
+.pm-note b{color:#1c1a17;font-weight:600}
+.pm-note .se-dot{flex:none;margin:0;transform:translateY(1px)}
+.po-honest[hidden]{display:none}
+.pm-a{box-sizing:border-box;display:inline-grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:340px;max-width:100%;padding:4px;border:1px solid var(--pm-ink);border-radius:var(--pm-radius);background:var(--pm-bg)}
+.pm-a::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:calc(var(--pm-radius) - 4px);background:var(--pm-ink)}
+.pm-a:has(input[value=auto]:checked)::before{transform:translateX(100%)}
+.pm-a:active::before{scale:.98}
+.pm-a label{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 12px;border-radius:calc(var(--pm-radius) - 4px);white-space:nowrap}
+.pm-a label:has(:checked){color:var(--pm-on)}
+/* The ring goes round the whole control, clear of the frame line. */
+.pm-a:has(:focus-visible){outline:3px solid var(--pm-gold);outline-offset:3px}
+@media(hover:hover) and (pointer:fine){.pm-a label:has(input:not(:checked)):hover{background:var(--pm-hover)}}
+@media(max-width:700px){.pm-a{display:grid;width:100%}}
+@media(prefers-reduced-motion:no-preference){.pm-a::before{transition:transform .18s cubic-bezier(.2,.8,.2,1),scale .18s cubic-bezier(.2,.8,.2,1)}.pm-a label{transition:color .18s cubic-bezier(.2,.8,.2,1)}}
