@@ -34,13 +34,17 @@
   // What a press of Ready to post saves with the job (publish.js hook): the day and time, worked out once.
   const scheduleFields = j => ({schedule:{...computed(j), by:'app', setAt:now()}});
   const scheduleOf = j => j?.schedule?.day ? j.schedule : computed(j);
+  // A job marked Ready to post before automatic posting existed may already be posted by hand: it is never given a schedule
+  // by itself (so the daily run can never post it twice). Post now still works on it, as Taylor's own choice.
+  const ENGINE_FROM = '2026-11-11T00:00:00Z';
+  const legacy = j => !j?.schedule?.day && Boolean(j?.readyAt) && j.readyAt < ENGINE_FROM;
   const anyOut = j => { const r = reelFor(j); return [...Object.values(j?.posting || {}), ...Object.values(r?.posting || {})].some(e => e && (e.state === 'posting' || e.state === 'posted')); };
   // Keep the saved schedule in step with Posting settings and the topic's day until anything has gone out. Taylor's own day
   // (by 'taylor') is never moved. Written from data changes only, never from a draw.
   async function sync() {
     if (!db) return;
     for (const j of jobs) {
-      if (j.status !== 'final' || anyOut(j) || j.schedule?.by === 'taylor' || syncing.has(j.id)) continue;
+      if (j.status !== 'final' || legacy(j) || anyOut(j) || j.schedule?.by === 'taylor' || syncing.has(j.id)) continue;
       const s = j.schedule, want = computed(j);
       const stale = !s?.day || (Date.parse(s.at) > Date.now() && (s.time !== want.time || (s.planned || null) !== (want.planned || null) || (!want.late && s.day !== want.day)));
       if (!stale) continue;
@@ -69,6 +73,7 @@
   function whenLine(j, rs) {
     const s = scheduleOf(j), at = s.day ? dayWord(s.day)+', '+s.time+' (UK time)' : '';
     if (j.hold?.on) return 'On hold: nothing posts until you release it.';
+    if (legacy(j) && !rs.some(x => x.state === 'posted' || x.state === 'posting')) return 'Marked ready before automatic posting began, so it never posts by itself. If you already posted it by hand, leave it; if not, press Post now.';
     const ons = rs.filter(x => x.on), done = ons.length && ons.every(x => x.state === 'posted');
     if (done) return 'Posted. Every switched-on platform has its link below.';
     if (runOpen(j)) return 'Posting now: Claude Code is posting it, platform by platform. This page shows each link as it goes out.';
@@ -112,7 +117,7 @@
   function badge(topicId) {
     const j = jobForTopic(topicId); if (!j) return '';
     const rs = rowsOf(j).filter(x => x.on), posted = rs.filter(x => x.state === 'posted').length, s = scheduleOf(j);
-    const [cls, t] = j.hold?.on ? ['held', 'On hold'] : rs.length && posted === rs.length ? ['posted', 'Posted'] : posted ? ['partial', 'Posted '+posted+' of '+rs.length] : rs.some(x => x.state === 'look') ? ['look', 'Needs a look'] : ['scheduled', (live() ? 'Scheduled ' : 'Ready · ')+s.time];
+    const [cls, t] = j.hold?.on ? ['held', 'On hold'] : legacy(j) && !rs.some(x => x.state === 'posted') ? ['legacy', 'Ready · by hand'] : rs.length && posted === rs.length ? ['posted', 'Posted'] : posted ? ['partial', 'Posted '+posted+' of '+rs.length] : rs.some(x => x.state === 'look') ? ['look', 'Needs a look'] : ['scheduled', (live() ? 'Scheduled ' : 'Ready · ')+s.time];
     return '<span class="wp-badge is-'+cls+'" data-wp-badge="'+cls+'">'+esc(t)+'</span>';
   }
   function receipts(topicId) {
