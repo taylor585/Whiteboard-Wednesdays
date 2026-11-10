@@ -2,6 +2,11 @@
 @font-face{font-family:WWBody;src:url(ww-body.ttf);font-display:swap}
 @font-face{font-family:WWEditorial;src:url(ww-display.ttf);font-display:swap}
 @font-face{font-family:WWMono;src:url(ww-mono.ttf);font-display:swap}
+/* Brand upgrade faces (10 November 2026), all SIL OFL 1.1, licence texts beside them. Instrument Serif has one weight: never ask it for more than 400. */
+@font-face{font-family:WWSerif;src:url(ww-serif.ttf);font-display:swap;font-weight:400;font-style:normal}
+@font-face{font-family:WWSerif;src:url(ww-serif-italic.ttf);font-display:swap;font-weight:400;font-style:italic}
+@font-face{font-family:WWGeist;src:url(ww-geist.ttf);font-display:swap;font-weight:100 900}
+@font-face{font-family:WWGeistMono;src:url(ww-geist-mono.ttf);font-display:swap;font-weight:100 900}
 /* App chrome tokens (brand pass, 10 November 2026). Every colour, radius, face and key size the app screens use is named here.
    The decks do not use these: they keep --surface, --ink, --accent and --heading, which library.js sets per deck. */
 :root{

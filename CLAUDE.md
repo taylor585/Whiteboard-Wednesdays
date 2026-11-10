@@ -3,7 +3,7 @@
 Preserve the approved whiteboard design and all existing presentation content.
 The editable application assets are in public/. The dist/ directory is generated. Add decks through public/presentations.js, using unique stable IDs, per-deck published brand profiles and local assets. Do not publish test fixtures.
 Keep .openai/hosting.json unchanged (the retired Sites project, kept for history and local tooling). Keep the older paid ads site untouched.
-Official logo only. Default white, ink #1C1A17, gold #8B6002, evidence highlight #F6DF8C. Bundled Caveat, Instrument Sans, IBM Plex Mono and Fraunces carry their licences.
+Official logo only. Default white, ink #1C1A17, gold #8B6002, evidence highlight #F6DF8C. Bundled fonts carry their licences (all SIL OFL 1.1, texts beside them in public/): Instrument Serif Regular and Italic (`ww-serif.ttf`, `ww-serif-italic.ttf`), Geist variable (`ww-geist.ttf`) and Geist Mono variable (`ww-geist-mono.ttf`) for the app screens; Caveat, Instrument Sans, IBM Plex Mono and Fraunces (`ww-caveat.ttf`, `ww-body.ttf`, `ww-mono.ttf`, `ww-display.ttf`) stay for the decks and the Presentations wall. Instrument Serif has one weight: never set it above 400.
 Test tabs, history, direct links, isolated state, reduced motion and both phone widths before publication. Browser-only brand previews are never shared saved settings.
 Skill integration: validate the new or selected deck, update the presentation register, preserve old links, test, merge, republish the Claude app (see Hosting decision below), then return the deck's route. Never create one site or artifact per deck.
 
