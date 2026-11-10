@@ -73,6 +73,9 @@ FRAME_POSTERS = {n + '.jpg' for n in (
     'ig-aih-reel-1', 'ig-aih-reel-2', 'ig-aih-reel-3', 'ig-vb-reel-1', 'ig-vb-reel-2', 'ig-vb-reel-3', 'ig-icp-legacy-reel-3')}
 # Not thumbnails: the 4:5 card filed under LinkedIn is the vision-board Instagram feed video's cover image.
 SKIP_THUMBS = {'linkedin-how-to-use-claude-like-the-top-1-post-4x5-draw-animate-agree'}
+# Lanes that show another lane's items. The same reel and 4:5 post, with the same caption, go to Instagram and
+# Facebook (Taylor, 10 November 2026), so the Facebook lane reads the Instagram records: nothing is stored twice.
+SHARED = {'facebook': 'instagram'}
 LIMITS = {'youtube': 5000, 'instagram-posts': 2200, 'instagram-reels': 2200, 'linkedin': 3000}
 
 
@@ -239,7 +242,7 @@ def main(stage):
             it['poster'] = thumb_for(it['group'], it['lane'])
 
     used = {i['group'] for i in items}
-    out = dict(version=1,
+    out = dict(version=1, shared=SHARED,
                groups=[g for g in groups if g['id'] in used], items=items)
     with open(OUT_JSON, 'w', encoding='utf-8') as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
