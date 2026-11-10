@@ -83,7 +83,7 @@
 .po-tag{display:inline-flex;align-items:center;gap:6px;font:10px WWMono,monospace;letter-spacing:.08em;text-transform:uppercase;color:#5c5750}
 .po-tag::before{content:"";width:10px;height:10px;border-radius:3px;border:1px solid #1c1a17;box-sizing:border-box}
 .po-tag.is-rec::before{background:#1c1a17}
-.po-tag.is-post{color:#1c1a17}.po-tag.is-post::before{background:#fff;border-color:#8b6002}
+.po-tag.is-post{color:#1c1a17}.po-tag.is-post::before{background:#8b6002;border-color:#8b6002}
 .po-tag.is-off{visibility:hidden}
 #settings .po-day[aria-pressed=true]{background:#f6df8c;border-color:#8b6002}
 @media(hover:hover){#settings .po-day:hover{border-color:#1c1a17}}
@@ -113,47 +113,31 @@
 .po .se-save{margin-top:0}
 @media(prefers-reduced-motion:no-preference){#settings .po-day{transition:background-color .18s ease,border-color .18s ease}}
 @media(max-width:700px){.po{gap:30px;margin-top:24px}.po-week{gap:0;margin-inline:-8px}#settings .po-day{min-height:92px;padding:8px 2px;align-items:center;border-radius:0;margin-left:-1px}#settings .po-day:first-child{border-radius:12px 0 0 12px;margin-left:0}#settings .po-day:last-child{border-radius:0 12px 12px 0}#settings .po-day[aria-pressed=true],#settings .po-day:focus-visible{position:relative;z-index:1}.po-tags{align-items:center}.po-tag{flex-direction:column;gap:3px;font-size:8px;letter-spacing:.04em}.po-preview{font-size:16px}.po-plat{grid-template-columns:24px minmax(0,1fr)}.po-plat em{grid-column:2}}
-/* Posting mode toggle: Manual posting | Auto posting. One self-contained component: the markup is
-   <div class="pm pm-a" role="radiogroup" data-live="false"> two <label><input type="radio"><i></i><span>…</span><small>…</small></label> </div>
-   and the look is the second class. pm-a = segmented (in use), pm-b = switch, pm-c = two cards: swapping is that one class in settings.js.
-   data-live="true" is for the day an account is connected and Auto really posts; until then Auto shows as chosen, not live. */
-.pm{--pm-ink:#1c1a17;--pm-gold:#8b6002;--pm-hi:#f6df8c;--pm-line:#d8d5cf;--pm-muted:#5c5750;position:relative;font:16px/1.3 WWBody,Arial,sans-serif;color:var(--pm-ink)}
+/* Posting mode toggle: Manual posting | Auto posting, segmented, with an ink thumb that slides under the word in force.
+   <div class="pm pm-a" role="radiogroup" data-live="false"> two <label><input type="radio"><i></i><span>…</span></label> </div>
+   The toggle stays in the page when the mode changes (settings.js pModeInPlace), which is what lets the thumb slide.
+   data-live="true" is for the day an account is connected and Auto really posts; until then Auto shows as chosen, not live.
+   A rebrand restyles it with the --pm-* variables alone. */
+.pm{--pm-ink:#1c1a17;--pm-gold:#8b6002;--pm-hi:#f6df8c;--pm-muted:#5c5750;--pm-bg:#fff;--pm-on:#fff;--pm-hover:#f5f3ee;--pm-radius:12px;position:relative;font:16px/1.3 WWBody,Arial,sans-serif;color:var(--pm-ink)}
 .pm input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
 .pm label{padding:0;min-height:0;background:none;gap:0;cursor:pointer}
-.pm small{display:block;margin:0;font:400 13px/1.4 WWBody,Arial,sans-serif;color:var(--pm-muted)}
-.pm i{display:none;flex:none;width:8px;height:8px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--pm-hi)}
+.pm small{display:none}
+/* The dot's space is always there, so choosing Auto never moves or widens anything. */
+.pm i{flex:none;width:8px;height:8px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--pm-hi);visibility:hidden}
+.pm label:has(:checked) i{visibility:visible}
 .pm[data-live=true] i{background:var(--pm-hi)}
-.pm-note{margin:10px 0 0;font-size:14px;color:#5c5750;max-width:60ch}
+.pm-note{display:flex;gap:10px;align-items:baseline;margin:12px 0 0;font-size:14px;color:#5c5750;max-width:60ch}
 .pm-note b{color:#1c1a17;font-weight:600}
-/* pm-a: segmented. An ink thumb slides under the word in force. */
-.pm-a{display:inline-grid;grid-template-columns:1fr 1fr;padding:4px;border:1px solid var(--pm-ink);border-radius:12px;background:#fff}
-.pm-a::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:8px;background:var(--pm-ink)}
+.pm-note .se-dot{flex:none;margin:0;transform:translateY(1px)}
+.po-honest[hidden]{display:none}
+.pm-a{box-sizing:border-box;display:inline-grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);width:340px;max-width:100%;padding:4px;border:1px solid var(--pm-ink);border-radius:var(--pm-radius);background:var(--pm-bg)}
+.pm-a::before{content:"";position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:calc(var(--pm-radius) - 4px);background:var(--pm-ink)}
 .pm-a:has(input[value=auto]:checked)::before{transform:translateX(100%)}
-.pm-a label{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 20px;border-radius:8px;white-space:nowrap}
-.pm-a label:has(:checked){color:#fff}
-.pm-a label:has(:checked) i{display:inline-block}
-.pm-a small{display:none}
-.pm-a label:has(:focus-visible){outline:3px solid var(--pm-gold);outline-offset:4px}
-/* pm-b: a switch between the two words. Yellow track for Auto, dashed until it is live. */
-.pm-b{display:inline-flex;align-items:center}
-.pm-b::before{content:"";order:1;flex:none;box-sizing:border-box;width:72px;height:36px;margin:0 14px;border-radius:999px;border:1.5px solid var(--pm-ink);pointer-events:none;background:radial-gradient(circle,var(--pm-ink) 0 13px,transparent 13.5px) 4px 50%/26px 26px no-repeat #fff}
-.pm-b:has(input[value=auto]:checked)::before{background-position:calc(100% - 4px) 50%;background-color:var(--pm-hi);border-color:var(--pm-gold)}
-.pm-b[data-live=false]:has(input[value=auto]:checked)::before{border-style:dashed}
-.pm-b label{position:relative;display:flex;align-items:center;min-height:44px;color:var(--pm-muted)}
-.pm-b label:first-of-type{order:0;padding-right:100px;margin-right:-100px}
-.pm-b label:last-of-type{order:2;padding-left:100px;margin-left:-100px}
-.pm-b label:has(input:not(:checked)){z-index:1}
-.pm-b label:has(:checked){color:var(--pm-ink);font-weight:600}
-.pm-b small{display:none}
-.pm-b label span{border-radius:4px}
-.pm-b label:has(:focus-visible) span{outline:3px solid var(--pm-gold);outline-offset:4px}
-/* pm-c: two cards that say what each choice does. */
-.pm-c{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:640px}
-.pm-c label{display:grid;grid-template-columns:18px minmax(0,1fr);gap:2px 12px;align-content:start;padding:14px;border:1px solid var(--pm-line);border-radius:10px;background:#fff}
-.pm-c label::before{content:"";grid-row:1/3;width:18px;height:18px;margin-top:2px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--pm-ink)}
-.pm-c label:has(:checked){border-color:var(--pm-ink);box-shadow:inset 0 0 0 1px var(--pm-ink),0 0 0 3px var(--pm-hi)}
-.pm-c label:has(:checked)::before{background:radial-gradient(circle,var(--pm-ink) 0 4.5px,transparent 5px)}
-.pm-c span{font-weight:600}.pm-c small{grid-column:2}
-.pm-c label:has(:focus-visible){outline:3px solid var(--pm-gold);outline-offset:3px}
-@media(max-width:560px){.pm-c{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:no-preference){.pm-a::before{transition:transform .18s ease}.pm-a label{transition:color .18s ease}.pm-b::before{transition:background-position .18s ease,background-color .18s ease}}
+.pm-a:active::before{scale:.98}
+.pm-a label{position:relative;display:flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 12px;border-radius:calc(var(--pm-radius) - 4px);white-space:nowrap}
+.pm-a label:has(:checked){color:var(--pm-on)}
+/* The ring goes round the whole control, clear of the frame line. */
+.pm-a:has(:focus-visible){outline:3px solid var(--pm-gold);outline-offset:3px}
+@media(hover:hover) and (pointer:fine){.pm-a label:has(input:not(:checked)):hover{background:var(--pm-hover)}}
+@media(max-width:700px){.pm-a{display:grid;width:100%}}
+@media(prefers-reduced-motion:no-preference){.pm-a::before{transition:transform .18s cubic-bezier(.2,.8,.2,1),scale .18s cubic-bezier(.2,.8,.2,1)}.pm-a label{transition:color .18s cubic-bezier(.2,.8,.2,1)}}

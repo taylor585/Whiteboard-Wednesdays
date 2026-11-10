@@ -116,7 +116,13 @@
   // wall redraw on ww:settings. Platforms are honest: no account is connected, and nothing here posts anything.
   const P = () => window.WWStore?.posting;
   const PLAT_NOTES = {youtube:'The full video, title and description', linkedin:'The LinkedIn cut and its post', instagram:'The reel and the 4:5 post', facebook:'Follows Instagram: the same reel and 4:5 post', x:'No X post is written yet'};
-  const MODE_NOTE = {manual:'<b>Manual posting.</b> You press Post on the day. Nothing goes out by itself.', auto:'<b>Auto posting is chosen.</b> No account is connected yet, so posts stay manual: you still press Post on the day.'};
+  // The note under the toggle is the one place that says Auto is not running; the hollow gold dot is the same one the toggle's Auto half carries.
+  const MODE_NOTE = {manual:'<span><b>Manual posting.</b> You press Post on the day. Nothing goes out by itself.</span>', auto:'<i class="se-dot is-off" aria-hidden="true"></i><span><b>Auto is chosen, but not running yet.</b> No account is connected, so you still press Post on the day.</span>'};
+  const modeNote = d => P().autoLive(d) ? '<i class="se-dot" aria-hidden="true"></i><span><b>Auto posting.</b> Each video goes out at '+esc(d.time)+' on its posting day.</span>' : MODE_NOTE[d.mode];
+  const saveBar = () => { const p = P(), n = pChanges(), at = p.settings.updatedAt;
+    return (n ? '<span class="se-chg">'+n+' change'+(n > 1 ? 's' : '')+'</span>' : '')+'<span class="se-when" id="po-when" role="status">'+esc(pMsg || (n ? 'Not saved yet' : at ? 'Saved '+when(at) : p.canSave ? 'Using the defaults: Tuesday and Thursday' : loaded ? 'Saving needs the app’s database, which this preview does not have' : 'Loading…'))+'</span><span class="se-note">Videos already posted keep their dates.</span><button type="button" class="se-btn" id="po-save"'+(n && p.canSave && !pBusy ? '' : ' disabled')+'>'+(pBusy ? 'Saving…' : 'Save posting settings')+'</button>'; };
+  // With Auto chosen and nothing connected the toggle's note already says so, so the line under Platforms steps back.
+  const honestHidden = d => d.mode === 'auto' && !P().autoLive(d);
   let pDraft = null, pBase = '', pMsg = '', pBusy = false;
   const pick4 = s => ({days:s.days.slice(), gap:s.gap, time:s.time, mode:s.mode, platforms:{...s.platforms}});
   const pSaved = () => pick4(P().settings);
@@ -136,23 +142,29 @@
     const p = P();
     if (!p) { root.innerHTML = '<div class="se-head"><a class="se-back" href="#/library">← Back</a><div class="micro">SETTINGS · POSTING</div><h1 id="se-heading">Posting</h1><p>Posting settings could not load. Reload the page.</p>'+laneTabs()+'</div>'; return; }
     if (!pDraft) pReset();
-    const d = pDraft, n = pChanges(), at = p.settings.updatedAt, names = {mon:'Monday', tue:'Tuesday', wed:'Wednesday', thu:'Thursday', fri:'Friday', sat:'Saturday', sun:'Sunday'};
+    const d = pDraft, names = {mon:'Monday', tue:'Tuesday', wed:'Wednesday', thu:'Thursday', fri:'Friday', sat:'Saturday', sun:'Sunday'};
     root.innerHTML = '<div class="se-head"><a class="se-back" href="#/library">← Back</a><div class="micro">SETTINGS · POSTING</div><h1 id="se-heading">Posting</h1><p>Choose the days your videos go out. The Schedule follows as soon as you save.</p>'+laneTabs()+'</div>'+
       '<div class="po"><section class="po-grp"><h2 id="po-days-h">Posting days <span class="micro">Tap a day to switch it on or off</span></h2><div class="po-week" role="group" aria-labelledby="po-days-h">'+p.WEEK.map(k => { const on = d.days.includes(k), rec = k === 'wed' || k === 'fri';
-        return '<button type="button" class="po-day" id="po-day-'+k+'" data-day="'+k+'" aria-pressed="'+on+'" aria-label="'+names[k]+(rec ? ', recording day' : '')+'"><b>'+names[k].slice(0, 3)+'</b><span class="po-tags"><span class="po-tag is-rec'+(rec ? '' : ' is-off')+'">Rec</span><span class="po-tag is-post'+(on ? '' : ' is-off')+'">Post</span></span></button>'; }).join('')+'</div>'+
+        return '<button type="button" class="po-day" id="po-day-'+k+'" data-day="'+k+'" aria-pressed="'+on+'" aria-label="'+names[k]+', posting day'+(rec ? ', also a recording day' : '')+'"><b>'+names[k].slice(0, 3)+'</b><span class="po-tags"><span class="po-tag is-rec'+(rec ? '' : ' is-off')+'">Rec</span><span class="po-tag is-post'+(on ? '' : ' is-off')+'">Post</span></span></button>'; }).join('')+'</div>'+
       '<p class="po-preview" id="po-preview" role="status">'+previewHtml()+'</p></section>'+
-      '<section class="po-two"><label class="po-field" for="po-time"><span>Posting time</span><input type="time" id="po-time" value="'+esc(d.time)+'" required><small>UK time. Used when posts go out by themselves</small></label>'+
+      '<section class="po-two"><label class="po-field" for="po-time"><span>Posting time</span><input type="time" id="po-time" value="'+esc(d.time)+'" required><small>The time posts go out once Auto posting is on. UK time.</small></label>'+
       '<div class="po-field" role="group" aria-labelledby="po-gap-h"><span id="po-gap-h">Time to edit</span><span class="po-step"><button type="button" id="po-gap-less" data-gap="-1" aria-label="One day less"'+(d.gap <= 1 ? ' disabled' : '')+'>−</button><output id="po-gap" aria-live="polite">'+d.gap+'</output><button type="button" id="po-gap-more" data-gap="1" aria-label="One day more"'+(d.gap >= 14 ? ' disabled' : '')+'>+</button></span><small>At least '+d.gap+' day'+(d.gap > 1 ? 's' : '')+' between recording and posting</small></div></section>'+
       '<section class="po-grp"><h2 id="po-mode-h">How posts go out</h2>'+
-        '<div class="pm pm-a" id="po-mode" role="radiogroup" aria-labelledby="po-mode-h" aria-describedby="po-mode-note" data-live="'+p.autoLive(d)+'">'+
+        '<div class="pm pm-a" id="po-mode" role="radiogroup" aria-labelledby="po-mode-h" data-live="'+p.autoLive(d)+'">'+
           '<label><input type="radio" name="po-mode" id="po-mode-manual" value="manual"'+(d.mode === 'manual' ? ' checked' : '')+'><span>Manual posting</span><small>You press Post on the day.</small></label>'+
-          '<label><input type="radio" name="po-mode" id="po-mode-auto" value="auto"'+(d.mode === 'auto' ? ' checked' : '')+'><i aria-hidden="true"></i><span>Auto posting</span><small>Each video goes out at the posting time, once accounts are connected.</small></label></div>'+
-        '<p class="pm-note" id="po-mode-note">'+(p.autoLive(d) ? '<b>Auto posting.</b> Each video goes out at '+esc(d.time)+' on its posting day.' : MODE_NOTE[d.mode])+'</p></section>'+
+          '<label><input type="radio" name="po-mode" id="po-mode-auto" value="auto" aria-describedby="po-mode-note"'+(d.mode === 'auto' ? ' checked' : '')+'><i aria-hidden="true"></i><span>Auto posting</span><small>Each video goes out at the posting time, once accounts are connected.</small></label></div>'+
+        '<p class="pm-note" id="po-mode-note" role="status">'+modeNote(d)+'</p></section>'+
       '<section class="po-grp"><h2>Platforms <span class="micro">Where each video is posted</span></h2><div class="po-plats">'+p.PLATFORMS.map(([k, name]) => '<label class="po-plat" for="po-plat-'+k+'"><input class="po-tick" type="checkbox" id="po-plat-'+k+'" data-plat="'+k+'"'+(d.platforms[k] ? ' checked' : '')+'><span class="po-box" aria-hidden="true"></span><span class="po-plat-text"><b>'+name+'</b><small>'+PLAT_NOTES[k]+'</small></span><em>'+(p.CONNECTED[k] ? 'Connected' : 'Not connected')+'</em></label>').join('')+'</div>'+
-        '<p class="po-honest"><i class="se-dot is-off" aria-hidden="true"></i><span>No account is connected yet. Automatic posting starts once they are. Until then you post from Publish.</span></p></section>'+
-      '<div class="se-save">'+(n ? '<span class="se-chg">'+n+' change'+(n > 1 ? 's' : '')+'</span>' : '')+'<span class="se-when" id="po-when" role="status">'+esc(pMsg || (n ? 'Not saved yet' : at ? 'Saved '+when(at) : p.canSave ? 'Using the defaults: Tuesday and Thursday' : loaded ? 'Saving needs the app’s database, which this preview does not have' : 'Loading…'))+'</span><span class="se-note">Videos already posted keep their dates.</span><button type="button" class="se-btn" id="po-save"'+(n && p.canSave && !pBusy ? '' : ' disabled')+'>'+(pBusy ? 'Saving…' : 'Save posting settings')+'</button></div></div>';
+        '<p class="po-honest" id="po-honest"'+(honestHidden(d) ? ' hidden' : '')+'><i class="se-dot is-off" aria-hidden="true"></i><span>No account is connected yet. Automatic posting starts once they are. Until then you post from Publish.</span></p></section>'+
+      '<div class="se-save" id="po-savebar">'+saveBar()+'</div></div>';
   }
   const pRedraw = id => { pMsg = ''; renderPosting(); if (id) document.getElementById(id)?.focus({preventScroll:true}); };
+  // A mode change leaves the toggle itself in the page, so its thumb slides; only what depends on the mode is rewritten.
+  function pModeInPlace() {
+    const g = document.getElementById('po-mode'), note = document.getElementById('po-mode-note'), bar = document.getElementById('po-savebar'), honest = document.getElementById('po-honest');
+    if (!g || !note || !bar) return renderPosting();
+    g.dataset.live = String(P().autoLive(pDraft)); note.innerHTML = modeNote(pDraft); bar.innerHTML = saveBar(); if (honest) honest.hidden = honestHidden(pDraft);
+  }
   async function postingClick(e) {
     const day = e.target.closest('[data-day]');
     if (day) { const k = day.dataset.day, on = pDraft.days.includes(k); pMsg = '';
@@ -169,7 +181,7 @@
   function postingChange(e) {
     const t = e.target;
     if (t.id === 'po-time') { if (/^([01]\d|2[0-3]):[0-5]\d$/.test(t.value)) pDraft.time = t.value; pRedraw('po-time'); return; }
-    if (t.name === 'po-mode') { pDraft.mode = t.value === 'auto' ? 'auto' : 'manual'; pRedraw('po-mode-'+pDraft.mode); return; }
+    if (t.name === 'po-mode') { pDraft.mode = t.value === 'auto' ? 'auto' : 'manual'; pMsg = ''; pModeInPlace(); return; }
     if (t.dataset.plat) { pDraft.platforms[t.dataset.plat] = t.checked; pRedraw(t.id); }
   }
   // A save here, or in another tab, moves the screen on; unsaved changes on screen are kept.
