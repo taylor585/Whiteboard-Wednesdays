@@ -85,7 +85,8 @@
   const OPENS = 'Opens on your review page';
   const SPLIT = 'Every reel is split screen: your face from your phone take in the bottom half, Katana, Blender, story films, B-roll and web clips in the top half.';
   // The split-screen check the session wrote ({pass, line}), in plain words; nothing when it was not written (older reels).
-  const splitLine = c => !c || typeof c !== 'object' ? '' : c.pass === true ? '✓ Split screen'+(c.line ? ': '+String(c.line).replace(/^PASS\s*·\s*/, '') : '') : c.pass === false ? 'Not split screen'+(c.line ? ': '+String(c.line).replace(/^FAIL\s*·\s*/, '') : '') : '';
+  const splitRest = c => String(c.line || '').replace(/^(PASS|FAIL)\s*·?\s*/, '').replace(/^(only\s+)?split screen\s*/i, '').trim();
+  const splitLine = c => !c || typeof c !== 'object' ? '' : c.pass === true ? '✓ Split screen'+(/^in /.test(splitRest(c)) ? ' '+splitRest(c) : '') : c.pass === false ? 'Not split screen'+(splitRest(c) ? ' ('+splitRest(c)+')' : '') : '';
   // Title and hook that say the same thing (3 ways… / Three ways…): the hook is shown only when it adds something.
   const NUMW = {1:'one',2:'two',3:'three',4:'four',5:'five',6:'six',7:'seven',8:'eight',9:'nine',10:'ten'};
   const toks = s => norm(s).split(' ').filter(Boolean).map(w => NUMW[w] || w);
@@ -247,10 +248,10 @@
     const requestedAt = new Date().toISOString(); starting = true; if (!quiet) { retry = false; note = ''; } render();
     try {
       const mcp = await window.claude?.use?.('mcp'); if (!mcp) throw {code:'unavailable'};
-      const res = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:(step === 'options' ? 'Reels finish: ' : 'Reels: ')+(r.title || r.id), prompt:prompt(r, step)});
+      const res = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:(step === 'options' ? 'Reels finish: ' : 'Reels: ')+(r.title || r.id), prompt:prompt(r, step)+(window.WWAutopilot?.promptLine?.(r) || '')});
       const p = res?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       starting = false; if (!quiet) { retryStep = null; retryExtra = null; }
-      await save(r, {status:NEXT[step], session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, requestedAt, startedAt:new Date().toISOString()}, ...(extra || {}), ...(r.status === 'failed' ? {error:null, failedStage:null} : {})}, quiet);
+      await save(r, {status:NEXT[step], session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, requestedAt, startedAt:new Date().toISOString()}, ...(extra || {}), ...(r.status === 'failed' ? {error:null, failedStage:null} : {}), ...(window.WWAutopilot?.answered?.(r) || {})}, quiet);
       if (extra) kdFor = null;
       render(); return true;
     } catch (e) {
@@ -618,7 +619,7 @@
       const frame = (k, on) => '<span class="rl-fr"><span class="rl-fr-in">'+(on && pic ? '<img src="'+esc(pic)+'" alt="" loading="lazy">' : on ? ph(SHAPE[k], OPENS) : ph(SHAPE[k], 'Not written yet'))+'</span></span>';
       const sc = (r.splitScreen || {})[id], sl = splitLine(sc);
       return '<article class="rl-rd" aria-labelledby="rl-rd-'+esc(id)+'"><div class="rl-rd-head"><span class="micro">'+esc(reelTag(r, b))+(b.seconds ? ' · '+esc(clock(b.seconds)) : '')+(music ? ' · '+esc(music) : '')+'</span><h3 id="rl-rd-'+esc(id)+'">'+esc(reelName(r, b))+'</h3>'+
-        (sl ? '<p class="rl-split'+(sc.pass === false ? ' is-bad' : '')+'" role="'+(sc.pass === false ? 'alert' : 'note')+'">'+esc(sl)+(sc.post && splitLine(sc.post) ? ' · 4:5 post '+esc(splitLine(sc.post).replace(/^✓ Split screen/, 'split screen too').replace(/^Not split screen/, 'not split screen')) : '')+'</p>' : '<p class="rl-split is-none">Split-screen check: not recorded for this reel</p>')+'</div>'+
+        (sl ? '<p class="rl-split'+(sc.pass === false ? ' is-bad' : '')+'" role="'+(sc.pass === false ? 'alert' : 'note')+'">'+esc(sl)+(sc.post && splitLine(sc.post) ? ' · 4:5 post: '+esc(sc.post.pass ? 'split screen too' : 'not split screen') : '')+'</p>' : '<p class="rl-split is-none">Split-screen check: not recorded for this reel</p>')+'</div>'+
         '<div class="rl-rd-body"><div class="rl-files">'+['reel','post','cover'].map(k => { const f = fs.find(x => x.kind === k);
           return f ? '<a class="rl-file is-'+k+'" href="'+esc(httpsUrl(f.url))+'" target="_blank" rel="noopener noreferrer">'+frame(k, true)+'<b>'+esc(f.label || KIND[k])+' ↗</b>'+(f.detail ? '<small>'+esc(f.detail)+'</small>' : '')+'</a>' : '<span class="rl-file is-'+k+' is-none">'+frame(k, false)+'<b>'+KIND[k]+'</b><small>Not written yet</small></span>'; }).join('')+'</div>'+
         '<div class="rl-cap"><span class="micro">Caption'+(c?.check ? ' · '+(c.check === 'pass' ? 'checked by Performance Poster' : esc(c.check)) : '')+'</span>'+(c?.text ? '<pre class="pb-copy" id="rl-cap-'+esc(id)+'">'+esc(c.text)+'</pre>'+
@@ -695,7 +696,7 @@
       (openId && !r ? '<div class="pb-warn" role="status">'+(db ? 'This reel job isn’t in the app’s database. <a href="#/publish/reels">Start new reels</a>' : connecting ? 'Loading…' : 'Reel jobs are saved in the app’s database, which this preview doesn’t have.')+'</div>' : steps(r))+
       (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && r ? '<p class="pb-acts"><button type="button" class="pb-link" id="rl-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" id="rl-copy"'+M.done('rl-line', copied)+'>'+M.label(copied, 'Copy the line', 'Copied')+'</button></p>' : '')+'</div>' : '')+
       (!openId ? intake() : !r ? '' : '<p class="pb-meta">Reel job '+esc(r.id)+' · '+esc(fromLine(r))+
-        (r.pack?.skill ? ' · written by '+esc(skillName(r.pack.skill)) : '')+(r.pack?.builtWith ? ' · checked by '+esc(r.pack.builtWith) : '')+(Number.isFinite(+r.offsetS) && +r.offsetS > 0 ? ' · YouTube trim '+esc(r.offsetS)+' s' : '')+(r.auto ? ' · started by itself when you confirmed the files' : '')+' · started '+esc(when(r.createdAt))+'</p>'+pathLine(r)+
+        (r.pack?.skill ? ' · written by '+esc(skillName(r.pack.skill)) : '')+(r.pack?.builtWith ? ' · checked by '+esc(r.pack.builtWith) : '')+(Number.isFinite(+r.offsetS) && +r.offsetS > 0 ? ' · YouTube trim '+esc(r.offsetS)+' s' : '')+(r.auto ? ' · started by itself when you confirmed the files' : '')+' · started '+esc(when(r.createdAt))+'</p>'+pathLine(r)+(window.WWAutopilot?.reelHtml?.(r) || '')+
         body(r));
     if (fid) {
       const m = fid.match(/^(sel|pick):([^:]+)(?::(row|seg))?$/), el = m ? root.querySelector(m[1] === 'pick' ? '[data-rl-pick="'+CSS.escape(m[2])+'"]' : (m[3] === 'seg' ? '.rl-seg' : '.rl-row')+'[data-rl-sel="'+CSS.escape(m[2])+'"]') : document.getElementById(fid);
@@ -739,7 +740,7 @@
     const topic = j.topicId ? allTopics().find(t => t.id === j.topicId) : null;
     const src = {kind:'job', jobId:j.id, driveId:m.driveId, url:m.url || null, fromJob:true, ...(ps.length > 1 ? {driveIds:ps.map(x => x.driveId), urls:ps.map(x => x.url || null), seconds:partsSeconds(ps)} : {})};
     const doc = {id, jobId:j.id, topicId:j.topicId || null, title:String(j.title || topic?.title || '').trim(), titleBy:'taylor', source:src, offsetS:null, skills:reelSkills(), status:'queued', stages:[], winners:{},
-      auto:true, createdAt:at, startedAt:at, updatedAt:at, ...pathFields(pc.path, pc.takes, at)};
+      auto:true, createdAt:at, startedAt:at, updatedAt:at, ...pathFields(pc.path, pc.takes, at), ...(window.WWAutopilot?.forReel?.(j) || {})};
     try { await db.doc('reels/'+id).set(doc); reels = [doc, ...reels.filter(x => x.id !== id)]; } catch { return null; }
     if (start) await startSession(doc, 'pack', {quiet:true});
     return doc;
@@ -935,6 +936,8 @@
     // Decision 11: the path a Video job's files decide ({path: "A" | "B" | null, takes, why}), and decision 10: the
     // Path B reel job made by Confirm and continue, and its start once a refused Video session is started again.
     choosePath, autoFromJob, startQueued,
+    // The title, prompt and status the Reels lane uses to start a step, for autopilot's hand-off (autopilot.js).
+    sessionArgs: (r, step = 'pack') => ({title:(step === 'options' ? 'Reels finish: ' : 'Reels: ')+(r.title || r.id), prompt:prompt(r, step)+(window.WWAutopilot?.promptLine?.(r) || ''), line:lineFor(r.id, step), status:NEXT[step]}),
     pathWhy: r => pathWhy(r)
   };
   phone.addEventListener('change', () => { if (isReels()) render(); });
