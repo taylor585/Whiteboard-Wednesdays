@@ -33,6 +33,9 @@
       get suggested() { return parse(posting().plan(topics().map(x => x.id === t.id ? {...x, postDate:null} : x), posting().settings).get(t.id)); }};
   }
   let start = add(monday(today()), -14), lanes = new Set(['record','post']), follow = null, selected = null, mode = 'book', bookDate = null;
+  // Motion (motion.js): a week change settles the four rows; a booking settles only its two new cards, once, on the
+  // render that first shows them. Every other render draws the finished calendar.
+  const M = window.WWMotion; let booking = null;
   const data = () => window.WWIdeas.data;
   const topics = () => data().topics || [];
   const ready = () => Boolean(data().ready);
@@ -78,7 +81,7 @@
       const mon = twenty[w*n];
       html += '<div class="tp-wk'+(iso(mon) <= now && now <= iso(add(mon, 6)) ? ' is-this' : '')+'"><div class="tp-wkl"><span class="micro">WEEK OF</span><b>'+fmt(mon,{day:'numeric',month:'short'})+'</b></div>'+twenty.slice(w*n, w*n+n).map(d => {
         const day = iso(d), here = all.filter(e => lanes.has(e.lane) && e.day === day), postDay = lanes.has('post') && posting().isPostingDay(day);
-        let cards = here.map(e => { const s = schedule(e.t); return '<button type="button" class="tp-ev tp-ev-'+e.lane+(follow && follow !== e.t.id ? ' is-dim' : '')+(selected === e.t.id ? ' is-sel' : '')+'" data-select="'+esc(e.t.id)+'" aria-label="'+LANES.find(l => l[0] === e.lane)[1]+': '+esc(e.t.title)+', '+fmt(d)+'"><span class="tp-ev-job">'+LANES.find(l => l[0] === e.lane)[1]+'</span><b>'+esc(e.t.title)+'</b><span class="tp-ev-after">'+after(e.lane, s)+'</span></button>'; }).join('');
+        let cards = here.map(e => { const s = schedule(e.t); return '<button type="button" class="tp-ev tp-ev-'+e.lane+(follow && follow !== e.t.id ? ' is-dim' : '')+(selected === e.t.id ? ' is-sel' : '')+'"'+(e.lane === 'record' ? M.attr('tp-book:'+e.t.id, 'in') : e.lane === 'post' ? M.attr('tp-book:'+e.t.id, 'in2') : '')+' data-select="'+esc(e.t.id)+'" aria-label="'+LANES.find(l => l[0] === e.lane)[1]+': '+esc(e.t.title)+', '+fmt(d)+'"><span class="tp-ev-job">'+LANES.find(l => l[0] === e.lane)[1]+'</span><b>'+esc(e.t.title)+'</b><span class="tp-ev-after">'+after(e.lane, s)+'</span></button>'; }).join('');
         if (lanes.has('record') && !here.some(e => e.lane === 'record') && [3,5].includes(d.getDay()) && day >= now) cards += '<button type="button" class="tp-ev tp-ev-open" data-book="'+day+'" aria-label="Book a recording for '+fmt(d)+'"'+(ready() ? '' : ' disabled')+'><span class="tp-ev-job">Recording</span><b>Open slot</b><span class="tp-ev-after">+ Book a topic</span></button>';
         // A posting day with nothing going out yet still shows its slot, so the week's posting days are visible at a glance.
         if (postDay && !all.some(e => e.lane === 'post' && e.day === day) && day >= now) cards += '<div class="tp-ev tp-ev-postopen"><span class="tp-ev-job">Posting</span><b>Open slot</b><span class="tp-ev-after">Nothing booked to post</span></div>';
@@ -126,6 +129,7 @@
     $('#tp-mode').innerHTML = '<span data-mode="'+s.mode+'" data-live="'+p.effectiveMode+'">'+esc(p.modeLine(s))+'</span> <a href="#/settings/posting">Posting settings</a>';
   }
   function render() {
+    if (booking && topics().some(t => t.id === booking && t.recordDate)) { M.stamp('tp-book:'+booking); booking = null; }
     rule(); calendar(); unscheduled(); panel();
     $('#topics-new').disabled = !ready();
     if (!ready()) status('Topics are saved on the app’s server. This preview shows the layout only.');
@@ -135,9 +139,9 @@
     const t = event.target;
     const select = t.closest('[data-select]'); if (select) { selected = select.dataset.select; render(); $('#tp-panel').scrollIntoView({block:'nearest'}); $('#tp-f-title')?.focus(); return; }
     const book = t.closest('[data-book]'); if (book) { openPick('book', book.dataset.book); return; }
-    if (t.closest('#tp-prev')) { start = add(start, -14); render(); return; }
-    if (t.closest('#tp-next')) { start = add(start, 14); render(); return; }
-    if (t.closest('#tp-today')) { start = home(); render(); $('#tp-prev').focus(); return; }
+    if (t.closest('#tp-prev')) { start = add(start, -14); M.enter(root, 'week'); render(); return; }
+    if (t.closest('#tp-next')) { start = add(start, 14); M.enter(root, 'week'); render(); return; }
+    if (t.closest('#tp-today')) { start = home(); M.enter(root, 'week'); render(); $('#tp-prev').focus(); return; }
     const lane = t.closest('[data-lane]'); if (lane) { if (lanes.has(lane.dataset.lane)) { if (lanes.size > 1) lanes.delete(lane.dataset.lane); } else lanes.add(lane.dataset.lane); render(); return; }
     const f = t.closest('[data-follow]'); if (f) { follow = follow === f.dataset.follow ? null : f.dataset.follow; render(); return; }
     if (t.closest('#topics-new')) { openPick('new'); return; }
@@ -154,7 +158,7 @@
   });
   root.addEventListener('change', async event => {
     const t = event.target, topic = topics().find(x => x.id === selected);
-    if (t.dataset.schedule) { const value = t.value; if (value) await mutate('/topic-update', {id:t.dataset.schedule, recordDate:value}, 'Booked for '+fmt(parse(value))+'.'); return; }
+    if (t.dataset.schedule) { const value = t.value; if (value) booking = t.dataset.schedule; if (value) await mutate('/topic-update', {id:t.dataset.schedule, recordDate:value}, 'Booked for '+fmt(parse(value))+'.'); return; }
     if (!topic) return;
     if (t.dataset.field) {
       const field = t.dataset.field; let value = t.value;
@@ -201,7 +205,7 @@
       let id = existing;
       if (!id) id = (await api('/topic', {title})).id;
       if (mode === 'book') await api('/topic-update', {id, recordDate:bookDate});
-      pick.close(); selected = id; await window.WWIdeas.reload();
+      pick.close(); selected = id; if (mode === 'book') booking = id; await window.WWIdeas.reload();
       status(mode === 'book' ? 'Booked for '+fmt(parse(bookDate))+'.' : 'Topic created.');
     } catch (error) { pickStatus.textContent = error.message; }
     finally { button.disabled = false; }

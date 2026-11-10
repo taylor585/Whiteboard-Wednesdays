@@ -35,8 +35,9 @@
 .pb-queue{margin:0;padding:14px 16px;border-left:var(--ww-rule-gold);background:var(--ww-stage);font-size:15px;line-height:1.5}
 .pb-queue code{font:13px var(--ww-font-mono);background:var(--ww-highlight);padding:2px 6px;border-radius:var(--ww-radius-chip)}
 .pb-stages ol{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
-.pb-stages li{display:flex;flex-direction:column;gap:2px;padding-top:8px;border-top:4px solid var(--ww-line);font-size:14px;min-width:0;overflow-wrap:anywhere}
-.pb-stages li.is-done{border-top-color:var(--ww-ink)}.pb-stages li.is-run{border-top-color:var(--ww-gold)}
+.pb-stages li{position:relative;display:flex;flex-direction:column;gap:2px;padding-top:8px;border-top:4px solid var(--ww-line);font-size:14px;min-width:0;overflow-wrap:anywhere}
+.pb-stages li.is-done{border-top-color:var(--ww-ink)}/* The running stage's gold bar is a rule laid over the track, so it can be drawn left to right when the stage starts (motion.css). */
+.pb-stages li.is-run::before{content:"";position:absolute;left:0;right:0;top:-4px;height:4px;background:var(--ww-gold);transform-origin:0 50%}
 .pb-stages li b{font-weight:600}.pb-stages small,.pb-stages time{font:11px var(--ww-font-mono);color:var(--ww-muted)}
 .pb-st-dot{display:none}
 .pb-pack{margin-top:28px}
@@ -191,7 +192,7 @@
 .pb-lanes{display:flex;gap:28px;margin-top:22px;border-bottom:1px solid var(--ww-line);overflow-x:auto;scrollbar-width:none}
 .pb-lanes::-webkit-scrollbar{display:none}
 #publish .pb-lanes a{display:inline-flex;align-items:center;min-height:44px;padding:10px 0;border-bottom:2px solid transparent;margin-bottom:-1px;text-decoration:none;font-size:16px;color:var(--ww-muted);white-space:nowrap}
-#publish .pb-lanes a[aria-current=page]{border-bottom-color:var(--ww-ink);color:var(--ww-ink)}
+#publish .pb-lanes a[aria-current=page]{color:var(--ww-ink)}
 #publish .pb-lanes a:hover{color:var(--ww-ink)}
 .pb-lanes+.pb-steps{margin-top:20px}
 .pb-reelsline{margin-top:6px}

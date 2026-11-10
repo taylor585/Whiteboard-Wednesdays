@@ -21,6 +21,7 @@
   // From Saturday the board looks ahead to next week, so Monday's planning can start at the weekend.
   const current = () => monday(add(today(), 2));
   let week = current(), spark = null, drag = null, picked = null, ticked = new Set(), scanned = null, view = 'creators';
+  const M = window.WWMotion; let booking = null;   // motion.js: a week change settles the two schedules, a booking its two new cards
   const data = () => window.WWIdeas.data;
   const topics = () => data().topics || [];
   const status = message => { $('#bs-status').textContent = message; };
@@ -147,7 +148,7 @@
   }
   function slotHtml(s) {
     return '<div class="bs-slot'+(s.topic ? ' is-booked' : '')+(s.past ? ' is-past' : '')+'" data-slot="'+iso(s.day)+'"><span class="bs-slot-day">'+esc(fmt(s.day))+'</span><span class="bs-meta">Posts '+esc(fmt(postFor(s.day)))+'</span>'+
-      (s.topic ? '<div class="bs-booked"><span>'+esc(s.topic.title)+'</span><span class="bs-booked-actions"><a href="#/schedule">Schedule →</a>'+(s.past ? '' : '<button type="button" data-unbook="'+esc(s.topic.id)+'">Unbook</button>')+'</span></div>'
+      (s.topic ? '<div class="bs-booked"'+M.attr('bs-book:'+iso(s.day), 'in')+'><span>'+esc(s.topic.title)+'</span><span class="bs-booked-actions"><a href="#/schedule">Schedule →</a>'+(s.past ? '' : '<button type="button" data-unbook="'+esc(s.topic.id)+'">Unbook</button>')+'</span></div>'
         : '<p class="bs-put">'+(s.past ? 'Nothing was recorded.' : 'Drop an angle here, or press Book on the shortlist.')+'</p>')+'</div>';
   }
   // Everything booked after the week on screen, so a topic booked weeks ahead is visible from Topics (Taylor, 4 November).
@@ -163,11 +164,14 @@
     return days.map((d, i) => {
       const going = topics().filter(t => { const p = postOf(t); return p && iso(p) === iso(d); });
       const past = iso(d) < iso(today());
-      return (i === split ? '<h3 class="bs-post-sub micro">THE WEEK AFTER</h3>' : '')+'<div class="bs-post'+(going.length ? ' is-set' : '')+(past ? ' is-past' : '')+'"><span class="bs-slot-day">'+esc(fmt(d))+'</span>'+
+      return (i === split ? '<h3 class="bs-post-sub micro">THE WEEK AFTER</h3>' : '')+'<div class="bs-post'+(going.length ? ' is-set' : '')+(past ? ' is-past' : '')+'"'+M.attr('bs-post:'+iso(d), 'in2')+'><span class="bs-slot-day">'+esc(fmt(d))+'</span>'+
         (going.length ? going.map(t => '<span class="bs-post-title">'+esc(t.title)+'</span><span class="bs-meta">'+(t.recordDate ? (t.recordDate < iso(today()) ? 'Recorded ' : 'Records ')+esc(fmt(parse(t.recordDate))) : '')+(t.status === 'posted' ? ' · Posted' : '')+'</span>').join('') : '<p class="bs-put">'+(past ? 'Nothing was posted.' : 'Nothing booked to post.')+'</p>')+'</div>';
     }).join('');
   }
   function render() {
+    // A booking settles only its two new cards (the recording slot, then its posting day), on the render that first shows them.
+    const got = booking && topics().find(t => t.id === booking.id && t.recordDate === booking.day);
+    if (got) { M.stamp('bs-book:'+booking.day); const p = postOf(got); if (p) M.stamp('bs-post:'+iso(p)); booking = null; }
     const thisWeek = iso(week) === iso(current());
     $('#bs-week').textContent = (thisWeek ? 'Recording week' : 'Week')+' of '+fmt(week,{day:'numeric',month:'long'});
     $('#bs-today').disabled = thisWeek;
@@ -188,6 +192,7 @@
   async function book(id, day) {
     const t = topics().find(x => x.id === id);
     if (!t) return;
+    booking = {id, day};
     await mutate('/topic-update', {id, recordDate:day, ...(t.status === 'new' ? {status:'planned'} : {})}, '“'+t.title+'” booked for '+fmt(parse(day))+'. It posts '+fmt(postFor(day))+'.');
   }
   root.addEventListener('click', async event => {
@@ -227,9 +232,9 @@
       return;
     }
     if (el.dataset.goto) { week = monday(parse(el.dataset.goto)); render(); $('#bs-week').scrollIntoView({block:'nearest'}); return; }
-    if (el.id === 'bs-prev') { week = add(week, -7); render(); }
-    if (el.id === 'bs-next') { week = add(week, 7); render(); }
-    if (el.id === 'bs-today') { week = current(); render(); }
+    if (el.id === 'bs-prev') { week = add(week, -7); M.enter(root, 'week'); render(); }
+    if (el.id === 'bs-next') { week = add(week, 7); M.enter(root, 'week'); render(); }
+    if (el.id === 'bs-today') { week = current(); M.enter(root, 'week'); render(); }
   });
   $('#bs-find').addEventListener('input', () => { cards(); scanBar(); });
   root.addEventListener('change', async event => {

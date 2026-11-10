@@ -15,7 +15,7 @@
 .vi-feed-head h2{margin:0;font:var(--ww-display-weight) var(--ww-size-h2)/1.2 var(--ww-font-display)}
 .vi-feed-head a{color:var(--ww-ink);text-underline-offset:4px}
 .vi-group{display:flex;flex-direction:column}.vi-group h3{margin:0;padding:10px 0;border-top:var(--ww-ledger);border-bottom:1px solid var(--ww-line)}
-.vi-mail{display:grid;grid-template-columns:10px 168px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 12px;border-bottom:1px solid var(--ww-line);background:var(--ww-surface);transition:background 200ms}
+.vi-mail{display:grid;grid-template-columns:10px 168px minmax(0,1fr) auto;gap:16px;align-items:center;padding:14px 12px;border-bottom:1px solid var(--ww-line);background:var(--ww-surface);transition:background-color var(--m-press) linear}
 .vi-dot{width:8px;height:8px;transform:rotate(45deg);background:var(--ww-gold)}
 .vi-mail.is-read{background:var(--ww-stage)}.vi-mail.is-read .vi-dot{visibility:hidden}.vi-mail.is-read h4{color:var(--ww-muted)}
 .vi-mail.is-sparked{box-shadow:inset 3px 0 0 var(--ww-gold)}

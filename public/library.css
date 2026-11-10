@@ -5,7 +5,7 @@
 /* Clean underline navigation selected by Taylor, 12 October 2026. */
 .app-nav{display:flex;align-items:stretch;gap:32px;padding:0 4vw;border-bottom:1px solid var(--ww-line);background:var(--ww-surface);color:var(--ww-ink)}
 .app-nav a{display:inline-flex;align-items:center;justify-content:center;padding:18px 0;min-height:52px;border-bottom:2px solid transparent;text-decoration:none;font:400 18px/1.4 var(--ww-font-body);color:var(--ww-muted)}
-.app-nav a[aria-current=page]{border-bottom-color:var(--ww-ink);color:var(--ww-ink)}
+.app-nav a[aria-current=page]{color:var(--ww-ink)}
 .app-nav a:hover{color:var(--ww-ink)}
 .app-nav a:focus-visible{outline:3px solid var(--ww-gold);outline-offset:4px}
 .tabs-wrap{position:static}.ideas-intro{padding:56px 0;max-width:640px}.ideas-intro h1{font:var(--ww-display-weight) var(--ww-size-title)/1 var(--ww-font-display);letter-spacing:var(--ww-title-track);margin:20px 0}.ideas-intro p{color:var(--ww-muted)}.ideas-connection{margin-top:36px;padding-top:24px;border-top:var(--ww-ledger);font-weight:600}
@@ -21,6 +21,14 @@ body.presentation .app-nav{display:none}
 .pins{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;margin-top:14px}
 .pin{position:relative;display:flex;flex-direction:column;gap:6px;background:var(--ww-surface);border:0;padding:10px 10px 12px;text-align:left;color:var(--ww-ink);font:inherit;cursor:pointer;transform:rotate(var(--r));box-shadow:0 6px 14px var(--ww-shadow-22);transition:transform 200ms,box-shadow 200ms}
 .pin:hover,.pin[aria-pressed=true]{transform:rotate(0) translateY(-3px);box-shadow:0 0 0 3px var(--ww-gold),0 10px 20px var(--ww-shadow-25)}
+/* The Presentations wall only (a deck slide borrows .pin and keeps the two lines above as approved): the pin straightens and lifts 2px in 140ms,
+   and its two shadows cross-fade by opacity, the resting one and the lifted one with its gold ring. */
+#library-wall .pin{box-shadow:none;transition:transform var(--m-ui) var(--m-ease)}
+#library-wall .pin::before,#library-wall .pin::after{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;transition:opacity var(--m-ui) linear}
+#library-wall .pin::before{box-shadow:0 6px 14px var(--ww-shadow-22)}
+#library-wall .pin::after{opacity:0;box-shadow:0 0 0 3px var(--ww-gold),0 10px 20px var(--ww-shadow-25)}
+#library-wall .pin:hover::before,#library-wall .pin[aria-pressed=true]::before{opacity:0}#library-wall .pin:hover::after,#library-wall .pin[aria-pressed=true]::after{opacity:1}
+#library-wall .pin:hover,#library-wall .pin[aria-pressed=true]{transform:rotate(0) translateY(var(--m-lift));box-shadow:none}
 .pin img{width:100%;aspect-ratio:4/3;object-fit:contain;background:var(--ww-surface)}
 .tack{position:absolute;top:-7px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:var(--ww-radius-round);background:var(--ww-line);box-shadow:0 1px 2px var(--ww-shadow-30)}
 .tack.gold{background:var(--ww-gold)}
@@ -37,7 +45,7 @@ body.presentation .app-nav{display:none}
 .pin:focus-visible,.wall-actions a:focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
 @media(max-width:900px){.pins{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:640px){.wall{padding:16px;box-shadow:inset 0 0 0 6px var(--ww-surface),inset 0 0 0 7px var(--ww-gold-60)}.pins{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.wall-card{grid-template-columns:1fr}.wall-group h3{font-size:26px}}
-@media(prefers-reduced-motion:reduce){.pin{transition:none}.pin{transform:none}}
+@media(prefers-reduced-motion:reduce){.pin{transition:none}.pin{transform:none}#library-wall .pin,#library-wall .pin::before,#library-wall .pin::after{transition:none}#library-wall .pin{transform:none}}
 
 /* Settings cog, top right on every screen (Taylor, 30 October 2026). */
 .cog{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-media);color:var(--ww-ink);background:var(--ww-surface)}
