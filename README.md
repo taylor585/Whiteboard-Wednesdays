@@ -39,11 +39,14 @@ Open http://localhost:8864/#/library. The migration commands use local storage o
 
 ## Heading style
 
-Use the Creator watchlist’s simple Instrument Sans heading style across the app: black, medium-weight page headings, with responsive sizing. Presentation titles and reading views use simple sans-serif headings; retain the Lead Gen Engine brand font and fonts demonstrated inside slide artwork.
+Since the brand upgrade of 10 November 2026 the app screens use Instrument Serif for headings (regular weight only, never bold), Geist for body and controls and Geist Mono for labels, dates and counts, all through the `--ww-*` tokens at the top of `public/whiteboard.css`. The deck player, presentation titles and reading views keep their own faces (Instrument Sans, IBM Plex Mono, Caveat, Fraunces); retain the Lead Gen Engine brand font and fonts demonstrated inside slide artwork.
 
 ## Where to edit
 
 - `public/index.html`: application header, navigation, Creator watchlist, Topics and Schedule markup.
+- `public/whiteboard.css`: the brand tokens (`--ww-*`: colour roles, radii, faces, key sizes), the `@font-face` rules and the base styles the decks share. Change a brand value here, once.
+- `public/ww-logo.svg`, `public/favicon.svg`, `scripts/build-logo.py`: the Wednesday Tile lockup and the small favicon cut, outlined to paths from the bundled fonts (`pip install fonttools uharfbuzz`, then `python3 -I scripts/build-logo.py`).
+- `public/ww-serif.ttf`, `public/ww-serif-italic.ttf`, `public/ww-geist.ttf`, `public/ww-geist-mono.ttf` and their `*-license.txt` files: Instrument Serif, Geist and Geist Mono (SIL OFL 1.1, unmodified from the google/fonts repository). `ww-body.ttf`, `ww-mono.ttf`, `ww-caveat.ttf` and `ww-display.ttf` stay for the decks and the Presentations wall.
 - `public/library.css`, `public/library.js`: library styling, routing and presentation shell.
 - `public/vault.css`, `public/vault.js`, `public/vault.json`, `public/vault/`: the Vault (`#/vault`, Taylor's pick B "Lanes", 9 November 2026): every finished video (Open goes to the Claude artifact holding the edit), thumbnail and post caption, grouped by video. Static content only; rebuild it with `python3 -I scripts/build-vault.py <staging-dir>` (the script's header lists the staging inputs and rules).
 - `public/video-ideas.css`, `public/video-ideas.js`: Creator watchlist (`#/watchlist`), the upload inbox (Taylor's pick W2-B, 26 October 2026): creators by name, uploads grouped by week, Spark a topic, Seen (kept in this browser only) and the Topics tray.
