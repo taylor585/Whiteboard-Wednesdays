@@ -259,6 +259,24 @@ class PlanSheet(unittest.TestCase):
         self.assertEqual(load('check_picks').check(text), [])
 
 
+class Framework2Rules(unittest.TestCase):
+    def test_month_rules_block(self):
+        ps = load('plan_sheet')
+        t = {'giants': ['Andrej Karpathy'], 'lane': 'AI', 'evidence': 'e', 'url': 'https://x.com/a/status/1', 'score': 40}
+        topics = [dict(t, day=f'Mon {i}', title=f'Title number {i}') for i in range(30)]
+        topics[0]['score'] = 25
+        errs = ps.rules({'kind': 'month', 'topics': topics})
+        self.assertTrue(any('worthy line' in e for e in errs), errs)
+        self.assertTrue(any('paid-media' in e for e in errs), errs)
+        self.assertTrue(any('leads 30' in e for e in errs), errs)
+        self.assertTrue(any('same words' in e for e in errs), errs)
+
+    def test_real_month_plan_passes(self):
+        ps = load('plan_sheet')
+        plan = json.load(open(os.path.join(ROOT, 'examples', 'plan-month.json'), encoding='utf-8'))
+        self.assertEqual(ps.rules(plan, os.path.join(ROOT, 'references', 'giants.json')), [])
+
+
 class TopicRegister(unittest.TestCase):
     def test_lock_status_recent(self):
         tp = load('topics')

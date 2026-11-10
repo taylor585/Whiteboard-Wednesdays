@@ -67,6 +67,35 @@ def locked_block(register):
     return '**Locked in:**\n' + '\n'.join(f'- "{t["title"]}" ({t["status"]})' for t in ts)
 
 
+def rules(plan, giants_file=None):
+    """Framework 2's mechanical rules. Returns BLOCKING messages (empty when the plan is fine)."""
+    month = plan.get('kind', 'month') == 'month'
+    lane_of = lanes_from(giants_file)
+    ts = [t for t in plan['topics'] if t.get('from') != 'locked']
+    errs = []
+    if month and len(plan['topics']) < 30:
+        errs.append(f'month plan has {len(plan["topics"])} days; it needs 30')
+    lead, openings = {}, {}
+    ads = 0
+    for i, t in enumerate(ts, 1):
+        if not t.get('url') or not t.get('evidence'):
+            errs.append(f'T{i} has no evidence or link')
+        if int(t.get('score', 0)) < 30:
+            errs.append(f'T{i} scores {t.get("score")}/50: under the worthy line of 30')
+        lane = t.get('lane') or next((lane_of[g] for g in t.get('giants', []) if g in lane_of), 'AI')
+        ads += lane == 'Ads'
+        if t.get('giants'):
+            lead[t['giants'][0]] = lead.get(t['giants'][0], 0) + 1
+        op = ' '.join(t['title'].lower().split()[:2])
+        openings.setdefault(op, []).append(f'T{i}')
+    if month:
+        if ads < 10:
+            errs.append(f'only {ads} paid-media videos; a month needs at least 10')
+        errs += [f'{g} leads {n} videos; the most is 3' for g, n in lead.items() if n > 3]
+    errs += [f'{", ".join(v)} open with the same words ("{k}")' for k, v in openings.items() if len(v) > 1]
+    return errs
+
+
 def render(plan, register=None, giants_file=None):
     month = plan.get('kind', 'month') == 'month'
     n = 30 if month else 7
@@ -120,6 +149,12 @@ def main(argv=None):
     ap.add_argument('--scrub', default=None)
     a = ap.parse_args(argv)
     plan = json.load(open(a.plan, encoding='utf-8'))
+    errs = rules(plan, a.giants)
+    for e in errs:
+        print(f'BLOCKING  {e}')
+    if errs:
+        print(f'FAIL  {a.plan}: {len(errs)} problem(s) with the 30 (Framework 2). Fix the plan and re-run.')
+        return 1
     text = render(plan, a.register, a.giants)
     open(a.out, 'w', encoding='utf-8').write(text)
     print(f'Wrote {a.out}')

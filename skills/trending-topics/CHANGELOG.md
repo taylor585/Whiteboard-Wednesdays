@@ -1,5 +1,13 @@
 # Trending Topics releases
 
+## 5.3.0 — 10 November 2026
+
+- **The two frameworks, written down and enforced:**
+  - **Framework 1, the scan:** 16 giants × last 10 posts, about 160.
+  - **Framework 2, choosing the 30:** gate 1 drops the noise; gate 2 keeps what a business owner can use; gate 3 merges into threads; gate 4 makes it ours; gate 5 scores with Part T.
+  - **Picking rules:** the worthy line is 30/50, at least 10 paid media, no giant leading more than 3, no repeated title openings, and things that expire go first.
+- `plan_sheet.py` blocks a plan that breaks Framework 2's rules.
+
 ## 5.2.0 — 10 November 2026
 
 - **The one-line plan table** (# · Day · Video · Giant · Lane · Score), rendered by the new `scripts/plan_sheet.py` from a plan file, so every week and month sheet looks the same. It runs `check_picks.py` itself.

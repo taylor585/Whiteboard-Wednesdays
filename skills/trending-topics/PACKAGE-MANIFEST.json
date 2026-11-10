@@ -1,6 +1,6 @@
 {
   "name": "trending-topics",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "files": [
     {
       "path": ".gitignore",
@@ -14,8 +14,8 @@
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "edb6bead9a20e88193b75fb2d7360131d4368f640bf6f79984cf8fab385f45a6",
-      "bytes": 7921
+      "sha256": "3842d7deda0906a9dbeae5cc0a6b49995e3f4d4001885b36e9ac9058a9015bac",
+      "bytes": 8488
     },
     {
       "path": "README.md",
@@ -24,8 +24,8 @@
     },
     {
       "path": "SKILL.md",
-      "sha256": "e8f9a9045b086cfcc1213270e3e84610cc3f6ddab92de43729f348eb5fb5e883",
-      "bytes": 21175
+      "sha256": "ec346bfe1949e70d855404f2bbe2a1f17b4b3b37f02e0ad660889911f0157965",
+      "bytes": 21378
     },
     {
       "path": "START-HERE.md",
@@ -48,6 +48,11 @@
       "bytes": 40336
     },
     {
+      "path": "examples/month-30-videos.md",
+      "sha256": "e56d80fdbd80f27587ba3d5d945ce44cfd21878f10eabf40658468d09d310b32",
+      "bytes": 16724
+    },
+    {
       "path": "examples/picks-2026-W42.md",
       "sha256": "c2b4d3baabead6e82767f6305b4d6a4488a6f6032a77bdf2b14fcc8a9155864e",
       "bytes": 10570
@@ -66,6 +71,11 @@
       "path": "examples/picks-two-tables.md",
       "sha256": "99f42f8ae695956fb4665084063fe286218ded34e716138d321da8b57be538b8",
       "bytes": 5235
+    },
+    {
+      "path": "examples/plan-month.json",
+      "sha256": "1e9ec7ce2d06da02dd1c2b5e37b40b767ff68404846588b2df0c9c4626e3d2de",
+      "bytes": 16288
     },
     {
       "path": "examples/scan-2026-10-12-core.md",
@@ -144,8 +154,8 @@
     },
     {
       "path": "references/scoring.md",
-      "sha256": "c493e38d2c9f4cd761a0aca5ba4737be90340f3eb9f2cec5393e9b561e498d76",
-      "bytes": 5737
+      "sha256": "a2a6138bdfff57871ee526da03a10243f1a9c57ec1cb0339a3a8910d6ce69188",
+      "bytes": 5985
     },
     {
       "path": "references/skill-integrations.md",
@@ -154,8 +164,8 @@
     },
     {
       "path": "references/twitter-engine.md",
-      "sha256": "cfecb9f45c7d1cc2b2de79035292c3111c104264d37612781fd5586c330b1e39",
-      "bytes": 7656
+      "sha256": "ded7a9e56d509f7f84249e7e4d9bb3dba3bb41cb8063ece5a07317613474bf01",
+      "bytes": 10778
     },
     {
       "path": "references/week-pack.md",
@@ -164,7 +174,7 @@
     },
     {
       "path": "scripts/build_manifest.py",
-      "sha256": "1dfce4161ff96e3c1c02b7149c6373a1e035aff4c2b7422486e8975d124a78f3",
+      "sha256": "cab22502787f8d79b6b03be4d8a5a75726ce02fee6b14cb88eb2c5600fb554d9",
       "bytes": 1271
     },
     {
@@ -184,8 +194,8 @@
     },
     {
       "path": "scripts/plan_sheet.py",
-      "sha256": "19f268a6cf4d3d52a8e5c34e2f9f7859cbed1c7cd1ca037480938ce691ca59e9",
-      "bytes": 6359
+      "sha256": "2c4ae3eb92c27f46c0b4f48aed666e75761f0b8249d9ff356ff341d7615fe009",
+      "bytes": 7987
     },
     {
       "path": "scripts/scan_creators.py",
@@ -209,8 +219,8 @@
     },
     {
       "path": "tests/test_skill.py",
-      "sha256": "ed23cc7d4ec779de1fac5ce769693f182ecdeb07ec3810433b23a809ab0912d7",
-      "bytes": 17121
+      "sha256": "2b275f368e85dd082f5794110c7f64ed7a2323345e7d6fa6c34ce49c2d5e1ab9",
+      "bytes": 18081
     }
   ]
 }

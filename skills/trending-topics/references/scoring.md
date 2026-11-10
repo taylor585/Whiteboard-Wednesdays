@@ -23,6 +23,8 @@ None gates the others. The 7-day plan draws from all three.
 
 Out of 50. Engagement counts only as a tie-break, and only where a source showed it (search results rarely do).
 
+**Worthy line: 30/50.** Below it, a topic stays out of the plan table. For a month, at least 10 of the 30 are paid media and no giant leads more than 3. The five gates that come before scoring are in `references/twitter-engine.md` § Framework 2.
+
 ## Twitter gates (fail any, and it is not a pick)
 
 - Every row links to a real post or the giant's own page. No link, no row.
