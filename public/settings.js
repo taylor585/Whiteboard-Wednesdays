@@ -12,10 +12,12 @@
   const root = document.querySelector('#settings');
   if (!root) return;
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  // Versions and descriptions checked against the synced skills on 3 November 2026 (PACKAGE-MANIFEST.json and CHANGELOG.md).
+  // Versions and descriptions checked against the synced skills on 3 November 2026 (PACKAGE-MANIFEST.json and CHANGELOG.md);
+  // Split Screen Katana 5.1.0 (PACKAGE-MANIFEST.json) added and made the Video and Reel edit default on 10 November 2026 (Taylor).
   const SKILLS = [
     {id:'suby-shots-master-poster', name:'Suby Shots · Master Poster', ver:'3.10', kind:'edit', does:'Edits the YouTube master, the LinkedIn cut and the reels, with the Variety Pack first. Replaced by With Katana on 3 November.'},
-    {id:'suby-shots-with-katana', name:'Suby Shots · With Katana', ver:'5.0', kind:'edit', does:'The newest edit: Katana, Blender and motion graphics together, the Variety Pack first, and reels from a highlight pack you record on your phone.'},
+    {id:'suby-shots-split-screen-katana', name:'Suby Shots · Split Screen Katana', ver:'5.1.0', kind:'edit', does:'The newest edit: everything in With Katana, and every reel is split screen. Your face from the phone take fills the bottom half; Katana, Blender, story films, B-roll and web clips fill the top half. 60 seconds or less.'},
+    {id:'suby-shots-with-katana', name:'Suby Shots · With Katana', ver:'5.0', kind:'edit', does:'Katana, Blender and motion graphics together, the Variety Pack first, and full-frame reels from a highlight pack you record on your phone. Replaced by Split Screen Katana on 10 November.'},
     {id:'thumbnail-tracker-16-variations', name:'Thumbnail Tracker - 16 Variations', ver:'4.0.0', kind:'thumb', does:'Sixteen thumbnails a round: 8 layouts on light and dark grounds, lit 3D type and objects, a numbered contact sheet and a variety check, every one in YouTube and LinkedIn sizes. Objects only unless you send a phone photo.'},
     {id:'thumbnail-tracker', name:'Thumbnail Tracker', ver:'3.2', kind:'thumb', does:'Five thumbnails a round, three light and two dark, from the packaging research. Objects only unless you send a phone photo.'},
     {id:'performance-poster', name:'Performance Poster', ver:'1.2.1', kind:'post', does:'Titles, descriptions, posts and captions, checked against each platform.'},
@@ -26,10 +28,10 @@
   const JOBS = [
     ['Publish', 'From Drive links to finished, posted videos', [['publishEdit','Video editing','edit','Variety Pack and the finished edits'], ['publishThumbs','Thumbnails','thumb','Sixteen a round for YouTube and LinkedIn'], ['publishPosts','Posts and captions','post','Two variations per platform']]],
     // Reels (Phase 8a, 4 November 2026): the reel lane's own skills, so changing the Video edit never changes the reels.
-    ['Reels', 'From one recording to finished reels', [['reelsEdit','Reel highlight pack and edit','edit','Six reels, three highlights each; later the cut and build'], ['reelsCopy','Script polish','post','The fluency pass on every reel script'], ['reelsPosts','Reel captions','post','Checked captions for each reel']]],
+    ['Reels', 'From one recording to finished reels', [['reelsEdit','Reel highlight pack and edit','edit','Six reels, three highlights each; then split-screen reels: your face below, the motion above'], ['reelsCopy','Script polish','post','The fluency pass on every reel script'], ['reelsPosts','Reel captions','post','Checked captions for each reel']]],
     ['Presentations', 'Whiteboard decks', [['decks','Deck building','deck','New decks and slides']]],
     ['Topics', 'Ideas and angles', [['topics','Topic ideas','topic','Angles for the shortlist']]]];
-  const DEFAULTS = {publishEdit:'suby-shots-with-katana', publishThumbs:'thumbnail-tracker-16-variations', publishPosts:'performance-poster', reelsEdit:'suby-shots-with-katana', reelsCopy:'finishing-touches-copy-and-scripts', reelsPosts:'performance-poster', decks:'suby-shots-reels-and-variety', topics:'trending-topics'};
+  const DEFAULTS = {publishEdit:'suby-shots-split-screen-katana', publishThumbs:'thumbnail-tracker-16-variations', publishPosts:'performance-poster', reelsEdit:'suby-shots-split-screen-katana', reelsCopy:'finishing-touches-copy-and-scripts', reelsPosts:'performance-poster', decks:'suby-shots-reels-and-variety', topics:'trending-topics'};
   // Honest connection states: nothing here claims a connection the app has not made.
   const CONNECTIONS = [
     ['Google Drive','Publish reads your Drive links. Full-quality finals go to “Whiteboard Wednesdays finals” in your Drive once the one-time Drive set-up is in the environment settings (PUBLISH.md, Full-quality delivery).','Reading: links shared “Anyone with the link”. Uploading: needs the one-time set-up',true],

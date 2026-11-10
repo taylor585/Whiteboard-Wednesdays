@@ -397,3 +397,8 @@ html:has(#publish .rl-bar){scroll-padding-bottom:160px}
 .rl-files .rl-file b{margin-top:6px}
 #publish .rl-file.is-reel .rl-fr,#publish .rl-file.is-cover .rl-fr,#publish .rl-file.is-post .rl-fr,#publish .rl-file.is-none .rl-fr{aspect-ratio:9/16;background:none;border:0}
 @media(max-width:480px){.rl-files .rl-ph-t{font-size:9px}.rl-files .rl-ph-sh{font-size:20px}}
+/* Split screen (10 November 2026): the split-screen check line on each finished reel and reel option. Status colour on the words only. */
+.rl-split{margin:6px 0 0;font:500 13px/1.4 var(--ww-font-mono);color:var(--ww-success);overflow-wrap:anywhere}
+.rl-split.is-bad,.rl-oc-split.is-bad{color:var(--ww-warn)}
+.rl-split.is-none{color:var(--ww-muted)}
+.rl-oc-split{color:var(--ww-success)}

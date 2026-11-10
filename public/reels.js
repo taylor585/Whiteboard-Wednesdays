@@ -22,7 +22,12 @@
    face-free screen-share B-roll from the main recording, captions, Katana and Blender), Taylor keeps the ones he wants
    (each with its Add music switch), then the existing Music and Ready to post steps follow ("Continue Reels job <id>
    from options"). Confirm and continue on a Video job whose files hold a phone take creates the Path B reel job by
-   itself (WWReels.autoFromJob), linked by jobId: the Video job is never written from here. */
+   itself (WWReels.autoFromJob), linked by jobId: the Video job is never written from here.
+   Split screen (Taylor, 10 November 2026; Split Screen Katana's master rule 10): every reel, on either path, is split
+   screen: his face from the phone take in the bottom half, Katana, Blender, story films, B-roll and web clips in the top
+   half. The session checks each reel (scripts/check-split-screen.py) and writes the result: options[].split on Path B,
+   splitScreen.<reelId> at the finish. This lane says so where it describes what will be made, refuses to keep an option
+   that failed the check, and shows each finished reel's check at Ready to post. */
 (() => {
   'use strict';
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -64,7 +69,7 @@
   const norm = x => String(x ?? '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
   const S = () => window.WWSettings?.skills || {};
   const skillName = id => window.WWSettings?.name ? window.WWSettings.name(id) : id;
-  const reelSkills = () => { const s = S(); return {reelsEdit:s.reelsEdit || 'suby-shots-with-katana', reelsCopy:s.reelsCopy || 'finishing-touches-copy-and-scripts', reelsPosts:s.reelsPosts || 'performance-poster'}; };
+  const reelSkills = () => { const s = S(); return {reelsEdit:s.reelsEdit || 'suby-shots-split-screen-katana', reelsCopy:s.reelsCopy || 'finishing-touches-copy-and-scripts', reelsPosts:s.reelsPosts || 'performance-poster'}; };
   const skillLine = () => Object.values(reelSkills()).map(skillName).join(', ');
   const current = () => reels.find(r => r.id === openId) || null;
   const narrow = matchMedia('(max-width: 700px)');
@@ -78,6 +83,9 @@
   const imageOf = (...xs) => { for (const x of xs) { if (!x || typeof x !== 'object') continue; for (const k of ['still','cover','poster','image']) { const h = picUrl(x[k]); if (h) return h; } const u = fileImg(x.url); if (u) return u; } return null; };
   const ph = (shape, words) => '<span class="rl-ph" data-shape="'+esc(shape)+'"><span class="rl-ph-sh" aria-hidden="true">'+esc(shape)+'</span><span class="rl-ph-t">'+esc(words)+'</span></span>';
   const OPENS = 'Opens on your review page';
+  const SPLIT = 'Every reel is split screen: your face from your phone take in the bottom half, Katana, Blender, story films, B-roll and web clips in the top half.';
+  // The split-screen check the session wrote ({pass, line}), in plain words; nothing when it was not written (older reels).
+  const splitLine = c => !c || typeof c !== 'object' ? '' : c.pass === true ? '✓ Split screen'+(c.line ? ': '+String(c.line).replace(/^PASS\s*·\s*/, '') : '') : c.pass === false ? 'Not split screen'+(c.line ? ': '+String(c.line).replace(/^FAIL\s*·\s*/, '') : '') : '';
   // Title and hook that say the same thing (3 ways… / Three ways…): the hook is shown only when it adds something.
   const NUMW = {1:'one',2:'two',3:'three',4:'four',5:'five',6:'six',7:'seven',8:'eight',9:'nine',10:'ten'};
   const toks = s => norm(s).split(' ').filter(Boolean).map(w => NUMW[w] || w);
@@ -178,7 +186,7 @@
       (run ? '<div class="pb-warn" role="alert">A reel job for this video is already running. <a href="#/publish/reels/'+encodeURIComponent(run.id)+'">Open it</a></div>' : '')+
       (s && !['many','bad'].includes(s.kind) && !ps.length ? pathLine({path:s.path, pathWhy:s.path === 'B' ? s.why : null, takes:s.takes, source:{kind:s.kind}}) : '')+
       (shown ? reuseHtml(found) : '<button type="button" class="pb-go" id="rl-generate"'+(canGenerate() ? '' : ' disabled')+'>'+(s?.path === 'B' ? 'Generate reel options' : 'Generate Reel highlight pack')+'</button>')+
-      '<p class="pb-muted">'+(db ? (s?.path === 'B' ? 'Claude Code checks your phone take, finds its best sections (60 seconds or less each, the hook from the first frame), adds silent screen-share B-roll from the main recording with no face in it, captions, Katana and Blender, then stops for you to keep the reels you want. Nothing short is cut from the YouTube video itself. Uses '+esc(skillLine())+' from Settings.' : 'Claude Code reads the recording for its words and times only: nothing is cut from it. It writes six reel ideas here, then stops for you to pick two. Uses '+esc(skillLine())+' from Settings.') : connecting ? 'Connecting…' : 'Reel jobs are saved in the app’s database, which this preview doesn’t have.')+'</p>';
+      '<p class="pb-muted">'+(db ? (s?.path === 'B' ? 'Claude Code checks your phone take, finds its best sections (60 seconds or less each, the hook from the first frame), adds silent screen-share B-roll from the main recording with no face in it, captions, Katana and Blender, then stops for you to keep the reels you want. Nothing short is cut from the YouTube video itself. '+SPLIT+' Uses '+esc(skillLine())+' from Settings.' : 'Claude Code reads the recording for its words and times only: nothing is cut from it. It writes six reel ideas here, then stops for you to pick two. '+SPLIT+' Uses '+esc(skillLine())+' from Settings.') : connecting ? 'Connecting…' : 'Reel jobs are saved in the app’s database, which this preview doesn’t have.')+'</p>';
   }
   function intake() {
     const vj = videoJobs();
@@ -461,7 +469,7 @@
       '<div class="rl-sh-sec"><h4>Hook <span>say it first: it is on screen from frame 1</span></h4><p class="rl-sh-hook">'+esc(i.hook)+'</p></div>'+
       '<ol class="rl-sh-hls">'+i.highlights.map((h, n) => '<li><span class="rl-sh-n" aria-hidden="true">'+(n+1)+'</span><div>'+(h.head ? '<h5>'+esc(h.head)+'</h5>' : '')+'<p class="rl-sh-say">'+esc(h.say)+'</p><p class="rl-sh-val"><b>Value given to the end user:</b> '+esc(h.value)+'</p>'+(brollOk(h.broll) ? '<p class="rl-sh-broll"><span class="rl-lbl">B-roll</span><span>The screen at '+esc(span(r, h))+', silent, no face: '+esc(h.broll.what)+'</span></p>' : '')+'</div></li>').join('')+'</ol>'+
       '<div class="rl-sh-sec"><h4>Close <span>back to the title</span></h4><p class="rl-sh-close">'+esc(i.close)+'</p></div>'+
-      '<p class="rl-sh-rules">Front camera · upright 9:16 · your own words · the finished reel is 60 seconds or less, so a longer take is fine</p>'+
+      '<p class="rl-sh-rules">Front camera · upright 9:16 · chest-up, your face near the middle: it fills the bottom half of the split screen · your own words · the finished reel is 60 seconds or less, so a longer take is fine</p>'+
       '<p class="pb-acts"><button type="button" class="pb-link" id="rl-cs-'+esc(i.id)+'" data-rl-script="'+esc(i.id)+'"'+M.done('script:'+i.id, copiedKey === 'script:'+i.id)+'>'+M.label(copiedKey === 'script:'+i.id, 'Copy the words to say', 'Copied')+'</button></p>'+
       '<div class="rl-slot" role="group" aria-label="Your take for Winner '+(k+1)+'"><span class="micro">Your take</span>'+slot+
       (matchNote?.winner === i.id ? '<p class="rl-note" role="alert">'+esc(matchNote.text)+'</p>' : '')+'</div></article>';
@@ -526,8 +534,8 @@
       '<div class="rl-oc-main"><span class="micro">Option '+esc(o.id)+' · '+esc(clock(o.seconds))+' · from '+esc(takeLabel(r, o.take))+' '+esc(cuts.map(c => clock(c.t0)+'–'+clock(c.t1)).join(', '))+'</span>'+
       '<h3 id="rl-oc-'+esc(o.id)+'">'+esc(o.name)+'</h3>'+(nearSame(o.name, o.hook) ? '' : '<p class="rl-oc-hook"><span class="rl-lbl">Hook</span>'+esc(o.hook)+'</p>')+(o.why ? '<p class="rl-oc-why">'+esc(o.why)+'</p>' : '')+
       '<ul class="rl-oc-facts">'+(b.length ? '<li><b>Screen-share B-roll</b> '+esc(b.length)+' moment'+(b.length > 1 ? 's' : '')+', silent, no face: '+b.map(x => esc((x.at != null ? clock(x.at)+' ' : '')+(x.what || 'screen')+' (main recording '+(x.yt0 && x.yt1 ? x.yt0+'–'+x.yt1 : clock(x.src0)+'–'+clock(x.src1))+')')).join('; ')+'</li>' : '<li><b>No B-roll</b> your take only</li>')+
-        (ext.length ? '<li><b>Shots</b> '+esc(ext.join(' · '))+'</li>' : '')+'<li><b>Captions</b> '+esc(o.captions || 'style C')+'</li><li class="rl-oc-guard">✓ youtube_guard: your own take, not from the YouTube video</li></ul>'+
-      '<button type="button" class="rl-pick rl-keep" data-rl-keep="'+esc(o.id)+'" aria-pressed="'+on+'"'+(on ? M.attr('on:pick:'+o.id, 'fill') : '')+(open ? '' : ' disabled')+'>'+(on ? 'Kept ✓' : 'Keep this reel')+'</button>'+
+        (ext.length ? '<li><b>Shots</b> '+esc(ext.join(' · '))+'</li>' : '')+'<li><b>Captions</b> '+esc(o.captions || 'style C')+'</li><li><b>Layout</b> split screen: your face below, the motion above</li>'+(splitLine(o.split) ? '<li class="rl-oc-split'+(o.split.pass === false ? ' is-bad' : '')+'">'+esc(splitLine(o.split))+'</li>' : '')+'<li class="rl-oc-guard">✓ youtube_guard: your own take, not from the YouTube video</li></ul>'+
+      '<button type="button" class="rl-pick rl-keep" data-rl-keep="'+esc(o.id)+'" aria-pressed="'+on+'"'+(on ? M.attr('on:pick:'+o.id, 'fill') : '')+(open && o.split?.pass !== false ? '' : ' disabled')+'>'+(o.split?.pass === false ? 'Not split screen: cannot be kept' : on ? 'Kept ✓' : 'Keep this reel')+'</button>'+
       musicSwitch('rl-omusic-'+o.id, 'data-rl-omusic', o.id, m, !open || !on, on ? (m ? 'Music goes under this reel, from your Drive music folder. You choose the track next.' : 'Off: this reel has your voice and sound effects only, no music.') : 'Keep this reel to choose music for it.')+
       '</div></article></li>';
   }
@@ -608,7 +616,9 @@
       const pic = imageOf(...fs.filter(f => f.kind === 'cover'), ...fs, b, c);
       const SHAPE = {reel:'9:16', post:'4:5', cover:'9:16'};
       const frame = (k, on) => '<span class="rl-fr"><span class="rl-fr-in">'+(on && pic ? '<img src="'+esc(pic)+'" alt="" loading="lazy">' : on ? ph(SHAPE[k], OPENS) : ph(SHAPE[k], 'Not written yet'))+'</span></span>';
-      return '<article class="rl-rd" aria-labelledby="rl-rd-'+esc(id)+'"><div class="rl-rd-head"><span class="micro">'+esc(reelTag(r, b))+(b.seconds ? ' · '+esc(clock(b.seconds)) : '')+(music ? ' · '+esc(music) : '')+'</span><h3 id="rl-rd-'+esc(id)+'">'+esc(reelName(r, b))+'</h3></div>'+
+      const sc = (r.splitScreen || {})[id], sl = splitLine(sc);
+      return '<article class="rl-rd" aria-labelledby="rl-rd-'+esc(id)+'"><div class="rl-rd-head"><span class="micro">'+esc(reelTag(r, b))+(b.seconds ? ' · '+esc(clock(b.seconds)) : '')+(music ? ' · '+esc(music) : '')+'</span><h3 id="rl-rd-'+esc(id)+'">'+esc(reelName(r, b))+'</h3>'+
+        (sl ? '<p class="rl-split'+(sc.pass === false ? ' is-bad' : '')+'" role="'+(sc.pass === false ? 'alert' : 'note')+'">'+esc(sl)+(sc.post && splitLine(sc.post) ? ' · 4:5 post '+esc(splitLine(sc.post).replace(/^✓ Split screen/, 'split screen too').replace(/^Not split screen/, 'not split screen')) : '')+'</p>' : '<p class="rl-split is-none">Split-screen check: not recorded for this reel</p>')+'</div>'+
         '<div class="rl-rd-body"><div class="rl-files">'+['reel','post','cover'].map(k => { const f = fs.find(x => x.kind === k);
           return f ? '<a class="rl-file is-'+k+'" href="'+esc(httpsUrl(f.url))+'" target="_blank" rel="noopener noreferrer">'+frame(k, true)+'<b>'+esc(f.label || KIND[k])+' ↗</b>'+(f.detail ? '<small>'+esc(f.detail)+'</small>' : '')+'</a>' : '<span class="rl-file is-'+k+' is-none">'+frame(k, false)+'<b>'+KIND[k]+'</b><small>Not written yet</small></span>'; }).join('')+'</div>'+
         '<div class="rl-cap"><span class="micro">Caption'+(c?.check ? ' · '+(c.check === 'pass' ? 'checked by Performance Poster' : esc(c.check)) : '')+'</span>'+(c?.text ? '<pre class="pb-copy" id="rl-cap-'+esc(id)+'">'+esc(c.text)+'</pre>'+
@@ -675,9 +685,9 @@
     const r = openId ? current() : null;
     if (r) M.stages('reel:'+r.id, r.stages, M.arriving(root));
     const head = r ? (allTopics().find(t => t.id === r.topicId)?.title || r.title || 'Reels') : 'Reels from this week’s video';
-    const LEDE = {recording:'Record your two winners on your phone, then match each take to its reel. Claude Code builds the reels from your takes, never from the YouTube video.', building:'Claude Code is building your reels from your phone takes. Each stage appears below as it happens.', music:'Your reels are built. Choose the music for each reel that has Add music on.', finishing:'Claude Code is finishing your reels. Each stage appears below as it happens.', final:'Your reels, their 4:5 posts, covers and captions, ready to post by hand.'};
+    const LEDE = {recording:'Record your two winners on your phone, then match each take to its reel. Claude Code builds the reels from your takes, never from the YouTube video.', building:'Claude Code is building your reels from your phone takes. Each stage appears below as it happens.', music:'Your reels are built. Choose the music for each reel that has Add music on.', finishing:'Claude Code is finishing your reels. Each stage appears below as it happens.', final:'Your split-screen reels, their 4:5 posts, covers and captions, ready to post by hand.'};
     const lede = r ? (LEDE[r.status] || (r.status === 'failed' && LEDE[{recordings:'recording', music:'music'}[r.session?.step]]) || (['pack'].includes(r.status) && packOk(r) ? 'Six reels on the title, three highlights each. Pick the two you’ll record on your phone. Nothing is recorded or built until you save your winners.' : 'Claude Code makes six reel ideas from the recording’s words, three highlights each, and stops for you to pick two.')) : 'Start from a video’s main recording. Claude Code makes six reel ideas on its title, three highlights each, and you pick the two you’ll record on your phone.';
-    const LEDE_B = {queued:'Reels cut straight from your phone take. Claude Code finds the best sections and stops for you to keep the ones you want.', starting:'Reels cut straight from your phone take. Claude Code finds the best sections and stops for you to keep the ones you want.', running:'Claude Code is cutting reel options straight from your phone take. Each stage appears below as it happens.', found:'Claude Code found earlier reel work for this recording.', options:'Reel options cut straight from your phone take, 60 seconds or less each. Keep the ones you want, and add music to any of them.', failed:'This reel job stopped. Nothing was posted.', finishing:'Claude Code is finishing your reels. Each stage appears below as it happens.', music:LEDE.music, final:LEDE.final};
+    const LEDE_B = {queued:'Split-screen reels cut straight from your phone take. Claude Code finds the best sections and stops for you to keep the ones you want.', starting:'Split-screen reels cut straight from your phone take. Claude Code finds the best sections and stops for you to keep the ones you want.', running:'Claude Code is cutting reel options straight from your phone take. Each stage appears below as it happens.', found:'Claude Code found earlier reel work for this recording.', options:'Split-screen reel options cut straight from your phone take, 60 seconds or less each: your face below, the motion above. Keep the ones you want, and add music to any of them.', failed:'This reel job stopped. Nothing was posted.', finishing:'Claude Code is finishing your reels. Each stage appears below as it happens.', music:LEDE.music, final:LEDE.final};
     const ledeNow = r && isB(r) ? LEDE_B[r.status] || lede : lede;
     const EYEBROW = {recording:'YOUR RECORDINGS', building:'BUILDING YOUR REELS', music:'MUSIC', finishing:'READY TO POST', final:'READY TO POST'};
     const eyebrow = r && isB(r) ? ({options:'PICK YOUR REELS', music:'MUSIC', final:'READY TO POST'}[r.status] || (r.status === 'finishing' ? (r.session?.step === 'options' ? 'FINISHING YOUR REELS' : 'READY TO POST') : 'REEL OPTIONS')) : EYEBROW[r?.status] || 'REEL HIGHLIGHT PACK';
@@ -855,7 +865,7 @@
       // Path B: keep a reel option (one tap, any number), then Finish saves the keeps with the session it starts.
       if (b.dataset.rlKeep !== undefined) {
         if (!keepOpen(r)) return; ensureKeep(r); const id = b.dataset.rlKeep;
-        if (kd.keep.has(id)) { kd.keep.delete(id); kd.music[id] = false; } else { kd.keep.add(id); M.stamp('on:pick:'+id); }
+        if (kd.keep.has(id)) { kd.keep.delete(id); kd.music[id] = false; } else { if (optsOf(r).find(o => o.id === id)?.split?.pass === false) return; kd.keep.add(id); M.stamp('on:pick:'+id); }
         keepNote = ''; render(); root.querySelector('[data-rl-keep="'+CSS.escape(id)+'"]')?.focus(); return;
       }
       if (b.id === 'rl-keep-go') {
