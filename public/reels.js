@@ -616,7 +616,7 @@
     return '<section class="rl-ready" aria-labelledby="rl-ready-h"><h2 id="rl-ready-h" tabindex="-1">Your reels are ready to post</h2><p class="pb-muted">'+esc(r.finalNote || 'Every file is on your private review page. Nothing has been posted.')+(httpsUrl(r.reviewUrl) ? ' <a class="pb-link" href="'+esc(httpsUrl(r.reviewUrl))+'" target="_blank" rel="noopener noreferrer">Open the review page ↗</a>' : '')+'</p>'+
       ids.map(card).join('')+
       '<div class="rl-howto"><b>Posting by hand on Instagram</b><ol><li>Post the 9:16 file as a Reel. At the crop step choose <b>Original</b>: Instagram starts on a square that cuts the top and bottom off.</li><li>Post the 4:5 file as a post, and open the crop out before Next. A post’s crop cannot be changed after it is shared.</li><li>Set the cover from the cover image.</li><li>Post on or after the YouTube video goes out: each caption says the full video is on YouTube.</li></ol></div>'+
-      '<div class="pb-post"><div><b>Post all</b><p class="pb-muted">Posting needs the Instagram connection, which is not set up yet. Until then, post by hand: open each file, copy each caption and paste it in. Nothing has been posted.</p></div><div class="pb-copies"><button type="button" class="pb-go" disabled>Post all</button></div></div></section>';
+      (window.WWPosting ? window.WWPosting.reelPanel(r) : '')+'</section>';  // posting.js: Instagram and Facebook rows
   }
   function musicSummary(r) {
     const built = builtOf(r); if (!built.length) return '';
@@ -931,5 +931,6 @@
   setInterval(() => { const r = current(); if (root && !root.hidden && isReels() && r && ['starting','running','building','finishing'].includes(r.status) && !typing()) render(); }, 15000);
   window.addEventListener('ww:data', () => { if (isReels() && !typing()) render(); });
   window.addEventListener('ww:settings', () => { if (isReels() && !typing()) render(); });
+  window.addEventListener('ww:posting', () => { if (isReels() && !typing()) render(); });
   load();
 })();

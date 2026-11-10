@@ -153,7 +153,8 @@
         const f = (reel.finals || []).find(z => z.reelId === id && z.kind === shape), cap = (reel.captions || []).find(c => c.reelId === id && c.kind === shape) || (reel.captions || []).find(c => c.reelId === id);
         const st = (Array.isArray(reel.stored?.files) ? reel.stored.files : []).find(z => z.reelId === id && z.kind === shape) || null, c = fill(cap?.text);
         add(platform, platform + '/' + id + '/' + shape, shape, {reelId:id, caption:c.text, file:st || (f ? {kind:shape, url:f.url, onReviewPage:true} : null), cover:(reel.finals || []).find(z => z.reelId === id && z.kind === 'cover') || null,
-          errors:[!f && !st && 'no ' + shape + ' file', !cap && 'no caption', c.left.length && 'the caption still has ' + c.left.join(', '), /link in bio/i.test(c.text) && platform === 'facebook' && 'the caption says "link in bio"'].filter(Boolean)});
+          errors:[!f && !st && 'no ' + shape + ' file', !cap && 'no caption', c.left.length && 'the caption still has ' + c.left.join(', ')].filter(Boolean),
+          warnings:/link in bio/i.test(c.text) ? ['the caption says "link in bio", written before 10 November 2026'] : []});
       }
     }
     // Instagram and Facebook wait until YouTube is live (their captions say the full video is on YouTube).
@@ -206,7 +207,8 @@
       else if (mine.some(s => s.act === 'none')) { state = 'none'; text = 'No reels for this video'; }
       else if (mine.some(s => s.why === 'reels not finished yet')) { state = 'waiting'; text = 'Waits for the reels to finish'; }
       else { state = 'scheduled'; text = 'Scheduled'; }
-      const why = mine.map(s => s.why).find(w => w && state === 'look') || (mine.find(s => s.state === 'failed')?.error) || '';
+      const rec = s => (k === 'youtube' || k === 'linkedin' || k === 'x' ? job?.posting : reel?.posting)?.[s.key];
+      const why = state === 'look' ? (mine.map(rec).find(e => e?.state === 'check')?.error || mine.map(s => s.why).find(w => w && w !== 'needs a look') || '') : (mine.map(rec).find(e => e?.state === 'failed')?.error || '');
       return {key:k, label:LABEL[k], state, text, urls, on, connected:conn, why, items:n};
     });
   }

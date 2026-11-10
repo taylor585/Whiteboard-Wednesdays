@@ -90,7 +90,7 @@ Only when the job's X pick exists and `plan` shows no errors (every post 280 or 
 ### Instagram (Business or Creator account)
 
 For each finished reel of the reel job (`reels/<rid>.finals`, in reel order), first the 9:16 reel, then its 4:5 post:
-1. The file: the stored full-size file (`stored.files[reelId, kind]`), put on a **temporary public URL** (below).
+1. The file: the stored full-size file (`stored.files[reelId, kind]`), or, for a reel job finished before the at-finish hook, the full-size finished file on the reel review page (`finals[].url`: read it with the Artifact tool's `read` and `path`, join its 14 MB parts in order and check the joined size and checksum against the page's own), put on a **temporary public URL** (below). Never a preview (`built[].preview` is the no-music review copy).
 2. `INSTAGRAM_POST_IG_USER_MEDIA {ig_user_id: "me", media_type: "REELS", video_url, caption: <the reel's caption>, cover_url: <public URL of the reel's 1080×1920 cover>, share_to_feed: true}` → container id. The 4:5 post is a video too: the same call with the post file, `caption` the post caption, no `cover_url`, `share_to_feed: true` (Instagram publishes every API video as a reel; the 4:5 shape shows uncropped in the grid).
 3. `INSTAGRAM_POST_IG_USER_MEDIA_PUBLISH {ig_user_id: "me", creation_id, max_wait_seconds: 300}` → media id. Then `INSTAGRAM_GET_IG_USER_MEDIA {ig_user_id: "me", limit: 5, fields: "id,permalink,timestamp,caption"}` for the `permalink` (the receipt `url`).
 - Before the first Instagram post of a run: `INSTAGRAM_GET_IG_USER_CONTENT_PUBLISHING_LIMIT {ig_user_id: "me"}`; with fewer than 4 left, post nothing on Instagram (`fail`, permanent: "Instagram's daily posting limit is reached; it posts on the next run").

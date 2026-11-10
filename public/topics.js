@@ -81,7 +81,7 @@
       const mon = twenty[w*n];
       html += '<div class="tp-wk'+(iso(mon) <= now && now <= iso(add(mon, 6)) ? ' is-this' : '')+'"><div class="tp-wkl"><span class="micro">WEEK OF</span><b>'+fmt(mon,{day:'numeric',month:'short'})+'</b></div>'+twenty.slice(w*n, w*n+n).map(d => {
         const day = iso(d), here = all.filter(e => lanes.has(e.lane) && e.day === day), postDay = lanes.has('post') && posting().isPostingDay(day);
-        let cards = here.map(e => { const s = schedule(e.t); return '<button type="button" class="tp-ev tp-ev-'+e.lane+(follow && follow !== e.t.id ? ' is-dim' : '')+(selected === e.t.id ? ' is-sel' : '')+'"'+(e.lane === 'record' ? M.attr('tp-book:'+e.t.id, 'in') : e.lane === 'post' ? M.attr('tp-book:'+e.t.id, 'in2') : '')+' data-select="'+esc(e.t.id)+'" aria-label="'+LANES.find(l => l[0] === e.lane)[1]+': '+esc(e.t.title)+', '+fmt(d)+'"><span class="tp-ev-job">'+LANES.find(l => l[0] === e.lane)[1]+'</span><b>'+esc(e.t.title)+'</b><span class="tp-ev-after">'+after(e.lane, s)+'</span></button>'; }).join('');
+        let cards = here.map(e => { const s = schedule(e.t); return '<button type="button" class="tp-ev tp-ev-'+e.lane+(follow && follow !== e.t.id ? ' is-dim' : '')+(selected === e.t.id ? ' is-sel' : '')+'"'+(e.lane === 'record' ? M.attr('tp-book:'+e.t.id, 'in') : e.lane === 'post' ? M.attr('tp-book:'+e.t.id, 'in2') : '')+' data-select="'+esc(e.t.id)+'" aria-label="'+LANES.find(l => l[0] === e.lane)[1]+': '+esc(e.t.title)+', '+fmt(d)+'"><span class="tp-ev-job">'+LANES.find(l => l[0] === e.lane)[1]+'</span><b>'+esc(e.t.title)+'</b><span class="tp-ev-after">'+after(e.lane, s)+'</span>'+(e.lane === 'post' && window.WWPosting ? window.WWPosting.badge(e.t.id) : '')+'</button>'; }).join('');
         if (lanes.has('record') && !here.some(e => e.lane === 'record') && [3,5].includes(d.getDay()) && day >= now) cards += '<button type="button" class="tp-ev tp-ev-open" data-book="'+day+'" aria-label="Book a recording for '+fmt(d)+'"'+(ready() ? '' : ' disabled')+'><span class="tp-ev-job">Recording</span><b>Open slot</b><span class="tp-ev-after">+ Book a topic</span></button>';
         // A posting day with nothing going out yet still shows its slot, so the week's posting days are visible at a glance.
         if (postDay && !all.some(e => e.lane === 'post' && e.day === day) && day >= now) cards += '<div class="tp-ev tp-ev-postopen"><span class="tp-ev-job">Posting</span><b>Open slot</b><span class="tp-ev-after">Nothing booked to post</span></div>';
@@ -111,7 +111,7 @@
       '<div class="tp-field-row"><label class="tp-field"><span>Status</span><select id="tp-f-status" data-field="status">'+STATUSES.map(([v,l]) => '<option value="'+v+'"'+(v === t.status ? ' selected' : '')+'>'+l+'</option>').join('')+'</select></label>'+
       '<label class="tp-field"><span>Recording day</span><select id="tp-f-record" data-field="recordDate">'+slotOptions(t.recordDate, true)+'</select></label></div>'+
       (s ? '<dl class="tp-dates"><div><dt>Plan &amp; slides</dt><dd>'+fmt(s.plan)+'</dd></div><div><dt>Record</dt><dd>'+fmt(s.record)+'</dd></div><div><dt>Edit</dt><dd>'+fmt(s.edit)+'</dd></div><div><dt>Post</dt><dd>'+fmt(s.post)+'</dd></div></dl>'+
-        '<label class="tp-field"><span>Post date'+(s.custom ? '' : ' (suggested '+fmt(s.suggested)+')')+'</span><input type="date" id="tp-f-post" data-field="postDate" value="'+(t.postDate || '')+'"></label>'+(s.custom ? '<button type="button" class="tp-link" data-act="post-reset">Use the suggested '+fmt(s.suggested,{weekday:'long'})+'</button>' : '') : '')+
+        '<label class="tp-field"><span>Post date'+(s.custom ? '' : ' (suggested '+fmt(s.suggested)+')')+'</span><input type="date" id="tp-f-post" data-field="postDate" value="'+(t.postDate || '')+'"></label>'+(s.custom ? '<button type="button" class="tp-link" data-act="post-reset">Use the suggested '+fmt(s.suggested,{weekday:'long'})+'</button>' : '') : '')+(window.WWPosting ? window.WWPosting.receipts(t.id) : '')+
       '<label class="tp-field"><span>Who is it for</span><select id="tp-f-buyer" data-field="buyer">'+BUYERS.map(([v,l]) => '<option value="'+v+'"'+(v === (t.buyer || '') ? ' selected' : '')+'>'+l+'</option>').join('')+'</select></label>'+
       (t.buyer ? '' : '<p class="tp-muted tp-buyer-ask">Not set yet. The thumbnails and posts are written for one buyer, so choose A or B before the video goes to Publish. Publish asks again if it is still empty.</p>')+
       '<label class="tp-field"><span>Notes and angle</span><textarea id="tp-f-notes" data-field="notes" rows="5" maxlength="8000">'+esc(t.notes)+'</textarea></label>'+
@@ -212,6 +212,7 @@
   });
   window.addEventListener('ww:data', render);
   window.addEventListener('ww:settings', () => { if (!root.hidden) render(); });
+  window.addEventListener('ww:posting', () => { if (!root.hidden && !root.contains(document.activeElement)) render(); });
   window.addEventListener('ww:route', event => { if (event.detail[0] === 'schedule') render(); });
   render();
 })();

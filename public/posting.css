@@ -1,0 +1,36 @@
+/* Posting block (posting.js): the posting day, one row per platform, Hold, Post now. Tokens from whiteboard.css only.
+   Square corners and hairlines; status colours only on status lines, with the diamond and the words. No motion. */
+.wp{margin:24px 0 0;padding:16px 18px;border:1px solid var(--ww-line);border-top:var(--ww-rule-gold);border-radius:var(--ww-radius-card);background:var(--ww-surface)}
+.wp.wp-later{border-top:1px solid var(--ww-line)}
+.wp-later b{font-weight:var(--ww-strong-weight)}
+.wp-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
+.wp-head h3{margin:0;font:var(--ww-strong-weight) var(--ww-size-h4)/1.25 var(--ww-font-display);letter-spacing:var(--ww-strong-track)}
+.wp-when{margin:6px 0 0;font-size:15px;max-width:70ch}
+.wp .wp-rows{list-style:none;margin:12px 0 0;padding:0;border-top:1px solid var(--ww-line)}
+.wp .wp-row{display:grid;grid-template-columns:minmax(84px,120px) minmax(0,300px) minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--ww-line);min-width:0}
+.wp-pf{font:500 var(--ww-size-micro)/1.4 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase}
+.wp-st{font-size:14px;min-width:0;overflow-wrap:anywhere}
+.wp-why{display:block;color:var(--ww-muted);font-size:13px}
+.wp-row.is-posted .wp-st{color:var(--ww-success)}
+.wp-row.is-look .wp-st,.wp-row.is-retry .wp-st{color:var(--ww-warn)}
+.wp-row.is-skipped .wp-st,.wp-row.is-off .wp-st,.wp-row.is-none .wp-st{color:var(--ww-muted)}
+.wp-out{display:flex;flex-wrap:wrap;gap:4px 12px;min-width:0}
+.wp-link{font-size:14px;color:var(--ww-ink);overflow-wrap:anywhere}
+.wp-checkacts{display:flex;flex-wrap:wrap;gap:6px}
+#publish .wp-sw,#topics .wp-sw{min-height:44px;min-width:64px;padding:8px 12px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);font:500 13px var(--ww-font-mono)}
+#publish .wp-sw[aria-checked=true]{background:var(--ww-highlight);border-color:var(--ww-ink)}
+#publish .wp-btn{min-height:44px;padding:10px 16px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);font-size:15px}
+.wp-acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
+#publish .wp-acts .pb-go,#publish .wp-confirm .pb-go{margin-top:0}
+.wp-confirm{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px;padding:12px;border-left:var(--ww-rule-gold);background:var(--ww-stage)}
+.wp-confirm span{flex:1 1 260px;font-size:15px}
+.wp-whynot,.wp-last{font-size:13px}
+.wp-badge{display:block;margin-top:4px;font:500 var(--ww-size-micro)/1.4 var(--ww-font-mono);letter-spacing:.5px;text-transform:uppercase;color:var(--ww-muted)}
+.wp-badge.is-posted{color:var(--ww-success)}.wp-badge.is-look{color:var(--ww-warn)}
+.wp-badge.is-posted::before,.wp-badge.is-look::before{content:"◆ "}
+.wp.wp-topic{margin-top:16px}
+@media (max-width:640px){
+  .wp{padding:14px 12px}
+  .wp .wp-row{grid-template-columns:minmax(0,1fr) auto}
+  .wp .wp-st{grid-column:1/-1;grid-row:2}.wp .wp-out{grid-column:1/-1;grid-row:3}.wp .wp-sw{grid-column:2;grid-row:1}
+}

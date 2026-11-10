@@ -646,7 +646,7 @@
           '<div class="pb-copies pb-rd-copy">'+(v ? copyBtns(pl) : '<small>Pick a post below.</small>')+'</div></li>'; }).join('')+'</ul>'
       : f.length ? '<ul>'+f.map(x => '<li><span class="pb-pf pb-pf-'+esc(x.platform || '')+'">'+esc(PLATFORMS[x.platform] || x.platform || '')+'</span>'+fileLink(x)+'</li>').join('')+'</ul>' : '';
     return '<section class="pb-finals" aria-labelledby="pb-fin-h"><h2 id="pb-fin-h" tabindex="-1">'+(ready ? 'Ready to post' : 'Finished')+'</h2>'+(job.finalNote ? '<p class="pb-muted">'+esc(job.finalNote)+'</p>' : '')+rows+
-      '<div class="pb-post"><div><b>Post all</b><p class="pb-muted">Posting needs the YouTube, LinkedIn, Instagram and X connections, which are not set up yet. Until then, post by hand: open each file, copy each text and paste it in. Nothing has been posted.</p></div><div class="pb-copies"><button type="button" class="pb-go" disabled>Post all</button></div></div></section>';
+      (window.WWPosting ? window.WWPosting.panel(job) : '')+'</section>';  // posting.js: day and time, a row per platform, Hold, Post now
   }
   // A finished job is not opened by itself, so the videos whose posts are ready stay one tap away from the intake.
   function readyJobs() {
@@ -810,10 +810,10 @@
     if (b.id === 'pb-polish' && job?.status === 'thumbs') { const pk = tpicks(); if (!pk.youtube || starting) return;
       const picks = {...(job.picks || {}), 'thumbs.youtube':pk.youtube, 'thumbs.linkedin':(liOwn || pk.linkedin) && pk.linkedin ? pk.linkedin : pk.youtube};
       await startSession(job, 'thumbs', {picks, thumbsPickedAt:new Date().toISOString()}); return; }
-    if (b.dataset.pick) { if (!picksOpen()) return; job.picks = {...(job.picks || {}), [b.dataset.pick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
+    if (b.dataset.pick) { if (!picksOpen() || window.WWPosting?.lockedPick?.(job, b.dataset.pick)) return; job.picks = {...(job.picks || {}), [b.dataset.pick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
     if (b.dataset.openJob) { ytDraft = null; go('#/publish/job/'+encodeURIComponent(b.dataset.openJob)); root.querySelector('#pb-fin-h')?.focus(); return; }
     if (b.dataset.copyPart) { const t = partText(b.dataset.copyPart); if (t) await copy(t, b.dataset.copyPart); return; }
-    if (b.id === 'pb-ready' && job?.status === 'posts') { const c = pickCount(); if (c.have < c.need) return; await save({status:'final', readyAt:new Date().toISOString()}); render(); root.querySelector('#pb-fin-h')?.focus(); return; }
+    if (b.id === 'pb-ready' && job?.status === 'posts') { const c = pickCount(); if (c.have < c.need) return; await save({status:'final', readyAt:new Date().toISOString(), ...(window.WWPosting?.scheduleFields?.(job) || {})}); render(); root.querySelector('#pb-fin-h')?.focus(); return; }
     if (b.id === 'pb-yt-save' && job) { const u = ytUrl(ytDraft ?? ''); if (!u) return; await save({youtubeUrl:u}); ytDraft = null; render(); return; }
     if (b.id === 'pb-ask-go' && job?.status === 'ask') { if (!askReady() || starting) return; await startSession(job, 'review', {...postInputs(), ask:null}); return; }
     if (starting && /^pb-(continue|start|retry|stop|ck|approve|change-send)/.test(b.id)) return;
@@ -884,6 +884,7 @@
   // Shared with the Reels lane: the same Drive link rules (Phase 2) and the same lane row.
   window.WWPublish = {parseLink, laneTabs};
   window.addEventListener('ww:data', render);
+  window.addEventListener('ww:posting', () => { if (!root.hidden && !document.activeElement?.closest?.('#publish textarea,#publish input')) render(); });
   window.addEventListener('ww:settings', () => { if (!document.activeElement?.closest?.('#publish textarea,#publish input')) render(); });
   // A thumbnail image that will not load in this page shows as its numbered text tile instead (and its Full size link).
   root.addEventListener('error', e => { const i = e.target; if (i?.tagName !== 'IMG' || !i.closest('.pb-thumbs,.pb-rd,.pb-sheet')) return; const s = i.getAttribute('src'); if (badImg.has(s)) return; badImg.add(s);
