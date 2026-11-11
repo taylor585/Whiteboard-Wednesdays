@@ -201,9 +201,9 @@
     return (step === 'pack' ? 'Publish: ' : step === 'thumbs' ? 'Publish thumbnails: ' : step === 'finals' ? 'Publish pilot: ' : step === 'pilot' ? (d === 'changes' ? 'Publish pilot changes: ' : 'Publish master: ') : (d === 'changes' ? 'Publish master changes: ' : 'Publish finals: '))+(j.title || j.id);
   }
   function sessionPrompt(step, j, line) {
-    if (step === 'pack') return line+'. Follow PUBLISH.md in this repository exactly: start with its Check the files stage, run the job with the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything: only a posting session posts (POSTING.md), never this one.'+(window.WWAutopilot?.promptLine?.(j) || '');
+    if (step === 'pack') return line+'. Follow PUBLISH.md in this repository exactly: start with its Check the files stage, run the job with the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything: only a posting session posts (POSTING.md), never this one. If a pinned database write is refused because the document changed (the app may still be saving its own start record), read the job again and redo that write.'+(window.WWAutopilot?.promptLine?.(j) || '');
     const w = j.work?.savedAt ? 'Start by restoring the saved work set (saved '+j.work.savedAt+') as PUBLISH.md says, instead of transcribing, mapping or planning again' : 'Start with the work set as PUBLISH.md says: none is saved yet, so make it once and save it before rendering';
-    return line+'. Follow PUBLISH.md in this repository exactly. '+w+'. Use the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything: only a posting session posts (POSTING.md), never this one.'+(window.WWAutopilot?.promptLine?.(j) || '');
+    return line+'. Follow PUBLISH.md in this repository exactly. '+w+'. Use the skills named on the job document, write every stage back to jobs/'+j.id+' in the Whiteboard Wednesdays app artifact, and never post anything: only a posting session posts (POSTING.md), never this one. If a pinned database write is refused because the document changed (the app may still be saving its own start record), read the job again and redo that write.'+(window.WWAutopilot?.promptLine?.(j) || '');
   }
   // The job's status moves on only after the session has actually started; a refusal leaves it where it was, with Try again.
   // extra is Taylor's answer at a stop (approvals), saved together with the session so a refusal saves nothing.
@@ -213,7 +213,7 @@
     try {
       const mcp = await window.claude?.use?.('mcp');
       if (!mcp) throw {code:'unavailable'};
-      const r = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:sessionTitle(step, j, extra), prompt:sessionPrompt(step, j, line)});
+      const r = await mcp.callTool('Claude Code Remote', 'create_session', {model:'claude-opus-5-5', environment_id:ENV, source_url:REPO, title:sessionTitle(step, j, extra), prompt:sessionPrompt(step, j, line)});
       const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       starting = null;
       await save({session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, requestedAt, startedAt:new Date().toISOString()},

@@ -464,7 +464,7 @@
     const at = new Date().toISOString(); sess = {line, at, s:'starting', key:key || null}; cxPaint();
     try {
       const mcp = await window.claude?.use?.('mcp'); if (!mcp) throw {code:'unavailable'};
-      const r = await mcp.callTool(CCR, 'create_session', {environment_id:CX_ENV, source_url:CX_REPO, title, prompt:line+'. Follow CONNECTIONS.md in this repository exactly: use only COMPOSIO_MANAGE_CONNECTIONS (and COMPOSIO_WAIT_FOR_CONNECTIONS where it says), write the result to connections/status in the Whiteboard Wednesdays app artifact, never post anything, and never print or store a password, key or token.'});
+      const r = await mcp.callTool(CCR, 'create_session', {model:'claude-opus-5-5', environment_id:CX_ENV, source_url:CX_REPO, title, prompt:line+'. Follow CONNECTIONS.md in this repository exactly: use only COMPOSIO_MANAGE_CONNECTIONS (and COMPOSIO_WAIT_FOR_CONNECTIONS where it says), write the result to connections/status in the Whiteboard Wednesdays app artifact, never post anything, and never print or store a password, key or token.'});
       const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       sess = {line, at, s:'run', key:key || null, url:sid ? 'https://claude.ai/code/'+sid : null}; cxPaint(); return true;
     } catch (e) {

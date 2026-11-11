@@ -157,7 +157,7 @@
       const again = (await docRef.get()).data();
       if (again?.autopilot?.next?.claim !== claim || again.autopilot.next.sessionId || !on(again)) return;
       const requestedAt = now();
-      const r = await mcp.callTool(CCR, 'create_session', {environment_id:ENV, source_url:REPO, title:args.title, prompt:args.prompt});
+      const r = await mcp.callTool(CCR, 'create_session', {model:'claude-opus-5-5', environment_id:ENV, source_url:REPO, title:args.title, prompt:args.prompt});
       const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       if (!sid) return;
       await docRef.update({session:{id:sid, url:'https://claude.ai/code/'+sid, step:again.autopilot.next.step, requestedAt, startedAt:now()}, status:args.status,
