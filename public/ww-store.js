@@ -22,9 +22,10 @@
     }
   }
   // ---- Posting settings and the one rule that gives a video its posting day (Taylor, 10 November 2026). ----
-  // Saved as settings/posting. When the document is missing the defaults apply, which are the dates the app always
-  // showed: posting days Tuesday and Thursday, at least 5 days after recording (Wednesday → next Tuesday, Friday → next Thursday).
-  //   {days:['tue','thu'],            posting days, any of mon tue wed thu fri sat sun
+  // Saved as settings/posting. When the document is missing the defaults apply: posting days Tuesday, Thursday and
+  // Saturday (Taylor, 11 November 2026), at least 5 days after recording (Monday → that Saturday, Wednesday → next
+  // Tuesday, Friday → next Thursday). Wednesday and Friday videos keep the dates the app always showed.
+  //   {days:['tue','thu','sat'],      posting days, any of mon tue wed thu fri sat sun
   //    gap:5,                         editing gap: a video posts at least this many days after its recording day (1 to 14)
   //    time:'15:00',                  one posting time, UK time, for the automatic poster later
   //    mode:'manual',                 'manual' | 'auto'. Auto is saved as the intent; nothing posts itself until accounts connect
@@ -35,7 +36,11 @@
   const DAY_KEYS = ['sun','mon','tue','wed','thu','fri','sat'], DAY_NAMES = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const WEEK = ['mon','tue','wed','thu','fri','sat','sun'];
   const PLATFORMS = [['youtube','YouTube'],['linkedin','LinkedIn'],['instagram','Instagram'],['facebook','Facebook'],['x','X']];
-  const POSTING_DEFAULTS = Object.freeze({days:['tue','thu'], gap:5, time:'15:00', mode:'manual', platforms:{youtube:true, linkedin:true, instagram:true, facebook:true, x:false}, from:null, history:[], updatedAt:null});
+  // Recording days (Taylor, 11 November 2026: "Recording days are going to be Monday, Wednesday, and Friday"). Fixed, not
+  // a setting: one topic per recording day. Before RECORD_FROM the days were Wednesday and Friday, so past weeks keep
+  // their own recording days on the calendar, and bookings made then stay valid.
+  const RECORD_DAYS = Object.freeze(['mon','wed','fri']), RECORD_FROM = '2026-11-11', RECORD_BEFORE = Object.freeze(['wed','fri']);
+  const POSTING_DEFAULTS = Object.freeze({days:['tue','thu','sat'], gap:5, time:'15:00', mode:'manual', platforms:{youtube:true, linkedin:true, instagram:true, facebook:true, x:false}, from:null, history:[], updatedAt:null});
   // ---- Connections (Taylor, 10 November 2026): what the app knows about each account, from a real check only. ----
   // Every account is its own connection. Sign-ins are kept by Composio on Taylor's Claude account, never in the app.
   // Two sources, both real checks, neither saved by the page:
@@ -121,15 +126,16 @@
     if (holder) return postingPlan(list, settings).get(holder.id);
     return postingPlan([...(list || []), {id:'\u0000slot', recordDate, postDate:null, createdAt:'￿'}], settings).get('\u0000slot');
   }
-  // In words, for the Schedule heading: "Wednesday’s video posts the next Tuesday, Friday’s the next Thursday."
-  // Worked out on an empty week, so it states the rule itself; bookings can move a single video (one per day).
+  // In words, for the Schedule heading: "Monday’s video posts that Saturday, Wednesday’s the next Tuesday, Friday’s the
+  // next Thursday." Worked out on an empty week of recordings, Monday, Wednesday and Friday, so it states the rule itself;
+  // bookings can move a single video (one per day).
   function postingSentence(settings) {
-    const s = normalise(settings), wed = '2026-01-07', fri = '2026-01-09';
-    const p = postingPlan([{id:'w', recordDate:wed}, {id:'f', recordDate:fri}], {days:s.days, gap:s.gap});
+    const s = normalise(settings), week = RECORD_DAYS.map(k => ({id:k, recordDate:plus('2026-01-04', DAY_KEYS.indexOf(k))}));
+    const p = postingPlan(week, {days:s.days, gap:s.gap});
     const mon = iso => Date.parse(plus(iso, -((dow(iso)+6) % 7)));
     const say = (rec, post) => { const name = DAY_NAMES[dow(post)], weeks = Math.round((mon(post) - mon(rec)) / 6048e5);
       return weeks === 0 ? 'that '+name : weeks === 1 ? 'the next '+name : name+' '+weeks+' weeks later'; };
-    return 'Wednesday’s video posts '+say(wed, p.get('w'))+', Friday’s '+say(fri, p.get('f'))+'.';
+    return week.map((t, i) => DAY_NAMES[dow(t.recordDate)]+'’s'+(i ? '' : ' video posts')+' '+say(t.recordDate, p.get(t.id))).join(', ')+'.';
   }
   const dayList = keys => { const n = WEEK.filter(k => keys.includes(k)).map(k => DAY_NAMES[DAY_KEYS.indexOf(k)]); return n.length < 2 ? n.join('') : n.slice(0, -1).join(', ')+' and '+n[n.length-1]; };
   // Auto is only live once it is chosen AND a switched-on platform is connected (a real check said so) AND the automatic
@@ -160,7 +166,8 @@
     posting = normalise(doc); postingChanged();
     return posting;
   }
-  const postingApi = {DEFAULTS:POSTING_DEFAULTS, WEEK, DAY_KEYS, DAY_NAMES, PLATFORMS, CONNECTED, normalise, plan:postingPlan, slot:postingSlot, sentence:postingSentence, dayList, autoLive, modeLine,
+  const isRecordingDay = iso => isoDay(iso) && (iso < RECORD_FROM ? RECORD_BEFORE : RECORD_DAYS).includes(DAY_KEYS[dow(iso)]);
+  const postingApi = {DEFAULTS:POSTING_DEFAULTS, RECORD_DAYS, isRecordingDay, WEEK, DAY_KEYS, DAY_NAMES, PLATFORMS, CONNECTED, normalise, plan:postingPlan, slot:postingSlot, sentence:postingSentence, dayList, autoLive, modeLine,
     get settings() { return JSON.parse(JSON.stringify(posting)); }, get canSave() { return Boolean(postingRef); }, save:savePosting,
     // The document a save would write, for the Posting screen's preview line before anything is saved.
     draft:nextPosting,
@@ -264,7 +271,7 @@
       // Who the video is for (Taylor's decision 7, 4 November 2026): A wants AI built, B buys paid ads; null clears it.
       if (body.buyer !== undefined) { if (body.buyer !== null && body.buyer !== 'A' && body.buyer !== 'B') fail('Choose who the video is for: A or B.'); patch.buyer = body.buyer; }
       if (body.recordDate !== undefined) {
-        if (body.recordDate !== null) { const d = day(body.recordDate); if (!d || ![3,5].includes(d.getUTCDay())) fail('Recording days are Wednesday and Friday.'); }
+        if (body.recordDate !== null) { const d = day(body.recordDate); if (!d || !isRecordingDay(body.recordDate)) fail('Recording days are Monday, Wednesday and Friday.'); }
         const holder = body.recordDate === null ? null : topics.find(x => x.recordDate === body.recordDate && x.id !== t.id);
         if (holder && body.swap !== true) fail('“'+holder.title+'” is already booked for that day.', 409, {conflict:{id:holder.id, title:holder.title}});
         if (holder) {

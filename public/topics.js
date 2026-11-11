@@ -1,7 +1,8 @@
 /* Schedule (Taylor's pick S2-B Big calendar, 30 October 2026): four weeks of recording and posting as a calendar, one row per week, built on PROCESS.md (16 October 2026).
-   Monday plan and slides, Wednesday record, Thursday edit, Friday record. Posting days come from Posting settings
-   (#/settings/posting, 10 November 2026; Tuesday and Thursday when nothing is saved): those columns carry the posting
-   marker and an empty posting slot, and a weekend column appears only when Saturday or Sunday is a posting day. */
+   Monday plan, slides and record, Wednesday record, Friday record (Taylor, 11 November 2026). Posting days come from
+   Posting settings (#/settings/posting; Tuesday, Thursday and Saturday when nothing is saved): those columns carry the
+   posting marker and an empty posting slot, and the recording days carry the recording marker. Monday to Saturday
+   always shows; Sunday appears only when it is a posting day. */
 (() => {
   'use strict';
   const root = document.querySelector('#topics');
@@ -20,14 +21,14 @@
   const today = () => { const n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate(), 12); };
   const monday = d => add(d, -((d.getDay()+6) % 7));
   const fmt = (d, o={weekday:'short',day:'numeric',month:'short'}) => new Intl.DateTimeFormat('en-GB', o).format(d);
-  // Every date follows from the recording day. Wednesday's video is edited on Thursday; Friday's by the next Monday
-  // (never later than its posting day). The posting day comes from the one rule in ww-store.js (WWStore.posting):
+  // Every date follows from the recording day. Monday's video is edited on Tuesday, Wednesday's on Thursday, Friday's by
+  // the next Monday (never later than its posting day). The posting day comes from the one rule in ww-store.js (WWStore.posting):
   // the next posting day at least the editing gap after recording, one video per day, unless a post date is set by hand.
   const posting = () => window.WWStore.posting;
   function schedule(t) {
     if (!t.recordDate) return null;
-    const r = parse(t.recordDate), wed = r.getDay() === 3, post = parse(posting().dates(topics()).get(t.id));
-    const edit = add(r, wed ? 1 : 3);
+    const r = parse(t.recordDate), post = parse(posting().dates(topics()).get(t.id));
+    const edit = add(r, r.getDay() === 5 ? 3 : 1);
     return {plan:monday(r), record:r, edit:edit > post && post >= r ? post : edit, post, custom:Boolean(t.postDate),
       // What the rule would give if the hand-set date were cleared.
       get suggested() { return parse(posting().plan(topics().map(x => x.id === t.id ? {...x, postDate:null} : x), posting().settings).get(t.id)); }};
@@ -40,7 +41,9 @@
   const topics = () => data().topics || [];
   const ready = () => Boolean(data().ready);
   const byDate = d => topics().find(t => t.recordDate === iso(d));
-  const openSlots = (count=12) => { const out = []; let d = today(); while (out.length < count) { if ([3,5].includes(d.getDay()) && !byDate(d)) out.push(d); d = add(d, 1); } return out; };
+  // Recording days come from ww-store.js (WWStore.posting.RECORD_DAYS): Monday, Wednesday and Friday.
+  const recDay = d => posting().isRecordingDay(iso(d));
+  const openSlots = (count=12) => { const out = []; let d = today(); while (out.length < count) { if (recDay(d) && !byDate(d)) out.push(d); d = add(d, 1); } return out; };
   function status(message) { $('#tp-status').textContent = message; }
   async function mutate(path, body, success) {
     const focus = document.activeElement?.id;
@@ -57,8 +60,8 @@
   // 26 October 2026): switch jobs on or off, or follow one video.
   const LANES = [['record','Recording'],['post','Posting'],['edit','Editing'],['plan','Plan + slides']];
   const home = () => add(monday(today()), -14);
-  // Monday to Friday, plus Saturday (and Sunday) only when one of them is a posting day.
-  const cols = () => { const d = posting().settings.days; return d.includes('sun') ? 7 : d.includes('sat') ? 6 : 5; };
+  // Monday to Saturday (Saturday is a posting day since 11 November 2026), plus Sunday only when it is a posting day.
+  const cols = () => posting().settings.days.includes('sun') ? 7 : 6;
   const days20 = (n = cols()) => Array.from({length:4*n}, (_, i) => add(start, Math.floor(i/n)*7 + i%n));
   function events() {
     const out = [];
@@ -80,12 +83,12 @@
     for (let w = 0; w < 4; w++) {
       const mon = twenty[w*n];
       html += '<div class="tp-wk'+(iso(mon) <= now && now <= iso(add(mon, 6)) ? ' is-this' : '')+'"><div class="tp-wkl"><span class="micro">WEEK OF</span><b>'+fmt(mon,{day:'numeric',month:'short'})+'</b></div>'+twenty.slice(w*n, w*n+n).map(d => {
-        const day = iso(d), here = all.filter(e => lanes.has(e.lane) && e.day === day), postDay = lanes.has('post') && posting().isPostingDay(day);
+        const day = iso(d), here = all.filter(e => lanes.has(e.lane) && e.day === day), postDay = lanes.has('post') && posting().isPostingDay(day), recordDay = lanes.has('record') && recDay(d);
         let cards = here.map(e => { const s = schedule(e.t); return '<button type="button" class="tp-ev tp-ev-'+e.lane+(follow && follow !== e.t.id ? ' is-dim' : '')+(selected === e.t.id ? ' is-sel' : '')+'"'+(e.lane === 'record' ? M.attr('tp-book:'+e.t.id, 'in') : e.lane === 'post' ? M.attr('tp-book:'+e.t.id, 'in2') : '')+' data-select="'+esc(e.t.id)+'" aria-label="'+LANES.find(l => l[0] === e.lane)[1]+': '+esc(e.t.title)+', '+fmt(d)+'"><span class="tp-ev-job">'+LANES.find(l => l[0] === e.lane)[1]+'</span><b>'+esc(e.t.title)+'</b><span class="tp-ev-after">'+after(e.lane, s)+'</span>'+(e.lane === 'post' && window.WWPosting ? window.WWPosting.badge(e.t.id) : '')+'</button>'; }).join('');
-        if (lanes.has('record') && !here.some(e => e.lane === 'record') && [3,5].includes(d.getDay()) && day >= now) cards += '<button type="button" class="tp-ev tp-ev-open" data-book="'+day+'" aria-label="Book a recording for '+fmt(d)+'"'+(ready() ? '' : ' disabled')+'><span class="tp-ev-job">Recording</span><b>Open slot</b><span class="tp-ev-after">+ Book a topic</span></button>';
+        if (lanes.has('record') && !here.some(e => e.lane === 'record') && recordDay && day >= now) cards += '<button type="button" class="tp-ev tp-ev-open" data-book="'+day+'" aria-label="Book a recording for '+fmt(d)+'"'+(ready() ? '' : ' disabled')+'><span class="tp-ev-job">Recording</span><b>Open slot</b><span class="tp-ev-after">+ Book a topic</span></button>';
         // A posting day with nothing going out yet still shows its slot, so the week's posting days are visible at a glance.
         if (postDay && !all.some(e => e.lane === 'post' && e.day === day) && day >= now) cards += '<div class="tp-ev tp-ev-postopen"><span class="tp-ev-job">Posting</span><b>Open slot</b><span class="tp-ev-after">Nothing booked to post</span></div>';
-        return '<div class="tp-day'+(day === now ? ' is-today' : '')+(day < now ? ' is-past' : '')+(postDay ? ' is-postday' : '')+'"><span class="tp-dayn"><b>'+fmt(d,{weekday:'short'})+'</b> '+fmt(d,{day:'numeric'})+(postDay ? '<span class="tp-pd"><i aria-hidden="true"></i>Post day</span>' : '')+'</span>'+cards+'</div>';
+        return '<div class="tp-day'+(day === now ? ' is-today' : '')+(day < now ? ' is-past' : '')+(recordDay ? ' is-recday' : '')+(postDay ? ' is-postday' : '')+'"><span class="tp-dayn"><b>'+fmt(d,{weekday:'short'})+'</b> '+fmt(d,{day:'numeric'})+(recordDay ? '<span class="tp-rd"><i aria-hidden="true"></i>Record day</span>' : '')+(postDay ? '<span class="tp-pd"><i aria-hidden="true"></i>Post day</span>' : '')+'</span>'+cards+'</div>';
       }).join('')+'</div>';
     }
     $('#tp-cal').innerHTML = html;
@@ -93,7 +96,7 @@
   // The topic panel also lists booked days, so a clash can be resolved by swapping the two topics.
   function slotOptions(current, withBooked=false) {
     let slots = openSlots();
-    if (withBooked) { slots = []; for (let d = today(); slots.length < 12; d = add(d, 1)) if ([3,5].includes(d.getDay())) slots.push(d); }
+    if (withBooked) { slots = []; for (let d = today(); slots.length < 12; d = add(d, 1)) if (recDay(d)) slots.push(d); }
     if (current && !slots.some(d => iso(d) === current)) slots.unshift(parse(current));
     return '<option value="">Not scheduled</option>'+slots.sort((a,b) => a-b).map(d => { const holder = byDate(d), mine = iso(d) === current; return '<option value="'+iso(d)+'"'+(mine ? ' selected' : '')+'>'+fmt(d,{weekday:'long',day:'numeric',month:'short'})+(holder && !mine ? ' · swap with “'+esc(holder.title.length > 28 ? holder.title.slice(0,27)+'…' : holder.title)+'”' : '')+'</option>'; }).join('');
   }
@@ -125,7 +128,7 @@
   // The heading sentence and the posting mode line both come from Posting settings.
   function rule() {
     const p = posting(), s = p.settings;
-    $('#tp-rule').textContent = 'Record on Wednesday and Friday. '+p.sentence(s)+' Choose any card to open its topic.';
+    $('#tp-rule').textContent = 'Record on '+p.dayList(p.RECORD_DAYS)+'. '+p.sentence(s)+' Choose any card to open its topic.';
     $('#tp-mode').innerHTML = '<span data-mode="'+s.mode+'" data-live="'+p.effectiveMode+'">'+esc(p.modeLine(s))+'</span> <a href="#/settings/posting">Posting settings</a>';
   }
   function render() {

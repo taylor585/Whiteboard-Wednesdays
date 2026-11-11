@@ -7,7 +7,7 @@ export const videos = sqliteTable('videos', {
 });
 // Kept so earlier saved ideas are never lost; they are copied into topics by migration 0001.
 export const savedIdeas = sqliteTable('saved_ideas', {id:text('id').primaryKey(), savedAt:text('saved_at').notNull()});
-// Topics follow PROCESS.md: one topic per Wednesday or Friday recording slot. buyer: who the video is for, 'A' (wants AI
+// Topics follow PROCESS.md: one topic per Monday, Wednesday or Friday recording slot. buyer: who the video is for, 'A' (wants AI
 // built) or 'B' (buys paid ads), or null when not set yet (Taylor's decision 7, 4 November 2026).
 export const topics = sqliteTable('topics', {
  id:text('id').primaryKey(), title:text('title').notNull(), status:text('status').notNull().default('new'), notes:text('notes').notNull().default(''),
