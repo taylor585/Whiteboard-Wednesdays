@@ -1,8 +1,9 @@
 /* Topics: creators and ideas (Taylor's picks TC-C and T2-B, 30 October 2026, replacing the BC table).
    The four-column idea board takes the page (Sparks, Shortlist, then the Recording and Posting
    schedules side by side) and the creators sit beside it as cards; choosing one opens its profile
-   over the rail, so the board never moves. Wednesday's video posts
-   on the day Posting settings give it (WWStore.posting in ww-store.js; Tuesday and Thursday by default), unless a post date is set by hand. */
+   over the rail, so the board never moves. Each week has three recording slots, Monday, Wednesday and Friday
+   (Taylor, 11 November 2026), and each video posts on the day Posting settings give it (WWStore.posting in ww-store.js;
+   Tuesday, Thursday and Saturday by default), unless a post date is set by hand. */
 (() => {
   'use strict';
   const root = document.querySelector('#brainstorm');
@@ -55,7 +56,7 @@
     return sortedAll.filter(x => x.t >= cut).slice(0, 12).map(x => x.v);
   };
   const angles = () => topics().filter(t => !t.recordDate && OPEN.includes(t.status));
-  const slots = () => [add(week, 2), add(week, 4)].map(d => ({day:d, topic:topics().find(t => t.recordDate === iso(d)), past:iso(d) < iso(today())}));
+  const slots = () => [0, 1, 2, 3, 4, 5, 6].map(i => add(week, i)).filter(d => posting().isRecordingDay(iso(d))).map(d => ({day:d, topic:topics().find(t => t.recordDate === iso(d)), past:iso(d) < iso(today())}));
   async function mutate(path, body, success) {
     try { const result = await api(path, body); await window.WWIdeas.reload(); if (success) status(success); return result; }
     catch (error) {
@@ -247,7 +248,7 @@
     event.preventDefault();
     const input = $('#bs-title'), title = input.value.trim();
     if (!title) { status('Write the angle first.'); input.focus(); return; }
-    const done = await mutate('/topic', spark ? {title, videoId:spark} : {title}, 'Angle added. Book it into Wednesday or Friday when you are ready.');
+    const done = await mutate('/topic', spark ? {title, videoId:spark} : {title}, 'Angle added. Book it into Monday, Wednesday or Friday when you are ready.');
     if (done) { input.value = ''; spark = null; render(); input.focus(); }
   });
   root.addEventListener('dragstart', event => { const st = event.target.closest?.('.bs-stk'); if (!st) return; drag = st.dataset.topic; event.dataTransfer.setData('text/plain', drag); event.dataTransfer.effectAllowed = 'move'; st.classList.add('is-dragging'); });

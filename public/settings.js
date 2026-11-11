@@ -141,7 +141,7 @@
   }
   const saveBar = () => { const p = P(), n = pChanges(), at = p.settings.updatedAt;
     const c = chip(n, pChgN, 'po-chg'); pChgN = n;
-    return c+'<span class="se-when" id="po-when" role="status"'+(n || pMsg ? '' : M.attr('se-saved', 'fade'))+'>'+esc(pMsg || (n ? 'Not saved yet' : at ? 'Saved '+when(at) : p.canSave ? 'Using the defaults: Tuesday and Thursday' : loaded ? 'Saving needs the app’s database, which this preview does not have' : 'Loading…'))+'</span><span class="se-note">Videos already posted keep their dates.</span><button type="button" class="se-btn" id="po-save"'+(n && p.canSave && !pBusy ? '' : ' disabled')+M.done('posting', flash === 'posting' && !n)+'>'+(pBusy ? 'Saving…' : M.label(flash === 'posting' && !n, 'Save posting settings', 'Saved'))+'</button>'; };
+    return c+'<span class="se-when" id="po-when" role="status"'+(n || pMsg ? '' : M.attr('se-saved', 'fade'))+'>'+esc(pMsg || (n ? 'Not saved yet' : at ? 'Saved '+when(at) : p.canSave ? 'Using the defaults: '+p.dayList(p.DEFAULTS.days) : loaded ? 'Saving needs the app’s database, which this preview does not have' : 'Loading…'))+'</span><span class="se-note">Videos already posted keep their dates.</span><button type="button" class="se-btn" id="po-save"'+(n && p.canSave && !pBusy ? '' : ' disabled')+M.done('posting', flash === 'posting' && !n)+'>'+(pBusy ? 'Saving…' : M.label(flash === 'posting' && !n, 'Save posting settings', 'Saved'))+'</button>'; };
   // With Auto chosen and nothing connected the toggle's note already says so, so the line under Platforms steps back.
   const honestHidden = d => d.mode === 'auto' && !P().autoLive(d);
   let pDraft = null, pBase = '', pMsg = '', pBusy = false;
@@ -152,12 +152,12 @@
   const pUntouched = () => !pDraft || JSON.stringify(pDraft) === pBase;
   const pChanges = () => { const a = pSaved(), d = pDraft; return (a.days.join() !== d.days.join()) + (a.gap !== d.gap) + (a.time !== d.time) + (a.mode !== d.mode) + Object.keys(a.platforms).filter(k => a.platforms[k] !== d.platforms[k]).length; };
   const dayFmt = isoDay => new Intl.DateTimeFormat('en-GB', {weekday:'short', day:'numeric', month:'short', timeZone:'UTC'}).format(new Date(isoDay+'T12:00:00Z')).replace(',', '');
-  // What the rule on screen means for the next Wednesday and Friday recordings, bookings included.
+  // What the rule on screen means for the next Monday, Wednesday and Friday recordings, bookings included.
   function previewHtml() {
     const now = new Date(), pad = v => String(v).padStart(2, '0'), today = now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate());
     const next = wd => { const d = new Date(today+'T12:00:00Z'); while (d.getUTCDay() !== wd) d.setUTCDate(d.getUTCDate()+1); return d.toISOString().slice(0, 10); };
     const would = P().draft(pDraft, today), topics = window.WWIdeas?.data?.topics || [];
-    return [['Wednesday', next(3)], ['Friday', next(5)]].sort((a, b) => a[1].localeCompare(b[1])).map(([name, rec]) => name+'’s video posts <mark>'+esc(dayFmt(P().slot(topics, would, rec)))+'</mark>').join('. ')+'.';
+    return P().RECORD_DAYS.map(k => [P().DAY_NAMES[P().DAY_KEYS.indexOf(k)], next(P().DAY_KEYS.indexOf(k))]).sort((a, b) => a[1].localeCompare(b[1])).map(([name, rec]) => name+'’s video posts <mark>'+esc(dayFmt(P().slot(topics, would, rec)))+'</mark>').join('. ')+'.';
   }
   function renderPosting() {
     const p = P();
@@ -165,7 +165,7 @@
     if (!pDraft) pReset();
     const d = pDraft, names = {mon:'Monday', tue:'Tuesday', wed:'Wednesday', thu:'Thursday', fri:'Friday', sat:'Saturday', sun:'Sunday'};
     root.innerHTML = '<div class="se-head"><a class="se-back" href="#/library">← Back</a><div class="micro">SETTINGS · POSTING</div><h1 id="se-heading">Posting</h1><p>Choose the days your videos go out. The Schedule follows as soon as you save.</p>'+laneTabs()+'</div>'+
-      '<div class="po"><section class="po-grp"><h2 id="po-days-h">Posting days <span class="micro">Tap a day to switch it on or off</span></h2><div class="po-week" role="group" aria-labelledby="po-days-h">'+p.WEEK.map(k => { const on = d.days.includes(k), rec = k === 'wed' || k === 'fri';
+      '<div class="po"><section class="po-grp"><h2 id="po-days-h">Posting days <span class="micro">Tap a day to switch it on or off</span></h2><div class="po-week" role="group" aria-labelledby="po-days-h">'+p.WEEK.map(k => { const on = d.days.includes(k), rec = p.RECORD_DAYS.includes(k);
         return '<button type="button" class="po-day" id="po-day-'+k+'" data-day="'+k+'" aria-pressed="'+on+'" aria-label="'+names[k]+', posting day'+(rec ? ', also a recording day' : '')+'"><b>'+names[k].slice(0, 3)+'</b><span class="po-tags"><span class="po-tag is-rec'+(rec ? '' : ' is-off')+'">Rec</span><span class="po-tag is-post'+(on ? '' : ' is-off')+'">Post</span></span></button>'; }).join('')+'</div>'+
       '<p class="po-preview" id="po-preview" role="status">'+previewHtml()+'</p></section>'+
       '<section class="po-two"><label class="po-field" for="po-time"><span>Posting time</span><input type="time" id="po-time" value="'+esc(d.time)+'" required><small>The time posts go out once Auto posting is on. UK time.</small></label>'+

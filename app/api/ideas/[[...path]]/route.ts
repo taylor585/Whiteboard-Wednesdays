@@ -13,7 +13,7 @@ function database(){if(!env.DB)throw new YouTubeError('Watchlist storage is temp
 async function initialise(){const db=database();await db.batch(seed.creators.map(c=>db.prepare('INSERT OR IGNORE INTO creators(handle,name) VALUES(?,?)').bind(c.handle,c.name)));}
 const video=(v:VideoRow,withDescription=false)=>({id:v.id,handle:v.handle,creator:v.creator,title:v.title,publishedAt:v.published_at,thumbnail:v.thumbnail,...(withDescription?{description:v.description||''}:{})});
 const text=(value:unknown,max:number)=>typeof value==='string'&&value.length<=max?value:null;
-// Dates are calendar days (YYYY-MM-DD). Recording happens on Wednesdays and Fridays only (PROCESS.md).
+// Dates are calendar days (YYYY-MM-DD). Recording happens on Mondays, Wednesdays and Fridays only (PROCESS.md, 11 November 2026).
 function day(value:unknown){if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return null;const d=new Date(value+'T12:00:00Z');return Number.isNaN(d.getTime())||d.toISOString().slice(0,10)!==value?null:d;}
 async function topicsWithDetail(){
  const db=database();
@@ -75,7 +75,7 @@ async function topicAction(action:string,body:Record<string,unknown>){
   if(body.buyer!==undefined){if(body.buyer!==null&&body.buyer!=='A'&&body.buyer!=='B')return bad('Choose who the video is for: A or B.');sets.push('buyer=?');values.push(body.buyer);}
   const statements=[];
   if(body.recordDate!==undefined){
-   if(body.recordDate!==null){const d=day(body.recordDate);if(!d||![3,5].includes(d.getUTCDay()))return bad('Recording days are Wednesday and Friday.');}
+   if(body.recordDate!==null){const d=day(body.recordDate);if(!d||![1,3,5].includes(d.getUTCDay()))return bad('Recording days are Monday, Wednesday and Friday.');}
    const holder=body.recordDate===null?null:await db.prepare('SELECT id,title FROM topics WHERE record_date=? AND id<>?').bind(body.recordDate,id).first<{id:string;title:string}>();
    if(holder){
     if(body.swap!==true)return json({error:'“'+holder.title+'” is already booked for that day.',conflict:{id:holder.id,title:holder.title}},409);

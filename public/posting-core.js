@@ -44,7 +44,7 @@
   // in ww-store.js (WWStore.posting.dates), or null when the job has no booked topic. A day still ahead keeps its time; a
   // job ready after its slot has passed goes out on the next posting day from now ("late").
   function scheduleFor(planDay, settings, now) {
-    const s = settings || {}, time = /^([01]\d|2[0-3]):[0-5]\d$/.test(s.time || '') ? s.time : '15:00', days = Array.isArray(s.days) && s.days.length ? s.days : ['tue', 'thu'];
+    const s = settings || {}, time = /^([01]\d|2[0-3]):[0-5]\d$/.test(s.time || '') ? s.time : '15:00', days = Array.isArray(s.days) && s.days.length ? s.days : ['tue', 'thu', 'sat'];
     const nowMs = toMs(now);
     if (planDay && /^\d{4}-\d{2}-\d{2}$/.test(planDay) && toMs(londonToUtc(planDay, time)) > nowMs) return {day:planDay, time, tz:TZ, at:londonToUtc(planDay, time), late:false, planned:planDay};
     let d = londonDay(nowMs);
