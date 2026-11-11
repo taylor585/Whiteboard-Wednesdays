@@ -323,7 +323,7 @@
       // Like a refresh, the run is a job for a Claude Code session: the skill reads sessions, repositories and skills.
       if (!db) fail('Skill ideas need the app’s database, which this preview does not have.', 503);
       const id = now.slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7);
-      await write(() => db.collection('ideaRuns').doc(id).set({status:'requested', skill:'trending-topics', mix:'five-and-five', count:10, createdAt:now, ideas:[], added:{}}));
+      await write(() => db.collection('ideaRuns').doc(id).set({status:'requested', skill:'trending-topics-talking-points', mix:'five-and-five', count:10, createdAt:now, ideas:[], added:{}}));
       return {id, line:'Run topic ideas '+id};
     }
     if (action === 'idea-add') {
@@ -335,7 +335,7 @@
       if (already && topics.some(t => t.id === already)) return {id:already, added:false};
       const id = crypto.randomUUID(), title = String(idea.title || '').trim().slice(0, 200);
       if (!title) fail('That idea has no title.');
-      const origin = {kind:'skill', skill:'trending-topics', runId:run.id, ideaId:idea.id, source:idea.source === 'creator' ? 'creator' : 'own', why:String(idea.why || '').slice(0, 400)};
+      const origin = {kind:'skill', skill:run.skill || 'trending-topics', runId:run.id, ideaId:idea.id, source:idea.source === 'creator' ? 'creator' : 'own', why:String(idea.why || '').slice(0, 400)};
       await write(() => ref(id).set({title, status:'shortlisted', notes:'', recordDate:null, postDate:null, deckId:null, createdAt:now, updatedAt:now, sources:[], points:[], origin, skillLock:'pending'}));
       await write(() => db.collection('ideaRuns').doc(run.id).update({added:{...(run.added || {}), [idea.id]:id}}));
       return {id, created:true};
