@@ -5,6 +5,7 @@
   'use strict';
   const STATUSES = ['new','shortlisted','planned','slides_ready','recorded','edited','posted'];
   let db = null, topics = [], notes = new Map(), ready = null, uploads = null, runs = [];
+  let briefs = []; // Talking points briefs, briefs/<topicId> (TALKING-POINTS.md)
   const fail = (error, status=400, extra={}) => { const e = new Error(error); e.status = status; e.result = {error, ...extra}; throw e; };
   const text = (v, max) => typeof v === 'string' && v.length <= max ? v : null;
   function day(v) { if (typeof v !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(v)) return null; const d = new Date(v+'T12:00:00Z'); return Number.isNaN(d.getTime()) || d.toISOString().slice(0,10) !== v ? null : d; }
@@ -214,6 +215,12 @@
         runs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()}));
         window.dispatchEvent(new CustomEvent('ww:store'));
       }, () => {});
+      // Talking points briefs: one document per topic, briefs/<topicId>, written by the Talking points and Briefs screens and by
+      // the Claude Code session that writes the brief (TALKING-POINTS.md). Read on those two screens as data.briefs.
+      db.collection('briefs').onSnapshot(snap => {
+        briefs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()}));
+        window.dispatchEvent(new CustomEvent('ww:store'));
+      }, () => {});
       // Posting settings: one document. Read once, then followed where the database offers it (other tabs and devices).
       try {
         postingRef = db.doc('settings/posting');
@@ -243,7 +250,7 @@
       let creators = [];
       try { creators = (await (await fetch('creators.json')).json()).creators.map(c => { const f = fetchedFor(c.handle); return {handle:c.handle, name:c.name, channelId:c.channelId || null, lastSuccess:f && !f.error ? f.fetchedAt : null, error:f?.error || null, note:notes.get(c.handle) || ''}; }); } catch { /* the list still renders empty */ }
       // configured: real uploads are on the page. canAdd stays off: finding a new channel needs the YouTube API.
-      return {configured:Boolean(uploads), canAdd:false, store:'claude', fetchedAt:uploads?.fetchedAt || null, creators, videos:videos(), topics:sorted(), ideaRuns:db ? runs.slice().sort((a,b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 6) : null};
+      return {configured:Boolean(uploads), canAdd:false, store:'claude', fetchedAt:uploads?.fetchedAt || null, creators, videos:videos(), topics:sorted(), ideaRuns:db ? runs.slice().sort((a,b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 6) : null, briefs:db ? briefs.slice() : null};
     }
     if (!body || typeof body !== 'object' || Array.isArray(body)) fail('A JSON object is required.');
     const now = new Date().toISOString();

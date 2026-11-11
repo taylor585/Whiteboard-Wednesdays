@@ -1,0 +1,4 @@
+interface:
+  display_name: "Whiteboard Wednesdays v2"
+  short_description: "Brand-first, evidence-led presentations with whiteboard reveals, visual devices and recording tools"
+  default_prompt: "Use Whiteboard Wednesdays. First ask me which brand this deck uses (Pecuna Factorem or another) and wait for my answer. Then read my sources, build a three-slide calibration trial with real evidence, varied visual devices and progressive reveals, check it at phone and desktop sizes, and show it to me privately before building the full deck."

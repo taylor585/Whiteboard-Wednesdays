@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "whiteboard-wednesdays/deck-spec.schema.json",
+  "title": "Whiteboard Wednesdays deck spec (the object a deck-spec module returns)",
+  "description": "A deck spec is a CommonJS module exporting ({fs, path, uri, dist, assets, arrow, source}) => spec. build-trial.cjs validates the rules below before writing anything.",
+  "type": "object",
+  "required": ["deck", "register", "file", "title", "artifactTitle", "header", "eyebrow", "intro"],
+  "properties": {
+    "deck": {
+      "type": "object",
+      "required": ["slides"],
+      "properties": {
+        "slides": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "section", "kind", "parts", "reveals", "source", "note"],
+            "properties": {
+              "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "Stable and unique within the deck; used in canonical links."},
+              "title": {"type": "string", "description": "Usually three to five words."},
+              "section": {"type": "string", "description": "Small mono label above the title, e.g. '03 / The finished static'."},
+              "kind": {"type": "string", "description": "A layout from references/layouts.md or a device from references/device-library.md."},
+              "parts": {"type": "array", "items": {"type": "string"}, "description": "Trusted, authored HTML. Asset placeholders like {{AD}} are filled at runtime."},
+              "reveals": {"type": "array", "items": {"type": "integer", "minimum": 1}, "description": "One reveal group per part, starting at 1 and contiguous."},
+              "source": {"type": "string", "pattern": "^Source: ", "description": "The short line the audience sees under the slide."},
+              "note": {"type": "string", "description": "Presenter-only notes."}
+            }
+          }
+        },
+        "survey": {"type": "object"}
+      }
+    },
+    "register": {"type": "array", "minItems": 1, "maxItems": 1, "description": "One entry; see register-entry.schema.json. Its brand is replaced by the confirmed brand profile."},
+    "brandProfile": {"type": "string", "description": "Path to the confirmed brand profile, relative to the spec. Overridden by --brand."},
+    "tools": {"type": "boolean", "description": "true adds the recording tools."},
+    "repeatAllowed": {"type": "array", "items": {"type": "string"}, "description": "Slide IDs allowed to repeat the previous slide's kind, each with its reason in the slide map."},
+    "css": {"type": "string", "description": "Deck-only layout CSS, scoped to the deck's own kinds."},
+    "file": {"type": "string", "description": "Output HTML path, relative to the spec. Never inside the static build directory."},
+    "title": {"type": "string"},
+    "artifactTitle": {"type": "string"},
+    "header": {"type": "string"},
+    "eyebrow": {"type": "string"},
+    "intro": {"type": "string"}
+  }
+}
