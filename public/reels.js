@@ -604,7 +604,23 @@
 
   // ---- R7 Ready to post: per reel the 9:16 reel, the 4:5 post, the cover and the caption with Copy (decision 8) -----
   const PH = /\[[A-Z][A-Z0-9 _-]{2,}\]|\{\{|\}\}/;
+  // ---- Ready to post (outputs.js, 10 November 2026): the reel job's finished files and captions for the shared screen ----
+  function readyCtx(r) {
+    const built = builtOf(r), finals = Array.isArray(r.finals) ? r.finals : [], caps = Array.isArray(r.captions) ? r.captions : [];
+    const ids = built.length ? built.map(b => b.id) : [...new Set(finals.map(f => f.reelId))];
+    const items = ids.map(id => { const b = built.find(x => x.id === id) || {id}, fs = finals.filter(f => f.reelId === id && httpsUrl(f.url)), p = pickOf(r, id);
+      const tr = p?.track != null && !p.off ? tracks(r).find(t => String(t.n) === String(p.track)) : null;
+      const cap = caps.find(c => c.reelId === id && (c.kind || 'reel') === 'reel') || caps.find(c => c.reelId === id), post = caps.find(c => c.reelId === id && c.kind === 'post');
+      return {id, name:reelName(r, b), len:b.seconds ? clock(b.seconds) : '', music:b.music === false || p?.off ? 'no music' : tr ? 'music: '+trackLabel(tr).replace(/ · .*$/, '') : '',
+        reel:fs.find(f => f.kind === 'reel') || null, post:fs.find(f => f.kind === 'post') || null, cover:fs.find(f => f.kind === 'cover') || null,
+        image:imageOf(...fs.filter(f => f.kind === 'cover'), ...fs, b), caption:cap?.text || '', postCaption:post?.text || '',
+        // The split-screen check (Split Screen Katana, 10 November 2026), worded exactly as the reel's own Ready to post said it.
+        split:(() => { const sc = (r.splitScreen || {})[id], sl = splitLine(sc); return sl ? {text:sl+(sc.post && splitLine(sc.post) ? ' · 4:5 post: '+(sc.post.pass ? 'split screen too' : 'not split screen') : ''), bad:sc.pass === false} : null; })()}; });
+    return {r, id:r.id, path:r.path, reviewUrl:httpsUrl(r.reviewUrl), finalNote:r.finalNote || '', items};
+  }
+  // ---- end Ready to post context ----
   function readyHtml(r) {
+    if (window.WWOutputs) return window.WWOutputs.reelsLane(readyCtx(r));  // Ready to post: outputs.js
     const built = builtOf(r), finals = Array.isArray(r.finals) ? r.finals : [], caps = Array.isArray(r.captions) ? r.captions : [];
     const ids = built.length ? built.map(b => b.id) : [...new Set(finals.map(f => f.reelId))];
     const KIND = {reel:'9:16 reel', post:'4:5 post', cover:'Cover'};
@@ -938,6 +954,7 @@
     choosePath, autoFromJob, startQueued,
     // The title, prompt and status the Reels lane uses to start a step, for autopilot's hand-off (autopilot.js).
     sessionArgs: (r, step = 'pack') => ({title:(step === 'options' ? 'Reels finish: ' : 'Reels: ')+(r.title || r.id), prompt:prompt(r, step)+(window.WWAutopilot?.promptLine?.(r) || ''), line:lineFor(r.id, step), status:NEXT[step]}),
+    readyCtx: r => readyCtx(r),  // Ready to post: outputs.js
     pathWhy: r => pathWhy(r)
   };
   phone.addEventListener('change', () => { if (isReels()) render(); });

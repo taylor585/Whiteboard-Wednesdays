@@ -29,6 +29,10 @@
 .wp-badge.is-posted{color:var(--ww-success)}.wp-badge.is-look{color:var(--ww-warn)}
 .wp-badge.is-posted::before,.wp-badge.is-look::before{content:"◆ "}
 .wp.wp-topic{margin-top:16px}
+/* Ready to post (outputs.js): each platform section carries its own row; the job-level block sits at the top of the screen. */
+.wp.wp-slot{margin:0;padding:0;border:0;border-radius:0;background:none}
+.wp.wp-slot .wp-rows{margin:0}
+.op-post-head .wp{margin:20px 0 0}
 @media (max-width:640px){
   .wp{padding:14px 12px}
   .wp .wp-row{grid-template-columns:minmax(0,1fr) auto}

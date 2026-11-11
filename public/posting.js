@@ -67,9 +67,9 @@
     const locked = ['posting', 'posted', 'partial'].includes(x.state);
     const links = x.urls.map(httpsUrl).filter(Boolean).map((u, i, a) => '<a class="wp-link" href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">'+esc(linkWord(x.key, i, a.length))+' ↗</a>').join('');
     const why = x.why && ['look', 'retry'].includes(x.state) ? '<small class="wp-why">'+esc(x.why)+'</small>' : '';
-    const sw = controls ? '<button type="button" class="wp-sw" role="switch" aria-checked="'+x.on+'" data-wp="toggle" data-job="'+esc(j.id)+'" data-k="'+x.key+'" aria-label="Post to '+esc(x.label)+' for this video"'+(locked || starting ? ' disabled' : '')+'>'+(x.on ? 'On' : 'Off')+'</button>' : '';
+    const sw = controls ? '<button type="button" class="wp-sw" role="switch" aria-checked="'+x.on+'" data-wp="toggle" data-job="'+esc(j.id)+'" data-k="'+x.key+'" id="wp-sw-'+esc(j.id)+'-'+x.key+'" aria-label="Post to '+esc(x.label)+' for this video"'+(locked || starting ? ' disabled' : '')+'>'+(x.on ? 'On' : 'Off')+'</button>' : '';
     const check = controls && x.state === 'look' && ['youtube', 'linkedin', 'x'].includes(x.key) && j.posting?.[x.key]?.state === 'check'
-      ? '<span class="wp-checkacts"><button type="button" class="wp-btn" data-wp="clear-yes" data-job="'+esc(j.id)+'" data-k="'+x.key+'">It is posted</button><button type="button" class="wp-btn" data-wp="clear-no" data-job="'+esc(j.id)+'" data-k="'+x.key+'">It isn’t: try again</button></span>' : '';
+      ? '<span class="wp-checkacts"><button type="button" class="wp-btn" data-wp="clear-yes" data-job="'+esc(j.id)+'" data-k="'+x.key+'" id="wp-cy-'+esc(j.id)+'-'+x.key+'">It is posted</button><button type="button" class="wp-btn" data-wp="clear-no" data-job="'+esc(j.id)+'" data-k="'+x.key+'" id="wp-cn-'+esc(j.id)+'-'+x.key+'">It isn’t: try again</button></span>' : '';
     return '<li class="wp-row is-'+x.state+'" data-platform="'+x.key+'" data-state="'+x.state+'"><span class="wp-pf">'+esc(x.label)+'</span><span class="wp-st">'+MARK[x.state]+esc(x.text)+why+'</span><span class="wp-out">'+links+check+'</span>'+sw+'</li>';
   }
   // The sentence under the heading: when it goes out, and how.
@@ -88,7 +88,7 @@
     return (passed ? 'Manual posting: its posting day was '+at+'. Press Post now when you are ready.' : 'Manual posting: nothing goes out until you press Post now. Its posting day is '+at+'.')+late;
   }
   // ---- The posting block on a Ready to post job (replaces the old disabled Post all) ---------------------------------------
-  function panel(j) {
+  function panel(j, {only = null} = {}) {
     if (!j) return '';
     if (j.status !== 'final') return '<div class="wp wp-later"><b>Posting</b><p class="pb-muted">Once you press Ready to post, this video gets its posting day and posts on it'+(live() ? ' by itself' : ' when you press Post now')+'. Nothing has been posted.</p></div>';
     const rs = rowsOf(j), id = esc(j.id), pend = pending(rs), busy = starting === j.id || runOpen(j);
@@ -100,21 +100,44 @@
     const alert = j.alert?.text ? '<div class="pb-warn wp-alert" role="status">'+esc(j.alert.text)+'</div>' : '';
     const n = note[j.id] ? '<div class="pb-warn" role="status">'+esc(note[j.id])+'</div>' : '';
     return '<section class="wp" aria-labelledby="wp-h-'+id+'"><div class="wp-head"><h3 id="wp-h-'+id+'">Posting</h3><span class="micro">'+(live() ? 'AUTO' : 'MANUAL')+(j.hold?.on ? ' · ON HOLD' : '')+'</span></div>'+
-      '<p class="wp-when" id="wp-when-'+id+'">'+esc(whenLine(j, rs))+'</p>'+alert+n+
-      '<ul class="wp-rows" aria-label="Each platform">'+rs.map(x => rowHtml(j, x)).join('')+'</ul>'+
-      '<div class="wp-acts">'+(j.hold?.on ? '<button type="button" class="pb-go wp-hold" data-wp="release" data-job="'+id+'">Release</button>' : '<button type="button" class="wp-btn wp-hold" data-wp="hold" data-job="'+id+'"'+(busy ? ' disabled' : '')+'>Hold</button>')+
-        '<button type="button" class="pb-go wp-now" data-wp="now" data-job="'+id+'" aria-describedby="wp-why-'+id+'"'+(can && confirming !== j.id ? '' : ' disabled')+'>'+(busy ? 'Posting…' : 'Post now')+'</button>'+
-        '<button type="button" class="wp-btn" data-wp="picks" data-job="'+id+'">Change a pick</button></div>'+
+      '<p class="wp-when" id="wp-when-'+id+'">'+esc(whenLine(j, rs))+'</p>'+(only && only.length < rs.length ? '<p class="pb-muted wp-where">Each platform’s row, with its switch and its link once posted, is in its section below.</p>' : '')+alert+n+
+      (only ? (only.length ? '<ul class="wp-rows" aria-label="Other platforms">'+rs.filter(x => only.includes(x.key)).map(x => rowHtml(j, x)).join('')+'</ul>' : '') : '<ul class="wp-rows" aria-label="Each platform">'+rs.map(x => rowHtml(j, x)).join('')+'</ul>')+
+      '<div class="wp-acts">'+(j.hold?.on ? '<button type="button" class="pb-go wp-hold" data-wp="release" data-job="'+id+'" id="wp-hold-'+id+'">Release</button>' : '<button type="button" class="wp-btn wp-hold" data-wp="hold" data-job="'+id+'" id="wp-hold-'+id+'"'+(busy ? ' disabled' : '')+'>Hold</button>')+
+        '<button type="button" class="pb-go wp-now" data-wp="now" data-job="'+id+'" id="wp-now-'+id+'" aria-describedby="wp-why-'+id+'"'+(can && confirming !== j.id ? '' : ' disabled')+'>'+(busy ? 'Posting…' : 'Post now')+'</button>'+
+        '<button type="button" class="wp-btn" data-wp="picks" data-job="'+id+'" id="wp-picks-'+id+'">Change a pick</button></div>'+
       '<p class="pb-muted wp-whynot" id="wp-why-'+id+'">'+esc(why || (live() ? 'Post now posts it straight away instead of waiting for its day.' : 'Post now starts Claude Code, which posts it platform by platform.'))+'</p>'+confirm+last+'</section>';
   }
   // The Reels lane's Ready to post: the reels post with their video, after YouTube is live.
-  function reelPanel(r) {
+  function reelPanel(r, {only = null} = {}) {
     const j = r?.jobId ? jobs.find(x => x.id === r.jobId) : null;
-    if (!j) return '<div class="wp wp-later"><b>Posting</b><p class="pb-muted">These reels are not linked to a video job, so they do not post by themselves. Post them by hand with the steps above.</p></div>';
+    if (!j) return '<div class="wp wp-later"><b>Posting</b><p class="pb-muted">These reels are not linked to a video job, so they do not post by themselves. Post them by hand with the steps '+(only ? 'under the reels' : 'above')+'.</p></div>';
     const rs = rowsOf(j, r).filter(x => x.key === 'instagram' || x.key === 'facebook');
     return '<section class="wp" aria-label="Posting the reels"><div class="wp-head"><h3>Posting</h3><span class="micro">INSTAGRAM AND FACEBOOK</span></div><p class="wp-when">'+esc(j.status === 'final' ? 'They post on Instagram and on your Facebook Page with the same caption, after the YouTube video is live: '+whenLine(j, rowsOf(j, r)) : 'They post with their video once it is Ready to post.')+'</p>'+
-      '<ul class="wp-rows">'+rs.map(x => rowHtml(j, x, {controls:false})).join('')+'</ul><p class="pb-muted"><a class="pb-link" href="#/publish/job/'+encodeURIComponent(j.id)+'">Hold, switch a platform or post now on the video ↗</a></p></section>';
+      (only ? (only.length ? '<ul class="wp-rows" aria-label="Other platforms">'+rs.filter(x => only.includes(x.key)).map(x => rowHtml(j, x, {controls:false})).join('')+'</ul>' : '') : '<ul class="wp-rows">'+rs.map(x => rowHtml(j, x, {controls:false})).join('')+'</ul>')+'<p class="pb-muted"><a class="pb-link" href="#/publish/job/'+encodeURIComponent(j.id)+'">Hold, switch a platform or post now on the video ↗</a></p></section>';
   }
+  // ---- Ready to post (outputs.js): the same posting block, split over the screen ---------------------------------------
+  // outputs.js draws one slot per platform section and asks for its row with WWPostingSlot(platform, ctx); the job-level part
+  // (posting day, mode, Hold or Release, Post now, Change a pick, the confirm and any warning) is WWPostingHead(ctx, placed),
+  // at the top of the screen, with the row of any platform no section drew (placed lists the slots drawn), so every row
+  // appears exactly once. ctx is publish.js's context (job, reel) on the Video screen, {reel} on the Reels lane. Both are
+  // drawn from state on every redraw; the presses are the delegated listener below.
+  const ctxJob = ctx => ctx?.job || (ctx?.reel?.jobId ? jobs.find(x => x.id === ctx.reel.jobId) || window.WWPublishJob?.(ctx.reel.jobId) || null : null);
+  const laneOnly = ctx => !ctx?.job && Boolean(ctx?.reel);
+  function slotRow(platform, ctx) {
+    const j = ctxJob(ctx), k = String(platform || ''); if (!j || !C.ORDER.includes(k)) return '';
+    if (!laneOnly(ctx) && j.status !== 'final') return '';
+    if (laneOnly(ctx) && k !== 'instagram' && k !== 'facebook') return '';
+    const x = (laneOnly(ctx) ? rowsOf(j, ctx.reel) : rowsOf(j)).find(r => r.key === k); if (!x) return '';
+    return '<div class="wp wp-slot"><ul class="wp-rows" aria-label="Posting on '+esc(x.label)+'">'+rowHtml(j, x, {controls:!laneOnly(ctx)})+'</ul></div>';
+  }
+  function slotHead(ctx, placed) {
+    const got = new Set((placed || []).filter(k => slotRow(k, ctx))), rest = k => !got.has(k);
+    if (laneOnly(ctx)) return reelPanel(ctx.reel, {only:['instagram', 'facebook'].filter(rest)});
+    const j = ctxJob(ctx); if (!j) return '';
+    return panel(j, {only:C.ORDER.filter(rest)});
+  }
+  window.WWPostingSlot = (platform, ctx) => slotRow(platform, ctx);
+  window.WWPostingHead = (ctx, placed) => slotHead(ctx, placed);
   // ---- The Schedule: posting cards and the topic panel -------------------------------------------------------------------
   const jobForTopic = id => jobs.filter(j => j.topicId === id && j.status === 'final').sort((a, b) => String(b.readyAt || b.updatedAt || '').localeCompare(String(a.readyAt || a.updatedAt || '')))[0] || null;
   function badge(topicId) {
@@ -188,6 +211,6 @@
   window.addEventListener('ww:settings', () => { sync(); });
   window.addEventListener('ww:store', () => { sync(); });
   window.addEventListener('ww:connections', redraw);
-  window.WWPosting = {panel, reelPanel, badge, receipts, lockedPick, scheduleFields, scheduleOf, rows:rowsOf, postNow, get jobs() { return allJobs().slice(); }};
+  window.WWPosting = {panel, reelPanel, slot:slotRow, head:slotHead, badge, receipts, lockedPick, scheduleFields, scheduleOf, rows:rowsOf, postNow, get jobs() { return allJobs().slice(); }};
   load();
 })();

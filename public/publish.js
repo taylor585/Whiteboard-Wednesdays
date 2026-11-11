@@ -628,8 +628,12 @@
       : job.status === 'final' ? '<div class="pb-bar"><span>'+have+' of '+need+' picked</span><span class="pb-muted">'+(job.readyAt ? 'Marked ready '+esc(when(job.readyAt))+'. ' : '')+'Change a pick any time; the list below follows it.</span></div>'
       : '<div class="pb-bar"><span>'+have+' of '+need+' picked</span><span class="pb-muted">Picks are locked while Claude Code works.</span></div>')+'</section>';
   }
+  // ---- Ready to post (outputs.js, 10 November 2026): the finished screen draws itself from this context. ----
+  const outCtx = () => ({job, plats, chosenPost, chosenThumb, thumbImg, thumbFull, parts, fill, partText, ytField, reel:reelsFor(job)});
+  // ---- end Ready to post context ----
   // Finished: the files and texts ready to post by hand, one row per platform once the picks are made.
   function finals() {
+    if (window.WWOutputs && job.status === 'final' && plats().length) return window.WWOutputs.video(outCtx());  // Ready to post: outputs.js
     const f = job.finals || [], list = plats().filter(pl => pl.thumbnails?.length || pl.posts?.length);
     if (!f.length && !list.length) return '';
     const ready = list.length && job.status === 'final';
@@ -886,6 +890,7 @@
   // Shared with the Reels lane: the same Drive link rules (Phase 2) and the same lane row.
   // sessionArgs: the title, prompt and status the button for a step uses, for autopilot's hand-off (autopilot.js).
   window.WWPublish = {parseLink, laneTabs, sessionArgs:(step, j) => ({title:sessionTitle(step, j), prompt:sessionPrompt(step, j, lineFor(step, j.id)), line:lineFor(step, j.id), status:step === 'pack' ? 'starting' : 'finishing'})};
+  window.WWPublish.readyText = key => partText(key);  // Ready to post: outputs.js copies exactly what this page would
   window.addEventListener('ww:data', render);
   window.addEventListener('ww:posting', () => { if (!root.hidden && !document.activeElement?.closest?.('#publish textarea,#publish input')) render(); });
   window.addEventListener('ww:settings', () => { if (!document.activeElement?.closest?.('#publish textarea,#publish input')) render(); });
