@@ -1,5 +1,9 @@
 # Trending Topics releases
 
+## 5.4.0 — 11 November 2026
+
+- **Main talking points column:** 4 per video, from Gate 6. Five agents research each post, its thread and the news or episode around it. Points 1 to 3 are what the giant actually said; point 4 is the takeaway for a business owner. `plan_sheet.py` blocks a video without exactly 4.
+
 ## 5.3.0 — 10 November 2026
 
 - **The two frameworks, written down and enforced:**

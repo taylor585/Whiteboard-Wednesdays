@@ -19,7 +19,13 @@
    "evidence": "Mollick, 9 Nov: \"I think it crosses the line into being a sort of Jagged AGI. Here, I have it launch a business...\"",
    "url": "https://x.com/emollick/status/2119870150845599972",
    "ours": "Run it on one real task at three effort levels",
-   "score": 44
+   "score": 44,
+   "points": [
+    "Mollick asked Fable for a business earning $20,000 a year on 20 minutes monthly.",
+    "It screened 22 ideas and chose Prebid Brief, tracking funded park and water projects.",
+    "He stopped at a demo: no real customers, so not truly running alone.",
+    "Test it on one real task at low, high and max effort first."
+   ]
   },
   {
    "day": "Fri 13 Nov",
@@ -30,7 +36,13 @@
    "evidence": "Albert, 9 Nov (about 472K views): \"Read this entire project and find everything that's broken, inconsistent, inefficient, or no longer needed...\"",
    "url": "https://x.com/alexalbert__/status/2119884951550386671",
    "ours": "His prompt, live, on three of our projects",
-   "score": 43
+   "score": 43,
+   "points": [
+    "Albert runs the same prompt on every project whenever a new model arrives.",
+    "It asks for everything broken, inconsistent, inefficient or no longer needed in the project.",
+    "Fix what you're sure about, then list the rest for your review.",
+    "Run it on your website, offers and automations each time models change."
+   ]
   },
   {
    "day": "Sat 14 Nov",
@@ -43,7 +55,13 @@
    "evidence": "Hott, 28 Jul: \"I AM BEGGING YOU NOT TO TURN OFF HIGH SPENDING ADS\"  · Moran, Perpetual Traffic 789, \"Why Pausing Meta Ads Based on CPA Is a BIG Mistake!\"",
    "url": "https://x.com/binghott/status/2082224457477714108",
    "ours": "AI reads an account and says which ads are feeding the sales before you pause anything",
-   "score": 42
+   "score": 42,
+   "points": [
+    "Hott: turning off high-spend ads shifts budget, raising other ads' CPAs.",
+    "Hott says ad-level CPA and ROAS are irrelevant; judge the whole account.",
+    "Moran: Andromeda credits last click, so weak-looking ads may feed later sales.",
+    "Before pausing, have AI map which ads start journeys that end in sales."
+   ]
   },
   {
    "day": "Sun 15 Nov",
@@ -54,7 +72,13 @@
    "evidence": "Logan, 28 Oct: \"Introducing Gemini 4 Carbon... SOTA on cyber, long horizon tasks, ranks #1 on Artificial Analysis V5\"",
    "url": "https://x.com/OfficialLoganK/status/2115489284404940898",
    "ours": "Same business task in Gemini, Claude and ChatGPT, side by side",
-   "score": 37
+   "score": 37,
+   "points": [
+    "Logan says Carbon is a big jump over Argon, released two weeks earlier.",
+    "Claimed best on cyber and long tasks, and first on Artificial Analysis V5.",
+    "He reports cheating cut to zero and unsupported claims roughly halved versus Argon.",
+    "Run one real business task in Gemini, Claude and ChatGPT before switching."
+   ]
   },
   {
    "day": "Mon 16 Nov",
@@ -65,7 +89,13 @@
    "evidence": "Shackelford, 22 Oct: \"16 flows that quietly cost money during BFCM, and the check I run on each\"",
    "url": "https://x.com/iamshackelford/status/2113310417535783378",
    "ours": "AI runs all 16 checks on a store in one go",
-   "score": 36
+   "score": 36,
+   "points": [
+    "Shackelford lists 16 BFCM flows that quietly cost money, with a check each.",
+    "He has Claude pull flow performance from Omnisend before running his checks.",
+    "His sheet catches discount stacking, dead tracking links and open VIP links.",
+    "Have AI run every flow check on your store before Black Friday."
+   ]
   },
   {
    "day": "Tue 17 Nov",
@@ -76,7 +106,13 @@
    "evidence": "Karpathy, 1 Nov: \"I had Claude filter down 43M comments over 20 years of HN to 6,454 videos\"",
    "url": "https://x.com/karpathy/status/2116957135661945283",
    "ours": "The same filtering on a lead list",
-   "score": 37
+   "score": 37,
+   "points": [
+    "Karpathy had Claude filter 43M Hacker News comments down to 6,454 videos.",
+    "A script stripped spam first; only the remainder went to Claude for labelling.",
+    "Claude tagged each mention as recommend, cite, joke or criticise; recommendations survived.",
+    "Apply the same staged filter to a lead list before any outreach."
+   ]
   },
   {
    "day": "Wed 18 Nov",
@@ -87,7 +123,13 @@
    "evidence": "Logan, 5 Nov: Gemini Omni Flash 1.2, \"longer video generation (15 seconds)... 30% lower price\"",
    "url": "https://x.com/OfficialLoganK/status/2118390838434693281",
    "ours": "Make a real ad with it, then put it next to our AI presenter ads",
-   "score": 36
+   "score": 36,
+   "points": [
+    "Logan: Omni Flash 1.2 makes 15-second videos, up from 10 seconds.",
+    "Price dropped 30%, to about $0.07 per second at 720p.",
+    "Adds camera POV controls, multi-turn editing and less visual drift between shots.",
+    "Make a real 15-second ad, then test it beside your presenter ads."
+   ]
   },
   {
    "day": "Thu 19 Nov",
@@ -98,7 +140,13 @@
    "evidence": "Tichenor, 17 Oct: \"Plan spend from actual profit, not desired outcomes.\"",
    "url": "https://x.com/CTtheDisrupter/status/2111489170396917859",
    "ours": "AI turns a P&L into an ad budget",
-   "score": 38
+   "score": 38,
+   "points": [
+    "Charley: plan ad spend from actual profit, not the outcomes you want.",
+    "Start with last month's profit; give a fixed share to next month's acquisition.",
+    "Early-stage brands might reinvest 80 to 90%; mature ones 50 to 60%.",
+    "Feed AI your P&L and let it set next month's ad budget."
+   ]
   },
   {
    "day": "Fri 20 Nov",
@@ -109,7 +157,13 @@
    "evidence": "Riley, 9 Nov: REA-Video, where \"claude downloads a video from youtube and analyzes every frame... to extract the video editing style\"",
    "url": "https://x.com/rileybrown/status/2119935865933725888",
    "ours": "Copy a style, then apply it with our editing skill",
-   "score": 35
+   "score": 35,
+   "points": [
+    "Riley shared REA-Video, a circulating Claude skill: Reverse Engineer Anything, Video.",
+    "Claude downloads a YouTube video and analyses every frame to extract style.",
+    "Riley says with Fable it is very good; he tested it on stream.",
+    "Extract a style you like, then apply it with your own editing skill."
+   ]
   },
   {
    "day": "Sat 21 Nov",
@@ -120,7 +174,13 @@
    "evidence": "Perpetual Traffic 811 (13 Oct, paraphrase): the booking calendar at the end of a funnel may be where sales are lost; and 814: \"Are Wrong Leads Showing Up to Your Sales Calls?\"",
    "url": "https://perpetualtraffic.com/",
    "ours": "Our AI call centre answers the lead the moment they book",
-   "score": 36
+   "score": 36,
+   "points": [
+    "Episode 811 asks if your end-of-funnel booking calendar loses half your leads.",
+    "Show notes: the call booking calendar can kill your show rate.",
+    "In one client case, show rates rose about 20% when setters called every lead.",
+    "Call every lead the moment they book; AI can do it instantly."
+   ]
   },
   {
    "day": "Sun 22 Nov",
@@ -132,7 +192,13 @@
    "evidence": "Brockman, 4 Nov: \"we've found, validated, and prepared patches for almost 1,000 linux local privilege escalations... about $1,000 per vulnerability\"",
    "url": "https://x.com/gdb/status/2118129547443056763",
    "ours": "A plain checklist: passwords, 2FA, keys out of repos",
-   "score": 36
+   "score": 36,
+   "points": [
+    "Brockman: OpenAI found and prepared patches for almost 1,000 Linux privilege escalations.",
+    "OpenAI's write-up: 948 exploits for $1.2 million, about $1,280 each.",
+    "OpenAI warns an unpatched machine with any low-level account is effectively root.",
+    "This week: unique passwords, 2FA everywhere, keys out of repos, update everything."
+   ]
   },
   {
    "day": "Mon 23 Nov",
@@ -144,7 +210,13 @@
    "evidence": "Holiday, 4 Mar: \"I spent 12 years figuring out how to collapse a $60K/month growth team into one person\"",
    "url": "https://x.com/TaylorHoliday/status/2029270088709525977",
    "ours": "Which jobs AI really does for us now; feeds \"What Scaling With AI Actually Looks Like\"",
-   "score": 37
+   "score": 37,
+   "points": [
+    "Holiday spent 12 years collapsing a $60K-a-month growth team into one person.",
+    "Claimed results: within 3.15% of forecast across $3B GMV, 32% revenue growth.",
+    "Method: break each role into tasks, systematise the mechanical work, encode it in software.",
+    "List your team's jobs, then show which ones AI now does for you."
+   ]
   },
   {
    "day": "Tue 24 Nov",
@@ -155,7 +227,13 @@
    "evidence": "Karpathy, 3 Nov: \"you can also just tell your Claude Code 'Create and deploy an extension for my browser...', works great\"",
    "url": "https://x.com/karpathy/status/2117431189074330032",
    "ours": "Three one-sentence fixes for our own annoyances",
-   "score": 35
+   "score": 35,
+   "points": [
+    "Karpathy replied to a builder who made a Chrome extension called Honest Thumbnails.",
+    "His one sentence asked Claude Code to build a YouTube thumbnail extension with a toggle.",
+    "It swaps clickbait thumbnails for a real still from halfway through the video.",
+    "Write down three daily software annoyances and fix each with one sentence."
+   ]
   },
   {
    "day": "Wed 25 Nov",
@@ -166,7 +244,13 @@
    "evidence": "Hott, 17 Apr: \"META 'RELATED MEDIA' BUG: Here's an ad where 96% of spend went to ads OTHER THAN the one I thought it was\"",
    "url": "https://x.com/binghott/status/2045198716118671735",
    "ours": "AI checks where the spend really went",
-   "score": 34
+   "score": 34,
+   "points": [
+    "Hott found 96% of one ad's spend went to other media entirely.",
+    "Simply opening an ad's edit screen can make Meta add Related Media.",
+    "Check with a breakdown by Creative, then Related Media, at every level.",
+    "Export your breakdowns and let AI flag where the spend really went."
+   ]
   },
   {
    "day": "Thu 26 Nov",
@@ -177,7 +261,13 @@
    "evidence": "Riley, 8 Nov: \"Claude Duet can now Control Claude Code that's running on your computer\"",
    "url": "https://x.com/rileybrown/status/2119267278789197995",
    "ours": "Run a real job from a phone",
-   "score": 33
+   "score": 33,
+   "points": [
+    "Riley says Duet now controls Claude Code running on your own computer.",
+    "He lists multiple computers, existing sessions, new sessions and real-time voice.",
+    "He pitches it as great for video editing and coding tasks.",
+    "Start a real job from your phone, then check and approve it later."
+   ]
   },
   {
    "day": "Fri 27 Nov",
@@ -188,7 +278,13 @@
    "evidence": "Haynes, 30 Sep: \"Back up your claims with third party data • Use timelines to anchor your points • Give multiple sources...\"",
    "url": "https://x.com/TheJeremyHaynes/status/2105357286596034783",
    "ours": "AI checks an ad for every claim with no proof behind it",
-   "score": 34
+   "score": 34,
+   "points": [
+    "Haynes says back up every marketing claim with third party data.",
+    "He says use timelines to anchor your points and give dates.",
+    "He says give multiple sources of truth, not just your own word.",
+    "Run each ad past AI to flag every claim without proof behind it."
+   ]
   },
   {
    "day": "Sat 28 Nov",
@@ -199,7 +295,13 @@
    "evidence": "Karpathy, 11 Oct: about 6B people \"have barely come in contact with LLMs at all\"; about 20M see agents finish weeks of work from a prompt",
    "url": "https://x.com/karpathy/status/2109361546505966046",
    "ours": "Each level of the funnel, shown with our work",
-   "score": 36
+   "score": 36,
+   "points": [
+    "Karpathy's napkin maths: about 6 billion people have barely touched LLMs.",
+    "One to two billion use free chatbots, roughly like a better Google.",
+    "About 20 million see agents finish weeks of work from one prompt.",
+    "Pick one real job and hand it to an agent this week."
+   ]
   },
   {
    "day": "Sun 29 Nov",
@@ -211,7 +313,13 @@
    "evidence": "Holiday, 4 Nov 2025: \"The next wave of 9 figure exits in eCommerce... SEANs — Software Enabled AgeNcies\"",
    "url": "https://x.com/TaylorHoliday/status/1985817186057990489",
    "ours": "Our agency plus skills, as an example of it",
-   "score": 34
+   "score": 34,
+   "points": [
+    "Holiday predicts SEANs, not brands, SaaS or agencies, win nine figure exits.",
+    "A SEAN mixes SaaS scalability with agency human leverage and outcomes.",
+    "His agency builds 'software with an opinion' linking marketing and finance.",
+    "Package your agency's know-how as skills clients use between your calls."
+   ]
   },
   {
    "day": "Mon 30 Nov",
@@ -222,7 +330,13 @@
    "evidence": "Cherny, 17 Sep: \"I stopped managing sessions. I just send thoughts as they come, Claude splits them into threads\"",
    "url": "https://x.com/bcherny/status/2100669598995816511",
    "ours": "His three habits (Projects, Code Review, Slides), copied by us",
-   "score": 36
+   "score": 36,
+   "points": [
+    "Cherny stopped managing sessions; he sends thoughts and Claude splits them into threads.",
+    "Code Review sends a team of agents to deep-review every pull request.",
+    "His Claude Slides habit: no more hunting for iPhone frame graphics by hand.",
+    "Pick one habit this week and let Claude remember how you work."
+   ]
   },
   {
    "day": "Tue 1 Dec",
@@ -233,7 +347,13 @@
    "evidence": "Mollick, 7 Nov: \"the idea that the job of humans should be checking AI work for mistakes is likely not true today\"",
    "url": "https://x.com/emollick/status/2119141295071367211",
    "ours": "Where we still check, and where we don't any more",
-   "score": 33
+   "score": 33,
+   "points": [
+    "Mollick says worry about verifying AI output for factual errors is overdone.",
+    "He says recent models beat human experts, even PhDs, at checking facts.",
+    "Still check points of view, opinions and approaches, not just factual errors.",
+    "Stop proofreading AI for slips; spend your review time on judgement calls."
+   ]
   },
   {
    "day": "Wed 2 Dec",
@@ -244,7 +364,13 @@
    "evidence": "Tichenor, 17 Aug (paraphrase): build accounts that improve themselves, with automated rules pausing losers and scaling winners",
    "url": "https://x.com/CTtheDisrupter/status/2089392322286874860",
    "ours": "AI writes the rules for one account",
-   "score": 33
+   "score": 33,
+   "points": [
+    "Tichenor treats automated rules as a core fundamental of his ad accounts.",
+    "His older rule: raise budget 20% when seven-day CPA meets target.",
+    "Rules pause spend automatically when performance misses the target threshold.",
+    "Ask AI to draft pause and scale rules for one account first."
+   ]
   },
   {
    "day": "Thu 3 Dec",
@@ -255,7 +381,13 @@
    "evidence": "Altman, 7 Oct: \"ChatGPT can now generate a custom UI for you!\"",
    "url": "https://x.com/sama/status/2107924408597950702",
    "ours": "Three screens a small business would use",
-   "score": 32
+   "score": 32,
+   "points": [
+    "Altman announced GPT-6 and Intelligent UI rolling out in ChatGPT for everyone.",
+    "Answers can now include charts, forms, buttons, checklists, maps and mini tools.",
+    "OpenAI's example: a recipe widget that rescales quantities for your guest count.",
+    "Try three screens a small business needs: quotes, bookings and weekly sales."
+   ]
   },
   {
    "day": "Fri 4 Dec",
@@ -266,7 +398,13 @@
    "evidence": "Shackelford, 19 May: \"Ads start working too well and the cash flow can't catch up\"",
    "url": "https://x.com/iamshackelford/status/2056735897270505712",
    "ours": "AI cash-flow check before you scale spend",
-   "score": 32
+   "score": 32,
+   "points": [
+    "Shackelford has seen more CPG brands killed by scaling than by failing.",
+    "He grew BREZ to $90M+ in three years, spending over $50M on ads.",
+    "Plan cash 60 to 90 days out; size reserves for the worst week.",
+    "Before raising ad spend, have AI map when cash leaves and returns."
+   ]
   },
   {
    "day": "Sat 5 Dec",
@@ -278,7 +416,13 @@
    "evidence": "Albert, 24 Jul: \"Opus 5 now produces near-superhuman level spreadsheets and slide decks that match what a consultant would make\"",
    "url": "https://x.com/alexalbert__/status/2080731979528679617",
    "ours": "Our presentation skill, against a real brief",
-   "score": 33
+   "score": 33,
+   "points": [
+    "Albert says Opus 5 makes near-superhuman spreadsheets and consultant-level slide decks.",
+    "Albert framed it as progress made in just over six months.",
+    "Cherny says Claude Slides is now how he makes his own decks.",
+    "Test it on a real brief and judge against a consultant's deck."
+   ]
   },
   {
    "day": "Sun 6 Dec",
@@ -289,7 +433,13 @@
    "evidence": "Holiday, 15 Sep (5,424 views): \"The end state to creative volume and authenticity is 'live'... I call it 'reality commerce'\"",
    "url": "https://x.com/TaylorHoliday/status/2099954683205099545",
    "ours": "What AI can prep for a live show",
-   "score": 30
+   "score": 30,
+   "points": [
+    "Holiday says the end state of creative volume and authenticity is going live.",
+    "He calls it reality commerce: streaming, live shopping and daily live shows.",
+    "Winning brands cut each live session into five to ten clips within an hour.",
+    "Let AI draft your show outline, product notes and clip list before going live."
+   ]
   },
   {
    "day": "Mon 7 Dec",
@@ -300,7 +450,13 @@
    "evidence": "Riley, 1 Oct: \"just called my dot for 45 minutes and handled all my email / slack tasks for the day\"",
    "url": "https://x.com/rileybrown/status/2105642756970623172",
    "ours": "Try it for a day of our own admin",
-   "score": 32
+   "score": 32,
+   "points": [
+    "Riley spent 45 minutes on a call with his OpenAI dot, clearing email and Slack.",
+    "He did it with his phone in his pocket and AirPods in, walking.",
+    "His morning routine covers email replies, instructions for editors and planning the day.",
+    "Book one day of your own admin as a voice call and compare time saved."
+   ]
   },
   {
    "day": "Tue 8 Dec",
@@ -311,7 +467,13 @@
    "evidence": "Perpetual Traffic 805 (25 Aug, paraphrase): stalled Google Ads is a creative strategy problem",
    "url": "https://perpetualtraffic.com/podcast/episode-805-hit-the-google-ads-ceiling-heres-the-creative-strategy-that-breaks-it/",
    "ours": "AI writes new search-ad angles from customer calls",
-   "score": 32
+   "score": 32,
+   "points": [
+    "Burns says Google Search captures existing demand; it cannot create new demand.",
+    "His case: a B2B SaaS spending over $200K a month on Search, stalled.",
+    "Fix demand creation on Meta, YouTube and CTV; judge creative on hook and hold.",
+    "Use AI to mine customer calls for buyer-focused angles, not just user features."
+   ]
   },
   {
    "day": "Wed 9 Dec",
@@ -323,7 +485,13 @@
    "evidence": "Altman, 3 Sep: \"We hope it will begin to enable a new generation of entrepreneurship\"",
    "url": "https://x.com/sama/status/2095600005772104059",
    "ours": "One business task in GPT-6 Astra against Claude",
-   "score": 32
+   "score": 32,
+   "points": [
+    "Altman hopes GPT-6 Astra will enable a new generation of entrepreneurship.",
+    "OpenAI calls it the best model for computer use, professional work and coding.",
+    "Brockman said he personally believes it is AGI, but readers should decide.",
+    "Run one real business task in Astra and Claude, then compare results."
+   ]
   },
   {
    "day": "Thu 10 Dec",
@@ -334,7 +502,13 @@
    "evidence": "Haynes, 28 Aug: \"Sat down with two agency owners doing $247K/mo who want to scale to $1M. Here are the 10 things I told them\"",
    "url": "https://x.com/TheJeremyHaynes/status/2093344884144910573",
    "ours": "Which of the 10 AI can do for you",
-   "score": 31
+   "score": 31,
+   "points": [
+    "Haynes advised two agencies at $247K a month aiming for $1M.",
+    "His first fix was collecting $12K cash upfront, not cutting cost per call.",
+    "He says stop solving every problem by adding headcount; stretch your current team.",
+    "Hand AI the tasks that would otherwise push you into a new hire."
+   ]
   },
   {
    "day": "Fri 11 Dec",
@@ -345,7 +519,13 @@
    "evidence": "Maalouf, 12 Aug 2025: \"the majority of normal skill level staff will be replaced with AI agents\"",
    "url": "https://x.com/imakeBADads/status/1955313182534180953",
    "ours": "Our real costs for both",
-   "score": 30
+   "score": 30,
+   "points": [
+    "Maalouf says agencies chase AI agents as a shiny object to charge more.",
+    "He predicts most normal-skill staff will be replaced by agents doing daily tasks.",
+    "His company RemotelyX promotes trained overseas staff, claiming up to 83% savings.",
+    "Price the same role with both options using your real costs before hiring."
+   ]
   }
  ],
  "work_rows": [
