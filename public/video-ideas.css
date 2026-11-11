@@ -26,7 +26,7 @@
 .vi-mail h4 a{color:inherit;text-decoration:none}.vi-mail h4 a:hover{text-decoration:underline;text-underline-offset:4px}
 .vi-mail-meta{font:12px/1.5 var(--ww-font-mono);color:var(--ww-muted);font-variant-numeric:tabular-nums}
 .vi-mail-actions{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
-#video-ideas .vi-link{border:0;background:none;padding:6px 2px;min-height:36px;font-size:14px;text-decoration:underline;text-underline-offset:4px;color:var(--ww-ink)}
+#video-ideas .vi-link{border:0;background:none;padding:6px 2px;min-height:44px;font-size:14px;text-decoration:underline;text-underline-offset:4px;color:var(--ww-ink)}
 .vi-in{font-size:14px;color:var(--ww-gold);font-weight:600;text-underline-offset:4px;padding:8px 0}
 .vi-tray{position:sticky;top:16px;background:var(--ww-ink);color:var(--ww-on-ink);border-radius:var(--ww-radius-panel);padding:20px;display:flex;flex-direction:column;gap:10px}
 .vi-tray h2{margin:0;color:var(--ww-highlight)}
@@ -83,3 +83,25 @@
 .vi-grid b{margin-left:auto;font:600 11px var(--ww-font-mono);background:var(--ww-highlight);padding:1px 7px;border-radius:var(--ww-radius-pill)}
 @media(max-width:1100px){.vi-inbox{grid-template-columns:minmax(0,1fr)}.vi-tray{position:static}}
 @media(max-width:640px){.vi-conn{border-right:0;padding-right:0}.vi-acts{width:100%}#video-ideas .vi-acts button{flex:1 1 auto;justify-content:center}#video-ideas .vi-av{width:64px}.vi-mono{width:44px;height:44px}.vi-av-name{max-width:64px}}
+
+/* Week tabs (Taylor, 11 November 2026): This week · Last week · Earlier this month · All, plain text with the thin ink
+   underline like the Settings and Vault lanes, each with its count in IBM Plex Mono. The underline's draw is in motion.css. */
+.vi-tabs{display:flex;gap:28px;border-bottom:1px solid var(--ww-line);overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+.vi-tabs::-webkit-scrollbar{display:none}
+#video-ideas .vi-tabs button{flex:none;position:relative;display:inline-flex;align-items:baseline;gap:8px;min-height:44px;padding:10px 0;margin-bottom:-1px;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;font-size:16px;color:var(--ww-muted);white-space:nowrap}
+#video-ideas .vi-tabs button:hover,#video-ideas .vi-tabs button[aria-pressed=true]{color:var(--ww-ink)}
+#video-ideas .vi-tabs button[aria-pressed=true]::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--ww-ink);transform-origin:0 50%}
+.vi-tab-n{font:12px var(--ww-font-mono);color:var(--ww-muted);font-variant-numeric:tabular-nums}
+.vi-group.is-tab{border-top:0}
+#video-ideas .vi-empty .vi-link{min-height:44px}
+/* The Refresh state beside the controls: ink while it runs, success when done, warning when it failed, always with
+   the diamond and the words. */
+.vi-scan{display:flex;flex-wrap:wrap;align-items:center;gap:0 10px;margin:4px 0;font-size:14px;color:var(--ww-ink)}
+.vi-scan[hidden]{display:none}
+.vi-diamond{width:8px;height:8px;flex:none;transform:rotate(45deg);background:currentColor}
+.vi-scan.is-ok{color:var(--ww-success)}.vi-scan.is-fail{color:var(--ww-warn)}
+.vi-scan a,.vi-status a{color:var(--ww-ink);text-underline-offset:4px;display:inline-flex;align-items:center;min-height:44px}
+.vi-scan code{font:12px var(--ww-font-mono);color:var(--ww-ink);background:var(--ww-stage);padding:2px 6px;border-radius:var(--ww-radius-chip);overflow-wrap:anywhere}
+@media(max-width:640px){.vi-tabs{gap:20px}#video-ideas .vi-tabs button{font-size:15px}}
+@media(min-width:768px){.vi-mail-actions{display:grid;grid-template-columns:auto auto;gap:4px 12px;justify-items:end;align-items:center}.vi-mail-actions>:only-child{grid-column:1/-1}}
+@media(max-width:767px){.vi-mail-actions{gap:4px 10px}#video-ideas .vi-mail-actions :is(.vi-dark,.vi-book){padding:10px 12px;font-size:15px}}

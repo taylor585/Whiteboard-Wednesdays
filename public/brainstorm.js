@@ -115,7 +115,7 @@
   }
   // Skill ideas (SI-A, Taylor's pick, 2 November): ten topics from one run of the Trending Topics skill, five from
   // Taylor's own work and five from creators, written by a Claude Code session into ideaRuns/<id> (SKILL-IDEAS.md).
-  const WAIT_MS = 30*60*1000;
+  let starting = null;   // the run whose session this page is starting right now
   const runs = () => data().ideaRuns;
   const lastDone = () => (runs() || []).find(r => r.status === 'done' && (r.ideas || []).length);
   const onList = (run, idea) => topics().find(t => t.origin?.runId === run.id && t.origin?.ideaId === idea.id) || (run.added?.[idea.id] && topics().find(t => t.id === run.added[idea.id]));
@@ -128,12 +128,23 @@
     const list = runs();
     if (!list) return '<div class="bs-empty"><p><b>Skill ideas need the app’s saved data.</b></p><p>Open Topics in the Claude app to ask the Trending Topics skill for ten topics.</p></div>';
     const done = lastDone(), newest = list[0];
-    const pending = newest && ['requested','waiting','running'].includes(newest.status) ? newest : null;
+    const pending = newest && ['requested','starting','waiting','running'].includes(newest.status) ? newest : null;
     const failed = newest && newest.status === 'failed' ? newest : null;
     let top = '';
     if (pending) {
-      const late = Date.now() - Date.parse(pending.createdAt) > WAIT_MS, line = 'Run topic ideas '+pending.id;
-      top = '<div class="bs-ask is-wait"><p><b>'+(pending.status === 'running' ? 'Claude is running the skill.' : late ? 'Still waiting. Send the line to Claude.' : 'Waiting for Claude.')+'</b> '+(pending.status === 'running' ? 'The ten appear here when it finishes.' : 'Send this in a Claude chat; the ten appear here by themselves.')+'</p>'+(pending.status === 'running' ? '' : '<p class="bs-line"><code>'+esc(line)+'</code><button type="button" class="bs-copy" data-copy="'+esc(line)+'">Copy</button></p>')+'</div>';
+      // Get ideas starts a Claude Code session by itself (Taylor, 11 November 2026: "it runs directly inside the app").
+      // The line to send in a chat shows only when the session could not start ('waiting'), or when a request was
+      // saved but its start never came back (the page was closed while it started).
+      const since = Date.parse(pending.session?.startedAt || pending.createdAt), late = Date.now() - since > (pending.status === "running" ? 90 : 15)*60000, line = 'Run topic ideas '+pending.id;
+      const orphan = pending.status === 'requested' && Date.now() - Date.parse(pending.createdAt) > 2*60000 && starting !== pending.id;
+      const link = pending.session?.url ? ' <a class="bs-session" href="'+esc(pending.session.url)+'" target="_blank" rel="noopener noreferrer">Open the session</a>' : '';
+      if (pending.status === 'waiting' || orphan) {
+        top = '<div class="bs-ask is-wait"><p><b>Claude could not start by itself.</b> '+esc(pending.note || 'The Claude Code connection did not answer.')+' Try again, or send this in a Claude chat; the ten appear here by themselves.</p><p class="bs-line"><code>'+esc(line)+'</code><button type="button" class="bs-copy" data-copy="'+esc(line)+'">Copy</button></p><button type="button" class="bs-askbtn" data-restart="'+esc(pending.id)+'">Try again</button></div>';
+      } else if (late) {
+        top = '<div class="bs-ask is-wait"><p><b>This is taking longer than usual.</b> The session has not reported back.'+link+'</p><button type="button" class="bs-askbtn" id="bs-ask">Ask again</button></div>';
+      } else {
+        top = '<div class="bs-ask is-wait"><p><b>Claude is finding ideas.</b> '+(pending.status === 'running' ? 'The skill is running; the ten appear here when it finishes.' : pending.status === 'starting' ? 'A Claude Code session is starting; the ten appear here when it finishes.' : 'Starting a Claude Code session…')+link+'</p></div>';
+      }
     } else if (failed) {
       top = '<div class="bs-ask is-fail"><p><b>The last run did not finish.</b> '+esc(failed.error || 'Claude gave no reason.')+'</p><button type="button" class="bs-askbtn" id="bs-ask">Ask again</button></div>';
     }
@@ -208,8 +219,15 @@
     if (el.dataset.view) { view = el.dataset.view; render(); return; }
     if (el.id === 'bs-ask') {
       el.disabled = true;
-      try { const r = await api('/idea-run', {}); await window.WWIdeas.reload(); status('Request saved. Send “'+r.line+'” in a Claude chat; the ten appear here by themselves.'); }
-      catch (error) { status(error.status === 404 ? 'Skill ideas need the Claude app; this server does not have them.' : error.message); el.disabled = false; }
+      status('Starting Claude…');
+      try { starting = 'new'; const r = await api('/idea-run', {}); starting = null; await window.WWIdeas.reload(); status(r.started ? 'Claude is finding ideas. The ten appear here when it finishes.' : r.message || 'Claude could not start by itself.'); }
+      catch (error) { starting = null; status(error.status === 404 ? 'Skill ideas need the Claude app; this server does not have them.' : error.message); el.disabled = false; }
+      return;
+    }
+    if (el.dataset.restart) {
+      el.disabled = true; status('Starting Claude…');
+      try { starting = el.dataset.restart; const r = await api('/idea-start', {id:el.dataset.restart}); starting = null; await window.WWIdeas.reload(); status(r.started ? 'Claude is finding ideas. The ten appear here when it finishes.' : r.message || 'Claude could not start by itself.'); }
+      catch (error) { starting = null; status(error.message); el.disabled = false; }
       return;
     }
     if (el.dataset.copy) { try { await navigator.clipboard.writeText(el.dataset.copy); status('Copied. Paste it into a Claude chat.'); } catch { status('Copy this line into a Claude chat: '+el.dataset.copy); } return; }

@@ -68,6 +68,7 @@
 :is(.app-nav,.va-lanes,.pb-lanes,.se-lanes) a{position:relative;transition:color var(--m-press) linear}
 :is(.app-nav,.va-lanes,.pb-lanes,.se-lanes) a[aria-current=page]::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--m-stroke);transform-origin:0 50%}
 :is(.app-nav,.va-lanes,.pb-lanes,.se-lanes) a[aria-current=page][data-m~=draw]::after{animation:m-draw var(--m-rule) var(--m-ease) var(--m-skip,0ms) backwards}   /* the fast-start curve: the line is the state, so most of it is there within 60ms */
+.vi-tabs button[aria-pressed=true][data-m~=draw]::after{animation:m-draw var(--m-rule) var(--m-ease) var(--m-skip,0ms) backwards}   /* the Watchlist week tabs: the same draw, only when the tab changes */
 
 /* ---- One-off moments, marked by the render that saw them happen ---- */
 [data-m~=in]{animation:m-in var(--m-enter) var(--m-ease) var(--m-skip,0ms) backwards}

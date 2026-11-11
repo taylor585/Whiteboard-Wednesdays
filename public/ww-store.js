@@ -167,7 +167,15 @@
     return posting;
   }
   const isRecordingDay = iso => isoDay(iso) && (iso < RECORD_FROM ? RECORD_BEFORE : RECORD_DAYS).includes(DAY_KEYS[dow(iso)]);
-  const postingApi = {DEFAULTS:POSTING_DEFAULTS, RECORD_DAYS, isRecordingDay, WEEK, DAY_KEYS, DAY_NAMES, PLATFORMS, CONNECTED, normalise, plan:postingPlan, slot:postingSlot, sentence:postingSentence, dayList, autoLive, modeLine,
+  // The next available recording slot (Taylor, 9 November 2026: "next available slot" never skips a free slot): the
+  // first date from `fromIso` on that is a recording day and that no topic has as its recordDate. Pure: no clock.
+  function nextFreeSlot(list, fromIso) {
+    if (!isoDay(fromIso)) return null;
+    const taken = new Set((list || []).map(t => t && t.recordDate).filter(Boolean));
+    for (let d = fromIso, i = 0; i < 800; i++, d = plus(d, 1)) if (isRecordingDay(d) && !taken.has(d)) return d;
+    return null;
+  }
+  const postingApi = {DEFAULTS:POSTING_DEFAULTS, RECORD_DAYS, isRecordingDay, nextFreeSlot, today:localToday, WEEK, DAY_KEYS, DAY_NAMES, PLATFORMS, CONNECTED, normalise, plan:postingPlan, slot:postingSlot, sentence:postingSentence, dayList, autoLive, modeLine,
     get settings() { return JSON.parse(JSON.stringify(posting)); }, get canSave() { return Boolean(postingRef); }, save:savePosting,
     // The document a save would write, for the Posting screen's preview line before anything is saved.
     draft:nextPosting,
@@ -251,8 +259,17 @@
           return {id:t.id, added:true};
         }
         const id = crypto.randomUUID(), title = (text(body.title, 200) || v.title).trim().slice(0, 200);
-        await write(() => ref(id).set({title, status:'new', notes:'', recordDate:null, postDate:null, deckId:null, createdAt:now, updatedAt:now, sources:[source], points:[]}));
-        return {id, created:true};
+        // Add to schedule (Taylor, 11 November 2026): the topic is made already booked, in one write, on the slot given.
+        let recordDate = null, status = 'new';
+        if (body.recordDate !== undefined && body.recordDate !== null) {
+          if (!day(body.recordDate) || !isRecordingDay(body.recordDate)) fail('Recording days are Monday, Wednesday and Friday.');
+          const holder = topics.find(x => x.recordDate === body.recordDate);
+          if (holder) fail('“'+holder.title+'” is already booked for that day.', 409, {conflict:{id:holder.id, title:holder.title}});
+          recordDate = body.recordDate; status = 'planned';
+        }
+        if (body.status !== undefined) { if (!STATUSES.includes(body.status)) fail('Choose a valid status.'); status = body.status; }
+        await write(() => ref(id).set({title, status, notes:'', recordDate, postDate:null, deckId:null, createdAt:now, updatedAt:now, sources:[source], points:[]}));
+        return {id, created:true, recordDate};
       }
       const title = text(body.title, 200);
       if (!title || !title.trim()) fail('Give the topic a title.');
@@ -331,7 +348,13 @@
       if (!db) fail('Skill ideas need the app’s database, which this preview does not have.', 503);
       const id = now.slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7);
       await write(() => db.collection('ideaRuns').doc(id).set({status:'requested', skill:'trending-topics-talking-points', mix:'five-and-five', count:10, createdAt:now, ideas:[], added:{}}));
-      return {id, line:'Run topic ideas '+id};
+      return {id, ...await startJob('ideaRuns', id, 'Topic ideas '+id, 'Run topic ideas '+id, 'SKILL-IDEAS.md')};
+    }
+    if (action === 'idea-start') {
+      // Try again on a run whose session could not start: the same run, a new session.
+      if (!db) fail('Skill ideas need the app’s database, which this preview does not have.', 503);
+      const run = runs.find(r => r.id === body.id) || fail('That run of the skill is no longer here.', 404);
+      return {id:run.id, ...await startJob('ideaRuns', run.id, 'Topic ideas '+run.id, 'Run topic ideas '+run.id, 'SKILL-IDEAS.md')};
     }
     if (action === 'idea-add') {
       // Shortlist and lock (Taylor's pick, 2 November): the title goes on the Shortlist word for word, and the next
@@ -349,21 +372,65 @@
     }
     fail('Adding a creator needs the YouTube API, which this page does not have. Ask Claude to add the channel to creators.json.', 503);
   }
+  // Starting a Claude Code session in the cloud through the viewer's Claude Code Remote connector (the app declares
+  // `mcp` with create_session), the same call Publish makes. Resolves {id, url}; rejects with an Error whose `code`
+  // is the connector's ('not_granted', 'unavailable', ...) and whose message says it in plain words.
+  const SESSION_ENV = 'env_017PLHsTGZVgThRnUnu1eoGG', SESSION_REPO = 'https://github.com/taylor585/Whiteboard-Wednesdays';
+  function sessionError(e) {
+    const code = e?.code || 'error';
+    const why = code === 'not_granted' ? 'You did not allow the Claude Code connection, so it could not start by itself.'
+      : code === 'unavailable' ? 'The Claude Code connection is not available in this view.' : 'Claude Code could not be started ('+(e?.code || e?.message || 'error')+').';
+    return Object.assign(new Error(why), {code});
+  }
+  async function startSession({title, prompt}) {
+    let mcp = null;
+    try { mcp = await window.claude?.use?.('mcp'); } catch (e) { throw sessionError(e); }
+    if (!mcp || typeof mcp.callTool !== 'function') throw sessionError({code:'unavailable'});
+    let r;
+    try { r = await mcp.callTool('Claude Code Remote', 'create_session', {model:'claude-opus-5-5', environment_id:SESSION_ENV, source_url:SESSION_REPO, title:String(title).slice(0, 200), prompt}); }
+    catch (e) { throw sessionError(e); }
+    const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
+    return {id:sid, url:sid ? 'https://claude.ai/code/'+sid : null};
+  }
+  // A job document (scans/<id>, ideaRuns/<id>) gets its session: {status:'starting', session} once the session has
+  // really started, or {status:'waiting', note} with the line to send in a Claude chat when it could not start.
+  // The session itself sets 'running' when it begins; a start record never overwrites a status the session wrote.
+  async function startJob(col, id, title, line, doc) {
+    const ref = db.collection(col).doc(id);
+    try {
+      const session = await startSession({title, prompt:line+'. Follow '+doc+' in this repository exactly.'});
+      const stamp = {...session, startedAt:new Date().toISOString()};
+      let status = null;
+      try { status = (await ref.get())?.data?.()?.status || null; } catch { /* write the start record anyway */ }
+      await write(() => ref.update(['running','done','failed'].includes(status) ? {session:stamp} : {status:'starting', session:stamp, note:null}));
+      return {started:true, session:stamp, line};
+    } catch (e) {
+      if (e?.status) throw e;
+      const why = e?.message || 'Claude Code could not be started.';
+      await write(() => ref.update({status:'waiting', note:why}));
+      return {started:false, why, line, message:why+' To run it now, send “'+line+'” in a Claude chat.'};
+    }
+  }
   // A refresh is a job for a Claude Code session: the page cannot read YouTube itself. The request is saved as
-  // scans/<id>; the page then tries to start the session through the viewer's Claude Code Remote connector, and
-  // says plainly when it cannot, so the request can be run from a Claude chat instead.
+  // scans/<id> and the session starts at once (SCAN.md); the page follows scans/<id> and reloads uploads.json on done.
   async function startScan(handles) {
     if (!db) fail('Refreshing needs the app’s database, which this preview does not have.', 503);
     const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), now = new Date().toISOString();
     const want = Array.isArray(handles) && handles.length ? handles.filter(h => typeof h === 'string').slice(0, 60) : null;
     await write(() => db.collection('scans').doc(id).set({status:'queued', handles:want, createdAt:now}));
-    // Starting the session from the page needs the connector permission, which froze the Claude desktop app
-    // (31 October: its local connectors tried to start and one failed), so the page only queues the request.
-    const started = false, why = 'The fetch runs from a Claude chat.', sessionId = null;
-    await write(() => db.collection('scans').doc(id).update(started ? {status:'started', sessionId, startedAt:new Date().toISOString()} : {status:'waiting', note:why}));
-    return {queued:true, id, started, why, message:started ? 'A Claude Code session is fetching the latest uploads. They appear here when it publishes, usually within a few minutes.' : why+' To run it now, tell Claude: “Run watchlist scan '+id+'”.'};
+    return {queued:true, id, ...await startJob('scans', id, 'Watchlist scan '+id, 'Run watchlist scan '+id, 'SCAN.md')};
   }
-  const api = {call, get topics() { return sorted(); }, reloadUploads: async () => { await loadUploads(); window.dispatchEvent(new CustomEvent('ww:store')); }};
+  // Follow one document (a scan) until the caller stops. Returns the unsubscribe, or null without a database.
+  function watchDoc(col, id, next) {
+    if (!db) return null;
+    try { return db.collection(col).doc(id).onSnapshot(snap => next(snap?.exists === false ? null : snap?.data?.() || null), () => {}); } catch { return null; }
+  }
+  // uploads.json again, past any cache, after a scan has published a new copy.
+  async function freshUploads() {
+    try { const r = await fetch('uploads.json?v='+Date.now(), {cache:'no-store'}); if (r.ok) { uploads = await r.json(); return true; } } catch { /* try the plain path */ }
+    await loadUploads(); return false;
+  }
+  const api = {call, get topics() { return sorted(); }, watchDoc, reloadUploads: async ({fresh} = {}) => { if (fresh) await freshUploads(); else await loadUploads(); window.dispatchEvent(new CustomEvent('ww:store')); }};
   // Settings and Publish keep their own documents in the same database.
-  window.WWStore = {connect, db: () => db, posting:postingApi, connections:connectionsApi};
+  window.WWStore = {connect, db: () => db, posting:postingApi, connections:connectionsApi, startSession};
 })();
