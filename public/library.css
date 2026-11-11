@@ -10,6 +10,8 @@
 .app-nav a:focus-visible{outline:3px solid var(--ww-gold);outline-offset:4px}
 .tabs-wrap{position:static}.ideas-intro{padding:56px 0;max-width:640px}.ideas-intro h1{font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track);margin:20px 0}.ideas-intro p{color:var(--ww-muted)}.ideas-connection{margin-top:36px;padding-top:24px;border-top:var(--ww-ledger);font-weight:600}
 body.presentation .app-nav{display:none}
+/* Eight tabs since 11 November 2026 (Talking points, Briefs): below 1100px the row scrolls sideways inside itself, as on phones. */
+@media(max-width:1100px){.app-nav{gap:26px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}.app-nav::-webkit-scrollbar{display:none}.app-nav a{flex:none;white-space:nowrap}}
 @media(max-width:640px){.app-nav{padding:0 20px;gap:24px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}.app-nav::-webkit-scrollbar{display:none}.app-nav a{flex:none;white-space:nowrap;padding:16px 0;font-size:16px}.ideas-intro{padding:36px 0}.ideas-intro h1{font-size:38px}}
 @media print{.app-nav{display:none}}
 

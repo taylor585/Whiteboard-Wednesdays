@@ -23,7 +23,7 @@
     {id:'thumbnail-tracker', name:'Thumbnail Tracker', ver:'3.2', kind:'thumb', does:'Five thumbnails a round, three light and two dark, from the packaging research. Objects only unless you send a phone photo.'},
     {id:'performance-poster', name:'Performance Poster', ver:'1.2.1', kind:'post', does:'Titles, descriptions, posts and captions, checked against each platform.'},
     {id:'finishing-touches-copy-and-scripts', name:'Finishing touches copy and scripts', ver:'', kind:'post', does:'Polishes copy in your voice.'},
-    {id:'whiteboard-wednesdays', name:'Whiteboard Wednesdays', ver:'2.0', kind:'deck', does:'Builds the presentation decks. Replaced by Reels and Variety on 20 October.'},
+    {id:'whiteboard-wednesdays', name:'Whiteboard Wednesdays', ver:'2.0.0', kind:'deck', does:'Turns a brief into a presentation: Briefs, Turn into presentation. Installed in the repository.'},
     {id:'suby-shots-reels-and-variety', name:'Suby Shots · Reels and Variety', ver:'1.0', kind:'deck', does:'The newest deck builder: a Variety Pack and a vision board of every slide, then the full deck in the library.'},
     {id:'trending-topics-talking-points', name:'Trending Topics - Talking Points', ver:'5.4.1', kind:'topic', does:'Finds the week\'s 7 videos (a month of 30 on request) from three engines: what 16 AI and paid-media giants post on X, your own work of the last 30 days, and your creators\' breakouts. Every video gets 4 main talking points.'},
     {id:'trending-topics', name:'Trending topics', ver:'4.0', kind:'topic', does:'Finds rising topics for the shortlist. Replaced by Trending Topics - Talking Points on 11 November.'}];

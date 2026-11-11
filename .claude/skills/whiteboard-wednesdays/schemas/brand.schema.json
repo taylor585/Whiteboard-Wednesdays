@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "whiteboard-wednesdays/brand.schema.json",
+  "title": "Whiteboard Wednesdays brand profile",
+  "description": "The confirmed brand for one or more named decks. build-trial.cjs refuses a deck whose profile is unconfirmed, not confirmed by the user, or not confirmed for that deck ID.",
+  "type": "object",
+  "required": ["name", "surface", "ink", "accent", "font", "logo", "confirmation"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {"type": "string", "minLength": 1, "description": "Brand name shown above the deck title."},
+    "surface": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Slide background."},
+    "ink": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Text colour. At least 4.5:1 against surface."},
+    "accent": {"type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Rules, numbers, connectors, active states. At least 4.5:1 against surface."},
+    "font": {"enum": ["hand", "clean", "editorial"], "description": "Heading font token: hand = Caveat, clean = Instrument Sans, editorial = Fraunces. A new brand font needs the custom-font procedure in references/branding.md."},
+    "logo": {"type": "string", "description": "Path to the exact official logo file, relative to this profile. Never a redrawn or generated logo."},
+    "confirmation": {
+      "type": "object",
+      "required": ["confirmed", "by", "at", "evidence", "decks"],
+      "additionalProperties": false,
+      "properties": {
+        "confirmed": {"type": "boolean"},
+        "by": {"enum": ["user", "template"], "description": "Only 'user' authorises production. 'template' marks an example that authorises nothing."},
+        "at": {"type": ["string", "null"], "description": "UTC ISO time of the user's confirmation."},
+        "evidence": {"type": "string", "description": "What the user actually said or approved, and where. Never invented."},
+        "decks": {"type": "array", "items": {"type": "string"}, "description": "Deck IDs this confirmation covers. A new deck needs its own confirmation, even when it reuses a brand."}
+      }
+    }
+  }
+}

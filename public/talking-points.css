@@ -1,0 +1,65 @@
+/* Talking points (#/talking-points, 11 November 2026): shortlisted and booked topics, each with its 4 talking points and
+   one action. Built inside the Brass Rule system: tokens from whiteboard.css only, ledger rule over each group, square corners. */
+#talking-points{max-width:1600px;margin:auto;padding:48px 4vw 64px;color:var(--ww-ink);font-family:var(--ww-font-body)}
+#talking-points :focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
+.tk-head h1{margin:10px 0 12px;font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
+.tk-head p{margin:0;color:var(--ww-muted);max-width:66ch}
+
+.tk-group{margin-top:44px}
+.tk-group h2{display:flex;align-items:baseline;gap:12px;margin:0;padding-bottom:12px;border-bottom:var(--ww-ledger);font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
+.tk-count{font:500 var(--ww-size-micro)/1 var(--ww-font-mono);letter-spacing:1px;color:var(--ww-muted);font-variant-numeric:tabular-nums}
+.tk-rows{list-style:none;margin:0;padding:0}
+
+/* One row: the recording day, the topic with its numbered points, the action. */
+.tk-row{display:grid;grid-template-columns:120px minmax(0,1fr) 270px;gap:12px 36px;padding:24px 0;border-bottom:1px solid var(--ww-line)}
+.tk-when{display:flex;flex-direction:column;gap:4px}
+.tk-dow{font:500 var(--ww-size-micro)/1.4 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--ww-muted)}
+.tk-date{font:var(--ww-strong-weight) var(--ww-size-h2)/1.05 var(--ww-font-display);letter-spacing:var(--ww-strong-track);font-variant-numeric:tabular-nums}
+.tk-title{margin:0;font:var(--ww-strong-weight) var(--ww-size-h3)/1.25 var(--ww-font-display);letter-spacing:var(--ww-strong-track);overflow-wrap:anywhere}
+.tk-title a{color:inherit;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.tk-title a:hover{text-decoration-thickness:2px}
+.tk-meta{margin:4px 0 14px;font:12px/1.5 var(--ww-font-mono);color:var(--ww-muted)}
+.tk-points{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.tk-points li{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;padding:8px 0;border-top:1px solid var(--ww-line);font-size:16px;line-height:1.45}
+.tk-points li:first-child{border-top:0;padding-top:0}
+.tk-n{font:600 12px/1.9 var(--ww-font-mono);color:var(--ww-muted);font-variant-numeric:tabular-nums}
+.tk-none{margin:0;font:12px/1.5 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--ww-muted)}
+
+.tk-act{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+#talking-points .tk-go{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border:0;border-radius:var(--ww-radius-control);background:var(--ww-ink);color:var(--ww-on-ink);font:500 16px var(--ww-font-body);text-decoration:none;cursor:pointer;transition:background-color var(--m-press) linear}
+#talking-points .tk-go:hover{background:var(--ww-ink-hover)}
+#talking-points .tk-go:active{background:var(--ww-ink-press)}
+#talking-points .tk-quiet{min-height:44px;padding:0;border:0;background:none;color:var(--ww-muted);font:inherit;font-size:14px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+#talking-points .tk-quiet:hover{color:var(--ww-ink)}
+.tk-hint{margin:0;font-size:13px;line-height:1.45;color:var(--ww-muted)}
+.tk-link{display:inline-flex;align-items:center;min-height:44px;color:var(--ww-ink);font-size:14px;text-underline-offset:3px}
+/* Status lines: the diamond and the words. */
+.tk-state{margin:0;font-size:14px;line-height:1.45;color:var(--ww-ink)}
+.tk-state::before{content:"◆ ";content:"◆ " / ""}
+.tk-state.is-ok::before{color:var(--ww-success)}
+.tk-state.is-warn{color:var(--ww-warn)}
+.tk-state.is-run::before{color:var(--ww-gold)}
+.tk-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px;max-width:100%}
+.tk-line code{padding:6px 8px;background:var(--ww-stage);border:1px solid var(--ww-line);border-radius:var(--ww-radius-chip);font:12px/1.4 var(--ww-font-mono);overflow-wrap:anywhere;max-width:100%}
+#talking-points .tk-copy{min-height:44px;padding:0 14px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);color:var(--ww-ink);font:inherit;font-size:14px;cursor:pointer}
+
+.tk-empty{margin:20px 0 0;font:13px/1.5 var(--ww-font-mono);color:var(--ww-muted)}
+.tk-blank{margin-top:40px;padding:28px 0;border-top:var(--ww-ledger)}
+.tk-blank p{margin:0 0 6px;max-width:60ch}
+.tk-blank a{color:var(--ww-ink)}
+
+@media(max-width:1100px){.tk-row{grid-template-columns:100px minmax(0,1fr)}.tk-act{grid-column:2}}
+/* Phones: the day sits on one mono line above the title, the action takes the full width under the points. */
+@media(max-width:640px){
+ #talking-points{padding:32px 0 48px}
+ .tk-group{margin-top:34px}
+ .tk-row{grid-template-columns:minmax(0,1fr);gap:10px;padding:20px 0}
+ .tk-when{flex-direction:row;align-items:baseline;gap:10px}
+ .tk-date{font-size:var(--ww-size-h4)}
+ .tk-act{grid-column:1}
+ #talking-points .tk-go{width:100%}
+ .tk-points li{font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){#talking-points .tk-go{transition:none}}
+@media print{#talking-points .tk-act{display:none}}
+.tk-gap{height:14px}
