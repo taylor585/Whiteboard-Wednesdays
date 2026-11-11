@@ -248,7 +248,7 @@
     const requestedAt = new Date().toISOString(); starting = true; if (!quiet) { retry = false; note = ''; } render();
     try {
       const mcp = await window.claude?.use?.('mcp'); if (!mcp) throw {code:'unavailable'};
-      const res = await mcp.callTool('Claude Code Remote', 'create_session', {environment_id:ENV, source_url:REPO, title:(step === 'options' ? 'Reels finish: ' : 'Reels: ')+(r.title || r.id), prompt:prompt(r, step)+(window.WWAutopilot?.promptLine?.(r) || '')});
+      const res = await mcp.callTool('Claude Code Remote', 'create_session', {model:'claude-opus-5-5', environment_id:ENV, source_url:REPO, title:(step === 'options' ? 'Reels finish: ' : 'Reels: ')+(r.title || r.id), prompt:prompt(r, step)+(window.WWAutopilot?.promptLine?.(r) || '')});
       const p = res?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       starting = false; if (!quiet) { retryStep = null; retryExtra = null; }
       await save(r, {status:NEXT[step], session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, requestedAt, startedAt:new Date().toISOString()}, ...(extra || {}), ...(r.status === 'failed' ? {error:null, failedStage:null} : {}), ...(window.WWAutopilot?.answered?.(r) || {})}, quiet);
