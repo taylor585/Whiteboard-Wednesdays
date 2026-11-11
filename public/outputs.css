@@ -1,0 +1,119 @@
+/* Ready to post (public/outputs.js, 10 November 2026): the hybrid the independent review picked. Direction A's ruled sheet
+   (one ledger-ruled section a platform, numbered beats, one full-width ink action a beat), B's stage and gold rule behind
+   the video only, B's proportions (the video wider than its image, the words full width under both), and C's Copy above
+   its text on a phone. Every value is a --ww-* token from whiteboard.css; every move a token or keyframe of motion.css. */
+.op{container-type:inline-size;margin:48px 0 8px;color:var(--ww-ink)}
+.op-head h2{font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track);margin:0 0 8px}
+.op-meta{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0;color:var(--ww-muted);font-size:16px}
+.op-meta b{color:var(--ww-ink);font-weight:var(--ww-strong-weight)}
+.op-final{margin:8px 0 0;color:var(--ww-muted);font-size:15px;max-width:72ch}
+.op-sum{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 22px;margin:20px 0 0;padding:12px 0;border-top:1px solid var(--ww-line);border-bottom:1px solid var(--ww-line)}
+.op-count{color:var(--ww-ink)}
+.op-count b{font-weight:var(--ww-strong-weight);font-variant-numeric:tabular-nums}
+.op-sum-note{font-size:14px;color:var(--ww-muted)}
+.op-folder{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.op-folder small{font-size:13px;color:var(--ww-muted)}
+
+/* A platform: the ink double rule, the gold index, the name, a quiet note. */
+.op-pf{margin-top:56px;border-top:var(--ww-ledger);padding-top:14px}
+.op-pf-h{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:baseline;margin-bottom:22px}
+.op-idx{font:600 13px var(--ww-font-mono);color:var(--ww-gold);letter-spacing:.04em}
+.op-pf-h h3{font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track);margin:0}
+.op-pf-h .micro{text-align:right}
+
+/* Beats: the files side by side (the video wider), the words full width below them. */
+.op-files{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:40px;align-items:start}
+.op-files-x{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.op-files-reel{grid-template-columns:auto auto;justify-content:start;gap:40px}
+.op-words{margin-top:36px}
+.op-files-x .op-words{margin-top:0}
+.op-bl{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding-bottom:8px;margin-bottom:14px;border-bottom:1px solid var(--ww-ink)}
+.op-bl .micro{color:var(--ww-ink)}
+.op-pressed{color:var(--ww-muted)}
+
+/* The stage: only behind the video. */
+.op-stage{background:var(--ww-stage);border-top:2px solid var(--ww-gold);padding:16px;margin-bottom:14px}
+.op-still-a{display:block;text-decoration:none;color:inherit}
+.op-still{position:relative;display:block;width:100%;aspect-ratio:16/9;background:var(--ww-ink);border-radius:var(--ww-radius-media);overflow:hidden}
+.op-still.is-tall{aspect-ratio:9/16;height:420px;width:auto}
+.op-still.is-45{aspect-ratio:4/5;height:420px;width:auto}
+.op-still img{display:block;width:100%;height:100%;object-fit:cover}
+.op-still-t{position:absolute;inset:0;display:flex;align-items:center;padding:12%;color:var(--ww-on-ink);font-weight:var(--ww-strong-weight);font-size:20px;line-height:1.2;letter-spacing:var(--ww-strong-track)}
+.op-len,.op-watch{position:absolute;bottom:10px;font:500 var(--ww-size-micro)/1 var(--ww-font-mono);letter-spacing:.06em;padding:6px 8px;border-radius:var(--ww-radius-chip)}
+.op-len{right:10px;background:var(--ww-scrim);color:var(--ww-on-ink)}
+.op-watch{left:10px;display:inline-flex;align-items:center;gap:6px;background:var(--ww-surface);color:var(--ww-ink);text-transform:uppercase}
+.op-still-a:hover .op-watch{background:var(--ww-highlight)}
+
+/* One obvious action: ink, full width, 48px. A press that leaves the app carries the out-arrow. */
+#publish .op-act{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;margin:0;padding:10px 18px;border:1px solid var(--ww-ink);border-radius:var(--ww-radius-control);background:var(--ww-ink);color:var(--ww-on-ink);font:600 15px/1.25 var(--ww-font-body);text-decoration:none;text-align:center;cursor:pointer;transition:background-color var(--m-press) var(--m-ease)}
+#publish .op-act:hover{background:var(--ww-ink-hover)}
+#publish .op-act:active{background:var(--ww-ink-press)}
+#publish .op-act:disabled{background:var(--ww-surface);color:var(--ww-muted);border-color:var(--ww-line);cursor:not-allowed}
+#publish .op-act-out{background:var(--ww-surface);color:var(--ww-ink);border-color:var(--ww-field-edge)}
+#publish .op-act-out:hover{background:var(--ww-stage)}
+#publish .op-act[data-done]{background:var(--m-mark);color:var(--ww-ink);box-shadow:inset 0 0 0 1px var(--ww-ink)}
+#publish .op-act[data-m~=fill]{animation:m-fill-solid var(--m-ui) linear var(--m-skip,0ms) backwards}
+#publish .op-act[data-m~=unfill]{animation:m-unfill-solid var(--m-ui) linear var(--m-skip,0ms) backwards}
+.op-ic{flex:none}
+.op-spec{margin:8px 0 0;font:500 12px/1.5 var(--ww-font-mono);color:var(--ww-muted);overflow-wrap:anywhere}
+.op-name{margin-top:2px}
+.op-rev{color:var(--ww-warn)}
+.op-none{margin:0;color:var(--ww-muted);font-size:15px}
+.op-video .op-none{margin:2px 0 10px;font-weight:600;color:var(--ww-ink)}
+#publish .op-sub{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:14px;color:var(--ww-ink);text-decoration:underline;text-underline-offset:4px}
+.op-spare{display:flex;flex-wrap:wrap;align-items:center;gap:0 12px;margin:10px 0 0;padding-top:8px;border-top:1px solid var(--ww-line)}
+.op-img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:var(--ww-radius-media);background:var(--ww-stage);margin-bottom:14px}
+.op-img-t{display:flex;align-items:center;justify-content:center;padding:16px;color:var(--ww-muted);font-size:14px;text-align:center}
+
+/* Words: label, count and Copy on one row on a desk; Copy straight above the text on a phone. */
+.op-text+.op-text{margin-top:26px}
+.op-text-h{display:grid;grid-template-columns:auto auto minmax(0,1fr) minmax(190px,auto);gap:6px 14px;align-items:center;margin-bottom:10px}
+.op-text-h b{font-weight:var(--ww-strong-weight);font-size:var(--ww-size-h4);letter-spacing:var(--ww-strong-track)}
+.op-text-h .op-pressed{grid-column:3;justify-self:start}
+.op-text-h .op-cp{grid-column:4}
+.op-n{font:500 12px var(--ww-font-mono);color:var(--ww-muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.op-n.is-over{color:var(--ww-warn)}
+.op-box{border:1px solid var(--ww-line);border-radius:var(--ww-radius-media);padding:14px 16px;font-size:15px;line-height:1.55;overflow-wrap:anywhere}
+.op-box p{margin:0 0 10px;white-space:pre-wrap}
+.op-box p:last-of-type{margin-bottom:0}
+.op-box p[hidden]{display:none}
+.op-ph{background:var(--ww-highlight);color:var(--ww-ink);box-shadow:inset 0 0 0 1px var(--ww-ink);padding:0 3px}
+#publish .op-more{min-height:44px;padding:8px 0;border:0;background:none;font-size:14px;color:var(--ww-ink);text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.op-warn{margin:0 0 10px;color:var(--ww-warn);font-size:14px}
+.op-note{margin:10px 0 0;color:var(--ww-muted);font-size:14px}
+.op-xopen{margin:4px 0 0}
+.op-yt{margin-top:26px}
+
+/* Reels: one block a reel; the two files share one height, so their buttons sit on one line. */
+.op-reel+.op-reel{margin-top:40px;padding-top:24px;border-top:1px solid var(--ww-line)}
+.op-reel-h{margin-bottom:14px}
+.op-reel-h h4{margin:4px 0 0;font-weight:var(--ww-strong-weight);font-size:var(--ww-size-h3);letter-spacing:var(--ww-strong-track)}
+.op-files-reel .op-bt{width:340px}
+.op-files-reel .op-stage{display:flex;justify-content:center}
+.op-fb{margin:28px 0 0;padding-top:12px;border-top:1px solid var(--ww-line);color:var(--ww-muted);font-size:15px}
+.op-howto{margin-top:14px;font-size:15px}
+.op-howto summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:600}
+.op-howto ol{margin:4px 0 0;padding-left:20px;color:var(--ww-muted)}
+.op-post-slot:empty{display:none}
+.op-post-slot{margin-top:18px}
+
+/* Motion: the platforms settle once with the screen (motion.js sets data-enter only when the screen or lane really changed). */
+[data-enter] .op-list>.op-pf{animation:m-in var(--m-enter) var(--m-ease) backwards;animation-delay:calc(var(--m-stagger) * var(--i,0) + var(--m-lead))}
+.op-list>.op-pf:nth-child(2){--i:1}.op-list>.op-pf:nth-child(3){--i:2}.op-list>.op-pf:nth-child(n+4){--i:3}
+
+/* Phone: one column in the same order: the file, its image, its words; reel, then 4:5 post, then caption. */
+@container (max-width:720px){
+  .op-pf{margin-top:44px}
+  .op-pf-h{grid-template-columns:auto minmax(0,1fr)}
+  .op-pf-h .micro{grid-column:1/-1;text-align:left}
+  .op-files,.op-files-x,.op-files-reel{grid-template-columns:minmax(0,1fr);gap:30px}
+  .op-words{margin-top:30px}
+  .op-stage{margin-left:0;margin-right:0;padding:12px}
+  .op-files-reel .op-bt{width:auto;min-width:0}
+  .op-still.is-tall{height:auto;width:min(100%,240px)}
+  .op-still.is-45{height:auto;width:min(100%,280px)}
+  .op-text-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+  .op-text-h .op-cp{flex:1 1 100%;order:9;margin-top:6px}
+}
+#publish .op .pb-yt .pb-link{min-height:44px}
+.op-list>.op-pf:first-child{margin-top:32px}
