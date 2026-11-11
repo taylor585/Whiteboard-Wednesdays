@@ -184,3 +184,78 @@ test('without the database, saving says so and the defaults stand', async () => 
   await assert.rejects(() => P.save({days:['mon']}), /database/);
   eq(P.settings.days, ['tue','thu','sat']);
 });
+
+// Add to schedule (Taylor, 11 November 2026): the next available slot never skips a free recording day.
+test('nextFreeSlot: the first Monday, Wednesday or Friday from the given day that no topic holds', () => {
+  assert.equal(P.nextFreeSlot([], '2026-11-16'), '2026-11-16');                        // a free Monday is its own slot
+  assert.equal(P.nextFreeSlot([], '2026-11-17'), '2026-11-18');                        // Tuesday → Wednesday
+  assert.equal(P.nextFreeSlot([], '2026-11-21'), '2026-11-23');                        // Saturday → Monday
+  const week = ['2026-11-16', '2026-11-18', '2026-11-20'].map((recordDate, i) => ({id:'t'+i, recordDate}));
+  assert.equal(P.nextFreeSlot(week, '2026-11-16'), '2026-11-23');                      // a full week moves on
+  assert.equal(P.nextFreeSlot([{id:'a', recordDate:'2026-11-18'}], '2026-11-16'), '2026-11-16');   // a gap is filled first
+  assert.equal(P.nextFreeSlot([{id:'a', recordDate:'2026-11-16'}, {id:'b', recordDate:null}], '2026-11-16'), '2026-11-18');
+  assert.equal(P.nextFreeSlot(CURRENT, '2026-11-11'), '2026-11-16');                   // 11 and 13 November are booked
+  assert.equal(P.nextFreeSlot([], '2026-11-09'), '2026-11-11');                        // before 11 November Monday was not a recording day
+  assert.equal(P.nextFreeSlot([], 'nonsense'), null);
+  for (const d of ['2026-11-11', '2026-11-12', '2026-12-25', '2027-01-01']) assert.ok(P.isRecordingDay(P.nextFreeSlot(CURRENT, d)), d);
+});
+
+// A store with one fetched upload and a database that keeps what is written, for the Watchlist's actions.
+async function storeWithUpload(mcp) {
+  const docs = new Map(), listeners = new Map();
+  const fire = col => { for (const fn of listeners.get(col) || []) fn({docs:[...docs].filter(([k]) => k.startsWith(col+'/')).map(([k, v]) => ({id:k.split('/')[1], exists:true, data:() => v}))}); };
+  const ref = (col, id) => ({
+    set: async v => { docs.set(col+'/'+id, {...v}); fire(col); },
+    update: async v => { docs.set(col+'/'+id, {...(docs.get(col+'/'+id) || {}), ...v}); fire(col); },
+    delete: async () => { docs.delete(col+'/'+id); fire(col); },
+    get: async () => ({exists:docs.has(col+'/'+id), data:() => docs.get(col+'/'+id)}),
+    onSnapshot: () => () => {}});
+  const db = {collection: col => ({doc: id => ref(col, id), onSnapshot: next => { listeners.set(col, [...(listeners.get(col) || []), next]); fire(col); return () => {}; }}), doc: path => ref(...path.split('/'))};
+  const uploads = {fetchedAt:'2026-11-11T09:00:00Z', docs:[{id:'@a', data:{handle:'@a', name:'A', videos:[{id:'vid12345', title:'A video', publishedAt:'2026-11-10T09:00:00Z'}]}}]};
+  const window = {dispatchEvent: () => {}, claude: {use: async name => name === 'db' ? db : name === 'mcp' ? mcp : null}};
+  const ctx = vm.createContext({window, CustomEvent: class { constructor(type) { this.type = type; } }, fetch: async url => String(url).startsWith('uploads.json') ? {ok:true, json: async () => uploads} : {ok:false}, crypto: globalThis.crypto, URLSearchParams, setTimeout, clearTimeout, console});
+  vm.runInContext(fs.readFileSync(new URL('./public/ww-store.js', import.meta.url), 'utf8'), ctx);
+  return {api: await window.WWStore.connect(), docs};
+}
+
+test('Add to schedule makes the topic planned and booked in one write, and refuses a held day', async () => {
+  const {api, docs} = await storeWithUpload(null);
+  const r = await api.call('/topic', {videoId:'vid12345', recordDate:'2026-11-16'});
+  assert.equal(r.recordDate, '2026-11-16');
+  const t = docs.get('topics/'+r.id);
+  assert.equal(t.status, 'planned'); assert.equal(t.recordDate, '2026-11-16'); assert.equal(t.sources[0].id, 'vid12345');
+  await assert.rejects(api.call('/topic', {videoId:'vid12345', recordDate:'2026-11-16'}), /already booked/);
+  await assert.rejects(api.call('/topic', {videoId:'vid12345', recordDate:'2026-11-17'}), /Monday, Wednesday and Friday/);
+  const plain = await api.call('/topic', {videoId:'vid12345'});
+  assert.equal(docs.get('topics/'+plain.id).status, 'new'); assert.equal(docs.get('topics/'+plain.id).recordDate, null);
+});
+
+test('Refresh and Get ideas start a Claude Code session, or say plainly why not', async () => {
+  const calls = [];
+  const mcp = {callTool: async (server, tool, input) => { calls.push({server, tool, input}); return {payload:{session_id:'session_abc'}}; }};
+  const {api, docs} = await storeWithUpload(mcp);
+  const scan = await api.call('/refresh', {});
+  assert.equal(scan.started, true); assert.equal(scan.session.url, 'https://claude.ai/code/session_abc');
+  assert.equal(calls[0].server, 'Claude Code Remote'); assert.equal(calls[0].tool, 'create_session');
+  assert.equal(calls[0].input.prompt, 'Run watchlist scan '+scan.id+'. Follow SCAN.md in this repository exactly.');
+  assert.equal(docs.get('scans/'+scan.id).status, 'starting'); assert.equal(docs.get('scans/'+scan.id).session.id, 'session_abc');
+  const run = await api.call('/idea-run', {});
+  assert.equal(calls[1].input.prompt, 'Run topic ideas '+run.id+'. Follow SKILL-IDEAS.md in this repository exactly.');
+  assert.equal(docs.get('ideaRuns/'+run.id).status, 'starting');
+
+  const refused = await storeWithUpload({callTool: async () => { throw {code:'not_granted'}; }});
+  const r2 = await refused.api.call('/refresh', {});
+  assert.equal(r2.started, false); assert.match(r2.why, /did not allow/); assert.equal(r2.line, 'Run watchlist scan '+r2.id);
+  assert.equal(refused.docs.get('scans/'+r2.id).status, 'waiting');
+  const none = await storeWithUpload(null);
+  const r3 = await none.api.call('/idea-run', {});
+  assert.equal(r3.started, false); assert.match(r3.why, /not available/); assert.equal(none.docs.get('ideaRuns/'+r3.id).status, 'waiting');
+});
+
+test('a start record never overwrites a status the session already wrote', async () => {
+  let docsRef;
+  const mcp = {callTool: async (s, t, input) => { const id = input.prompt.match(/scan (\S+)\./)[1]; docsRef.set('scans/'+id, {...docsRef.get('scans/'+id), status:'running'}); return {payload:{id:'session_x'}}; }};
+  const made = await storeWithUpload(mcp); docsRef = made.docs;
+  const r = await made.api.call('/refresh', {});
+  assert.equal(made.docs.get('scans/'+r.id).status, 'running'); assert.equal(made.docs.get('scans/'+r.id).session.id, 'session_x');
+});

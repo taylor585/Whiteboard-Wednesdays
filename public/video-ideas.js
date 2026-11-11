@@ -7,6 +7,13 @@
   const $ = s => root.querySelector(s);
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   let data = {creators:[], videos:[], topics:[], configured:false, ready:false}, busy = false, candidate = null, who = null, saving = null, scanNoteUntil = 0;
+  // The chosen week tab (Taylor, 11 November 2026: "This week ... is going to be the most important"). Memory only.
+  let tab = 'week', undoSeen = null, undoBook = null;
+  // The Refresh press in the Claude app: one scan at a time, followed through scans/<id> (SCAN.md).
+  //   phase: 'asking' (saving the request) → 'starting' → 'running' → 'loading' (re-reading uploads.json) → 'done'
+  //          | 'refused' (the session could not start: the line to send instead) | 'failed'
+  let scan = null;
+  const M = window.WWMotion;
   const date = value => new Intl.DateTimeFormat('en-GB', {weekday:'short',day:'numeric',month:'short'}).format(new Date(value));
   const short = value => new Intl.DateTimeFormat('en-GB', {day:'numeric',month:'short'}).format(new Date(value));
   const DAY = 86400000, WINDOW = 30;
@@ -20,7 +27,8 @@
     if (!response.ok) { const error = new Error(result.error || 'The request could not be completed. Please try again.'); error.status = response.status; error.result = result; throw error; }
     return result;
   }
-  function announce(message) { $('#ideas-status').textContent = message; }
+  // The status line. `extra` is ready-made HTML (an Undo, a link), never anything typed or fetched.
+  function announce(message, extra = '') { $('#ideas-status').innerHTML = esc(message)+(extra ? ' '+extra : ''); }
   // Seen marks live only in this browser. Storage can be unavailable, so every access is guarded.
   const seen = new Set((() => { try { return JSON.parse(localStorage.getItem('ww-seen') || '[]'); } catch { return []; } })());
   function keepSeen() { try { localStorage.setItem('ww-seen', JSON.stringify([...seen].slice(-800))); } catch { /* seen marks just will not persist */ } }
@@ -80,24 +88,42 @@
     return '<article class="vi-mail'+(isNew ? '' : ' is-read')+(linked.length ? ' is-sparked' : '')+'" data-video="'+esc(v.id)+'"><span class="vi-dot" '+(isNew ? 'role="img" aria-label="New"' : 'aria-hidden="true"')+'></span>'+thumb(v, v.creator)+
       '<div class="vi-mail-body"><a class="vi-chip" href="#/creator/'+encodeURIComponent(v.handle)+'">'+esc(creator?.name || v.creator)+'</a><h4><a href="'+url+'" target="_blank" rel="noopener noreferrer">'+esc(v.title)+'</a></h4><span class="vi-mail-meta"><time datetime="'+esc(v.publishedAt)+'">'+date(v.publishedAt)+'</time></span></div>'+
       '<div class="vi-mail-actions">'+(linked.length ? '<a class="vi-in" href="#/topics">In Topics ✓</a>' : '<button type="button" class="vi-dark" data-spark="'+esc(v.id)+'">Spark a topic</button>')+
-      '<button type="button" class="vi-link" data-topic="'+esc(v.id)+'">Add to a topic</button>'+(isNew ? '<button type="button" class="vi-link" data-seen="'+esc(v.id)+'">Seen</button>' : '')+'</div></article>';
+      (!linked.length || linked.some(t => !t.recordDate) ? '<button type="button" class="vi-book" data-book="'+esc(v.id)+'">Add to schedule</button>' : '')+
+      '<button type="button" class="vi-link" data-topic="'+esc(v.id)+'">Add to a topic</button>'+(isNew ? '<button type="button" class="vi-link" data-seen="'+esc(v.id)+'">Seen</button>' : !linked.length && seen.has(v.id) ? '<button type="button" class="vi-link" data-unseen="'+esc(v.id)+'">Unseen</button>' : '')+'</div></article>';
   }
+  // Four plain text tabs (Taylor, 11 November 2026): This week is the default and always there; search works inside the tab.
+  const TABS = [['week', 'This week', 0, 7, 'this week'], ['last', 'Last week', 7, 14, 'last week'], ['month', 'Earlier this month', 14, WINDOW, 'earlier this month'], ['all', 'All', 0, WINDOW, 'in the last '+WINDOW+' days']];
+  const ageOf = v => (Date.now() - Date.parse(v.publishedAt)) / DAY;
+  const inTab = (k, v) => { const t = TABS.find(x => x[0] === k); const a = ageOf(v); return a >= t[2] && a < t[3]; };
+  const lastChecked = () => data.fetchedAt || data.creators.map(c => c.lastSuccess).filter(Boolean).sort().pop() || null;
   function feed() {
     const query = $('#ideas-search').value.trim().toLocaleLowerCase();
     const list = recent().filter(v => (!who || v.handle === who) && v.title.toLocaleLowerCase().includes(query)).sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
     const creator = who && data.creators.find(c => c.handle === who);
     let head = creator ? '<div class="vi-feed-head"><h2>'+esc(creator.name)+'</h2><a href="#/creator/'+encodeURIComponent(creator.handle)+'">Open '+esc(creator.name)+'’s page →</a></div>' : '';
-    if (!list.length) {
-      const message = !data.configured && !data.videos.length
-        ? '<h2>Uploads arrive here once YouTube is connected.</h2><p>Live retrieval still needs Google API approval and its key. Your '+data.creators.length+' creators are listed by name; open any of them to see their page and your notes.</p>'
-        : query ? '<h2>No headlines match.</h2><p>Try another search or choose all creators.</p>'
-        : '<h2>No uploads in the last '+WINDOW+' days.</h2><p>Refresh uploads to check again.</p>';
-      $('#ideas-feed').innerHTML = head+'<div class="vi-empty">'+message+'</div>'; return;
+    if (!data.configured && !data.videos.length) {
+      $('#ideas-feed').innerHTML = head+'<div class="vi-empty"><h2>Uploads arrive here once YouTube is connected.</h2><p>Live retrieval still needs Google API approval and its key. Your '+data.creators.length+' creators are listed by name; open any of them to see their page and your notes.</p></div>'; return;
     }
-    const groups = [['This week', 0, 7], ['Last week', 7, 14], ['Earlier this month', 14, WINDOW]];
-    $('#ideas-feed').innerHTML = head+groups.map(([label, from, to]) => {
-      const part = list.filter(v => { const age = (Date.now() - Date.parse(v.publishedAt)) / DAY; return age >= from && age < to; });
-      return part.length ? '<div class="vi-group"><h3 class="micro">'+label+'</h3>'+part.map(item).join('')+'</div>' : '';
+    const counts = Object.fromEntries(TABS.map(([k]) => [k, list.filter(v => inTab(k, v)).length]));
+    const tabs = '<div class="vi-tabs" role="group" aria-label="Uploads by week">'+TABS.map(([k, name]) => '<button type="button" data-tab="'+k+'" aria-pressed="'+(tab === k)+'"'+(tab === k && M ? M.attr('vi-tab', 'draw') : '')+'>'+name+' <span class="vi-tab-n">'+counts[k]+'</span></button>').join('')+'</div>';
+    const here = list.filter(v => inTab(tab, v)), t = TABS.find(x => x[0] === tab);
+    if (!here.length) {
+      let message;
+      if (query) {
+        const elsewhere = TABS.filter(([k]) => k !== tab && k !== 'all' && counts[k]);
+        message = elsewhere.length
+          ? '<h2>No matches '+esc(t[4])+'.</h2><p>'+elsewhere.map(([k, name]) => '<button type="button" class="vi-link" data-tab="'+k+'">'+counts[k]+' in '+esc(name)+'</button>').join(' · ')+'</p>'
+          : '<h2>No headlines match.</h2><p>Try another search'+(who ? ' or choose all creators' : '')+'.</p>';
+      } else {
+        const last = lastChecked();
+        message = '<h2>No uploads '+(tab === 'week' ? 'this week yet' : esc(t[4]))+'.</h2><p>'+(last ? 'Last checked '+esc(date(last))+'.' : 'Not checked yet.')+'</p><p><button type="button" data-refresh>'+(scanBusy() ? 'Refreshing…' : 'Refresh uploads')+'</button></p>';
+      }
+      $('#ideas-feed').innerHTML = head+tabs+'<div class="vi-empty">'+message+'</div>'; return;
+    }
+    const groups = tab === 'all' ? TABS.slice(0, 3) : [t];
+    $('#ideas-feed').innerHTML = head+tabs+groups.map(([k, label]) => {
+      const part = here.filter(v => inTab(k, v));
+      return part.length ? '<div class="vi-group'+(tab === 'all' ? '' : ' is-tab')+'">'+(tab === 'all' ? '<h3 class="micro">'+label+'</h3>' : '')+part.map(item).join('')+'</div>' : '';
     }).join('');
   }
   function tray() {
@@ -107,7 +133,11 @@
   function render() {
     const fresh = unread(recent()).length;
     $('#ideas-heading').textContent = fresh ? fresh+' new since you last looked' : 'Creator watchlist';
-    $('#ideas-refresh').disabled = busy || !data.configured;
+    // Never silently off: a press always answers, and while a scan is under way the label says so.
+    const running = busy || scanBusy();
+    $('#ideas-refresh').disabled = running;
+    $('#ideas-refresh').innerHTML = '<span aria-hidden="true">↻</span> '+(running ? 'Refreshing…' : 'Refresh');
+    scanLine();
     $('#ideas-add').disabled = data.canAdd === false || !data.configured;
     $('#ideas-add').title = data.canAdd === false ? 'Adding a channel needs the YouTube API. Ask Claude to add it to the list.' : '';
     $('#ideas-seen').disabled = !fresh;
@@ -128,14 +158,63 @@
       data.ready = false; render(); emit(); announce(error.message);
     }
   }
+  // ---- Refresh in the Claude app (Taylor, 11 November 2026: "when I hit refresh, it does not actually do anything") ----
+  const STUCK = {starting:15*60000, running:40*60000};
+  const scanBusy = () => !!scan && ['asking','starting','running','loading'].includes(scan.phase);
+  const sessionLink = () => scan?.session?.url ? ' <a href="'+esc(scan.session.url)+'" target="_blank" rel="noopener noreferrer">Open the session</a>' : '';
+  function scanLine() {
+    const el = $('#ideas-scan'); if (!el) return;
+    if (!scan) { el.hidden = true; el.innerHTML = ''; return; }
+    const late = STUCK[scan.phase] && Date.now() - scan.since > STUCK[scan.phase];
+    const d = '<i class="vi-diamond" aria-hidden="true"></i>';
+    let cls = '', html = '';
+    if (scan.phase === 'asking') html = d+'<span>Starting…</span>';
+    else if (late) { cls = ' is-fail'; html = d+'<span>'+(scan.phase === 'starting' ? 'The session has not started yet.' : 'The session has not reported back.')+'</span>'+sessionLink()+' <button type="button" class="vi-link" data-rescan>Try again</button>'; }
+    else if (scan.phase === 'starting') html = d+'<span>Starting a Claude Code session…</span>'+sessionLink();
+    else if (scan.phase === 'running') html = d+'<span>Fetching uploads…</span>'+sessionLink();
+    else if (scan.phase === 'loading') html = d+'<span>Loading the new uploads…</span>';
+    else if (scan.phase === 'done') { cls = ' is-ok'; const mins = Math.floor((Date.now() - scan.since) / 60000); html = d+'<span>Updated '+(mins < 1 ? 'just now' : mins === 1 ? '1 minute ago' : mins+' minutes ago')+' · '+scan.fresh+' new</span>'; }
+    else if (scan.phase === 'refused') { cls = ' is-fail'; html = d+'<span>'+esc(scan.why)+' Send this in a Claude chat instead:</span> <code>'+esc(scan.line)+'</code> <button type="button" class="vi-link" data-copy="'+esc(scan.line)+'">Copy</button> <button type="button" class="vi-link" data-rescan>Try again</button>'; }
+    else { cls = ' is-fail'; html = d+'<span>The refresh did not finish. '+esc(scan.error || 'No reason was given.')+'</span>'+sessionLink()+' <button type="button" class="vi-link" data-rescan>Try again</button>'; }
+    el.className = 'vi-scan'+cls; el.innerHTML = html; el.hidden = false;
+  }
+  function setScan(patch) { const moved = patch.phase && patch.phase !== scan?.phase; scan = {...scan, ...patch}; if (moved) scan.since = Date.now(); render(); }
+  function follow(id) {
+    scan.unsub?.();
+    const unsub = store?.watchDoc?.('scans', id, doc => {
+      if (!doc || scan?.id !== id || ['loading','done'].includes(scan.phase)) return;
+      if (doc.session?.url && !scan.session?.url) scan.session = doc.session;
+      if (doc.status === 'running') setScan({phase:'running'});
+      else if (doc.status === 'starting' && scan.phase !== 'running') setScan({phase:'starting'});
+      else if (doc.status === 'done') finish(doc);
+      else if (doc.status === 'failed') { scan.unsub?.(); scan.unsub = null; setScan({phase:'failed', error:String(doc.reason || doc.error || doc.note || '').slice(0, 300)}); }
+    });
+    scan.unsub = typeof unsub === 'function' ? unsub : null;
+  }
+  async function finish(doc) {
+    scan.unsub?.(); scan.unsub = null;
+    const before = new Set(data.videos.map(v => v.id));
+    setScan({phase:'loading'});
+    try { await store.reloadUploads({fresh:true}); } catch { /* load() below still redraws */ }
+    await load();
+    const fresh = data.videos.filter(v => !before.has(v.id)).length;
+    scanNoteUntil = Date.now() + 60000;
+    setScan({phase:'done', fresh, fetched:doc.fetched});
+    announce(fresh ? fresh+' new upload'+(fresh === 1 ? '' : 's')+' since the last check.' : 'No new uploads since the last check.');
+  }
+  async function startScan() {
+    scan?.unsub?.(); scan = null; setScan({phase:'asking', id:null, session:null});
+    try {
+      const r = await api('/refresh', {});
+      scan.id = r.id;
+      if (r.started) setScan({phase:'starting', session:r.session}); else setScan({phase:'refused', why:r.why, line:r.line});
+      follow(r.id);
+    } catch (error) { setScan({phase:'failed', error:error.message}); }
+  }
   async function refresh() {
-    if (busy || !data.configured) return;
-    if (data.store === 'claude') {
-      busy = true; render(); announce('Asking for the latest uploads…');
-      try { const r = await api('/refresh', {}); scanNoteUntil = Date.now() + 120000; announce(r.message); }
-      catch (error) { announce(error.message); }
-      busy = false; render(); return;
-    }
+    if (busy || scanBusy()) return;
+    if (data.store === 'claude') return startScan();
+    if (!data.configured) { announce(data.ready ? 'Refreshing needs the YouTube connection, which is not set up yet.' : 'Refreshing needs the Claude app’s saved data, which this preview does not have.'); return; }
     busy = true; render(); let successes=0, failures=0;
     for (const [index,c] of data.creators.entries()) {
       announce('Checking '+c.name+' · '+(index+1)+' of '+data.creators.length);
@@ -150,12 +229,49 @@
   }
   $('#ideas-refresh').addEventListener('click', refresh);
   $('#ideas-search').addEventListener('input', () => feed());
-  $('#ideas-seen').addEventListener('click', () => { for (const v of recent()) seen.add(v.id); keepSeen(); render(); announce('All caught up.'); });
+  $('#ideas-seen').addEventListener('click', () => { undoSeen = [...seen]; for (const v of recent()) seen.add(v.id); keepSeen(); render(); scanNoteUntil = Date.now() + 60000; announce('All caught up.', '<button type="button" class="vi-link" data-undo-seen>Undo</button>'); });
+  // Add to schedule (Taylor, 11 November 2026): the video becomes a planned topic on the next free recording day.
+  async function book(id) {
+    if (!data.ready) { announce('Scheduling needs the app’s saved data, which is not available here.'); return false; }
+    const P = window.WWStore?.posting, slot = P?.nextFreeSlot(data.topics, P.today());
+    if (!slot) { announce('No free recording day was found.'); return false; }
+    const at = iso => date(iso+'T12:00:00Z'), post = P.dateFor(data.topics, slot);
+    const linked = topicsFor(id).find(t => !t.recordDate), wasSeen = seen.has(id);
+    try {
+      if (linked) {
+        await api('/topic-update', {id:linked.id, recordDate:slot, ...(['new','shortlisted'].includes(linked.status) ? {status:'planned'} : {})});
+        undoBook = {id:linked.id, created:false, status:linked.status, video:id, wasSeen};
+      } else {
+        const r = await api('/topic', {videoId:id, recordDate:slot});
+        if (r.recordDate !== slot) await api('/topic-update', {id:r.id, recordDate:slot, status:'planned'});
+        undoBook = {id:r.id, created:true, video:id, wasSeen};
+      }
+    } catch (error) { announce(error.message); return false; }
+    seen.add(id); keepSeen(); scanNoteUntil = Date.now() + 60000; await load();
+    announce('Booked for '+at(slot)+(post ? ' · posts '+at(post) : '')+'.', '<button type="button" class="vi-link" data-undo-book>Undo</button> <a href="#/schedule">Open Schedule →</a>');
+    return true;
+  }
+  async function unbook() {
+    const u = undoBook; if (!u) return; undoBook = null;
+    try {
+      if (u.created) await api('/topic-delete', {id:u.id});
+      else await api('/topic-update', {id:u.id, recordDate:null, status:u.status});
+    } catch (error) { announce(error.message); return; }
+    if (!u.wasSeen) { seen.delete(u.video); keepSeen(); }
+    scanNoteUntil = Date.now() + 8000; await load(); announce(u.created ? 'Undone: the booking and its topic are gone.' : 'Undone: the topic is off the schedule again.');
+  }
   root.addEventListener('click', async event => {
     const b = event.target.closest('button'); if (!b) return;
     if (b.dataset.more !== undefined) { const g = $('#ideas-grid'); g.hidden = !g.hidden; b.setAttribute('aria-expanded', String(!g.hidden)); return; }
     if (b.dataset.who !== undefined) { const fromGrid = !!b.closest('#ideas-grid'); if (fromGrid) $('#ideas-grid').hidden = true; choose(b.dataset.who); $('#ideas-who [data-who="'+CSS.escape(b.dataset.who)+'"]')?.focus(); return; }
-    if (b.dataset.seen) { seen.add(b.dataset.seen); keepSeen(); render(); return; }
+    if (b.dataset.seen) { seen.add(b.dataset.seen); keepSeen(); render(); $('[data-unseen="'+CSS.escape(b.dataset.seen)+'"]')?.focus(); return; }
+    if (b.dataset.unseen) { seen.delete(b.dataset.unseen); keepSeen(); render(); $('[data-seen="'+CSS.escape(b.dataset.unseen)+'"]')?.focus(); return; }
+    if (b.dataset.undoSeen !== undefined) { if (undoSeen) { seen.clear(); for (const id of undoSeen) seen.add(id); keepSeen(); undoSeen = null; render(); announce('Undone: those uploads are new again.'); } return; }
+    if (b.dataset.undoBook !== undefined) { b.disabled = true; await unbook(); return; }
+    if (b.dataset.book) { b.disabled = true; b.textContent = 'Booking…'; if (!await book(b.dataset.book)) { b.disabled = false; b.textContent = 'Add to schedule'; } return; }
+    if (b.dataset.tab) { if (tab !== b.dataset.tab) { tab = b.dataset.tab; M?.stamp('vi-tab'); feed(); } $('#ideas-feed [data-tab="'+tab+'"][aria-pressed]')?.focus(); return; }
+    if (b.dataset.refresh !== undefined || b.dataset.rescan !== undefined) { refresh(); return; }
+    if (b.dataset.copy) { try { await navigator.clipboard.writeText(b.dataset.copy); announce('Copied. Paste it into a Claude chat.'); } catch { announce('Copy this line into a Claude chat: '+b.dataset.copy); } return; }
     if (b.dataset.spark) { b.disabled = true; b.textContent = 'Sparking…'; if (!await spark(b.dataset.spark)) { b.disabled = false; b.textContent = 'Spark a topic'; } return; }
     if (b.dataset.topic) openTopicDialog(b.dataset.topic);
   });

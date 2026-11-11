@@ -140,6 +140,7 @@
 #brainstorm .bs-askbtn{background:var(--ww-ink);border-color:var(--ww-ink);color:var(--ww-on-ink);font-weight:600;align-self:flex-start}
 .bs-line{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
 .bs-line code{font:13px var(--ww-font-mono);background:var(--ww-highlight);padding:4px 8px;border-radius:var(--ww-radius-chip);overflow-wrap:anywhere}
+.bs-session{color:var(--ww-ink);text-underline-offset:4px;display:inline-flex;align-items:center;min-height:44px}
 #brainstorm .bs-copy{min-height:36px;padding:4px 12px;font-size:13px}
 .bs-idea{display:grid;grid-template-columns:24px minmax(0,1fr);gap:8px;padding:10px 12px;border:1px solid var(--ww-line);border-radius:var(--ww-radius-media);background:var(--ww-surface)}
 .bs-idea.is-added{background:var(--ww-stage)}
