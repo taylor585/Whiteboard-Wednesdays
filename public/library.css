@@ -69,7 +69,7 @@ body.presentation .app-nav{display:none}
 .site-rule{flex:none;width:1px;height:40px;background:var(--ww-line)}
 .site-coin{flex:none;display:block;width:40px;height:40px}
 .site-foot{display:none}
-@media(max-width:767px){.site-rule,.site-coin{display:none}.site-foot{display:flex;justify-content:center;padding:4px 0 28px}.site-foot img{display:block;width:28px;height:28px}
+@media(max-width:767px){.site-rule,.site-coin{display:none}.site-foot{display:flex;justify-content:center;padding:4px 0 28px}.site-foot svg{display:block;width:28px;height:28px}
  body.presentation .site-foot,body:has(#player:not([hidden])) .site-foot{display:none}}
 @media(max-width:640px){.site-header{align-items:center}.site-name{min-width:0}.site-name-text{font-size:20px}.site-name-text .tag{display:none}
  /* When a deck's buttons share the row there is no room for the words: the tile stands alone. */
