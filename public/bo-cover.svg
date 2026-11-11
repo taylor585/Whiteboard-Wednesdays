@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-label="Building Offers They Can't Say No To cover: the Crazy Dial, its needle turned all the way to Crazy">
+<rect width="720" height="540" fill="#ffffff"/>
+<path d="M150 380A210 210 0 0 1 570 380" fill="none" stroke="#dcd8d0" stroke-width="30" stroke-linecap="round"/>
+<path d="M509 232A210 210 0 0 1 570 380" fill="none" stroke="#8b6002" stroke-width="30" stroke-linecap="round"/>
+<line x1="360" y1="380" x2="530" y2="285" stroke="#1c1a17" stroke-width="12" stroke-linecap="round"/>
+<circle cx="360" cy="380" r="18" fill="#1c1a17"/>
+<path d="M120 452H600" stroke="#8b6002" stroke-width="6" stroke-linecap="round"/>
+<rect x="120" y="474" width="220" height="40" rx="4" fill="#f6df8c"/>
+</svg>
