@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "whiteboard-wednesdays/register-entry.schema.json",
+  "title": "Presentation register entry (dist/presentations.js)",
+  "type": "object",
+  "required": ["id", "title", "description", "cover", "source", "reading", "brand", "sourceNote"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "Unique, stable deck ID. Never reuse or rename a published one."},
+    "title": {"type": "string"},
+    "description": {"type": "string", "description": "Short and factual; shown on the library card."},
+    "cover": {"type": "string", "description": "A real image from the deck, with a unique filename."},
+    "source": {"type": "string", "description": "The content package script that assigns window.WW."},
+    "reading": {"type": "string", "description": "The complete reading page."},
+    "brand": {
+      "type": "object",
+      "required": ["name", "surface", "ink", "accent", "font", "logo"],
+      "properties": {
+        "name": {"type": "string"},
+        "surface": {"type": "string"},
+        "ink": {"type": "string"},
+        "accent": {"type": "string"},
+        "font": {"type": "string", "description": "hand, clean, editorial, or a token the viewer actually maps (for example lge)."},
+        "logo": {"type": "string"}
+      }
+    },
+    "sourceNote": {"type": "string", "description": "Sources and the status of illustrative examples, shown in the notes."}
+  }
+}

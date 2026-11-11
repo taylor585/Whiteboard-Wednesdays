@@ -38,25 +38,25 @@
 /* ---- Screen arrival: gold rule, then the heading, then the blocks ---- */
 [data-enter=screen]{--m-at:calc(var(--m-lead) * 2)}
 [data-enter=screen] :is(.library-heading,.vi-title,.tp-head,.bs-head,.pb-head)>div:first-child>.micro:first-child::before,
-[data-enter=screen] :is(.va-head,.se-head)>.micro::before{transform-origin:0 50%;animation:m-draw var(--m-rule) var(--m-ease-rule) backwards}
+[data-enter=screen] :is(.va-head,.se-head,.tk-head,.br-head,.br-sheet-head)>.micro::before{transform-origin:0 50%;animation:m-draw var(--m-rule) var(--m-ease-rule) backwards}
 [data-enter=screen] :is(.library-heading,.vi-title,.tp-head,.bs-head,.pb-head)>div:first-child>:not(.micro),
-[data-enter=screen] :is(.va-head,.se-head)>:is(h1,p),
+[data-enter=screen] :is(.va-head,.se-head,.tk-head,.br-head,.br-sheet-head)>:is(h1,p),
 [data-enter=screen] .cr-banner{animation:m-fade var(--m-enter) var(--m-ease) var(--m-lead) backwards}
 
 /* ---- Blocks and cards settling: fade and 4px, 20ms apart, first 6 ----
    A list's children take their place from --i0 (where the list starts in the screen's order). */
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po)>:nth-child(1){--i:min(5,var(--i0,0))}
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po)>:nth-child(2){--i:min(5,calc(var(--i0,0) + 1))}
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po)>:nth-child(3){--i:min(5,calc(var(--i0,0) + 2))}
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po)>:nth-child(4){--i:min(5,calc(var(--i0,0) + 3))}
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po)>:nth-child(5){--i:min(5,calc(var(--i0,0) + 4))}
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po)>:nth-child(n+6){--i:5}
+:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(1){--i:min(5,var(--i0,0))}
+:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(2){--i:min(5,calc(var(--i0,0) + 1))}
+:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(3){--i:min(5,calc(var(--i0,0) + 2))}
+:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(4){--i:min(5,calc(var(--i0,0) + 3))}
+:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(5){--i:min(5,calc(var(--i0,0) + 4))}
+:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(n+6){--i:5}
 /* Publish and Reels: the heading, the way back and the lanes stay put; what follows them settles in order. */
 #publish>:nth-child(5){--i:1}#publish>:nth-child(6){--i:2}#publish>:nth-child(7){--i:3}#publish>:nth-child(8){--i:4}#publish>:nth-child(n+9){--i:5}
 .vi-group{--i0:1}.bs-board{--i0:2}.se-slots{--i0:1}
 .vi-cmd{--i:0}.vi-shelf{--i:1}.vi-tray{--i:2}.cr-layout>.cr-note{--i:1}.bs-rail{--i:0}.bs-weekrow{--i:1}.tp-layout{--i:4}.se-shelf{--i:0}.se-lib+.se-save{--i:5}#library-card{--i:5}
 /* Presentations wall, Creator watchlist, creator page, Topics, Schedule, Settings, Publish and Reels. Never more than 12 of a list. */
-:is([data-enter=screen],[data-enter=lane]) :is(.pins,.cr-grid,.se-slots,.po,.cx)>:nth-child(-n+12),
+:is([data-enter=screen],[data-enter=lane]) :is(.pins,.cr-grid,.se-slots,.po,.cx,.tk-rows,.br-rows,.br-points)>:nth-child(-n+12),
 [data-enter=screen] .vi-group>.vi-mail:nth-child(-n+9),
 :is([data-enter=screen],[data-enter=lane]) :is(#library-card,.vi-cmd,.vi-shelf,.vi-tray,.cr-note,.se-shelf,.se-lib+.se-save,.tp-layout),
 [data-enter] .tp-cal>.tp-wk,

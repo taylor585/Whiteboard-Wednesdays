@@ -1,0 +1,15 @@
+{
+  "name": "Pecuna Factorem",
+  "surface": "#ffffff",
+  "ink": "#1c1a17",
+  "accent": "#8b6002",
+  "font": "hand",
+  "logo": "../assets/ww-coin.svg",
+  "confirmation": {
+    "confirmed": true,
+    "by": "user",
+    "at": "2026-10-11T00:00:00Z",
+    "evidence": "Taylor Cunningham approved the Pecuna Factorem whiteboard treatment for the paid ads deck (project CLAUDE.md and the 11 October 2026 handover: white #FFFFFF, ink #1C1A17, gold #8B6002, Caveat headings, official coin). Covers only the decks listed here; ask again for any new deck.",
+    "decks": ["paid-ads-process", "trial-calibration", "trial-devices"]
+  }
+}
