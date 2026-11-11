@@ -1,7 +1,7 @@
 /* I Ran an AI Call Centre for a Week: Here Are the Results: plays each slide's approved motion one click at a time (the gb.js player).
    Each .cw-stage lists the time (ms) every reveal plays to in data-stops. The shared player reveals one
    marker part per click; this script seeks the slide's animations to match, so Back, Replay, direct links
-   and reduced motion all land on the same frame. The pen draw-on entrance runs on its own. */
+   and reduced motion all land on the same frame. The pen draw-on, flip-down and zoom entrances run on their own. */
 (()=>{
 'use strict';
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
