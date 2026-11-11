@@ -69,6 +69,7 @@ Since 10 November 2026 (Taylor's pick of the L1 "Highlighter" logo and its typog
 - `youtube-api.mjs`: YouTube Data API adapter.
 - `db/schema.ts`, `drizzle/`: storage schema and migrations (generate new ones with `npm run db:generate`).
 - `SKILL.md`: presentation authoring guidance.
+- `skills/trending-topics-talking-points/`: the Trending Topics - Talking Points skill. Plans 30 videos a month (or 7 a week) from the giants' last 10 X posts, our own work and our creators, each with 4 main talking points, then writes record-ready briefs.
 
 `dist/` is generated build output. Do not edit it.
 
