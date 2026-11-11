@@ -1,9 +1,9 @@
 ---
-name: trending-topics
-description: 'Find the week''s video topics (at least 7, one a day) and turn the locked ones into record-ready briefs. Three engines: 1. Twitter engine (the last 10 X posts of 8 AI and 8 paid-media giants, such as Karpathy, Altman, Alex Albert, Ralph Burns and Jeremy Haynes, via web search; the month run turns those 160 posts into the best 30 videos), 2. My work engine (every Claude Code session, repo and skill from the last 30 days, read by parallel agents), 3. YouTube engine (breakouts from Nick Saraev, Sabri Suby, Riley Brown, Jeremy Haynes, Alex Finn and other core creators). The Sunday run plans 7 videos, Monday to Sunday. Locks Taylor''s titles word for word and writes Trending Topic Briefs with ACT 1 to 3 and PACKAGING. Use whenever someone asks what to record, film or post, for video or YouTube topics, trending topics, next week''s 7 videos, what the giants are saying on X, to study someone''s last 10 posts, to lock a title, to plan the week, for a brief, titles or a description, even if they never say "trending".'
+name: trending-topics-talking-points
+description: 'Trending Topics - Talking Points. Find the week''s video topics (at least 7, one a day) and turn the locked ones into record-ready briefs. Three engines: 1. Twitter engine (the last 10 X posts of 8 AI and 8 paid-media giants, such as Karpathy, Altman, Alex Albert, Ralph Burns and Jeremy Haynes, via web search; the month run turns those 160 posts into the best 30 videos), 2. My work engine (every Claude Code session, repo and skill from the last 30 days, read by parallel agents), 3. YouTube engine (breakouts from Nick Saraev, Sabri Suby, Riley Brown, Jeremy Haynes, Alex Finn and others). The Sunday run plans 7 videos, Monday to Sunday. Every video gets 4 main talking points. Locks Taylor''s titles word for word and writes briefs. Use whenever someone asks what to record, film or post, for video or YouTube topics, trending topics, next week''s 7 videos, what the giants are saying on X, to study someone''s last 10 posts, to lock a title, to plan the week, for a brief or titles, even without the word "trending".'
 ---
 
-# Trending Topics (v5)
+# Trending Topics - Talking Points
 
 Find at least 7 videos a week, one for every day, from three engines: what the giants are saying on X, everything we built, and what our creators have already proven. Then make each chosen video ready to record and publish.
 

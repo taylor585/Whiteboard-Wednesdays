@@ -1,6 +1,6 @@
 {
-  "name": "trending-topics",
-  "version": "5.4.0",
+  "name": "trending-topics-talking-points",
+  "version": "5.4.1",
   "files": [
     {
       "path": ".gitignore",
@@ -9,28 +9,28 @@
     },
     {
       "path": "BUILD-STATUS.md",
-      "sha256": "21a452f6d8a14d4fceee2a90a7df6d3f98d5c337a4a0f5ba81a011b3a01ebe50",
-      "bytes": 2481
+      "sha256": "0bd4437cc63d3e72739326118714941d1a69f9d29cf1ef23e2adff8448012937",
+      "bytes": 2495
     },
     {
       "path": "CHANGELOG.md",
-      "sha256": "f58f438e6f139886094727912a4b7aeeea6a1d75fb5ae130b12dcd8d7241bd43",
-      "bytes": 8802
+      "sha256": "231663c6a01ff32d381499c9a4d2cf26dea287d3a19b8b17e6421e459b489f6c",
+      "bytes": 9001
     },
     {
       "path": "README.md",
-      "sha256": "ee5af636cf16a923c60431e80d5745f8065927e9f82a9a1b4660b98718eff96a",
-      "bytes": 3593
+      "sha256": "15793bbfb5c635b9ad9521bd1392e71acbd366902f3f13931630e593a58a91a9",
+      "bytes": 3607
     },
     {
       "path": "SKILL.md",
-      "sha256": "fbf0e84d254228072ed1808f2549fd51273605ea5986d812c52c9b66f0a2e86d",
-      "bytes": 21489
+      "sha256": "9e093dc81e7aaf639a00e473f4bd4c67679bc8347662202e806217af03030eac",
+      "bytes": 21516
     },
     {
       "path": "START-HERE.md",
-      "sha256": "5b2e4dd98458c7adfc8b1845478be6657ac3dd2143feb1a9502684ef82f24643",
-      "bytes": 2178
+      "sha256": "dc2cece8a4262a00bce525183451c0bdf592889271973d46ebb025f312ad3db5",
+      "bytes": 2192
     },
     {
       "path": "requirements.txt",
@@ -174,8 +174,8 @@
     },
     {
       "path": "scripts/build_manifest.py",
-      "sha256": "e63c0b366fb0e411314a39fca1e5cfea755b69a4bbf9c9559ee4763461547446",
-      "bytes": 1271
+      "sha256": "19b1760eb7afc8f4edd83b028176b9029ad47d5e198375e6cf7a62421df46ca3",
+      "bytes": 1286
     },
     {
       "path": "scripts/check_brief.py",
@@ -209,8 +209,8 @@
     },
     {
       "path": "scripts/version_check.py",
-      "sha256": "4aadb72bf9954ee0acf301d0baf48fee8031886eccabc241afe7c9d577ffe3f7",
-      "bytes": 2380
+      "sha256": "04ed66b4309f386e65d4ed7559b7ffd81f14147c5ec3b0a0bdbd6c4692fbdc3d",
+      "bytes": 2395
     },
     {
       "path": "scripts/x_posts.py",

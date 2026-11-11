@@ -50,7 +50,7 @@ def main(argv=None):
     ap.add_argument('--repo-copy', default=None)
     a = ap.parse_args(argv)
     cands = [a.repo_copy] if a.repo_copy else [
-        os.path.join(os.getcwd(), 'skills', 'trending-topics'),
+        os.path.join(os.getcwd(), 'skills', 'trending-topics-talking-points'),
         os.path.expanduser('~/Whiteboard-Wednesdays/skills/trending-topics'),
         '/home/user/Whiteboard-Wednesdays/skills/trending-topics']
     repo = next((c for c in cands if c and os.path.isdir(c) and os.path.abspath(c) != HERE and version(c)), None)

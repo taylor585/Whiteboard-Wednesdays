@@ -1,4 +1,4 @@
-# Trending Topics v5
+# Trending Topics - Talking Points
 
 A Claude Code skill that finds Whiteboard Wednesdays video topics in two separate tables: our own work (every Claude Code session, GitHub repo and skill from the last 30 days) and what our creator list has already proven (each creator's breakout videos). It scores each table with its own rubric, then writes record-ready Trending Topic Briefs with titles and descriptions for the topics Taylor picks.
 

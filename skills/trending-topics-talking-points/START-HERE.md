@@ -1,4 +1,4 @@
-# Start using Trending Topics v5
+# Start using Trending Topics - Talking Points
 
 Say this to Claude Code:
 

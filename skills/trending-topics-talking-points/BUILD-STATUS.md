@@ -1,4 +1,4 @@
-# Trending Topics v5 build status
+# Trending Topics - Talking Points build status
 
 Version 5.0.0, 10 November 2026: the Twitter engine (last 10 posts of 30 giants by web search, tested live on 10 Nov: 279 posts, 29 of 30 giants found), three engines in order and the 7-day plan for the Sunday run. Open: no like counts from search; most paid-media giants are thinly indexed on X.
 
