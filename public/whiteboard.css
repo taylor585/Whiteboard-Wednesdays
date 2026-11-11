@@ -26,6 +26,8 @@
  --ww-ink-rule:rgba(28,26,23,.045);--ww-scrim:rgba(28,26,23,.45);--ww-shadow-30:rgba(28,26,23,.3);--ww-shadow-25:rgba(28,26,23,.25);--ww-shadow-22:rgba(28,26,23,.22);--ww-shadow-18:rgba(28,26,23,.18);--ww-shadow-16:rgba(28,26,23,.16);--ww-shadow-14:rgba(28,26,23,.14);
  /* rules: the ink double "ledger" rule heads the calendar and each card group; the gold rule is 24 x 2px before an eyebrow and 3px on today */
  --ww-ledger:3px double var(--ww-ink);--ww-rule-gold:3px solid var(--ww-gold);
+ /* the select chevron, drawn in ink (#1c1a17); placed 14px in from a select's right edge */
+ --ww-chevron:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%231c1a17' stroke-width='1.6'/%3E%3C/svg%3E");
  /* radii: square and hairline. Only true circles (creator avatars, lamps) stay round. */
  --ww-radius-mark:1px;--ww-radius-chip:2px;--ww-radius-control:3px;--ww-radius-media:3px;--ww-radius-badge:2px;--ww-radius-card:3px;--ww-radius-panel:0px;--ww-radius-board:0px;--ww-radius-pill:3px;--ww-radius-round:50%;
  /* faces: Instrument Sans for headings, body and controls, IBM Plex Mono for labels, figures and dates. Caveat stays for the Presentations wall and the Topics board.

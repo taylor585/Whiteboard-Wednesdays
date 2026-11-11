@@ -19,14 +19,71 @@
 .tp-pill-edited{background:var(--ww-ink);border-color:var(--ww-ink);color:var(--ww-on-ink)}
 .tp-pill-posted{background:var(--ww-surface);border-color:var(--ww-ink);color:var(--ww-ink)}
 .tp-sub{margin:36px 0 12px;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);padding-top:12px;border-top:var(--ww-ledger)}
+/* Not scheduled yet: Taylor's pick B "Next free slot" (11 November 2026). A slim ruled ticket (record day, the editing gap
+   on a small ruler, posting day), then one row per waiting topic with one ink button naming its day. Pick another day
+   opens in place under the row, edged with hairlines. */
 .tp-unscheduled{display:flex;flex-direction:column}
-.tp-card{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--ww-line)}
+.tp-next{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin:0;padding:12px 16px;background:var(--ww-stage);border-top:var(--ww-rule-gold)}
+.tp-next .tp-next-label{color:var(--ww-muted)}
+.tp-next-day,.tp-next-post b{font:var(--ww-strong-weight) var(--ww-size-h4)/1.1 var(--ww-font-display);letter-spacing:var(--ww-strong-track);color:var(--ww-ink);white-space:nowrap}
+.tp-ruler{flex:1 1 120px;min-width:96px;display:flex;flex-direction:column;gap:4px}
+.tp-ruler-gap{font:var(--ww-size-micro)/1 var(--ww-font-mono);color:var(--ww-muted);text-align:center;white-space:nowrap}
+.tp-ruler-line{display:flex;justify-content:space-between;align-items:flex-end;height:12px;border-bottom:1px solid var(--ww-ink)}
+.tp-ruler-line i{width:1px;height:6px;background:var(--ww-ink)}
+.tp-ruler-line i:first-child,.tp-ruler-line i:last-child{width:2px;height:12px;background:var(--ww-gold)}
+.tp-next-arrow{display:none}
+.tp-next-post{font:12px var(--ww-font-mono);color:var(--ww-muted);white-space:nowrap}
+.tp-next-post b{margin-left:6px}
+.tp-rows{display:flex;flex-direction:column}
+.tp-card{display:grid;grid-template-columns:minmax(0,1fr) 248px;gap:10px 24px;align-items:start;padding:16px 0;border-bottom:1px solid var(--ww-line)}
 .tp-card.is-selected{border-bottom-color:var(--ww-ink);box-shadow:0 1px 0 var(--ww-ink)}
-#topics .tp-card-open{flex:999 1 260px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:0;padding:4px 0;background:none;text-align:left}
-.tp-card-title{font-weight:600;overflow-wrap:anywhere}
-.tp-card-meta{font-size:13px;color:var(--ww-muted)}
-.tp-card-schedule{flex:1 1 200px;display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ww-muted)}
-.tp-card-schedule select,.tp-field input,.tp-field select,.tp-field textarea,.tp-point-body input,.tp-point-body textarea,.tp-point-add input{width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);color:var(--ww-ink);font:15px var(--ww-font-body)}
+#topics .tp-card-open{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:44px;border:0;padding:2px 0;background:none;text-align:left}
+.tp-card-title{font:var(--ww-strong-weight) var(--ww-size-h4)/1.25 var(--ww-font-display);letter-spacing:var(--ww-strong-track);overflow-wrap:anywhere}
+#topics .tp-card-open:hover .tp-card-title{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.tp-card-meta{font:12px/1.4 var(--ww-font-mono);color:var(--ww-muted)}
+.tp-card-act{display:flex;flex-direction:column;gap:2px}
+#topics .tp-book{width:100%;font-size:15px;font-weight:600}
+#topics .tp-dark:not(:disabled):hover{background:var(--ww-ink-hover);border-color:var(--ww-ink-hover)}
+#topics .tp-dark:not(:disabled):active{background:var(--ww-ink-press);border-color:var(--ww-ink-press)}
+.tp-card-under{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tp-card-post{font:12px var(--ww-font-mono);color:var(--ww-muted);white-space:nowrap}
+#topics .tp-quiet{min-height:44px;padding:0 2px;border:0;border-radius:0;background:none;color:var(--ww-ink);font-size:14px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;white-space:nowrap}
+#topics .tp-quiet:not(:disabled):hover{text-decoration-thickness:2px}
+.tp-picker{grid-column:1/-1;padding:12px 16px 6px;border:1px solid var(--ww-line);background:var(--ww-surface)}
+.tp-picker-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px;padding-bottom:10px;border-bottom:var(--ww-ledger)}
+.tp-picker-head b{font:var(--ww-strong-weight) 17px/1.2 var(--ww-font-display);letter-spacing:var(--ww-strong-track)}
+.tp-picker-head .micro,.tp-picker-wk.micro{color:var(--ww-muted)}
+.tp-picker-list{list-style:none;margin:0;padding:0}
+.tp-picker-wk{padding:12px 0 2px}
+#topics .tp-opt{display:grid;grid-template-columns:112px minmax(0,1fr) minmax(0,auto);align-items:center;gap:4px 16px;width:100%;min-height:44px;padding:8px 10px;border:0;border-bottom:1px solid var(--ww-line);border-radius:0;background:none;text-align:left}
+#topics .tp-opt b{font-size:15px;font-weight:var(--ww-strong-weight);white-space:nowrap}
+#topics .tp-opt:not(:disabled):hover{background:var(--ww-stage)}
+#topics .tp-opt:focus-visible{outline-offset:-3px}
+.tp-opt-post{font:12px var(--ww-font-mono);color:var(--ww-muted);white-space:nowrap}
+.tp-opt-state{justify-self:end;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:11px var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-muted)}
+.tp-opt.is-taken .tp-opt-state{font:13px var(--ww-font-body);letter-spacing:0;text-transform:none;color:var(--ww-ink)}
+#topics .tp-picker-close{margin-top:2px}
+.tp-card-done{grid-template-columns:minmax(0,1fr)}
+.tp-booked{display:flex;flex-wrap:wrap;align-items:center;gap:0 10px;margin:0;font-size:15px;color:var(--ww-success)}
+.tp-booked b{font-weight:var(--ww-strong-weight)}
+.tp-booked .tp-quiet{margin-left:2px}
+@media(max-width:600px){
+ .tp-next{flex-wrap:nowrap;gap:6px;padding:12px 0;background:none;border-bottom:1px solid var(--ww-line)}
+ .tp-next .tp-next-label{flex:none;margin-right:4px;letter-spacing:.5px}
+ .tp-next-slot,.tp-ruler{display:none}
+ .tp-next-arrow{display:inline;color:var(--ww-ink)}
+ .tp-next-day,.tp-next-post b{font-size:15px}
+ .tp-next-post b{margin-left:2px}
+ .tp-card{grid-template-columns:minmax(0,1fr);gap:12px}
+ .tp-picker{padding:10px 12px 4px}
+ #topics .tp-opt{grid-template-columns:minmax(0,auto) minmax(0,1fr);padding:8px 6px}
+ #topics .tp-opt .tp-opt-post{grid-row:2;grid-column:1}
+ #topics .tp-opt .tp-opt-state{grid-row:1/3;grid-column:2}
+ #topics .tp-opt.is-taken .tp-opt-state{white-space:normal;text-align:right;line-height:1.3}
+}
+/* Selects on this screen: one ink chevron, 14px in from the edge, with room for it (Taylor: "the arrow is too close"). */
+#topics select,#tp-pick-dialog select{appearance:none;-webkit-appearance:none;padding-right:40px;background:var(--ww-surface) var(--ww-chevron) no-repeat right 14px center/12px 8px}
+.tp-field input,.tp-field select,.tp-field textarea,.tp-point-body input,.tp-point-body textarea,.tp-point-add input{width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);color:var(--ww-ink);font:15px var(--ww-font-body)}
 .tp-field textarea,.tp-point-body textarea{min-height:0;resize:vertical;line-height:1.45}
 .tp-empty,.tp-muted{color:var(--ww-muted);font-size:14px}
 .tp-panel{position:sticky;top:16px;border:1px solid var(--ww-ink);border-top:var(--ww-ledger);border-radius:0;padding:20px;display:flex;flex-direction:column;gap:14px;max-height:calc(100vh - 32px);overflow:auto}
