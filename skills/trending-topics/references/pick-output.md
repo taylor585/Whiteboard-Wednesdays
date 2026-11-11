@@ -18,11 +18,12 @@ Taylor swaps any day for another row, or locks a title of their own.
 
 Rendered by `scripts/plan_sheet.py`, never by hand. Each video is one line:
 
-| # | Day | Video | Giant | Lane | Score |
-|---|---|---|---|---|---|
-| T1 | Thu 12 Nov | Fable 5.2 Just Launched a Business. So I Gave It Mine. | Ethan Mollick +3 | AI | 44 |
-| locked | Fri 13 Nov | [a locked or booked title] | - | booked | - |
+| # | Day | Video | Main talking points | Giant | Lane | Score |
+|---|---|---|---|---|---|---|
+| T1 | Thu 12 Nov | Fable 5.2 Just Launched a Business. So I Gave It Mine. | 1. [what the giant said] · 2. [...] · 3. [...] · 4. [the takeaway for a business owner] | Ethan Mollick +3 | AI | 44 |
+| locked | Fri 13 Nov | [a locked or booked title] | - | - | booked | - |
 
+- **Main talking points:** exactly 4. Points 1 to 3 are what the giant actually said or showed; point 4 is the takeaway for a business owner (`twitter-engine.md` § Framework 2, Gate 6).
 - **Giant:** the lead giant, plus how many others posted the same thread.
 - **Lane:** AI or Ads.
 - **Score:** Part T, out of 50.

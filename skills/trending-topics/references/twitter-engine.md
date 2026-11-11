@@ -67,13 +67,19 @@ Every post goes through the same five gates, in order. Expect roughly:
 - **No repeats:** no two titles open with the same two words, and no two videos on the same thread.
 - **Ties:** fresher wins, then the one with our proof, then the one that shows a number.
 
+**Then write 4 main talking points per video** (Gate 6, after the 30 are chosen):
+- Send 5 agents at once, 6 videos each, with the prompt in `agent-prompts.md` § Talking points. They search for the full post, its thread, and the news or episode page around it.
+- **Points 1 to 3:** what the giant actually said or showed (their claim, method, steps, numbers, warnings), each grounded in a source.
+- **Point 4:** the takeaway for a business owner.
+- 8 to 14 words each, never invented. Mark a video "snippet-only" when only the snippet could be found, so Taylor knows to open the post first.
+
 **Then order the 30 days:**
 1. Anything that expires goes first: launches in the last 7 days, dated platform changes, Black Friday and other seasonal dates.
 2. Evergreen methods, prompts and AI-team stories fill the later days.
 3. Alternate AI and paid media where you can.
 4. Start the day after the run.
 
-`plan_sheet.py` blocks a month plan that breaks the mechanical rules: fewer than 30 videos, a score under 30, fewer than 10 paid media, a giant leading more than 3, a missing link, or a repeated opening.
+`plan_sheet.py` blocks a month plan that breaks the mechanical rules: fewer than 30 videos, a score under 30, fewer than 10 paid media, a giant leading more than 3, a missing link, a repeated opening, or a video without exactly 4 talking points.
 
 **How we read X without logging in:**
 - Web search only. Search engines save public X posts, and news sites quote the big ones.

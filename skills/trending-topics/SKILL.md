@@ -9,7 +9,7 @@ Find at least 7 videos a week, one for every day, from three engines: what the g
 
 **Run it every Sunday** ("Sunday run", "plan next week"): it researches all three engines and returns the pick sheet with **This week: 7 videos**, Monday to Sunday.
 
-**Month run** ("plan the month", "30 videos"): the Twitter engine's 16 giants × last 10 posts (about 160) are whittled down to the best 30, following the exact steps in `references/twitter-engine.md`: **Framework 1** (the scan: 16 giants × last 10 posts) and **Framework 2** (choosing the 30: five gates, Part T, the worthy line of 30/50, at least 10 paid media, no giant leading more than 3, things that expire first). The sheet opens with **This month: 30 videos**, one line per video (# · Day · Video · Giant · Lane · Score).
+**Month run** ("plan the month", "30 videos"): the Twitter engine's 16 giants × last 10 posts (about 160) are whittled down to the best 30, following the exact steps in `references/twitter-engine.md`: **Framework 1** (the scan: 16 giants × last 10 posts) and **Framework 2** (choosing the 30: five gates, Part T, the worthy line of 30/50, at least 10 paid media, no giant leading more than 3, things that expire first). The sheet opens with **This month: 30 videos**, one line per video (# · Day · Video · Main talking points · Giant · Lane · Score). Every video carries 4 main talking points researched from what the giant actually said.
 
 **Every month and week sheet is rendered by `scripts/plan_sheet.py`** from a plan file, so the format never drifts. Never hand-write the plan table. The sheet is then checked by `check_picks.py`.
 

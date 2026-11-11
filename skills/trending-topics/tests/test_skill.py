@@ -245,7 +245,8 @@ class PlanSheet(unittest.TestCase):
     def test_week_plan_renders_and_passes(self):
         ps = load('plan_sheet')
         tw = {'giants': ['Andrej Karpathy', 'Riley Brown'], 'evidence': 'Karpathy, 1 Nov: "quote"',
-              'url': 'https://x.com/karpathy/status/2116957135661945283', 'ours': 'ours', 'score': 40}
+              'url': 'https://x.com/karpathy/status/2116957135661945283', 'ours': 'ours', 'score': 40,
+              'points': ['one', 'two', 'three', 'four']}
         days = ['Mon 16 Nov', 'Tue 17 Nov', 'Wed 18 Nov', 'Thu 19 Nov', 'Fri 20 Nov', 'Sat 21 Nov', 'Sun 22 Nov']
         topics = [dict(tw, day=d, title=f'Video {i}') for i, d in enumerate(days[:6])]
         topics.append({'day': days[6], 'title': 'A locked title', 'from': 'locked'})
@@ -254,7 +255,7 @@ class PlanSheet(unittest.TestCase):
                 'topics': topics, 'work_rows': ['| A1 | T | W | working | w | p | **40/50** |'],
                 'youtube_rows': ['| C1 | T | P | Nick, https://www.youtube.com/watch?v=abc | o | **40/50** |']}
         text = ps.render(plan)
-        self.assertIn('| T1 | Mon 16 Nov | Video 0 | Andrej Karpathy +1 | AI | 40 |', text)
+        self.assertIn('| T1 | Mon 16 Nov | Video 0 | 1. one · 2. two · 3. three · 4. four | Andrej Karpathy +1 | AI | 40 |', text)
         self.assertIn('| locked | Sun 22 Nov | A locked title |', text)
         self.assertEqual(load('check_picks').check(text), [])
 
@@ -262,7 +263,7 @@ class PlanSheet(unittest.TestCase):
 class Framework2Rules(unittest.TestCase):
     def test_month_rules_block(self):
         ps = load('plan_sheet')
-        t = {'giants': ['Andrej Karpathy'], 'lane': 'AI', 'evidence': 'e', 'url': 'https://x.com/a/status/1', 'score': 40}
+        t = {'giants': ['Andrej Karpathy'], 'lane': 'AI', 'evidence': 'e', 'url': 'https://x.com/a/status/1', 'score': 40, 'points': ['a', 'b']}
         topics = [dict(t, day=f'Mon {i}', title=f'Title number {i}') for i in range(30)]
         topics[0]['score'] = 25
         errs = ps.rules({'kind': 'month', 'topics': topics})
@@ -270,6 +271,7 @@ class Framework2Rules(unittest.TestCase):
         self.assertTrue(any('paid-media' in e for e in errs), errs)
         self.assertTrue(any('leads 30' in e for e in errs), errs)
         self.assertTrue(any('same words' in e for e in errs), errs)
+        self.assertTrue(any('4 main talking points' in e for e in errs), errs)
 
     def test_real_month_plan_passes(self):
         ps = load('plan_sheet')

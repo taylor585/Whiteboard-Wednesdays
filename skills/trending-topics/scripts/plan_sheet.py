@@ -16,7 +16,8 @@ The plan file (written by the run, kept in the scratchpad):
     {"day": "Thu 12 Nov", "title": "...", "giants": ["Ethan Mollick", "Alex Albert"],
      "lane": "AI" | "Ads",                 optional: worked out from giants.json
      "evidence": "Mollick, 9 Nov: \"quote\"", "url": "https://x.com/...",
-     "ours": "our version", "score": 44, "parts": "spread 5×3 · fresh 5×2 · ..."},
+     "ours": "our version", "score": 44, "parts": "spread 5×3 · fresh 5×2 · ...",
+     "points": ["what the giant said 1", "2", "3", "4: the takeaway for a business owner"]},
     {"day": "Wed 11 Nov", "title": "...", "from": "locked"}       a locked or booked title
   ],
   "work_rows": ["| A1 | ... |"], "youtube_rows": ["| C1 | ... |"],   the other two engines' table rows
@@ -24,7 +25,7 @@ The plan file (written by the run, kept in the scratchpad):
 }
 
 Writes the sheet, then runs check_picks.py on it and exits with its result.
-The top table is one line per video: # · Day · Video · Giant · Lane · Score.
+The top table is one line per video: # · Day · Video · Main talking points · Giant · Lane · Score.
 """
 import argparse
 import json
@@ -78,6 +79,9 @@ def rules(plan, giants_file=None):
     lead, openings = {}, {}
     ads = 0
     for i, t in enumerate(ts, 1):
+        pts = t.get('points') or []
+        if len(pts) != 4 or not all(str(x).strip() for x in pts):
+            errs.append(f'T{i} needs exactly 4 main talking points (it has {len(pts)})')
         if not t.get('url') or not t.get('evidence'):
             errs.append(f'T{i} has no evidence or link')
         if int(t.get('score', 0)) < 30:
@@ -105,12 +109,14 @@ def render(plan, register=None, giants_file=None):
     counts = {'AI': 0, 'Ads': 0}
     for t in topics:
         if t.get('from') == 'locked':
-            plan_rows.append(f'| locked | {t["day"]} | {t["title"]} | - | {t.get("lane", "booked")} | - |')
+            pts = ' · '.join(f'{j}. {x}' for j, x in enumerate(t.get('points') or [], 1)) or '-'
+            plan_rows.append(f'| locked | {t["day"]} | {t["title"]} | {pts} | - | {t.get("lane", "booked")} | - |')
             continue
         k += 1
         lane = t.get('lane') or next((lane_of[g] for g in t.get('giants', []) if g in lane_of), 'AI')
         counts[lane] = counts.get(lane, 0) + 1
-        plan_rows.append(f'| T{k} | {t["day"]} | {t["title"]} | {giant_label(t.get("giants"))} | {lane} | {t["score"]} |')
+        pts = ' · '.join(f'{j}. {x}' for j, x in enumerate(t.get('points') or [], 1))
+        plan_rows.append(f'| T{k} | {t["day"]} | {t["title"]} | {pts} | {giant_label(t.get("giants"))} | {lane} | {t["score"]} |')
         t_rows.append(f'| T{k} | {t["title"]} | {", ".join(t.get("giants", []))} | {t["evidence"]} {t["url"]} | '
                       f'{t.get("ours", "")} | **{t["score"]}/50** |')
     r = plan.get('research', {})
@@ -121,7 +127,7 @@ def render(plan, register=None, giants_file=None):
     if plan.get('left_out'):
         head += f'**Left out as already done:** {plan["left_out"]}\n'
     heading = check_picks.MONTH if month else check_picks.WEEK
-    out = [head, heading, '', '| # | Day | Video | Giant | Lane | Score |', '|---|---|---|---|---|---|', *plan_rows, '',
+    out = [head, heading, '', '| # | Day | Video | Main talking points | Giant | Lane | Score |', '|---|---|---|---|---|---|---|', *plan_rows, '',
            f'**Mix:** {counts.get("AI", 0)} AI · {counts.get("Ads", 0)} paid media'
            + (f' · {len(topics) - k} locked' if len(topics) > k else '') + '. Scores are out of 50 (Part T).']
     if plan.get('whittled'):

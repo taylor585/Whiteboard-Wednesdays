@@ -103,3 +103,21 @@ Final reply: one line per person ("<name>: <n> posts, newest <date>"), then the 
 
 People: [name @handle (also_read)]...
 ```
+
+## Talking points: 4 per video
+
+After the 30 (or 7) are chosen, send 5 of these agents in one message, 6 videos each. Give each one a JSON file of its videos (id, title, giants, evidence, url, ours).
+
+```
+Today is [date]. For EACH topic in [infile], find out what the giant(s) actually said, as fully as you can, using only WebSearch (mode "extended", several searches per turn): the post's words, news quoting it, its thread and replies, the giant's blog or podcast episode page, and coverage of the launch or claim. Do NOT open x.com pages directly, and do NOT use mirrors, scrapers or syndication endpoints. About 4 searches per topic.
+
+Write exactly 4 talking points per topic, each 8 to 14 words, British English, no em dashes:
+- Points 1 to 3: what the giant(s) said or showed (claim, method, numbers, steps, warnings), each grounded in a source you saw.
+- Point 4: the takeaway for a business owner, in line with the topic's "ours" angle.
+Never invent numbers, quotes or steps. If only the snippet could be found, keep to what is known.
+
+Write ONE JSON list to [outfile]: [{"id", "points": [4], "sources": [urls], "confidence": "full" | "partial" | "snippet-only", "note"}]
+Final reply: one line per topic: id, confidence, most useful finding.
+```
+
+Merge each `points` list into its topic in the plan file, add any "snippet-only" notes to the sheet's "Things we noticed", then render.
