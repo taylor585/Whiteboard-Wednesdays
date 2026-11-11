@@ -75,10 +75,10 @@
 #topics .tp-lt[aria-pressed=false]{color:var(--ww-muted);background:var(--ww-stage);text-decoration:line-through}
 #topics .tp-follow button{min-height:44px;border-radius:var(--ww-radius-chip);padding:4px 10px;font-size:13px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #topics .tp-follow button[aria-pressed=true]{background:var(--ww-ink);color:var(--ww-on-ink);border-color:var(--ww-ink)}
-/* Big calendar (S2-B): one row per week, five day columns, full cards. */
+/* Big calendar (S2-B): one row per week, six day columns (Monday to Saturday), full cards. */
 .tp-span{margin:0;font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
 .tp-cal{display:flex;flex-direction:column;margin-top:20px;border-top:var(--ww-ledger)}
-.tp-wk{display:grid;grid-template-columns:96px repeat(var(--tp-cols,5),minmax(0,1fr));border-bottom:1px solid var(--ww-line)}
+.tp-wk{display:grid;grid-template-columns:96px repeat(var(--tp-cols,6),minmax(0,1fr));border-bottom:1px solid var(--ww-line)}
 .tp-wkl{display:flex;flex-direction:column;gap:2px;padding-top:10px}
 .tp-wkl b{font:var(--ww-strong-weight) 20px/1.1 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
 .tp-wk.is-this .tp-wkl b{color:var(--ww-gold)}
@@ -101,7 +101,7 @@
 #topics .tp-ev-open:not(:disabled):hover{background:var(--ww-surface);color:var(--ww-ink)}
 #topics .tp-ev.is-dim{opacity:.22}
 #topics .tp-ev.is-sel{outline:3px solid var(--ww-gold);outline-offset:1px}
-@media(max-width:1000px){.tp-wk{grid-template-columns:repeat(var(--tp-cols,5),minmax(0,1fr))}.tp-wkl{grid-column:1/-1;flex-direction:row;align-items:baseline;gap:8px;padding:12px 0 8px}.tp-day{min-height:100px;padding:6px}.tp-day:nth-child(2){border-left:0;padding-left:0}#topics .tp-ev{padding:6px 8px;font-size:13px}}
+@media(max-width:1000px){.tp-wk{grid-template-columns:repeat(var(--tp-cols,6),minmax(0,1fr))}.tp-wkl{grid-column:1/-1;flex-direction:row;align-items:baseline;gap:8px;padding:12px 0 8px}.tp-day{min-height:100px;padding:6px}.tp-day:nth-child(2){border-left:0;padding-left:0}#topics .tp-ev{padding:6px 8px;font-size:13px}}
 @media(max-width:700px){.tp-wk{grid-template-columns:1fr;border-bottom:0;padding-bottom:6px}.tp-day{min-height:0;border-left:0;border-top:1px solid var(--ww-line);padding:8px 0}.tp-day.is-today{padding:8px}.tp-day:empty{display:none}.tp-wkl{padding:14px 0 8px}}
 @media(max-width:820px){.tp-controls{align-items:flex-start}.tp-follow{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;max-width:100%;padding-bottom:4px}#topics .tp-follow button{flex:none}}
 @media(prefers-reduced-motion:reduce){.tp-day,#topics .tp-ev{transition:none}}
@@ -111,7 +111,11 @@
 .tp-dayn{display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px}
 .tp-pd{display:inline-flex;align-items:center;gap:5px;margin-left:auto;font:11px var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-ink);white-space:nowrap}
 .tp-pd i{width:10px;height:10px;box-sizing:border-box;border-radius:var(--ww-radius-mark);background:var(--ww-highlight);border:1px solid var(--ww-gold)}
+/* Recording days (Monday, Wednesday and Friday since 11 November 2026) carry the same small tag in ink, the recording card's own colour. */
+.tp-rd{display:inline-flex;align-items:center;gap:5px;margin-left:auto;font:11px var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-ink);white-space:nowrap}
+.tp-rd i{width:10px;height:10px;box-sizing:border-box;border-radius:var(--ww-radius-mark);background:var(--ww-ink);border:1px solid var(--ww-ink)}
+.tp-rd+.tp-pd{margin-left:0}
 #topics .tp-ev-postopen{box-sizing:border-box;background:transparent;border:1px dashed var(--ww-field-edge);border-left:3px solid var(--ww-gold);padding-left:8px;color:var(--ww-muted)}
-.tp-cal[data-cols="6"] .tp-pd,.tp-cal[data-cols="7"] .tp-pd{letter-spacing:.02em}
-@media(max-width:1000px){.tp-pd{margin-left:0}.tp-cal[data-cols="6"] .tp-day,.tp-cal[data-cols="7"] .tp-day{padding:5px}.tp-cal[data-cols="6"] .tp-ev,.tp-cal[data-cols="7"] .tp-ev{padding:5px 6px;font-size:12px}}
-@media(max-width:700px){.tp-pd{margin-left:auto}}
+.tp-cal[data-cols="6"] :is(.tp-pd,.tp-rd),.tp-cal[data-cols="7"] :is(.tp-pd,.tp-rd){letter-spacing:.02em}
+@media(max-width:1000px){.tp-pd,.tp-rd{margin-left:0}.tp-cal[data-cols="6"] .tp-day,.tp-cal[data-cols="7"] .tp-day{padding:5px}.tp-cal[data-cols="6"] .tp-ev,.tp-cal[data-cols="7"] .tp-ev{padding:5px 6px;font-size:12px}}
+@media(max-width:700px){.tp-pd,.tp-rd{margin-left:auto}.tp-rd+.tp-pd{margin-left:0}}

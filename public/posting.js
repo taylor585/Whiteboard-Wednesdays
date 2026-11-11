@@ -13,7 +13,7 @@
   const RUN_FRESH_MS = 20 * 60e3;  // a Post now press this recent, with no end written yet, is still running
   let db = null, jobs = [], reels = [], starting = null, confirming = null, note = {}, syncing = new Set();
   const store = () => window.WWStore?.posting || null;
-  const settings = () => store()?.settings || {days:['tue','thu'], time:'15:00', mode:'manual', platforms:{youtube:true, linkedin:true, instagram:true, facebook:true, x:false}};
+  const settings = () => store()?.settings || {days:['tue','thu','sat'], time:'15:00', mode:'manual', platforms:{youtube:true, linkedin:true, instagram:true, facebook:true, x:false}};
   // Read on every draw: today a frozen object of false, later a live one from the Connections screen.
   const connected = () => { const c = store()?.CONNECTED; return c && typeof c === 'object' ? c : {}; };
   // Auto is live once it is chosen, a switched-on platform is connected, and the daily poster is running. The poster runs

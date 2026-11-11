@@ -28,10 +28,10 @@ const CURRENT = [
   ['burt-promoting', '2026-11-25', null, 'planned'], ['orchestrator-mindset', '2026-11-27', null, 'planned'],
 ].map(([id, recordDate, postDate, status]) => ({id, recordDate, postDate, status, createdAt:'2026-10-24T12:00:00.000Z'}));
 
-test('no settings document means Tuesday and Thursday, five days, manual', () => {
+test('no settings document means Tuesday, Thursday and Saturday, five days, manual', () => {
   for (const missing of [null, undefined, {}, 'nonsense', {days:[], gap:0, time:'25:00', mode:'robot'}]) {
     const s = P.normalise(missing);
-    eq(s.days, ['tue','thu']); assert.equal(s.gap, 5); assert.equal(s.time, '15:00'); assert.equal(s.mode, 'manual');
+    eq(s.days, ['tue','thu','sat']); assert.equal(s.gap, 5); assert.equal(s.time, '15:00'); assert.equal(s.mode, 'manual');
     eq({...s.platforms}, {youtube:true, linkedin:true, instagram:true, facebook:true, x:false});
   }
 });
@@ -43,7 +43,51 @@ test('the defaults reproduce the dates the app showed before: recording day plus
   assert.equal(plan.get('grok-bot-really'), '2026-10-29');        // recorded Fri 23 Oct, posts Thu 29 Oct
   assert.equal(plan.get('ai-call-centre'), '2026-11-17');
   assert.equal(plan.get('automations-claude-codex'), '2026-11-19');
-  assert.equal(P.sentence(null), 'Wednesday’s video posts the next Tuesday, Friday’s the next Thursday.');
+  assert.equal(P.sentence(null), 'Monday’s video posts that Saturday, Wednesday’s the next Tuesday, Friday’s the next Thursday.');
+});
+
+// Taylor, 11 November 2026: "Recording days are going to be Monday, Wednesday, and Friday. Posting days are going to be
+// Tuesday, Thursday, and Saturday."
+test('recording days are Monday, Wednesday and Friday', () => {
+  eq(P.RECORD_DAYS, ['mon','wed','fri']);
+  assert.equal(P.dayList(P.RECORD_DAYS), 'Monday, Wednesday and Friday');
+  assert.equal(P.dayList(P.DEFAULTS.days), 'Tuesday, Thursday and Saturday');
+  for (const [d, want] of [['2026-11-16', true], ['2026-11-17', false], ['2026-11-18', true], ['2026-11-19', false], ['2026-11-20', true], ['2026-11-21', false], ['2026-11-22', false], ['nonsense', false], [null, false],
+    ['2026-11-09', false], ['2026-11-04', true], ['2026-11-06', true]])   // before 11 November the days were Wednesday and Friday
+    assert.equal(P.isRecordingDay(d), want, String(d));
+});
+
+test('a year of Monday, Wednesday and Friday recordings under the defaults: Monday → that Saturday, Wednesday → next Tuesday, Friday → next Thursday', () => {
+  const list = []; for (let d = '2026-11-16'; d < '2027-11-16'; d = add(d, 7)) list.push({id:'m'+d, recordDate:d}, {id:'w'+d, recordDate:add(d, 2)}, {id:'f'+d, recordDate:add(d, 4)});
+  const plan = P.plan(list, null), seen = new Set();
+  for (const t of list) {
+    const p = plan.get(t.id), want = {m:['Sat', 5], w:['Tue', 6], f:['Thu', 6]}[t.id[0]];
+    assert.equal(weekday(p), want[0], t.id); assert.equal(p, add(t.recordDate, want[1]), t.id);
+    assert.ok(!seen.has(p), 'double booked '+p); seen.add(p);
+  }
+  assert.equal(P.slot([], null, '2026-11-16'), '2026-11-21');      // Mon 16 Nov posts Sat 21 Nov
+  assert.equal(P.slot([], null, '2026-11-18'), '2026-11-24');      // Wed 18 Nov posts Tue 24 Nov
+  assert.equal(P.slot([], null, '2026-11-20'), '2026-11-26');      // Fri 20 Nov posts Thu 26 Nov
+});
+
+test('switching the saved Tuesday and Thursday rule to the new days moves nothing already planned', () => {
+  const s = {days:['tue','thu','sat'], gap:5, from:'2026-11-11', history:[{days:['tue','thu'], gap:5, from:null}]};
+  const before = P.plan(CURRENT, {days:['tue','thu'], gap:5}), after = P.plan(CURRENT, s);
+  for (const t of CURRENT) assert.equal(after.get(t.id), before.get(t.id), t.id);
+  assert.equal(P.plan([...CURRENT, {id:'mon', recordDate:'2026-11-16'}], s).get('mon'), '2026-11-21');
+});
+
+test('booking: Monday, Wednesday and Friday are accepted, every other day is refused', async () => {
+  const writes = [], docs = [{id:'t1', title:'A topic', status:'planned', recordDate:null}];
+  const snap = list => ({docs:list.map(d => ({exists:true, id:d.id, data:() => d}))});
+  const db = {doc: () => ({get: async () => ({exists:false, data:() => undefined})}),
+    collection: name => ({onSnapshot: fn => { fn(snap(name === 'topics' ? docs : [])); return () => {}; }, doc: id => ({update: async d => { writes.push([id, d]); }, set: async () => {}})})};
+  const {store} = load(db);
+  const api = await store.connect();
+  for (const d of ['2026-11-16', '2026-11-18', '2026-11-20']) eq(await api.call('/topic-update', {id:'t1', recordDate:d}), {updated:true});
+  for (const d of ['2026-11-17', '2026-11-19', '2026-11-21', '2026-11-22'])
+    await assert.rejects(() => api.call('/topic-update', {id:'t1', recordDate:d}), /Recording days are Monday, Wednesday and Friday/, d);
+  assert.equal(writes.length, 3);
 });
 
 test('a year of Wednesday and Friday recordings under the defaults: Wednesday → next Tuesday, Friday → next Thursday', () => {
@@ -57,8 +101,8 @@ test('Monday, Wednesday and Friday: every post lands on one of those days, at le
   for (const t of CURRENT) { const p = plan.get(t.id); assert.ok(['Mon','Wed','Fri'].includes(weekday(p)), t.id+' '+p); assert.ok(p >= add(t.recordDate, 5)); }
   assert.equal(plan.get('ai-call-centre'), '2026-11-16');          // Wed 11 Nov → Mon 16 Nov
   assert.equal(plan.get('automations-claude-codex'), '2026-11-18'); // Fri 13 Nov → Wed 18 Nov
-  assert.equal(P.sentence(s), 'Wednesday’s video posts the next Monday, Friday’s the next Wednesday.');
-  assert.equal(P.sentence({days:['mon','wed','fri'], gap:2}), 'Wednesday’s video posts that Friday, Friday’s the next Monday.');
+  assert.equal(P.sentence(s), 'Monday’s video posts the next Monday, Wednesday’s the next Wednesday, Friday’s the next Friday.');
+  assert.equal(P.sentence({days:['mon','wed','fri'], gap:2}), 'Monday’s video posts that Wednesday, Wednesday’s that Friday, Friday’s the next Monday.');
   assert.equal(P.dayList(s.days), 'Monday, Wednesday and Friday');
 });
 
@@ -138,5 +182,5 @@ test('without the database, saving says so and the defaults stand', async () => 
   await store.connect();
   assert.equal(P.canSave, false);
   await assert.rejects(() => P.save({days:['mon']}), /database/);
-  eq(P.settings.days, ['tue','thu']);
+  eq(P.settings.days, ['tue','thu','sat']);
 });
