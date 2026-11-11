@@ -1,0 +1,212 @@
+{
+  "_about": "Every limit Performance Poster checks against. Frozen from the Performance Poster research report (20 Oct 2026). 'source' is official, third-party, observed or house. Re-check everything on or after recheck_by. Change a house rule here, in one place; check_post.py and the tests read this file.",
+  "checked": "2026-10-20",
+  "recheck_by": "2027-01-18",
+  "youtube": {
+    "title_max": {
+      "value": 100,
+      "source": "official",
+      "url": "https://support.google.com/youtube/answer/57404"
+    },
+    "title_brand_max": {
+      "value": 70,
+      "source": "house",
+      "note": "house style: titles of 70 characters or fewer"
+    },
+    "description_max_bytes": {
+      "value": 5000,
+      "source": "official",
+      "url": "https://developers.google.com/youtube/v3/docs/videos",
+      "note": "budget in bytes: emojis and curly quotes cost 3-4 bytes"
+    },
+    "description_optimal_chars": {
+      "value": [
+        800,
+        2000
+      ],
+      "source": "observed",
+      "note": "no magic length; never pad"
+    },
+    "fold_chars": {
+      "value": 150,
+      "source": "third-party",
+      "note": "~157 desktop, ~100-150 mobile"
+    },
+    "hook_keyword_within": {
+      "value": 40,
+      "source": "research",
+      "note": "the WhatsApp CTA takes 108 characters, so the keyword opens the hook"
+    },
+    "tags_field_max": {
+      "value": 500,
+      "source": "official",
+      "url": "https://developers.google.com/youtube/v3/docs/videos"
+    },
+    "hashtags": {
+      "min": 3,
+      "max": 5,
+      "target": 3,
+      "ignored_over": 60,
+      "source": "house + official",
+      "url": "https://support.google.com/youtube/answer/6390658",
+      "note": "YouTube shows only 3. House rule 3-5 still stands; the research suggests exactly 3. A count of 3 satisfies both. To adopt the research rule, set max to 3."
+    },
+    "chapters": {
+      "first": 0,
+      "min_count": 3,
+      "min_gap_s": 10,
+      "source": "official",
+      "url": "https://support.google.com/youtube/answer/9884579"
+    },
+    "cta_line": {
+      "value": "Want to chat? Give me a message on WhatsApp. This is my personal number 👉 https://pecunafactorem.com/contact",
+      "source": "house"
+    }
+  },
+  "linkedin": {
+    "post_max": {
+      "value": 3000,
+      "source": "official",
+      "url": "https://www.linkedin.com/help/linkedin/answer/a528176"
+    },
+    "hook_max": {
+      "value": 140,
+      "warn_over": 110,
+      "source": "observed",
+      "note": "fold ~210 desktop, ~140 mobile; fewer with media"
+    },
+    "length_reach": {
+      "value": [
+        900,
+        1500
+      ],
+      "source": "third-party"
+    },
+    "length_comments": {
+      "value": [
+        1500,
+        2500
+      ],
+      "source": "third-party"
+    },
+    "comment_max": {
+      "value": 1250,
+      "source": "third-party"
+    },
+    "hashtags": {
+      "min": 3,
+      "max": 5,
+      "target": 3,
+      "warn_over": 3,
+      "source": "house + third-party",
+      "note": "House rule 3-5 still stands; 2026 studies (1M+ posts) link 3+ with lower reach and suggest 1-2, max 3. A count of 3 satisfies both. To adopt the research rule, set min 0, max 3, target 2."
+    },
+    "native_video_s": {
+      "value": [
+        30,
+        90
+      ],
+      "source": "research",
+      "note": "native cut for promos; up to 15 min (10 from a phone)"
+    },
+    "bait_phrases": [
+      "comment to agree",
+      "agree?",
+      "like if you",
+      "like this post if",
+      "tag someone",
+      "tag a friend",
+      "type yes",
+      "comment yes",
+      "repost if",
+      "share if you agree"
+    ]
+  },
+  "instagram": {
+    "caption_max": {
+      "value": 2200,
+      "source": "official",
+      "url": "https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/ig-user/media"
+    },
+    "first_line_max": {
+      "reel": 60,
+      "feed": 125,
+      "source": "convention"
+    },
+    "body_chars": {
+      "reel": [
+        125,
+        500
+      ],
+      "carousel": [
+        0,
+        200
+      ],
+      "image": [
+        300,
+        800
+      ],
+      "source": "third-party"
+    },
+    "carousel_words_max": {
+      "value": 30,
+      "source": "third-party"
+    },
+    "hashtags": {
+      "min": 3,
+      "max": 5,
+      "hard_cap": 5,
+      "source": "official",
+      "url": "https://www.threads.net/@creators/post/DSalXGPCWM4",
+      "note": "cap of 5 since 18 Dec 2025; put them in the caption"
+    },
+    "banned_generic_tags": [
+      "#reels",
+      "#reel",
+      "#explore",
+      "#explorepage",
+      "#viral",
+      "#fyp",
+      "#foryou",
+      "#foryoupage",
+      "#instagood"
+    ],
+    "mentions_max": {
+      "value": 20,
+      "source": "official"
+    },
+    "alt_text_max": {
+      "value": 1000,
+      "recommended": 125,
+      "source": "official",
+      "note": "not available on Reels or Stories"
+    },
+    "reel_reach_max_s": {
+      "value": 180,
+      "source": "third-party",
+      "note": "3 min or under reportedly needed to reach non-followers"
+    },
+    "safe_zone_px": {
+      "top": 220,
+      "bottom": 420,
+      "frame": [
+        1080,
+        1920
+      ],
+      "source": "convention"
+    },
+    "cta_patterns": {
+      "comment_dm": "[Cc]omment\\s+['\"“]?[A-Z]{2,}",
+      "send": "\\bsend (this|it) to\\b",
+      "link_in_bio": "link in (my |the )?bio",
+      "save": "\\bsave (this|it)\\b",
+      "question": "\\?\\s*$",
+      "follow": "\\bfollow (me|for|@)"
+    }
+  },
+  "all": {
+    "placeholder_regex": "\\[(?:[A-Z][A-Z0-9 _/-]{2,}|your [^\\]\\n]{2,40})\\]|\\bX:XX\\b",
+    "contact_url": "https://pecunafactorem.com/contact",
+    "site_url": "https://pecunafactorem.com"
+  }
+}

@@ -1,0 +1,69 @@
+Want to chat? Give me a message on WhatsApp. This is my personal number 👉 https://pecunafactorem.com/contact
+
+This is a cheat code when using AI: make it draw, animate and agree your app on a vision board before it writes a single line of code.
+
+Every change you make after the AI has coded your app costs code. On a board, it costs nothing. So stop paying for rebuilds.
+
+In this Whiteboard Wednesdays I walk you through the vision board system we use with Claude Code: the five ways AI builds go wrong, the 15 parts of the system that fix them, a live board for one of our own app screens, and a full board for a made-up physio clinic's booking app.
+
+Free download, the vision board shell 👉 [VISION BOARD SHELL LINK]
+
+What you'll learn:
+
+• The five failure characters anyone building with AI will recognise: The Rebuild Loop, The Guessing Game, The Open Loop, The Motion Mess and The Lost Story
+
+• Why "make it premium" produces nothing, and how to name the look instead: fonts, palette and composition
+
+• Why everything on the board must be true or labelled: simulated, demonstrated, proposed or verified
+
+• How to write the story in acts before animating a single pixel, and why every caption should make a claim
+
+• Why you build the hardest moment first, then copy it
+
+• The three kinds of motion, and why only product motion becomes a build requirement
+
+• The decision register: every open question becomes a numbered decision, then you sign it, freeze it and amend it as a new version
+
+• How the board renders itself into a 1080p video, stills and a report you can review in your own time
+
+• A live board for our own Video ideas screen, built in Claude Code before any code changes
+
+• A full example for a made-up physio clinic: 11 acts, motion contracts and the five decisions they'd sign before any code
+
+Chapters
+
+0:00 Draw it. Then build it.
+
+X:XX The five ways AI builds go wrong
+
+X:XX Move it onto the board
+
+X:XX Choose the depth and frame the decision
+
+X:XX True or labelled, and naming the look
+
+X:XX Acts before pixels
+
+X:XX Hardest moment first
+
+X:XX Three kinds of motion
+
+X:XX The decision register: sign, freeze, amend
+
+X:XX The board renders itself into a video
+
+X:XX Live: a board for our own app
+
+X:XX Example: a physio clinic booking app
+
+X:XX Before and after
+
+How we can help
+
+If you'd like help building apps with Claude Code without the rebuild loop, setting up vision boards for your team, or turning your processes into skills that run for hours without babysitting, get in touch:
+
+https://pecunafactorem.com/contact
+
+Pecuna Factorem: https://pecunafactorem.com
+
+#ClaudeCode #VibeCoding #AIAgents #AppDesign
