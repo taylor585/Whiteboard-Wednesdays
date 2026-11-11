@@ -9,7 +9,7 @@ Settings has a third lane, **Connections** (`#/settings/connections`, one card o
 1. **Every account is its own connection.** Never join two accounts in one card, one sign-in or one status. Facebook and Instagram are separate even though the same reel goes to both.
 2. **A card says Connected only after a real check**, and only ever shows an account name the check returned. No saved guess, no sample name, nothing assumed from an earlier day.
 3. **Secrets never go into the app, the repo, the database or a chat.** Sign-ins are kept by Composio on Taylor's Claude account. X's client ID and secret are typed into Composio's own dashboard by Taylor, nowhere else.
-4. **Nothing here posts anything.** Connecting an account only makes it available. The automatic poster is a later build (`WWStore.posting.posterLive` is false until it exists).
+4. **Nothing here posts anything.** Connecting an account only makes it available. Posting is POSTING.md's: only a posting session posts (`WWStore.posting.posterLive` is true only while the daily poster's scheduled task exists, `settings/poster.daily`).
 5. **Checks run on open and on return to the tab, never on a timer.** X is checked only on a press, because X charges for lookups.
 6. From the page, the only Composio tool ever called is `COMPOSIO_MANAGE_CONNECTIONS`, and only its `list` and `add` actions. Never declare or call `COMPOSIO_MULTI_EXECUTE_TOOL` or any other Composio tool from the page: it would hand the page every account Composio holds.
 
