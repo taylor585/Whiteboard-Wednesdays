@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "verified_at": "2026-10-12",
+  "rule": "Core creators are weighted highest. Handles and channel IDs were checked live against each channel page. Re-verify a channel if its scan fails twice. The secondary list is the app watchlist at public/creators.json (read at runtime when the repo is present), weight 1.",
+  "core": [
+    {"name": "Nick Saraev", "handle": "@nicksaraev", "channel_id": "UCbo-KbSjJDG6JWQ_MTZ_rNA", "niche": ["claude code", "ai automation", "agents", "selling ai services"], "weight": 3},
+    {"name": "Sabri Suby", "handle": "@SabriSubyOfficial", "channel_id": "UCAxUtcgLiq_gopO87VaZM5w", "niche": ["direct response", "funnels", "google ads", "marketing"], "weight": 3},
+    {"name": "Riley Brown", "handle": "@rileybrownai", "channel_id": "UCMcoud_ZW7cfxeIugBflSBw", "niche": ["ai app building", "vibe coding", "claude", "agents"], "weight": 3},
+    {"name": "Jeremy Haynes", "handle": "@JeremyHaynesTraining", "channel_id": "UCuzbImxdBNTUeolGXpLVL0A", "niche": ["paid ads", "agency growth", "coaching offers"], "weight": 2},
+    {"name": "Alex Finn", "handle": "@AlexFinnOfficial", "channel_id": "UCfQNB91qRP_5ILeu_S_bSkg", "niche": ["ai coding", "claude code", "one-person business"], "weight": 2},
+    {"name": "The Calum Johnson Show", "handle": "@thecalumjohnsonshow", "channel_id": "UCuvjQYKukKjVyhSVxQibgOw", "niche": ["ai agents", "online business", "interviews"], "weight": 2},
+    {"name": "Skill Leap AI", "handle": "@SkillLeapAI", "channel_id": "UCwSozl89jl2zUDzQ4jGJD3g", "niche": ["ai tools", "chatgpt", "walkthroughs"], "weight": 2},
+    {"name": "Paul J Lipsky", "handle": "@PaulJLipsky", "channel_id": "UCmeU2DYiVy80wMBGZzEWnbw", "niche": ["ai news", "weekly recap"], "weight": 2},
+    {"name": "Daniel Priestley (Key Person of Influence)", "handle": "@KeyPersonOfInfluence", "channel_id": "UCAPETr_-l2tDIJrvey9_LhQ", "niche": ["entrepreneurship", "business trends", "influence"], "weight": 2, "note": "The channel in Taylor's screenshot. His personal channel is listed next."},
+    {"name": "Daniel Priestley", "handle": "@DanielPriestley", "channel_id": "UCABR204CFV9ZoMz69TyspzA", "niche": ["entrepreneurship", "business growth"], "weight": 1},
+    {"name": "Sergio C", "handle": "@ImSergioCardenas", "channel_id": "UC83sDvcU9vJy0W50kwrSpAQ", "niche": ["meta ads", "andromeda", "ecommerce ads"], "weight": 3}
+  ]
+}

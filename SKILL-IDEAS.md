@@ -8,7 +8,7 @@ Letting the page start local connectors froze the Claude desktop app on 31 Octob
 
 ## What the app does
 
-1. **Ask the skill for 10 topics** writes `ideaRuns/<id>` to the app artifact's database with `status: "requested"`, `skill: "trending-topics"`, `mix: "five-and-five"`, `count: 10`.
+1. **Ask the skill for 10 topics** writes `ideaRuns/<id>` to the app artifact's database with `status: "requested"`, `skill: "trending-topics-talking-points"`, `mix: "five-and-five"`, `count: 10`.
 2. It shows the line to send: `Run topic ideas <id>`, with Copy.
 3. When the document turns `done`, Sparks lists the ideas ranked 1 to 10.
 4. **+ Shortlist** creates a topic with the idea's title word for word, `status: "shortlisted"`, `origin: {kind: "skill", runId, ideaId, source, why}` and `skillLock: "pending"`, and records it in the run's `added` map.
@@ -17,7 +17,7 @@ Letting the page start local connectors froze the Claude desktop app on 31 Octob
 
 1. Read `ideaRuns/<id>` from the app artifact (https://claude.ai/artifact/WCzdc2u9RBzuzqz5JhHwea) with ArtifactData. Set `status: "running"`.
 2. **Lock pending titles first.** For every document in `topics` with `skillLock: "pending"`, run the skill's `scripts/topics.py lock "<title>"` with the title exactly as stored, then set `skillLock: "locked"` and `lockedAt`.
-3. Run the Trending Topics skill's Pick step: Table One (Taylor's own work, last 30 days) and Table Two (creator breakouts).
+3. Run the Trending Topics - Talking Points skill (5.4.1, `.claude/skills/trending-topics-talking-points`, replaced Trending Topics on 11 November 2026) Pick step, giving every idea its 4 main talking points: Table One (Taylor's own work, last 30 days) and Table Two (creator breakouts).
 4. Keep the top five rows of each table, in the skill's own order, and interleave them as ranks 1 to 10 (own, creator, own, ...).
    Each idea is `{id: "i1".."i10", rank, title, why, source: "own" | "creator"}`.
    `title` is the skill's title word for word; `why` is one line from the skill's evidence (under 160 characters).
