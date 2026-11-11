@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "ArtifactData",
+      "ArtifactComments",
+      "Artifact",
+      "mcp__claude-code-remote__create_session",
+      "mcp__claude-code-remote__get_session",
+      "mcp__claude-code-remote__list_events",
+      "mcp__claude-code-remote__send_message",
+      "Bash",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "Skill",
+      "WebFetch",
+      "WebSearch",
+      "Agent",
+      "ToolSearch"
+    ]
+  }
+}
