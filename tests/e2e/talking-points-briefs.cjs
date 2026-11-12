@@ -129,7 +129,7 @@ function serverUp() { return new Promise(r => { http.get(BASE + 'index.html', re
 
       // Which topics qualify, and in what order
       const titles = await page.$$eval('#talking-points .tk-row .tk-title', h => h.map(x => x.textContent.trim()));
-      check(JSON.stringify(titles) === JSON.stringify(['Claude Code skills in 10 minutes', "ChatGPT just changed the layout again: here's what's new", 'I tested 5 AI note takers', 'Why your Meta ads stopped working', 'The one prompt I use every morning']), W + 'qualifying topics in order: ' + titles.join(' | '));
+      check(JSON.stringify(titles) === JSON.stringify(['I tested 5 AI note takers', "ChatGPT just changed the layout again: here's what's new", 'Claude Code skills in 10 minutes', 'Why your Meta ads stopped working', 'The one prompt I use every morning']), W + 'qualifying topics in order: ' + titles.join(' | '));
       check(await page.$$eval('#talking-points .tk-row[data-id=t-chatgpt] .tk-points li', l => l.length) === 4, W + 'four numbered points on the outlined topic');
       check((await page.textContent('#talking-points .tk-row[data-id=t-chatgpt] .tk-points li:first-child .tk-n')).trim() === '01', W + 'points are numbered 01');
       check(/No outline yet/.test(await page.textContent('#talking-points .tk-row[data-id=t-booked]')), W + 'No outline yet shown');
