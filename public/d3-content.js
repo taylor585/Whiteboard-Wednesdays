@@ -81,7 +81,7 @@ window.WW={
     4,
     5
    ],
-   "source": "Our summary of the Dream 100 idea (Chet Holmes, The Ultimate Sales Machine), not a quotation. Row 04 follows Dream 30 Lead Hunting Framework, section 07: “A posted letter or parcel addressed by name does the same job and is the classic Dream 100 opening.” Row 05 is our own reading.",
+   "source": "Our summary of the Dream 100 idea (Chet Holmes, The Ultimate Sales Machine), not a quotation. Row 04 follows Dream 30 Lead Hunting Framework, section 07 (pages 4 to 5): “A posted letter or parcel addressed by name does the same job and is the classic Dream 100 opening.” Row 05 is our own reading.",
    "note": "One click per row. SAY: “The Dream 100 is simple. Pick the hundred buyers you would most love to work with, and keep reaching them, by post, by phone, by email, for months, until they say yes. The classic opening is a parcel with their name on it.” Last row: “The catch: a hundred, done properly, is a huge amount of work. So it slides into the same letter to everyone.”"
   },
   {
@@ -105,7 +105,7 @@ window.WW={
     4,
     5
    ],
-   "source": "Dream 30 - Fucking Crazy Offer framework, sections 01, 02 and 03; Dream 30 The Long Game Framework, section 01. The left column is our summary of the classic Dream 100.",
+   "source": "Dream 30 - Fucking Crazy Offer framework, sections 01, 02 and 03 (pages 2 to 3); Dream 30 The Long Game Framework, section 01 (page 2). The left column is our summary of the classic Dream 100.",
    "note": "One click per row: the old habit is struck, the new rule is written in. SAY: “Same idea, dream clients first. But every rule is sharper. Thirty, not a hundred. One industry, one country at a time. Ten emails, one a weekday, sent by a machine. Real work made for every single one. Scarcity we actually check. And a follow-up that ends.”"
   },
   {
@@ -125,7 +125,7 @@ window.WW={
     2,
     3
    ],
-   "source": "Dream 30 - Fucking Crazy Offer framework, sections 01 to 04; Dream 30 The Long Game Framework, sections 01 and 04. The Dream 100 column is our own reading.",
+   "source": "Dream 30 - Fucking Crazy Offer framework, sections 01 to 04 (pages 2 to 4); Dream 30 The Long Game Framework, sections 01 and 04 (pages 2 to 6). The Dream 100 column is our own reading.",
    "note": "Two rows per click. SAY: “Here’s why thirty wins. With thirty, every business gets real research and free work made for them. Every reply gets Taylor, personally, inside two working hours. And when we say one business per area, it’s true, because we checked all thirty.” Quote the framework: “A focused group beats a big list.”"
   },
   {
@@ -161,7 +161,7 @@ window.WW={
     2,
     3
    ],
-   "source": "Dream 30 Lead Hunting Framework, sections 02 and 12; Dream 30 - Fucking Crazy Offer framework, sections 01 and 05; Dream 30 The Long Game Framework, sections 01, 03 and 04.",
+   "source": "Dream 30 Lead Hunting Framework, sections 02 and 12 (pages 2, 3, 7 and 8); Dream 30 - Fucking Crazy Offer framework, sections 01 and 05 (pages 2, 4 and 5); Dream 30 The Long Game Framework, sections 01, 03 and 04 (pages 2 to 6).",
    "note": "Click 1: hunt, offer, Loop 1. SAY: “Claude hunts thirty businesses. Taylor approves one crazy offer. Grok sends ten emails over two weeks.” Click 2: “Then eight quiet weeks. Then ten more emails. Then it closes for good.” Click 3: “Book a call, say stop, or bounce, and you’re out. Everything else, Taylor handles by hand.”"
   },
   {
@@ -183,7 +183,7 @@ window.WW={
     3,
     4
    ],
-   "source": "Dream 30 The Long Game Framework, section 04: “That is 150 businesses and up to 20 emails each.”",
+   "source": "Dream 30 The Long Game Framework, section 04 (pages 3 to 6): “That is 150 businesses and up to 20 emails each.”",
    "note": "One click per number. SAY: “For one industry: a hundred and fifty businesses, in five batches of thirty. Up to twenty emails each. Twenty weeks, start to finish.” Click 4: “And the batches slot together, so there’s always one going out on a Monday.”"
   },
   {
@@ -199,7 +199,7 @@ window.WW={
     0,
     1
    ],
-   "source": "Dream 30 Lead Hunting Framework, cover and section 11.",
+   "source": "Dream 30 Lead Hunting Framework, cover and section 11 (pages 1, 6 and 7).",
    "note": "Click 1. SAY: “Part one: finding the thirty. This is Claude’s job.”"
   },
   {
@@ -221,7 +221,7 @@ window.WW={
     3,
     4
    ],
-   "source": "Dream 30 Lead Hunting Framework, section 01. Quotation word for word.",
+   "source": "Dream 30 Lead Hunting Framework, section 01 (page 2). Quotation word for word.",
    "note": "Click 1: the lesson. Clicks 2 to 4: the numbers. SAY: “Our first dentist hunt needed the owner’s own email published. Seven searches, about five hundred and fifty clinics: one new lead. Yet about one clinic in seven passed every other rule.” Then: “So the floor is now a named decision-maker plus a way to reach them. A direct email is a bonus. It’s no longer a gate.”"
   },
   {
@@ -247,7 +247,7 @@ window.WW={
     5,
     6
    ],
-   "source": "Dream 30 Lead Hunting Framework, section 03. The grey lines are the framework’s dentist examples.",
+   "source": "Dream 30 Lead Hunting Framework, section 03 (page 3). The grey lines are the framework’s dentist examples.",
    "note": "One click per note, then the test. SAY: “Before any research, write the target in five lines. Each one has to be checkable on a public page in two minutes.” Last click: “Then test it on twenty companies. If fewer than five pass, a line is wrong. Most dentists aren’t on Trustpilot, but nearly all have Google reviews.”"
   },
   {
@@ -267,7 +267,7 @@ window.WW={
     2,
     3
    ],
-   "source": "Dream 30 Lead Hunting Framework, cover and sections 02, 04, 08 and 11.",
+   "source": "Dream 30 Lead Hunting Framework, cover and sections 02, 04, 08 and 11 (pages 1, 2, 3, 5, 6 and 7).",
    "note": "Click 1: the long list. SAY: “About a hundred and fifty names gives thirty leads. Start with the registers, because they list every company, not just the loud ones.” Click 2: “Thirty contactable.” Click 3: “And a second pass checks every row live. If it’s not proven, it’s pending. We never pad a batch.”"
   },
   {
@@ -291,7 +291,7 @@ window.WW={
     4,
     5
    ],
-   "source": "Dream 30 Lead Hunting Framework, sections 06 and 07.",
+   "source": "Dream 30 Lead Hunting Framework, sections 06 and 07 (pages 4 to 5).",
    "note": "Click 1: the ladder climbs. SAY: “Take the highest rung that’s published, and record where you found it. The phone ladder works the same way: mobile, direct line, main line.” Clicks 2 to 4: the grades. “B turns into A with one short call: ‘I have something to send Dr Jones. What’s the best email for her?’ That call is Taylor or the team, never an automation.” Click 5: “Never guess an email.”"
   },
   {
@@ -313,7 +313,7 @@ window.WW={
     3,
     4
    ],
-   "source": "Dream 30 Lead Hunting Framework, section 10.",
+   "source": "Dream 30 Lead Hunting Framework, section 10 (pages 5 to 6).",
    "note": "One click per hunt. SAY: “The old rule: five hundred and fifty checked for thirty. The new rule: two hundred and seventy for thirty plus ten reserves, but only one with an email, so the phone calls matter. Family law: thirty checked, twenty-four contactable, eleven grade A.” Last click: “Lawyers publish their emails. Dentists don’t. Plan for it.”"
   },
   {
@@ -355,7 +355,7 @@ window.WW={
     5,
     6
    ],
-   "source": "Dream 30 - Fucking Crazy Offer framework, section 03. Dentist examples as written. The guarantee must be at least 2x the fee.",
+   "source": "Dream 30 - Fucking Crazy Offer framework, section 03 (page 3). Dentist examples as written. The guarantee must be at least 2x the fee.",
    "note": "One click per part. SAY: “Six parts, and the offer isn’t ready until it has all six. A big, measurable outcome in a fixed time. One clear fee. If we miss, every penny back, and they keep everything we made. Free work up front. Scarcity that’s true. And the smallest possible next step: a twenty-minute call.” Point at 01 and 02: “Fifty thousand against twenty-five. The guarantee is always at least twice the fee.”"
   },
   {
@@ -375,7 +375,7 @@ window.WW={
     2,
     3
    ],
-   "source": "Dream 30 - Fucking Crazy Offer framework, section 04: “we have to offer massive value and show them, not tell them.”",
+   "source": "Dream 30 - Fucking Crazy Offer framework, section 04 (pages 3 to 4): “we have to offer massive value and show them, not tell them.”",
    "note": "Click 1: the highlight. SAY: “Massive value before we ask for anything.” Click 2: the two pieces. “A real buyer research report for their niche, and two finished video ads built from it. That shows the method, research first, then the ads.” Click 3: “And it’s useful even if they never reply. That’s why they read the next nine emails.”"
   },
   {
@@ -384,7 +384,7 @@ window.WW={
    "section": "05 / The crazy offer",
    "kind": "d3",
    "parts": [
-    "<div class=\"d3-stage d3-ent-wipe\" data-stops=\"1600,3000,3600\" role=\"img\" aria-label=\"A two-week calendar, Monday to Friday at 08:30. Each day holds one email, its topic and the belief it builds. Email 7, the guarantee, is highlighted.\"><div class=\"s cal\"><div class=\"eb\">Loop 1 · emails 1 to 10</div><div class=\"h\">Ten emails, ten beliefs</div><div class=\"days\"><span></span><span>Mon 08:30</span><span>Tue 08:30</span><span>Wed 08:30</span><span>Thu 08:30</span><span>Fri 08:30</span></div><div class=\"wk\"><i>Week 1</i><div class=\"c\" style=\"--d:200ms\"><em>Email 1</em><b>The offer, plus the free value</b><span>“This is serious”</span></div><div class=\"c\" style=\"--d:480ms\"><em>Email 2</em><b>Why the research is different</b><span>“They actually know my customers.”</span></div><div class=\"c\" style=\"--d:760ms\"><em>Email 3</em><b>Why the creative works</b><span>“Their work would sound like my customers.”</span></div><div class=\"c\" style=\"--d:1040ms\"><em>Email 4</em><b>The mechanism</b><span>“This is the right way to do it now.”</span></div><div class=\"c\" style=\"--d:1320ms\"><em>Email 5</em><b>After the click, plus a tip</b><span>“They’ll help my team convert.”</span></div></div><div class=\"wk\"><i>Week 2</i><div class=\"c\" style=\"--d:1600ms\"><em>Email 6</em><b>Tracking to real revenue</b><span>“I’d see exactly what I’m getting.”</span></div><div class=\"c key\" style=\"--d:1880ms\"><em>Email 7</em><b>The guarantee, plainly</b><span>“The risk is on them.”</span></div><div class=\"c\" style=\"--d:2160ms\"><em>Email 8</em><b>First 30 days, plus scarcity</b><span>“My area might go.”</span></div><div class=\"c\" style=\"--d:2440ms\"><em>Email 9</em><b>“Did you see them?”</b><span>The free work, again</span></div><div class=\"c\" style=\"--d:2720ms\"><em>Email 10</em><b>Last one from me</b><span>A real ending, no fake urgency</span></div></div><div class=\"foot\">Email 1: subject FAO [First name]. Emails 2 to 10 reply in the same thread. Plain text, one sentence per line.</div><div class=\"src\">Fucking Crazy Offer framework, section 05. Beliefs quoted word for word, some shortened.</div></div></div>",
+    "<div class=\"d3-stage d3-ent-wipe\" data-stops=\"1600,3000,3600\" role=\"img\" aria-label=\"A two-week calendar, Monday to Friday at 08:30. Each day holds one email, its topic and the belief it builds. Email 7, the guarantee, is highlighted.\"><div class=\"s cal\"><div class=\"eb\">Loop 1 · emails 1 to 10</div><div class=\"h\">Ten emails, ten beliefs</div><div class=\"days\"><span></span><span>Mon 08:30</span><span>Tue 08:30</span><span>Wed 08:30</span><span>Thu 08:30</span><span>Fri 08:30</span></div><div class=\"wk\"><i>Week 1</i><div class=\"c\" style=\"--d:200ms\"><em>Email 1</em><b>The offer, plus the free value</b><span>“This is serious”</span></div><div class=\"c\" style=\"--d:480ms\"><em>Email 2</em><b>Why the research is different</b><span>“They actually know my customers.”</span></div><div class=\"c\" style=\"--d:760ms\"><em>Email 3</em><b>Why the creative works</b><span>“Their work would sound like my customers.”</span></div><div class=\"c\" style=\"--d:1040ms\"><em>Email 4</em><b>The mechanism</b><span>“This is the right way to do it now.”</span></div><div class=\"c\" style=\"--d:1320ms\"><em>Email 5</em><b>After the click, plus a tip</b><span>“They'll help my team convert.”</span></div></div><div class=\"wk\"><i>Week 2</i><div class=\"c\" style=\"--d:1600ms\"><em>Email 6</em><b>Tracking to real revenue</b><span>“I'd see exactly what I'm getting.”</span></div><div class=\"c key\" style=\"--d:1880ms\"><em>Email 7</em><b>The guarantee, plainly</b><span>“The risk is on them.”</span></div><div class=\"c\" style=\"--d:2160ms\"><em>Email 8</em><b>First 30 days, plus scarcity</b><span>“I can picture it, and my area might go.”</span></div><div class=\"c\" style=\"--d:2440ms\"><em>Email 9</em><b>“Did you see them?”</b><span>The free work, again</span></div><div class=\"c\" style=\"--d:2720ms\"><em>Email 10</em><b>Last one from me</b><span>A real ending, no fake urgency</span></div></div><div class=\"foot\">Email 1: subject FAO [First name]. Emails 2 to 10 reply in the same thread. Plain text, one sentence per line.</div><div class=\"src\">Fucking Crazy Offer framework, section 05. Beliefs quoted word for word, some shortened to their opening words.</div></div></div>",
     "<span class=\"d3-step\">Reveal 1</span>",
     "<span class=\"d3-step\">Reveal 2</span>",
     "<span class=\"d3-step\">Reveal 3</span>"
@@ -395,7 +395,7 @@ window.WW={
     2,
     3
    ],
-   "source": "Dream 30 - Fucking Crazy Offer framework, section 05. Beliefs are quoted, some shortened to their opening words. Emails 9 and 10 have no belief line in the framework, so their job is shown instead.",
+   "source": "Dream 30 - Fucking Crazy Offer framework, section 05 (pages 4 to 5). Beliefs are quoted, some shortened to their opening words. Emails 9 and 10 have no belief line in the framework, so their job is shown instead.",
    "note": "Click 1: week one. SAY: “Ten emails, one every weekday at half eight. Each builds one belief, in the order a sceptical owner needs them.” Click 2: week two. “So by email 7, the guarantee lands on someone who already trusts the research, the creative and the method.” Click 3: “Same thread every time, plain text. It reads like a person, because a person wrote every word.”"
   },
   {
@@ -404,7 +404,7 @@ window.WW={
    "section": "05 / The crazy offer",
    "kind": "d3",
    "parts": [
-    "<div class=\"d3-stage d3-ent-wipe\" data-stops=\"660,1040,1420,1800,1980\" role=\"img\" aria-label=\"A plain-text email window, Re: FAO First name. Lines arrive marked F, E, D, D, then the ask for a 20-minute call. Beside it: Flatter, Expertise, Dominate, Duration.\"><div class=\"s eml\"><div><div class=\"eb\">When someone replies · FEDD</div><div class=\"win\"><div class=\"bar\"><span>Re: FAO [First name]</span><span>Taylor</span></div><div class=\"body\"><p style=\"--d:200ms\"><i>F</i><span>I really like the look of [Practice name]. I’ve been admiring what you’ve built from afar.</span></p><p style=\"--d:580ms\"><i>E</i><span>So you know who you’re talking to: I have a decade of experience scaling companies online using paid media.</span></p><p style=\"--d:960ms\"><i>D</i><span>I want to help you dominate implant dentistry in [Area] and bring you the highest-quality patients, so you take market share and become known as the best at what you do.</span></p><p style=\"--d:1340ms\"><i>D</i><span>I’m not looking to work with a practice for one to three months. I’m looking for a long-term relationship where we really grow your business together.</span></p><p style=\"--d:1720ms\"><i>→</i><span>Would Tuesday at 10:00 or Wednesday at 14:00 work for a 20-minute call?</span></p></div></div></div><div class=\"side\"><div style=\"--d:400ms\"><b>Flatter</b>Something true and specific</div><div style=\"--d:780ms\"><b>Expertise</b>Once, as fact</div><div style=\"--d:1160ms\"><b>Dominate</b>In their buyers’ language</div><div style=\"--d:1540ms\"><b>Duration</b>A partner, not a sale</div></div><div class=\"src\">Fucking Crazy Offer framework, section 12: its illustrative dentist reply, word for word, greeting and sign-off left out.</div></div></div>",
+    "<div class=\"d3-stage d3-ent-wipe\" data-stops=\"660,1040,1420,1800,1980\" role=\"img\" aria-label=\"A plain-text email window, Re: FAO First name. Lines arrive marked F, E, D, D, then the ask for a 20-minute call. Beside it: Flatter, Expertise, Dominate, Duration.\"><div class=\"s eml\"><div><div class=\"eb\">When someone replies · FEDD</div><div class=\"win\"><div class=\"bar\"><span>Re: FAO [First name]</span><span>Taylor</span></div><div class=\"body\"><p style=\"--d:200ms\"><i>F</i><span>I really like the look of [Business name]. I've been admiring what you've built from afar.</span></p><p style=\"--d:580ms\"><i>E</i><span>So you know who you're talking to: I have a decade of experience scaling companies online using paid media.</span></p><p style=\"--d:960ms\"><i>D</i><span>I want to help you dominate implant dentistry in [Area] and bring you the highest-quality patients, so you take market share and become known as the best at what you do.</span></p><p style=\"--d:1340ms\"><i>D</i><span>I'm not looking to work with someone for one to three months. I'm looking for a long-term relationship where we really grow your business together.</span></p><p style=\"--d:1720ms\"><i>→</i><span>Would Tuesday at 10:00 or Wednesday at 14:00 work for a 20-minute call?</span></p></div></div></div><div class=\"side\"><div style=\"--d:400ms\"><b>Flatter</b>Something true and specific</div><div style=\"--d:780ms\"><b>Expertise</b>Once, as fact</div><div style=\"--d:1160ms\"><b>Dominate</b>In their buyers’ language</div><div style=\"--d:1540ms\"><b>Duration</b>A partner, not a sale</div></div><div class=\"src\">Fucking Crazy Offer framework, section 12: its illustrative dentist reply, word for word, greeting and sign-off left out.</div></div></div>",
     "<span class=\"d3-step\">Reveal 1</span>",
     "<span class=\"d3-step\">Reveal 2</span>",
     "<span class=\"d3-step\">Reveal 3</span>",
@@ -419,7 +419,7 @@ window.WW={
     4,
     5
    ],
-   "source": "Dream 30 - Fucking Crazy Offer framework, section 12. The framework’s own illustrative dentist reply, quoted word for word; the greeting, the thank-you line, one sentence of the Dominate move and the sign-off are left out.",
+   "source": "Dream 30 - Fucking Crazy Offer framework, section 12 (pages 8 to 9). The framework’s own illustrative dentist reply, quoted word for word; the greeting, the thank-you line, one sentence of the Dominate move and the sign-off are left out.",
    "note": "One click per move. SAY: “When someone replies, Taylor writes back personally, inside two working hours, in four moves. Flatter, with something true. Expertise, once, as fact. Dominate, in their buyers’ own language. Duration: this is a partnership, not a quick job.” Last click: “Then one next step, with two times, so yes is one word.” This example is illustrative."
   },
   {
@@ -439,7 +439,7 @@ window.WW={
     2,
     3
    ],
-   "source": "Dream 30 - Fucking Crazy Offer framework, section 09. Quoted word for word.",
+   "source": "Dream 30 - Fucking Crazy Offer framework, section 09 (page 7). Quoted word for word.",
    "note": "Click 1: the note slaps on. Click 2: the highlight. SAY: “Here’s the mistake we made. The automations were only set up, never proven, and the first eight o’clock send was missed.” Click 3: “So now, nothing counts as ready until a rehearsal has sent a real email through the real system, with nobody clicking anything.”"
   },
   {
@@ -455,7 +455,7 @@ window.WW={
     0,
     1
    ],
-   "source": "Dream 30 Lead Hunting Framework, section 12.",
+   "source": "Dream 30 Lead Hunting Framework, section 12 (pages 7 to 8).",
    "note": "Click 1. SAY: “Part three: how the automations are set up. Three players, and each one has a lane.”"
   },
   {
@@ -479,7 +479,7 @@ window.WW={
     4,
     5
    ],
-   "source": "Dream 30 Lead Hunting Framework, section 12. Folder: Claude to Grok Notes/Dream 30 - Dentist Leads/. Taylor’s replies: Dream 30 - Fucking Crazy Offer framework, section 12.",
+   "source": "Dream 30 Lead Hunting Framework, section 12 (pages 7 to 8). Folder: Claude to Grok Notes/Dream 30 - Dentist Leads/. Taylor’s replies: Dream 30 - Fucking Crazy Offer framework, section 12 (pages 8 to 9).",
    "note": "One click per player. SAY: “Claude finds the leads and writes the files. Grok sends the emails and writes a receipt. Taylor approves and makes the calls.” Click 4: the folder. “They meet in one folder in GitHub, and nowhere else. One writer per file.” Click 5: “That’s what stops two machines treading on each other.”"
   },
   {
@@ -501,7 +501,7 @@ window.WW={
     3,
     4
    ],
-   "source": "Dream 30 Lead Hunting Framework, section 12. The note is illustrative: its status lines, file names and timings are from the framework.",
+   "source": "Dream 30 Lead Hunting Framework, section 12 (pages 7 to 8). The note is illustrative: its status lines, file names and timings are from the framework.",
    "note": "Click 1: the note. SAY: “On the lock Friday, Claude writes the ready list and sets the note to READY. The list doesn’t change after that.” Click 2: “Taylor approves, and the note says so, with the date.” Click 3: “Grok sends only when it sees both.” Click 4: “And if there’s no receipt from Grok by nine on Monday, Claude tells Taylor that day.”"
   },
   {
@@ -527,7 +527,7 @@ window.WW={
     5,
     6
    ],
-   "source": "Dream 30 Lead Hunting Framework, section 12, “What stops it breaking down”. Rules shortened.",
+   "source": "Dream 30 Lead Hunting Framework, section 12 (pages 7 to 8), “What stops it breaking down”. Rules shortened.",
    "note": "One click per row. SAY each failure, then its rule. End on the last one: “Something looks wrong? Stop, and write it in the note. Nobody works round it.”"
   },
   {
@@ -565,7 +565,7 @@ window.WW={
     3,
     4
    ],
-   "source": "Dream 30 The Long Game Framework, cover and section 01. Quotation word for word.",
+   "source": "Dream 30 The Long Game Framework, cover and section 01 (pages 1 to 2). Quotation word for word.",
    "note": "Click 1: the rule. SAY: “The Long Game is a second loop of ten, for everyone who got all of Loop 1 and didn’t book, stop or bounce.” Clicks 2 to 4: “Eight quiet weeks. Ten new emails. And no attachments: they already have the free work. Every email gives something they can use that day, right in the email.” Then: “Most owners were busy, not uninterested. Eight weeks later is a different month.”"
   },
   {
@@ -587,7 +587,7 @@ window.WW={
     3,
     4
    ],
-   "source": "Dream 30 The Long Game Framework, section 05, the 20-email map, word for word.",
+   "source": "Dream 30 The Long Game Framework, section 05 (pages 6 to 9), the 20-email map, word for word.",
    "note": "Click 1: pairs 1 to 3. SAY: “Every Long Game email pairs with one from Loop 1 and takes its job a step further.” Click 2: “Email 14: three things to stop doing. Email 15: a ten-minute self-test, like enquiring at your own practice and timing the reply. Email 17: hard questions to ask any provider, including us.” Click 3: “And email 20 is a real goodbye.” Click 4: “Loop 1 said what we would do. The Long Game hands them a piece of it.”"
   },
   {
@@ -609,7 +609,7 @@ window.WW={
     3,
     4
    ],
-   "source": "Dream 30 The Long Game Framework, section 04, “One batch, week by week”.",
+   "source": "Dream 30 The Long Game Framework, section 04 (pages 3 to 6), “One batch, week by week”.",
    "note": "Click 1: Loop 1 and the result file. SAY: “Grok sends Loop 1, then saves a result file: who finished, who replied, who booked.” Click 2: “Eight quiet weeks. Grok still checks replies.” Click 3: “Friday of week ten, Claude builds the list, Taylor approves. Week eleven, email eleven goes out in the same thread.” Click 4: “After email twenty: closed. There is no third loop.”"
   },
   {
@@ -629,7 +629,7 @@ window.WW={
     2,
     3
    ],
-   "source": "Dream 30 The Long Game Framework, section 03. A reply alone does not stop either loop (Taylor’s reply rule of 12 November 2026); only booking, asking to stop or a bounce ends it.",
+   "source": "Dream 30 The Long Game Framework, section 03 (page 3). A reply alone does not stop either loop (Taylor’s reply rule of 12 November 2026); only booking, asking to stop or a bounce ends it.",
    "note": "Click 1: the first three checks. Click 2: the next three. SAY: “Everyone who got all ten, didn’t bounce and isn’t on the stop list. And Claude re-reads every business’s own page at the lock, because a lot can change in eight weeks.” Click 3: “Never in: anyone who booked, said stop, bounced, or said not now to email ten.” Note: Taylor’s rule of 12 November is that a reply on its own doesn’t stop the sequence."
   },
   {
@@ -649,7 +649,7 @@ window.WW={
     2,
     3
    ],
-   "source": "Dream 30 Lead Hunting Framework, section 12 (where it stood on 12 November 2026); Dream 30 The Long Game Framework, section 12.",
+   "source": "Dream 30 Lead Hunting Framework, section 12 (pages 7 to 8, where it stood on 12 November 2026); Dream 30 The Long Game Framework, section 12 (pages 14 to 16).",
    "note": "Click 1: the batches. SAY: “Here’s where it really stands.” Click 2: the zero. Click 3: the stamp. “The link to Grok counts as working when the first receipt appears in the repo. It hasn’t yet. I’ll show you when it does.”"
   },
   {
@@ -671,7 +671,7 @@ window.WW={
     3,
     4
    ],
-   "source": "Dream 30 - Fucking Crazy Offer framework, section 13; Dream 30 The Long Game Framework, section 10. These are targets to be tested, not results.",
+   "source": "Dream 30 - Fucking Crazy Offer framework, section 13 (pages 9 to 10); Dream 30 The Long Game Framework, section 10 (page 14). These are targets to be tested, not results.",
    "note": "One click per target. SAY: “These are targets, not results. Under five percent bounce. At least three positive replies from thirty. At least one call booked.” Click 4: “And the Long Game has one question to answer: how many calls came from emails eleven to twenty that Loop 1 didn’t get?”"
   },
   {
@@ -693,7 +693,7 @@ window.WW={
     3,
     4
    ],
-   "source": "Dream 30 - Fucking Crazy Offer framework, section 02; Dream 30 Lead Hunting Framework, section 12; Dream 30 The Long Game Framework, section 01.",
+   "source": "Dream 30 - Fucking Crazy Offer framework, section 02 (pages 2 to 3); Dream 30 Lead Hunting Framework, section 12 (pages 7 to 8); Dream 30 The Long Game Framework, section 01 (page 2).",
    "note": "Two ticks per click. SAY: “So why is Dream 30 better? Every business gets work made for them. Every email is specific. Every reply gets Taylor. The scarcity is real. The machines do the sending. And it ends.” Last click: “Pick your thirty. Then make them an offer they can’t ignore.”"
   },
   {
