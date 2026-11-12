@@ -447,8 +447,10 @@
     const plain = () => { const {permission_mode, ...rest} = args; return call(rest); };
     if (!args.permission_mode) return call(args);
     let r;
-    try { r = await call(args); } catch (e) { if (refused(e?.message || e?.code || e)) return plain(); throw e; }
-    if (r && (r.isError || r.error) && refused(r)) return plain();
+    // Any failure with Auto requested is retried once without it: a start from the page itself can be refused Auto
+    // (seen 12 November 2026 as upstream_error), and a session that starts is better than none.
+    try { r = await call(args); } catch (e) { void refused; return plain(); }
+    if (r && (r.isError || r.error)) return plain();
     return r;
   }
   window.WWStore = {connect, db: () => db, posting:postingApi, connections:connectionsApi, startSession, createSession};
