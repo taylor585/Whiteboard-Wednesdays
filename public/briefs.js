@@ -39,16 +39,28 @@
       + (ACTIVE.includes(b.status) && b.session?.url ? ' <a class="br-link" href="' + esc(b.session.url) + '" target="_blank" rel="noopener">Open the session</a>' : '') + '</div>'
       + '<div class="br-row-act">' + (open ? '<a class="br-go" href="#/briefs/' + encodeURIComponent(id) + '">Open brief</a>' : b.status === 'failed' ? '<a class="br-quiet" href="#/talking-points">Try again on Talking points</a>' : '') + '</div></li>';
   }
+  // Every topic on Talking points (shortlisted, or booked and not posted) shows here too, even before it has a brief
+  // (Taylor, 12 November 2026: "It should be added to the briefs"), latest recording first, with Create brief.
+  function waitingRow(t) {
+    const id = esc(t.id), problem = T.problem?.(t.id), busy = T.busy?.(t.id);
+    return '<li class="br-row">'
+      + '<div class="br-when">' + (t.recordDate ? '<span class="br-dow">Records ' + esc(fmt(t.recordDate, { weekday: 'short' })) + '</span><b>' + esc(fmt(t.recordDate, { day: 'numeric', month: 'short' })) + '</b>' : '<span class="br-dow">Not booked</span><b>Shortlist</b>') + '</div>'
+      + '<div class="br-row-body"><h3>' + esc(t.title) + '</h3>' + (problem ? '<span class="br-state is-warn">' + esc(problem) + '</span>' : busy ? '<span class="br-state is-run">Starting</span>' : '<span class="br-state">No brief yet</span>') + '</div>'
+      + '<div class="br-row-act"><button type="button" class="br-go" data-act="create" data-id="' + id + '"' + (busy ? ' disabled' : '') + '>' + (problem ? 'Try again' : 'Create brief') + '</button></div></li>';
+  }
   function list() {
     const all = [...T.briefMap().values()];
+    const L = T.lists ? T.lists() : { booked: [], short: [] }, have = T.briefMap();
+    const waiting = [...L.booked, ...L.short].filter(t => !have.has(t.id));
     const byDay = (a, b) => String(recordDay(b) || '').localeCompare(String(recordDay(a) || '')) || String(b.updatedAt).localeCompare(String(a.updatedAt));
     const ready = all.filter(b => b.status === 'ready').sort(byDay), rest = all.filter(b => b.status !== 'ready').sort(byDay);
     let h = head();
     if (!window.WWIdeas?.data) h += '<p class="br-empty" role="status">Loading your briefs…</p>';
-    else if (!all.length) h += '<div class="br-blank"><p><b>No briefs yet.</b></p><p>Press Create outline on <a href="#/talking-points">Talking points</a> and the brief appears here when Claude has written it.</p></div>';
+    else if (!all.length && !waiting.length) h += '<div class="br-blank"><p><b>No briefs yet.</b></p><p>Press Create outline on <a href="#/talking-points">Talking points</a> and the brief appears here when Claude has written it.</p></div>';
     else {
       h += '<section class="br-group" aria-labelledby="br-g-ready"><h2 id="br-g-ready">Ready to record <span class="br-count">' + String(ready.length).padStart(2, '0') + '</span></h2>'
         + (ready.length ? '<ol class="br-rows">' + ready.map(listRow).join('') + '</ol>' : '<p class="br-empty">None ready yet.</p>') + '</section>';
+      if (waiting.length) h += '<section class="br-group" aria-labelledby="br-g-wait"><h2 id="br-g-wait">No brief yet <span class="br-count">' + String(waiting.length).padStart(2, '0') + '</span></h2><ol class="br-rows">' + waiting.map(waitingRow).join('') + '</ol></section>';
       if (rest.length) h += '<section class="br-group" aria-labelledby="br-g-work"><h2 id="br-g-work">In progress <span class="br-count">' + String(rest.length).padStart(2, '0') + '</span></h2><ol class="br-rows">' + rest.map(listRow).join('') + '</ol></section>';
     }
     return h;
@@ -129,6 +141,7 @@
     if (!b) return;
     if (b.dataset.act === 'record') recording(!document.body.classList.contains('br-recording'));
     else if (b.dataset.act === 'print') window.print();
+    else if (b.dataset.act === 'create' && b.dataset.id) { const p = T.create(b.dataset.id); render(); await p; render(); }
     else if (b.dataset.act === 'deck') deck();
     else if (b.dataset.act === 'copy') {
       if (!await T.copyText('Build deck from brief ' + current)) { deckError = 'copy was blocked by the browser. Select the line and copy it instead.'; render(); return; }

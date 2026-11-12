@@ -122,7 +122,7 @@ function serverUp() { return new Promise(r => { http.get(BASE + 'index.html', re
       // Navigation order
       await at('#/talking-points', '#talking-points .tk-row');
       const nav = await page.$$eval('.app-nav a', as => as.map(a => a.textContent.trim()));
-      check(JSON.stringify(nav) === JSON.stringify(['Presentations', 'Vault', 'Creator watchlist', 'Topics', 'Talking points', 'Briefs', 'Schedule', 'Publish']), W + 'nav order ' + nav.join(' · '));
+      check(JSON.stringify(nav) === JSON.stringify(['Presentations', 'Vault', 'Creator watchlist', 'Topics', 'Briefs', 'Talking points', 'Schedule', 'Publish']), W + 'nav order ' + nav.join(' · '));
       check(await page.getAttribute('#nav-talking', 'aria-current') === 'page', W + 'Talking points tab is current');
       const navFits = await page.evaluate(() => { const n = document.querySelector('.app-nav'); return n.scrollWidth <= n.clientWidth + 1 || getComputedStyle(n).overflowX === 'auto'; });
       check(navFits, W + 'nav fits or scrolls inside itself');
@@ -174,7 +174,8 @@ function serverUp() { return new Promise(r => { http.get(BASE + 'index.html', re
       // The list of briefs
       await at('#/briefs', '#briefs .br-row');
       const groups = await page.$$eval('#briefs .br-group h2', h => h.map(x => x.textContent.trim()));
-      check(groups.length === 2 && /Ready to record/.test(groups[0]) && /In progress/.test(groups[1]), W + 'briefs list groups ' + groups.join(' | '));
+      check(groups.length === 3 && /Ready to record/.test(groups[0]) && /No brief yet 02/.test(groups[1]) && /In progress/.test(groups[2]), W + 'briefs list groups ' + groups.join(' | '));
+      check(await page.locator('#briefs [data-act=create]').count() === 2, W + 'topics without a brief offer Create brief');
       check(await page.$$eval('#briefs .br-group', g => g[0].querySelectorAll('.br-row').length) === 1, W + 'one ready brief listed');
       await noScroll('briefs list');
       if (SHOTS && width === 1280) require('fs').writeFileSync(path.join(SHOTS, 'briefs-list.txt'), await page.innerText('#briefs'));
