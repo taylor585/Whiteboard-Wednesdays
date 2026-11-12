@@ -394,7 +394,7 @@
     try { mcp = await window.claude?.use?.('mcp'); } catch (e) { throw sessionError(e); }
     if (!mcp || typeof mcp.callTool !== 'function') throw sessionError({code:'unavailable'});
     let r;
-    try { r = await mcp.callTool('Claude Code Remote', 'create_session', {model:'claude-opus-5-5', environment_id:SESSION_ENV, source_url:SESSION_REPO, title:String(title).slice(0, 200), prompt}); }
+    try { r = await createSession(mcp, {model:'claude-opus-5-5', permission_mode:'auto', environment_id:SESSION_ENV, source_url:SESSION_REPO, title:String(title).slice(0, 200), prompt}); }
     catch (e) { throw sessionError(e); }
     const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
     return {id:sid, url:sid ? 'https://claude.ai/code/'+sid : null};
@@ -439,5 +439,17 @@
   }
   const api = {call, get topics() { return sorted(); }, watchDoc, reloadUploads: async ({fresh} = {}) => { if (fresh) await freshUploads(); else await loadUploads(); window.dispatchEvent(new CustomEvent('ww:store')); }};
   // Settings and Publish keep their own documents in the same database.
-  window.WWStore = {connect, db: () => db, posting:postingApi, connections:connectionsApi, startSession};
+  // Sessions the app starts ask for Auto, so their database saves never wait on a permission prompt (12 November 2026).
+  // If the connector refuses Auto, the same session is started again without it rather than not at all.
+  async function createSession(mcp, args) {
+    const call = a => mcp.callTool('Claude Code Remote', 'create_session', a);
+    const refused = x => /permission_mode|auto mode/i.test(typeof x === 'string' ? x : (() => { try { return JSON.stringify(x) || ''; } catch { return ''; } })());
+    const plain = () => { const {permission_mode, ...rest} = args; return call(rest); };
+    if (!args.permission_mode) return call(args);
+    let r;
+    try { r = await call(args); } catch (e) { if (refused(e?.message || e?.code || e)) return plain(); throw e; }
+    if (r && (r.isError || r.error) && refused(r)) return plain();
+    return r;
+  }
+  window.WWStore = {connect, db: () => db, posting:postingApi, connections:connectionsApi, startSession, createSession};
 })();

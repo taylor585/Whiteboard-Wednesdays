@@ -213,7 +213,7 @@
     try {
       const mcp = await window.claude?.use?.('mcp');
       if (!mcp) throw {code:'unavailable'};
-      const r = await mcp.callTool('Claude Code Remote', 'create_session', {model:'claude-opus-5-5', environment_id:ENV, source_url:REPO, title:sessionTitle(step, j, extra), prompt:sessionPrompt(step, j, line)});
+      const r = await (window.WWStore?.createSession || ((m, a) => m.callTool('Claude Code Remote', 'create_session', a)))(mcp, {model:'claude-opus-5-5', permission_mode:'auto', environment_id:ENV, source_url:REPO, title:sessionTitle(step, j, extra), prompt:sessionPrompt(step, j, line)});
       const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       starting = null;
       await save({session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, requestedAt, startedAt:new Date().toISOString()},

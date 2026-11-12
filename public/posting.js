@@ -173,7 +173,7 @@
     const requestedAt = now();
     try {
       const mcp = await window.claude?.use?.('mcp'); if (!mcp) throw {code:'unavailable'};
-      const r = await mcp.callTool('Claude Code Remote', 'create_session', {model:'claude-opus-5-5', environment_id:ENV, source_url:REPO, title:'Post: '+(j.title || j.id), prompt:prompt(j)});
+      const r = await (window.WWStore?.createSession || ((m, a) => m.callTool('Claude Code Remote', 'create_session', a)))(mcp, {model:'claude-opus-5-5', permission_mode:'auto', environment_id:ENV, source_url:REPO, title:'Post: '+(j.title || j.id), prompt:prompt(j)});
       const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       starting = null;
       await save(j, {postingRun:{line:line(j), sessionId:sid, url:sid ? 'https://claude.ai/code/'+sid : null, requestedAt, startedAt:now(), endedAt:null, by:'taylor'}});
