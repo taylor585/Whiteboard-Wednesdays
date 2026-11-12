@@ -272,6 +272,9 @@ test('Sessions the app starts ask for Auto, and start without it if Auto is refu
   assert.equal(calls[0].permission_mode, 'auto');
   assert.equal(calls[1].permission_mode, undefined);
   assert.equal(scan.started, true); assert.equal(docs.get('scans/'+scan.id).session.id, 'session_plain');
+  const odd = []; const up = await storeWithUpload({callTool: async (s, t, input) => { odd.push(input); if (input.permission_mode) throw {code:'upstream_error'}; return {payload:{session_id:'session_up'}}; }});
+  const scan2 = await up.api.call('/refresh', {});
+  assert.equal(odd.length, 2); assert.equal(odd[1].permission_mode, undefined); assert.equal(scan2.started, true);
   const other = await storeWithUpload({callTool: async () => { throw {code:'not_granted'}; }});
   const r = await other.api.call('/refresh', {});
   assert.equal(r.started, false); assert.match(r.why, /did not allow/);
