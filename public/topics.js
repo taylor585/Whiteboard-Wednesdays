@@ -100,10 +100,103 @@
     if (current && !slots.some(d => iso(d) === current)) slots.unshift(parse(current));
     return '<option value="">Not scheduled</option>'+slots.sort((a,b) => a-b).map(d => { const holder = byDate(d), mine = iso(d) === current; return '<option value="'+iso(d)+'"'+(mine ? ' selected' : '')+'>'+fmt(d,{weekday:'long',day:'numeric',month:'short'})+(holder && !mine ? ' · swap with “'+esc(holder.title.length > 28 ? holder.title.slice(0,27)+'…' : holder.title)+'”' : '')+'</option>'; }).join('');
   }
+  // "Not scheduled yet" (Taylor's pick B "Next free slot", 11 November 2026). A slim ruled ticket states the next free
+  // recording day, the editing gap and the posting day; each waiting topic has one ink button naming its own day. The
+  // days are handed out in order (WWStore.posting.nextFreeSlot, the "next available slot" rule), so no two buttons name
+  // the same day, and they are worked out again on every render. "Pick another day" opens a short list in place; taken
+  // days offer a swap, which goes through the Swap prompt in mutate(). A booking leaves "Booked for … · Undo" in the
+  // row until the next week or route change.
+  let openFor = null, seat = new Map(); const confirmed = new Map();
+  const short = d => fmt(d, {weekday:'short', day:'numeric', month:'short'});
+  const meta = t => label(t.status)+' · '+t.sources.length+' source'+(t.sources.length === 1 ? '' : 's')+(t.points.length ? ' · '+t.points.length+' subtopic'+(t.points.length === 1 ? '' : 's') : '');
+  const trim = s => s.length > 34 ? s.slice(0, 33)+'…' : s;
+  // Each waiting topic's day, in list order: the first takes the next free slot, the next the one after, and so on.
+  // Its posting day assumes the earlier ones are booked too (the order the buttons invite).
+  function offers(list) {
+    const p = posting(), s = p.settings, held = [...topics()], out = new Map(), from = iso(today());
+    for (const t of list) {
+      const day = p.nextFreeSlot(held, from); if (!day) continue;
+      const post = p.slot(held, s, day); held.push({id:'\u0000'+t.id, recordDate:day, postDate:null, createdAt:'￿'});
+      out.set(t.id, {day, post});
+    }
+    return out;
+  }
+  // The picker: recording days from today until six free ones (the row's own offer left out), with any taken days
+  // between them as swaps, ten lines at most.
+  function choices(t, own) {
+    const p = posting(), s = p.settings, out = []; let free = 0;
+    for (let d = today(), i = 0; free < 6 && out.length < 10 && i < 120; d = add(d, 1), i++) {
+      const day = iso(d); if (!recDay(d) || day === own) continue;
+      const holder = byDate(d);
+      out.push({day, post:p.slot(topics(), s, day), holder}); if (!holder) free++;
+    }
+    return out;
+  }
+  function picker(t, own) {
+    let week = '';
+    return '<div class="tp-picker" id="tp-picker-'+esc(t.id)+'" role="group" aria-label="Pick a recording day for '+esc(t.title)+'"'+M.attr('tp-pick:'+t.id, 'in')+'>'+
+      '<div class="tp-picker-head"><b>Pick a recording day</b><span class="micro">'+esc(posting().RECORD_DAYS.map(k => k.toUpperCase()).join(' · '))+'</span></div><ul class="tp-picker-list">'+
+      choices(t, own).map(c => { const d = parse(c.day), w = iso(monday(d)), head = w !== week ? '<li class="tp-picker-wk micro">Week of '+fmt(monday(d), {day:'numeric', month:'short'})+'</li>' : ''; week = w;
+        return head+'<li><button type="button" class="tp-opt'+(c.holder ? ' is-taken' : '')+'" data-pick-day="'+c.day+'" data-topic="'+esc(t.id)+'"><b>'+short(d)+'</b><span class="tp-opt-post">posts '+short(parse(c.post))+'</span><span class="tp-opt-state">'+(c.holder ? 'Swap with “'+esc(trim(c.holder.title))+'”' : 'Free')+'</span></button></li>'; }).join('')+
+      '</ul><button type="button" class="tp-quiet tp-picker-close" data-pick-close="'+esc(t.id)+'">Cancel</button></div>';
+  }
   function unscheduled() {
-    const list = topics().filter(t => !t.recordDate && t.status !== 'posted');
-    $('#tp-unscheduled').innerHTML = list.length ? list.map(t => '<article class="tp-card'+(selected === t.id ? ' is-selected' : '')+'"><button type="button" class="tp-card-open" data-select="'+esc(t.id)+'"><span class="tp-card-title">'+esc(t.title)+'</span><span class="tp-card-meta">'+label(t.status)+' · '+t.sources.length+' source'+(t.sources.length === 1 ? '' : 's')+(t.points.length ? ' · '+t.points.length+' subtopic'+(t.points.length === 1 ? '' : 's') : '')+'</span></button><label class="tp-card-schedule"><span>Schedule for</span><select data-schedule="'+esc(t.id)+'"'+(ready() ? '' : ' disabled')+'>'+slotOptions(null).replace('Not scheduled','Choose a day…')+'</select></label></article>').join('')
+    const box = $('#tp-unscheduled'), focus = box.contains(document.activeElement) ? document.activeElement.id : null;
+    // A booking shows its confirmation on the first render that has the new day (and settles in once, then never again).
+    for (const [id, c] of confirmed) {
+      const t = topics().find(x => x.id === id), on = t && t.recordDate === c.day;
+      if (c.pending && on) { c.pending = false; M.stamp('tp-conf:'+id); } else if (!c.pending && !on) confirmed.delete(id); else if (!t) confirmed.delete(id);
+    }
+    const shown = id => confirmed.has(id) && !confirmed.get(id).pending;
+    const waiting = topics().filter(t => !t.recordDate && t.status !== 'posted');
+    // A booked row keeps the place it had, so the list does not jump under the pointer.
+    const rows = waiting.slice();
+    topics().filter(t => shown(t.id)).sort((a, b) => (seat.get(a.id) ?? 1e9) - (seat.get(b.id) ?? 1e9)).forEach(t => rows.splice(Math.min(seat.get(t.id) ?? rows.length, rows.length), 0, t));
+    seat = new Map(rows.map((t, i) => [t.id, i]));
+    if (openFor && !waiting.some(t => t.id === openFor)) openFor = null;
+    const give = offers(waiting), first = give.values().next().value, off = ready() ? '' : ' disabled';
+    const days = o => Math.round((parse(o.post) - parse(o.day)) / 864e5);
+    const ticket = first ? '<p class="tp-next"><span class="micro tp-next-label">Next free<span class="tp-next-slot"> slot</span></span><b class="tp-next-day">'+short(parse(first.day))+'</b>'+
+      '<span class="tp-ruler" aria-hidden="true"><span class="tp-ruler-gap">'+days(first)+'-day editing gap</span><span class="tp-ruler-line">'+'<i></i>'.repeat(days(first)+1)+'</span></span>'+
+      '<span class="tp-next-arrow" aria-hidden="true">→</span><span class="tp-next-post">posts <b>'+short(parse(first.post))+'</b></span></p>' : '';
+    box.innerHTML = rows.length ? ticket+'<div class="tp-rows">'+rows.map(t => {
+      const head = '<button type="button" class="tp-card-open" data-select="'+esc(t.id)+'"><span class="tp-card-title">'+esc(t.title)+'</span><span class="tp-card-meta">'+meta(t)+'</span></button>';
+      const c = shown(t.id) && confirmed.get(t.id), post = c && posting().dates(topics()).get(t.id);
+      if (c) return '<article class="tp-card tp-card-done'+(selected === t.id ? ' is-selected' : '')+'">'+head+'<p class="tp-booked"'+M.attr('tp-conf:'+t.id, 'in')+'><span class="tp-booked-mark" aria-hidden="true">◆</span><span>Booked for <b>'+short(parse(c.day))+'</b> · posts <b>'+short(parse(post))+'</b>'+(c.swapped ? ' · swapped with “'+esc(trim(c.swapped.title))+'”' : '')+'</span><button type="button" class="tp-quiet" id="tp-undo-'+esc(t.id)+'" data-undo="'+esc(t.id)+'">Undo</button></p></article>';
+      const o = give.get(t.id), open = openFor === t.id;
+      return '<article class="tp-card'+(selected === t.id ? ' is-selected' : '')+(open ? ' is-open' : '')+'">'+head+
+        (o ? '<div class="tp-card-act"><button type="button" class="tp-dark tp-book" id="tp-book-'+esc(t.id)+'" data-book-slot="'+esc(t.id)+'" data-day="'+o.day+'"'+off+'>Book '+short(parse(o.day))+'</button>'+
+          '<div class="tp-card-under"><span class="tp-card-post">posts '+short(parse(o.post))+'</span><button type="button" class="tp-quiet" id="tp-other-'+esc(t.id)+'" data-other="'+esc(t.id)+'" aria-expanded="'+open+'" aria-controls="tp-picker-'+esc(t.id)+'"'+off+'>Pick another day</button></div></div>' : '')+
+        (open ? picker(t, o && o.day) : '')+'</article>';
+    }).join('')+'</div>'
       : '<p class="tp-empty">'+(ready() ? 'Nothing waiting. Save videos from the Creator watchlist with “Save as topic”, or add a new topic.' : 'Topics are saved on the app’s server, so they appear on the live site rather than in this preview.')+'</p>';
+    const land = [...confirmed].find(([, c]) => c.focus && !c.pending);
+    if (land) { land[1].focus = false; document.getElementById('tp-undo-'+land[0])?.focus(); }
+    else if (focus) document.getElementById(focus)?.focus();
+  }
+  async function bookRow(id, day) {
+    const t = topics().find(x => x.id === id); if (!t || !ready()) return;
+    const c = {day, prev:t.status, pending:true, swapped:null}; booking = id; openFor = null; confirmed.set(id, c);
+    const result = await mutate('/topic-update', {id, recordDate:day}, 'Booked for '+fmt(parse(day))+'.');
+    if (!result) { if (confirmed.get(id) === c) confirmed.delete(id); booking = null; render(); return; }
+    const swapped = result.swapped ? topics().find(x => x.id === result.swapped) : null;
+    if (swapped) c.swapped = {id:swapped.id, title:swapped.title};
+    // The saved day may reach this tab a moment after the write; the confirmation (and focus on its Undo) waits for it.
+    c.focus = true; render();
+  }
+  async function undoRow(id) {
+    const c = confirmed.get(id); if (!c) return;
+    confirmed.delete(id);
+    const t = topics().find(x => x.id === id);
+    const body = {id, recordDate:null}; if (t && c.prev && t.status !== c.prev) body.status = c.prev;
+    const ok = await mutate('/topic-update', body, 'Booking undone.');
+    // A swap is put back too: the other topic returns to the day it had.
+    if (ok && c.swapped) await mutate('/topic-update', {id:c.swapped.id, recordDate:c.day}, 'Booking undone.');
+    render(); document.getElementById('tp-book-'+id)?.focus();
+  }
+  function closePicker(focusToggle) {
+    const id = openFor; openFor = null; unscheduled();
+    if (focusToggle && id) document.getElementById('tp-other-'+id)?.focus();
   }
   function panel() {
     const t = topics().find(x => x.id === selected);
@@ -140,11 +233,20 @@
   }
   root.addEventListener('click', async event => {
     const t = event.target;
+    const slot = t.closest('[data-book-slot]'); if (slot) { await bookRow(slot.dataset.bookSlot, slot.dataset.day); return; }
+    const pickDay = t.closest('[data-pick-day]'); if (pickDay) { await bookRow(pickDay.dataset.topic, pickDay.dataset.pickDay); return; }
+    const other = t.closest('[data-other]'); if (other) {
+      if (openFor === other.dataset.other) { closePicker(true); return; }
+      openFor = other.dataset.other; M.stamp('tp-pick:'+openFor); unscheduled();
+      document.querySelector('#tp-picker-'+CSS.escape(openFor)+' .tp-opt')?.focus(); return;
+    }
+    if (t.closest('[data-pick-close]')) { closePicker(true); return; }
+    const undo = t.closest('[data-undo]'); if (undo) { await undoRow(undo.dataset.undo); return; }
     const select = t.closest('[data-select]'); if (select) { selected = select.dataset.select; render(); $('#tp-panel').scrollIntoView({block:'nearest'}); $('#tp-f-title')?.focus(); return; }
     const book = t.closest('[data-book]'); if (book) { openPick('book', book.dataset.book); return; }
-    if (t.closest('#tp-prev')) { start = add(start, -14); M.enter(root, 'week'); render(); return; }
-    if (t.closest('#tp-next')) { start = add(start, 14); M.enter(root, 'week'); render(); return; }
-    if (t.closest('#tp-today')) { start = home(); M.enter(root, 'week'); render(); $('#tp-prev').focus(); return; }
+    if (t.closest('#tp-prev')) { start = add(start, -14); M.enter(root, 'week'); confirmed.clear(); openFor = null; render(); return; }
+    if (t.closest('#tp-next')) { start = add(start, 14); M.enter(root, 'week'); confirmed.clear(); openFor = null; render(); return; }
+    if (t.closest('#tp-today')) { start = home(); M.enter(root, 'week'); confirmed.clear(); openFor = null; render(); $('#tp-prev').focus(); return; }
     const lane = t.closest('[data-lane]'); if (lane) { if (lanes.has(lane.dataset.lane)) { if (lanes.size > 1) lanes.delete(lane.dataset.lane); } else lanes.add(lane.dataset.lane); render(); return; }
     const f = t.closest('[data-follow]'); if (f) { follow = follow === f.dataset.follow ? null : f.dataset.follow; render(); return; }
     if (t.closest('#topics-new')) { openPick('new'); return; }
@@ -161,7 +263,6 @@
   });
   root.addEventListener('change', async event => {
     const t = event.target, topic = topics().find(x => x.id === selected);
-    if (t.dataset.schedule) { const value = t.value; if (value) booking = t.dataset.schedule; if (value) await mutate('/topic-update', {id:t.dataset.schedule, recordDate:value}, 'Booked for '+fmt(parse(value))+'.'); return; }
     if (!topic) return;
     if (t.dataset.field) {
       const field = t.dataset.field; let value = t.value;
@@ -175,6 +276,16 @@
       if (t.dataset.pointField === 'title' && !t.value.trim()) { status('A subtopic needs a title.'); return; }
       await mutate('/point-update', {id:t.dataset.point, [t.dataset.pointField]:t.value}, 'Saved.');
     }
+  });
+  // The day picker by keyboard: Escape closes it and returns to "Pick another day"; the arrow keys move between days.
+  root.addEventListener('keydown', event => {
+    if (!openFor) return;
+    const box = event.target.closest?.('.tp-picker');
+    if (event.key === 'Escape' && (box || event.target.closest?.('[data-other]'))) { event.preventDefault(); closePicker(true); return; }
+    if (!box || !['ArrowDown','ArrowUp','Home','End'].includes(event.key)) return;
+    const opts = [...box.querySelectorAll('.tp-opt')], i = opts.indexOf(document.activeElement);
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? opts.length-1 : i < 0 ? 0 : Math.max(0, Math.min(opts.length-1, i + (event.key === 'ArrowDown' ? 1 : -1)));
+    event.preventDefault(); opts[next]?.focus();
   });
   root.addEventListener('submit', async event => {
     if (event.target.id !== 'tp-point-form') return;
@@ -216,6 +327,6 @@
   window.addEventListener('ww:data', render);
   window.addEventListener('ww:settings', () => { if (!root.hidden) render(); });
   window.addEventListener('ww:posting', () => { if (!root.hidden && !root.contains(document.activeElement)) render(); });
-  window.addEventListener('ww:route', event => { if (event.detail[0] === 'schedule') render(); });
+  window.addEventListener('ww:route', event => { if (event.detail[0] === 'schedule') render(); else { confirmed.clear(); openFor = null; } });
   render();
 })();
