@@ -132,7 +132,7 @@
   }
   function render() {
     const fresh = unread(recent()).length;
-    $('#ideas-heading').textContent = fresh ? fresh+' new since you last looked' : 'Creator watchlist';
+    $('#ideas-heading').textContent = fresh ? fresh+' new since you last looked' : 'Inspiration';
     // Never silently off: a press always answers, and while a scan is under way the label says so.
     const running = busy || scanBusy();
     $('#ideas-refresh').disabled = running;

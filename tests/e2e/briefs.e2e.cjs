@@ -119,29 +119,27 @@ function serverUp() { return new Promise(r => { http.get(BASE + 'index.html', re
       const noScroll = async what => { const r = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]); check(r[0] <= r[1], width + ' no sideways scroll on ' + what + ' (' + r + ')'); };
       const W = '[' + width + '] ';
 
-      // Navigation order
-      await at('#/talking-points', '#talking-points .tk-row');
+      // Navigation: Talking points was folded into Briefs (Taylor, 12 November 2026); its old link lands on Briefs
+      await page.goto(BASE + '#/talking-points'); await page.waitForSelector('#briefs .br-row', { state: 'visible', timeout: 8000 }); await page.waitForTimeout(450);
+      check(await page.evaluate(() => location.hash) === '#/briefs', W + 'old #/talking-points link lands on Briefs');
       const nav = await page.$$eval('.app-nav a', as => as.map(a => a.textContent.trim()));
-      check(JSON.stringify(nav) === JSON.stringify(['Presentations', 'Vault', 'Creator watchlist', 'Topics', 'Briefs', 'Talking points', 'Schedule', 'Publish']), W + 'nav order ' + nav.join(' · '));
-      check(await page.getAttribute('#nav-talking', 'aria-current') === 'page', W + 'Talking points tab is current');
+      check(JSON.stringify(nav) === JSON.stringify(['Presentations', 'Vault', 'Inspiration', 'Topics', 'Briefs', 'Schedule', 'Publish']), W + 'nav order ' + nav.join(' · '));
+      check(await page.$('#nav-talking') === null, W + 'no Talking points tab');
+      check(await page.getAttribute('#nav-briefs', 'aria-current') === 'page', W + 'Briefs tab is current');
       const navFits = await page.evaluate(() => { const n = document.querySelector('.app-nav'); return n.scrollWidth <= n.clientWidth + 1 || getComputedStyle(n).overflowX === 'auto'; });
       check(navFits, W + 'nav fits or scrolls inside itself');
 
-      // Which topics qualify, and in what order
-      const titles = await page.$$eval('#talking-points .tk-row .tk-title', h => h.map(x => x.textContent.trim()));
-      check(JSON.stringify(titles) === JSON.stringify(['I tested 5 AI note takers', "ChatGPT just changed the layout again: here's what's new", 'Claude Code skills in 10 minutes', 'Why your Meta ads stopped working', 'The one prompt I use every morning']), W + 'qualifying topics in order: ' + titles.join(' | '));
-      check(await page.$$eval('#talking-points .tk-row[data-id=t-chatgpt] .tk-points li', l => l.length) === 4, W + 'four numbered points on the outlined topic');
-      check((await page.textContent('#talking-points .tk-row[data-id=t-chatgpt] .tk-points li:first-child .tk-n')).trim() === '01', W + 'points are numbered 01');
-      check(/No outline yet/.test(await page.textContent('#talking-points .tk-row[data-id=t-booked]')), W + 'No outline yet shown');
-      check(/Open brief/.test(await page.textContent('#talking-points .tk-row[data-id=t-chatgpt] .tk-act')), W + 'ready brief offers Open brief');
-      check(/Researching/.test(await page.textContent('#talking-points .tk-row[data-id=t-short1] .tk-act')) && await page.$('#talking-points .tk-row[data-id=t-short1] a[href^="https://claude.ai/code/"]') !== null, W + 'running brief shows Writing state with the session link');
-      check(/Could not finish/.test(await page.textContent('#talking-points .tk-row[data-id=t-short2] .tk-act')), W + 'failed brief shows its reason and Try again');
-      await noScroll('talking points');
-      if (SHOTS && (width === 390 || width === 1280)) await page.screenshot({ path: path.join(SHOTS, 'talking-points-' + width + '.png'), fullPage: true });
-      if (SHOTS && width === 1280) require('fs').writeFileSync(path.join(SHOTS, 'talking-points.txt'), await page.innerText('#talking-points'));
+      // Every topic shows on Briefs: those without a brief, latest recording first, with Create brief
+      const waiting = await page.$$eval('#briefs .br-row[data-wait] h3', h => h.map(x => x.textContent.trim()));
+      check(JSON.stringify(waiting) === JSON.stringify(['I tested 5 AI note takers', 'Claude Code skills in 10 minutes']), W + 'topics without a brief, latest first: ' + waiting.join(' | '));
+      check(await page.$('#briefs .br-row[data-id=t-posted]') === null, W + 'posted topics are left out');
+      check(/Being written/.test(await page.textContent('#briefs .br-row[data-id=t-short1]')) && await page.$('#briefs .br-row[data-id=t-short1] a[href^="https://claude.ai/code/"]') !== null, W + 'running brief shows its session');
+      check(/Could not finish/.test(await page.textContent('#briefs .br-row[data-id=t-short2]')) && await page.$('#briefs .br-row[data-id=t-short2] [data-act=create]') !== null, W + 'failed brief shows its reason and Try again');
+      await noScroll('briefs list');
+      if (SHOTS && (width === 390 || width === 1280)) await page.screenshot({ path: path.join(SHOTS, 'briefs-list-' + width + '.png'), fullPage: true });
 
-      // Clicking the title of a ready topic opens its brief
-      await page.click('#talking-points .tk-row[data-id=t-chatgpt] .tk-title a');
+      // Clicking the title of a ready brief opens it
+      await page.click('#briefs .br-row[data-id=t-chatgpt] h3 a');
       await page.waitForSelector('#briefs .br-sheet', { state: 'visible' });
       check(await page.evaluate(() => location.hash) === '#/briefs/t-chatgpt', W + 'title opens #/briefs/t-chatgpt');
 
@@ -168,14 +166,14 @@ function serverUp() { return new Promise(r => { http.get(BASE + 'index.html', re
       check(!(await page.evaluate(() => document.body.classList.contains('br-recording'))) && await page.isVisible('.app-nav'), W + 'Esc leaves recording view');
       await page.click('#briefs [data-act=record]'); await page.click('#briefs [data-act=record]');
       check(!(await page.evaluate(() => document.body.classList.contains('br-recording'))), W + 'the button leaves recording view');
-      await page.click('#briefs [data-act=record]'); await page.goto(BASE + '#/talking-points'); await page.waitForTimeout(200);
+      await page.click('#briefs [data-act=record]'); await page.goto(BASE + '#/schedule'); await page.waitForTimeout(200);
       check(!(await page.evaluate(() => document.body.classList.contains('br-recording'))) && await page.isVisible('.app-nav'), W + 'leaving the brief leaves recording view');
 
       // The list of briefs
       await at('#/briefs', '#briefs .br-row');
       const groups = await page.$$eval('#briefs .br-group h2', h => h.map(x => x.textContent.trim()));
       check(groups.length === 3 && /Ready to record/.test(groups[0]) && /No brief yet 02/.test(groups[1]) && /In progress/.test(groups[2]), W + 'briefs list groups ' + groups.join(' | '));
-      check(await page.locator('#briefs [data-act=create]').count() === 2, W + 'topics without a brief offer Create brief');
+      check(await page.locator('#briefs .br-row[data-wait] [data-act=create]').count() === 2, W + 'topics without a brief offer Create brief');
       check(await page.$$eval('#briefs .br-group', g => g[0].querySelectorAll('.br-row').length) === 1, W + 'one ready brief listed');
       await noScroll('briefs list');
       if (SHOTS && width === 1280) require('fs').writeFileSync(path.join(SHOTS, 'briefs-list.txt'), await page.innerText('#briefs'));
@@ -186,38 +184,39 @@ function serverUp() { return new Promise(r => { http.get(BASE + 'index.html', re
 
       // History: back and forward
       await at('#/library', '#library-wall .pin');
-      await page.click('#nav-talking'); await page.waitForSelector('#talking-points .tk-row', { state: 'visible' });
+      await page.click('#nav-topics'); await page.waitForSelector('#brainstorm', { state: 'visible' });
       await page.click('#nav-briefs'); await page.waitForSelector('#briefs .br-row', { state: 'visible' });
-      await page.click('#briefs .br-row-act a'); await page.waitForSelector('#briefs .br-sheet', { state: 'visible' });
+      await page.click('#briefs .br-row[data-id=t-chatgpt] .br-row-act a'); await page.waitForSelector('#briefs .br-sheet', { state: 'visible' });
       await page.goBack(); await page.waitForSelector('#briefs .br-row', { state: 'visible' });
       check(await page.evaluate(() => location.hash) === '#/briefs', W + 'back to the briefs list');
-      await page.goBack(); await page.waitForSelector('#talking-points .tk-row', { state: 'visible' });
-      check(await page.evaluate(() => location.hash) === '#/talking-points', W + 'back to talking points');
+      await page.goBack(); await page.waitForSelector('#brainstorm', { state: 'visible' });
+      check(await page.evaluate(() => location.hash) === '#/topics', W + 'back to Topics');
       await page.goForward(); await page.goForward(); await page.waitForSelector('#briefs .br-sheet', { state: 'visible' });
       check(await page.evaluate(() => location.hash) === '#/briefs/t-chatgpt', W + 'forward to the brief');
 
       if (width === 1280) {
-        // Create outline: request, session, and the states the session writes back
-        await at('#/talking-points', '#talking-points .tk-row');
-        await page.click('#talking-points .tk-row[data-id=t-booked] [data-act=create]');
-        await page.waitForFunction(() => /Starting Claude Code/.test(document.querySelector('#talking-points .tk-row[data-id=t-booked] .tk-act').textContent));
+        // Create brief on Briefs: request, session, and the states the session writes back
+        await at('#/briefs', '#briefs .br-row');
+        await page.click('#briefs .br-row[data-id=t-booked] [data-act=create]');
+        await page.waitForFunction(() => window.__mock.sessions.length > 0);
         const s = await page.evaluate(() => window.__mock.sessions[0]);
         check(s && s.args.prompt === 'Create talking points t-booked. Follow TALKING-POINTS.md in this repository exactly.' && s.args.model === 'claude-opus-5-5' && s.args.source_url === 'https://github.com/taylor585/Whiteboard-Wednesdays', W + 'create_session called with the runbook line');
         const firstWrite = await page.evaluate(() => window.__mock.writes.find(w => w.path === 'briefs/t-booked'));
         check(firstWrite && firstWrite.op === 'set' && firstWrite.d.status === 'requested' && firstWrite.d.topicId === 't-booked' && firstWrite.d.createdAt, W + 'briefs/<id> written as requested first');
-        check(await page.$('#talking-points .tk-row[data-id=t-booked] a[href="https://claude.ai/code/session_mock_1"]') !== null, W + 'Starting shows Open the session');
+        await page.waitForSelector('#briefs .br-row[data-id=t-booked] a[href="https://claude.ai/code/session_mock_1"]', { timeout: 8000 });
+        check(true, W + 'Starting shows Open the session');
         await page.evaluate(() => window.__mock.write('briefs', 't-booked', { status: 'running' }));
-        await page.waitForFunction(() => /Researching/.test(document.querySelector('#talking-points .tk-row[data-id=t-booked] .tk-act').textContent));
+        await page.waitForFunction(() => /Being written/.test(document.querySelector('#briefs .br-row[data-id=t-booked]')?.textContent || ''));
         check(true, W + 'Writing state follows the database');
         await page.evaluate(() => window.__mock.write('briefs', 't-booked', { status: 'ready', sections: { atAGlance: 'x', coldOpen: 'x', points: [1, 2, 3, 4].map(n => ({ title: 'Point ' + n, beats: ['a', 'b'], proof: 'p' })), close: 'x', prep: ['x'] } }));
-        await page.waitForFunction(() => /Open brief/.test(document.querySelector('#talking-points .tk-row[data-id=t-booked] .tk-act').textContent));
-        check(/Rewrite outline/.test(await page.textContent('#talking-points .tk-row[data-id=t-booked] .tk-act')), W + 'Ready shows Open brief and Rewrite outline');
+        await page.waitForFunction(() => /Open brief/.test(document.querySelector('#briefs .br-row[data-id=t-booked]')?.textContent || ''));
+        check(true, W + 'Ready shows Open brief');
 
-        // Refused connector: the line to send in a chat
+        // Refused connector: the reason, the line to send in a chat, and Try again
         await page.evaluate(() => { window.__mock.mode = 'refuse'; });
-        await page.click('#talking-points .tk-row[data-id=t-recorded] [data-act=create]');
-        await page.waitForFunction(() => /Create talking points t-recorded/.test(document.querySelector('#talking-points .tk-row[data-id=t-recorded] .tk-act').textContent));
-        check(/did not allow/.test(await page.textContent('#talking-points .tk-row[data-id=t-recorded] .tk-act')), W + 'refusal explains itself and shows the copy line');
+        await page.click('#briefs .br-row[data-id=t-recorded] [data-act=create]');
+        await page.waitForFunction(() => /did not allow/.test(document.querySelector('#briefs .br-row[data-id=t-recorded]')?.textContent || ''));
+        check(/Create talking points t-recorded/.test(await page.textContent('#briefs .br-row[data-id=t-recorded]')) && await page.$('#briefs .br-row[data-id=t-recorded] [data-act=create]') !== null, W + 'refusal explains itself, shows the line and Try again');
         await page.evaluate(() => { window.__mock.mode = 'ok'; });
 
         // Turn into presentation
@@ -254,9 +253,6 @@ function serverUp() { return new Promise(r => { http.get(BASE + 'index.html', re
     await ctx.addInitScript(installMock, SAMPLE);
     const page = await ctx.newPage();
     await page.goto(BASE + '#/library'); await page.waitForSelector('#library-wall .pin');
-    await page.click('#nav-talking'); await page.waitForSelector('#talking-points .tk-row', { state: 'visible' });
-    const running = await page.evaluate(() => document.getAnimations().filter(a => a.playState === 'running' && a.effect?.target?.closest?.('#talking-points')).length);
-    check(running === 0, '[reduced] no entrance plays on Talking points (' + running + ')');
     await page.click('#nav-briefs'); await page.waitForSelector('#briefs .br-row', { state: 'visible' });
     const running2 = await page.evaluate(() => document.getAnimations().filter(a => a.playState === 'running' && a.effect?.target?.closest?.('#briefs')).length);
     check(running2 === 0, '[reduced] no entrance plays on Briefs (' + running2 + ')');

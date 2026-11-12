@@ -110,7 +110,7 @@
   function sparkHtml() {
     const list = sparks();
     if (list.length) return list.map(v => '<button type="button" class="bs-spark" data-video="'+esc(v.id)+'" aria-pressed="'+(spark === v.id)+'"><span class="bs-meta">'+esc(v.creator)+' · '+esc(ago(v.publishedAt))+'</span><span class="bs-spark-title">'+esc(v.title)+'</span></button>').join('');
-    if (!data().configured) return '<div class="bs-empty"><p><b>Uploads appear here once the Creator watchlist has fetched them.</b></p><p>Press Refresh uploads there, or write your own angles on the shortlist.</p></div>';
+    if (!data().configured) return '<div class="bs-empty"><p><b>Uploads appear here once Inspiration has fetched them.</b></p><p>Press Refresh uploads there, or write your own angles on the shortlist.</p></div>';
     return '<div class="bs-empty"><p>No uploads in the last '+SPARK_DAYS+' days.</p></div>';
   }
   // Skill ideas (SI-A, Taylor's pick, 2 November): ten topics from one run of the Trending Topics skill, five from
@@ -202,7 +202,7 @@
     skillCount();
     if (view === 'skill') $('#bs-sparks').innerHTML = skillHtml(); else $('#bs-sparks').innerHTML = (scanned ? '<p class="bs-scanned">Latest '+SCAN_EACH+' from '+scanned.size+' creator'+(scanned.size === 1 ? '' : 's')+' <button type="button" class="bs-quiet" id="bs-untick">Show everyone</button></p>' : '')+sparkHtml();
     const list = angles();
-    $('#bs-angles').innerHTML = list.length ? (offers => list.map(t => angleHtml(t, offers.get(t.id))).join(''))(offerDays(list)) : '<li class="bs-empty"><p>No angles waiting. Write one below, or spark one from the Creator watchlist.</p></li>';
+    $('#bs-angles').innerHTML = list.length ? (offers => list.map(t => angleHtml(t, offers.get(t.id))).join(''))(offerDays(list)) : '<li class="bs-empty"><p>No angles waiting. Write one below, or spark one from Inspiration.</p></li>';
     const chosen = spark && (data().videos || []).find(v => v.id === spark);
     $('#bs-from').innerHTML = chosen ? 'From: '+esc(chosen.title)+' <button type="button" class="bs-quiet" id="bs-clear">Clear</button>' : '';
     $('#bs-slots').innerHTML = slots().map(slotHtml).join('')+laterHtml();
@@ -247,7 +247,7 @@
       await mutate('/idea-add', {runId:el.dataset.run, ideaId:el.dataset.idea}, idea ? '“'+idea.title+'” is on the Shortlist, word for word. Its title locks in Trending Topics on the next run.' : '');
       return;
     }
-    if (el.id === 'bs-scan') { view = 'creators'; scanned = new Set(ticked); render(); const first = sparks()[0]; status(first ? 'Showing the latest '+SCAN_EACH+' uploads from each of '+scanned.size+' creators. Tap one to write an angle.' : 'No uploads stored for those creators yet. Refresh the Creator watchlist first.'); $('#bs-sparks-h').scrollIntoView({block:'nearest'}); return; }
+    if (el.id === 'bs-scan') { view = 'creators'; scanned = new Set(ticked); render(); const first = sparks()[0]; status(first ? 'Showing the latest '+SCAN_EACH+' uploads from each of '+scanned.size+' creators. Tap one to write an angle.' : 'No uploads stored for those creators yet. Refresh Inspiration first.'); $('#bs-sparks-h').scrollIntoView({block:'nearest'}); return; }
     if (el.id === 'bs-untick') { ticked.clear(); scanned = null; render(); $('#bs-find').focus(); return; }
     if (el.dataset.pick) { picked = picked === el.dataset.pick ? null : el.dataset.pick; spark = null; render(); (picked ? $('#bs-close') : $('[data-pick="'+CSS.escape(el.dataset.pick)+'"]'))?.focus(); return; }
     if (el.id === 'bs-close') { const was = picked; picked = null; render(); $('[data-pick="'+CSS.escape(was)+'"]')?.focus(); return; }

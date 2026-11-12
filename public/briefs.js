@@ -31,22 +31,32 @@
     return '<span class="br-state is-ok">Ready to record</span>';
   }
   function listRow(b) {
+    const problem = T.problem?.(b.topicId || b.id);
+    if (problem) return problemRow(b, problem);
     const id = b.topicId || b.id, iso = recordDay(b), pts = b.sections?.points || [], open = b.status === 'ready' || !!b.sections;
     const title = open ? '<a href="#/briefs/' + encodeURIComponent(id) + '">' + esc(b.title) + '</a>' : esc(b.title);
-    return '<li class="br-row">'
+    return '<li class="br-row" data-id="' + esc(id) + '">'
       + '<div class="br-when">' + (iso ? '<span class="br-dow">Records ' + esc(fmt(iso, { weekday: 'short' })) + '</span><b>' + esc(fmt(iso, { day: 'numeric', month: 'short' })) + '</b>' : '<span class="br-dow">Not booked</span>') + '</div>'
       + '<div class="br-row-body"><h3>' + title + '</h3>' + (pts.length ? '<ol class="br-mini">' + pts.map((p, i) => '<li><span>' + String(i + 1).padStart(2, '0') + '</span>' + esc(p.title) + '</li>').join('') + '</ol>' : '') + stateLine(b)
       + (ACTIVE.includes(b.status) && b.session?.url ? ' <a class="br-link" href="' + esc(b.session.url) + '" target="_blank" rel="noopener">Open the session</a>' : '') + '</div>'
-      + '<div class="br-row-act">' + (open ? '<a class="br-go" href="#/briefs/' + encodeURIComponent(id) + '">Open brief</a>' : b.status === 'failed' ? '<a class="br-quiet" href="#/talking-points">Try again on Talking points</a>' : '') + '</div></li>';
+      + '<div class="br-row-act">' + (open ? '<a class="br-go" href="#/briefs/' + encodeURIComponent(id) + '">Open brief</a>' : b.status === 'failed' ? '<button type="button" class="br-go" data-act="create" data-id="' + esc(id) + '">Try again</button>' : '') + '</div></li>';
   }
-  // Every topic on Talking points (shortlisted, or booked and not posted) shows here too, even before it has a brief
+  // Every shortlisted topic, and every booked one not yet posted, shows here too, even before it has a brief
   // (Taylor, 12 November 2026: "It should be added to the briefs"), latest recording first, with Create brief.
   function waitingRow(t) {
     const id = esc(t.id), problem = T.problem?.(t.id), busy = T.busy?.(t.id);
-    return '<li class="br-row">'
+    if (problem) return problemRow({ topicId: t.id, title: t.title }, problem).replace('class="br-row"', 'class="br-row" data-wait');
+    return '<li class="br-row" data-id="' + id + '" data-wait>'
       + '<div class="br-when">' + (t.recordDate ? '<span class="br-dow">Records ' + esc(fmt(t.recordDate, { weekday: 'short' })) + '</span><b>' + esc(fmt(t.recordDate, { day: 'numeric', month: 'short' })) + '</b>' : '<span class="br-dow">Not booked</span><b>Shortlist</b>') + '</div>'
       + '<div class="br-row-body"><h3>' + esc(t.title) + '</h3>' + (problem ? '<span class="br-state is-warn">' + esc(problem) + '</span>' : busy ? '<span class="br-state is-run">Starting</span>' : '<span class="br-state">No brief yet</span>') + '</div>'
       + '<div class="br-row-act"><button type="button" class="br-go" data-act="create" data-id="' + id + '"' + (busy ? ' disabled' : '') + '>' + (problem ? 'Try again' : 'Create brief') + '</button></div></li>';
+  }
+  function problemRow(b, problem) {
+    const id = b.topicId || b.id, iso = recordDay(b);
+    return '<li class="br-row" data-id="' + esc(id) + '">'
+      + '<div class="br-when">' + (iso ? '<span class="br-dow">Records ' + esc(fmt(iso, { weekday: 'short' })) + '</span><b>' + esc(fmt(iso, { day: 'numeric', month: 'short' })) + '</b>' : '<span class="br-dow">Not booked</span><b>Shortlist</b>') + '</div>'
+      + '<div class="br-row-body"><h3>' + esc(b.title) + '</h3><span class="br-state is-warn">' + esc(problem) + ' Nothing has started. Try again, or send “Create talking points ' + esc(id) + '” in a Claude chat.</span></div>'
+      + '<div class="br-row-act"><button type="button" class="br-go" data-act="create" data-id="' + esc(id) + '">Try again</button></div></li>';
   }
   function list() {
     const all = [...T.briefMap().values()];
@@ -56,7 +66,7 @@
     const ready = all.filter(b => b.status === 'ready').sort(byDay), rest = all.filter(b => b.status !== 'ready').sort(byDay);
     let h = head();
     if (!window.WWIdeas?.data) h += '<p class="br-empty" role="status">Loading your briefs…</p>';
-    else if (!all.length && !waiting.length) h += '<div class="br-blank"><p><b>No briefs yet.</b></p><p>Press Create outline on <a href="#/talking-points">Talking points</a> and the brief appears here when Claude has written it.</p></div>';
+    else if (!all.length && !waiting.length) h += '<div class="br-blank"><p><b>No briefs yet.</b></p><p>Shortlist or book a topic and it appears here with Create brief; the brief shows when Claude has written it.</p></div>';
     else {
       h += '<section class="br-group" aria-labelledby="br-g-ready"><h2 id="br-g-ready">Ready to record <span class="br-count">' + String(ready.length).padStart(2, '0') + '</span></h2>'
         + (ready.length ? '<ol class="br-rows">' + ready.map(listRow).join('') + '</ol>' : '<p class="br-empty">None ready yet.</p>') + '</section>';
@@ -102,7 +112,7 @@
   function one(id) {
     const b = T.briefMap().get(id);
     if (!window.WWIdeas?.data) return '<p class="br-empty" role="status">Loading the brief…</p>';
-    if (!b) return '<div class="br-top"><a class="br-back" href="#/briefs">← All briefs</a></div><div class="br-blank"><p><b>This brief is not here.</b></p><p>It may not have been written yet. Create it from <a href="#/talking-points">Talking points</a>.</p></div>';
+    if (!b) return '<div class="br-top"><a class="br-back" href="#/briefs">← All briefs</a></div><div class="br-blank"><p><b>This brief is not here.</b></p><p>It may not have been written yet. Create it from <a href="#/briefs">all briefs</a>.</p></div>';
     if (!b.sections) return '<div class="br-top"><a class="br-back" href="#/briefs">← All briefs</a></div><div class="br-blank"><p><b>' + esc(b.title) + '</b></p><p>' + stateLine(b) + (b.session?.url ? ' <a class="br-link" href="' + esc(b.session.url) + '" target="_blank" rel="noopener">Open the session</a>' : '') + '</p></div>';
     return sheet(b);
   }
