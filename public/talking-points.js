@@ -37,7 +37,7 @@
   let copied = '';
   function lists() {
     const all = topics();
-    const booked = all.filter(t => t.recordDate && t.status !== 'posted').sort((a, b) => a.recordDate.localeCompare(b.recordDate));
+    const booked = all.filter(t => t.recordDate && t.status !== 'posted').sort((a, b) => b.recordDate.localeCompare(a.recordDate)); // Latest recording first, always (Taylor, 12 November 2026)
     const short = all.filter(t => t.status === 'shortlisted' && !t.recordDate).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
     return { booked, short };
   }
