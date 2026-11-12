@@ -22,7 +22,7 @@
   async function startSession(title, prompt) {
     const mcp = await window.claude?.use?.('mcp');
     if (!mcp) throw { code: 'unavailable' };
-    const r = await mcp.callTool('Claude Code Remote', 'create_session', { model: 'claude-opus-5-5', environment_id: ENV, source_url: REPO, title, prompt });
+    const r = await (window.WWStore?.createSession || ((m, a) => m.callTool('Claude Code Remote', 'create_session', a)))(mcp, { model: 'claude-opus-5-5', permission_mode: 'auto', environment_id: ENV, source_url: REPO, title, prompt });
     const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
     return { id: sid, url: sid ? 'https://claude.ai/code/' + sid : null };
   }

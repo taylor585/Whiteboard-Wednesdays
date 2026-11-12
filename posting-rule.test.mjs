@@ -259,3 +259,20 @@ test('a start record never overwrites a status the session already wrote', async
   const r = await made.api.call('/refresh', {});
   assert.equal(made.docs.get('scans/'+r.id).status, 'running'); assert.equal(made.docs.get('scans/'+r.id).session.id, 'session_x');
 });
+
+test('Sessions the app starts ask for Auto, and start without it if Auto is refused', async () => {
+  const calls = [];
+  const mcp = {callTool: async (server, tool, input) => {
+    calls.push(input);
+    if (input.permission_mode) throw new Error("permission_mode 'auto' requires the parent session to be in auto mode");
+    return {payload:{session_id:'session_plain'}};
+  }};
+  const {api, docs} = await storeWithUpload(mcp);
+  const scan = await api.call('/refresh', {});
+  assert.equal(calls[0].permission_mode, 'auto');
+  assert.equal(calls[1].permission_mode, undefined);
+  assert.equal(scan.started, true); assert.equal(docs.get('scans/'+scan.id).session.id, 'session_plain');
+  const other = await storeWithUpload({callTool: async () => { throw {code:'not_granted'}; }});
+  const r = await other.api.call('/refresh', {});
+  assert.equal(r.started, false); assert.match(r.why, /did not allow/);
+});
