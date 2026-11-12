@@ -1,4 +1,4 @@
-/* Building Offers They Can't Say No To: plays each slide's approved motion one click at a time (the cw.js player).
+/* Dream 100? We’re Doing Dream 30 Over Here: plays each slide's approved motion one click at a time (the cw.js player).
    Each .d3-stage lists the time (ms) every reveal plays to in data-stops. The shared player reveals one
    marker part per click; this script seeks the slide's animations to match, so Back, Replay, direct links
    and reduced motion all land on the same frame. The last reveal always runs to the slide's finished frame.
