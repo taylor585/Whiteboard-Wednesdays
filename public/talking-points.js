@@ -30,7 +30,7 @@
     : e?.code === 'unavailable' ? 'The Claude Code connection is not available in this view.'
     : 'Claude Code could not be started (' + (e?.code || e?.message || 'error') + ').';
   async function copyText(text) { try { await navigator.clipboard.writeText(text); return true; } catch { return false; } }
-  window.WWTalk = { startSession, refusal, copyText, briefMap, topics, esc, fmt, STATUS, ACTIVE };
+  window.WWTalk = { startSession, refusal, copyText, briefMap, topics, esc, fmt, STATUS, ACTIVE, create: id => create(id), lists: () => lists(), problem: id => errors.get(id) || refused.get(id)?.why || null, busy: id => pending.has(id) };
 
   // ---- This screen ----
   const pending = new Set(), refused = new Map(), errors = new Map();

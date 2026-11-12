@@ -153,10 +153,20 @@
     return top+'<div class="bs-run"><span>Trending Topics · '+esc(when(done.finishedAt || done.createdAt))+'</span>'+(pending ? '' : '<button type="button" class="bs-quiet" id="bs-ask">Ask again</button>')+'</div>'+
       ideas.map((x, i) => { const t = onList(done, x); return '<div class="bs-idea'+(t ? ' is-added' : '')+'"><span class="bs-rank" aria-hidden="true">'+(x.rank || i+1)+'</span><div><span class="bs-idea-title">'+esc(x.title)+'</span>'+(x.why ? '<span class="bs-meta">'+esc(x.why)+'</span>' : '')+'<span class="bs-idea-ft"><span class="bs-src'+(x.source === 'creator' ? ' is-cr' : '')+'">'+(x.source === 'creator' ? 'Creators' : 'Your work')+'</span>'+(t ? '<span class="bs-on">✓ On the shortlist</span>' : '<button type="button" class="bs-addidea" data-idea="'+esc(x.id)+'" data-run="'+esc(done.id)+'" aria-label="Add “'+esc(x.title)+'” to the shortlist">+ Shortlist</button>')+'</span></div></div>'; }).join('');
   }
-  function angleHtml(t) {
-    const open = slots().filter(s => !s.past), src = t.sources[0];
+  // Each shortlist card offers one day: the first takes the next free Monday, Wednesday or Friday from today across the
+  // whole schedule, the next card the one after, and so on, so no card ever offers a day that is already booked or that
+  // another card offers (Taylor, 12 November 2026). Booking one re-renders, so the cards below move up the queue.
+  function offerDays(list) {
+    const P = window.WWStore?.posting, out = new Map();
+    if (!P?.nextFreeSlot) return out;
+    const held = [...topics()], from = P.today ? P.today() : iso(new Date());
+    for (const t of list) { const day = P.nextFreeSlot(held, from); if (!day) break; out.set(t.id, day); held.push({id:'\u0000'+t.id, recordDate:day}); }
+    return out;
+  }
+  function angleHtml(t, day) {
+    const open = day ? [{day:parse(day)}] : [], src = t.sources[0];
     return '<li class="bs-stk" draggable="true" data-topic="'+esc(t.id)+'"><span class="bs-stk-title">'+esc(t.title)+'</span>'+(src ? '<span class="bs-meta">From '+esc(src.creator)+': '+esc(src.title)+'</span>' : t.origin?.kind === 'skill' ? '<span class="bs-meta">From the skill · '+(t.skillLock === 'locked' ? 'title locked' : 'title locks on the next run')+'</span>' : '')+
-      '<span class="bs-stk-actions">'+open.map(s => '<button type="button" data-book="'+iso(s.day)+'">Book '+esc(fmt(s.day,{weekday:'short',day:'numeric'}))+'</button>').join('')+'<button type="button" class="bs-quiet" data-remove="'+esc(t.id)+'" aria-label="Remove “'+esc(t.title)+'”">Remove</button></span></li>';
+      '<span class="bs-stk-actions">'+open.map(s => '<button type="button" data-book="'+iso(s.day)+'">Book '+esc(fmt(s.day,{weekday:'short',day:'numeric',month:'short'}))+'</button>').join('')+'<button type="button" class="bs-quiet" data-remove="'+esc(t.id)+'" aria-label="Remove “'+esc(t.title)+'”">Remove</button></span></li>';
   }
   function slotHtml(s) {
     return '<div class="bs-slot'+(s.topic ? ' is-booked' : '')+(s.past ? ' is-past' : '')+'" data-slot="'+iso(s.day)+'"><span class="bs-slot-day">'+esc(fmt(s.day))+'</span><span class="bs-meta">Posts '+esc(fmt(postFor(s.day)))+'</span>'+
@@ -192,7 +202,7 @@
     skillCount();
     if (view === 'skill') $('#bs-sparks').innerHTML = skillHtml(); else $('#bs-sparks').innerHTML = (scanned ? '<p class="bs-scanned">Latest '+SCAN_EACH+' from '+scanned.size+' creator'+(scanned.size === 1 ? '' : 's')+' <button type="button" class="bs-quiet" id="bs-untick">Show everyone</button></p>' : '')+sparkHtml();
     const list = angles();
-    $('#bs-angles').innerHTML = list.length ? list.map(angleHtml).join('') : '<li class="bs-empty"><p>No angles waiting. Write one below, or spark one from the Creator watchlist.</p></li>';
+    $('#bs-angles').innerHTML = list.length ? (offers => list.map(t => angleHtml(t, offers.get(t.id))).join(''))(offerDays(list)) : '<li class="bs-empty"><p>No angles waiting. Write one below, or spark one from the Creator watchlist.</p></li>';
     const chosen = spark && (data().videos || []).find(v => v.id === spark);
     $('#bs-from').innerHTML = chosen ? 'From: '+esc(chosen.title)+' <button type="button" class="bs-quiet" id="bs-clear">Clear</button>' : '';
     $('#bs-slots').innerHTML = slots().map(slotHtml).join('')+laterHtml();
