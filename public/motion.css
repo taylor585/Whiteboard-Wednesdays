@@ -45,22 +45,21 @@
 
 /* ---- Blocks and cards settling: fade and 4px, 20ms apart, first 6 ----
    A list's children take their place from --i0 (where the list starts in the screen's order). */
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(1){--i:min(5,var(--i0,0))}
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(2){--i:min(5,calc(var(--i0,0) + 1))}
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(3){--i:min(5,calc(var(--i0,0) + 2))}
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(4){--i:min(5,calc(var(--i0,0) + 3))}
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(5){--i:min(5,calc(var(--i0,0) + 4))}
-:is(.pins,.vi-group,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(n+6){--i:5}
+:is(.pins,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(1){--i:min(5,var(--i0,0))}
+:is(.pins,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(2){--i:min(5,calc(var(--i0,0) + 1))}
+:is(.pins,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(3){--i:min(5,calc(var(--i0,0) + 2))}
+:is(.pins,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(4){--i:min(5,calc(var(--i0,0) + 3))}
+:is(.pins,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(5){--i:min(5,calc(var(--i0,0) + 4))}
+:is(.pins,.cr-grid,.bs-board,.tp-cal,#bs-slots,#bs-posts,.se-slots,.po,.tk-rows,.br-rows,.br-points)>:nth-child(n+6){--i:5}
 /* Publish and Reels: the heading, the way back and the lanes stay put; what follows them settles in order. */
 #publish>:nth-child(5){--i:1}#publish>:nth-child(6){--i:2}#publish>:nth-child(7){--i:3}#publish>:nth-child(8){--i:4}#publish>:nth-child(n+9){--i:5}
-.vi-group{--i0:1}.bs-board{--i0:2}.se-slots{--i0:1}
-.vi-cmd{--i:0}.vi-shelf{--i:1}.vi-tray{--i:2}.cr-layout>.cr-note{--i:1}.bs-rail{--i:0}.bs-weekrow{--i:1}.tp-layout{--i:4}.se-shelf{--i:0}.se-lib+.se-save{--i:5}#library-card{--i:5}
+.bs-board{--i0:2}.se-slots{--i0:1}
+.cr-layout>.cr-note{--i:1}.bs-weekrow{--i:1}.tp-layout{--i:4}.se-shelf{--i:0}.se-lib+.se-save{--i:5}#library-card{--i:5}
 /* Presentations wall, Creator watchlist, creator page, Topics, Schedule, Settings, Publish and Reels. Never more than 12 of a list. */
 :is([data-enter=screen],[data-enter=lane]) :is(.pins,.cr-grid,.se-slots,.po,.cx,.tk-rows,.br-rows,.br-points)>:nth-child(-n+12),
-[data-enter=screen] .vi-group>.vi-mail:nth-child(-n+9),
-:is([data-enter=screen],[data-enter=lane]) :is(#library-card,.vi-cmd,.vi-shelf,.vi-tray,.cr-note,.se-shelf,.se-lib+.se-save,.tp-layout),
+:is([data-enter=screen],[data-enter=lane]) :is(#library-card,.cr-note,.se-shelf,.se-lib+.se-save,.tp-layout),
 [data-enter] .tp-cal>.tp-wk,
-[data-enter=screen] :is(.bs-rail,.bs-weekrow,.bs-board>.bs-zone),
+[data-enter=screen] :is(.bs-weekrow,.bs-board>.bs-zone),
 [data-enter=week] :is(#bs-slots,#bs-posts)>:nth-child(-n+8),
 #publish:is([data-enter=screen],[data-enter=lane])>:nth-child(n+2):nth-child(-n+12):not(.pb-back,.pb-lanes){animation:m-in var(--m-enter) var(--m-ease) calc(var(--m-at,0ms) + var(--i,0) * var(--m-stagger)) backwards}
 
@@ -68,7 +67,21 @@
 :is(.app-nav,.va-lanes,.pb-lanes,.se-lanes) a{position:relative;transition:color var(--m-press) linear}
 :is(.app-nav,.va-lanes,.pb-lanes,.se-lanes) a[aria-current=page]::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--m-stroke);transform-origin:0 50%}
 :is(.app-nav,.va-lanes,.pb-lanes,.se-lanes) a[aria-current=page][data-m~=draw]::after{animation:m-draw var(--m-rule) var(--m-ease) var(--m-skip,0ms) backwards}   /* the fast-start curve: the line is the state, so most of it is there within 60ms */
-.vi-tabs button[aria-pressed=true][data-m~=draw]::after{animation:m-draw var(--m-rule) var(--m-ease) var(--m-skip,0ms) backwards}   /* the Watchlist week tabs: the same draw, only when the tab changes */
+.vi-lanes button[aria-pressed=true][data-m~=draw]::after{animation:m-draw var(--m-rule) var(--m-ease) var(--m-skip,0ms) backwards}   /* the Inspiration filter lanes: the same draw, only when the lane changes */
+
+/* ---- Inspiration, A3 "Depth by paper" (13 November 2026): one ordered arrival, on a real screen arrival only ----
+   The gold eyebrow rule draws and the title settles (the screen arrival above), then the command field lands and its
+   paper sheet slides out to its offset, the five chips rise one by one, then the lanes and the stream. All inside 400ms. */
+:root{--m-vi-field:80ms;--m-vi-sheet:140ms;--m-vi-chip:140ms;--m-vi-stream:200ms}
+@keyframes m-sheet{from{translate:0 0}}
+[data-enter=screen] .vi-cfw:not(.is-dock) .vi-cf{animation:m-in var(--m-enter) var(--m-ease) var(--m-vi-field) backwards}
+[data-enter=screen] .vi-cfw:not(.is-dock) .vi-sheet{animation:m-sheet var(--m-enter) var(--m-ease) var(--m-vi-sheet) backwards}
+[data-enter=screen] .vi-chips>button{animation:m-in var(--m-enter) var(--m-ease) calc(var(--m-vi-chip) + var(--i,0) * var(--m-stagger)) backwards}
+.vi-chips>:nth-child(2){--i:1}.vi-chips>:nth-child(3){--i:2}.vi-chips>:nth-child(4){--i:3}.vi-chips>:nth-child(5){--i:4}
+[data-enter=screen] :is(.vi-cost,.vi-corner,.vi-lanes-row),[data-enter=screen] .vi-stream>.vi-group:nth-child(-n+2){animation:m-in var(--m-enter) var(--m-ease) var(--m-vi-stream) backwards}
+/* A lane change settles the groups it shows; a run that has just been started settles its new group. */
+.vi-stream[data-enter=lane]>.vi-group:nth-child(-n+3){animation:m-in var(--m-enter) var(--m-ease) calc(var(--i,0) * var(--m-stagger)) backwards}
+.vi-stream>:nth-child(2){--i:1}.vi-stream>:nth-child(3){--i:2}
 
 /* ---- One-off moments, marked by the render that saw them happen ---- */
 [data-m~=in]{animation:m-in var(--m-enter) var(--m-ease) var(--m-skip,0ms) backwards}
@@ -110,6 +123,7 @@
 
 /* Reduced motion: everything lands finished. Each screen's stylesheet switches its own transitions off as before. */
 @media(prefers-reduced-motion:reduce){
+ .vi-lanes button::after,
  [data-enter],[data-enter] *,[data-enter] *::before,[data-enter] *::after,[data-m],[data-m]::before,[data-m]::after,[data-m] *,[data-m] *::before,
  :is(.ww-dialog,#creator-dialog,#ww-confirm)[open],:is(.ww-dialog,#creator-dialog,#ww-confirm)[open]::backdrop,#toast:not([hidden]){animation:none!important}
  :is(.app-nav,.va-lanes,.pb-lanes,.se-lanes) a{transition:none}

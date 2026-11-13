@@ -36,7 +36,12 @@
  /* key sizes and tracking */
  --ww-size-title:clamp(38px,4.4vw,58px);--ww-title-track:-.04em;--ww-head-track:-.03em;--ww-strong-track:-.02em;--ww-size-h2:26px;--ww-size-h3:20px;--ww-size-h4:18px;--ww-size-body:17px;--ww-size-micro:11px;
  /* reading sizes for a brief (briefs.css): on screen, and in recording view */
- --ww-size-read:19px;--ww-size-read-record:24px}
+ --ww-size-read:19px;--ww-size-read-record:24px;
+ /* paper depth (Inspiration, A3 "Depth by paper", 13 November 2026): a sheet lifted off the lined stage by a hard ink offset,
+    never a blur. Kept rare: the command field, the sparked card and the thumbnails. */
+ --ww-sheet-offset:8px;--ww-sheet-lift:11px;--ww-sheet-small:4px;--ww-sheet-card:5px;--ww-rise:2px;
+ --ww-ruled:32px;--ww-ruled-run:26px;--ww-stage-rule:rgba(28,26,23,.09);--ww-run-rule:rgba(28,26,23,.07);
+ --ww-size-field:20px;--ww-size-card:19px;--ww-size-rank:22px}
 :root{--surface:#ffffff;--ink:#1c1a17;--accent:#8b6002;--heading:WWBody;--tint:color-mix(in srgb,var(--accent) 7%,var(--surface));--line:color-mix(in srgb,var(--ink) 17%,var(--surface));--muted:color-mix(in srgb,var(--ink) 75%,var(--surface))}
 *{box-sizing:border-box}body{margin:0;background:var(--surface);color:var(--ink);font:var(--ww-size-body)/1.5 var(--ww-font-body)}button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button{border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);padding:10px 16px;background:var(--surface);color:var(--ink);min-height:44px;cursor:pointer}button:hover{background:var(--tint)}button.primary{background:var(--ink);color:var(--surface);border-color:var(--ink)}button:disabled{opacity:.4;cursor:default}a{color:inherit;text-underline-offset:4px}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:4px}[hidden]{display:none!important}.skip{position:absolute;left:16px;top:-80px;background:var(--surface);padding:16px;z-index:10}.skip:focus{top:8px}
 .site-header{padding:20px 4vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:24px}.header-actions{display:flex;gap:8px;flex-wrap:wrap}.header-actions button{font-size:13px}.micro{font:var(--ww-size-micro)/1.5 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
