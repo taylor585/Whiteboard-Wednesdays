@@ -215,7 +215,7 @@ async function storeWithUpload(mcp) {
   const window = {dispatchEvent: () => {}, claude: {use: async name => name === 'db' ? db : name === 'mcp' ? mcp : null}};
   const ctx = vm.createContext({window, CustomEvent: class { constructor(type) { this.type = type; } }, fetch: async url => String(url).startsWith('uploads.json') ? {ok:true, json: async () => uploads} : {ok:false}, crypto: globalThis.crypto, URLSearchParams, setTimeout, clearTimeout, console});
   vm.runInContext(fs.readFileSync(new URL('./public/ww-store.js', import.meta.url), 'utf8'), ctx);
-  return {api: await window.WWStore.connect(), docs};
+  return {api: await window.WWStore.connect(), docs, db, store: window.WWStore};
 }
 
 test('Add to schedule makes the topic planned and booked in one write, and refuses a held day', async () => {
@@ -278,4 +278,78 @@ test('Sessions the app starts ask for Auto, and start without it if Auto is refu
   const other = await storeWithUpload({callTool: async () => { throw {code:'not_granted'}; }});
   const r = await other.api.call('/refresh', {});
   assert.equal(r.started, false); assert.match(r.why, /did not allow/);
+});
+
+// Ask on Inspiration (13 November 2026): the run carries what was typed and the chip pressed (SKILL-IDEAS.md).
+test('Ask saves the prompt and the mode on ideaRuns/<id>, with the count the mode asks for', async () => {
+  const mcp = {callTool: async () => ({payload:{session_id:'session_ask'}})};
+  const {api, docs, store} = await storeWithUpload(mcp);
+  const typed = await api.call('/idea-run', {prompt:'  What are the giants saying about agent memory?  ', mode:'giants', id:'2026-11-13-abcde'});
+  assert.equal(typed.id, '2026-11-13-abcde');
+  const doc = docs.get('ideaRuns/2026-11-13-abcde');
+  assert.equal(doc.prompt, 'What are the giants saying about agent memory?'); assert.equal(doc.mode, 'giants'); assert.equal(doc.count, 10);
+  assert.equal(doc.status, 'starting'); eq(doc.dismissed, {}); eq(doc.ideas, []);
+  const month = await api.call('/idea-run', {mode:'month30', prompt:''});
+  assert.equal(docs.get('ideaRuns/'+month.id).count, 30); assert.equal(docs.get('ideaRuns/'+month.id).mode, 'month30');
+  const empty = await api.call('/idea-run', {});
+  assert.equal(docs.get('ideaRuns/'+empty.id).mode, 'week7'); assert.equal(docs.get('ideaRuns/'+empty.id).count, 7);   // an empty Ask is This week's 7
+  const free = await api.call('/idea-run', {prompt:'Agent memory', mode:'nonsense', id:'bad id'});
+  assert.match(free.id, /^\d{4}-\d{2}-\d{2}-[a-z0-9]{5}$/); assert.equal(docs.get('ideaRuns/'+free.id).mode, 'ask'); assert.equal(docs.get('ideaRuns/'+free.id).count, 10);
+  eq(Object.keys(store.ideas.MODES), ['week7','giants','mywork','breakouts','month30','ask']);
+});
+
+test('Spark on an idea makes a shortlisted topic word for word with its 4 talking points; old runs without points still work', async () => {
+  const {api, docs, db} = await storeWithUpload(null);
+  const ideas = [
+    {id:'i1', rank:1, title:'Your AI Agent Forgets Everything. Fix It in 10 Minutes', why:'Agent memory: [[3 giants]] talk on it.', source:'x', points:['Why every session starts like a new hire', {title:'The CLAUDE.md file as standing memory'}, 'What to write down, and what never to', 'A before and after on one real task', 'A fifth is never kept']},
+    {id:'i2', rank:2, title:'An older idea', why:'Because', source:'own'},
+    {id:'i3', rank:3, title:'Lead Gen Engine walkthrough!', why:'Same as a topic', source:'creator', points:['a','b','c','d']}];
+  await db.collection('ideaRuns').doc('run1').set({status:'done', ideas, added:{}, createdAt:'2026-11-13T10:00:00Z'});
+  const r = await api.call('/idea-add', {runId:'run1', ideaId:'i1'});
+  const t = docs.get('topics/'+r.id);
+  assert.equal(t.title, ideas[0].title); assert.equal(t.status, 'shortlisted'); assert.equal(t.recordDate, null); assert.equal(t.skillLock, 'pending');
+  eq(t.points.map(p => [p.title, p.position, p.done]), [['Why every session starts like a new hire', 0, false], ['The CLAUDE.md file as standing memory', 1, false], ['What to write down, and what never to', 2, false], ['A before and after on one real task', 3, false]]);
+  eq(t.origin, {kind:'skill', skill:'trending-topics', runId:'run1', ideaId:'i1', source:'x', why:'Agent memory: 3 giants talk on it.'});
+  assert.equal(docs.get('ideaRuns/run1').added.i1, r.id);
+  assert.equal((await api.call('/idea-add', {runId:'run1', ideaId:'i1'})).id, r.id);   // a second press finds the same topic
+  const old = await api.call('/idea-add', {runId:'run1', ideaId:'i2'});
+  eq(docs.get('topics/'+old.id).points, []); assert.equal(docs.get('topics/'+old.id).origin.source, 'work');
+  // Add to schedule on an idea: booked and planned in one write; a held day is refused.
+  await db.collection('ideaRuns').doc('run1').update({ideas:[...ideas, {id:'i4', title:'Booked straight away', why:'', source:'work', points:['1','2','3','4']}]});
+  const b = await api.call('/idea-add', {runId:'run1', ideaId:'i4', recordDate:'2026-11-16'});
+  assert.equal(docs.get('topics/'+b.id).status, 'planned'); assert.equal(docs.get('topics/'+b.id).recordDate, '2026-11-16'); assert.equal(docs.get('topics/'+b.id).points.length, 4);
+  await assert.rejects(api.call('/idea-add', {runId:'run1', ideaId:'i1', recordDate:'2026-11-16'}), /already booked/);
+  await assert.rejects(api.call('/idea-add', {runId:'run1', ideaId:'i1', recordDate:'2026-11-17'}), /Monday, Wednesday and Friday/);
+  // The same title already in Topics: that topic is used, never a second one.
+  await db.collection('topics').doc('lead').set({title:'Lead gen engine walkthrough', status:'new', sources:[], points:[], createdAt:'2026-11-01T00:00:00Z'});
+  const same = await api.call('/idea-add', {runId:'run1', ideaId:'i3'});
+  assert.equal(same.id, 'lead'); assert.equal(same.existing, true);
+  assert.equal([...docs.keys()].filter(k => k.startsWith('topics/')).length, 4);
+});
+
+test('Dismiss hides an idea on its run without deleting the run; Undo brings it back', async () => {
+  const {api, docs, db} = await storeWithUpload(null);
+  await db.collection('ideaRuns').doc('run2').set({status:'done', ideas:[{id:'i1', title:'One'}, {id:'i2', title:'Two'}], added:{}, createdAt:'2026-11-13T10:00:00Z'});
+  await api.call('/idea-dismiss', {runId:'run2', ideaId:'i2'});
+  eq(docs.get('ideaRuns/run2').dismissed, {i2:true}); assert.equal(docs.get('ideaRuns/run2').ideas.length, 2);
+  await api.call('/idea-dismiss', {runId:'run2', ideaId:'i2', undo:true});
+  eq(docs.get('ideaRuns/run2').dismissed, {});
+  await assert.rejects(api.call('/idea-dismiss', {runId:'run2', ideaId:'nope'}), /no longer in the run/);
+});
+
+test('the 60 second watchdog marks a job waiting only while nothing has started it', async () => {
+  const {api, docs, db} = await storeWithUpload(null);
+  await db.collection('scans').doc('2026-11-13-aaaaa').set({status:'queued'});
+  assert.equal((await api.call('/job-wait', {col:'scans', id:'2026-11-13-aaaaa'})).changed, true);
+  assert.equal(docs.get('scans/2026-11-13-aaaaa').status, 'waiting');
+  await db.collection('ideaRuns').doc('2026-11-13-bbbbb').set({status:'running'});
+  assert.equal((await api.call('/job-wait', {col:'ideaRuns', id:'2026-11-13-bbbbb'})).changed, false);
+  assert.equal(docs.get('ideaRuns/2026-11-13-bbbbb').status, 'running');
+  await assert.rejects(api.call('/job-wait', {col:'topics', id:'x'}), /Choose a job/);
+});
+
+test('Spark on an upload can land straight on the shortlist', async () => {
+  const {api, docs} = await storeWithUpload(null);
+  const r = await api.call('/topic', {videoId:'vid12345', status:'shortlisted'});
+  assert.equal(docs.get('topics/'+r.id).status, 'shortlisted'); assert.equal(docs.get('topics/'+r.id).sources[0].id, 'vid12345');
 });

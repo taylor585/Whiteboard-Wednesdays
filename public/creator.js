@@ -23,7 +23,7 @@
     if (!handle) return;
     const c = creator();
     if (!c) {
-      root.innerHTML = '<div class="cr-missing"><h1 id="cr-name">Creator not found</h1><p>'+(data().creators?.length ? 'This creator is not on your watchlist.' : 'Loading your creators…')+'</p><a href="#/topics">Back to Topics</a></div>';
+      root.innerHTML = '<div class="cr-missing"><h1 id="cr-name">Creator not found</h1><p>'+(data().creators?.length ? 'This creator is not on your watchlist.' : 'Loading your creators…')+'</p><a href="#/watchlist">Back to Inspiration</a></div>';
       return;
     }
     const list = (videos || (data().videos || []).filter(v => v.handle === c.handle)).slice().sort((a,b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
@@ -35,7 +35,7 @@
     const peak = Math.max(1, ...weeks);
     const connected = data().configured || list.length;
     const url = 'https://www.youtube.com/'+encodeURIComponent(c.handle);
-    root.innerHTML = '<nav class="cr-crumbs" aria-label="Breadcrumb"><a href="#/topics">Topics</a><span aria-hidden="true">›</span><a href="#/topics">Your creators</a><span aria-hidden="true">›</span><span aria-current="page">'+esc(c.name)+'</span></nav>'+
+    root.innerHTML = '<nav class="cr-crumbs" aria-label="Breadcrumb"><a href="#/watchlist">Inspiration</a><span aria-hidden="true">›</span><a href="#/watchlist">Your creators</a><span aria-hidden="true">›</span><span aria-current="page">'+esc(c.name)+'</span></nav>'+
       '<header class="cr-banner"><div class="cr-who"><h1 id="cr-name" tabindex="-1">'+esc(c.name)+'</h1><a class="cr-handle" href="'+url+'" target="_blank" rel="noopener noreferrer">'+esc(c.handle)+' on YouTube ↗</a></div>'+
       '<div class="cr-rhythm"><span class="micro">UPLOADS PER WEEK · LAST 4 WEEKS</span>'+(connected ? '<div class="cr-bars">'+weeks.map((n, i) => '<span class="cr-bar"><i style="height:'+(6 + n/peak*46)+'px"></i><span>'+(i === 3 ? 'This week' : (3-i)+'w ago')+' · '+n+'</span></span>').join('')+'</div>' : '<p>Appears once the YouTube connection is on.</p>')+'</div>'+
       '<dl class="cr-stats"><div><dt>'+(connected ? month.length : '–')+'</dt><dd>uploads in 30 days</dd></div><div><dt>'+(usual || '–')+'</dt><dd>usual posting days</dd></div><div><dt>'+(list[0] ? date(list[0].publishedAt) : '–')+'</dt><dd>last upload</dd></div><div><dt>'+taken+'</dt><dd>'+(taken === 1 ? 'topic' : 'topics')+' taken from them</dd></div></dl></header>'+

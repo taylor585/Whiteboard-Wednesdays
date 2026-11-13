@@ -23,6 +23,8 @@ const SEED = {
   'topics/skills': topic('Claude Code skills, explained', {status:'planned', recordDate:'2026-11-13'}),
   'topics/a': topic('Burst prompting', {status:'shortlisted', sources:[{id:'x1', title:'One', creator:'Someone'}], points:[{id:'p1', title:'Why', note:'', done:false}]}),
   'topics/b': topic('I Built an AI That Finds Companies Already Paying for AI', {status:'shortlisted', createdAt:'2026-11-02T10:00:00Z'}),
+  // Sparked on Inspiration before the review screen (status new, with a video): waits in New from Inspiration.
+  'topics/n': topic('Old spark from a creator', {sources:[{id:'v9', title:'A video', creator:'Nick Saraev'}]}),
 };
 
 function mock(seed) {
@@ -76,6 +78,17 @@ for (const width of [375, 1280]) {
   await page.waitForFunction(() => document.querySelectorAll('#bs-angles [data-topic]').length === 1);
   const after = await offers();
   assert.deepEqual(after.map(x => x[1]).flat(), ['2026-11-18'], width+'px after booking '+JSON.stringify(after));
+  // Topics is review only (13 November 2026): no creator rail, no scan bar, no Creators | Skill switch; New from Inspiration instead.
+  assert.equal(await page.locator('#brainstorm :is(.bs-rail,#bs-cards,#bs-find,.bs-seg,[data-view],#bs-ask)').count(), 0, width+'px removed parts');
+  assert.equal(await page.locator('#bs-sparks-h').innerText(), 'New from Inspiration');
+  assert.equal(await page.locator('#brainstorm a[href="#/watchlist"]').count() >= 1, true, width+'px Find more on Inspiration');
+  assert.match(await page.locator('#brainstorm .bs-head').innerText(), /review/i);
+  assert.deepEqual(await page.$$eval('#bs-sparks [data-topic]', els => els.map(e => e.dataset.topic)), ['n'], width+'px new from Inspiration');
+  assert.equal(await page.locator('#bs-sparks [data-topic=n] [data-book]').getAttribute('data-book'), '2026-11-20', width+'px its own next free day');
+  await page.click('#bs-sparks [data-topic=n] [data-shortlist]');
+  await page.waitForFunction(() => window.__mock.get('topics/n')?.status === 'shortlisted');
+  await page.waitForSelector('#bs-angles [data-topic=n]');
+  assert.equal(await page.locator('#bs-sparks [data-topic]').count(), 0, width+'px moved to the shortlist');
   assert.equal(await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth), 0, width+'px overflow');
   await context.close();
 }

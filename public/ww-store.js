@@ -4,7 +4,7 @@
 (() => {
   'use strict';
   const STATUSES = ['new','shortlisted','planned','slides_ready','recorded','edited','posted'];
-  let db = null, topics = [], notes = new Map(), ready = null, uploads = null, runs = [];
+  let db = null, topics = [], notes = new Map(), ready = null, uploads = null, runs = [], scans = [];
   let briefs = []; // Talking points briefs, briefs/<topicId> (TALKING-POINTS.md)
   const fail = (error, status=400, extra={}) => { const e = new Error(error); e.status = status; e.result = {error, ...extra}; throw e; };
   const text = (v, max) => typeof v === 'string' && v.length <= max ? v : null;
@@ -215,6 +215,12 @@
         runs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()}));
         window.dispatchEvent(new CustomEvent('ww:store'));
       }, () => {});
+      // Refreshes: each press of Refresh creators is one document, scans/<id> (SCAN.md). Followed so that a scan that is
+      // running when Inspiration opens shows as running, and its result lands without the page asking again.
+      db.collection('scans').onSnapshot(snap => {
+        scans = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()}));
+        window.dispatchEvent(new CustomEvent('ww:store'));
+      }, () => {});
       // Talking points briefs: one document per topic, briefs/<topicId>, written by the Talking points and Briefs screens and by
       // the Claude Code session that writes the brief (TALKING-POINTS.md). Read on those two screens as data.briefs.
       db.collection('briefs').onSnapshot(snap => {
@@ -242,6 +248,30 @@
     })();
     return ready;
   }
+  // ---- Ask on Inspiration (13 November 2026): what an ideaRuns/<id> document carries (SKILL-IDEAS.md). ----
+  //   mode   which chip was pressed, or 'ask' for typed text alone. An empty Ask is This week's 7.
+  //   prompt what Taylor typed ('' when he only pressed a chip). count is how many ideas the session writes.
+  const IDEA_MODES = Object.freeze({
+    week7:{label:'This week’s 7', count:7, mix:'week'}, giants:{label:'What the giants said on X', count:10, mix:'x'},
+    mywork:{label:'From my work', count:10, mix:'own'}, breakouts:{label:'Creator breakouts', count:10, mix:'creator'},
+    month30:{label:'Plan the month (30)', count:30, mix:'month'}, ask:{label:'Ask', count:10, mix:'mixed'}});
+  function ideaRunDoc(body, now) {
+    const prompt = typeof body?.prompt === 'string' ? body.prompt.trim().slice(0, 500) : '';
+    let mode = Object.prototype.hasOwnProperty.call(IDEA_MODES, body?.mode) ? body.mode : 'ask';
+    if (mode === 'ask' && !prompt) mode = 'week7';
+    const m = IDEA_MODES[mode];
+    return {status:'requested', skill:'trending-topics-talking-points', mode, prompt, count:m.count, mix:m.mix, createdAt:now, ideas:[], added:{}, dismissed:{}};
+  }
+  // A job id the page may choose itself (so it can follow the job before the session answers): 2026-11-13-k2m9q.
+  const jobId = given => typeof given === 'string' && /^\d{4}-\d{2}-\d{2}-[a-z0-9]{5}$/.test(given) ? given : new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7).padEnd(5, '0');
+  // Older runs said 'own' for Taylor's work; new runs say 'creator', 'work' or 'x'.
+  const ideaSource = v => v === 'creator' ? 'creator' : v === 'x' ? 'x' : 'work';
+  // Evidence words in a why line are wrapped in [[ ]] by the session; the topic keeps the plain words.
+  const plainWhy = v => String(v || '').replace(/\[\[|\]\]/g, '');
+  // An idea's talking points (strings, or {title}); the first 4 that have words. Old runs have none.
+  const ideaPoints = idea => (Array.isArray(idea?.points) ? idea.points : []).map(p => String(typeof p === 'string' ? p : p?.title || '').trim().slice(0, 200)).filter(Boolean).slice(0, 4);
+  const titleKey = v => String(v || '').toLocaleLowerCase('en-GB').replace(/[’']/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const sameTitle = (a, b) => titleKey(a) !== '' && titleKey(a) === titleKey(b);
   const find = id => topics.find(t => t.id === id) || fail('That topic no longer exists.', 404);
   async function call(path, body) {
     const action = path.split('?')[0].split('/').filter(Boolean).pop() || '';
@@ -250,7 +280,7 @@
       let creators = [];
       try { creators = (await (await fetch('creators.json')).json()).creators.map(c => { const f = fetchedFor(c.handle); return {handle:c.handle, name:c.name, channelId:c.channelId || null, lastSuccess:f && !f.error ? f.fetchedAt : null, error:f?.error || null, note:notes.get(c.handle) || ''}; }); } catch { /* the list still renders empty */ }
       // configured: real uploads are on the page. canAdd stays off: finding a new channel needs the YouTube API.
-      return {configured:Boolean(uploads), canAdd:false, store:'claude', fetchedAt:uploads?.fetchedAt || null, creators, videos:videos(), topics:sorted(), ideaRuns:db ? runs.slice().sort((a,b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 6) : null, briefs:db ? briefs.slice() : null};
+      return {configured:Boolean(uploads), canAdd:false, store:'claude', fetchedAt:uploads?.fetchedAt || null, creators, videos:videos(), topics:sorted(), ideaRuns:db ? runs.slice().sort((a,b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 8) : null, scans:db ? scans.slice().sort((a,b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 6) : null, briefs:db ? briefs.slice() : null};
     }
     if (!body || typeof body !== 'object' || Array.isArray(body)) fail('A JSON object is required.');
     const now = new Date().toISOString();
@@ -349,13 +379,36 @@
       const points = t.points.slice(); [points[i], points[j]] = [points[j], points[i]];
       await savePoints(t, points); return {moved:true};
     }
-    if (action === 'refresh') return startScan(body.handles);
+    if (action === 'refresh') return startScan(body.handles, body.id);
     if (action === 'idea-run') {
       // Like a refresh, the run is a job for a Claude Code session: the skill reads sessions, repositories and skills.
+      // Ask on Inspiration (13 November 2026) saves what was typed (prompt) and the chip pressed (mode); see SKILL-IDEAS.md.
       if (!db) fail('Skill ideas need the app’s database, which this preview does not have.', 503);
-      const id = now.slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7);
-      await write(() => db.collection('ideaRuns').doc(id).set({status:'requested', skill:'trending-topics-talking-points', mix:'five-and-five', count:10, createdAt:now, ideas:[], added:{}}));
-      return {id, ...await startJob('ideaRuns', id, 'Topic ideas '+id, 'Run topic ideas '+id, 'SKILL-IDEAS.md')};
+      const id = jobId(body.id), doc = ideaRunDoc(body, now);
+      await write(() => db.collection('ideaRuns').doc(id).set(doc));
+      return {id, mode:doc.mode, count:doc.count, ...await startJob('ideaRuns', id, 'Topic ideas '+id, 'Run topic ideas '+id, 'SKILL-IDEAS.md')};
+    }
+    if (action === 'idea-dismiss') {
+      // Dismiss on Inspiration hides one idea of a run (never deletes the run); undo brings it back.
+      if (!db) fail('Skill ideas need the app’s database, which this preview does not have.', 503);
+      const run = runs.find(r => r.id === body.runId) || fail('That run of the skill is no longer here.', 404);
+      if (!(run.ideas || []).some(i => i.id === body.ideaId)) fail('That idea is no longer in the run.', 404);
+      const dismissed = {...(run.dismissed || {})};
+      if (body.undo === true) delete dismissed[body.ideaId]; else dismissed[body.ideaId] = true;
+      await write(() => db.collection('ideaRuns').doc(run.id).update({dismissed}));
+      run.dismissed = dismissed;
+      return {dismissed:body.undo !== true};
+    }
+    if (action === 'job-wait') {
+      // The 60 second watchdog on Inspiration: the connector has not answered, so the job says so and the page shows the
+      // line to send instead. The call is not cancelled: if the session starts later, startJob moves the job on.
+      if (!db) fail('This needs the app’s database, which this preview does not have.', 503);
+      if (!['scans','ideaRuns'].includes(body.col) || typeof body.id !== 'string') fail('Choose a job.');
+      const r = db.collection(body.col).doc(body.id);
+      let status = null; try { status = (await r.get())?.data?.()?.status || null; } catch { /* write anyway */ }
+      if (status && !['queued','requested'].includes(status)) return {changed:false, status};
+      await write(() => r.update({status:'waiting', note:text(body.note, 300) || 'Claude did not answer within a minute.'}));
+      return {changed:true};
     }
     if (action === 'idea-start') {
       // Try again on a run whose session could not start: the same run, a new session.
@@ -364,18 +417,40 @@
       return {id:run.id, ...await startJob('ideaRuns', run.id, 'Topic ideas '+run.id, 'Run topic ideas '+run.id, 'SKILL-IDEAS.md')};
     }
     if (action === 'idea-add') {
-      // Shortlist and lock (Taylor's pick, 2 November): the title goes on the Shortlist word for word, and the next
-      // Claude run locks it in the skill's topic register (skillLock pending → locked).
+      // Spark (Inspiration) or + Shortlist: the title goes on the Shortlist word for word, with the idea's 4 talking points
+      // as the topic's points, and the next Claude run locks it in the skill's topic register (skillLock pending → locked).
+      // With recordDate (Add to schedule) the topic is made booked and planned in the same write.
       const run = runs.find(r => r.id === body.runId) || fail('That run of the skill is no longer here.', 404);
       const idea = (run.ideas || []).find(i => i.id === body.ideaId) || fail('That idea is no longer in the run.', 404);
-      const already = (run.added || {})[idea.id];
-      if (already && topics.some(t => t.id === already)) return {id:already, added:false};
+      let recordDate = null;
+      if (body.recordDate !== undefined && body.recordDate !== null) {
+        if (!day(body.recordDate) || !isRecordingDay(body.recordDate)) fail('Recording days are Monday, Wednesday and Friday.');
+        recordDate = body.recordDate;
+      }
+      const holderOf = (d, self) => d ? topics.find(x => x.recordDate === d && x.id !== self) : null;
+      const bookExisting = async t => {
+        if (!recordDate || t.recordDate) return {id:t.id, added:false, recordDate:t.recordDate || null};
+        const h = holderOf(recordDate, t.id); if (h) fail('“'+h.title+'” is already booked for that day.', 409, {conflict:{id:h.id, title:h.title}});
+        await write(() => ref(t.id).update({recordDate, ...(['new','shortlisted'].includes(t.status) ? {status:'planned'} : {}), updatedAt:now}));
+        return {id:t.id, added:false, recordDate};
+      };
+      const already = (run.added || {})[idea.id], had = already && topics.find(t => t.id === already);
+      if (had) return bookExisting(had);
       const id = crypto.randomUUID(), title = String(idea.title || '').trim().slice(0, 200);
       if (!title) fail('That idea has no title.');
-      const origin = {kind:'skill', skill:run.skill || 'trending-topics', runId:run.id, ideaId:idea.id, source:idea.source === 'creator' ? 'creator' : 'own', why:String(idea.why || '').slice(0, 400)};
-      await write(() => ref(id).set({title, status:'shortlisted', notes:'', recordDate:null, postDate:null, deckId:null, createdAt:now, updatedAt:now, sources:[], points:[], origin, skillLock:'pending'}));
+      // The same title already in Topics (ignoring case and punctuation): that topic is the one (CLAUDE.md), never a second.
+      const same = topics.find(t => sameTitle(t.title, title));
+      if (same) {
+        const r = await bookExisting(same);
+        await write(() => db.collection('ideaRuns').doc(run.id).update({added:{...(run.added || {}), [idea.id]:same.id}}));
+        return {...r, existing:true};
+      }
+      if (recordDate) { const h = holderOf(recordDate); if (h) fail('“'+h.title+'” is already booked for that day.', 409, {conflict:{id:h.id, title:h.title}}); }
+      const origin = {kind:'skill', skill:run.skill || 'trending-topics', runId:run.id, ideaId:idea.id, source:ideaSource(idea.source), why:plainWhy(idea.why).slice(0, 400)};
+      const points = ideaPoints(idea).map((title, i) => ({id:crypto.randomUUID(), title, note:'', done:false, position:i}));
+      await write(() => ref(id).set({title, status:recordDate ? 'planned' : 'shortlisted', notes:'', recordDate, postDate:null, deckId:null, createdAt:now, updatedAt:now, sources:[], points, origin, skillLock:'pending'}));
       await write(() => db.collection('ideaRuns').doc(run.id).update({added:{...(run.added || {}), [idea.id]:id}}));
-      return {id, created:true};
+      return {id, created:true, recordDate};
     }
     fail('Adding a creator needs the YouTube API, which this page does not have. Ask Claude to add the channel to creators.json.', 503);
   }
@@ -420,9 +495,9 @@
   }
   // A refresh is a job for a Claude Code session: the page cannot read YouTube itself. The request is saved as
   // scans/<id> and the session starts at once (SCAN.md); the page follows scans/<id> and reloads uploads.json on done.
-  async function startScan(handles) {
+  async function startScan(handles, given) {
     if (!db) fail('Refreshing needs the app’s database, which this preview does not have.', 503);
-    const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), now = new Date().toISOString();
+    const id = jobId(given), now = new Date().toISOString();
     const want = Array.isArray(handles) && handles.length ? handles.filter(h => typeof h === 'string').slice(0, 60) : null;
     await write(() => db.collection('scans').doc(id).set({status:'queued', handles:want, createdAt:now}));
     return {queued:true, id, ...await startJob('scans', id, 'Watchlist scan '+id, 'Run watchlist scan '+id, 'SCAN.md')};
@@ -453,5 +528,5 @@
     if (r && (r.isError || r.error)) return plain();
     return r;
   }
-  window.WWStore = {connect, db: () => db, posting:postingApi, connections:connectionsApi, startSession, createSession};
+  window.WWStore = {connect, db: () => db, posting:postingApi, connections:connectionsApi, startSession, createSession, ideas:{MODES:IDEA_MODES, runDoc:ideaRunDoc, points:ideaPoints, source:ideaSource, sameTitle, jobId}};
 })();
