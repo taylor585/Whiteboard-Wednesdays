@@ -1,0 +1,13 @@
+{
+  "title": "How AI Harnesses Can 10x Your Quality and Output",
+  "thumbnails": {
+    "youtube": {"file": "How AI Harnesses Can 10x Your Quality and Output - Thumbnail - YouTube.jpg", "pick": "t7", "url": "https://drive.google.com/file/d/EXAMPLE/view"},
+    "linkedin": {"file": "How AI Harnesses Can 10x Your Quality and Output - Thumbnail - LinkedIn.jpg", "pick": "t7", "url": "https://drive.google.com/file/d/EXAMPLE/view"}
+  },
+  "linkedin": {"post": "LinkedIn post text.\n\nSecond paragraph.", "firstComment": "Full video: [YOUTUBE LINK]"},
+  "youtube": {"title": "How AI Harnesses Can 10x Your Quality and Output", "description": "YouTube description text."},
+  "instagram": {
+    "posts": ["4x5 post caption."],
+    "reels": ["Reel caption."]
+  }
+}

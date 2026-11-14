@@ -1,0 +1,7 @@
+{
+  "root": {"name": "Output To CODEX", "id": "1VneU3aGiwJ3dX7akYjjspnVXuXw03Y2t", "url": "https://drive.google.com/drive/folders/1VneU3aGiwJ3dX7akYjjspnVXuXw03Y2t"},
+  "Post Copy": {"id": "1gKimsHJbaaalQVj6BzbR1OS08tmCJ9ic", "url": "https://drive.google.com/drive/folders/1gKimsHJbaaalQVj6BzbR1OS08tmCJ9ic"},
+  "Post Videos": {"id": "1Um3RjVrYlnfMYl8heH5AQv_POsiEy5OV", "url": "https://drive.google.com/drive/folders/1Um3RjVrYlnfMYl8heH5AQv_POsiEy5OV"},
+  "Post Thumbnail": {"id": "1zfb0oOWA_cK8dSpqradxNO6e_DOfgyqN", "url": "https://drive.google.com/drive/folders/1zfb0oOWA_cK8dSpqradxNO6e_DOfgyqN"},
+  "Setup": {"id": "1jmJauazJHYD027DTF03H2t6vej-lnD4J", "url": "https://drive.google.com/drive/folders/1jmJauazJHYD027DTF03H2t6vej-lnD4J", "note": "Codex setup prompt and process only; never outputs"}
+}
