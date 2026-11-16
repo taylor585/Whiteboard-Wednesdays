@@ -82,6 +82,12 @@
   const COL = {refresh:'scans', ask:'ideaRuns'};
   // What this page is starting right now, before the job document says anything: {id, t0, open (the call has not answered)}.
   const local = {refresh:null, ask:null};
+  // Ask runs this page could not start, by id: {why, code}. The group says so at once, before the database snapshot
+  // with status waiting arrives (until then the run still reads requested, which looked like a start that never ends).
+  const missed = new Map();
+  // Ask runs this page has just started (Try again that worked), by id → time: Starting, not the old note, until the
+  // snapshot with status starting arrives.
+  const begun = new Map();
   let chip = null;          // the suggestion chip pressed, while the field still holds its text
   let lane = 'all', week = 'week';
   const more = new Set(), openPts = new Set(), showGone = new Set(), landed = new Set(), fresh = new Map();
@@ -97,7 +103,7 @@
   const onList = (run, idea) => (data.topics || []).find(t => t.origin?.runId === run.id && t.origin?.ideaId === idea.id) || (run.added?.[idea.id] && (data.topics || []).find(t => t.id === run.added[idea.id]));
   const gone = (run, idea) => !!run.dismissed?.[idea.id];
   const pointsOf = idea => window.WWStore?.ideas?.points ? window.WWStore.ideas.points(idea) : (idea.points || []).slice(0, 4);
-  const busy = kind => { const g = kind === 'ask' ? runs()[0] : scans()[0]; return !!local[kind] || (!!g && ['requested','queued','starting','running'].includes(g.status) && !late(kind, g) && !orphan(kind, g)); };
+  const busy = kind => { const g = kind === 'ask' ? runs()[0] : scans()[0]; return !!local[kind] || (!!g && !missed.has(g.id) && ['requested','queued','starting','running'].includes(g.status) && !late(kind, g) && !orphan(kind, g)); };
   const since = g => Date.parse(g?.session?.startedAt || g?.runningAt || g?.createdAt || 0);
   function late(kind, g) { const lim = LATE[kind][g.status === 'running' ? 'running' : 'starting']; return ['starting','running'].includes(g.status) && Date.now() - since(g) > lim*MIN; }
   // A request saved but never started (the page was closed while it started), and nobody here is starting it.
@@ -145,10 +151,18 @@
         '<div class="vi-meters" data-live-meter="'+kind+'">'+liveHtml(kind, g)+'</div><p class="vi-links">'+sessionA(g)+leave+'</p>'};
     }
     // Not started: the connector refused or is unavailable (waiting), the 60 second watchdog fired, or nobody is starting it.
-    const tried = kind === 'refresh' && tries.get(id), hint = why => kind === 'refresh' && /upstream_error|server_unavailable|server_not_connected|needs_reauth/.test(why) ? ' The Claude Code Remote connector did not answer, so no session started; if Claude says it could not load the connector, reconnect it in claude.ai Settings, Connectors.' : '';
-    const fallback = why => ({cls:'is-fail', html:'<p class="vi-st is-warn">'+d+'Not started</p><p>'+esc(why)+esc(hint(why))+' Send this in a Claude chat and the '+what+' land here:</p>'+copyLine(LINE[kind](id))+again+'</p>'+
+    const code = (kind === 'ask' && missed.get(id)?.code) || g.code || null;
+    const fix = ['upstream_error','server_not_connected','needs_reauth','selection_required'].includes(code)
+      ? '<p class="vi-leave"><a href="https://claude.ai/settings/connectors" target="_blank" rel="noopener noreferrer">Open claude.ai connectors<span aria-hidden="true">&nbsp;↗</span></a></p>'
+      : code === 'not_granted' || /did not allow/.test(g.note || '') ? '<p class="vi-leave">To let it start by itself, allow Claude Code on its <a href="#/settings/connections/claudecode">Connections card</a>.</p>' : '';
+    // Older notes still carry the bare code ("(upstream_error)"): say what it means for those.
+    const tried = kind === 'refresh' && tries.get(id), hint = why => kind === 'refresh' && /\((upstream_error|server_unavailable|server_not_connected|needs_reauth)\)/.test(why) ? ' The Claude Code Remote connector did not answer, so no session started; if Claude says it could not load the connector, reconnect it in claude.ai Settings, Connectors.' : '';
+    const fallback = why => ({cls:'is-fail', html:'<p class="vi-st is-warn">'+d+'Not started</p><p>'+esc(why)+esc(hint(why))+' Or send this in a Claude chat and the '+what+' land here:</p>'+copyLine(LINE[kind](id))+again+'</p>'+
       (tried ? '<p class="vi-leave">Tried '+tried.n+' time'+(tried.n === 1 ? '' : 's')+' from this page, last at '+esc(clock(tried.at))+'.</p>' : '')+
-      (loc?.open ? '<p class="vi-leave">If it later starts by itself, this group moves on to Running.</p>' : g.code === 'not_granted' || /did not allow/.test(g.note || '') ? '<p class="vi-leave">To let it start by itself, allow Claude Code on its <a href="#/settings/connections/claudecode">Connections card</a>.</p>' : '')});
+      (loc?.open ? '<p class="vi-leave">If it later starts by itself, this group moves on to Running.</p>' : fix)});
+    if (kind === 'ask' && begun.has(id) && Date.now() - begun.get(id) < 2*MIN && ['waiting','requested','queued'].includes(st))
+      return {cls:'is-run', html:'<p class="vi-st">'+d+'Starting<em> · a Claude Code session is starting</em></p><p class="vi-links">'+leave+'</p>'};
+    if (kind === 'ask' && !loc?.open && missed.has(id) && ['waiting','requested','queued'].includes(st)) return fallback(missed.get(id).why);
     if (st === 'waiting' && !loc?.open) return fallback(g.note && !/within a minute/.test(g.note) ? g.note : 'Claude could not start the session from this view.');
     if (loc?.open) {
       const el = Date.now() - loc.t0;
@@ -340,7 +354,8 @@
       l.open = false;
       if (local[kind] === l) local[kind] = null;
       await load();
-      if (!r.started && kind === 'refresh') announce('Refresh not started. The reason and the line to send are in the Refresh group.');
+      if (!r.started && kind === 'ask') { missed.set(id, {why:r.why || 'Claude could not start the session.', code:r.code || null}); announce('Not started. The Ask group below says why and what to do.'); }
+      else if (!r.started && kind === 'refresh') announce('Refresh not started. The reason and the line to send are in the Refresh group.');
       else if (!r.started) announce(r.why ? r.why+' Send the line in the group to a Claude chat.' : 'Claude could not start the session.');
       else announce(kind === 'ask' ? 'Claude is finding ideas. They land here when the session finishes.' : 'Claude is fetching your creators’ uploads.');
     } catch (error) { l.open = false; if (local[kind] === l) local[kind] = null; await load(); announce(error.status === 404 ? 'Ask needs the Claude app; this server does not have it.' : error.message); }
@@ -375,7 +390,8 @@
     }
     if (local.ask?.open) return;
     const l = {id, t0:Date.now(), open:true}; local.ask = l; render(); ensureTick();
-    try { const r = await api('/idea-start', {id}); l.open = false; if (local.ask === l) local.ask = null; await load(); if (!r.started) announce(r.why || 'Claude could not start the session.'); }
+    try { const r = await api('/idea-start', {id}); l.open = false; if (local.ask === l) local.ask = null; if (r.started) { missed.delete(id); begun.set(id, Date.now()); } else { begun.delete(id); missed.set(id, {why:r.why || 'Claude could not start the session.', code:r.code || null}); }
+      await load(); announce(r.started ? 'Claude is finding ideas. They land here when the session finishes.' : 'Still not started. The Ask group below says why and what to do.'); }
     catch (error) { l.open = false; if (local.ask === l) local.ask = null; await load(); announce(error.message); }
     render();
   }

@@ -280,6 +280,22 @@ test('Sessions the app starts ask for Auto, and start without it if Auto is refu
   assert.equal(r.started, false); assert.match(r.why, /did not allow/);
 });
 
+// 16 November 2026 (Inspiration Ask): when Claude could not load the Claude Code Remote connector, the start is not
+// repeated (a second call only shows the connector card again), and the job says which code and what to do.
+test('A connector that could not be loaded is not called twice, and the job says what to do', async () => {
+  for (const [err, re] of [[{code:'upstream_error', retryable:true, retryAfterMs:2000}, /Settings → Connectors/],
+      [{code:'server_not_connected'}, /not connected to your Claude account/], [{code:'needs_reauth'}, /sign in again/],
+      [{code:'not_in_manifest'}, /Permissions menu/], [{code:'server_unavailable', retryable:true}, /may still have started/]]) {
+    const calls = []; const {api, docs} = await storeWithUpload({callTool: async (s, t, input) => { calls.push(input); throw err; }});
+    const r = await api.call('/idea-run', {mode:'week7'});
+    assert.equal(calls.length, 1, err.code); assert.equal(r.started, false); assert.equal(r.code, err.code); assert.match(r.why, re);
+    const doc = docs.get('ideaRuns/'+r.id); assert.equal(doc.status, 'waiting'); assert.equal(doc.code, err.code); assert.equal(doc.note, r.why);
+  }
+  const plain = []; const t = await storeWithUpload({callTool: async (s, tool, input) => { plain.push(input); throw {code:'upstream_error'}; }});
+  const r = await t.api.call('/idea-run', {mode:'week7'});
+  assert.equal(plain.length, 2); assert.match(r.why, /may still have started/);   // a bare upstream_error: outcome unknown
+});
+
 // Ask on Inspiration (13 November 2026): the run carries what was typed and the chip pressed (SKILL-IDEAS.md).
 test('Ask saves the prompt and the mode on ideaRuns/<id>, with the count the mode asks for', async () => {
   const mcp = {callTool: async () => ({payload:{session_id:'session_ask'}})};

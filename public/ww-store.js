@@ -458,11 +458,30 @@
   // `mcp` with create_session), the same call Publish makes. Resolves {id, url}; rejects with an Error whose `code`
   // is the connector's ('not_granted', 'unavailable', ...) and whose message says it in plain words.
   const SESSION_ENV = 'env_017PLHsTGZVgThRnUnu1eoGG', SESSION_REPO = 'https://github.com/taylor585/Whiteboard-Wednesdays';
+  // One plain sentence per connector error code (mcp contract: branch on the code, never one catch-all), each saying
+  // what Taylor can do. `maybe`: the outcome is unknown, so a session may have started (check claude.ai/code first).
+  const CCR = 'Claude Code Remote', CONNECTORS = 'claude.ai Settings → Connectors';
   function sessionError(e) {
-    const code = e?.code || 'error';
-    const why = code === 'not_granted' ? 'You did not allow the Claude Code connection, so it could not start by itself.'
-      : code === 'unavailable' ? 'The Claude Code connection is not available in this view.' : 'Claude Code could not be started ('+(e?.code || e?.message || 'error')+').';
-    return Object.assign(new Error(why), {code});
+    const code = e?.code || 'error', said = String(e?.message || '').replace(/\s+/g, ' ').trim().slice(0, 160);
+    const may = ' A session may still have started: look at claude.ai/code before pressing Try again.';
+    const why = {
+      not_granted:'You did not allow the Claude Code connection, so it could not start by itself.',
+      unavailable:'The Claude Code connection is not available in this view. Open the app in claude.ai.',
+      capability_disabled:'The Claude Code connection is not available in this view. Open the app in claude.ai.',
+      capability_removed:'The Claude Code connection is not available in this view. Open the app in claude.ai.',
+      upstream_error:e?.retryable === true ? 'Claude could not load the '+CCR+' connector, so nothing started. In '+CONNECTORS+', connect or reconnect '+CCR+', then press Try again.'
+        : 'Claude could not reach the '+CCR+' connector. If Claude said “Couldn’t load this connector”, connect or reconnect '+CCR+' in '+CONNECTORS+', then press Try again. Otherwise a session may still have started: look at claude.ai/code before pressing Try again.',
+      server_not_connected:CCR+' is not connected to your Claude account, so nothing started. Add it in '+CONNECTORS+', then press Try again.',
+      needs_reauth:CCR+' needs you to sign in again, so nothing started. Reconnect it in '+CONNECTORS+', then press Try again.',
+      selection_required:'You have more than one '+CCR+' connector. Choose one when Claude asks, then press Try again.',
+      not_in_manifest:CCR+' is switched off for this app, so nothing started. Turn it on in the app’s Permissions menu, then press Try again.',
+      approval_required:'The '+CCR+' card was not approved, so nothing started. Press Try again and choose Allow.',
+      consent_required:'The '+CCR+' card was not approved, so nothing started. Press Try again and choose Allow.',
+      blocked_by_policy:'Your organisation’s policy blocks '+CCR+' here, so nothing started.',
+      server_unavailable:CCR+' did not answer in time.'+may,
+      cancelled:'The start was cancelled.'+may,
+      tool_error:CCR+' refused the session'+(said ? ': '+said.replace(/[.!?]?$/, '.') : '.')}[code] || 'Claude Code could not be started ('+code+').';
+    return Object.assign(new Error(why), {code, maybe:/may still have started/.test(why)});
   }
   async function startSession({title, prompt}) {
     let mcp = null;
@@ -489,8 +508,9 @@
     } catch (e) {
       if (e?.status) throw e;
       const why = e?.message || 'Claude Code could not be started.';
-      await write(() => ref.update({status:'waiting', note:why}));
-      return {started:false, why, line, message:why+' To run it now, send “'+line+'” in a Claude chat.'};
+      const code = e?.code || null;
+      await write(() => ref.update({status:'waiting', note:why, code}));
+      return {started:false, why, code, line, message:why+' To run it now, send “'+line+'” in a Claude chat.'};
     }
   }
   // A refresh is a job for a Claude Code session: the page cannot read YouTube itself. The request is saved as
@@ -522,9 +542,18 @@
     const plain = () => { const {permission_mode, ...rest} = args; return call(rest); };
     if (!args.permission_mode) return call(args);
     let r;
-    // Any failure with Auto requested is retried once without it: a start from the page itself can be refused Auto
-    // (seen 12 November 2026 as upstream_error), and a session that starts is better than none.
-    try { r = await call(args); } catch (e) { void refused; return plain(); }
+    // Retried once without Auto when the connector refused the mode: a tool_error or bad_request, an error naming the
+    // mode, or a plain upstream_error (how a refused Auto came back on 12 November 2026). Never on a code that means
+    // Claude could not reach or load the connector (not connected, sign in again, switched off, not approved, or an
+    // upstream_error stamped retryable: the consent card could not be answered, so the call never reached it). A second
+    // call there cannot succeed and only shows Claude's connector card again (16 November 2026, Inspiration Ask).
+    const NO_RETRY = ['server_not_connected','needs_reauth','selection_required','server_not_found','not_in_manifest','blocked_by_policy',
+      'approval_required','consent_required','not_granted','capability_disabled','capability_removed','server_unavailable','cancelled','user_changed'];
+    try { r = await call(args); } catch (e) {
+      if (refused(e?.message) || refused(e?.result)) return plain();
+      if (NO_RETRY.includes(e?.code) || (e?.code === 'upstream_error' && e?.retryable === true)) throw e;
+      return plain();
+    }
     if (r && (r.isError || r.error)) return plain();
     return r;
   }
