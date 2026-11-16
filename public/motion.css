@@ -38,9 +38,9 @@
 /* ---- Screen arrival: gold rule, then the heading, then the blocks ---- */
 [data-enter=screen]{--m-at:calc(var(--m-lead) * 2)}
 [data-enter=screen] :is(.library-heading,.vi-title,.tp-head,.bs-head,.pb-head)>div:first-child>.micro:first-child::before,
-[data-enter=screen] :is(.va-head,.se-head,.tk-head,.br-head,.br-sheet-head)>.micro::before{transform-origin:0 50%;animation:m-draw var(--m-rule) var(--m-ease-rule) backwards}
+[data-enter=screen] :is(.va-head,.se-head,.tk-head,.br-head,.br-sheet-head,.mg-head)>.micro::before{transform-origin:0 50%;animation:m-draw var(--m-rule) var(--m-ease-rule) backwards}
 [data-enter=screen] :is(.library-heading,.vi-title,.tp-head,.bs-head,.pb-head)>div:first-child>:not(.micro),
-[data-enter=screen] :is(.va-head,.se-head,.tk-head,.br-head,.br-sheet-head)>:is(h1,p),
+[data-enter=screen] :is(.va-head,.se-head,.tk-head,.br-head,.br-sheet-head,.mg-head)>:is(h1,p),
 [data-enter=screen] .cr-banner{animation:m-fade var(--m-enter) var(--m-ease) var(--m-lead) backwards}
 
 /* ---- Blocks and cards settling: fade and 4px, 20ms apart, first 6 ----
