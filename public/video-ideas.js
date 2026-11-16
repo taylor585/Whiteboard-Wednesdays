@@ -85,7 +85,10 @@
   let chip = null;          // the suggestion chip pressed, while the field still holds its text
   let lane = 'all', week = 'week';
   const more = new Set(), openPts = new Set(), showGone = new Set(), landed = new Set(), fresh = new Map();
-  let firstData = true;
+  // Refresh bookkeeping (16 November 2026): the status each scan had when this page last saw it (a scan is landed only
+  // when it finished while the page was open), scans whose done did not bring a newer uploads.json into this view, and
+  // the starts tried from this page per scan, so Try again says it really tried.
+  const OPENED = Date.now(), lastStatus = new Map(), stale = new Map(), tries = new Map();
   const runs = () => (data.ideaRuns || []);
   const scans = () => (data.scans || []);
   const srcOf = idea => idea.source === 'creator' ? 'creator' : idea.source === 'x' ? 'x' : 'work';
@@ -142,9 +145,11 @@
         '<div class="vi-meters" data-live-meter="'+kind+'">'+liveHtml(kind, g)+'</div><p class="vi-links">'+sessionA(g)+leave+'</p>'};
     }
     // Not started: the connector refused or is unavailable (waiting), the 60 second watchdog fired, or nobody is starting it.
-    const fallback = why => ({cls:'is-fail', html:'<p class="vi-st is-warn">'+d+'Not started</p><p>'+esc(why)+' Send this in a Claude chat and the '+what+' land here:</p>'+copyLine(LINE[kind](id))+again+'</p>'+
+    const tried = kind === 'refresh' && tries.get(id), hint = why => kind === 'refresh' && /upstream_error|server_unavailable|server_not_connected|needs_reauth/.test(why) ? ' The Claude Code Remote connector did not answer, so no session started; if Claude says it could not load the connector, reconnect it in claude.ai Settings, Connectors.' : '';
+    const fallback = why => ({cls:'is-fail', html:'<p class="vi-st is-warn">'+d+'Not started</p><p>'+esc(why)+esc(hint(why))+' Send this in a Claude chat and the '+what+' land here:</p>'+copyLine(LINE[kind](id))+again+'</p>'+
+      (tried ? '<p class="vi-leave">Tried '+tried.n+' time'+(tried.n === 1 ? '' : 's')+' from this page, last at '+esc(clock(tried.at))+'.</p>' : '')+
       (loc?.open ? '<p class="vi-leave">If it later starts by itself, this group moves on to Running.</p>' : g.code === 'not_granted' || /did not allow/.test(g.note || '') ? '<p class="vi-leave">To let it start by itself, allow Claude Code on its <a href="#/settings/connections/claudecode">Connections card</a>.</p>' : '')});
-    if (st === 'waiting') return fallback(g.note && !/within a minute/.test(g.note) ? g.note : 'Claude could not start the session from this view.');
+    if (st === 'waiting' && !loc?.open) return fallback(g.note && !/within a minute/.test(g.note) ? g.note : 'Claude could not start the session from this view.');
     if (loc?.open) {
       const el = Date.now() - loc.t0;
       if (el >= MIN) return fallback('Claude could not start the session from this view.');
@@ -234,10 +239,12 @@
     const meta = s ? 'Started '+esc(clock(g.createdAt)) : at ? esc(date(at))+' · '+esc(clock(at))+' · '+newN+' new' : 'Not fetched yet';
     let body = '';
     if (s) body += '<div class="vi-run '+s.cls+'">'+s.html+'</div>';
+    else if (g && stale.has(g.id)) body += '<div class="vi-run is-fail"><p class="vi-st is-warn">'+d+'Done in the session, not in this view yet</p><p>The scan finished, but this view still has the uploads checked '+esc(at ? date(at)+' · '+clock(at) : 'earlier')+'.</p><p class="vi-links"><button type="button" class="vi-btn is-ink" data-reload-uploads="'+esc(g.id)+'">Load the new uploads</button></p></div>';
     else if (g?.status === 'done' || at) {
       const dur = g?.status === 'done' && g.finishedAt ? ' · '+took(Date.parse(g.finishedAt) - since(g)) : '';
       body += '<p class="vi-st is-ok">'+d+'Done · '+(fresh1 !== null ? fresh1+' new upload'+(fresh1 === 1 ? '' : 's') : newN+' new '+esc(WEEKS[week][2]))+'<em>'+dur+'</em></p>';
     }
+    body += '<p class="vi-checked">'+(at ? 'Uploads checked <time datetime="'+esc(at)+'">'+esc(date(at))+' · '+esc(clock(at))+'</time> · '+esc(ago(Date.parse(at))) : 'Uploads not checked yet')+'</p>';
     if (creator) body += '<p class="vi-who">Showing '+esc(creator.name)+' only · <a href="#/creator/'+encodeURIComponent(creator.handle)+'">Open '+esc(creator.name)+'’s page</a> · <button type="button" class="vi-btn is-text" data-everyone>Show everyone</button></p>';
     if (!data.configured && !data.videos.length) body += '<div class="vi-empty"><p><b>No uploads fetched yet.</b></p><p>Press Refresh creators: a Claude Code session reads your '+data.creators.length+' creators’ public feeds, in about 2 minutes.</p></div>';
     else if (!live.length) body += '<div class="vi-empty"><p><b>No uploads '+esc(WEEKS[week][2])+(week === 'week' ? ' yet' : '')+'.</b></p><p>'+(at ? 'Last checked '+esc(date(at))+'.' : 'Not checked yet.')+(week !== 'all' ? ' <button type="button" class="vi-btn is-text" data-week="all">Show the last '+WINDOW+' days</button>' : '')+'</p></div>';
@@ -284,7 +291,7 @@
     if (focus) restoreFocus(focus);
     lanes(); dock();
   }
-  const ATTRS = ['data-spark','data-book','data-seen','data-unseen','data-spark-idea','data-book-idea','data-dismiss-idea','data-restore','data-more','data-gone','data-lane','data-copy','data-again'];
+  const ATTRS = ['data-reload-uploads','data-spark','data-book','data-seen','data-unseen','data-spark-idea','data-book-idea','data-dismiss-idea','data-restore','data-more','data-gone','data-lane','data-copy','data-again'];
   function focusKey(el) { if (el.closest('#ideas-stream,#ideas-lanes') === null) return null; const a = ATTRS.find(x => el.hasAttribute(x)); const card = el.closest('[data-video],[data-idea]'); return a ? {a, v:el.getAttribute(a), card:card ? (card.dataset.video || card.dataset.run+'/'+card.dataset.idea) : null} : el.tagName === 'SUMMARY' ? {sum:el.parentElement.dataset.key} : null; }
   function restoreFocus(k) {
     let el = null;
@@ -326,13 +333,15 @@
   const newId = () => window.WWStore?.ideas?.jobId ? window.WWStore.ideas.jobId() : new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7).padEnd(5, '0');
   async function begin(kind, body, path) {
     const id = body.id || newId(), l = {id, t0:Date.now(), open:true, prompt:body.prompt, mode:body.mode};
+    if (kind === 'refresh') tries.set(id, {n:(tries.get(id)?.n || 0) + 1, at:Date.now()});
     local[kind] = l; M?.stamp('vi-start:'+kind); render(); ensureTick();
     try {
       const r = await api(path, {...body, id});
       l.open = false;
       if (local[kind] === l) local[kind] = null;
       await load();
-      if (!r.started) announce(r.why ? r.why+' Send the line in the group to a Claude chat.' : 'Claude could not start the session.');
+      if (!r.started && kind === 'refresh') announce('Refresh not started. The reason and the line to send are in the Refresh group.');
+      else if (!r.started) announce(r.why ? r.why+' Send the line in the group to a Claude chat.' : 'Claude could not start the session.');
       else announce(kind === 'ask' ? 'Claude is finding ideas. They land here when the session finishes.' : 'Claude is fetching your creators’ uploads.');
     } catch (error) { l.open = false; if (local[kind] === l) local[kind] = null; await load(); announce(error.status === 404 ? 'Ask needs the Claude app; this server does not have it.' : error.message); }
     render();
@@ -348,7 +357,9 @@
     if (busy('refresh')) { announce('Your creators are already being refreshed.'); $('#ideas-stream [data-group=refresh]')?.scrollIntoView({block:'start', behavior:'smooth'}); return; }
     if (data.store !== 'claude' && !data.ready) { announce('Refreshing needs the Claude app’s saved data, which this preview does not have.'); return; }
     if (data.store !== 'claude') return serverRefresh();
-    begin('refresh', {}, '/refresh');
+    // A scan that never started (waiting) is started again under its own id rather than leaving one more waiting behind.
+    const g = scans()[0], id = g && g.status === 'waiting' ? g.id : null;
+    begin('refresh', id ? {id} : {}, '/refresh');
   }
   async function serverRefresh() {
     if (!data.configured) { announce('Refreshing needs the YouTube connection, which is not set up yet.'); return; }
@@ -357,7 +368,11 @@
     await load(); announce('Refresh finished: '+ok+' creators updated'+(bad ? ', '+bad+' could not be refreshed.' : '.'));
   }
   async function again(kind, id) {
-    if (kind === 'refresh') { local.refresh = null; return refresh(); }
+    if (kind === 'refresh') {
+      // Try again: the same scan, a new start (its document goes back to queued, so the line to send stays the same).
+      if (local.refresh?.open) return;
+      return begin('refresh', {id}, '/refresh');
+    }
     if (local.ask?.open) return;
     const l = {id, t0:Date.now(), open:true}; local.ask = l; render(); ensureTick();
     try { const r = await api('/idea-start', {id}); l.open = false; if (local.ask === l) local.ask = null; await load(); if (!r.started) announce(r.why || 'Claude could not start the session.'); }
@@ -365,20 +380,32 @@
     render();
   }
   // A scan that turns done while the page is open: fetch uploads.json again past the cache, and count what is new.
+  // Only a scan that finished while this page was open lands: one this page saw unfinished, or one whose finishedAt is
+  // after the page opened (an old done scan arriving with the first snapshot is not news). If no newer uploads.json reached
+  // this view afterwards (the same fetchedAt as before), the group says so instead of a false "Done".
   async function landScans() {
     for (const s of scans()) {
+      const was = lastStatus.get(s.id); lastStatus.set(s.id, s.status);
       if (s.status !== 'done' || landed.has(s.id)) continue;
       landed.add(s.id);
-      if (firstData) continue;
-      const before = new Set(data.videos.map(v => v.id));
+      if (!(was && was !== 'done') && !(Date.parse(s.finishedAt || 0) > OPENED)) continue;
+      const before = new Set(data.videos.map(v => v.id)), beforeAt = data.fetchedAt || null;
       try { await store?.reloadUploads({fresh:true}); } catch { /* load below still redraws */ }
       await load();
       const n = data.videos.filter(v => !before.has(v.id)).length;
       fresh.set(s.id, n); scanNoteUntil = Date.now() + 60000;
-      announce(n ? n+' new upload'+(n === 1 ? '' : 's')+' since the last check.' : 'No new uploads since the last check.');
+      if ((data.fetchedAt || null) === beforeAt) { stale.set(s.id, beforeAt); announce('The scan finished, but this view still has the earlier uploads.'); }
+      else announce(n ? n+' new upload'+(n === 1 ? '' : 's')+' since the last check.' : 'No new uploads since the last check.');
       render();
     }
-    firstData = false;
+  }
+  async function reloadStale(id) {
+    const beforeAt = stale.get(id);
+    try { await store?.reloadUploads({fresh:true}); } catch { /* load below still redraws */ }
+    await load();
+    if ((data.fetchedAt || null) !== beforeAt) { stale.delete(id); announce('New uploads loaded.'); }
+    else announce('This view still has the earlier uploads. Close the app and open it again to load the new copy.');
+    render();
   }
   function emit() { window.dispatchEvent(new CustomEvent('ww:data', {detail:data})); }
   async function load() {
@@ -443,6 +470,7 @@
     if (b.dataset.undo !== undefined) { b.disabled = true; await undoIt(); return; }
     if (b.dataset.copy) { try { await navigator.clipboard.writeText(b.dataset.copy); announce('Copied. Paste it into a Claude chat.'); } catch { announce('Copy this line into a Claude chat: '+b.dataset.copy); } return; }
     if (b.dataset.again) { again(b.dataset.again, b.dataset.id); return; }
+    if (b.dataset.reloadUploads) { busyBtn(b, 'Loading…'); await reloadStale(b.dataset.reloadUploads); freeBtn(b); return; }
     if (b.dataset.seen) { seen.add(b.dataset.seen); keepSeen(); undo = {kind:'seen', ids:[b.dataset.seen]}; render(); announce('Dismissed.', '<button type="button" class="vi-btn is-text" data-undo>Undo</button>'); return; }
     if (b.dataset.unseen) { seen.delete(b.dataset.unseen); keepSeen(); render(); announce('Back in the stream.'); return; }
     if (b.dataset.spark) { busyBtn(b, 'Sparking…'); if (!await spark(b.dataset.spark)) freeBtn(b); return; }
