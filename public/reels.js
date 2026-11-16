@@ -128,7 +128,7 @@
   const takeOf = t => ({driveId:t.driveId, url:t.url || null, name:t.name || null, kind:t.kind || null, decision:t.decision || null, probe:t.probe || null});
   const STEPS_OF = r => isB(r) ? STEPS_B : STEPS;
   const statusWord = r => (isB(r) && STATUS_B[r.status]) || (isB(r) && r.status === 'finishing' && r.session?.step === 'options' ? 'Claude Code is finishing the reels you kept' : '') || STATUS_WORD[r?.status] || r?.status || '';
-  const videoJobs = () => jobs.filter(j => mainOf(j) && !(j.status === 'failed' && !j.packUrl && !j.pack)).slice(0, 6);
+  const videoJobs = () => jobs.filter(j => mainOf(j) && j.status !== 'saved' && !(j.status === 'failed' && !j.packUrl && !j.pack)).slice(0, 6);  // a job saved to the line has not run: its files are unchecked
   const reelTake = id => id && jobs.some(j => (j.reelTakes || []).includes(id) || (j.sources || []).some(s => s.driveId === id && s.role === 'reel'));
   // Until Taylor chooses, the newest Video job with a main recording is offered first (or the link box when there is none).
   const fromNow = () => from ?? (videoJobs()[0]?.id || 'link');

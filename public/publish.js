@@ -26,7 +26,15 @@
    part moves up or down, or is left out, with one tap. A job with a single main has no "part" and reads as before.
    X (10 November 2026): every job's pack also carries an X platform (key "x"): a single post and a short thread, each
    post counted the way X counts it (x-count.js) against 280. Taylor copies each post, or opens X's own compose box with the
-   first post filled in; the link reply waits for his YouTube link. Nothing is posted from here. */
+   first post filled in; the link reply waits for his YouTube link. Nothing is posted from here.
+   The line (Taylor chose P2 "Production Line" on 16 November 2026): #/publish (and its old alias #/publish/all) is every
+   Video job as an index card on five stations, Drive links → Variety Pack → Finished edits → Ready to post → Posted (the
+   status → station mapping and the two-link rule live in publish-line.js, window.WWLine). #/publish/new is New video: two
+   required Drive file links with declared roles, the main video (16:9) and the reel (upright), saved on the job as
+   links: {main, reel} and, as before, as sources with role main and reel, so every session reads them unchanged.
+   Run saves and starts the job exactly as Generate did; Save to the line saves it with status "saved", which starts
+   nothing and which autopilot, posting, the poster and Ready to post all ignore. #/publish/new/<id> edits a saved job's
+   links. The per-job routes (#/publish/job/<id>) and their screens are unchanged. */
 (() => {
   'use strict';
   const root = document.querySelector('#publish');
@@ -53,10 +61,16 @@
   // ytDraft is the YouTube link he types for the LinkedIn first comment; badImg holds thumbnail images that did not load here.
   let buyerPick = null, buyerFor = null, ytDraft = null, badImg = new Set();
   // Every video, always one tap away (Taylor, 6 November 2026: an old job on "pack" left him no way back). view is what the
-  // route asks for: 'auto' (#/publish: the latest job in progress, or the intake), 'all' (#/publish/all: every job, with
-  // Start a new video), 'new' (#/publish/new: the intake, whatever is running) or 'job' (#/publish/job/<id>). routeJob is
+  // route asks for: 'line' (#/publish, and its old alias #/publish/all: every job on the line, 16 November 2026), 'new'
+  // (#/publish/new: New video, whatever is running; #/publish/new/<id> a saved job's links) or 'job' (#/publish/job/<id>). routeJob is
   // that id. Internal moves push a history entry, so Back walks them in order.
-  let view = 'auto', routeJob = null, extNote = '';
+  let view = 'line', routeJob = null, extNote = '';
+  // New video (16 November 2026): the two links as typed, and the saved job being edited at #/publish/new/<id> (newId is
+  // the id the route asks for; editId the one whose fields are loaded into the form).
+  const W = window.WWLine;
+  let mainUrl = '', reelUrl = '', newId = null, editId = null;
+  // links (the old list) is derived from the two fields, so the existing-work check and the running-job check read it as before.
+  function setLinks() { links = [['main', mainUrl], ['reel', reelUrl]].map(([role, url]) => { const p = W.driveFile(url); return p.kind === 'empty' ? null : {url:p.url, id:p.id, kind:p.kind === 'file' ? 'file' : p.kind, role, by:'taylor'}; }).filter(Boolean); }
   // A link names one Drive file, or one shared Drive folder (Phase 2): the cloud session lists the folder, because the
   // browser cannot. Docs, Sheets, Slides and Drive's own views (My Drive, Recent) are refused with a reason.
   function parseLink(url) {
@@ -81,7 +95,7 @@
     // A failed job stays on the step it was working on, marked as stopped, never on Post. Check the files is step 1.
     const s = job?.status || 'new', failed = s === 'failed';
     // Step 1 stays on until the files are checked: Generate never moves the strip on, and Check the files never moves it back.
-    const at = s === 'new' || s === 'check' || (['queued','starting','running'].includes(s) && !filesChecked(job)) ? 0 : ['queued','starting','running','found','pack'].includes(s) ? 1 : ['finishing','pilot','review','ask'].includes(s) || (s === 'final' && !job.pack?.platforms?.length) ? 2 : failed ? (LATER.includes(job.session?.step) || job.pickedAt ? 2 : 1) : 3;
+    const at = s === 'new' || s === 'saved' || s === 'check' || (['queued','starting','running'].includes(s) && !filesChecked(job)) ? 0 : ['queued','starting','running','found','pack'].includes(s) ? 1 : ['finishing','pilot','review','ask'].includes(s) || (s === 'final' && !job.pack?.platforms?.length) ? 2 : failed ? (LATER.includes(job.session?.step) || job.pickedAt ? 2 : 1) : 3;
     return '<ol class="pb-steps">'+['Drive links','Variety Pack','Finished edits','Post'].map((n, i) => '<li class="'+(i < at ? 'is-done' : i === at ? (failed ? 'is-failed' : 'is-on') : '')+'"'+(i === at ? ' aria-current="step"' : '')+'><b>'+(i+1)+'</b>'+n+(i === at && failed ? ' <small>stopped</small>' : '')+'</li>').join('')+'</ol>';
   }
   // The files are checked once Taylor confirmed them, the session marked each one done, or the job is past the pack.
@@ -89,29 +103,8 @@
   // Every problem at once, re-checked on each change (links, roles and title) and again when Generate is pressed.
   // Folder mode: exactly one folder link and nothing else. The title can wait: Claude suggests it from the folder name.
   const folderMode = () => links.length === 1 && links[0].kind === 'folder' && !!links[0].folderId;
-  const linkParts = () => links.filter(l => l.kind !== 'folder' && l.role === 'main');
-  function problems() {
-    if (!links.length) return [];
-    if (folderMode()) return [];
-    const out = [], main = links.filter(l => l.role === 'main').length, reels = links.filter(l => l.role === 'reel').length;
-    const folders = links.filter(l => l.kind === 'folder');
-    if (!title.trim()) out.push('Say what the video is about.');
-    if (folders.length > 1) out.push('There are '+folders.length+' folder links. Paste one folder per video.');
-    else if (folders.length && folders[0].folderId) out.push('Paste the folder link on its own: Claude reads the files inside it. Or remove it and paste file links.');
-    links.forEach((l, i) => {
-      if (l.kind === 'folder') { if (!l.folderId) out.push('Link '+(i+1)+' is not a shared Drive folder link. Open the folder in Drive, choose Share, Copy link, and paste that.'); }
-      else if (l.kind === 'doc') out.push('Link '+(i+1)+' is a Google Docs, Sheets or Slides link, not a video file.');
-      else if (!l.id) out.push('Link '+(i+1)+' is not a Google Drive file link.');
-    });
-    const seen = new Map();
-    links.forEach((l, i) => { if (!l.id) return; if (seen.has(l.id)) out.push('Link '+(i+1)+' is the same file as link '+(seen.get(l.id)+1)+'. Remove one of them.'); else seen.set(l.id, i); });
-    if (folders.length) return out;
-    // Several links marked main are the parts of one main recording, joined in the order they are pasted.
-    if (!main) out.push('Choose which link is the main recording.');
-    if (main > MAX_PARTS) out.push('Up to '+MAX_PARTS+' parts in one main recording; '+main+' links are marked as main.');
-    if (reels > MAX_REELS) out.push('There are '+links.length+' links. One job takes one main recording (in one or more parts) and up to '+MAX_REELS+' phone reel recordings, so remove '+(reels - MAX_REELS)+'.');
-    return out;
-  }
+  // New video: the two-link rule (publish-line.js). Every problem at once, re-checked on each change and again on Run.
+  function problems() { return W.checkLinks(mainUrl, reelUrl); }
   // Topic link: an exact title match links the topic; otherwise Taylor is asked which topic it is (closest first).
   const norm = x => String(x ?? '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
   const STOP = new Set('a an the and or of to in on for with how what why your you my is are it its this that do does can'.split(' '));
@@ -143,7 +136,7 @@
     const ids = new Set(links.map(l => l.id).filter(Boolean)), folder = folderMode() ? links[0].folderId : null, tid = intakeTopic()?.id || null;
     const why = (driveIds, folderId, topicId) => (driveIds || []).some(d => ids.has(d)) ? 'Same Drive file' : folder && folderId === folder ? 'Same Drive folder' : tid && topicId === tid ? 'Same topic' : '';
     const out = [];
-    jobs.forEach(j => { if (j.status === 'failed' && !j.packUrl) return;  // a stopped job with no pack has nothing to reuse
+    jobs.forEach(j => { if (j.id === editId || (j.status === 'failed' && !j.packUrl)) return;  // a stopped job with no pack has nothing to reuse
       const w = why((j.sources || []).map(x => x.driveId), j.source?.folderId, j.topicId);
       if (w) out.push({kind:'job', id:j.id, why:w, title:j.title || j.folderName || 'Job '+j.id, url:artifactUrl(j.packUrl), detail:JOB_WORD[j.status] || j.status, at:j.createdAt}); });
     const have = new Set(out.map(x => x.url).filter(Boolean));
@@ -165,25 +158,46 @@
   // A running job blocks a second job for the SAME recording only (same Drive file or folder); never a new video.
   const sameRunning = () => { const ids = new Set(links.map(l => l.id).filter(Boolean)), folder = folderMode() ? links[0].folderId : null;
     return jobs.find(j => ['queued','starting','running','finishing'].includes(j.status) && ((j.sources || []).some(x => ids.has(x.driveId)) || (folder && j.source?.folderId === folder))) || null; };
-  const canGenerate = () => links.length && !problems().length && db && !sameRunning() && !starting;
+  const canGenerate = () => !W.linkBlock(mainUrl, reelUrl) && db && !sameRunning() && !starting;
+  // Save to the line needs one good link at least (the card then says which is missing); Run needs both.
+  const saveBlock = () => W.linkBlock(mainUrl, reelUrl) === 'Add both links to run' ? 'Add a link to save' : W.checkLinks(mainUrl, reelUrl).length ? 'Fix the links to save' : '';
+  const canSave = () => !saveBlock() && db && !starting;
   function checkHtml() {
-    const ps = problems(), found = earlier(), shown = found.length && reuseSeen === reuseSig() && reuseOk !== reuseSeen;
+    const ps = problems(), found = earlier(), shown = found.length && reuseSeen === reuseSig() && reuseOk !== reuseSeen, sr = sameRunning();
+    const block = W.linkBlock(mainUrl, reelUrl), why = block || (sr ? 'This recording already has a job running' : !db ? (connecting ? 'Connecting' : 'Saving needs the app’s database, which this preview does not have') : '');
+    const dis = !canGenerate() ? ' disabled aria-describedby="pb-run-why"' : '';
     return (ps.length ? '<div class="pb-warn" role="alert">'+(ps.length === 1 ? esc(ps[0]) : '<ul>'+ps.map(x => '<li>'+esc(x)+'</li>').join('')+'</ul>')+'</div>' : '')+
-      (shown ? reuseHtml(found) : '<button type="button" class="pb-go" id="pb-generate"'+(canGenerate() ? '' : ' disabled')+'>Generate Variety Pack</button>')+
-      (sameRunning() ? '<div class="pb-warn" role="alert">This recording already has a job running. <a class="pb-link" href="#/publish/job/'+encodeURIComponent(sameRunning().id)+'">Open it</a></div>' : '')+
-      '<p class="pb-muted">'+(db ? (links.length ? 'Claude Code first checks each file’s shape and length (a few minutes) and stops to ask you if anything is unclear, before any editing. ' : '')+'The job uses the skills in Settings: '+esc(skillLine())+'.' : connecting ? 'Connecting…' : 'Publish jobs are saved in the app’s database, which this preview does not have.')+'</p>';
+      (shown ? reuseHtml(found) : '<div class="pb-run"><button type="button" class="pb-go pb-run-go" id="pb-generate"'+dis+'>Run →</button><button type="button" class="pb-ghost" id="pb-save"'+(canSave() ? '' : ' disabled aria-describedby="pb-run-why"')+'>Save to the line</button></div>'+
+        '<p class="pb-muted pb-run-why" id="pb-run-why">'+(why ? '<b>'+esc(why)+'.</b> ' : '')+'Run needs both links. Save to the line puts the card on Drive links without starting anything.</p>')+
+      (sr ? '<div class="pb-warn" role="alert">This recording already has a job running. <a class="pb-link" href="#/publish/job/'+encodeURIComponent(sr.id)+'">Open it</a></div>' : '');
   }
-  const linkLabel = l => l.id ? 'Drive file …'+l.id.slice(-6) : l.kind === 'folder' ? (l.folderId ? 'Drive folder …'+l.folderId.slice(-6) : 'Not a shared folder link') : l.kind === 'doc' ? 'Google Docs link, not a video' : 'Not a Drive file link';
+  // One link as a sheet on the side panel: its role, what it becomes, and whether it is in.
+  const ROLE_OF = {main:['Main video · 16:9', 'YouTube, LinkedIn', 'is-wide'], reel:['Reel · upright', 'Instagram, Facebook', 'is-tall']};
+  function sideSheet(k, url, other) {
+    const p = W.driveFile(url), [lab, to, shape] = ROLE_OF[k];
+    const same = p.kind === 'file' && W.driveFile(other).id === p.id;
+    const st = p.kind === 'empty' ? ['is-warn', 'Missing'] : p.kind !== 'file' || same ? ['is-warn', 'Check it'] : ['is-ok', 'Added'];
+    return '<li class="pb-sheetrow"><span class="pb-shape '+shape+'" aria-hidden="true"></span><div><b>'+lab+'</b><small>'+(p.kind === 'empty' ? 'Not added yet' : esc(p.id ? 'Drive file …'+p.id.slice(-6) : p.url))+' · '+to+'</small></div><span class="pb-status '+st[0]+'">'+st[1]+'</span></li>';
+  }
+  const sideLinks = (m = mainUrl, r = reelUrl) => '<ul class="pb-sheets">'+sideSheet('main', m, r)+sideSheet('reel', r, m)+'</ul>';
+  function linkField(k) {
+    const main = k === 'main';
+    return '<label class="pb-field pb-lnk" for="pb-'+k+'"><span class="pb-lnk-h"><span class="pb-shape '+(main ? 'is-wide' : 'is-tall')+'" aria-hidden="true"></span>'+(main ? 'Main video · 16:9 landscape' : 'Reel · upright phone recording')+' <em>Required</em></span>'+
+      '<i>'+(main ? 'Becomes the YouTube video and the LinkedIn cut. Your 32:9 house recording works too.' : 'Becomes the Instagram reel and the 4:5 post (Facebook gets the same).')+' Share it “Anyone with the link”.</i>'+
+      '<input id="pb-'+k+'" type="url" inputmode="url" spellcheck="false" autocomplete="off" required aria-required="true" placeholder="https://drive.google.com/file/d/…" value="'+esc(main ? mainUrl : reelUrl)+'"></label>';
+  }
   function intake() {
-    const ts = topics();
-    const fm = folderMode();
-    return '<section class="pb-intake" aria-labelledby="pb-links-h"><div><h2 id="pb-links-h">Paste the Drive folder</h2><p class="pb-muted">One shared folder with the main recording (landscape, 32:9 or 16:9) and any phone reel recordings (upright). Or paste file links instead, one per line or separated with commas. Share it “Anyone with the link”.</p>'+
-      '<textarea id="pb-links" rows="6" spellcheck="false" placeholder="https://drive.google.com/drive/folders/…">'+esc(links.map(l => l.url).join('\n'))+'</textarea>'+
-      '<label class="pb-field" for="pb-title"><span>What is this video about?'+(fm ? ' <i class="pb-opt-note">Optional: Claude suggests it from the folder name</i>' : '')+'</span><input id="pb-title" list="pb-topic-list" maxlength="200" autocomplete="off" placeholder="'+(fm ? 'Leave it empty to use the folder name' : 'Type it, or pick one of your saved topics')+'" value="'+esc(title)+'"><datalist id="pb-topic-list">'+ts.map(t => '<option value="'+esc(t.title)+'">').join('')+'</datalist></label>'+
+    const ts = topics(), ed = editId && jobs.find(j => j.id === editId);
+    return '<div class="pb-new"><div class="pb-big"><div class="pb-big-sheet" aria-hidden="true"></div><div class="pb-big-face"><div class="pb-cardno"><b>JOB '+esc(ed ? jobNo(ed) : String(jobs.length + 1).padStart(2, '0'))+' · '+(ed ? 'SAVED' : 'NEW')+'</b><span class="pb-hand" aria-hidden="true">on the line next</span></div><div class="pb-rows">'+
+      linkField('main')+linkField('reel')+
+      '<label class="pb-field" for="pb-title"><span>What is this video about? <i class="pb-opt-note">Optional: pick one of your saved topics or type it</i></span><input id="pb-title" list="pb-topic-list" maxlength="200" autocomplete="off" placeholder="Type it, or pick one of your saved topics" value="'+esc(title)+'"><datalist id="pb-topic-list">'+ts.map(t => '<option value="'+esc(t.title)+'">').join('')+'</datalist></label>'+
       '<div id="pb-topic-q">'+topicHtml()+'</div>'+
-      '<label class="pb-field" for="pb-brief"><span>What you say in it, in your words (optional)</span><textarea id="pb-brief" rows="3" maxlength="2000" placeholder="The main points, any numbers you mention, who it is for. The title, description and posts are written from this and the transcript.">'+esc(brief)+'</textarea></label></div>'+
-      '<div><h2>Check before it renders</h2>'+(links.length ? '<ol class="pb-srcs">'+links.map((l, i) => l.kind === 'folder' ? '<li class="pb-src'+(fm ? '' : ' is-bad')+'"><span class="pb-shape is-folder" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b><small>'+esc(l.url)+'</small></div><span class="pb-src-note">'+(fm ? 'Claude lists it and reads each file' : 'Not used')+'</span></li>' : '<li class="pb-src'+(l.id ? '' : ' is-bad')+'"><span class="pb-shape is-file" aria-hidden="true"></span><div><b>'+esc(linkLabel(l))+'</b>'+(l.role === 'main' && linkParts().length > 1 ? '<span class="pb-ck-meta pb-partof">Part '+(linkParts().indexOf(l)+1)+' of '+linkParts().length+' of the main recording, joined in the order pasted</span>' : '')+'<small>'+esc(l.url)+'</small></div><select data-role="'+i+'" aria-label="Role of link '+(i+1)+'"><option value="main"'+(l.role === 'main' ? ' selected' : '')+'>Main recording</option><option value="reel"'+(l.role === 'reel' ? ' selected' : '')+'>Phone reel take</option></select></li>').join('')+'</ol>'+(links.filter(l => l.kind !== 'folder').length > 1 ? '<p class="pb-muted pb-checknote">Checking which file is which after Generate: Claude Code reads each file’s real shape and length, so the order you paste them in does not matter, and you confirm before anything is edited.</p>' : '') : '<p class="pb-empty">Your folder or links appear here. With a folder, Claude tells the main recording from the phone reel recordings by their shape and length, and you confirm before anything renders.</p>')+
-      (window.WWAutopilot?.intakeHtml?.() || '')+'<div id="pb-check">'+checkHtml()+'</div></div></section>';
+      '<label class="pb-field" for="pb-brief"><span>What you say in it, in your words (optional)</span><textarea id="pb-brief" rows="3" maxlength="2000" placeholder="The main points, any numbers you mention, who it is for. The title, description and posts are written from this and the transcript.">'+esc(brief)+'</textarea></label>'+
+      '<div id="pb-check">'+checkHtml()+'</div></div></div></div>'+
+      '<aside class="pb-side" aria-labelledby="pb-side-h"><h2 id="pb-side-h">Check before it runs</h2><div id="pb-side-links">'+sideLinks()+'</div>'+
+      '<p class="pb-muted">Claude Code checks each file’s real shape and length first, and stops to ask you if the two look swapped or the reel is not upright, before any editing.</p>'+
+      '<div class="pb-apbox">'+(window.WWAutopilot?.intakeHtml?.() || '')+'</div>'+
+      '<p class="pb-skills">'+(db || !connecting ? 'The job uses the skills in Settings: <b>'+esc(skillLine())+'</b>.' : 'Connecting…')+'</p>'+readyJobs()+'</aside></div>';
   }
   const skillLine = () => { const s = window.WWSettings?.skills || {}, n = window.WWSettings?.name || (x => x); return [n(s.publishEdit), n(s.publishThumbs), n(s.publishPosts)].filter(Boolean).join(', '); };
   const busy = () => job && ['queued','starting','running','finishing'].includes(job.status);
@@ -209,6 +223,10 @@
   // extra is Taylor's answer at a stop (approvals), saved together with the session so a refusal saves nothing.
   async function startSession(j, step, extra = null) {
     const line = lineFor(step, j.id), requestedAt = new Date().toISOString();
+    // The two-link rule (16 November 2026): a job with declared links, or saved to the line, never starts with one link.
+    // Jobs from before (a folder, or a list of file links) have no declared links and keep the old rules.
+    const block = step === 'pack' ? W.runBlock(j) : '';
+    if (block) { retry = null; retryExtra = null; note = block+'. Nothing has started.'; render(); return false; }
     starting = step; retry = null; retryExtra = null; note = ''; render();
     try {
       const mcp = await window.claude?.use?.('mcp');
@@ -217,7 +235,7 @@
       const p = r?.payload || {}, sid = p.ccr?.id || p.session_id || p.id || p.session?.id || null;
       starting = null;
       await save({session:{id:sid, url:sid ? 'https://claude.ai/code/'+sid : null, step, requestedAt, startedAt:new Date().toISOString()},
-        ...(step === 'pack' ? {status:'starting'} : {status:'finishing', ...(step === 'finals' ? {pickedAt:requestedAt} : {})}), ...(extra || {}), ...(j.status === 'failed' ? {error:null, failedStage:null} : {}), ...(window.WWAutopilot?.answered?.(j) || {})});
+        ...(step === 'pack' ? {status:'starting', ...(j.status === 'saved' ? {startedAt:requestedAt} : {})} : {status:'finishing', ...(step === 'finals' ? {pickedAt:requestedAt} : {})}), ...(extra || {}), ...(j.status === 'failed' ? {error:null, failedStage:null} : {}), ...(window.WWAutopilot?.answered?.(j) || {})});
       if (!note) { changing = null; changeNote = ''; }
       // A Path B reel job made while the Video session was refused starts with this job's next session (decision 10).
       if (step === 'pack' && window.WWReels?.startQueued) await window.WWReels.startQueued(j.id);
@@ -686,28 +704,86 @@
   function readRoute() {
     const bits = location.hash.slice(1).split('/').filter(Boolean).map(x => { try { return decodeURIComponent(x); } catch { return x; } });
     if (bits[0] !== 'publish' || bits[1] === 'reels') return;
-    const v = bits[1] === 'all' ? 'all' : bits[1] === 'new' ? 'new' : bits[1] === 'job' && bits[2] ? 'job' : 'auto';
+    // #/publish and its old alias #/publish/all are the line; #/publish/new (or /new/<saved job id>) New video.
+    const v = bits[1] === 'new' ? 'new' : bits[1] === 'job' && bits[2] ? 'job' : 'line';
     if (v === 'job') { if (routeJob !== bits[2] || view !== 'job') { routeJob = bits[2]; job = jobs.find(j => j.id === routeJob) || (job?.id === routeJob ? job : null); ck = null; confirm = false; changing = null; } }
-    else if (v !== view || v !== 'auto') { routeJob = null; if (v !== 'auto') job = null; else job = jobs.find(j => j.status !== 'posted' && j.status !== 'final') || null; }
+    else { routeJob = null; job = null; }
+    newId = v === 'new' ? bits[2] || null : null;
+    // Leaving a saved job's edit clears its fields; a new video's own typing is kept while Taylor looks at the line.
+    if (editId && newId !== editId) { resetIntake(); editId = null; }
+    if (newId && editId !== newId) { const s = jobs.find(j => j.id === newId && j.status === 'saved'); if (s) { const l = W.linksOf(s); resetIntake(); mainUrl = l.main?.url || ''; reelUrl = l.reel?.url || ''; title = s.title || ''; brief = s.brief || ''; topicPick = s.topicId || ''; setLinks(); editId = newId; } }
     if (v !== view) { note = ''; retry = null; retryExtra = null; extNote = ''; }
     view = v;
   }
   // An in-app move: a new history entry, then draw at once (pushState fires no hashchange; Back fires one).
   function go(hash) { if (location.hash !== hash) history.pushState(null, '', hash); readRoute(); render(); }
   const ago = iso => when(iso);
-  // The "All videos" control: always at the top of both lanes, a real 44 px button-sized link, never a faint one.
-  // newCtl: the Start a new video control beside it ('' for none, as on the list, which has its own big one).
-  const backBar = (newCtl = '<a class="pb-go pb-newvid" href="#/publish/new" id="pb-newtop">Start a new video</a>') => '<nav class="pb-back" aria-label="All videos"><a class="pb-backlink" href="#/publish/all"'+(view === 'all' && !reelsLane() ? ' aria-current="page"' : '')+'><span aria-hidden="true">←</span> All videos</a>'+newCtl+'</nav>';
+  // Back to the line from a job's screen: always at the top, a real 44 px button-sized link, never a faint one.
+  // newCtl: the New video control beside it ('' for none).
+  const backBar = (newCtl = '<a class="pb-go pb-newvid" href="#/publish/new" id="pb-newtop">+ New video</a>') => '<nav class="pb-back" aria-label="The line"><a class="pb-backlink" href="#/publish"><span aria-hidden="true">←</span> The line</a>'+newCtl+'</nav>';
   window.WWPublishBack = backBar;
-  function allHtml() {
-    const rl = window.WWReels?.all?.() || [];
-    const row = j => { const t = (window.WWIdeas?.data?.topics || []).find(x => x.id === j.topicId), n = jobTitle(j);
-      return '<li class="pb-all-row"><div><b>'+esc(n)+'</b><small>'+esc([JOB_WORD[j.status] || j.status, t && norm(t.title) !== norm(n) ? 'Topic: '+t.title : '', when(j.updatedAt || j.createdAt)].filter(Boolean).join(' · '))+'</small></div>'+
-        '<a class="pb-go pb-open" href="#/publish/job/'+encodeURIComponent(j.id)+'" data-open-route="'+esc(j.id)+'" aria-label="Open '+esc(n)+'">Open</a></li>'; };
-    return '<section class="pb-all" aria-labelledby="pb-all-h"><div class="pb-all-head"><h2 id="pb-all-h" tabindex="-1">All videos</h2><a class="pb-go pb-all-new" href="#/publish/new" id="pb-all-new">Start a new video</a></div>'+
-      '<p class="pb-muted">Every video you have started, newest first. Opening one starts nothing. A job that is running only stops a second job for the same recording.</p>'+
-      (jobs.length ? '<ul class="pb-all-list">'+jobs.map(row).join('')+'</ul>' : '<p class="pb-empty">No videos yet. Start a new video to paste its Drive folder.</p>')+
-      (rl.length ? '<h3 class="pb-all-sub">Reels</h3><ul class="pb-all-list">'+rl.map(r => '<li class="pb-all-row"><div><b>'+esc(r.title || 'Reel job '+r.id)+'</b><small>'+esc([window.WWReels.label(r), when(r.updatedAt || r.createdAt)].filter(Boolean).join(' · '))+'</small></div><a class="pb-go pb-open" href="#/publish/reels/'+encodeURIComponent(r.id)+'" aria-label="Open the reels of '+esc(r.title || r.id)+'">Open</a></li>').join('')+'</ul>' : '')+'</section>';
+  // ---- The line (Taylor chose P2 "Production Line", 16 November 2026) -------------------------------------------------
+  // Every Video job is an index card on one of five stations (publish-line.js says which). A card opens the job's own
+  // screen; a card that waits on Taylor carries its ink action, and a saved card its Run.
+  const posted = j => { if (j.status === 'posted') return true; if (j.status !== 'final' || !window.WWPosting?.rows) return false;
+    try { const rs = window.WWPosting.rows(j).filter(x => x.on); return rs.some(x => x.state === 'posted') && rs.every(x => ['posted','skipped','off'].includes(x.state)); } catch { return false; } };  // every switched-on platform is out, or skipped (not connected, nothing to post)
+  const cardOf = j => W.card(j, {posted:posted(j)});
+  const jobNo = j => { const asc = [...jobs].sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt))); const i = asc.findIndex(x => x.id === j.id); return String(i < 0 ? asc.length + 1 : i + 1).padStart(2, '0'); };
+  const scheduleOf = j => { try { return window.WWPosting?.scheduleOf?.(j) || null; } catch { return null; } };
+  const postWhen = j => { const s = scheduleOf(j); return s?.day ? dayName(s.day)+' · '+(s.time || '')+' UK' : ''; };
+  const postMode = () => window.WWStore?.posting?.mode === 'auto' ? 'Posting Auto' : 'Posting Manual';
+  const addLabel = b => /reel/.test(b) ? 'Add the reel link' : /16:9/.test(b) ? 'Add the 16:9 link' : /both/.test(b) ? 'Add the links' : 'Fix the links';
+  const ARROW = '<svg class="pb-arrow" viewBox="0 0 32 20" aria-hidden="true" focusable="false"><path d="M3 10.5c7-.6 15-.4 24-.2M21 4.5c2.4 2.2 4.4 4 6.4 5.8-2.2 1.6-4.2 3.4-6 5.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function cardHtml(j, c) {
+    const id = esc(j.id), n = jobTitle(j), href = j.status === 'saved' ? '#/publish/new/'+encodeURIComponent(j.id) : '#/publish/job/'+encodeURIComponent(j.id);
+    const ap = j.autopilot?.on === true && c.at < 3, l = c.at === 0 && W.declared(j) ? W.linksOf(j) : null;
+    const chip = (lab, x) => '<span'+(x ? '' : ' class="is-miss"')+'>'+lab+' '+(x ? '✓' : 'missing')+'</span>';
+    const st = c.kind === 'ready' ? '<span class="pb-status'+(c.hold ? ' is-warn' : '')+'">'+(c.hold ? 'On hold' : postMode())+'</span>'+(postWhen(j) ? '<span class="pb-when">'+esc(postWhen(j))+'</span>' : '')
+      : c.kind === 'done' ? '<span class="pb-when">Posted'+(postWhen(j) ? ' '+esc(postWhen(j).split(' · ')[0]) : '')+'</span>'
+      : '<span class="pb-status'+(c.needs ? ' is-warn' : '')+'">'+esc(c.word)+'</span>';
+    const go = c.kind === 'saved' ? '<span class="pb-card-go"><button type="button" class="pb-ink" data-run-job="'+id+'" id="pb-run-'+id+'"'+(starting ? ' disabled' : '')+' aria-label="Run '+esc(n)+'">Run →</button></span>'
+      : c.kind === 'miss' ? '<span class="pb-card-go"><a class="pb-plain" href="#/publish/new/'+encodeURIComponent(j.id)+'">'+esc(addLabel(c.block))+'</a><button type="button" class="pb-ink" disabled aria-describedby="pb-why-'+id+'">Run</button><small class="pb-why" id="pb-why-'+id+'">'+esc(c.block)+'</small></span>'
+      : c.needs && c.btn ? '<span class="pb-card-go"><a class="pb-ink" href="'+href+'" aria-label="'+esc(c.btn)+': '+esc(n)+'">'+esc(c.btn)+'</a></span>' : '';
+    return '<article class="pb-card is-'+c.kind+'" aria-labelledby="pb-card-'+id+'"><span class="pb-no">JOB '+esc(jobNo(j))+(ap ? ' · HANDS-OFF' : '')+'</span>'+
+      '<h3><a class="pb-card-open" id="pb-card-'+id+'" href="'+href+'">'+esc(n)+'</a></h3>'+(l ? '<span class="pb-lk">'+chip('16:9', l.main)+chip('Reel', l.reel)+'</span>' : '')+st+go+'</article>';
+  }
+  function byStation() {
+    const out = W.STATIONS.map(() => []);
+    jobs.forEach(j => { const c = cardOf(j); out[c.at].push([j, c]); });
+    const at = j => Date.parse(scheduleOf(j)?.at || '') || Infinity;
+    out[3].sort((a, b) => at(a[0]) - at(b[0]));
+    return out;
+  }
+  const viewsNav = on => '<nav class="pb-views" aria-label="Publish views"><a href="#/publish" id="pb-view-line"'+(on === 'line' ? ' aria-current="page"'+M.attr('pb-view', 'draw') : '')+'>The line <span class="pb-ct">'+jobs.length+'</span></a>'+
+    '<a href="#/publish/new" id="pb-view-new"'+(on === 'new' ? ' aria-current="page"'+M.attr('pb-view', 'draw') : '')+'><span class="pb-plus" aria-hidden="true">+</span>New video</a></nav>';
+  function nextPost() {
+    const r = jobs.filter(j => j.status === 'final' && !j.hold?.on && !posted(j)).map(j => [j, scheduleOf(j)]).filter(([, s]) => s?.at && Date.parse(s.at) > Date.now()).sort((a, b) => Date.parse(a[1].at) - Date.parse(b[1].at))[0];
+    return r ? '<span class="pb-next">Next post <b>'+esc(postWhen(r[0]))+'</b></span>' : '';
+  }
+  function reelsFoot() {
+    const rl = window.WWReels?.all?.() || [], r = rl.find(x => x.status !== 'final' && x.status !== 'failed') || rl[0];
+    return r ? '<div class="pb-foot"><span><b>Reels</b> · '+esc(r.title || 'Reel job '+r.id)+' · '+esc(window.WWReels.label(r))+'</span><a class="pb-link" href="#/publish/reels/'+encodeURIComponent(r.id)+'">Open the reel job</a></div>' : '';
+  }
+  function lineHtml() {
+    const st = byStation();
+    const col = (name, i) => { const list = i === 4 ? st[i].slice(0, 8) : st[i];
+      return '<section class="pb-st'+(i === 3 ? ' is-ready' : '')+'" aria-labelledby="pb-st-'+i+'"><div class="pb-st-h"><h2 id="pb-st-'+i+'">'+name+'</h2><span class="pb-ct" aria-label="'+plural(st[i].length, 'video')+'">'+st[i].length+'</span></div>'+(i < 4 ? ARROW : '')+
+        (i === 0 ? '<a class="pb-slot" href="#/publish/new"><b><span class="pb-plus" aria-hidden="true">+</span>New video</b><small>Add the 16:9 and the reel links to put a new card on the line.</small></a>' : '')+
+        list.map(([j, c]) => cardHtml(j, c)).join('')+(st[i].length > list.length ? '<p class="pb-more">and '+(st[i].length - list.length)+' more</p>' : '')+'</section>'; };
+    return '<div class="pb-board">'+W.STATIONS.map(col).join('')+'</div>'+reelsFoot();
+  }
+  // The mini line on New video: back to the line, and what stands at each station.
+  function miniLine() {
+    const st = byStation();
+    return '<nav class="pb-mini" aria-label="The line"><a class="pb-mini-back" href="#/publish"><span aria-hidden="true">←</span> The line</a><ol>'+W.STATIONS.map((name, i) =>
+      '<li'+(i === 0 ? ' class="is-on"' : '')+'><b>'+name+'</b><small>'+(i === 0 ? 'New card here' : plural(st[i].length, 'video'))+'</small><span class="pb-sq" aria-hidden="true">'+(i === 0 ? '<i class="is-new"></i>' : '')+st[i].slice(0, 8).map(() => '<i></i>').join('')+'</span></li>').join('')+'</ol></nav>';
+  }
+  // A saved job's own screen (#/publish/job/<id> on a saved job): its two links and Run.
+  function savedHtml() {
+    const b = W.runBlock(job), l = W.linksOf(job), id = esc(job.id);
+    return '<section class="pb-saved" aria-labelledby="pb-saved-h"><h2 id="pb-saved-h">On the line, not run yet</h2>'+sideLinks(l.main?.url || '', l.reel?.url || '')+
+      '<div class="pb-run"><button type="button" class="pb-go pb-run-go" data-run-job="'+id+'" id="pb-run-saved"'+(b || starting ? ' disabled aria-describedby="pb-saved-why"' : '')+'>Run →</button><a class="pb-ghost" href="#/publish/new/'+encodeURIComponent(job.id)+'">'+(b ? addLabel(b) : 'Edit the links')+'</a></div>'+
+      (b ? '<p class="pb-muted" id="pb-saved-why"><b>'+esc(b)+'.</b></p>' : '<p class="pb-muted">Nothing has started. Run starts Claude Code with both links, as Run on New video does.</p>')+'</section>';
   }
   // The confirmed title (7 November 2026): what Taylor confirmed, never the topic's name in its place.
   const jobTitle = j => String(j?.title || '').trim() || (window.WWIdeas?.data?.topics || []).find(x => x.id === j?.topicId)?.title || j?.folderName || (j?.id ? 'Video job '+j.id : 'This video');
@@ -717,6 +793,7 @@
     const s = job?.status, st = job?.session?.step;
     const al = job && window.WWAutopilot?.lede?.(job); if (al) return al;
     if (!job || s === 'new') return 'Paste the Drive folder, or the file links, then Generate. Claude Code checks which file is which first, and your Variety Pack opens as its own page.';
+    if (s === 'saved') return W.runBlock(job) ? 'Saved on the line. It needs both Drive links before it can run.' : 'Saved on the line. Nothing has started: press Run when you are ready.';
     if (s === 'check') return 'Check the files Claude Code found, confirm the title, then Confirm and continue.';
     if (s === 'found') return 'Claude Code found earlier work for this recording: use it, or start fresh.';
     if (s === 'queued') return 'Nothing has started yet: press Start now.';
@@ -739,8 +816,8 @@
   let viewKey = null, laneKey = null;
   function moved() {
     const b = location.hash.slice(1).split('/').filter(Boolean), ln = b[1] === 'reels' ? 'reels' : 'video';
-    const key = ln === 'reels' ? 'reels/'+(b[2] || '') : b[1] === 'all' || b[1] === 'new' ? b[1] : b[1] === 'job' && b[2] ? 'job/'+b[2] : 'auto';
-    if (key !== viewKey && viewKey !== null && !M.arriving(root)) { if (ln !== laneKey) M.stamp('pb-lane'); M.enter(root, 'lane'); }
+    const key = ln === 'reels' ? 'reels/'+(b[2] || '') : b[1] === 'new' ? 'new/'+(b[2] || '') : b[1] === 'job' && b[2] ? 'job/'+b[2] : 'line';
+    if (key !== viewKey && viewKey !== null && !M.arriving(root)) { if (ln !== laneKey) M.stamp('pb-lane'); if (/^(line|new\/)/.test(key) && /^(line|new\/)/.test(viewKey) && key.slice(0, 3) !== viewKey.slice(0, 3)) M.stamp('pb-view'); M.enter(root, 'lane'); }
     viewKey = key; laneKey = ln;
   }
   function render() {
@@ -749,34 +826,34 @@
     if (reelsLane()) { window.WWReels?.render(root); return; }
     readRoute();
     if (job) M.stages('job:'+job.id, job.stages, M.arriving(root));
-    if (view === 'all' || (view === 'job' && !job)) {
-      root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · ALL VIDEOS</div><h1 id="pb-heading">'+(view === 'all' ? 'Your videos' : 'This video')+'</h1><p>Open a video to carry on where it stopped, or start a new one.</p></div></div>'+backBar(view === 'all' ? '' : undefined)+laneTabs('video')+
-        (view === 'all' ? (connecting ? '<p class="pb-empty">Loading…</p>' : allHtml()) : '<div class="pb-warn" role="status">'+(connecting ? 'Loading…' : db ? 'This video isn’t in the app’s database. <a href="#/publish/all">All videos</a>' : 'Publish jobs are saved in the app’s database, which this preview does not have.')+'</div>');
+    const focus = document.activeElement && root.contains(document.activeElement) ? document.activeElement.id : null;
+    const noteHtml = () => note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'"'+M.done('run', copied === 'run')+'>'+M.label(copied === 'run', 'Copy the line', 'Copied')+'</button></p>' : '')+'</div>' : '';
+    if (view === 'line' || view === 'new') {
+      const nw = view === 'new', ed = nw && newId ? jobs.find(j => j.id === newId) : null;
+      const head = '<div class="pb-head pb-head-line"><div><div class="micro">PUBLISH · '+(nw ? 'NEW VIDEO' : 'DRIVE LINKS IN, POSTS OUT')+'</div><h1 id="pb-heading" tabindex="-1">'+(nw ? (editId ? 'Job '+esc(jobNo(ed))+': its two links' : 'A new card for the line') : 'The publishing line')+'</h1><p>'+
+        (nw ? 'Add the two Drive links. Claude Code checks the files, then builds the Variety Pack.' : 'Drive links go in on the left. Posts come out on the right.')+'</p></div>'+viewsNav(nw ? 'new' : 'line')+'</div>';
+      const sub = '<div class="pb-sub">'+laneTabs('video')+(nw ? '' : nextPost())+'</div>';
+      const body = nw ? (newId && !editId ? '<div class="pb-warn" role="status">'+(connecting ? 'Loading…' : ed ? 'This video has already run, so its links cannot change here. <a href="#/publish/job/'+encodeURIComponent(ed.id)+'">Open it</a>' : 'This video isn’t in the app’s database. <a href="#/publish/new">Start a new video</a>')+'</div>' : intake())
+        : (!db && !connecting ? '<div class="pb-warn" role="status">Publish jobs are saved in the app’s database, which this preview does not have.</div>' : connecting ? '<p class="pb-empty" role="status">Loading…</p>' : '')+lineHtml();
+      root.innerHTML = (nw ? miniLine() : '')+head+sub+noteHtml()+body;
+      if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
       return;
     }
-    const focus = document.activeElement && root.contains(document.activeElement) ? document.activeElement.id : null;
+    if (view === 'job' && !job) {
+      root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · THE LINE</div><h1 id="pb-heading" tabindex="-1">This video</h1><p>Open a video on the line to carry on where it stopped, or start a new one.</p></div></div>'+backBar()+laneTabs('video')+
+        '<div class="pb-warn" role="status">'+(connecting ? 'Loading…' : db ? 'This video isn’t in the app’s database. <a href="#/publish">The line</a>' : 'Publish jobs are saved in the app’s database, which this preview does not have.')+'</div>';
+      return;
+    }
     const t = job && topics().concat(window.WWIdeas?.data?.topics || []).find(x => x.id === job.topicId);
     root.innerHTML = '<div class="pb-head"><div><div class="micro">PUBLISH · DRIVE LINKS IN, POSTS OUT</div><h1 id="pb-heading">'+esc(job ? jobTitle(job) : 'Publish a video')+'</h1>'+(t && norm(t.title) !== norm(jobTitle(job)) ? '<p class="pb-topicline">Topic: '+esc(t.title)+'</p>' : '')+'<p class="pb-lede">'+esc(lede())+'</p></div>'+
-      '</div>'+(job ? backBar('<button type="button" class="pb-go pb-newvid" id="pb-new">Start a new video</button>') : jobs.length ? backBar('') : '')+laneTabs('video')+steps()+
-      (note ? '<div class="pb-warn" role="status"><p>'+esc(note)+'</p>'+(retry && job ? '<p class="pb-acts"><button type="button" class="pb-link" id="pb-retry"'+(starting ? ' disabled' : '')+'>Try again</button> <button type="button" class="pb-link" data-copy-run="'+esc(retry)+'"'+M.done('run', copied === 'run')+'>'+M.label(copied === 'run', 'Copy the line', 'Copied')+'</button></p>' : '')+'</div>' : '')+
-      (!job || job.status === 'new' ? readyJobs()+intake() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : plural((job.sources || []).length, 'file'))+' · started '+esc(when(job.createdAt))+'</p>'+reelsLine()+(window.WWAutopilot?.jobHtml?.(job) || '')+
+      '</div>'+backBar('<button type="button" class="pb-go pb-newvid" id="pb-new">+ New video</button>')+laneTabs('video')+steps()+noteHtml()+
+      (job.status === 'saved' ? '<p class="pb-meta">Job '+esc(job.id)+' · saved '+esc(when(job.savedAt || job.createdAt))+'</p>'+(window.WWAutopilot?.jobHtml?.(job) || '')+savedHtml() : '<p class="pb-meta">Job '+esc(job.id)+' · '+(job.source?.kind === 'folder' ? 'Drive folder'+(job.folderName ? ' “'+esc(job.folderName)+'”' : '')+' · ' : '')+(job.source?.kind === 'folder' && !(job.sources || []).length ? 'files not listed yet' : plural((job.sources || []).length, 'file'))+' · started '+esc(when(job.createdAt))+'</p>'+reelsLine()+(window.WWAutopilot?.jobHtml?.(job) || '')+
         // Action first (7 November 2026): the decision or picks at the top, the stage list folded below them.
         (job.status === 'check' ? checkFiles() : job.status === 'found' ? foundHtml() : job.status === 'pilot' || job.status === 'review' ? stopHtml(job.status) : job.status === 'ask' ? askHtml() : job.status === 'thumbs' ? thumbsStop() : '')+stages()+
         (job.status === 'final' ? finals()+pack() : pack()+finals())+stageList());
     if (focus && document.getElementById(focus)) document.getElementById(focus).focus();
     else if (confirm) root.querySelector('#pb-continue-yes')?.focus();
     else if (changing && focus === 'pb-change') root.querySelector('#pb-change-note')?.focus();
-  }
-  function readLinks(text) {
-    // Split on spaces, new lines and commas; keep every link (too many are warned about, never dropped). A role belongs to
-    // the file, so editing or reordering the list keeps Taylor's choices. A new link is the main only if none is yet.
-    const kept = new Map();  // file → its roles in order, so a file pasted twice keeps each copy's own role
-    links.forEach(l => { if (l.kind === 'folder') return; const k = l.id || l.url; kept.set(k, (kept.get(k) || []).concat({role:l.role, by:l.by})); });
-    links = text.split(/[\s,]+/).filter(Boolean).map(url => { const p = parseLink(url); if (p.kind === 'folder') return {url, id:null, kind:'folder', folderId:p.folderId, role:null};
-      const k = kept.get(p.id || url)?.shift(); return {url, id:p.id, kind:p.kind, role:k?.role || null, by:k?.by || null}; });
-    const files = links.filter(l => l.kind !== 'folder');
-    if (!files.some(l => l.role === 'main')) { const first = files.find(l => !l.role); if (first) first.role = 'main'; }
-    files.forEach(l => { if (!l.role) l.role = 'reel'; });
   }
   async function save(patch) {
     if (!db || !job) return;
@@ -785,8 +862,8 @@
     catch (e) { note = 'Could not save ('+(e?.code || 'error')+'). Try again.'; render(); }
   }
   // Typing the title or brief refreshes only the checks and the topic question, so the field keeps its caret and list.
-  function refreshIntake() { const c = root.querySelector('#pb-check'), q = root.querySelector('#pb-topic-q'); if (c) c.innerHTML = checkHtml(); if (q) q.innerHTML = topicHtml(); }
-  root.addEventListener('input', e => { if (e.target.id === 'pb-yt') { ytDraft = e.target.value; const s = root.querySelector('#pb-yt-save'), ok = ytUrl(ytDraft); if (s) s.disabled = !ok || ok === job?.youtubeUrl; const st = root.querySelector('#pb-yt-st'); if (st) st.textContent = ytStatus(); return; } if (e.target.id === 'pb-change-note') { changeNote = e.target.value; const s = root.querySelector('#pb-change-send'); if (s) s.disabled = !changeNote.trim() || !!starting; return; } if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.titleTyped = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-links') { readLinks(e.target.value); const box = e.target, pos = box.selectionStart; render(); const again = root.querySelector('#pb-links'); again.focus(); again.setSelectionRange(pos, pos); } });
+  function refreshIntake() { const c = root.querySelector('#pb-check'), q = root.querySelector('#pb-topic-q'), l = root.querySelector('#pb-side-links'); if (c) c.innerHTML = checkHtml(); if (q) q.innerHTML = topicHtml(); if (l) l.innerHTML = sideLinks(); }
+  root.addEventListener('input', e => { if (e.target.id === 'pb-yt') { ytDraft = e.target.value; const s = root.querySelector('#pb-yt-save'), ok = ytUrl(ytDraft); if (s) s.disabled = !ok || ok === job?.youtubeUrl; const st = root.querySelector('#pb-yt-st'); if (st) st.textContent = ytStatus(); return; } if (e.target.id === 'pb-change-note') { changeNote = e.target.value; const s = root.querySelector('#pb-change-send'); if (s) s.disabled = !changeNote.trim() || !!starting; return; } if (e.target.id === 'pb-brief') { brief = e.target.value; return; } if (e.target.id === 'pb-title') { title = e.target.value; refreshIntake(); return; } if (e.target.id === 'pb-ck-title' && ck) { ck.touched = true; ck.titleTyped = true; ck.title = e.target.value; const c = root.querySelector('#pb-ck-check'); if (c) c.innerHTML = ckCheckHtml(); return; } if (e.target.id === 'pb-main' || e.target.id === 'pb-reel') { if (e.target.id === 'pb-main') mainUrl = e.target.value; else reelUrl = e.target.value; setLinks(); refreshIntake(); } });
   root.addEventListener('change', e => { if (e.target.id === 'pb-li-own' && job?.status === 'thumbs') { liOwn = e.target.checked; if (!liOwn && job.picks?.['thumbs.linkedin']) { job.picks = {...job.picks, 'thumbs.linkedin':job.picks['thumbs.youtube'] || null}; save({picks:job.picks}); } render(); return; }
     if (e.target.id === 'pb-buyer' && job) { buyerNow(); buyerPick = e.target.value; render(); return; } if (e.target.id === 'pb-topic') { topicPick = e.target.value; const c = root.querySelector('#pb-check'); if (c) c.innerHTML = checkHtml(); return; } if (ckChange(e)) return; const r = e.target.closest('[data-role]'); if (r) { links[+r.dataset.role].role = r.value; links[+r.dataset.role].by = 'taylor'; render(); } });
   root.addEventListener('click', async e => {
@@ -804,6 +881,18 @@
       if (sig && reuseOk !== sig) { reuseSeen = sig; render(); root.querySelector('#pb-reuse')?.focus(); return; }
       b.disabled = true; await generate(); return;
     }
+    // Save to the line: the job waits on Drive links with status "saved"; nothing starts and nothing reads it but the line.
+    if (b.id === 'pb-save') { if (!canSave()) { render(); return; } b.disabled = true; await generate({status:'saved', savedAt:new Date().toISOString()}, false); return; }
+    // Run on a saved card (or on its own screen): the same start as Run on New video, with both of its links, never one.
+    if (b.dataset.runJob) {
+      const j = jobs.find(x => x.id === b.dataset.runJob); if (!j || j.status !== 'saved' || starting) return;
+      const block = W.runBlock(j), ids = new Set(W.linksOf(j) && [W.linksOf(j).main?.driveId, W.linksOf(j).reel?.driveId].filter(Boolean));
+      const busyJob = jobs.find(x => x.id !== j.id && ['queued','starting','running','finishing'].includes(x.status) && (x.sources || []).some(y => ids.has(y.driveId)));
+      go('#/publish/job/'+encodeURIComponent(j.id));
+      if (block) { note = block+'. Nothing has started.'; render(); return; }
+      if (busyJob) { note = 'This recording already has a job running (“'+jobTitle(busyJob)+'”). Nothing has started.'; render(); return; }
+      b.disabled = true; await startSession(j, 'pack'); root.querySelector('#pb-heading')?.focus(); return;
+    }
     if (b.id === 'pb-fresh') { if (!canGenerate()) { render(); return; } const seen = earlier().map(x => x.url || 'jobs/'+x.id); reuseOk = reuseSig(); b.disabled = true; await generate({existingSeen:seen}); return; }
     if (b.dataset.reuse !== undefined) {
       const x = earlier()[+b.dataset.reuse]; if (!x) { render(); return; }
@@ -811,7 +900,7 @@
       // An indexed pack with no job of its own: a new job that points at it, with no session (it costs nothing).
       b.disabled = true; await generate({packUrl:x.url, status:'pack', reusedFrom:{pack:x.id, url:x.url, title:x.title, at:new Date().toISOString()}}, false); return;
     }
-    if (b.id === 'pb-new') { ck = null; resetIntake(); retry = null; retryExtra = null; confirm = false; changing = null; changeNote = ''; go('#/publish/new'); root.querySelector('#pb-links')?.focus(); return; }
+    if (b.id === 'pb-new') { ck = null; resetIntake(); retry = null; retryExtra = null; confirm = false; changing = null; changeNote = ''; go('#/publish/new'); root.querySelector('#pb-main')?.focus(); return; }
     if (b.dataset.tpick && job?.status === 'thumbs') { if (starting) return; job.picks = {...(job.picks || {}), ['thumbs.'+b.dataset.tpick]:b.dataset.val}; render(); await save({picks:job.picks}); return; }
     if (b.id === 'pb-polish' && job?.status === 'thumbs') { const pk = tpicks(); if (!pk.youtube || starting) return;
       const picks = {...(job.picks || {}), 'thumbs.youtube':pk.youtube, 'thumbs.linkedin':(liOwn || pk.linkedin) && pk.linkedin ? pk.linkedin : pk.youtube};
@@ -848,19 +937,30 @@
     if (b.id === 'pb-stop') { const st = [...(job.stages || [])].reverse().find(x => x.state === 'run')?.name || null; await save({status:'failed', error:'Stopped by Taylor', failedStage:st, stoppedAt:new Date().toISOString()}); render(); return; }
     if (b.hasAttribute('data-copy-run')) { await copy(lineFor(b.dataset.copyRun || 'pack', job.id), 'run'); return; }
   });
-  function resetIntake() { links = []; title = ''; brief = ''; topicPick = ''; note = ''; reuseSeen = ''; reuseOk = ''; }
-  // A new job from the intake. With a patch from "Use this pack" it points at the earlier pack and starts no session.
+  function resetIntake() { links = []; mainUrl = ''; reelUrl = ''; title = ''; brief = ''; topicPick = ''; note = ''; reuseSeen = ''; reuseOk = ''; }
+  // A new job from New video: Run (start) or Save to the line (patch.status "saved"). With a patch from "Use this pack" it
+  // points at the earlier pack and starts no session. Each link is stored with its declared role twice: links {main, reel}
+  // and, for every session as before, sources with role main and reel (file links, unchecked: Check the files reads each
+  // file's real shape and length and stops if the two look swapped). Editing a saved job (#/publish/new/<id>) updates it.
   async function generate(patch = {}, start = true) {
-    const id = new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7), at = new Date().toISOString();
-    const topic = intakeTopic();
-    // Every source starts unchecked: the session's Check the files stage reads each file's shape and length and
-    // compares it with the role before anything is edited. A folder is listed by the session, so sources start empty.
-    const f = folderMode() ? links[0] : null, tt = title.trim();
-    const doc = {id, topicId:topic?.id || null, title:tt, titleBy:tt ? 'taylor' : null, brief:brief.trim(),
-      source:f ? {kind:'folder', folderId:f.folderId, url:f.url} : {kind:'files'},
-      sources:f ? [] : links.map(l => ({url:l.url, driveId:l.id, role:l.role, roleBy:l.by || 'default', check:'pending', ...(l.role === 'main' && linkParts().length > 1 ? {part:linkParts().indexOf(l)+1} : {})})), skills:window.WWSettings?.skills || {}, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, startedAt:at, updatedAt:at, ...(window.WWAutopilot?.newJob?.() || {}), ...patch};
-    try { await db.doc('jobs/'+id).set(doc); job = doc; jobs = [doc, ...jobs.filter(x => x.id !== id)]; resetIntake(); go('#/publish/job/'+encodeURIComponent(id)); if (start) await startSession(doc, 'pack'); else root.querySelector('#pb-heading')?.focus(); }
-    catch (err) { note = 'Could not start the job ('+(err?.code || 'error')+').'; render(); }
+    const block = start ? W.linkBlock(mainUrl, reelUrl) : saveBlock();
+    if (block) { note = block+'. Nothing was saved.'; render(); return; }  // checked again here: one link never starts a job
+    const at = new Date().toISOString(), topic = intakeTopic(), tt = title.trim(), a = W.driveFile(mainUrl), r = W.driveFile(reelUrl);
+    const src = (p, role) => ({url:p.url, driveId:p.id, role, roleBy:'taylor', declared:role, check:'pending'});
+    const fields = {topicId:topic?.id || null, title:tt, titleBy:tt ? 'taylor' : null, brief:brief.trim(), links:{...(a.id ? {main:{url:a.url, driveId:a.id}} : {}), ...(r.id ? {reel:{url:r.url, driveId:r.id}} : {})},
+      source:{kind:'files'}, sources:[a, r].map((p, i) => p.id ? src(p, i ? 'reel' : 'main') : null).filter(Boolean), skills:window.WWSettings?.skills || {}, ...(window.WWAutopilot?.newJob?.() || {})};
+    const old = editId ? jobs.find(j => j.id === editId && j.status === 'saved') : null;
+    const id = old ? old.id : new Date().toISOString().slice(0, 10)+'-'+Math.random().toString(36).slice(2, 7);
+    const doc = old ? {...old, ...fields, status:'queued', startedAt:at, updatedAt:at, ...patch}
+      : {id, ...fields, status:'queued', stages:[], picks:{}, finals:[], createdAt:at, startedAt:at, updatedAt:at, ...patch};
+    if (doc.status === 'saved') doc.startedAt = null;
+    try {
+      if (old) await db.doc('jobs/'+id).update({...fields, status:doc.status, startedAt:doc.startedAt, updatedAt:at, ...patch}); else await db.doc('jobs/'+id).set(doc);
+      job = doc; jobs = [doc, ...jobs.filter(x => x.id !== id)]; resetIntake(); editId = null;
+      if (doc.status === 'saved') { go('#/publish'); root.querySelector('#pb-card-'+CSS.escape(id))?.focus(); return; }
+      go('#/publish/job/'+encodeURIComponent(id)); if (start) await startSession(doc, 'pack'); else root.querySelector('#pb-heading')?.focus();
+    }
+    catch (err) { note = 'Could not '+(patch.status === 'saved' ? 'save' : 'start')+' the job ('+(err?.code || 'error')+').'; render(); }
   }
   async function copy(text, key) { try { await navigator.clipboard.writeText(text); copied = key; M.stamp('on:'+key); } catch { note = 'Copy was blocked by the browser. Select the text and copy it instead.'; } render(); setTimeout(() => { if (copied === key) { M.stamp('off:'+key); copied = ''; } render(); }, 1800); }
   async function load() {
@@ -869,7 +969,7 @@
     if (db) db.collection('jobs').onSnapshot(snap => {
       jobs = snap.docs.filter(d => d.exists).map(d => ({id:d.id, ...d.data()})).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt)));
       // Follow the job on screen; with none open, show the latest one still in progress.
-      job = job ? jobs.find(j => j.id === job.id) || job : view === 'job' ? jobs.find(j => j.id === routeJob) || null : view === 'auto' ? jobs.find(j => j.status !== 'posted' && j.status !== 'final') || null : null;
+      job = job ? jobs.find(j => j.id === job.id) || job : view === 'job' ? jobs.find(j => j.id === routeJob) || null : null;
       if (!canContinue()) confirm = false;
       if (changing && job?.status !== changing) { changing = null; changeNote = ''; }
       if (document.activeElement?.closest?.('#publish textarea,#publish input')) return;
