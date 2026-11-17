@@ -1,5 +1,16 @@
 # Whiteboard Wednesdays
 
+## MASTER RULE: Drive delivery (Taylor, 17 November 2026). Read before any edit, Publish, Reels or posting work
+
+Every session in this project, local or cloud, new or old, follows this.
+
+1. **The Google Drive is info@properpeptides.shop, connected in Composio.** It is the correct account. Never call it the wrong account, never ask Taylor to reconnect or change it, and never stop because of it.
+2. **Full-quality files always go to that Drive through Composio** (PUBLISH.md "At finish: the files posting day needs"): the 1080p YouTube master, the LinkedIn cut, the thumbnails, each reel, its 4:5 post and its cover. Save them in the same session that rendered them, while they are still on disk, in `Whiteboard Wednesdays finals/<title>`.
+3. **rclone is retired.** It was never set up. Never check `RCLONE_CONFIG_WWDRIVE_TOKEN`, never install rclone, and never skip delivery because it is missing. The 13 November job did exactly that, and the whole edit had to be rendered again (17 November).
+4. **A job is not finished on review copies.** Do not set `status: "final"` or write a `finalNote` until each full-quality file is on Drive with its size and md5 checked and recorded in `stored.files` and `finals` (`quality: "full"`). If a real Composio upload fails twice, say exactly which call failed and what it returned. Never guess a cause.
+5. **Every new session reads this file first, then PUBLISH.md.** A rule only in a chat or in local memory does not reach a cloud session: put it here, in the repository on main.
+
+
 Preserve the approved whiteboard design and all existing presentation content.
 The editable application assets are in public/. The dist/ directory is generated. Add decks through public/presentations.js, using unique stable IDs, per-deck published brand profiles and local assets. Do not publish test fixtures.
 Keep .openai/hosting.json unchanged (the retired Sites project, kept for history and local tooling). Keep the older paid ads site untouched.
