@@ -1,4 +1,5 @@
-/* Manager (#/manager, 16 November 2026): four ruled cards in a two-by-two grid, each video a floating orb.
+/* Manager (#/manager, 16 November 2026; five cards on a drawn pentagon since 18 November 2026, Taylor's P4 pick): each
+   video a floating orb. Editing live is the plain orb with a gold inner ring (recorded, an edit or render running now).
    Ready to post is the highlighter orb (the chosen state, always with an ink edge); Edited, missing a reel has a gap
    where the reel goes; Deck built is solid ink; Topic in a chat is dashed on the stage. The float is the one ambient
    loop this screen keeps (Taylor's pick on the vision board) and it stops under reduced motion. */
@@ -10,12 +11,29 @@
 .mg-empty{margin-top:32px;padding:28px 0;border-top:var(--ww-ledger)}
 .mg-empty p{margin:0;max-width:60ch}
 
-/* ---- The grid ---- */
-.mg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin-top:28px;border-top:var(--ww-ledger)}
-.mg-card{position:relative;display:flex;flex-direction:column;min-width:0;padding:20px 20px 14px;background:var(--ww-surface)}
-.mg-card:nth-child(odd){border-right:1px solid var(--ww-line)}
-.mg-card:nth-child(-n+2){border-bottom:1px solid var(--ww-line)}
-.mg-card:nth-child(1),.mg-card:nth-child(4){background:var(--ww-stage)}
+/* ---- The pentagon: a narrow top, full shoulders, an inset base, the gold outline joining the five centres ---- */
+.mg-grid{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:56px 0;margin-top:28px;padding:8px 0}
+.mg-card{position:relative;z-index:1;display:flex;flex-direction:column;min-width:0;padding:20px 20px 14px;background:var(--ww-surface);border:1px solid var(--ww-line)}
+.mg-card[data-slot=top]{grid-column:4/10;border-top:var(--ww-ledger)}
+.mg-card[data-slot=ml]{grid-column:1/6;background:var(--ww-stage)}
+.mg-card[data-slot=mr]{grid-column:8/13}
+.mg-card[data-slot=bl]{grid-column:2/7}
+.mg-card[data-slot=br]{grid-column:7/12;background:var(--ww-stage)}
+.mg-card[data-slot=top] .mg-field{height:clamp(220px,20vw,260px)}
+.mg-outline{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none}
+.mg-outline polygon{fill:none;stroke:var(--ww-gold);stroke-width:3}
+.mg-heart{grid-column:6/8;grid-row:2;align-self:center;justify-self:center;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.mg-up{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:112px;height:112px;padding:0;
+  border:1.5px solid var(--ww-ink);border-radius:50%;background:var(--ww-ink);color:var(--ww-on-ink);font:600 15px var(--ww-font-body);cursor:pointer}
+.mg-up:hover{background:var(--ww-ink-hover)}
+.mg-up:active{background:var(--ww-ink-press)}
+.mg-up[aria-busy=true]{background:var(--ww-surface);color:var(--ww-ink)}
+.mg-up-ic{display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%}
+.mg-up[aria-busy=true] .mg-up-ic{animation:mg-spin .7s linear infinite}
+@keyframes mg-spin{to{transform:rotate(360deg)}}
+.mg-stamp{max-width:150px;font:500 var(--ww-size-micro)/1.5 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--ww-muted)}
+.mg-stamp.is-err{color:var(--ww-warn)}
+.mg-empty .mg-heart{margin-top:20px;align-items:flex-start;text-align:left}
 .mg-card-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
 .mg-card-head h2{margin:0;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);letter-spacing:var(--ww-strong-track)}
 .mg-count{font:700 26px/1 var(--ww-font-mono);font-variant-numeric:tabular-nums}
@@ -34,6 +52,8 @@
 .mg-orb.is-deck{background:var(--ww-ink);color:var(--ww-on-ink)}
 .mg-orb.is-topic{background:var(--ww-stage);border:1.5px dashed var(--ww-field-edge)}
 .mg-card.is-topic .mg-orb.is-topic{background:var(--ww-surface)}
+.mg-orb.is-live{border-width:2px;box-shadow:inset 0 0 0 5px var(--ww-surface),inset 0 0 0 8px var(--ww-gold),0 8px 16px -10px var(--ww-shadow-30)}
+.mg-orb.is-live:hover{box-shadow:inset 0 0 0 5px var(--ww-surface),inset 0 0 0 8px var(--ww-gold),0 12px 20px -10px var(--ww-shadow-30)}
 .mg-orb.is-open{outline:2px solid var(--ww-gold);outline-offset:5px}
 .mg-ol{display:inline-block;max-width:76%;line-height:1.15;word-break:keep-all;overflow-wrap:normal;hyphens:none}
 .mg-flag{position:absolute;top:-3px;right:-3px;min-width:24px;height:24px;padding:0 6px;border-radius:12px;
@@ -41,7 +61,7 @@
 @keyframes mg-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .mg-orb{animation:mg-bob var(--bob,3.4s) ease-in-out var(--bob-at,0s) infinite}
 .mg-orb:hover,.mg-orb.is-open,.mg-orb:focus-visible{animation-play-state:paused}
-@media (prefers-reduced-motion:reduce){.mg-orb{animation:none;transition:none}}
+@media (prefers-reduced-motion:reduce){.mg-orb,.mg-up[aria-busy=true] .mg-up-ic{animation:none;transition:none}}
 
 /* ---- The drawer ---- */
 .mg-drawer{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr);gap:28px;margin-top:20px;padding-top:18px;border-top:1px solid var(--ww-ink);min-height:120px;scroll-margin-top:16px}
@@ -71,10 +91,13 @@
 /* Phones: the cards stack and the orbs sit in a wrapping row, still floating */
 @media (max-width:767px){
   #manager{padding:32px 16px 48px}
-  .mg-grid{grid-template-columns:minmax(0,1fr)}
-  .mg-card{border-right:0 !important;border-bottom:1px solid var(--ww-line);padding:16px 12px 12px}
-  .mg-card:nth-child(1),.mg-card:nth-child(3){background:var(--ww-stage)}
-  .mg-card:nth-child(4){background:var(--ww-surface)}
+  .mg-grid{grid-template-columns:minmax(0,1fr);gap:0;padding:0;border-top:var(--ww-ledger)}
+  .mg-card,.mg-card[data-slot]{grid-column:1;grid-row:auto;border:0;border-bottom:1px solid var(--ww-line);padding:16px 12px 12px}
+  .mg-card[data-slot=top] .mg-field{height:auto}
+  .mg-outline{display:none}
+  .mg-heart{grid-column:1;grid-row:1;justify-self:stretch;flex-direction:row;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--ww-line)}
+  .mg-up{flex-direction:row;width:auto;height:44px;padding:0 18px;border-radius:var(--ww-radius-control)}
+  .mg-stamp{max-width:none;text-align:right}
   .mg-field{height:auto;min-height:96px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px 10px;padding:8px 0}
   .mg-orb{position:relative}
   .mg-none{position:static;padding:20px 0}

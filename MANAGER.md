@@ -1,13 +1,21 @@
 # Manager screen
 
 The Manager is the first tab and the screen the app opens on (`#/manager`; an empty hash lands there, and `#/library` still
-opens Presentations). Taylor picked direction A from the Manager vision board on 16 November 2026, laid out two by two:
+opens Presentations). Taylor picked direction A from the Manager vision board on 16 November 2026 (four cards, two by
+two), and on 18 November 2026 picked P4 "Pentagon" from the pentagon vision board: five cards on a drawn gold pentagon.
 
-| Top left | Top right |
+| Slot | Card |
 |---|---|
-| Ready to post: all four videos done (YouTube, LinkedIn, reel, 4:5 post) | Edited, missing a reel: YouTube and LinkedIn edited end to end, no reel yet |
-| **Bottom left** | **Bottom right** |
-| Deck built, ready to record: the Whiteboard Wednesdays presentation is finished | Topic in a chat: only a topic so far |
+| Top (the point) | Editing live: recorded, and an edit, render or re-render is running now |
+| Middle left | Ready to post: all four videos done (YouTube, LinkedIn, reel, 4:5 post) |
+| Middle right | Edited, missing a reel: YouTube and LinkedIn finished, no reel and no edit running |
+| Bottom left | Deck built, ready to record: the Whiteboard Wednesdays presentation is finished |
+| Bottom right | Topic in a chat: only a topic so far |
+
+A gold ruled pentagon joins the centres of the five cards (gold only as the line, never a fill). The round **Update**
+press sits at the heart: it reads `manager/status` again at once, redraws all five cards and every count, shows when it
+checked, and writes `manager/refresh` (`{requestedAt, from}`) as a request for a fresh report. The page still cannot read
+the chats itself; a fresh report comes from the Manager chat. On phones the cards stack and Update sits above them.
 
 Every Pres: chat is one orb. An orb grows a little with the number of questions waiting on Taylor, and its label always
 fits inside its circle. Tap an orb to see its parts, its questions and a check for each. The orbs float (the one ambient
@@ -17,7 +25,7 @@ loop on this screen, stopped under reduced motion).
 
 The page cannot read the chats on Taylor's Mac. The **Manager chat** (the session running the
 `whiteboard-wednesdays-manager` skill) can. Each time it reports ("Update please"), it also writes one document into the
-app's database with ArtifactData, and the page follows it live. The page never writes `manager/status`.
+app's database with ArtifactData, and the page follows it live. The page never writes `manager/status`; it writes only `manager/answers` and `manager/refresh`.
 
 ### `manager/status` (written by the Manager chat, replaced whole each time)
 
@@ -30,7 +38,7 @@ app's database with ArtifactData, and the page follows it live. The page never w
       "id": "blender",
       "short": "Blender",
       "title": "Full title as booked",
-      "category": "ready | reel | deck | topic",
+      "category": "live | ready | reel | deck | topic",
       "when": "Posts Thu 19 Nov",
       "chat": "Pres: Blender",
       "topicId": "optional topics/<id>",
@@ -41,7 +49,7 @@ app's database with ArtifactData, and the page follows it live. The page never w
 }
 ```
 
-- `category` is one of the four keys only. Put a recorded but unedited video in `reel` until a fifth category is agreed.
+- `category` is one of the five keys only. A recorded video whose edit is running goes in `live`, not `reel`.
 - `short` is what the orb shows: a word or two. `id` and each ask's `id` stay stable between reports, so Taylor's answers
   still match.
 - Every Pres: chat gets an orb, and so does every topic booked in `topics` that has no chat yet. Posted videos drop off.
