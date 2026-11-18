@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 540" role="img" aria-label="Minimal Additions cover: a long page of grey lines with one short gold line placed inside it">
+<rect width="720" height="540" fill="#ffffff"/>
+<rect x="200" y="60" width="320" height="420" fill="none" stroke="#1c1a17" stroke-width="5"/>
+<g stroke="#c9c5bd" stroke-width="10" stroke-linecap="round"><path d="M240 110H480M240 145H450M240 180H470M240 215H420M240 285H460M240 320H440M240 355H475M240 390H430M240 425H455"/></g>
+<rect x="232" y="236" width="150" height="28" fill="#f6df8c"/>
+<path d="M240 250H372" stroke="#8b6002" stroke-width="10" stroke-linecap="round"/>
+<path d="M140 250H205M190 236l15 14-15 14" fill="none" stroke="#8b6002" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
