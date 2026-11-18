@@ -1,6 +1,8 @@
-// Manager (#/manager, the first tab and the screen the app opens on; Taylor, 16 November 2026, vision board direction A
-// in a two-by-two grid): every Pres: chat as a floating orb in one of four cards. Ready to post · Edited, missing a reel
-// on top; Deck built, ready to record · Topic in a chat underneath. Tap an orb for its parts, its questions and a check
+// Manager (#/manager, the first tab and the screen the app opens on): every Pres: chat as a floating orb in one of five
+// cards. Since 18 November 2026 (Taylor picked P4 "Pentagon" from the pentagon vision board) the five cards sit on a drawn
+// gold pentagon: Editing live at the point, Ready to post · Edited, missing a reel across the shoulders, Deck built ·
+// Topic in a chat at the base, and a round Update press at the heart, which reads manager/status again, redraws every
+// box and leaves a request for a fresh report in manager/refresh. Tap an orb for its parts, its questions and a check
 // for each. The page cannot read the chats itself: the Manager chat writes manager/status each time it reports
 // ("Update please"), and the page only reads it. Presses are saved to manager/answers, which the Manager chat reads and
 // passes on to the right chat in Taylor's own words. Nothing here posts or starts a session. Shapes are in MANAGER.md.
@@ -9,10 +11,11 @@
   const root = document.getElementById('manager');
   if (!root) return;
   const CATS = [
-    { k: 'ready', name: 'Ready to post', none: 'Nothing is fully ready yet.' },
-    { k: 'reel', name: 'Edited, missing a reel', none: 'No edited video is waiting on a reel.' },
-    { k: 'deck', name: 'Deck built, ready to record', none: 'No finished deck is waiting to be filmed.' },
-    { k: 'topic', name: 'Topic in a chat', none: 'No topics waiting.' }
+    { k: 'live', slot: 'top', name: 'Editing live', none: 'Nothing is being edited right now.' },
+    { k: 'ready', slot: 'ml', name: 'Ready to post', none: 'Nothing is fully ready yet.' },
+    { k: 'reel', slot: 'mr', name: 'Edited, missing a reel', none: 'No edited video is waiting on a reel.' },
+    { k: 'deck', slot: 'bl', name: 'Deck built, ready to record', none: 'No finished deck is waiting to be filmed.' },
+    { k: 'topic', slot: 'br', name: 'Topic in a chat', none: 'No topics waiting.' }
   ];
   const NAME = Object.fromEntries(CATS.map(c => [c.k, c.name]));
   const WORDS = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve',
@@ -21,7 +24,7 @@
   const slug = s => String(s ?? '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
   const db = () => window.WWStore?.db?.() || null;
 
-  let status = null, answers = { asks: {}, parts: {} }, loaded = false, open = null, saveNote = '', watching = false, drawnFor = '';
+  let checkedAt = '', reportErr = '', busy = false, status = null, answers = { asks: {}, parts: {} }, loaded = false, open = null, saveNote = '', watching = false, drawnFor = '';
 
   const videos = () => (Array.isArray(status?.videos) ? status.videos : []).filter(v => v && v.id && NAME[v.category]);
   const byId = id => videos().find(v => v.id === id) || null;
@@ -80,6 +83,24 @@
     });
   }
 
+  // The gold pentagon joins the centres of the five cards (desktop and tablet; phones stack the cards and hide it).
+  function outline() {
+    const p = root.querySelector('.mg-pent'), svg = p?.querySelector('svg.mg-outline');
+    if (!svg) return;
+    const box = p.getBoundingClientRect();
+    const c = s => { const r = p.querySelector('[data-slot=' + s + ']').getBoundingClientRect(); return (r.left + r.width / 2 - box.left).toFixed(1) + ',' + (r.top + r.height / 2 - box.top).toFixed(1); };
+    svg.setAttribute('viewBox', '0 0 ' + box.width.toFixed(1) + ' ' + box.height.toFixed(1));
+    svg.querySelector('polygon').setAttribute('points', ['top', 'mr', 'br', 'bl', 'ml'].map(c).join(' '));
+  }
+  function stamp() {
+    if (reportErr) return '<span class="mg-stamp is-err" role="status">' + esc(reportErr) + '</span>';
+    return '<span class="mg-stamp" role="status">' + (checkedAt ? 'Checked ' + esc(when(checkedAt)) : 'Reads the latest report') + '</span>';
+  }
+  function heart() {
+    return '<div class="mg-heart"><button type="button" class="mg-up" data-update aria-busy="' + busy + '"><span class="mg-up-ic" aria-hidden="true"></span>'
+      + (busy ? 'Updating…' : 'Update') + '</button>' + stamp() + '</div>';
+  }
+
   // ---- Drawing ----
   function orb(v, i) {
     const w = waiting(v);
@@ -93,7 +114,7 @@
   function card(c) {
     const list = videos().filter(v => v.category === c.k);
     const wait = list.reduce((n, v) => n + waiting(v), 0);
-    return '<section class="mg-card is-' + c.k + '" aria-labelledby="mg-c-' + c.k + '"><div class="mg-card-head"><h2 id="mg-c-' + c.k + '">' + c.name + '</h2><span class="mg-count">' + list.length + '</span></div>'
+    return '<section class="mg-card is-' + c.k + '" data-slot="' + c.slot + '" aria-labelledby="mg-c-' + c.k + '"><div class="mg-card-head"><h2 id="mg-c-' + c.k + '">' + c.name + '</h2><span class="mg-count">' + list.length + '</span></div>'
       + '<div class="mg-field">' + (list.length ? list.map(orb).join('') : '<p class="mg-none">' + c.none + '</p>') + '</div>'
       + '<div class="mg-foot">' + (wait ? wait + ' waiting on you' : 'Nothing waiting on you') + '</div></section>';
   }
@@ -125,7 +146,7 @@
     const date = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date());
     return '<div class="mg-head"><div class="micro">MANAGER · ' + esc(date) + '</div><h1 id="mg-heading">' + esc(title) + '</h1>'
       + (status?.summary ? '<p>' + esc(status.summary) + '</p>' : '')
-      + (status?.updatedAt ? '<p class="mg-updated">Updated ' + esc(when(status.updatedAt)) + ' by the Manager chat. Say "Update please" there to refresh.</p>' : '') + '</div>';
+      + (status?.updatedAt ? '<p class="mg-updated">Updated ' + esc(when(status.updatedAt)) + ' by the Manager chat. Press Update, or say "Update please" there for a fresh one.</p>' : '') + '</div>';
   }
   function render() {
     if (root.hidden) return;
@@ -133,12 +154,15 @@
     if (!status) {
       root.innerHTML = head() + '<div class="mg-empty"><p>' + (loaded || !db()
         ? 'No report yet. Say "Update please" in the Manager chat and every Pres: chat lands here as an orb.'
-        : 'Loading the Manager report…') + '</p></div>';
+        : 'Loading the Manager report…') + '</p>' + (db() ? heart() : '') + '</div>';
       return;
     }
-    root.innerHTML = head() + '<div class="mg-grid">' + CATS.map(card).join('') + '</div><div class="mg-drawer" id="mg-drawer" aria-live="polite">' + drawer() + '</div>';
-    place();
-    if (keep?.id) root.querySelector('.mg-orb[data-id="' + CSS.escape(keep.id) + '"]')?.focus({ preventScroll: true });
+    const at = k => card(CATS.find(c => c.k === k));
+    root.innerHTML = head() + '<div class="mg-grid mg-pent"><svg class="mg-outline" aria-hidden="true" focusable="false"><polygon points=""/></svg>'
+      + at('live') + at('ready') + heart() + at('reel') + at('deck') + at('topic') + '</div><div class="mg-drawer" id="mg-drawer" aria-live="polite">' + drawer() + '</div>';
+    place(); outline();
+    if (keep?.update != null) root.querySelector('[data-update]')?.focus({ preventScroll: true });
+    else if (keep?.id) root.querySelector('.mg-orb[data-id="' + CSS.escape(keep.id) + '"]')?.focus({ preventScroll: true });
     else if (keep?.part) root.querySelector('[data-part="' + CSS.escape(keep.part) + '"]')?.focus({ preventScroll: true });
     else if (keep?.ask) root.querySelector('[data-ask="' + CSS.escape(keep.ask) + '"][data-answer="' + CSS.escape(keep.answer) + '"]')?.focus({ preventScroll: true });
   }
@@ -175,7 +199,26 @@
     try { await store.collection('manager').doc('answers').set({ ...answers, updatedAt: new Date().toISOString() }); }
     catch (e) { answers = prev; saveNote = 'Could not save that (' + (e?.code || 'error') + '). Try again.'; paint(); }
   }
+  async function update() {
+    if (busy) return;
+    busy = true; reportErr = ''; render();
+    try {
+      const store = db();
+      if (!store) throw new Error('nodb');
+      const snap = await store.doc('manager/status').get();
+      const d = snap?.exists === false ? null : snap?.data?.() || null;
+      checkedAt = new Date().toISOString();
+      drawnFor = JSON.stringify(d); status = d; loaded = true;
+      if (open && !byId(open)) open = null;
+      if (!d) reportErr = 'No report saved yet';
+      try { await store.doc('manager/refresh').set({ requestedAt: checkedAt, from: 'manager screen' }); } catch { /* the redraw still happened */ }
+    } catch (e) {
+      reportErr = e?.message === 'nodb' ? 'The report can only be read inside the app on claude.ai' : 'Could not read the report. Try again.';
+    }
+    busy = false; render();
+  }
   root.addEventListener('click', e => {
+    if (e.target.closest('[data-update]')) return void update();
     const o = e.target.closest('.mg-orb');
     if (o) {
       open = open === o.dataset.id ? null : o.dataset.id; saveNote = '';
@@ -224,9 +267,9 @@
     render();
   }
   let resizeTimer;
-  addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (!root.hidden && status) place(); }, 120); });
+  addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { if (!root.hidden && status) { place(); outline(); } }, 120); });
   addEventListener('ww:route', e => { if (e.detail?.[0] === 'manager') { render(); watch(); } });
-  if (document.fonts) document.fonts.ready.then(() => { if (!root.hidden && status) place(); });
+  if (document.fonts) document.fonts.ready.then(() => { if (!root.hidden && status) { place(); outline(); } });
   // For a local preview without the database: WWManager.show(statusObject) draws a report by hand. Never saved.
   window.WWManager = { show(d) { status = d; loaded = true; render(); } };
 })();
