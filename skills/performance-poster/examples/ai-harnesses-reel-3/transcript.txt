@@ -1,0 +1,17 @@
+[  0.0] Because the harness is only good as long as it's running and, you know, crashes can happen.
+[  5.0] You know, you might accidentally have an update on quarter codex and the restarts and pops back up again.
+[ 10.0] We build harnesses that survive the crash and scale.
+[ 13.0] But there's going to be a few different documents that help with this.
+[ 16.0] You've got the interview in MD.
+[ 18.0] So that's going to be the nine questions and the answers.
+[ 20.0] You've got the contract MD, what must stay true essentially.
+[ 24.0] You've got the plan MD, like the steps, current step, next action.
+[ 28.0] You have the progress MD, like evidence, blockers, live ledger.
+[ 32.0] You've got the constraints.
+[ 33.0] That's every requirement as a rule.
+[ 36.0] So it's going to know every single requirement based on what you expect, what the client expects.
+[ 41.0] And then you've got features.json, app work, every feature, exactly how we need it.
+[ 47.0] There's no confusion.
+[ 48.0] So I can pick back up, I can reread the contract, load the skills, do the work,
+[ 52.0] check against evidence, mark the checkpoint, continue.
+[ 56.0] And then as a fire wheel from.

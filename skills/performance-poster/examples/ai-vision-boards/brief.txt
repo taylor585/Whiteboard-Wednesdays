@@ -1,0 +1,12 @@
+TITLE: Using AI Vision Boards for Apps and Paid Ads
+THUMBNAIL LINE: This Is a Cheat Code When Using AI
+KEYWORD: cheat code when using AI
+PILLAR: AI agents / Claude Code
+PROMISE: Make the AI draw, animate and agree the app on a vision board before it writes code, so you stop paying for rebuilds
+AUDIENCE: Agency owners and teams building apps with Claude Code
+SOURCE: the Vision Boards deck in the presentation library (public/vb-content.js, vb-reading.html), which follows the video plan. No transcript yet.
+PROOF: 5 failure characters (The Rebuild Loop, The Guessing Game, The Open Loop, The Motion Mess, The Lost Story); 31 problems; 15 segments of the system; 2 worked examples; 4 depths; 3 kinds of motion; 12 motion families; board renders to 1080p video; the made-up physio clinic board has 11 acts and 5 decisions to sign. Before-and-after figures are drawn live on screen and must not be quoted.
+CHAPTERS: from the deck order; real timestamps not yet known
+CLIENTS: none (Kinfolk Clinics is a made-up client; say "a made-up physio clinic")
+LINKS: contact https://pecunafactorem.com/contact · free download [VISION BOARD SHELL LINK]
+PLATFORMS: YouTube

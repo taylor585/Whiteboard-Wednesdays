@@ -1,0 +1,14 @@
+Your AI agent crashed. Here's how it picks back up.
+
+Updates happen and Claude Code or Codex restarts mid-run. A good harness doesn't start again. It reads 6 files and carries on:
+
+interview.md: the nine questions and the answers
+contract.md: what must stay true
+plan.md: current step, next action
+progress.md: evidence, blockers, live ledger
+constraints.md: every requirement as a rule
+features.json: every feature, exactly as needed
+
+Full video on YouTube, link in bio.
+
+#WhiteboardWednesdays #ClaudeCode #AIAgents #AIAutomation
