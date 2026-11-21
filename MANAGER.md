@@ -2,9 +2,10 @@
 
 The Manager is the first tab and the screen the app opens on (`#/manager`; an empty hash lands there, and `#/library` still
 opens Presentations). Taylor picked direction A from the Manager vision board on 16 November 2026 (four cards, two by
-two), and on 18 November 2026 picked P4 "Pentagon" from the pentagon vision board: five cards on a drawn gold pentagon.
+two), and on 18 November 2026 picked P4 "Pentagon" from the pentagon vision board. On 21 November 2026 the page moved to the Idea Cards look and a
+clean grid, because the pentagon's bottom boxes touched (Taylor: boxes must never touch).
 
-| Slot | Card |
+| Slot (`data-slot`) | Card |
 |---|---|
 | Top (the point) | Editing live: recorded, and an edit, render or re-render is running now |
 | Middle left | Ready to post: all four videos done (YouTube, LinkedIn, reel, 4:5 post) |
@@ -12,8 +13,11 @@ two), and on 18 November 2026 picked P4 "Pentagon" from the pentagon vision boar
 | Bottom left | Deck built, ready to record: the Whiteboard Wednesdays presentation is finished |
 | Bottom right | Topic in a chat: only a topic so far |
 
-A gold ruled pentagon joins the centres of the five cards (gold only as the line, never a fill). The round **Update**
-press sits at the heart: it reads `manager/status` again at once, redraws all five cards and every count, shows when it
+No two cards touch: Update sits on its own row, Editing live runs across the top as the hero card, and the other four
+follow in two pairs with real gaps (one column on phones). There are no connector lines. Each card has a thick ink edge,
+round corners and a hard pastel offset shadow (Editing live and Topic in a chat sky, Ready to post sun, Edited, missing a
+reel pink, Deck built mint), which its orbs share. **Update** reads `manager/status` again at once, redraws all five cards
+and every count, shows when it
 checked, and writes `manager/refresh` (`{requestedAt, from}`) as a request for a fresh report. The page still cannot read
 the chats itself; a fresh report comes from the Manager chat. On phones the cards stack and Update sits above them.
 
