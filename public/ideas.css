@@ -2,7 +2,7 @@
    edge and a pastel offset shadow, a NEW chip, the title, a one-line pitch and the date; "+ Draw a card" adds one.
    Every value is a --ww-* token from whiteboard.css (the Ideas Board block at its end). */
 #ideas-board{max-width:1600px;margin:auto;padding:48px 4vw 72px;color:var(--ww-ink);font-family:var(--ww-font-body)}
-#ideas-board :focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
+#ideas-board :focus-visible{outline:3px solid var(--ww-focus);outline-offset:3px}
 .ib-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
 .ib-eyebrow{margin:0;font:500 var(--ww-size-micro)/1.4 var(--ww-font-mono);letter-spacing:.14em;color:var(--ww-muted)}
 .ib-head h1{margin:6px 0 10px;font:var(--ww-strong-weight) var(--ww-size-title)/1.02 var(--ww-font-display);letter-spacing:var(--ww-strong-track)}
