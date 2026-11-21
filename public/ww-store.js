@@ -239,6 +239,11 @@
         const got = await connRef.get(); connDoc = connFromDoc(got?.data?.()); connChanged();
         if (typeof connRef.onSnapshot === 'function') connRef.onSnapshot(snap => { const n = connFromDoc(snap?.data?.()); if (JSON.stringify(n) !== JSON.stringify(connDoc)) { connDoc = n; connChanged(); } }, () => {});
       } catch { /* nothing known: every account reads as not checked */ }
+      // Ideas Board (#/ideas, 21 November 2026): one document per idea card, ideas/<id>. See the board block below.
+      db.collection('ideas').onSnapshot(snap => {
+        ideaCards = snap.docs.filter(d => d.exists).map(d => cardShape(d.id, d.data()));
+        window.dispatchEvent(new CustomEvent('ww:store'));
+      }, () => {});
       // Private notes on creators, one document per handle.
       db.collection('creatorNotes').onSnapshot(snap => {
         notes = new Map(snap.docs.filter(d => d.exists).map(d => [d.id, String(d.data().note || '')]));
@@ -557,5 +562,61 @@
     if (r && (r.isError || r.error)) return plain();
     return r;
   }
-  window.WWStore = {connect, db: () => db, posting:postingApi, connections:connectionsApi, startSession, createSession, ideas:{MODES:IDEA_MODES, runDoc:ideaRunDoc, points:ideaPoints, source:ideaSource, sameTitle, jobId}};
+  // ---- Ideas Board (#/ideas, Taylor's pick "Idea Cards", 21 November 2026). ----
+  // One document per card, ideas/<id>:
+  //   {no:1, title, altTitle, pitch, tags:['Claude'], addedAt:'2026-11-21', status:'idea'|'in-topics', topicId|null,
+  //    source:'board'|'topics'|'skill:<runId>/<ideaId>', createdAt, updatedAt}
+  // "Send to Topics" books the idea the way CLAUDE.md's booking rule says: a topic with the same title (or the alt title)
+  // is used instead of adding a second, and an unbooked topic is booked, status planned, on the first free Monday,
+  // Wednesday or Friday from today. The card stays on the board, linked by topicId. Topics are never deleted here.
+  let ideaCards = [];
+  const cardShape = (id, c) => ({id, no:Number.isInteger(c.no) ? c.no : 0, title:String(c.title || ''), altTitle:String(c.altTitle || ''), pitch:String(c.pitch || ''),
+    tags:Array.isArray(c.tags) ? c.tags.map(String).filter(Boolean).slice(0, 6) : [], addedAt:isoDay(c.addedAt) ? c.addedAt : String(c.createdAt || '').slice(0, 10),
+    status:c.status === 'in-topics' ? 'in-topics' : 'idea', topicId:typeof c.topicId === 'string' ? c.topicId : null, source:String(c.source || 'board'), createdAt:c.createdAt || '', updatedAt:c.updatedAt || ''});
+  const cleanTags = v => (Array.isArray(v) ? v : String(v || '').split(',')).map(t => String(t).trim().replace(/\s+/g, ' ').slice(0, 24)).filter(Boolean)
+    .filter((t, i, all) => all.findIndex(x => x.toLowerCase() === t.toLowerCase()) === i).slice(0, 6);
+  const cardRef = id => db.collection('ideas').doc(id);
+  const cardFind = id => ideaCards.find(c => c.id === id) || fail('That idea is no longer on the board.', 404);
+  const titleMatch = (a, list) => list.filter(Boolean).some(b => sameTitle(a, b));
+  const board = {
+    get ready() { return Boolean(db); },
+    get cards() { return ideaCards.slice().sort((a, b) => a.no - b.no); },
+    topicOf(card) { return (card?.topicId && topics.find(t => t.id === card.topicId)) || null; },
+    async add(body) {
+      if (!db) fail('The Ideas Board needs the app’s saved data, which is not available here.', 503);
+      const title = text(body?.title, 200)?.trim(), altTitle = (text(body?.altTitle ?? '', 200) ?? '').trim(), pitch = (text(body?.pitch ?? '', 600) ?? '').trim();
+      if (!title) fail('Give the idea a title of up to 200 characters.');
+      const same = ideaCards.find(c => titleMatch(c.title, [title, altTitle]) || titleMatch(c.altTitle, [title, altTitle]));
+      if (same) fail('“'+same.title+'” is already on the board as card #'+String(same.no).padStart(3, '0')+'.', 409, {conflict:{id:same.id}});
+      const now = new Date().toISOString(), id = 'idea-'+crypto.randomUUID().slice(0, 8);
+      const no = ideaCards.reduce((m, c) => Math.max(m, c.no), 0) + 1;
+      const doc = {no, title, altTitle, pitch, tags:cleanTags(body?.tags), addedAt:localToday(), status:'idea', topicId:null, source:'board', createdAt:now, updatedAt:now};
+      await write(() => cardRef(id).set(doc));
+      ideaCards = [...ideaCards, cardShape(id, doc)];
+      return {id, no};
+    },
+    async toTopics(id) {
+      if (!db) fail('Sending to Topics needs the app’s saved data, which is not available here.', 503);
+      const card = cardFind(id), now = new Date().toISOString();
+      let topic = board.topicOf(card) || topics.find(t => titleMatch(t.title, [card.title, card.altTitle]));
+      let booked = null;
+      if (!topic) {
+        booked = nextFreeSlot(topics, localToday());
+        if (!booked) fail('No free recording day was found.', 409);
+        const tid = crypto.randomUUID();
+        const doc = {title:card.title, status:'planned', notes:card.pitch ? card.pitch+(card.altTitle ? '\nAlt title: '+card.altTitle : '') : (card.altTitle ? 'Alt title: '+card.altTitle : ''), recordDate:booked, postDate:null, deckId:null, createdAt:now, updatedAt:now, sources:[], points:[], origin:{kind:'ideas-board', ideaId:card.id}};
+        await write(() => ref(tid).set(doc));
+        topic = shape(tid, doc); topics = [...topics, topic];
+      } else if (!topic.recordDate && ['new', 'shortlisted', 'planned'].includes(topic.status)) {
+        booked = nextFreeSlot(topics, localToday());
+        if (!booked) fail('No free recording day was found.', 409);
+        await write(() => ref(topic.id).update({recordDate:booked, status:'planned', updatedAt:now}));
+        topics = topics.map(t => t.id === topic.id ? {...t, recordDate:booked, status:'planned'} : t);
+      }
+      await write(() => cardRef(card.id).update({status:'in-topics', topicId:topic.id, updatedAt:now}));
+      ideaCards = ideaCards.map(c => c.id === card.id ? {...c, status:'in-topics', topicId:topic.id} : c);
+      window.dispatchEvent(new CustomEvent('ww:store'));
+      return {topicId:topic.id, recordDate:booked || topic.recordDate || null, booked:Boolean(booked)};
+    }};
+  window.WWStore = {connect, board, db: () => db, posting:postingApi, connections:connectionsApi, startSession, createSession, ideas:{MODES:IDEA_MODES, runDoc:ideaRunDoc, points:ideaPoints, source:ideaSource, sameTitle, jobId}};
 })();

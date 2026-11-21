@@ -1,0 +1,66 @@
+/* Ideas Board (#/ideas, 21 November 2026): Taylor's pick, board 07 "Idea Cards". Numbered trading cards with a thick ink
+   edge and a pastel offset shadow, a NEW chip, the title, a one-line pitch and the date; "+ Draw a card" adds one.
+   Every value is a --ww-* token from whiteboard.css (the Ideas Board block at its end). */
+#ideas-board{max-width:1600px;margin:auto;padding:48px 4vw 72px;color:var(--ww-ink);font-family:var(--ww-font-body)}
+#ideas-board :focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
+.ib-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
+.ib-eyebrow{margin:0;font:500 var(--ww-size-micro)/1.4 var(--ww-font-mono);letter-spacing:.14em;color:var(--ww-muted)}
+.ib-head h1{margin:6px 0 10px;font:var(--ww-strong-weight) var(--ww-size-title)/1.02 var(--ww-font-display);letter-spacing:var(--ww-strong-track)}
+.ib-lede{margin:0;max-width:62ch;color:var(--ww-idea-text);font-size:var(--ww-size-body);line-height:1.45}
+.ib-count{margin:0;flex:none;padding:10px 16px;border-radius:var(--ww-radius-idea-control);background:var(--ww-idea-stage);font:500 13px/1.3 var(--ww-font-mono);white-space:nowrap}
+.ib-tags{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 0}
+.ib-tag{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border:2.5px solid var(--ww-ink);border-radius:var(--ww-radius-idea-chip);background:var(--ww-surface);color:var(--ww-ink);font-size:15px;font-weight:500;text-decoration:none;white-space:nowrap}
+.ib-tag span{font:500 12px var(--ww-font-mono);color:var(--ww-muted)}
+.ib-tag:hover{background:var(--ww-idea-stage)}
+.ib-tag[aria-current]{background:var(--ww-idea-sun);font-weight:var(--ww-strong-weight)}
+.ib-tag[aria-current] span{color:var(--ww-ink)}
+.ib-status{min-height:1.5em;margin:16px 0 0;font-size:15px}
+.ib-status:empty{min-height:0;margin:0}
+.ib-empty{margin:28px 0 0;padding:28px;border-radius:var(--ww-radius-idea);background:var(--ww-idea-stage);color:var(--ww-muted)}
+.ib-grid{list-style:none;margin:30px 0 0;padding:0 var(--ww-idea-drop) var(--ww-idea-drop) 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:40px 32px;align-items:start}
+.ib-card>article,.ib-form{box-sizing:border-box;height:100%;display:flex;flex-direction:column;gap:10px;padding:12px;border:var(--ww-idea-edge) solid var(--ww-ink);border-radius:var(--ww-radius-idea);background:var(--ww-surface);box-shadow:var(--ww-idea-drop) var(--ww-idea-drop) 0 var(--ib-shadow);transform:rotate(var(--ib-tilt,0deg))}
+.ib-card{--ib-shadow:var(--ww-idea-sky);--ib-wash:var(--ww-idea-sky-wash);min-width:0}
+.ib-card.is-pink{--ib-shadow:var(--ww-idea-pink);--ib-wash:var(--ww-idea-pink-wash)}
+.ib-card.is-mint{--ib-shadow:var(--ww-idea-mint);--ib-wash:var(--ww-idea-mint-wash)}
+.ib-card.is-sun{--ib-shadow:var(--ww-idea-sun);--ib-wash:var(--ww-idea-sun-wash)}
+.ib-card.is-done>article{box-shadow:var(--ww-idea-drop) var(--ww-idea-drop) 0 var(--ww-line);color:var(--ww-muted)}
+.ib-top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:2px 4px}
+.ib-no{font:600 13px var(--ww-font-mono)}
+.ib-chip{font:600 12px/1 var(--ww-font-mono);padding:5px 10px;border-radius:var(--ww-radius-idea-chip);border:2px solid var(--ww-ink);white-space:nowrap}
+.ib-chip.is-new{background:var(--ww-idea-sun);border-color:var(--ww-idea-sun)}
+.ib-chip.is-booked{background:var(--ww-ink);color:var(--ww-on-ink)}
+.ib-chip.is-done{border-color:var(--ww-faint);color:var(--ww-muted)}
+.ib-art{height:96px;border-radius:var(--ww-radius-idea-art);background:var(--ib-wash);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.ib-art span{font:var(--ww-strong-weight) 40px/1 var(--ww-font-display);letter-spacing:var(--ww-strong-track)}
+.ib-art i{width:38px;height:38px;border-radius:var(--ww-radius-idea-mark);background:var(--ib-shadow);border:2.5px solid var(--ww-ink)}
+.ib-title{margin:0;padding:0 4px;font:var(--ww-strong-weight) var(--ww-size-h3)/1.15 var(--ww-font-display);letter-spacing:var(--ww-strong-track);overflow-wrap:anywhere}
+.ib-alt{margin:-4px 0 0;padding:0 4px;font-size:13px;color:var(--ww-muted)}
+.ib-pitch{margin:0;padding:0 4px;font-size:15px;line-height:1.45;color:var(--ww-idea-text)}
+.ib-act{display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:2px 4px 0}
+.ib-when{margin:0;font-size:14px;color:var(--ww-muted)}
+.ib-when a{color:var(--ww-ink)}
+.ib-btn{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border:2.5px solid var(--ww-ink);border-radius:var(--ww-radius-idea-control);background:var(--ww-surface);color:var(--ww-ink);font:var(--ww-strong-weight) 15px var(--ww-font-body);text-decoration:none;cursor:pointer}
+.ib-btn:hover{background:var(--ww-idea-stage)}
+.ib-btn:disabled{cursor:progress;color:var(--ww-muted)}
+.ib-btn.is-primary{background:var(--ww-ink);color:var(--ww-on-ink)}
+.ib-btn.is-primary:hover{background:var(--ww-ink-hover)}
+.ib-foot{margin-top:auto;display:flex;justify-content:space-between;gap:8px;padding:9px 4px 2px;border-top:2px solid var(--ww-ink);font:600 12px var(--ww-font-mono)}
+.ib-draw{align-self:stretch;min-height:330px;display:flex}
+.ib-draw-btn{flex:1;display:grid;place-items:center;border:3px dashed var(--ww-field-edge);border-radius:var(--ww-radius-idea);color:var(--ww-muted);font:var(--ww-strong-weight) 17px var(--ww-font-body);text-decoration:none}
+.ib-draw-btn:hover{border-color:var(--ww-ink);color:var(--ww-ink)}
+.ib-form label{display:flex;flex-direction:column;gap:6px;padding:0 4px;font-size:14px;font-weight:var(--ww-strong-weight)}
+#ideas-board .ib-form small{display:inline;font-weight:400;color:var(--ww-muted)}
+.ib-form :is(input,textarea){box-sizing:border-box;width:100%;min-height:44px;padding:10px 12px;border:2px solid var(--ww-field-edge);border-radius:var(--ww-radius-idea-control);background:var(--ww-surface);color:var(--ww-ink);font:400 16px/1.4 var(--ww-font-body)}
+.ib-form textarea{resize:vertical}
+.ib-form-act{display:flex;flex-wrap:wrap;gap:10px;padding:4px 4px 2px}
+@media (max-width:767px){
+  #ideas-board{padding:28px 16px 56px}
+  .ib-head{flex-direction:column;align-items:flex-start;gap:14px}
+  .ib-tags{flex-wrap:nowrap;overflow-x:auto;margin-right:-16px;padding-right:16px;scrollbar-width:none}
+  .ib-tags::-webkit-scrollbar{display:none}
+  .ib-grid{grid-template-columns:minmax(0,1fr);gap:26px}
+  .ib-card>article,.ib-form{transform:none}
+  .ib-draw{min-height:96px}
+}
+@media (prefers-reduced-motion:reduce){.ib-card>article{transform:none}}
+@media print{.ib-tags,.ib-draw,.ib-act{display:none}}
