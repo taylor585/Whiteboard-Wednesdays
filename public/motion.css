@@ -20,7 +20,7 @@
  --m-ease:cubic-bezier(.2,0,0,1);
  --m-ease-rule:cubic-bezier(.4,0,.2,1);
  --m-rise:4px;--m-head-rise:0px;--m-shift:0px;--m-lift:-2px;--m-press-scale:1;--m-dlg-scale:1;
- --m-stroke:var(--ww-ink);--m-gold:var(--ww-gold);--m-mark:var(--ww-highlight)}
+ --m-stroke:var(--ww-ink);--m-gold:var(--ww-accent);--m-mark:var(--ww-highlight)}
 
 /* Only opacity, transform, translate and colour ever animate. No "to" frame: each ends on the element's own resting style. */
 @keyframes m-in{from{opacity:0;translate:0 var(--m-rise)}}
@@ -65,7 +65,7 @@
 
 /* ---- The ink underline of the current tab or lane: a rule on the link itself, drawn when it has just become current ---- */
 :is(.app-nav,.va-lanes,.pb-lanes,.pb-views,.se-lanes) a{position:relative;transition:color var(--m-press) linear}
-:is(.app-nav,.va-lanes,.pb-lanes,.pb-views,.se-lanes) a[aria-current=page]::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:2px;background:var(--m-stroke);transform-origin:0 50%}
+:is(.app-nav,.va-lanes,.pb-lanes,.pb-views,.se-lanes) a[aria-current=page]::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:4px;border-radius:var(--ww-radius-pill);background:var(--m-stroke);transform-origin:0 50%}
 :is(.app-nav,.va-lanes,.pb-lanes,.pb-views,.se-lanes) a[aria-current=page][data-m~=draw]::after{animation:m-draw var(--m-rule) var(--m-ease) var(--m-skip,0ms) backwards}   /* the fast-start curve: the line is the state, so most of it is there within 60ms */
 .vi-lanes button[aria-pressed=true][data-m~=draw]::after{animation:m-draw var(--m-rule) var(--m-ease) var(--m-skip,0ms) backwards}   /* the Inspiration filter lanes: the same draw, only when the lane changes */
 

@@ -17,7 +17,7 @@
 /* A platform: the ink double rule, the gold index, the name, a quiet note. */
 .op-pf{margin-top:56px;border-top:var(--ww-ledger);padding-top:14px}
 .op-pf-h{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:baseline;margin-bottom:22px}
-.op-idx{font:600 13px var(--ww-font-mono);color:var(--ww-gold);letter-spacing:.04em}
+.op-idx{font:600 13px var(--ww-font-mono);color:var(--ww-accent-ink);letter-spacing:.04em}
 .op-pf-h h3{font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track);margin:0}
 .op-pf-h .micro{text-align:right}
 
@@ -32,7 +32,7 @@
 .op-pressed{color:var(--ww-muted)}
 
 /* The stage: only behind the video. */
-.op-stage{background:var(--ww-stage);border-top:2px solid var(--ww-gold);padding:16px;margin-bottom:14px}
+.op-stage{background:var(--ww-stage);border-top:2px solid var(--ww-accent);padding:16px;margin-bottom:14px}
 .op-still-a{display:block;text-decoration:none;color:inherit}
 .op-still{position:relative;display:block;width:100%;aspect-ratio:16/9;background:var(--ww-ink);border-radius:var(--ww-radius-media);overflow:hidden}
 .op-still.is-tall{aspect-ratio:9/16;height:420px;width:auto}
@@ -45,7 +45,7 @@
 .op-still-a:hover .op-watch{background:var(--ww-highlight)}
 
 /* One obvious action: ink, full width, 48px. A press that leaves the app carries the out-arrow. */
-#publish .op-act{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;margin:0;padding:10px 18px;border:1px solid var(--ww-ink);border-radius:var(--ww-radius-control);background:var(--ww-ink);color:var(--ww-on-ink);font:600 15px/1.25 var(--ww-font-body);text-decoration:none;text-align:center;cursor:pointer;transition:background-color var(--m-press) var(--m-ease)}
+#publish .op-act{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:48px;margin:0;padding:10px 18px;border:var(--ww-edge-control);border-radius:var(--ww-radius-control);background:var(--ww-ink);color:var(--ww-on-ink);font:600 15px/1.25 var(--ww-font-body);text-decoration:none;text-align:center;cursor:pointer;transition:background-color var(--m-press) var(--m-ease)}
 #publish .op-act:hover{background:var(--ww-ink-hover)}
 #publish .op-act:active{background:var(--ww-ink-press)}
 #publish .op-act:disabled{background:var(--ww-surface);color:var(--ww-muted);border-color:var(--ww-line);cursor:not-allowed}

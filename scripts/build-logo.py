@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Build the Whiteboard Wednesdays logo (L1 "Highlighter", chosen by Taylor on 10 November 2026).
+"""Build the Whiteboard Wednesdays logo (L1 "Highlighter", chosen by Taylor on 10 November 2026; set in Rubik since
+the Idea Cards rebrand Taylor chose on 21 November 2026, the design itself unchanged).
 
-Writes public/ww-logo.svg (the header lockup: "Whiteboard" in Instrument Sans Regular above "Wednesdays" in
-Instrument Sans Bold, the evidence highlight struck as a skewed marker band behind the lower half of
-"Wednesdays", and PLAN · RECORD · POST in IBM Plex Mono) and public/favicon.svg (the small mark: the bold W
-on the highlight band, on a white tile so it reads on dark browser tabs).
+Writes public/ww-logo.svg (the header lockup: "Whiteboard" in Rubik Regular above "Wednesdays" in Rubik ExtraBold,
+the highlight struck as a skewed marker band behind the lower half of "Wednesdays", and PLAN · RECORD · POST in
+Rubik Bold spaced caps) and public/favicon.svg (the small mark: the ExtraBold W on the highlight band, on a white
+tile so it reads on dark browser tabs).
 Every letter is outlined to paths from the bundled fonts, so the files need no font to render. The lockup is
 drawn at the size the header shows it (1 unit = 1 CSS pixel from 641px up), with baselines and the band's
 edges on whole pixels, so it stays sharp on standard-resolution screens.
@@ -20,8 +21,8 @@ from fontTools.pens.transformPen import TransformPen
 from fontTools.varLib.instancer import instantiateVariableFont
 
 PUB = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'public')
-INK, HIGHLIGHT, WHITE, MUTED, LINE = '#1C1A17', '#F6DF8C', '#FFFFFF', '#5C5750', '#DEDBD4'
-SANS, MONO = 'ww-sans.ttf', 'ww-mono-medium.ttf'
+INK, HIGHLIGHT, WHITE, MUTED, LINE = '#1B1B1F', '#F6DF8C', '#FFFFFF', '#5B5A57', '#DEDBD4'   # the band keeps its marker colour
+SANS = 'ww-rubik.ttf'                       # Rubik variable, wght 300 to 900 (ww-rubik-license.txt)
 SKEW = math.tan(math.radians(10))            # the band leans like a marker stroke: skewX(-10deg)
 
 
@@ -35,11 +36,11 @@ def outline(font_file, text, size, x, y, tracking=0.0, weight=None):
     path = os.path.join(PUB, font_file)
     tt = TTFont(path)
     if weight is not None:
-        tt = instantiateVariableFont(tt, {'wght': weight, 'wdth': 100})
+        tt = instantiateVariableFont(tt, {'wght': weight})
     face = hb.Face(open(path, 'rb').read())
     font = hb.Font(face)
     if weight is not None:
-        font.set_variations({'wght': weight, 'wdth': 100})
+        font.set_variations({'wght': weight})
     buf = hb.Buffer()
     buf.add_str(text)
     buf.guess_segment_properties()
@@ -60,21 +61,21 @@ def band(x0, x1, top, bottom):
 
 
 def lockup():
-    # Proportions from the brand board's .l1 rules: both lines at one size with line-height 1 and -0.04em tracking,
+    # Proportions from the brand board's .l1 rules: both lines at one size with line-height 1 and -0.03em tracking (Rubik is wider than Instrument Sans),
     # "Wednesdays" 0.04em lower; the band runs from 0.12em left of the word to 0.16em right of it, 0.48em tall,
     # ending 0.12em under the baseline; the tagline is 0.4em, 0.14em tracked, 1.3 of its own size below.
     F = 22.0                                  # type size, in header pixels
-    track = -0.04 * F
+    track = -0.03 * F
     pad = math.ceil(0.12 * F)                 # room for the band's left overhang; library.css pulls the image back by this
     b1 = 17.0                                 # baseline of "Whiteboard" (cap height 0.72em: the caps start 1px down)
     b2 = b1 + round(1.04 * F)                 # baseline of "Wednesdays"
     a, wa = outline(SANS, 'Whiteboard', F, pad, b1, tracking=track, weight=400)
-    b, wb = outline(SANS, 'Wednesdays', F, pad, b2, tracking=track, weight=700)
+    b, wb = outline(SANS, 'Wednesdays', F, pad, b2, tracking=track, weight=800)
     top, bottom = b2 - round(0.36 * F), b2 + round(0.12 * F)
     x0, x1 = pad - 0.12 * F, pad + wb + track + 0.16 * F
     T = 0.4 * F
-    b3 = round(bottom + 1.3 * T - 0.25 * T + 0.698 * T)     # the tagline's cap height is 0.698em
-    t, wt = outline(MONO, 'PLAN · RECORD · POST', T, pad + 0.3, b3, tracking=0.14 * T)
+    b3 = round(bottom + 1.3 * T - 0.25 * T + 0.7 * T)       # Rubik's cap height is 0.7em
+    t, wt = outline(SANS, 'PLAN · RECORD · POST', T, pad + 0.3, b3, tracking=0.14 * T, weight=700)
     W = math.ceil(max(x1 + (bottom - top) * SKEW, pad + wa, pad + wt) + 1)
     H = int(b3 + 2)
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="t">'
@@ -89,9 +90,9 @@ def favicon():
     # The small mark, 16px to 64px: the bold W standing on the highlight band. The white tile and its hairline
     # keep the W readable on a dark browser tab; on white the tile disappears and the W and band stand alone.
     s, size = 48, 37.0
-    _, adv = outline(SANS, 'W', size, 0, 0, weight=700)
+    _, adv = outline(SANS, 'W', size, 0, 0, weight=800)
     base = 36.0
-    d, _ = outline(SANS, 'W', size, (s - adv) / 2, base, weight=700)
+    d, _ = outline(SANS, 'W', size, (s - adv) / 2, base, weight=800)
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {s} {s}" width="{s}" height="{s}">'
            f'<title>Whiteboard Wednesdays</title>'
            f'<rect x=".75" y=".75" width="46.5" height="46.5" rx="5" fill="{WHITE}" stroke="{LINE}" stroke-width="1.5"/>'

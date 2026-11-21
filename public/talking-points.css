@@ -1,7 +1,7 @@
 /* Talking points (#/talking-points, 11 November 2026): shortlisted and booked topics, each with its 4 talking points and
    one action. Built inside the Brass Rule system: tokens from whiteboard.css only, ledger rule over each group, square corners. */
 #talking-points{max-width:1600px;margin:auto;padding:48px 4vw 64px;color:var(--ww-ink);font-family:var(--ww-font-body)}
-#talking-points :focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
+#talking-points :focus-visible{outline:3px solid var(--ww-focus);outline-offset:3px}
 .tk-head h1{margin:10px 0 12px;font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
 .tk-head p{margin:0;color:var(--ww-muted);max-width:66ch}
 
@@ -38,13 +38,13 @@
 .tk-state::before{content:"◆ ";content:"◆ " / ""}
 .tk-state.is-ok::before{color:var(--ww-success)}
 .tk-state.is-warn{color:var(--ww-warn)}
-.tk-state.is-run::before{color:var(--ww-gold)}
+.tk-state.is-run::before{color:var(--ww-accent-ink)}
 .tk-line{display:flex;flex-wrap:wrap;align-items:center;gap:8px;max-width:100%}
 .tk-line code{padding:6px 8px;background:var(--ww-stage);border:1px solid var(--ww-line);border-radius:var(--ww-radius-chip);font:12px/1.4 var(--ww-font-mono);overflow-wrap:anywhere;max-width:100%}
-#talking-points .tk-copy{min-height:44px;padding:0 14px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);color:var(--ww-ink);font:inherit;font-size:14px;cursor:pointer}
+#talking-points .tk-copy{min-height:44px;padding:0 14px;border:var(--ww-edge-control);border-radius:var(--ww-radius-control);background:var(--ww-surface);color:var(--ww-ink);font:inherit;font-size:14px;cursor:pointer}
 
 .tk-empty{margin:20px 0 0;font:13px/1.5 var(--ww-font-mono);color:var(--ww-muted)}
-.tk-blank{margin-top:40px;padding:28px 0;border-top:var(--ww-ledger)}
+.tk-blank{margin-top:40px;padding:22px;border:var(--ww-edge-dashed);border-radius:var(--ww-radius-card)}
 .tk-blank p{margin:0 0 6px;max-width:60ch}
 .tk-blank a{color:var(--ww-ink)}
 

@@ -1,7 +1,7 @@
 /* Briefs (#/briefs, #/briefs/<topicId>, 11 November 2026): the list, and one brief as one ruled sheet on the stage, set to
    be read aloud from. Recording view (body.br-recording) hides the app's chrome and enlarges the type. Print fits one page. */
 #briefs{max-width:1600px;margin:auto;padding:48px 4vw 64px;color:var(--ww-ink);font-family:var(--ww-font-body)}
-#briefs :focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
+#briefs :focus-visible{outline:3px solid var(--ww-focus);outline-offset:3px}
 .br-head h1{margin:10px 0 12px;font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
 .br-head p{margin:0;color:var(--ww-muted);max-width:66ch}
 .br-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
@@ -23,23 +23,23 @@
 .br-state::before{content:"◆ ";content:"◆ " / ""}
 .br-state.is-ok::before{color:var(--ww-success)}
 .br-state.is-warn{color:var(--ww-warn)}
-.br-state.is-run::before{color:var(--ww-gold)}
+.br-state.is-run::before{color:var(--ww-accent-ink)}
 .br-link{display:inline-flex;align-items:center;min-height:44px;color:var(--ww-ink);font-size:14px;text-underline-offset:3px}
 .br-quiet{color:var(--ww-muted);font-size:14px;text-underline-offset:3px}
 .br-empty{margin:20px 0 0;font:13px/1.5 var(--ww-font-mono);color:var(--ww-muted)}
-.br-blank{margin-top:40px;padding:28px 0;border-top:var(--ww-ledger)}
+.br-blank{margin-top:40px;padding:22px;border:var(--ww-edge-dashed);border-radius:var(--ww-radius-card)}
 .br-blank p{margin:0 0 6px;max-width:60ch}
 .br-blank a{color:var(--ww-ink)}
 
 /* ---- Buttons: one ink primary per view, the rest edged ---- */
-#briefs :is(.br-go,.br-btn,.br-copy){display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);color:var(--ww-ink);font:500 16px var(--ww-font-body);text-decoration:none;white-space:nowrap;cursor:pointer;transition:background-color var(--m-press) linear}
+#briefs :is(.br-go,.br-btn,.br-copy){display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border:var(--ww-edge-control);border-radius:var(--ww-radius-control);background:var(--ww-surface);color:var(--ww-ink);font:500 16px var(--ww-font-body);text-decoration:none;white-space:nowrap;cursor:pointer;transition:background-color var(--m-press) linear}
 #briefs :is(.br-btn,.br-copy):hover{background:var(--ww-stage)}
 #briefs .br-go{border-color:var(--ww-ink);background:var(--ww-ink);color:var(--ww-on-ink)}
 #briefs .br-go:hover{background:var(--ww-ink-hover)}
 #briefs .br-go:active{background:var(--ww-ink-press)}
 #briefs .br-btn:disabled{color:var(--ww-muted);border-color:var(--ww-line);cursor:not-allowed}
 #briefs .br-btn.is-busy{cursor:default;border-style:dashed}
-#briefs .br-btn.is-busy::before{content:"◆ ";content:"◆ " / "";color:var(--ww-gold);white-space:pre}
+#briefs .br-btn.is-busy::before{content:"◆ ";content:"◆ " / "";color:var(--ww-accent-ink);white-space:pre}
 #briefs .br-copy{min-height:44px;font-size:14px;padding:0 14px}
 
 /* ---- One brief ---- */
@@ -58,7 +58,7 @@
 .br-run ol{list-style:none;margin:0;padding:0}
 .br-run a{display:block;padding:9px 0;border-bottom:1px solid var(--ww-line);color:var(--ww-ink);font-size:14px;line-height:1.35;text-decoration:none}
 .br-run a:hover{text-decoration:underline;text-underline-offset:3px}
-.br-sheet{min-width:0;max-width:1000px;padding:48px 60px 40px;background:var(--ww-surface);border-top:var(--ww-ledger);box-shadow:0 0 0 1px var(--ww-line),0 18px 40px -28px var(--ww-shadow-30);font-size:var(--ww-size-read);line-height:1.6}
+.br-sheet{min-width:0;max-width:1000px;padding:48px 60px 40px;background:var(--ww-surface);border:var(--ww-edge-hero);border-radius:var(--ww-radius-hero);box-shadow:var(--ww-shadow-hero);font-size:var(--ww-size-read);line-height:1.6}
 .br-sheet :is(h1,h2,p,ul,ol){overflow-wrap:anywhere}
 .br-sheet-head h1{margin:12px 0 22px;font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
 .br-label{display:block;margin:0 0 6px;font:500 var(--ww-size-micro)/1.4 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--ww-muted)}
@@ -80,7 +80,7 @@
 .br-prep{margin-top:26px}
 .br-prep ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 28px}
 .br-prep li{position:relative;padding:3px 0 3px 30px;font-size:.92em;line-height:1.45}
-.br-prep li::before{content:"";position:absolute;left:0;top:.42em;width:15px;height:15px;border:1.5px solid var(--ww-field-edge);border-radius:var(--ww-radius-mark)}
+.br-prep li::before{content:"";position:absolute;left:0;top:.42em;width:15px;height:15px;border:var(--ww-edge-control);border-radius:var(--ww-radius-mark)}
 .br-foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--ww-line)}
 .br-sources{margin:0;padding-left:22px;font-size:14px;line-height:1.5}
 .br-sources li{padding:2px 0}
@@ -135,7 +135,7 @@ body.br-recording .br-pt h2{font-size:34px}
  #briefs{padding:0}
  #briefs :is(.br-top,.br-run,.br-banner,.br-head){display:none}
  #briefs .br-stage{display:block;margin:0;padding:0;background:none}
- #briefs .br-sheet{max-width:none;padding:0;box-shadow:none;border-top:var(--ww-ledger);font-size:9.5pt;line-height:1.38}
+ #briefs .br-sheet{max-width:none;padding:0;box-shadow:none;border:0;border-radius:0;border-top:var(--ww-ledger);font-size:9.5pt;line-height:1.38}
  #briefs .br-sheet-head h1{margin:6px 0 8px;font-size:21pt}
  #briefs .br-cold{margin:10px 0 4px;padding:8px 12px}
  #briefs .br-cold p{font-size:10pt}

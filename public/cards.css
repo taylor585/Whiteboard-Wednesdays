@@ -1,0 +1,62 @@
+/* Idea Cards: the app's shared base and components (Taylor's pick, 21 November 2026; board 07 "Trading cards" of the Video Ideas Board canvas).
+   Every value is a --ww-* token from the top of whiteboard.css. design-system/README.md describes each component; design-system/reference.html shows them.
+   Loaded straight after whiteboard.css, so each screen's own stylesheet still wins where it says something different.
+   The deck player, chapter list and brand dialog are left out of every base rule here: decks keep the controls they were approved with. */
+
+/* ---- App base: controls, fields, focus, headings (element selectors, so any class in a screen stylesheet wins) ---- */
+:where(body:not(.presentation)) button:not(:where(#player *,#chapters *,#brand-dialog *)){border:var(--ww-edge-control);border-radius:var(--ww-radius-control);font-weight:var(--ww-control-weight);background:var(--ww-surface);color:var(--ww-ink)}
+:where(body:not(.presentation)) button:not(:where(#player *,#chapters *,#brand-dialog *)):hover{background:var(--ww-stage)}
+:where(body:not(.presentation)) button.primary:not(:where(#player *,#chapters *,#brand-dialog *)){background:var(--ww-ink);color:var(--ww-on-ink);border-color:var(--ww-ink)}
+:where(body:not(.presentation)) button.primary:not(:where(#player *,#chapters *,#brand-dialog *)):hover{background:var(--ww-ink-hover)}
+:where(body:not(.presentation)) :is(input,select,textarea):not(:where(#player *,#chapters *,#brand-dialog *,[type=checkbox],[type=radio],[type=color],[type=range])){border:var(--ww-edge-control);border-radius:var(--ww-radius-control)}
+:where(body:not(.presentation)) :is(button,a,input,select,textarea,summary,[tabindex]):not(:where(#player *,#chapters *,#brand-dialog *)):focus-visible{outline:3px solid var(--ww-focus);outline-offset:3px}
+:where(body:not(.presentation)) :is(input[type=checkbox],input[type=radio]){accent-color:var(--ww-ink)}
+::selection{background:var(--ww-sun);color:var(--ww-ink)}
+
+/* ---- Components (for new screens, such as the Ideas Board; existing screens map their own classes onto the same tokens) ---- */
+
+/* Eyebrow: spaced caps above a title or a group. */
+.ww-eyebrow{margin:0;font:var(--ww-label-weight) var(--ww-size-eyebrow)/1.3 var(--ww-font-label);letter-spacing:var(--ww-eyebrow-track);text-transform:uppercase;color:var(--ww-muted)}
+.ww-title{margin:0;font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track);color:var(--ww-ink)}
+
+/* Card: a white card with a 3px ink edge and 22px corners. --hero: 4px edge, 26px corners, a 10px sky offset and a -2deg tilt that straightens on hover. */
+.ww-card{background:var(--ww-surface);border:var(--ww-edge-card);border-radius:var(--ww-radius-card);padding:14px;color:var(--ww-ink);display:flex;flex-direction:column;gap:12px}
+.ww-card--lift{box-shadow:var(--ww-shadow-card)}
+.ww-card--hero{border:var(--ww-edge-hero);border-radius:var(--ww-radius-hero);box-shadow:var(--ww-shadow-hero);transform:rotate(var(--ww-tilt));transition:transform var(--m-ui,140ms) var(--m-ease,ease)}
+.ww-card--hero:hover,.ww-card--hero:focus-within{transform:rotate(0)}
+.ww-card--pink{--ww-pop:var(--ww-pink)}.ww-card--mint{--ww-pop:var(--ww-mint)}.ww-card--sun{--ww-pop:var(--ww-sun)}
+.ww-card__top{display:flex;justify-content:space-between;align-items:center;padding:4px 6px;font:800 13px/1 var(--ww-font-label);font-variant-numeric:tabular-nums}
+.ww-card__art{border-radius:var(--ww-radius-inner);background:var(--ww-sky-wash);min-height:120px;display:grid;place-items:center}
+.ww-card__title{margin:0;padding:0 6px;font:var(--ww-display-weight) 28px/1.05 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
+.ww-card__text{margin:0;padding:0 6px;font-size:14px;line-height:1.45;color:var(--ww-body-ink)}
+.ww-card__foot{margin-top:auto;display:flex;justify-content:space-between;gap:12px;padding:10px 6px 4px;border-top:2px solid var(--ww-ink);font:var(--ww-label-weight) 12px/1.2 var(--ww-font-label);letter-spacing:.04em;text-transform:uppercase}
+
+/* Chip: a 999px pill. --new is the sun "NEW" chip; --sky, --pink, --mint for kinds; --line is an outlined chip. */
+.ww-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--ww-radius-chip);background:var(--ww-stage);color:var(--ww-ink);font:var(--ww-label-weight) 12px/1.3 var(--ww-font-label);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap}
+.ww-chip--new{background:var(--ww-sun)}.ww-chip--sky{background:var(--ww-sky)}.ww-chip--pink{background:var(--ww-pink)}.ww-chip--mint{background:var(--ww-mint)}
+.ww-chip--line{background:var(--ww-surface);box-shadow:inset 0 0 0 2px var(--ww-ink)}
+
+/* Numbered tile: a 36px pastel square, 10px corners, ExtraBold figure. Colours run sky, pink, mint, sun in order. */
+.ww-tile{flex:none;display:inline-grid;place-items:center;width:36px;height:36px;border-radius:var(--ww-radius-tile);background:var(--ww-sky);color:var(--ww-ink);font:800 16px/1 var(--ww-font-display);font-variant-numeric:tabular-nums}
+.ww-tile--pink{background:var(--ww-pink)}.ww-tile--mint{background:var(--ww-mint)}.ww-tile--sun{background:var(--ww-sun)}
+:where(.ww-rows)>:nth-child(4n+2) .ww-tile{background:var(--ww-pink)}:where(.ww-rows)>:nth-child(4n+3) .ww-tile{background:var(--ww-mint)}:where(.ww-rows)>:nth-child(4n+4) .ww-tile{background:var(--ww-sun)}
+
+/* Row: a soft grey row with 16px corners, a tile and a line of text. */
+.ww-rows{display:flex;flex-direction:column;gap:12px;margin:0;padding:0;list-style:none}
+.ww-row{display:flex;gap:14px;align-items:center;padding:16px 18px;border-radius:var(--ww-radius-inner);background:var(--ww-stage);font-size:18px;font-weight:var(--ww-control-weight)}
+
+/* Buttons: ink pill (primary), outlined (secondary), and the dashed "+ add" placeholder. */
+.ww-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 20px;border:var(--ww-edge-control);border-radius:var(--ww-radius-pill);background:var(--ww-surface);color:var(--ww-ink);font:var(--ww-strong-weight) 15px/1.2 var(--ww-font-body);text-decoration:none;cursor:pointer}
+.ww-btn:hover{background:var(--ww-stage)}
+.ww-btn--primary{background:var(--ww-ink);color:var(--ww-on-ink);border-color:var(--ww-ink)}.ww-btn--primary:hover{background:var(--ww-ink-hover)}
+.ww-add{display:grid;place-items:center;min-height:120px;padding:20px;border:var(--ww-edge-dashed);border-radius:var(--ww-radius-card);background:var(--ww-surface);color:var(--ww-muted);font:var(--ww-strong-weight) 16px/1.3 var(--ww-font-body);text-align:center;cursor:pointer}
+.ww-add:hover{border-color:var(--ww-ink);color:var(--ww-ink)}
+
+/* Count pill: the "1 card in the deck" box. */
+.ww-count{display:inline-block;align-self:flex-start;margin:0;padding:10px 16px;border-radius:var(--ww-radius-control);background:var(--ww-stage);font:var(--ww-control-weight) 15px/1.2 var(--ww-font-body);font-variant-numeric:tabular-nums}
+
+/* Empty state: a dashed card with one line and, when there is one, the next step. */
+.ww-empty{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:22px;border:var(--ww-edge-dashed);border-radius:var(--ww-radius-card);color:var(--ww-muted)}
+.ww-empty b{color:var(--ww-ink);font-weight:var(--ww-strong-weight)}
+
+@media(prefers-reduced-motion:reduce){.ww-card--hero{transition:none}}

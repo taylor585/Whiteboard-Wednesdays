@@ -1,7 +1,7 @@
 /* Vault (direction B "Lanes", Taylor's pick, 9 November 2026): every finished video, thumbnail and caption.
    Plain text lanes like Publish's Video and Reels, bubbles beneath, assets grouped by video. */
 #vault{max-width:1600px;margin:auto;padding:48px 4vw 64px;color:var(--ww-ink);font-family:var(--ww-font-body)}
-#vault :focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
+#vault :focus-visible{outline:3px solid var(--ww-focus);outline-offset:3px}
 .va-head h1{margin:10px 0 12px;font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
 .va-head p{margin:0;color:var(--ww-muted);max-width:62ch}
 
@@ -14,7 +14,7 @@
 .va-lanes a[aria-current=page]{color:var(--ww-ink)}
 .va-lanes a:hover{color:var(--ww-ink)}
 .va-bubbles{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.va-bubbles a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-pill);text-decoration:none;font-size:15px;color:var(--ww-ink);white-space:nowrap;background:var(--ww-surface)}
+.va-bubbles a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:var(--ww-edge-control);border-radius:var(--ww-radius-pill);text-decoration:none;font-size:15px;color:var(--ww-ink);white-space:nowrap;background:var(--ww-surface)}
 .va-bubbles a:hover{border-color:var(--ww-ink)}
 .va-bubbles a[aria-current=true]{background:var(--ww-ink);border-color:var(--ww-ink);color:var(--ww-on-ink)}
 .va-bubbles i{font:normal 12px var(--ww-font-mono);color:var(--ww-muted);font-variant-numeric:tabular-nums}
@@ -27,7 +27,7 @@
 /* Video grid (YouTube and LinkedIn lanes): one card per finished edit. */
 .va-videos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 24px;margin-top:26px;counter-reset:va}
 /* Ledger entries: an ink double rule over each card, a mono entry number, the title in the serif. */
-.va-videos .va-card{counter-increment:va;padding-top:10px;border-top:var(--ww-ledger)}
+.va-videos .va-card{counter-increment:va;padding:12px;border:var(--ww-edge-card);border-radius:var(--ww-radius-card);background:var(--ww-surface)}
 .va-videos .va-card::before{content:counter(va,decimal-leading-zero);font:11px/1.4 var(--ww-font-mono);letter-spacing:1px;color:var(--ww-muted)}
 .va-videos .va-info b{font:var(--ww-strong-weight) 17px/1.28 var(--ww-font-display);letter-spacing:var(--ww-strong-track);margin-bottom:2px}
 
@@ -49,7 +49,7 @@
 .va-grid.is-tall{grid-template-columns:repeat(5,minmax(0,1fr))}
 .va-grid.is-text{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
 .va-more{display:flex;justify-content:center;margin-top:20px}
-#vault .va-more button{min-height:44px;padding:0 20px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-pill);background:var(--ww-surface);font-size:15px;color:var(--ww-ink)}
+#vault .va-more button{min-height:44px;padding:0 20px;border:var(--ww-edge-control);border-radius:var(--ww-radius-pill);background:var(--ww-surface);font-size:15px;color:var(--ww-ink)}
 #vault .va-more button:hover{border-color:var(--ww-ink)}
 
 /* Cards */
@@ -60,14 +60,14 @@
 /* Plain title tile, used when an edit has no frame to show (never a cover). */
 .va-tile{display:flex;flex-direction:column;justify-content:space-between;gap:12px;padding:clamp(14px,1.6vw,22px);color:var(--ww-ink);background:var(--ww-stage) repeating-linear-gradient(0deg,transparent 0 27px,var(--ww-ink-rule) 27px 28px)}
 .va-tile .va-k{font:11px/1.4 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--ww-muted)}
-.va-tile .va-k::after{content:"";display:block;width:24px;height:2px;margin-top:8px;background:var(--ww-gold)}
+.va-tile .va-k::after{content:"";display:block;width:24px;height:2px;margin-top:8px;background:var(--ww-accent)}
 .va-tile b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;font:var(--ww-strong-weight) clamp(18px,1.7vw,25px)/1.16 var(--ww-font-display);letter-spacing:var(--ww-head-track);padding-right:44px}
 .va-tall .va-tile b{font-size:clamp(16px,1.4vw,21px);-webkit-line-clamp:6;padding-right:0;padding-bottom:22px}
 .va-info{display:flex;flex-direction:column;gap:2px;min-width:0}
 .va-info b{font-weight:600;font-size:15px;line-height:1.3}
 .va-meta{font:12px/1.5 var(--ww-font-mono);color:var(--ww-muted);font-variant-numeric:tabular-nums}
 .va-act{display:flex;align-items:center;flex-wrap:wrap;gap:4px 16px}
-#vault .va-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border:1px solid var(--ww-ink);border-radius:var(--ww-radius-media);background:var(--ww-surface);color:var(--ww-ink);font:500 15px var(--ww-font-body);text-decoration:none;cursor:pointer;transition:background-color var(--m-ui) linear}
+#vault .va-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border:var(--ww-edge-control);border-radius:var(--ww-radius-media);background:var(--ww-surface);color:var(--ww-ink);font:500 15px var(--ww-font-body);text-decoration:none;cursor:pointer;transition:background-color var(--m-ui) linear}
 #vault .va-btn:hover{background:var(--ww-stage);transition-duration:var(--m-press)}
 #vault .va-btn.is-done{background:var(--ww-highlight);border-color:var(--ww-ink);transition-duration:var(--m-ui)}
 #vault .va-toggle.is-done{background:var(--ww-highlight);box-shadow:inset 0 0 0 1px var(--ww-ink)}
@@ -75,7 +75,7 @@
 .va-link:hover{color:var(--ww-ink)}
 
 /* Post copy */
-.va-copy{display:flex;flex-direction:column;gap:12px;min-width:0;padding:16px 0 0;border-top:var(--ww-ledger);background:var(--ww-surface)}
+.va-copy{display:flex;flex-direction:column;gap:12px;min-width:0;padding:16px;border:var(--ww-edge-card);border-radius:var(--ww-radius-card);background:var(--ww-surface)}
 .va-pf{font:12px/1.5 var(--ww-font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ww-muted)}
 .va-text{margin:0;font:15px/1.55 var(--ww-font-body);white-space:pre-wrap;overflow-wrap:anywhere}
 .va-text.is-clamped{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden}
