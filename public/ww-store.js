@@ -592,7 +592,7 @@
       const no = ideaCards.reduce((m, c) => Math.max(m, c.no), 0) + 1;
       const doc = {no, title, altTitle, pitch, tags:cleanTags(body?.tags), addedAt:localToday(), status:'idea', topicId:null, source:'board', createdAt:now, updatedAt:now};
       await write(() => cardRef(id).set(doc));
-      ideaCards = [...ideaCards, cardShape(id, doc)];
+      ideaCards = [...ideaCards.filter(c => c.id !== id), cardShape(id, doc)];
       return {id, no};
     },
     async toTopics(id) {
