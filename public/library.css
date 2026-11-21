@@ -37,7 +37,7 @@ body.presentation .app-nav{display:none}
 .pnote{font:400 19px/1 var(--ww-font-hand);color:var(--ww-gold)}
 .pnote.big{font-size:24px;margin:8px 0 0}
 .ptitle{font:600 14px/1.25 var(--ww-font-body);letter-spacing:-.005em}
-.wall-card{margin:20px 0 40px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;padding:18px 0 0;border-top:var(--ww-ledger)}.wall-card:empty{display:none}
+.wall-card{margin:20px 0 40px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:28px;padding:22px 24px;border-radius:var(--ww-radius-board);background:var(--ww-stage)}.wall-card:empty{display:none}
 .wall-card img{width:100%;aspect-ratio:4/3;object-fit:contain;background:var(--ww-surface);border:var(--ww-edge-card);border-radius:var(--ww-radius-card);box-shadow:var(--ww-shadow-hero);transform:rotate(var(--ww-tilt))}
 .wall-card h2{margin:4px 0 6px;font:var(--ww-strong-weight) clamp(22px,2.1vw,27px)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
 .wall-card p{margin:0;max-width:60ch;color:var(--ww-muted)}

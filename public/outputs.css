@@ -15,7 +15,8 @@
 .op-folder small{font-size:13px;color:var(--ww-muted)}
 
 /* A platform: the ink double rule, the gold index, the name, a quiet note. */
-.op-pf{margin-top:56px;border-top:var(--ww-ledger);padding-top:14px}
+.op-pf{margin-top:40px;padding:20px 22px;border:var(--ww-edge-card);border-radius:var(--ww-radius-card);background:var(--ww-surface);box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--ww-sky)}
+.op-pf:nth-of-type(4n+2){box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--ww-pink)}.op-pf:nth-of-type(4n+3){box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--ww-mint)}.op-pf:nth-of-type(4n+4){box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--ww-sun)}
 .op-pf-h{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:baseline;margin-bottom:22px}
 .op-idx{font:600 13px var(--ww-font-mono);color:var(--ww-accent-ink);letter-spacing:.04em}
 .op-pf-h h3{font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track);margin:0}

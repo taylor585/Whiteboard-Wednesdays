@@ -18,25 +18,27 @@
 .tp-pill-recorded{background:var(--ww-stage);border-color:var(--ww-muted)}
 .tp-pill-edited{background:var(--ww-ink);border-color:var(--ww-ink);color:var(--ww-on-ink)}
 .tp-pill-posted{background:var(--ww-surface);border-color:var(--ww-ink);color:var(--ww-ink)}
-.tp-sub{margin:36px 0 12px;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);padding-top:12px;border-top:var(--ww-ledger)}
+.tp-sub{margin:40px 0 14px;font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
 /* Not scheduled yet: Taylor's pick B "Next free slot" (11 November 2026). A slim ruled ticket (record day, the editing gap
    on a small ruler, posting day), then one row per waiting topic with one ink button naming its day. Pick another day
    opens in place under the row, edged with hairlines. */
 .tp-unscheduled{display:flex;flex-direction:column}
-.tp-next{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin:0;padding:12px 16px;background:var(--ww-stage);border-top:var(--ww-rule-gold)}
-.tp-next .tp-next-label{color:var(--ww-muted)}
+.tp-next{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin:0;padding:14px 18px;background:var(--ww-sky-wash);border-radius:var(--ww-radius-inner)}
+.tp-next .tp-next-label{color:var(--ww-ink)}
 .tp-next-day,.tp-next-post b{font:var(--ww-strong-weight) var(--ww-size-h4)/1.1 var(--ww-font-display);letter-spacing:var(--ww-strong-track);color:var(--ww-ink);white-space:nowrap}
 .tp-ruler{flex:1 1 120px;min-width:96px;display:flex;flex-direction:column;gap:4px}
 .tp-ruler-gap{font:var(--ww-size-micro)/1 var(--ww-font-mono);color:var(--ww-muted);text-align:center;white-space:nowrap}
 .tp-ruler-line{display:flex;justify-content:space-between;align-items:flex-end;height:12px;border-bottom:1px solid var(--ww-ink)}
 .tp-ruler-line i{width:1px;height:6px;background:var(--ww-ink)}
-.tp-ruler-line i:first-child,.tp-ruler-line i:last-child{width:2px;height:12px;background:var(--ww-accent)}
+.tp-ruler-line i:first-child,.tp-ruler-line i:last-child{width:3px;height:12px;border-radius:var(--ww-radius-mark);background:var(--ww-ink)}
 .tp-next-arrow{display:none}
 .tp-next-post{font:12px var(--ww-font-mono);color:var(--ww-muted);white-space:nowrap}
 .tp-next-post b{margin-left:6px}
-.tp-rows{display:flex;flex-direction:column}
-.tp-card{display:grid;grid-template-columns:minmax(0,1fr) 248px;gap:10px 24px;align-items:start;padding:16px 0;border-bottom:1px solid var(--ww-line)}
-.tp-card.is-selected{border-bottom-color:var(--ww-ink);box-shadow:0 1px 0 var(--ww-ink)}
+.tp-rows{display:flex;flex-direction:column;gap:18px;margin-top:18px;padding:0 var(--ww-sheet-card) var(--ww-sheet-card) 0}
+/* Each waiting topic is an Idea Card: 3px ink edge, round corners, a pastel offset in turn (sky, pink, mint, sun). */
+.tp-card{--tp-pop:var(--ww-sky);display:grid;grid-template-columns:minmax(0,1fr) 248px;gap:10px 24px;align-items:start;padding:16px 18px;border:var(--ww-edge-card);border-radius:var(--ww-radius-card);background:var(--ww-surface);box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--tp-pop)}
+.tp-card:nth-child(4n+2){--tp-pop:var(--ww-pink)}.tp-card:nth-child(4n+3){--tp-pop:var(--ww-mint)}.tp-card:nth-child(4n+4){--tp-pop:var(--ww-sun)}
+.tp-card.is-selected{box-shadow:var(--ww-sheet-lift) var(--ww-sheet-lift) 0 var(--tp-pop)}
 #topics .tp-card-open{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-height:44px;border:0;padding:2px 0;background:none;text-align:left}
 .tp-card-title{font:var(--ww-strong-weight) var(--ww-size-h4)/1.25 var(--ww-font-display);letter-spacing:var(--ww-strong-track);overflow-wrap:anywhere}
 #topics .tp-card-open:hover .tp-card-title{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
@@ -49,15 +51,15 @@
 .tp-card-post{font:12px var(--ww-font-mono);color:var(--ww-muted);white-space:nowrap}
 #topics .tp-quiet{min-height:44px;padding:0 2px;border:0;border-radius:0;background:none;color:var(--ww-ink);font-size:14px;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px;white-space:nowrap}
 #topics .tp-quiet:not(:disabled):hover{text-decoration-thickness:2px}
-.tp-picker{grid-column:1/-1;padding:12px 16px 6px;border:1px solid var(--ww-line);background:var(--ww-surface)}
-.tp-picker-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px;padding-bottom:10px;border-bottom:var(--ww-ledger)}
+.tp-picker{grid-column:1/-1;padding:12px 16px 6px;border-radius:var(--ww-radius-inner);background:var(--ww-stage)}
+.tp-picker-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px;padding-bottom:10px;border-bottom:2px solid var(--ww-ink)}
 .tp-picker-head b{font:var(--ww-strong-weight) 17px/1.2 var(--ww-font-display);letter-spacing:var(--ww-strong-track)}
 .tp-picker-head .micro,.tp-picker-wk.micro{color:var(--ww-muted)}
 .tp-picker-list{list-style:none;margin:0;padding:0}
 .tp-picker-wk{padding:12px 0 2px}
-#topics .tp-opt{display:grid;grid-template-columns:112px minmax(0,1fr) minmax(0,auto);align-items:center;gap:4px 16px;width:100%;min-height:44px;padding:8px 10px;border:0;border-bottom:1px solid var(--ww-line);border-radius:0;background:none;text-align:left}
+#topics .tp-opt{display:grid;grid-template-columns:112px minmax(0,1fr) minmax(0,auto);align-items:center;gap:4px 16px;width:100%;min-height:44px;margin-top:6px;padding:8px 12px;border:0;border-radius:var(--ww-radius-control);background:var(--ww-surface);text-align:left}
 #topics .tp-opt b{font-size:15px;font-weight:var(--ww-strong-weight);white-space:nowrap}
-#topics .tp-opt:not(:disabled):hover{background:var(--ww-stage)}
+#topics .tp-opt:not(:disabled):hover{background:var(--ww-surface);box-shadow:inset 0 0 0 2px var(--ww-ink)}
 #topics .tp-opt:focus-visible{outline-offset:-3px}
 .tp-opt-post{font:12px var(--ww-font-mono);color:var(--ww-muted);white-space:nowrap}
 .tp-opt-state{justify-self:end;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:11px var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-muted)}
@@ -68,13 +70,13 @@
 .tp-booked b{font-weight:var(--ww-strong-weight)}
 .tp-booked .tp-quiet{margin-left:2px}
 @media(max-width:600px){
- .tp-next{flex-wrap:nowrap;gap:6px;padding:12px 0;background:none;border-bottom:1px solid var(--ww-line)}
+ .tp-next{flex-wrap:nowrap;gap:6px;padding:12px 14px}
  .tp-next .tp-next-label{flex:none;margin-right:4px;letter-spacing:.5px}
  .tp-next-slot,.tp-ruler{display:none}
  .tp-next-arrow{display:inline;color:var(--ww-ink)}
  .tp-next-day,.tp-next-post b{font-size:15px}
  .tp-next-post b{margin-left:2px}
- .tp-card{grid-template-columns:minmax(0,1fr);gap:12px}
+ .tp-card{grid-template-columns:minmax(0,1fr);gap:12px;padding:14px}
  .tp-picker{padding:10px 12px 4px}
  #topics .tp-opt{grid-template-columns:minmax(0,auto) minmax(0,1fr);padding:8px 6px}
  #topics .tp-opt .tp-opt-post{grid-row:2;grid-column:1}
@@ -109,10 +111,10 @@
 .tp-point-add{display:flex;gap:8px}
 .tp-point-add button{flex:none}
 .tp-sources{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.tp-sources li{display:flex;flex-direction:column;gap:2px;padding-bottom:8px;border-bottom:1px solid var(--ww-line);font-size:14px}
+.tp-sources li{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:var(--ww-radius-control);background:var(--ww-stage);font-size:14px}
 .tp-sources a{color:var(--ww-ink);text-underline-offset:4px;overflow-wrap:anywhere}
 .tp-sources span{font-size:12px;color:var(--ww-muted)}
-.tp-panel-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--ww-line)}
+.tp-panel-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding-top:12px;border-top:2px solid var(--ww-ink)}
 @media(max-width:1100px){.tp-layout{grid-template-columns:1fr}.tp-panel{position:static;max-height:none}}
 @media(max-width:820px){
  #topics{padding:32px 20px}
@@ -122,44 +124,47 @@
 
 .tp-controls{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px 24px;margin:28px 0 0}
 .tp-lens{margin-top:14px}
-.tp-weeknav-links{display:flex;gap:4px 16px;flex-wrap:wrap}
-#topics .tp-weeknav-links button{border:0;padding:6px 0;min-height:44px;background:none;text-decoration:underline;text-underline-offset:4px;font-size:15px}
+.tp-weeknav-links{display:flex;gap:8px;flex-wrap:wrap}
+#topics .tp-weeknav-links button{min-height:44px;padding:0 16px;border-radius:var(--ww-radius-pill);font-size:15px;font-weight:var(--ww-control-weight)}
 .tp-legend,.tp-follow{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .tp-follow .micro{margin-right:4px}
-#topics .tp-lt{display:inline-flex;align-items:center;gap:8px;min-height:44px;border-radius:var(--ww-radius-pill);padding:6px 14px;font-size:14px}
+#topics .tp-lt{display:inline-flex;align-items:center;gap:8px;min-height:40px;border-radius:var(--ww-radius-pill);padding:6px 14px;font-size:15px;font-weight:var(--ww-control-weight)}
 #topics .tp-lt i{width:12px;height:12px;box-sizing:border-box;border-radius:var(--ww-radius-mark);border:var(--ww-edge-control)}
-.tp-lt-record i{background:var(--ww-ink)}.tp-lt-post i{background:var(--ww-highlight);border-color:var(--ww-accent)!important}.tp-lt-edit i{border:2px solid var(--ww-accent)!important}.tp-lt-plan i{border-style:dashed!important}
+.tp-lt-record i{background:var(--ww-ink)}.tp-lt-post i{background:var(--ww-highlight)}.tp-lt-edit i{background:var(--ww-sky-wash);border-color:var(--ww-sky)!important}.tp-lt-plan i{border-style:dashed!important}
 #topics .tp-lt[aria-pressed=false]{color:var(--ww-muted);background:var(--ww-stage);text-decoration:line-through}
-#topics .tp-follow button{min-height:44px;border-radius:var(--ww-radius-chip);padding:4px 10px;font-size:13px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#topics .tp-follow button[aria-pressed=true]{background:var(--ww-ink);color:var(--ww-on-ink);border-color:var(--ww-ink)}
-/* Big calendar (S2-B): one row per week, six day columns (Monday to Saturday), full cards. */
+#topics .tp-follow button{min-height:40px;border-radius:var(--ww-radius-chip);padding:4px 14px;font-size:14px;font-weight:var(--ww-control-weight);max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#topics .tp-follow button[aria-pressed=true]{background:var(--ww-sun);color:var(--ww-ink);border-color:var(--ww-ink);font-weight:var(--ww-strong-weight)}
+/* Big calendar (S2-B): one row per week, six day columns (Monday to Saturday), full cards. Idea Cards: the calendar sits on one
+   white card with a 3px ink edge, round corners and the hero's sky offset; weeks are split by soft rules. */
 .tp-span{margin:0;font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
-.tp-cal{display:flex;flex-direction:column;margin-top:20px;border-top:var(--ww-ledger)}
-.tp-wk{display:grid;grid-template-columns:96px repeat(var(--tp-cols,6),minmax(0,1fr));border-bottom:1px solid var(--ww-line)}
-.tp-wkl{display:flex;flex-direction:column;gap:2px;padding-top:10px}
+.tp-cal{display:flex;flex-direction:column;margin:20px var(--ww-sheet-offset) var(--ww-sheet-offset) 0;border:var(--ww-edge-card);border-radius:var(--ww-radius-board);background:var(--ww-surface);box-shadow:var(--ww-sheet-offset) var(--ww-sheet-offset) 0 var(--ww-sky);overflow:hidden}
+.tp-wk{display:grid;grid-template-columns:96px repeat(var(--tp-cols,6),minmax(0,1fr));border-bottom:2px solid var(--ww-line-soft)}
+.tp-wk:last-child{border-bottom:0}
+.tp-wkl{display:flex;flex-direction:column;gap:2px;padding:12px 0 0 14px}
 .tp-wkl b{font:var(--ww-strong-weight) 20px/1.1 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
 .tp-wk.is-this .tp-wkl b{color:var(--ww-accent-ink)}
-.tp-day{display:flex;flex-direction:column;gap:6px;min-height:140px;padding:10px;border-left:1px solid var(--ww-line);transition:opacity var(--m-ui) linear}
+.tp-wkl .micro{font-weight:var(--ww-label-weight)}
+.tp-day{display:flex;flex-direction:column;gap:6px;min-height:140px;padding:10px;border-left:2px solid var(--ww-line-soft);transition:opacity var(--m-ui) linear}
 .tp-day.is-past{opacity:.72}.tp-day.is-past .tp-dayn,.tp-day.is-past .tp-ev-job,.tp-day.is-past .tp-ev-after{color:var(--ww-ink)}.tp-day.is-past .tp-ev-record :is(.tp-ev-job,.tp-ev-after){color:var(--ww-on-ink)}
-.tp-day.is-today{opacity:1;background:var(--ww-stage);box-shadow:inset 0 3px 0 var(--ww-accent)}
+.tp-day.is-today{opacity:1;background:var(--ww-sky-wash)}
 .tp-dayn{font:12px var(--ww-font-mono);color:var(--ww-muted);font-variant-numeric:tabular-nums}
-.tp-dayn b{font-weight:400;color:var(--ww-ink)}
-.tp-day.is-today .tp-dayn b{background:var(--ww-ink);color:var(--ww-highlight);border-radius:var(--ww-radius-chip);padding:0 4px}
+.tp-dayn b{font-weight:var(--ww-strong-weight);color:var(--ww-ink)}
+.tp-day.is-today .tp-dayn b{background:var(--ww-ink);color:var(--ww-on-ink);border-radius:var(--ww-radius-chip);padding:0 6px}
 #topics .tp-ev{display:flex;flex-direction:column;align-items:flex-start;gap:3px;width:100%;padding:8px 10px;border-radius:var(--ww-radius-control);text-align:left;font-size:14px;line-height:1.25;background:var(--ww-surface);transition:opacity var(--m-ui) linear}
-#topics .tp-ev b{font-weight:600;overflow-wrap:anywhere}
-.tp-ev-job{font:11px var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-muted)}
+#topics .tp-ev b{font-weight:var(--ww-strong-weight);overflow-wrap:anywhere}
+.tp-ev-job{font:var(--ww-label-weight) 11px var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-muted)}
 .tp-ev-after{font-size:12px;color:var(--ww-muted)}
 #topics .tp-ev-record{background:var(--ww-ink);border-color:var(--ww-ink);color:var(--ww-on-ink)}
 #topics .tp-ev-record .tp-ev-job,#topics .tp-ev-record .tp-ev-after{color:var(--ww-on-ink-72)}
-#topics .tp-ev-post{background:var(--ww-highlight);border-width:0 0 0 3px;border-color:var(--ww-accent);padding-left:8px}
-#topics .tp-ev-edit{border:2px solid var(--ww-accent)}
+#topics .tp-ev-post{background:var(--ww-highlight);border-color:var(--ww-ink)}
+#topics .tp-ev-edit{background:var(--ww-sky-wash);border-color:var(--ww-ink)}
 #topics .tp-ev-plan{border-style:dashed;border-color:var(--ww-field-edge)}
 #topics .tp-ev-open{background:transparent;border:var(--ww-edge-dashed-control);color:var(--ww-muted)}
 #topics .tp-ev-open:not(:disabled):hover{background:var(--ww-surface);color:var(--ww-ink)}
 #topics .tp-ev.is-dim{opacity:.22}
 #topics .tp-ev.is-sel{outline:3px solid var(--ww-focus);outline-offset:1px}
-@media(max-width:1000px){.tp-wk{grid-template-columns:repeat(var(--tp-cols,6),minmax(0,1fr))}.tp-wkl{grid-column:1/-1;flex-direction:row;align-items:baseline;gap:8px;padding:12px 0 8px}.tp-day{min-height:100px;padding:6px}.tp-day:nth-child(2){border-left:0;padding-left:0}#topics .tp-ev{padding:6px 8px;font-size:13px}}
-@media(max-width:700px){.tp-wk{grid-template-columns:1fr;border-bottom:0;padding-bottom:6px}.tp-day{min-height:0;border-left:0;border-top:1px solid var(--ww-line);padding:8px 0}.tp-day.is-today{padding:8px}.tp-day:empty{display:none}.tp-wkl{padding:14px 0 8px}}
+@media(max-width:1000px){.tp-wk{grid-template-columns:repeat(var(--tp-cols,6),minmax(0,1fr))}.tp-wkl{grid-column:1/-1;flex-direction:row;align-items:baseline;gap:8px;padding:12px 14px 8px}.tp-day{min-height:100px;padding:6px}.tp-day:nth-child(2){border-left:0}#topics .tp-ev{padding:6px 8px;font-size:13px}}
+@media(max-width:700px){.tp-wk{grid-template-columns:1fr;padding-bottom:6px}.tp-day{min-height:0;border-left:0;border-top:2px solid var(--ww-line-soft);padding:8px 12px}.tp-day.is-today{padding:8px 12px}.tp-day:empty{display:none}.tp-wkl{padding:14px 0 8px}}
 @media(max-width:820px){.tp-controls{align-items:flex-start}.tp-follow{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;max-width:100%;padding-bottom:4px}#topics .tp-follow button{flex:none}}
 @media(prefers-reduced-motion:reduce){.tp-day,#topics .tp-ev{transition:none}}
 /* Posting days from Posting settings (10 November 2026): the legend's posting swatch marks the column, and an empty posting slot shows on a posting day with nothing going out. */
@@ -167,12 +172,12 @@
 #topics .tp-mode a{display:inline-block;padding:12px 0;margin:-12px 0 -12px 6px;color:var(--ww-ink);text-underline-offset:4px;white-space:nowrap}
 .tp-dayn{display:flex;flex-wrap:wrap;align-items:center;gap:2px 6px}
 .tp-pd{display:inline-flex;align-items:center;gap:5px;margin-left:auto;font:11px var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-ink);white-space:nowrap}
-.tp-pd i{width:10px;height:10px;box-sizing:border-box;border-radius:var(--ww-radius-mark);background:var(--ww-highlight);border:1px solid var(--ww-accent)}
+.tp-pd i{width:10px;height:10px;box-sizing:border-box;border-radius:var(--ww-radius-mark);background:var(--ww-highlight);border:1px solid var(--ww-ink)}
 /* Recording days (Monday, Wednesday and Friday since 11 November 2026) carry the same small tag in ink, the recording card's own colour. */
 .tp-rd{display:inline-flex;align-items:center;gap:5px;margin-left:auto;font:11px var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-ink);white-space:nowrap}
 .tp-rd i{width:10px;height:10px;box-sizing:border-box;border-radius:var(--ww-radius-mark);background:var(--ww-ink);border:var(--ww-edge-control)}
 .tp-rd+.tp-pd{margin-left:0}
-#topics .tp-ev-postopen{box-sizing:border-box;background:transparent;border:var(--ww-edge-dashed-control);border-left:3px solid var(--ww-accent);padding-left:8px;color:var(--ww-muted)}
+#topics .tp-ev-postopen{box-sizing:border-box;background:transparent;border:var(--ww-edge-dashed-control);color:var(--ww-muted)}
 .tp-cal[data-cols="6"] :is(.tp-pd,.tp-rd),.tp-cal[data-cols="7"] :is(.tp-pd,.tp-rd){letter-spacing:.02em}
 @media(max-width:1000px){.tp-pd,.tp-rd{margin-left:0}.tp-cal[data-cols="6"] .tp-day,.tp-cal[data-cols="7"] .tp-day{padding:5px}.tp-cal[data-cols="6"] .tp-ev,.tp-cal[data-cols="7"] .tp-ev{padding:5px 6px;font-size:12px}}
 @media(max-width:700px){.tp-pd,.tp-rd{margin-left:auto}.tp-rd+.tp-pd{margin-left:0}}
