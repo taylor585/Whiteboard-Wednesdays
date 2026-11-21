@@ -30,10 +30,12 @@
     if (t) return {kind:'listed', chip:'IN TOPICS', line:'On the Topics shortlist, no recording day yet.', topic:t};
     return {kind:'idea', chip:daysSince(card.addedAt) <= 14 ? 'NEW' : 'IDEA', line:'', topic:null};
   }
-  const order = {idea:0, listed:1, booked:2, done:3};
+  // Master rule (Taylor, 21 November 2026): the newest card is always first, under every filter and whatever its state:
+  // newest addedAt, then newest createdAt, then the highest card number.
+  const newest = (a, b) => String(b.addedAt || '').localeCompare(String(a.addedAt || '')) || String(b.createdAt || '').localeCompare(String(a.createdAt || '')) || b.no - a.no;
   function cards() {
     const all = store()?.cards || [];
-    return all.map(c => ({c, s:stateOf(c)})).sort((a, b) => (a.s.kind === 'done') - (b.s.kind === 'done') || a.c.no - b.c.no);
+    return all.slice().sort(newest).map(c => ({c, s:stateOf(c)}));
   }
   function tagCounts(list) {
     const m = new Map();
