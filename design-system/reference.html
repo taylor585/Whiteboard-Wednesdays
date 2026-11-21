@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Idea Cards Reference</title>
+<!-- The real tokens and components: open this file from the repo (design-system/reference.html) so these paths resolve. -->
+<link rel="stylesheet" href="../public/whiteboard.css">
+<link rel="stylesheet" href="../public/cards.css">
+<link rel="stylesheet" href="../public/library.css">
+<link rel="icon" href="../public/favicon.svg" type="image/svg+xml">
+<style>
+/* Layout of this reference page only. Every colour, radius, edge and face comes from the tokens. */
+body{background:var(--ww-surface);color:var(--ww-ink);font:var(--ww-body-weight) var(--ww-size-body)/1.5 var(--ww-font-body)}
+.rf{max-width:1180px;margin:0 auto;padding:40px 24px 80px}
+.rf-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding-bottom:28px;border-bottom:var(--ww-ledger)}
+.rf-head img{display:block;height:60px;width:auto}
+.rf section{padding:40px 0 8px}
+.rf h2{margin:6px 0 20px;font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track)}
+.rf p.note{color:var(--ww-muted);max-width:68ch;margin:0 0 20px}
+.sw{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:16px}
+.sw figure{margin:0;border:var(--ww-edge-card);border-radius:var(--ww-radius-card);overflow:hidden;background:var(--ww-surface)}
+.sw .chip{height:86px;border-bottom:var(--ww-edge-card)}
+.sw figcaption{padding:10px 12px 12px;font-size:13px;line-height:1.35}
+.sw b{display:block;font-weight:var(--ww-strong-weight)}
+.sw code,.rf code{font:var(--ww-control-weight) 12px/1.4 var(--ww-font-label);color:var(--ww-muted)}
+.ty{display:flex;flex-direction:column;gap:14px}
+.ty>div{display:grid;grid-template-columns:180px minmax(0,1fr);gap:16px;align-items:baseline;padding:12px 16px;border-radius:var(--ww-radius-inner);background:var(--ww-stage)}
+.shp{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-end}
+.shp div{display:grid;place-items:center;width:110px;height:84px;border:var(--ww-edge-control);background:var(--ww-surface);font-size:12px;font-weight:var(--ww-strong-weight);text-align:center}
+.demo{display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+.demo .ww-card--hero{width:min(360px,100%);min-height:460px}
+.demo .side{flex:1 1 320px;display:flex;flex-direction:column;gap:14px}
+.demo .ww-add{width:200px;min-height:290px}
+.row-wrap{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.tabs{display:flex;gap:28px;border-bottom:var(--ww-ledger);padding:0 4px}
+.tabs a{position:relative;padding:14px 0;text-decoration:none;color:var(--ww-muted);font:var(--ww-control-weight) 17px/1.4 var(--ww-font-body)}
+.tabs a[aria-current=page]{color:var(--ww-ink);font-weight:var(--ww-strong-weight)}
+.tabs a[aria-current=page]::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:4px;border-radius:var(--ww-radius-pill);background:var(--ww-ink)}
+.tiles6{display:grid;grid-template-columns:repeat(3,30px);gap:8px}
+.tiles6 span{width:30px;height:30px;border-radius:8px;border:2.5px solid var(--ww-ink)}
+.tiles6 span:last-child{border:2.5px dashed var(--ww-faint)}
+.dot{width:74px;height:74px;border-radius:var(--ww-radius-round);background:var(--ww-ink);color:var(--ww-on-ink);display:grid;place-items:center;font-weight:var(--ww-strong-weight)}
+@media(max-width:640px){.ty>div{grid-template-columns:1fr;gap:4px}.demo .ww-add{width:100%;min-height:120px}}
+</style>
+</head>
+<body>
+<main class="rf">
+  <header class="rf-head">
+    <div>
+      <p class="ww-eyebrow">Whiteboard Wednesdays · design system</p>
+      <h1 class="ww-title">Idea Cards</h1>
+      <p class="note" style="margin-top:10px">Chosen by Taylor on 21 November 2026. The live tokens are the <code>--ww-*</code> properties at the top of <code>public/whiteboard.css</code>; this page loads that file, so it always shows them.</p>
+    </div>
+    <div style="display:flex;gap:16px;align-items:center"><img src="../public/ww-logo.svg" alt="Whiteboard Wednesdays. Plan, record, post."><img src="../public/favicon.svg" alt="" style="height:48px"></div>
+  </header>
+
+  <section>
+    <p class="ww-eyebrow">Colour</p><h2>Ink, white and four pastels</h2>
+    <p class="note">Pastels are fills and marks, never text. Ink reads on every one of them at 10:1 or more.</p>
+    <div class="sw">
+      <figure><div class="chip" style="background:var(--ww-ink)"></div><figcaption><b>Ink #1B1B1F</b><code>--ww-ink</code><br>17.2:1 on white</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-surface)"></div><figcaption><b>White #FFFFFF</b><code>--ww-surface</code><br>Page and cards</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-stage)"></div><figcaption><b>Stage #F4F2EE</b><code>--ww-stage</code><br>Rows, empty tiles</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-sky)"></div><figcaption><b>Sky #7AD3FF</b><code>--ww-sky</code><br>Ink on it 10.3:1</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-pink)"></div><figcaption><b>Pink #FFB4D2</b><code>--ww-pink</code><br>Ink on it 10.4:1</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-mint)"></div><figcaption><b>Mint #A8E6B4</b><code>--ww-mint</code><br>Ink on it 12.0:1</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-sun)"></div><figcaption><b>Sun #FFE27A</b><code>--ww-sun</code><br>NEW, chosen, posting</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-body-ink)"></div><figcaption><b>Body #46454F</b><code>--ww-body-ink</code><br>9.4:1 on white</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-muted)"></div><figcaption><b>Muted #5B5A57</b><code>--ww-muted</code><br>6.9:1 on white</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-accent-ink)"></div><figcaption><b>Accent text #0B5E8A</b><code>--ww-accent-ink</code><br>7.0:1 on white</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-success)"></div><figcaption><b>Success #1E6B45</b><code>--ww-success</code><br>Status lines only</figcaption></figure>
+      <figure><div class="chip" style="background:var(--ww-warn)"></div><figcaption><b>Warning #9A3412</b><code>--ww-warn</code><br>Status lines only</figcaption></figure>
+    </div>
+  </section>
+
+  <section>
+    <p class="ww-eyebrow">Type</p><h2>Rubik for everything</h2>
+    <div class="ty">
+      <div><code>Title · 800 · −0.02em</code><span style="font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track)">Idea Cards</span></div>
+      <div><code>Card title · 28px 800</code><span style="font:800 28px/1.05 var(--ww-font-display);letter-spacing:var(--ww-head-track)">A New Way of Using Claude</span></div>
+      <div><code>Section · 26px 800</code><span style="font:var(--ww-display-weight) var(--ww-size-h2)/1.15 var(--ww-font-display);letter-spacing:var(--ww-head-track)">Recording week of 23 November</span></div>
+      <div><code>Small heading · 20px 700</code><span style="font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display)">Posting days</span></div>
+      <div><code>Row · 18px 500</code><span style="font:var(--ww-control-weight) 18px/1.4 var(--ww-font-body)">One manager chat with a set of instructions</span></div>
+      <div><code>Body · 16px 400</code><span>Drive links go in on the left. Posts come out on the right.</span></div>
+      <div><code>Eyebrow · 13px 700 caps</code><span class="ww-eyebrow">Collect them all</span></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="ww-eyebrow">Shape</p><h2>Round corners, thick edges, hard pastel shadows</h2>
+    <div class="shp">
+      <div style="border-radius:var(--ww-radius-tile)">Tile 10px</div>
+      <div style="border-radius:var(--ww-radius-control)">Control 12px</div>
+      <div style="border-radius:var(--ww-radius-inner)">Row 16px</div>
+      <div style="border-radius:var(--ww-radius-card);border:var(--ww-edge-card)">Card 22px<br>3px edge</div>
+      <div style="border-radius:var(--ww-radius-hero);border:var(--ww-edge-hero);box-shadow:var(--ww-shadow-hero)">Hero 26px<br>10px sky</div>
+      <div style="border-radius:var(--ww-radius-card);border:var(--ww-edge-card);box-shadow:var(--ww-shadow-card);--ww-pop:var(--ww-pink)">Lifted<br>6px pink</div>
+      <div style="border-radius:var(--ww-radius-card);border:var(--ww-edge-dashed)">Dashed<br>"+ add"</div>
+      <div style="border-radius:var(--ww-radius-pill);height:44px">Pill 999px</div>
+    </div>
+  </section>
+
+  <section>
+    <p class="ww-eyebrow">Components</p><h2>The card, its moves and the empty slot</h2>
+    <div class="demo">
+      <article class="ww-card ww-card--hero" tabindex="0" aria-label="Example idea card">
+        <div class="ww-card__top"><span>#001</span><span class="ww-chip ww-chip--new">New</span></div>
+        <div class="ww-card__art" style="height:190px"><div style="display:flex;align-items:center;gap:14px"><div class="dot">1</div><div class="tiles6" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div></div></div>
+        <h3 class="ww-card__title">A New Way of Using Claude</h3>
+        <p class="ww-card__text">One manager chat, many disposable chats. Minimal context rot.</p>
+        <div class="ww-card__foot"><span>Claude</span><span>21 Nov 2026</span></div>
+      </article>
+      <div class="side">
+        <p class="ww-eyebrow">Card moves</p>
+        <ol class="ww-rows">
+          <li class="ww-row"><span class="ww-tile">1</span>One manager chat with a set of instructions</li>
+          <li class="ww-row"><span class="ww-tile">2</span>Chats are disposable, short-term vessels</li>
+          <li class="ww-row"><span class="ww-tile">3</span>Claude runs with minimal context rot</li>
+        </ol>
+        <p class="ww-count">1 card in the deck</p>
+      </div>
+      <button class="ww-add" type="button">+ Draw a card</button>
+    </div>
+  </section>
+
+  <section>
+    <p class="ww-eyebrow">Controls</p><h2>Chips, buttons, tabs, fields</h2>
+    <div class="row-wrap" style="margin-bottom:20px"><span class="ww-chip ww-chip--new">New</span><span class="ww-chip ww-chip--sky">Recording</span><span class="ww-chip ww-chip--pink">Editing</span><span class="ww-chip ww-chip--mint">Posted</span><span class="ww-chip">Planned</span><span class="ww-chip ww-chip--line">Shortlist</span></div>
+    <div class="row-wrap" style="margin-bottom:20px"><a class="ww-btn ww-btn--primary" href="#">Present</a><a class="ww-btn" href="#">Reading version</a><button type="button">Plain button</button><button type="button" class="primary">Primary button</button><span class="ww-tile">1</span><span class="ww-tile ww-tile--pink">2</span><span class="ww-tile ww-tile--mint">3</span><span class="ww-tile ww-tile--sun">4</span></div>
+    <nav class="tabs" aria-label="Example tabs" style="margin-bottom:24px"><a href="#" aria-current="page">Topics</a><a href="#">Briefs</a><a href="#">Schedule</a><a href="#">Publish</a></nav>
+    <div class="row-wrap" style="max-width:520px"><label style="flex:1 1 220px;display:grid;gap:6px"><span class="micro">Write an angle</span><input type="text" placeholder="What would you say?"></label><label style="flex:1 1 160px;display:grid;gap:6px"><span class="micro">Posting time</span><input type="time" value="15:00"></label></div>
+  </section>
+
+  <section>
+    <p class="ww-eyebrow">Empty state</p><h2>Say what is missing and what comes next</h2>
+    <div class="ww-empty" style="max-width:520px"><b>No briefs yet.</b>Shortlist or book a topic and it appears here with Create brief.</div>
+  </section>
+</main>
+</body>
+</html>

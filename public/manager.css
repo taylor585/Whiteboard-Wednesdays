@@ -4,27 +4,27 @@
    where the reel goes; Deck built is solid ink; Topic in a chat is dashed on the stage. The float is the one ambient
    loop this screen keeps (Taylor's pick on the vision board) and it stops under reduced motion. */
 #manager{max-width:1600px;margin:auto;padding:48px 4vw 64px;color:var(--ww-ink);font-family:var(--ww-font-body)}
-#manager :focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
+#manager :focus-visible{outline:3px solid var(--ww-focus);outline-offset:3px}
 .mg-head h1{margin:10px 0 10px;font:var(--ww-display-weight) var(--ww-size-title)/1.04 var(--ww-font-display);letter-spacing:var(--ww-title-track)}
 .mg-head p{margin:0 0 6px;color:var(--ww-muted);max-width:80ch;font-size:var(--ww-size-body);line-height:1.5}
 .mg-head .mg-updated{font:var(--ww-size-micro)/1.6 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase}
-.mg-empty{margin-top:32px;padding:28px 0;border-top:var(--ww-ledger)}
+.mg-empty{margin-top:32px;padding:22px;border:var(--ww-edge-dashed);border-radius:var(--ww-radius-card)}
 .mg-empty p{margin:0;max-width:60ch}
 
 /* ---- The pentagon: a narrow top, full shoulders, an inset base, the gold outline joining the five centres ---- */
 .mg-grid{position:relative;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:56px 0;margin-top:28px;padding:8px 0}
-.mg-card{position:relative;z-index:1;display:flex;flex-direction:column;min-width:0;padding:20px 20px 14px;background:var(--ww-surface);border:1px solid var(--ww-line)}
-.mg-card[data-slot=top]{grid-column:4/10;border-top:var(--ww-ledger)}
+.mg-card{position:relative;z-index:1;display:flex;flex-direction:column;min-width:0;padding:20px 20px 14px;background:var(--ww-surface);border:var(--ww-edge-card);border-radius:var(--ww-radius-card)}
+.mg-card[data-slot=top]{grid-column:4/10;box-shadow:var(--ww-shadow-hero)}
 .mg-card[data-slot=ml]{grid-column:1/6;background:var(--ww-stage)}
 .mg-card[data-slot=mr]{grid-column:8/13}
 .mg-card[data-slot=bl]{grid-column:2/7}
 .mg-card[data-slot=br]{grid-column:7/12;background:var(--ww-stage)}
 .mg-card[data-slot=top] .mg-field{height:clamp(220px,20vw,260px)}
 .mg-outline{position:absolute;inset:0;z-index:0;width:100%;height:100%;pointer-events:none}
-.mg-outline polygon{fill:none;stroke:var(--ww-gold);stroke-width:3}
+.mg-outline polygon{fill:none;stroke:var(--ww-accent);stroke-width:3}
 .mg-heart{grid-column:6/8;grid-row:2;align-self:center;justify-self:center;z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
 .mg-up{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:112px;height:112px;padding:0;
-  border:1.5px solid var(--ww-ink);border-radius:50%;background:var(--ww-ink);color:var(--ww-on-ink);font:600 15px var(--ww-font-body);cursor:pointer}
+  border:var(--ww-edge-control);border-radius:50%;background:var(--ww-ink);color:var(--ww-on-ink);font:600 15px var(--ww-font-body);cursor:pointer}
 .mg-up:hover{background:var(--ww-ink-hover)}
 .mg-up:active{background:var(--ww-ink-press)}
 .mg-up[aria-busy=true]{background:var(--ww-surface);color:var(--ww-ink)}
@@ -42,7 +42,7 @@
 .mg-foot{font:var(--ww-size-micro)/1.5 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--ww-muted)}
 
 /* ---- The orb ---- */
-.mg-orb{position:absolute;width:var(--sz,120px);height:var(--sz,120px);padding:0;border:1.5px solid var(--ww-ink);border-radius:50%;
+.mg-orb{position:absolute;width:var(--sz,120px);height:var(--sz,120px);padding:0;border:var(--ww-edge-control);border-radius:50%;
   display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer;
   background:var(--ww-surface);color:var(--ww-ink);font:600 16px/1.15 var(--ww-font-body);
   box-shadow:0 8px 16px -10px var(--ww-shadow-30);transition:box-shadow var(--m-ui,140ms) ease-out}
@@ -52,12 +52,12 @@
 .mg-orb.is-deck{background:var(--ww-ink);color:var(--ww-on-ink)}
 .mg-orb.is-topic{background:var(--ww-stage);border:1.5px dashed var(--ww-field-edge)}
 .mg-card.is-topic .mg-orb.is-topic{background:var(--ww-surface)}
-.mg-orb.is-live{border-width:2px;box-shadow:inset 0 0 0 5px var(--ww-surface),inset 0 0 0 8px var(--ww-gold),0 8px 16px -10px var(--ww-shadow-30)}
-.mg-orb.is-live:hover{box-shadow:inset 0 0 0 5px var(--ww-surface),inset 0 0 0 8px var(--ww-gold),0 12px 20px -10px var(--ww-shadow-30)}
-.mg-orb.is-open{outline:2px solid var(--ww-gold);outline-offset:5px}
+.mg-orb.is-live{border-width:2px;box-shadow:inset 0 0 0 5px var(--ww-surface),inset 0 0 0 8px var(--ww-accent),0 8px 16px -10px var(--ww-shadow-30)}
+.mg-orb.is-live:hover{box-shadow:inset 0 0 0 5px var(--ww-surface),inset 0 0 0 8px var(--ww-accent),0 12px 20px -10px var(--ww-shadow-30)}
+.mg-orb.is-open{outline:3px solid var(--ww-focus);outline-offset:5px}
 .mg-ol{display:inline-block;max-width:76%;line-height:1.15;word-break:keep-all;overflow-wrap:normal;hyphens:none}
 .mg-flag{position:absolute;top:-3px;right:-3px;min-width:24px;height:24px;padding:0 6px;border-radius:12px;
-  background:var(--ww-surface);border:1.5px solid var(--ww-ink);color:var(--ww-ink);font:600 12px/21px var(--ww-font-mono);font-variant-numeric:tabular-nums}
+  background:var(--ww-surface);border:var(--ww-edge-control);color:var(--ww-ink);font:600 12px/21px var(--ww-font-mono);font-variant-numeric:tabular-nums}
 @keyframes mg-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 .mg-orb{animation:mg-bob var(--bob,3.4s) ease-in-out var(--bob-at,0s) infinite}
 .mg-orb:hover,.mg-orb.is-open,.mg-orb:focus-visible{animation-play-state:paused}
@@ -74,7 +74,7 @@
 .mg-part{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:10px;min-height:48px;border-bottom:1px solid var(--ww-line);font-size:15px}
 .mg-ps{font:var(--ww-size-micro)/1.4 var(--ww-font-mono);letter-spacing:.5px;text-transform:uppercase;color:var(--ww-muted);text-align:right}
 .mg-part.is-done .mg-ps{color:var(--ww-success)}
-.mg-check,.mg-opt{min-height:40px;padding:0 14px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);color:var(--ww-ink);font:600 14px var(--ww-font-body);cursor:pointer}
+.mg-check,.mg-opt{min-height:40px;padding:0 14px;border:var(--ww-edge-control);border-radius:var(--ww-radius-control);background:var(--ww-surface);color:var(--ww-ink);font:600 14px var(--ww-font-body);cursor:pointer}
 .mg-check:hover,.mg-opt:hover{background:var(--ww-stage)}
 .mg-check[aria-pressed=true]{border-color:var(--ww-ink)}
 .mg-opt.is-first{border-color:var(--ww-ink);background:var(--ww-ink);color:var(--ww-on-ink)}
@@ -91,8 +91,8 @@
 /* Phones: the cards stack and the orbs sit in a wrapping row, still floating */
 @media (max-width:767px){
   #manager{padding:32px 16px 48px}
-  .mg-grid{grid-template-columns:minmax(0,1fr);gap:0;padding:0;border-top:var(--ww-ledger)}
-  .mg-card,.mg-card[data-slot]{grid-column:1;grid-row:auto;border:0;border-bottom:1px solid var(--ww-line);padding:16px 12px 12px}
+  .mg-grid{grid-template-columns:minmax(0,1fr);gap:14px;padding:0}
+  .mg-card,.mg-card[data-slot]{grid-column:1;grid-row:auto;padding:16px 14px 12px;box-shadow:none}
   .mg-card[data-slot=top] .mg-field{height:auto}
   .mg-outline{display:none}
   .mg-heart{grid-column:1;grid-row:1;justify-self:stretch;flex-direction:row;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--ww-line)}
@@ -104,4 +104,4 @@
   .mg-drawer{grid-template-columns:minmax(0,1fr);gap:18px}
 }
 @media print{.mg-orb{animation:none;box-shadow:none}}
-.mg-head>.micro::before{content:"";display:inline-block;width:24px;height:2px;margin:0 10px 3px 0;background:var(--ww-gold);vertical-align:middle}
+.mg-head>.micro::before{content:"";display:inline-block;width:24px;height:2px;margin:0 10px 3px 0;background:var(--ww-accent);vertical-align:middle}

@@ -14,12 +14,12 @@
 .se-slots{display:flex;flex-direction:column;gap:24px;min-width:0}
 .se-grp h2{margin:0 0 10px;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding-top:12px;border-top:var(--ww-ledger)}
 .se-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-#settings .se-job{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;min-height:120px;padding:14px;border:1px dashed var(--ww-field-edge);border-radius:var(--ww-radius-card);background:var(--ww-surface);font-size:13px;min-width:0}
+#settings .se-job{display:flex;flex-direction:column;align-items:flex-start;gap:8px;text-align:left;min-height:120px;padding:14px;border:var(--ww-edge-dashed);border-radius:var(--ww-radius-card);background:var(--ww-surface);font-size:13px;min-width:0}
 #settings .se-job[aria-disabled=true]{cursor:default}
-#settings .se-job.is-hot{border:1px solid var(--ww-ink);box-shadow:0 0 0 3px var(--ww-highlight)}
+#settings .se-job.is-hot{border:var(--ww-edge-control);box-shadow:0 0 0 3px var(--ww-highlight)}
 #settings .se-job.is-changed{border-style:solid;border-color:var(--ww-ink);box-shadow:inset 0 0 0 1px var(--ww-ink)}
 #settings .se-job small{color:var(--ww-muted)}
-.se-sk{display:inline-flex;align-items:center;gap:8px;max-width:100%;border:1px solid var(--ww-ink);border-radius:var(--ww-radius-pill);padding:4px 12px 4px 4px;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.se-sk{display:inline-flex;align-items:center;gap:8px;max-width:100%;border:var(--ww-edge-control);border-radius:var(--ww-radius-pill);padding:4px 12px 4px 4px;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .se-sk i{flex:none;width:24px;height:24px;border-radius:var(--ww-radius-chip);background:var(--ww-ink);color:var(--ww-highlight);display:inline-flex;align-items:center;justify-content:center;font:600 11px var(--ww-font-mono);letter-spacing:-.03em;font-style:normal}
 .se-dot{width:9px;height:9px;transform:rotate(45deg);background:var(--ww-success);margin-top:6px}
 .se-dot.is-off{background:var(--ww-surface);box-shadow:inset 0 0 0 2px var(--ww-warn)}
@@ -28,13 +28,13 @@
 .se-when{font-size:15px}.se-note{font-size:13px;color:var(--ww-muted)}
 #settings .se-btn{margin-left:auto;min-height:48px;padding:12px 22px;border:0;border-radius:var(--ww-radius-media);background:var(--ww-ink);color:var(--ww-on-ink);font-size:16px}
 #settings .se-btn:disabled{background:var(--ww-line);color:var(--ww-muted);cursor:not-allowed}
-#settings :focus-visible{outline:3px solid var(--ww-gold);outline-offset:3px}
+#settings :focus-visible{outline:3px solid var(--ww-focus);outline-offset:3px}
 @media(max-width:1000px){.se-lib{grid-template-columns:1fr}.se-shelf{position:static;flex-direction:row;overflow-x:auto;overscroll-behavior-x:contain}#settings .se-card{flex:0 0 240px}}
 @media(max-width:700px){#settings{padding:32px 20px}.se-row{grid-template-columns:1fr}#settings .se-job{min-height:0}#settings .se-btn{margin-left:0;width:100%}}
 /* Links for posts (Phase 7, 4 November 2026): the booking link, saved once. */
 .se-links{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:end;padding:6px 0 0}
 .se-field{display:flex;flex-direction:column;gap:6px;min-width:0;font-size:14px;font-weight:600}
-.se-field input{min-height:48px;padding:10px 12px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-media);font:400 16px var(--ww-font-body);color:var(--ww-ink);background:var(--ww-surface);min-width:0;width:100%;box-sizing:border-box}
+.se-field input{min-height:48px;padding:10px 12px;border:var(--ww-edge-control);border-radius:var(--ww-radius-media);font:400 16px var(--ww-font-body);color:var(--ww-ink);background:var(--ww-surface);min-width:0;width:100%;box-sizing:border-box}
 .se-field input[aria-invalid=true]{border-color:var(--ww-warn);box-shadow:0 0 0 2px var(--ww-highlight)}
 #settings .se-btn-sm{margin-left:0}
 .se-link-st,.se-links .se-note{grid-column:1/-1;margin:0}
@@ -72,23 +72,23 @@
 .po-grp h2{margin:0 0 12px;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
 .po-grp h2 .micro{margin:0}
 .po-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
-#settings .po-day{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:10px;min-height:104px;padding:10px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-control);background:var(--ww-surface);text-align:left}
+#settings .po-day{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:10px;min-height:104px;padding:10px;border:var(--ww-edge-control);border-radius:var(--ww-radius-control);background:var(--ww-surface);text-align:left}
 .po-day b{font:400 12px var(--ww-font-mono)}
 .po-tags{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
 .po-tag{display:inline-flex;align-items:center;gap:6px;font:11px var(--ww-font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ww-muted)}
-.po-tag::before{content:"";width:10px;height:10px;border-radius:var(--ww-radius-mark);border:1px solid var(--ww-ink);box-sizing:border-box}
+.po-tag::before{content:"";width:10px;height:10px;border-radius:var(--ww-radius-mark);border:var(--ww-edge-control);box-sizing:border-box}
 .po-tag.is-rec::before{background:var(--ww-ink)}
-.po-tag.is-post{color:var(--ww-ink)}.po-tag.is-post::before{background:var(--ww-gold);border-color:var(--ww-gold)}
+.po-tag.is-post{color:var(--ww-ink)}.po-tag.is-post::before{background:var(--ww-accent);border-color:var(--ww-accent)}
 .po-tag.is-off{visibility:hidden}
-#settings .po-day[aria-pressed=true]{background:var(--ww-highlight);border-color:var(--ww-ink);box-shadow:inset 3px 0 0 var(--ww-gold)}
+#settings .po-day[aria-pressed=true]{background:var(--ww-highlight);border-color:var(--ww-ink);box-shadow:inset 3px 0 0 var(--ww-accent)}
 @media(hover:hover){#settings .po-day:hover{border-color:var(--ww-ink)}}
 .po-preview{margin:14px 0 0;font-size:18px;line-height:1.7}
 .po-preview mark{background:var(--ww-highlight);color:var(--ww-ink);padding:1px 6px;border-radius:var(--ww-radius-mark);white-space:nowrap}
 .po-two{display:flex;flex-wrap:wrap;gap:20px 48px}
 .po-field{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:0;min-height:0;background:none;cursor:default;font-size:14px;font-weight:600}
 .po-field small{display:block;margin:0;font:400 13px/1.4 var(--ww-font-body);color:var(--ww-muted)}
-.po-field input[type=time]{box-sizing:border-box;min-height:48px;min-width:150px;padding:8px 12px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-media);background:var(--ww-surface);color:var(--ww-ink);font:400 18px var(--ww-font-mono);font-variant-numeric:tabular-nums}
-.po-step{display:inline-flex;align-items:center;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-media);background:var(--ww-surface)}
+.po-field input[type=time]{box-sizing:border-box;min-height:48px;min-width:150px;padding:8px 12px;border:var(--ww-edge-control);border-radius:var(--ww-radius-media);background:var(--ww-surface);color:var(--ww-ink);font:400 18px var(--ww-font-mono);font-variant-numeric:tabular-nums}
+.po-step{display:inline-flex;align-items:center;border:var(--ww-edge-control);border-radius:var(--ww-radius-media);background:var(--ww-surface)}
 #settings .po-step button{width:48px;height:48px;min-height:48px;padding:0;border:0;border-radius:calc(var(--ww-radius-control) + 1px);background:var(--ww-surface);font-size:22px;line-height:1}
 #settings .po-step button:disabled{color:var(--ww-faint);cursor:not-allowed}
 @media(hover:hover){#settings .po-step button:not(:disabled):hover{background:var(--ww-stage)}}
@@ -102,10 +102,10 @@
 .po-plat em a{display:inline-flex;align-items:center;min-height:44px;color:inherit;text-decoration:underline;text-underline-offset:4px}
 .po-honest a{color:var(--ww-ink);text-underline-offset:4px;white-space:nowrap}
 .po-tick{position:absolute;opacity:0;width:1px;height:1px}
-.po-box{box-sizing:border-box;width:24px;height:24px;border-radius:var(--ww-radius-control);border:1.5px solid var(--ww-ink);background:var(--ww-surface);display:inline-flex;align-items:center;justify-content:center}
+.po-box{box-sizing:border-box;width:24px;height:24px;border-radius:var(--ww-radius-control);border:var(--ww-edge-control);background:var(--ww-surface);display:inline-flex;align-items:center;justify-content:center}
 .po-tick:checked+.po-box{background:var(--ww-ink)}
 .po-tick:checked+.po-box::after{content:"";width:11px;height:6px;border-left:2px solid var(--ww-highlight);border-bottom:2px solid var(--ww-highlight);transform:rotate(-45deg) translate(1px,-1px)}
-.po-tick:focus-visible+.po-box{outline:3px solid var(--ww-gold);outline-offset:3px}
+.po-tick:focus-visible+.po-box{outline:3px solid var(--ww-focus);outline-offset:3px}
 .po-honest{display:flex;gap:10px;align-items:baseline;margin:12px 0 0;font-size:14px;color:var(--ww-muted)}
 .po-honest .se-dot{flex:none;margin:0;transform:translateY(1px) rotate(45deg)}
 .po .se-save{margin-top:0}
@@ -116,7 +116,7 @@
    The toggle stays in the page when the mode changes (settings.js pModeInPlace), which is what lets the thumb slide.
    data-live="true" is for the day an account is connected and Auto really posts; until then Auto shows as chosen, not live.
    A rebrand restyles it with the --pm-* variables alone. */
-.pm{--pm-ink:var(--ww-ink);--pm-gold:var(--ww-gold);--pm-hi:var(--ww-highlight);--pm-muted:var(--ww-muted);--pm-bg:var(--ww-surface);--pm-on:var(--ww-surface);--pm-hover:var(--ww-stage);--pm-radius:3px;position:relative;font:16px/1.3 var(--ww-font-body);color:var(--pm-ink)}
+.pm{--pm-ink:var(--ww-ink);--pm-gold:var(--ww-accent);--pm-hi:var(--ww-highlight);--pm-muted:var(--ww-muted);--pm-bg:var(--ww-surface);--pm-on:var(--ww-surface);--pm-hover:var(--ww-stage);--pm-radius:3px;position:relative;font:16px/1.3 var(--ww-font-body);color:var(--pm-ink)}
 .pm input{position:absolute;opacity:0;width:1px;height:1px;margin:0;pointer-events:none}
 .pm label{padding:0;min-height:0;background:none;gap:0;cursor:pointer}
 .pm small{display:none}

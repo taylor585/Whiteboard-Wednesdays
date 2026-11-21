@@ -21,7 +21,7 @@
 #settings .ap-switch{display:flex;align-items:flex-start;gap:10px;min-height:44px;font-size:15px;cursor:pointer}
 #settings .ap-switch input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--ww-ink)}
 .ap-set-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 20px;align-items:start;padding:6px 0 0}
-.ap-set .se-field select{min-height:48px;padding:10px 12px;border:1px solid var(--ww-field-edge);border-radius:var(--ww-radius-media);font:400 16px var(--ww-font-body);color:var(--ww-ink);background:var(--ww-surface);min-width:0;width:100%}
+.ap-set .se-field select{min-height:48px;padding:10px 12px;border:var(--ww-edge-control);border-radius:var(--ww-radius-media);font:400 16px var(--ww-font-body);color:var(--ww-ink);background:var(--ww-surface);min-width:0;width:100%}
 .ap-set-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:8px 0 0}
 @media(max-width:900px){.ap-set-grid{grid-template-columns:1fr}}
 @media(max-width:700px){.ap{padding:12px 12px 4px}#settings .ap-set-bar .se-btn{width:100%}}
