@@ -21,7 +21,8 @@
 
 /* Card: a white card with a 3px ink edge and 22px corners. --hero: 4px edge, 26px corners, a 10px sky offset and a -2deg tilt that straightens on hover. */
 .ww-card{background:var(--ww-surface);border:var(--ww-edge-card);border-radius:var(--ww-radius-card);padding:14px;color:var(--ww-ink);display:flex;flex-direction:column;gap:12px}
-.ww-card--lift{box-shadow:var(--ww-shadow-card)}
+/* The shadow is spelled out here, not read from --ww-shadow-card, because that token resolves --ww-pop at :root and would stay sky on the pink, mint and sun cards. */
+.ww-card--lift{box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--ww-pop)}
 .ww-card--hero{border:var(--ww-edge-hero);border-radius:var(--ww-radius-hero);box-shadow:var(--ww-shadow-hero);transform:rotate(var(--ww-tilt));transition:transform var(--m-ui,140ms) var(--m-ease,ease)}
 .ww-card--hero:hover,.ww-card--hero:focus-within{transform:rotate(0)}
 .ww-card--pink{--ww-pop:var(--ww-pink)}.ww-card--mint{--ww-pop:var(--ww-mint)}.ww-card--sun{--ww-pop:var(--ww-sun)}
