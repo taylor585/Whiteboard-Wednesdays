@@ -8,36 +8,40 @@
 /* Lanes and bubbles stay pinned while a long list scrolls. */
 .va-bar{position:sticky;top:0;z-index:4;margin:26px -4vw 0;padding:0 4vw 14px;background:var(--ww-surface)}
 .va-bar.is-stuck{box-shadow:0 1px 0 var(--ww-line)}
-.va-lanes{display:flex;gap:28px;border-bottom:1px solid var(--ww-line);overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain}
 .va-lanes::-webkit-scrollbar{display:none}
-.va-lanes a{flex:none;display:inline-flex;align-items:center;min-height:44px;padding:10px 0;border-bottom:2px solid transparent;margin-bottom:-1px;text-decoration:none;font-size:16px;color:var(--ww-muted);white-space:nowrap}
-.va-lanes a[aria-current=page]{color:var(--ww-ink)}
-.va-lanes a:hover{color:var(--ww-ink)}
+/* Idea Cards (21 November 2026): lanes are pill filters, as on the Ideas Board; the chosen lane is the sun pill. */
+.va-lanes{display:flex;flex-wrap:nowrap;gap:10px;margin-top:22px;padding:4px 4px 6px;border-bottom:0;overflow-x:auto;scrollbar-width:none}
+.va-lanes a{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;margin:0;border:var(--ww-edge-control);border-radius:var(--ww-radius-pill);background:var(--ww-surface);text-decoration:none;font-size:15px;font-weight:var(--ww-control-weight);color:var(--ww-ink);white-space:nowrap}
+.va-lanes a[aria-current=page]{background:var(--ww-sun);font-weight:var(--ww-strong-weight);color:var(--ww-ink)}
+.va-lanes a[aria-current=page]::after{display:none}
+.va-lanes a:not([aria-current=page]):hover{background:var(--ww-stage);color:var(--ww-ink)}
 .va-bubbles{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .va-bubbles a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:var(--ww-edge-control);border-radius:var(--ww-radius-pill);text-decoration:none;font-size:15px;color:var(--ww-ink);white-space:nowrap;background:var(--ww-surface)}
 .va-bubbles a:hover{border-color:var(--ww-ink)}
-.va-bubbles a[aria-current=true]{background:var(--ww-ink);border-color:var(--ww-ink);color:var(--ww-on-ink)}
+.va-bubbles a:hover{background:var(--ww-stage)}
+.va-bubbles a[aria-current=true]{background:var(--ww-sun);border-color:var(--ww-ink);color:var(--ww-ink);font-weight:var(--ww-strong-weight)}
 .va-bubbles i{font:normal 12px var(--ww-font-mono);color:var(--ww-muted);font-variant-numeric:tabular-nums}
-.va-bubbles a[aria-current=true] i{color:var(--ww-on-ink)}
+.va-bubbles a[aria-current=true] i{color:var(--ww-ink)}
 
 .va-status{margin:28px 0 0;color:var(--ww-muted);font-size:15px}
 .va-empty{margin:28px 0 0;font:13px/1.5 var(--ww-font-mono);color:var(--ww-muted)}
 .va-status button{margin-left:12px}
 
 /* Video grid (YouTube and LinkedIn lanes): one card per finished edit. */
-.va-videos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 24px;margin-top:26px;counter-reset:va}
-/* Ledger entries: an ink double rule over each card, a mono entry number, the title in the serif. */
-.va-videos .va-card{counter-increment:va;padding:12px;border:var(--ww-edge-card);border-radius:var(--ww-radius-card);background:var(--ww-surface)}
-.va-videos .va-card::before{content:counter(va,decimal-leading-zero);font:11px/1.4 var(--ww-font-mono);letter-spacing:1px;color:var(--ww-muted)}
+.va-videos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px 32px;margin-top:26px;padding:0 var(--ww-sheet-card) var(--ww-sheet-card) 0;counter-reset:va}
+/* Idea Cards: each edit is a numbered card with a 3px ink edge and a hard pastel offset (sky, pink, mint, sun in turn); its number sits on a pastel tile. */
+.va-videos .va-card{--va-pop:var(--ww-sky);counter-increment:va;padding:12px;border:var(--ww-edge-card);border-radius:var(--ww-radius-card);background:var(--ww-surface);box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--va-pop)}
+.va-videos .va-card:nth-child(4n+2){--va-pop:var(--ww-pink)}.va-videos .va-card:nth-child(4n+3){--va-pop:var(--ww-mint)}.va-videos .va-card:nth-child(4n+4){--va-pop:var(--ww-sun)}
+.va-videos .va-card::before{content:counter(va,decimal-leading-zero);align-self:flex-start;display:inline-grid;place-items:center;min-width:32px;height:28px;padding:0 6px;border-radius:var(--ww-radius-tile);background:var(--va-pop);font:var(--ww-display-weight) 13px/1 var(--ww-font-mono);color:var(--ww-ink);font-variant-numeric:tabular-nums}
 .va-videos .va-info b{font:var(--ww-strong-weight) 17px/1.28 var(--ww-font-display);letter-spacing:var(--ww-strong-track);margin-bottom:2px}
 
 /* Groups: one per video, newest open. */
 .va-group{margin-top:22px}
-.va-group+.va-group{margin-top:6px}
+.va-group+.va-group{margin-top:12px}
 .va-gh-h{margin:0;font:inherit}
-.va-gh{display:flex;align-items:center;gap:16px;width:100%;min-height:56px;padding:12px 0;border:0;border-bottom:1px solid var(--ww-field-edge);border-radius:0;background:none;color:var(--ww-ink);text-align:left;font:inherit;cursor:pointer}
-#vault .va-gh:hover{background:none}
-.va-gh[aria-expanded=true]{border-bottom:var(--ww-ledger)}
+.va-gh{display:flex;align-items:center;gap:16px;width:100%;min-height:56px;padding:12px 18px;border:0;border-radius:var(--ww-radius-inner);background:var(--ww-stage);color:var(--ww-ink);text-align:left;font:inherit;cursor:pointer}
+#vault .va-gh:hover{background:var(--ww-stage);box-shadow:inset 0 0 0 2px var(--ww-ink)}
+.va-gh[aria-expanded=true]{background:var(--ww-sky-wash)}
 .va-gt{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 16px}
 .va-gn{min-width:0;font:var(--ww-strong-weight) var(--ww-size-h3)/1.2 var(--ww-font-display);letter-spacing:var(--ww-strong-track)}
 .va-gh[aria-expanded=false] .va-gn{font-size:17px}
@@ -47,27 +51,27 @@
 .va-gbody{padding-top:20px}
 .va-grid{display:grid;gap:28px 20px;grid-template-columns:repeat(4,minmax(0,1fr));align-items:start}
 .va-grid.is-tall{grid-template-columns:repeat(5,minmax(0,1fr))}
-.va-grid.is-text{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+.va-grid.is-text{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:28px;padding:0 var(--ww-sheet-card) var(--ww-sheet-card) 0}
 .va-more{display:flex;justify-content:center;margin-top:20px}
 #vault .va-more button{min-height:44px;padding:0 20px;border:var(--ww-edge-control);border-radius:var(--ww-radius-pill);background:var(--ww-surface);font-size:15px;color:var(--ww-ink)}
 #vault .va-more button:hover{border-color:var(--ww-ink)}
 
 /* Cards */
 .va-card{display:flex;flex-direction:column;gap:10px;min-width:0}
-.va-media{position:relative;display:block;width:100%;overflow:hidden;border-radius:var(--ww-radius-media);background:var(--ww-stage);box-shadow:0 0 0 1px var(--ww-line)}
+.va-media{position:relative;display:block;width:100%;overflow:hidden;border-radius:var(--ww-radius-media);background:var(--ww-stage)}
 .va-media img{display:block;width:100%;height:100%;object-fit:cover}
 .va-dur{position:absolute;right:8px;bottom:8px;padding:2px 6px;border-radius:var(--ww-radius-mark);background:var(--ww-ink);color:var(--ww-on-ink);font:11px/1.4 var(--ww-font-mono)}
 /* Plain title tile, used when an edit has no frame to show (never a cover). */
-.va-tile{display:flex;flex-direction:column;justify-content:space-between;gap:12px;padding:clamp(14px,1.6vw,22px);color:var(--ww-ink);background:var(--ww-stage) repeating-linear-gradient(0deg,transparent 0 27px,var(--ww-ink-rule) 27px 28px)}
+.va-tile{display:flex;flex-direction:column;justify-content:space-between;gap:12px;padding:clamp(14px,1.6vw,22px);color:var(--ww-ink);background:var(--ww-sky-wash)}
 .va-tile .va-k{font:11px/1.4 var(--ww-font-mono);letter-spacing:1px;text-transform:uppercase;color:var(--ww-muted)}
-.va-tile .va-k::after{content:"";display:block;width:24px;height:2px;margin-top:8px;background:var(--ww-accent)}
+.va-tile .va-k::after{content:"";display:block;width:24px;height:4px;margin-top:8px;border-radius:var(--ww-radius-pill);background:var(--ww-sky)}
 .va-tile b{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;font:var(--ww-strong-weight) clamp(18px,1.7vw,25px)/1.16 var(--ww-font-display);letter-spacing:var(--ww-head-track);padding-right:44px}
 .va-tall .va-tile b{font-size:clamp(16px,1.4vw,21px);-webkit-line-clamp:6;padding-right:0;padding-bottom:22px}
 .va-info{display:flex;flex-direction:column;gap:2px;min-width:0}
 .va-info b{font-weight:600;font-size:15px;line-height:1.3}
 .va-meta{font:12px/1.5 var(--ww-font-mono);color:var(--ww-muted);font-variant-numeric:tabular-nums}
 .va-act{display:flex;align-items:center;flex-wrap:wrap;gap:4px 16px}
-#vault .va-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border:var(--ww-edge-control);border-radius:var(--ww-radius-media);background:var(--ww-surface);color:var(--ww-ink);font:500 15px var(--ww-font-body);text-decoration:none;cursor:pointer;transition:background-color var(--m-ui) linear}
+#vault .va-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border:var(--ww-edge-control);border-radius:var(--ww-radius-control);background:var(--ww-surface);color:var(--ww-ink);font:500 15px var(--ww-font-body);text-decoration:none;cursor:pointer;transition:background-color var(--m-ui) linear}
 #vault .va-btn:hover{background:var(--ww-stage);transition-duration:var(--m-press)}
 #vault .va-btn.is-done{background:var(--ww-highlight);border-color:var(--ww-ink);transition-duration:var(--m-ui)}
 #vault .va-toggle.is-done{background:var(--ww-highlight);box-shadow:inset 0 0 0 1px var(--ww-ink)}
@@ -75,12 +79,13 @@
 .va-link:hover{color:var(--ww-ink)}
 
 /* Post copy */
-.va-copy{display:flex;flex-direction:column;gap:12px;min-width:0;padding:16px;border:var(--ww-edge-card);border-radius:var(--ww-radius-card);background:var(--ww-surface)}
+.va-copy{display:flex;flex-direction:column;gap:12px;min-width:0;padding:16px;border:var(--ww-edge-card);border-radius:var(--ww-radius-card);background:var(--ww-surface);box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--ww-sky)}
+.va-grid.is-text>:nth-child(4n+2) .va-copy,.va-grid.is-text>.va-copy:nth-child(4n+2){box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--ww-pink)}.va-grid.is-text>.va-copy:nth-child(4n+3){box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--ww-mint)}.va-grid.is-text>.va-copy:nth-child(4n+4){box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--ww-sun)}
 .va-pf{font:12px/1.5 var(--ww-font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ww-muted)}
 .va-text{margin:0;font:15px/1.55 var(--ww-font-body);white-space:pre-wrap;overflow-wrap:anywhere}
 .va-text.is-clamped{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden}
 #vault .va-toggle{align-self:flex-start;min-height:44px;padding:0 2px;border:0;background:none;transition:background-color var(--m-ui) linear;font-size:14px;color:var(--ww-ink);text-decoration:underline;text-underline-offset:4px}
-.va-fc{display:flex;flex-direction:column;gap:2px;padding-top:12px;border-top:1px solid var(--ww-line)}
+.va-fc{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:var(--ww-radius-control);background:var(--ww-stage)}
 .va-fc p{margin:0;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
 .va-xr p{white-space:pre-wrap}
 .va-fc .va-act{justify-content:flex-start}
@@ -102,7 +107,7 @@
  .va-head h1{font-size:38px}
  .va-head p{font-size:15px}
  .va-bar{margin:22px -20px 0;padding:0 20px 12px}
- .va-lanes{gap:20px;margin:0 -20px;padding:0 20px}
+ .va-lanes{gap:8px;margin-left:-16px;margin-right:-16px;padding:4px 16px 6px}
  .va-lanes a{font-size:15px}
  .va-bubbles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
  .va-bubbles a{justify-content:center;padding:0 8px;font-size:14px}

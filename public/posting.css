@@ -1,6 +1,6 @@
 /* Posting block (posting.js): the posting day, one row per platform, Hold, Post now. Tokens from whiteboard.css only.
    Square corners and hairlines; status colours only on status lines, with the diamond and the words. No motion. */
-.wp{margin:24px 0 0;padding:16px 18px;border:var(--ww-edge-card);border-top:var(--ww-rule-gold);border-radius:var(--ww-radius-card);background:var(--ww-surface)}
+.wp{margin:24px 0 0;padding:16px 18px;border:var(--ww-edge-card);border-radius:var(--ww-radius-card);background:var(--ww-surface);box-shadow:var(--ww-sheet-card) var(--ww-sheet-card) 0 var(--ww-sun)}
 .wp.wp-later{border-top:1px solid var(--ww-line)}
 .wp-later b{font-weight:var(--ww-strong-weight)}
 .wp-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 16px}
@@ -22,7 +22,7 @@
 #publish .wp-btn{min-height:44px;padding:10px 16px;border:var(--ww-edge-control);border-radius:var(--ww-radius-control);background:var(--ww-surface);font-size:15px}
 .wp-acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}
 #publish .wp-acts .pb-go,#publish .wp-confirm .pb-go{margin-top:0}
-.wp-confirm{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px;padding:12px;border-left:var(--ww-rule-gold);background:var(--ww-stage)}
+.wp-confirm{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:12px;padding:12px 14px;border-radius:var(--ww-radius-inner);background:var(--ww-sun-wash)}
 .wp-confirm span{flex:1 1 260px;font-size:15px}
 .wp-whynot,.wp-last{font-size:13px}
 .wp-badge{display:block;margin-top:4px;font:500 var(--ww-size-micro)/1.4 var(--ww-font-mono);letter-spacing:.5px;text-transform:uppercase;color:var(--ww-muted)}
@@ -30,7 +30,7 @@
 .wp-badge.is-posted::before,.wp-badge.is-look::before{content:"◆ "}
 .wp.wp-topic{margin-top:16px}
 /* Ready to post (outputs.js): each platform section carries its own row; the job-level block sits at the top of the screen. */
-.wp.wp-slot{margin:0;padding:0;border:0;border-radius:0;background:none}
+.wp.wp-slot{margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none}
 .wp.wp-slot .wp-rows{margin:0}
 .op-post-head .wp{margin:20px 0 0}
 @media (max-width:640px){

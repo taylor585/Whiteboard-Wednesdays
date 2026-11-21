@@ -1,7 +1,7 @@
 /* Autopilot (10 November 2026): the Hands-off panel on a job and a reel job, the switch on the new-video screen and the
    Hands-off defaults in Settings. Tokens only (whiteboard.css): ink and hairlines, gold as the 3px measuring rule, square
    corners. Nothing animates here: the panel is redrawn finished on every snapshot (motion's play-once rule). */
-.ap{margin:18px 0 0;padding:14px 16px 6px;border-left:var(--ww-rule-gold);background:var(--ww-stage);border-radius:var(--ww-radius-card)}
+.ap{margin:18px 0 0;padding:14px 18px 6px;background:var(--ww-sky-wash);border-radius:var(--ww-radius-inner)}
 .ap-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
 .ap-head h2{margin:0;font:var(--ww-strong-weight) var(--ww-size-h4)/1.2 var(--ww-font-display);letter-spacing:var(--ww-strong-track)}
 .ap-now{margin:8px 0 0;font-size:15px;line-height:1.45;overflow-wrap:anywhere}
